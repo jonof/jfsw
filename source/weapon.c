@@ -5856,6 +5856,9 @@ PlayerTakeDamage(PLAYERp pp, short Weapon)
     SPRITEp wp = &sprite[Weapon];
     USERp   wu = User[Weapon];
 
+    if (Weapon < 0)
+        return(TRUE);
+    
     if (gNet.MultiGameType == MULTI_GAME_NONE)
         {
         // ZOMBIE special case for single play
@@ -5868,9 +5871,6 @@ PlayerTakeDamage(PLAYERp pp, short Weapon)
             
         return(TRUE);
         }
-    
-    if (Weapon < 0)
-        return(TRUE);
     
     if (gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
         {
@@ -14193,6 +14193,7 @@ InitFistAttack(PLAYERp pp)
                 SPRITEp hsp = &sprite[hitsprite];
                 tu = User[hitsprite];
                 
+		if (tu)		// JBF: added null check
                 switch(tu->ID)
                     {    
                     case ZILLA_RUN_R0:

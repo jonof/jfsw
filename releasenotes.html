@@ -1,0 +1,498 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<meta name="Author" content="Jonathon Fowler" />
+		<title>Release Notes for JFShadowWarrior</title>
+		<style type="text/css">
+			body {
+				font-family: "Bitstream Vera Sans","Tahoma","Arial",sans-serif;
+				font-size: 10pt;
+				margin: 0.75em;
+				background-color: #a00;
+			}
+			#bodysect {
+				border: 5px solid #000;
+				background-color: #fff;
+				padding: 1em;
+			}
+			h2,h3,h4 {
+				margin-top: 0;
+				margin-bottom: 0.5em;
+				color: #777;
+			}
+			h1 {
+				margin-top: 0; margin-bottom: 0.5em;
+				padding: 3px;
+				background-color: #ddd;
+				font-size: 170%;
+				color: #444;
+			}
+			h2 { font-size: 145%; }
+			h3 { font-size: 125%; }
+			h4 { font-size: 110%; }
+			p { margin-top: 0.5em; margin-bottom: 0.75em; }
+			pre { margin-left: 0.75em; padding-left: 0.75em; border-left: 2px solid #ddd; }
+
+			dl { margin-left: 3em; }
+			dt { font-weight: bold; }
+			dd { padding-bottom: 1em; margin-left: 2em; }
+			table { margin: 1em; }
+			table.center { margin-left: auto; margin-right: auto; }
+			caption { font-style: oblique; }
+
+			span.warning { color: #f00; }
+
+			address {
+				margin-top: 3em;
+				font-size: 85%;
+				font-style: normal;
+			}
+
+			@media print {
+				body { border: none; margin: 0; }
+			}
+		</style>
+	</head>
+
+	<body><div id="bodysect">
+		<h1>Release Notes for JFShadowWarrior</h1>
+		<p>Release date: 28 February 2005 (multiplayer test release update)<br />
+		<a href="http://jonof.edgenetwork.org/?p=jfsw">Official website</a></p>
+
+		<h2>New Features</h2>
+		<ul>
+			<li>First release! OpenGL Polymost support is the most important new feature.</li>
+		</ul>
+			
+		<h2>Known Issues</h2>
+		<ul>
+			<li>Loading and saving of games is completely disabled for the moment while an alternative,
+			platform independent solution to Shadow Warrior's particular method of saving data structures is
+			written.</li>
+			<li>Multiplayer is completely untested. I don't know if it even works yet.</li>
+			<li>CD audio is disabled at the moment until I write a Windows replacement version of the playback
+			code.</li>
+			<li>There are two rendering bugs I am aware of that will be fixed in a subsequent release:
+			<ol>
+				<li>Level 1: the viewscreen to drive the silver key to the collection area malfunctions in
+				GL Polymost giving a hall-of-mirrors effect.</li>
+				<li>Level 2: in the pool of water at the end of the map which opens up a magic portal
+				showing the next level, the sector-over-sector effect in the view beyond the portal
+				malfunctions giving a shimmering sky area in the view.</li>
+			</ol></li>
+			<li>Wider testing will reveal bugs and DOS legacies that have been overlooked at the present time,
+			so please report the locations of any crashes you may experience.</li>
+		</ul>
+
+		<h2><a name="deffile"></a>DEF-file Language</h2>
+
+		<p>These are the legal instructions that may be used in the SW.DEF file. Comments can be used by
+		prefixing the text with a double forward-slash (C++ style), <code>//</code>, or surrounding the text with
+		<code>/*</code> (comment here) <code>*/</code> (C style).</p>
+
+		<dl>
+			<dt>include <em>filename</em><br />#include <em>filename</em></dt>
+			<dd>Processes the script commands in <em>filename</em> at the point of the "include" call.</dd>
+
+			<dt>define <em>label integer-value</em><br />
+			#define <em>label integer-value</em></dt>
+			<dd>Declares <em>label</em> to represent the numeric value <em>integer-value</em>.
+			<em>integer-value</em> can be a label, in which case the value of the label given is used.<br />
+			<strong>NOTE:</strong> You may find it convenient to include DEFS.CON or NAMES.H to predefine many
+			of the tile names in the art file.</dd>
+
+			<dt>model <em>filename</em> { ... }</dt>
+			<dd><span class="warning">Please be aware that we plan to modify certain elements of this model definition
+			syntax in ways that are likely to break existing DEF files written to use this new syntax, so be prepared
+			to update your DEF files once things settle down. However, we do encourage you to experiment with the new
+			style of model definition.</span>
+			Defines an MD2-format model file to replace certain sprites in the game when running in OpenGL
+			Polymost mode. The brace-enclosed block may contain these directives:
+			<dl>
+				<dt>scale <em>scale</em></dt>
+				<dd><em>scale</em> is a (possibly fractional) value specifying a scaling factor for the 
+				model when it is rendered, eg. 1.5 for one-and-a-half times as big.</dd>
+
+				<dt>shade <em>shade-offset</em></dt>
+				<dd><em>shade-offset</em> is an integer value specifying how much to bias the sprite's
+				shade value by.  A negative value for this makes the model brighter. Conversely, a positive
+				value makes it darker.</dd>
+
+				<dt>skin { ... }</dt>
+				<dd>Defines a skin to be used on the model for all frames declared after this command. The
+				brace-enclosed block may contain these directives:
+				<dl>
+					<dt>pal <em>palnum</em></dt>
+					<dd>Specifies which palette this skin maps to.</dd>
+
+					<dt>file <em>filename</em></dt>
+					<dd><strong>IMPORTANT:</strong> If your model exists in a subdirectory (ie.
+					the model filename includes a path to the .md2) you will need to give the same path
+					to <em>filename</em> if the skin is in the same directory.</dd>
+				</dl></dd>
+
+				<dt>anim { ... }</dt>
+				<dd>Defines an animation from a group of frames in the model. The brace-enclosed block may
+				contain these directives:
+				<dl>
+					<dt>frame0 <em>framename</em><br />
+					frame1 <em>framename</em></dt>
+					<dd>Specifies the names of the start (frame0) and end (frame1) frames of the
+					animation.</dd>
+
+					<dt>fps <em>fps</em></dt>
+					<dd>Specifies the framerate at which the animation should play. This value may be
+					fractional.</dd>
+
+					<dt>flags <em>flags</em></dt>
+					<dd>Specifies any special properties the animation should have, the values of
+					which should be added together to combine multiple options. Valid options are:
+					0 = none (looping animation), 1 = one-shot (plays beginning to end once and stops
+					on the last frame).</dd>
+
+					<!--
+					<dt>name</dt>
+					<dd>Gives the animation a symbolic name. In Duke, this name is equal to the name of
+					the animation in the CON file for the actor for the model to play the animation
+					based on the current state of the actor.</dd>
+					-->
+				</dl></dd>
+
+				<dt>frame { ... }</dt>
+				<dd>Defines a range of ART-file tiles to correspond with the given frame of the model. The
+				brace-enclosed block may contain these directives:
+				<dl>
+					<dt>frame <em>framename</em><br />
+					name <em>framename</em></dt>
+					<dd>If <em>framename</em> is identical to the starting frame of an animation, the
+					engine will play that animation, otherwise the replacement will be static. You can
+					choose to use the 'frame' or 'name' versions of this directive as both are
+					identical.</dd>
+
+					<dt>tile <em>tilenum</em><br />
+					tile0 <em>tilenum</em><br />
+					tile1 <em>tilenum</em></dt>
+					<dd>Use the <em>tile</em> directive to specify an ART-file tile which this model should replace.
+					Use the <em>tile0</em> and <em>tile1</em> directives together to specify a range of ART-file tiles.
+					If you use <em>tile0</em>, you must also have a <em>tile1</em>. You may not use the same directive
+					twice to specify multiple ranges.</dd>
+				</dl></dd>
+            
+				<dt>hud { ... }</dt>
+				<dd>Defines a range of ART-file tiles to use with a heads-up-display. The brace-enclosed
+				block may contain these directives:
+				<dl>
+					<dt>tile <em>tilenum</em><br />
+					tile0 <em>tilenum</em><br />
+					tile1 <em>tilenum</em></dt>
+					<dd><em>Tile0</em> and <em>tile1</em> together specify a range of ART-file tiles which this model
+					frame should replace when rendered as part of the HUD. You can specify individual tiles using a
+					single <em>tile</em> command.</dd>
+
+					<dt>xadd <em>offset</em><br />
+					yadd <em>offset</em><br />
+					zadd <em>offset</em><br />
+					angadd <em>offset</em></dt>
+					<dd>Use these offsets to fine-tune the location of the model placement. <em>Xadd</em>,
+					<em>yadd</em>, and <em>zadd</em> are position offsets relative to the viewer's orienation. You can
+					use floating point values with them. <em>Angadd</em> is a Build angle offset. (512 = 90 degrees,
+					1024 = 180 degrees, etc...).</dd>
+
+					<dt>hide</dt>
+					<dd>Some weapons use multiple ART tiles for constructing the gun or animation. Use this option to
+					hide parts that you don't need in your replacement.</dd>
+
+					<dt>nobob</dt>
+					<dd>By default, the HUD model offset is affected by the player bobbing offset when Lo Wang is
+					walking. Use this option to disable that.</dd>
+
+					<dt>flipped</dt>
+					<dd>Use this option to apply the settings inside the hud block only if the object is normally
+					rendered x-flipped (mirror image). Some weapons, such as the devastator, are rendered in 2 pieces,
+					the left devastator is actually a mirror image of the right.</dd>
+
+					<dt>nodepth</dt>
+					<dd>Use this to render a HUD model without the use of the depth buffer. Normally, you should avoid
+					this. The one exception where this is useful is for the spinning nuke menu pointer because it
+					should always be in front - and it just happens to be convex ... which is the one case that is safe
+					with the depth buffer disabled ... a rather fortunate coincidence :)</dd>
+				</dl>
+                
+				Here are some HUD examples:
+<pre>
+
+   // A pistol model that was posted a long time ago...
+model "models/m9.md2"
+{
+   scale 50 shade 4
+   anim { frame0 "idle1" frame1 "idle12" fps 5 flags 0 }
+   frame { frame "idle1" tile 2524 }
+   anim { frame0 "frame13" frame1 "frame45" fps 24 flags 0 }
+   frame { frame "frame13" tile0 2525 tile1 2526 }
+   anim { frame0 "reload1" frame1 "reload34" fps 24 flags 0 }
+   frame { frame "reload1" tile0 2528 tile1 2529 }
+
+   hud { tile0 2524 tile1 2529 xadd -1.2 yadd -1.0 zadd -1.0 angadd 1536 }
+
+   frame { frame "reload1" tile0 2530 tile1 2532 } //consume tiles with dummy frames
+   hud { tile0 2530 tile1 2532 hide } //Make it not draw 2D hands during reload
+}
+
+   // A devastator weapon model that was posted a long time ago...
+model "models/hud_devastator.md2"
+{
+   scale 12
+   skin { pal 0 file "models/hud_devastator.pcx" }
+   frame { frame "Frame 1" tile0 2510 tile1 2511 }
+   hud { tile0 2510 tile1 2511 xadd -8.5 yadd +1.83 zadd +10.0 angadd 1024 flipped } //left devastator
+   hud { tile0 2510 tile1 2511 xadd +8.5 yadd +5.90 zadd +10.0 angadd 1024 } //right devastator
+}
+
+   // fearpi's activated tripbomb (wall mine)
+model "models/a_tripbomb.md2"
+{
+   scale 8
+   anim { frame0 "frame1" frame1 "frame1" fps 1 flags 0 }
+   frame { frame "frame1" tile 2566 }
+   hud { tile 2566 yadd +0.35 zadd 1.2 angadd 1024 }
+}
+
+   // spinning icon (by Killd a ton)
+model "models/spinnuke.md2"
+{
+   scale 0.25 shade 0
+
+      //when rendered as respawn timer:
+   skin { pal 0 file "models/spinnuke.png" }
+   anim { frame0 "spin00" frame1 "spin19" fps 17 flags 0 }
+   frame { frame "spin00" tile0 2813 tile1 2819 }
+   frame { frame "spin00" tile0 3190 tile1 3196 }
+   skin { pal 0 file "models/spinnukeyellow.png" }
+   frame { frame "spin00" tile0 3200 tile1 3206 }
+   skin { pal 0 file "models/spinnukegreen.png" }
+   frame { frame "spin00" tile0 3210 tile1 3216 }
+
+      //when rendered as menu icon:
+   hud { tile0 2813 tile1 2819 xadd 0.01 yadd -.02 zadd 1.05 nodepth }
+}</pre>
+				</dd>
+			</dl></dd>
+			
+			<dt>voxel <em>filename</em> { ... }</dt>
+			<dd>Defines a voxel to replace sprites in the game when running in 8-bit classic rendering mode.
+			<em>filename</em> is the name of the .KVX file containing the voxel. The brace-enclosed block may
+			contain these directives:
+			<dl>
+				<dt>tile <em>tilenum</em></dt>
+				<dd>Maps the single tile <em>tilenum</em> to be rendered as a voxel.</dd>
+
+				<dt>tile0 <em>tilenum</em><br />
+				tile1 <em>tilenum</em></dt>
+				<dd>These two directives together define a range of tiles to be rendered as voxels. The
+				'tile0' directive should appear before the 'tile1' directive to define a correct range.</dd>
+
+				<dt>scale <em>scale</em></dt>
+				<dd><em>scale</em> is a (possibly fractional) value specifying a scaling factor for the 
+				voxel when it is rendered, eg. 1.5 for one-and-a-half times as big.</dd>
+			</dl></dd>
+
+			<dt>skybox { ... }</dt>
+			<dd>Defines a skybox that overrides a parallaxing floor or ceiling in OpenGL Polymost rendering
+			mode. The brace-enclosed block may contain these directives:
+			<dl>
+				<dt>tile <em>tilenum</em></dt>
+				<dd>Specifies the ART file tile to override.</dd>
+
+				<dt>pal <em>palnum</em></dt>
+				<dd>Specifies the palette number the skybox should happen for.</dd>
+
+				<dt>*facename* <em>filename</em></dt>
+				<dd>Defines a single face of the skybox where <strong>facename</strong> may be any of
+				these keywords appropriate for the face in question:
+				<table border="1" cellpadding="2" rules="groups" class="center">
+					<colgroup>
+						<col width="16%" />
+						<col width="16%" />
+						<col width="16%" />
+						<col width="16%" />
+						<col width="16%" />
+						<col />
+					</colgroup>
+					<thead>
+						<tr>
+							<th>Front</th><th>Right</th>
+							<th>Back</th><th>Left</th>
+							<th>Top</th><th>Bottom</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td>ft</td><td>rt</td><td>bk</td><td>lf</td><td>up</td><td>dn</td></tr>
+						<tr><td>front</td><td>right</td><td>back</td><td>left</td><td>top</td>
+							<td>bottom</td></tr>
+						<tr><td>forward</td><td></td><td></td><td>lt</td><td>ceiling</td>
+							<td>floor</td></tr>
+						<tr><td></td><td></td><td></td><td></td><td>ceil</td><td>down</td></tr>
+					</tbody>
+				</table>
+				<strong>NOTE:</strong> All six faces are required to be specified.
+				</dd>
+			</dl></dd>
+
+			<dt>tint { ... }</dt>
+			<dd>Defines a Hightile texture tint to simulate palette effects normally used on ART-file tiles.
+			The brace-enclosed block may contain these directives:
+			<dl>
+				<dt>pal <em>palnum</em></dt>
+				<dd>The palette number the tint applies to.</dd>
+
+				<dt>red <em>value</em><br />
+				green <em>value</em><br />
+				blue <em>value</em><br />
+				r <em>value</em><br />
+				g <em>value</em><br />
+				b <em>value</em></dt>
+				<dd>Specifies a colour component value, in the range of 0 to 255. Unspecified components
+				are assumed to be 255 and any out of range values are clamped to the maximum or minimum as
+				appropriate.</dd>
+
+				<dt>flags <em>flags</em></dt>
+				<dd>Specifies any special processing effects to use for the tint. The value of
+				<em>flags</em> may be the sum of any of these values:
+				<table class="center" rules="cols" border="1" cellpadding="2">
+					<tr><td>1</td><td>convert to greyscale</td></tr>
+					<tr><td>2</td><td>invert colours</td></tr>
+				</table>
+				</dd>
+			</dl></dd>
+		</dl>
+		
+		<h3><a name="deffile-skybox"></a>A note about skyboxes</h3>
+
+		<p>Ken has some utilities on his website that can assist you in converting your favourite skybox format to
+		Polymost format. (<a href="http://advsys.net/ken/kube/kube.htm">http://advsys.net/ken/kube/kube.htm</a>)
+		If your skybox is in Mercator projection, then you'll need to run MERC2KUB.EXE first. Once you have your 6
+		face textures, you can use KUBE.EXE to convert it to Polymost format using the /split option. The face
+		textures can be in almost any configuration - KUBE has fancy autodetection code. For example, typing "kube
+		globe.mov /split" will generate the 6 face textures in the order and orientation that Polymost expects.
+		The output files will be called SPLITCAP0.PNG, SPLITCAP1.PNG, ..., SPLITCAP5.PNG. After conversion, I
+		suggest you rename the files and compress them using PNGOUT or similar utility.</p>
+
+		<h2><a name="maphack"></a>Map Hack scripts</h2>
+
+		<p>"Map Hack" scripts are files that override certain aspects of a map file when it is rendered in OpenGL
+		Polymost mode. Currently they allow for angle adjustment on sprites, and the ability to prevent particular
+		sprites from being drawn as a model. These are useful for making small corrections to ornamental sprites in
+		a way that doesn't require modifying the original map.</p>
+		<p>The game will automatically load a map hack script whenever a map is loaded. The script should have the
+		same base name as the original .MAP file, but with an .MHK extension. The map hack language is described
+		below. It uses the same parser as DEF files, so you can use comments in the same way.</p>
+
+		<dl>
+			<dt>sprite <em>number</em></dt>
+			<dd>Begins a sprite definition. <em>number</em> is the sprite number to affect. You can find this in
+			the Build editor by highlighting the sprite in 2D mode and pressing Control+Tab. The next group of
+			commands describe the changes to make to the sprite.
+			<dl>
+				<dt>notmd2</dt>
+				<dd>Prevents the sprite from being drawn as a model. It gets drawn as a regular sprite
+				instead.</dd>
+
+				<dt>angleoff <em>angle</em><br />
+				angoff <em>angle</em></dt>
+				<dd>Adds <em>angle</em> to the angle of the sprite just before it is rendered. This is good
+				for fixing up things like toilet sprites that are facing the wrong way.
+				<strong>angoff</strong> is a synonym for <strong>angleoff</strong>.</dd>
+			</dl></dd>
+		</dl>
+
+		<p>Here is an example map hack script:</p>
+<pre>// Map hack file for JFDuke3D
+// Level: E1L2.MAP (Original Atomic Edition version)
+// Prepared by jonof@edgenetwork.org
+
+// Invisible switch behind hand dryer in toilet of porn shop
+sprite 191 notmd2
+
+// Invisible switches on telephones near billiards room in club
+sprite 254 notmd2
+sprite 517 notmd2
+
+// Toilet in restroom in club
+sprite 478 angoff -512</pre>
+
+		<h2><a name="hightile"></a>Hightile</h2>
+
+		<p>This release features the "Hightile" texturing improvements to Polymost. Hightile allows Polymost to use
+		true-colour textures instead of the artwork in the game's usual .ART file.</p>
+		<p>Replacement textures can be saved as JPEG, PNG (alpha channel supported), TGA, BMP, CEL, GIF, and PCX
+		formats. Hightile uses Ken Silverman's picture library to provide rapid picture file loading.</p>
+		<p>Hightile textures are defined in the SW.DEF file. See the <a href="#deffile">DEF-file language</a>
+		reference for information on how to specify Hightile textures.</p>
+		
+		<h3>Limitations to Hightile in this release</h3>
+		<ul>
+			<li>Hightile will squash or stretch the replacement to fit in the dimensions of the original tile
+			it replaces. Artists should keep their replacements in the same ratio as the original tile for the
+			art to not look distorted.</li>
+			<li>JFSW does not precache textures yet with a great level of sophistication, so be aware that you
+			will notice a small delay on occasion as a texture is loaded into memory when it is first seen.</li>
+		</ul>
+		<!--
+		<h2><a name="hightile-zip"></a>ZIP file support</h2>
+
+		<p>Duke (and Build games in general) can load game resources from a ZIP file.</p>
+		<p>ZIP files are used in Duke in the same manner as extra GRP files are specified. Use the "/g" command-line
+		switch to specify the ZIP to load. eg. <code>SW.EXE /gMYFILE.ZIP</code></p>
+		-->
+		<h2><a name="polymost"></a>Polymost</h2>
+
+		<p>Polymost is a full 3D implementation of the Build engine renderer, with hardware acceleration capability,
+		and perspective in six degrees of freedom. In Ken's own words (copied from POLYMOST.C in my Build engine
+		source distribution):</p>
+		<pre>
+"POLYMOST" code written by Ken Silverman
+Ken Silverman's official web site: http://www.advsys.net/ken
+
+Motivation:
+When 3D Realms released the Duke Nukem 3D source code, I thought somebody would do a OpenGL or
+Direct3D port. Well, after a few months passed, I saw no sign of somebody working on a true
+hardware-accelerated port of Build, just people saying it wasn't possible. Eventually, I realized
+the only way this was going to happen was for me to do it myself. First, I needed to port Build to
+Windows. I could have done it myself, but instead I thought I'd ask my Australian buddy, Jonathon
+Fowler, if he would upgrade his Windows port to my favorite compiler (MSVC) - which he did. Once
+that was done, I was ready to start the "POLYMOST" project.
+
+About:
+This source file is basically a complete rewrite of the entire rendering part of the Build engine.
+There are small pieces in ENGINE.C to activate this code, and other minor hacks in other source
+files, but most of it is in here. If you're looking for polymost-related code in the other source
+files, you should find most of them by searching for either "polymost" or "rendmode". Speaking of
+rendmode, there are now 4 rendering modes in Build:
+
+    rendmode 0: The original code I wrote from 1993-1997
+    rendmode 1: Solid-color rendering: my debug code before I did texture mapping
+    rendmode 2: Software rendering before I started the OpenGL code (Note: this is just a quick
+                hack to make testing easier - it's not optimized to my usual standards!)
+    rendmode 3: The OpenGL code
+
+The original Build engine did hidden surface removal by using a vertical span buffer on the tops
+and bottoms of walls. This worked nice back in the day, but it it's not suitable for a polygon
+engine. So I decided to write a brand new hidden surface removal algorithm - using the same idea
+as the original Build - but one that worked with vectors instead of already rasterized data.
+		</pre>
+		<p>Polymost is the default renderer choice for any video mode with a colour depth greater than 256
+		colours.</p>
+		<p><strong>NOTE:</strong> If your computer does not have an OpenGL graphics card, Polymost in OpenGL mode
+		will most likely use the default Windows OpenGL rasterising facility which does all rendering in software.
+		This may be extremely slow. If your Windows installation doesn't have any form of OpenGL rendering ability,
+		Polymost will probably crash.</p>
+		<p><strong>NOTE 2:</strong> OpenGL Polymost has been tested on an nVidia Riva TNT 16MB, an nVidia GeForce2
+		GTS 32MB, an nVidia GeForce4 Ti4600 128MB, an ATi Radeon Mobility 9000 64MB, and a 3D-Labs Oxygen GVX420
+		128MB (minor texturing issues).</p>
+
+		<address>Have fun!<br />
+			Jonathon Fowler (<a href="mailto:jonof@edgenetwork.org">jonof@edgenetwork.org</a>)</address>
+	</div></body>
+</html>
+

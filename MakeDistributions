@@ -8,7 +8,9 @@ SOURCEFILES=build.cfg GNU.TXT \
 BINARYFILES=build.cfg build.exe sw.exe GNU.TXT readme.txt \
            releasenotes.html setup.exe
 
-.PHONY: source binary
+BINARYCHECKS=checksetupexe
+
+.PHONY: source binary $(BINARYCHECKS)
 
 datenow=$(shell date +%Y%m%d)
 
@@ -25,10 +27,11 @@ source:
 	rm -Rf $(sourcedir)/source/tmp
 	kzip -r $(sourcedir).zip $(sourcedir)
 
-binary:
+binary: $(BINARYCHECKS)
 	nmake /f Makefile.msvc
 	upx --best build.exe sw.exe
 	mkdir $(binarydir)
 	cp $(BINARYFILES) $(binarydir)
 	kzip -r $(binarydir).zip $(binarydir)
 
+checksetupexe: setup.exe

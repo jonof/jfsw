@@ -1524,7 +1524,7 @@ DoActorAttack(short SpriteNum)
     pu = User[GetPlayerSpriteNum(SpriteNum)];
     if (u->ActorActionSet->CloseAttack[0] && 
         dist < CloseRangeDist(sp, u->tgt_sp) ||
-        pu->WeaponNum == WPN_FIST)
+        (pu && pu->WeaponNum == WPN_FIST))	// JBF: added null check
         {
         rand_num = ChooseActionNumber(u->ActorActionSet->CloseAttackPercent);
             

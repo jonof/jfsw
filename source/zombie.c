@@ -894,7 +894,7 @@ DoZombieMove(short SpriteNum)
         return(0);
         }
 
-    if (u->tgt_sp && TEST(User[u->tgt_sp-sprite]->Flags, PF_DEAD))
+    if (u->tgt_sp && User[u->tgt_sp-sprite] && TEST(User[u->tgt_sp-sprite]->Flags, PF_DEAD))	// JBF: added User[] null check
         DoActorPickClosePlayer(SpriteNum);
 
     // jumping and falling
@@ -945,7 +945,7 @@ NullZombie(short SpriteNum)
         return(0);
         }
 
-    if (u->tgt_sp && TEST(User[u->tgt_sp-sprite]->Flags, PF_DEAD))
+    if (u->tgt_sp && User[u->tgt_sp-sprite] && TEST(User[u->tgt_sp-sprite]->Flags, PF_DEAD))
         DoActorPickClosePlayer(SpriteNum);
     
     if(u->WaitTics > 0) 

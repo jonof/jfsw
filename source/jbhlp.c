@@ -105,9 +105,9 @@ long GetAToken(char *name, char *tc, long length)
                 count++;
             } while((t>=48 && t<=127) && t!='@' && x < 9 && count < length);
 
-            *tmp = NULL;
+            *tmp = 0;
 
-            if(!strcmp(name,strupr(token)))
+            if(!strcmp(name,Bstrupr(token)))
                 tokenfound = 1;
         }
     } while(!tokenfound && count < length);
@@ -174,7 +174,8 @@ void ContextHelp(short spritenum)
     // Give help summary for unknown sprites.
     if((hitag == 0 || hitag > 1006) && sp->lotag == 0) hitag = 999;
 
-    itoa(hitag,hightag,10);
+    sprintf(hightag,"%d",hitag);
+    //itoa(hitag,hightag,10);
     strcat(name,hightag);
 
     tc = filebuffer;

@@ -117,6 +117,7 @@ int32 CONFIG_FunctionNameToNum( char * func )
    {
    int32 i;
 
+   if (!func) return -1;
    for (i=0;i<NUMGAMEFUNCTIONS;i++)
       {
       if (!Bstrcasecmp(func,gamefunctions[i]))

@@ -90,7 +90,7 @@ GAMEOBJS=$(OBJ)actor.$o &
 	$(OBJ)morph.$o &
 	$(OBJ)net.$o &
 	$(OBJ)ninja.$o &
-	$(OBJ)panel.$o \&
+	$(OBJ)panel.$o &
 	$(OBJ)pcx.$o &
 	$(OBJ)player.$o &
 	$(OBJ)predict.$o &

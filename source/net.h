@@ -108,7 +108,7 @@ void CorrectPrediction(long actualfifoplc);
 //TENSW: safe packet senders
 void netsendpacket(int ind, char *buf, int len);
 void netbroadcastpacket(char *buf, int len);
-short netgetpacket(short *ind, char *buf);
+short netgetpacket(long *ind, char *buf);
 
 
 enum MultiGameTypes

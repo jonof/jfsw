@@ -145,7 +145,7 @@ void netbroadcastpacket(char *buf, int len)
 	}
 }
 
-short netgetpacket(short *ind, char *buf)
+short netgetpacket(long *ind, char *buf)
 {
 	return getpacket(ind, buf);
 }
@@ -1174,7 +1174,7 @@ checkmasterslaveswitch(VOID)
 VOID
 getpackets(VOID)
     {
-    short otherconnectindex, packbufleng;
+    long otherconnectindex, packbufleng;
     long i, j, k, l, fifoCheck;
     PLAYERp pp;
     SW_PACKET tempinput;

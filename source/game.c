@@ -824,35 +824,30 @@ void Set_GameMode(void)
     result = COVERsetgamemode(ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP);
     
     if (result < 0)
-        {/*
-        printf("\n\n\nVESA mode %ld x %ld not found.\n",ScreenWidth,ScreenHeight);
-        printf("Continue anyway in standard 320 x 200? (Y / N) \n");
-        
-        while (TRUE)
-            {
-            if (KEY_PRESSED(KEYSC_Y))
-                {
-                COVERsetgamemode(2, ScreenWidth, ScreenHeight);
-                return;
-                }
-            else    
-            if (KEY_PRESSED(KEYSC_N))
-                {*/
-                                        uninitmultiplayers();
-                //uninitkeys();
-		KB_Shutdown();
-                uninitengine();
-                //setvmode(0x3);                      // Set back to text mode
-                TermSetup();
-                UnInitSound();
-                uninittimer();
-                DosScreen();
-                uninitgroupfile();
-                exit(0);
-//                }
-//            }
-                }
+        {
+        initprintf("Failure setting video mode %dx%dx%d %s! Attempting safer mode...",
+				ScreenWidth,ScreenHeight,ScreenBPP,ScreenMode?"fullscreen":"windowed");
+	ScreenMode = 0;
+	ScreenWidth = 320;
+	ScreenHeight = 240;
+	ScreenBPP = 8;
+
+	result = COVERsetgamemode(ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP);
+	if (result < 0)
+	    {
+	    uninitmultiplayers();
+            //uninitkeys();
+	    KB_Shutdown();
+            uninitengine();
+            TermSetup();
+            UnInitSound();
+            uninittimer();
+            DosScreen();
+            uninitgroupfile();
+            exit(0);
             }
+	}
+    }
 
 void MultiSharewareCheck(void)
     {

@@ -1,0 +1,34 @@
+# GNU Makefile to prepare source and binary distributions.
+#    make -f MakeDistributions [source|binary]
+
+SOURCEFILES=build.cfg GNU.TXT \
+	   Makefile Makefile.deps Makefile.msvc Makefile.watcom MakeDistributions \
+	   makemsc.bat makew.bat readme.txt releasenotes.html
+
+BINARYFILES=build.cfg build.exe sw.exe GNU.TXT readme.txt \
+           releasenotes.html setup.exe
+
+.PHONY: source binary
+
+datenow=$(shell date +%Y%m%d)
+
+sourcedir=jfsw_src_$(datenow)
+binarydir=jfsw_$(datenow)
+
+all: source binary
+
+source:
+	mkdir $(sourcedir) $(sourcedir)/eobj $(sourcedir)/obj
+	touch $(sourcedir)/eobj/keep.me $(sourcedir)/obj/keep.me
+	cp $(SOURCEFILES) $(sourcedir)
+	cp -R source rsrc $(sourcedir)
+	rm -Rf $(sourcedir)/source/tmp
+	kzip -r $(sourcedir).zip $(sourcedir)
+
+binary:
+	nmake /f Makefile.msvc
+	upx --best build.exe sw.exe
+	mkdir $(binarydir)
+	cp $(BINARYFILES) $(binarydir)
+	kzip -r $(binarydir).zip $(binarydir)
+

@@ -117,7 +117,7 @@ void InitSetup(void)
    //CONFIG_GetSetupFilename();
    //InitializeKeyDefList();
    CONFIG_ReadSetup();
-   CONTROL_Startup( ControllerType, &GetTime, 120 );
+   if (CONTROL_Startup( ControllerType, &GetTime, 120 )) exit(1);
    SetupGameButtons();
    
    if (CONTROL_JoystickEnabled)

@@ -991,7 +991,7 @@ InitGame(VOID)
     
     InitAutoNet();
 
-    if (initengine()) exit(0);
+    if (initengine()) exit(1);
 
     inittimer(120);
 
@@ -3441,6 +3441,7 @@ CLI_ARG cli_arg[] =
 {0, "/movescale #",        9,      "-movescale",           "Adjust movement scale: 256 = 1 unit"},
 {0, "/turnscale #",        9,      "-turnscale",           "Adjust turning scale: 256 = 1 unit"},
 {0, "/extcompat",          9,      "-extcompat",           "Controller compatibility mode (with Duke 3D)"},
+{1, "/g#",                 2,      "-g[filename.grp]",     "Load an extra GRP or ZIP file"},
 #if DEBUG
 {0, "/coop",               5,      "-coop#",               "Single Player Cooperative Mode"        },
 {0, "/commbat",            8,      "-commbat#",            "Single Player Commbat Mode"            },
@@ -4067,6 +4068,15 @@ long app_main(long argc, char *argv[])
             else    
                 kclose(fil);    
             }
+	else
+	if (Bstrncasecmp(arg, "g", 1) == 0 && !SW_SHAREWARE)
+	    {
+	    if (strlen(arg) > 1)
+		{
+		if (initgroupfile(arg+1) >= 0)
+		    initprintf("Added %s\n", arg+1);
+		}
+	    }
         }
 
     Control();

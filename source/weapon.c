@@ -7063,7 +7063,7 @@ DoDamage(short SpriteNum, short Weapon)
 
     case MINE_EXP:
         damage = GetDamage(SpriteNum, Weapon, DMG_MINE_EXP);
-        if (User[wp->owner] && User[wp->owner]->ID == SERP_RUN_R0)        
+        if (wp->owner >= 0 && User[wp->owner] && User[wp->owner]->ID == SERP_RUN_R0)        
             {
             damage /= 6;
             }
@@ -7089,10 +7089,10 @@ DoDamage(short SpriteNum, short Weapon)
         else
             {
 	    if (wp->owner >= 0) {
-            // Don't let serp skulls hurt the Serpent God
-            if (User[wp->owner]->ID == SERP_RUN_R0) break;
-            // Don't let it hurt the SUMO
-            if (User[wp->owner]->ID == SUMO_RUN_R0) break;
+                // Don't let serp skulls hurt the Serpent God
+                if (User[wp->owner]->ID == SERP_RUN_R0) break;
+                // Don't let it hurt the SUMO
+                if (User[wp->owner]->ID == SUMO_RUN_R0) break;
 	    }
             if(u->ID == TRASHCAN)
                 ActorHealth(SpriteNum, -500);

@@ -389,7 +389,7 @@ void CONTROL_SetMouseSensitivity( int32 newsensitivity )
 }
 
 
-void CONTROL_Startup
+int32 CONTROL_Startup
    (
    controltype which,
    int32 ( *TimeFunction )( void ),
@@ -412,7 +412,7 @@ void CONTROL_Startup
 	CONTROL_ButtonHeldState2 = 0;
 //	CONTROL_ClearAssignments();
 
-	initinput();
+	if (initinput()) return -1;
 	setkeypresscallback((KeyPressCallback)KB_KeyEvent);		// JBF 20030910: little stricter on the typing
 	setmousepresscallback((MousePressCallback)CONTROL_MouseEvent);
 	setjoypresscallback((JoyPressCallback)CONTROL_JoyEvent);
@@ -421,6 +421,8 @@ void CONTROL_Startup
 	CONTROL_MouseEnabled = (CONTROL_MousePresent && which == controltype_keyboardandmouse);
 	CONTROL_JoyPresent = ((inputdevices&4) == 4);
 	CONTROL_JoystickEnabled = (CONTROL_JoyPresent && which == controltype_keyboardandjoystick);
+
+	return 0;
 }
 
 

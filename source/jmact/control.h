@@ -184,7 +184,7 @@ void CONTROL_CenterJoystick
    );
 int32 CONTROL_GetMouseSensitivity( void );
 void CONTROL_SetMouseSensitivity( int32 newsensitivity );
-void CONTROL_Startup
+int32 CONTROL_Startup
    (
    controltype which,
    int32 ( *TimeFunction )( void ),

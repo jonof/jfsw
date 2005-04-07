@@ -62,7 +62,7 @@ struct ATTRIBUTEstruct
     short Speed[MAX_SPEED];
     CHAR TicAdjust[MAX_SPEED];
     BYTE MaxWeapons;
-    ATTRIB_SNDS Sounds[MAXATTRIBSNDS];
+    /*ATTRIB_SNDS*/ int Sounds[MAXATTRIBSNDS];	// JBF: ATTRIB_SNDS? Somehow I don't think this is what was intended...
     };
     
 extern ATTRIBUTE DefaultAttrib;    

@@ -11,9 +11,9 @@ o=obj
 ENGINELIB=engine.lib
 EDITORLIB=build.lib
 
-!if 1
+!ifdef DEBUG
 # debugging options
-flags_cl=/G6Fy /Ot /Z7
+flags_cl=/G6Fy /Od /Z7
 flags_link=/DEBUG
 !else
 # release options

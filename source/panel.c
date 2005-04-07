@@ -7266,7 +7266,7 @@ pDisplaySprites(PLAYERp pp)
                 
             //shade = overlay_shade = DIV2(sector[pp->cursectnum].floorshade + sector[pp->cursectnum].ceilingshade);
             shade = overlay_shade = sector[pp->cursectnum].floorshade - 10;
-            /*
+
             if (TEST(psp->PlayerP->Flags, PF_VIEW_FROM_OUTSIDE))
                 {
                 if (!TEST(psp->PlayerP->Flags, PF_VIEW_OUTSIDE_WEAPON))
@@ -7275,7 +7275,7 @@ pDisplaySprites(PLAYERp pp)
             
             if (TEST(psp->PlayerP->Flags, PF_VIEW_FROM_CAMERA))
                 continue;
-            */
+
             // !FRANK - this was moved from BELOW this IF statement
             // if it doesn't have a picflag or its in the view    
             if (sectu && TEST(sectu->flags, SECTFU_DONT_COPY_PALETTE))

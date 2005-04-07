@@ -654,6 +654,8 @@ ExtInit(void)
 int 
 ExtInit(void)
     {
+	int rv = 0;
+
 #ifndef BUILD_DEV_VER
     char ch;
     
@@ -700,7 +702,7 @@ ExtInit(void)
             }
 	    */
 	bpp = 8;
-	if (loadsetup("build.cfg") < 0) initprintf("Configuration file not found, using defaults.\n");
+	if (loadsetup("build.cfg") < 0) initprintf("Configuration file not found, using defaults.\n"), rv = 1;
 	Bmemcpy((void *)buildkeys,(void *)keys,NUMBUILDKEYS);   //Trick to make build use setup.dat keys
         if (option[4] > 0)
             option[4] = 0;
@@ -726,7 +728,7 @@ ExtInit(void)
         exit(0);
         }
 #endif
-	return 0;
+	return rv;
     }
 
 

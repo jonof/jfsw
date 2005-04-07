@@ -728,9 +728,8 @@ VOID
 LoadLevel(char *filename)
     {
     int pos;
-    int from = SW_SHAREWARE ? 1 : 0;
     
-    if (loadboard(filename, from, &Player[0].posx, &Player[0].posy, &Player[0].posz, &Player[0].pang, &Player[0].cursectnum) == -1)
+    if (loadboard(filename, SW_SHAREWARE ? 1 : 0, &Player[0].posx, &Player[0].posy, &Player[0].posz, &Player[0].pang, &Player[0].cursectnum) == -1)
         {
         TerminateGame();
 #ifdef RENDERTYPEWIN
@@ -4061,7 +4060,13 @@ long app_main(long argc, char *argv[])
 
             if ((fil = kopen4load(UserMapName,0)) == -1)
                 {
-                printf("ERROR: Could not find user map %s!\n\n",Bstrupr(UserMapName));
+#ifdef RENDERTYPEWIN
+		char msg[256];
+		Bsnprintf(msg, 256, "ERROR: Could not find user map %s!",UserMapName);
+		wm_msgbox(apptitle, msg);
+#else
+                printf("ERROR: Could not find user map %s!\n\n",UserMapName);
+#endif
                 kclose(fil);    
                 swexit(0);
                 }

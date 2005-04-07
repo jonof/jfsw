@@ -9770,7 +9770,7 @@ DoMine(SHORT Weapon)
                 sp->z = hsp->z - DIV2(SPRITEp_SIZE_Z(hsp));
                 
                 // If it's not alive, don't stick it
-                if(hu->Health <= 0) return(FALSE);                
+                if(hu && hu->Health <= 0) return(FALSE);	// JBF: added null check
 
                 // check to see if sprite is player or enemy
                 if (TEST(hsp->extra, SPRX_PLAYER_OR_ENEMY))

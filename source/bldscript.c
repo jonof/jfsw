@@ -412,7 +412,7 @@ void LoadKVXFromScript( char *filename )
 	memset(aVoxelArray,-1,sizeof(aVoxelArray));
 
 	// Load the file
-	LoadScriptFile(filename);
+	if (!LoadScriptFile(filename)) return;
 
 	do {
 		GetToken (TRUE);	// Crossing a line boundary on the end of line to first token

@@ -2157,7 +2157,7 @@ ExtLoadMap(const char *mapname)
         visibility = 2;
 
     // Load up voxel sprites from voxel script file
-    LoadKVXFromScript("swvoxfil.txt");
+    //LoadKVXFromScript("swvoxfil.txt");
     loaded_numwalls = numwalls;
     }
 
@@ -3631,9 +3631,11 @@ ResetSprites()
 
     }
 
+static char kvxloaded = 0;
 void ExtPreLoadMap(void)
     {
     ResetSprites();
+    if (!kvxloaded) LoadKVXFromScript("swvoxfil.txt"), kvxloaded = 1;
     }
 
 

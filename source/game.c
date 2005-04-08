@@ -1099,6 +1099,8 @@ InitGame(VOID)
 
     LoadKVXFromScript( "swvoxfil.txt" );  // Load voxels from script file
     LoadPLockFromScript( "swplock.txt" ); // Get Parental Lock setup info
+    if (!SW_SHAREWARE)
+	LoadCustomInfoFromScript( "swcustom.txt" );	// Load user customisation information
     
     if (!loaddefinitionsfile("sw.def")) initprintf("Definitions file loaded.\n");
 
@@ -1199,6 +1201,11 @@ LEVEL_INFO LevelInfo[MAX_LEVELS+2] =  // Shareware
     {NULL, NULL, NULL, NULL, NULL}
     };
 #endif*/
+
+char EpisodeNames[2][MAX_EPISODE_NAME_LEN+2] = {
+	"^Enter the Wang",
+	"^Code of Honor"
+};
 
 VOID
 InitNewGame(VOID)

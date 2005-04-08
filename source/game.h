@@ -1009,6 +1009,9 @@ char *ParTime;
 
 extern LEVEL_INFO LevelInfo[MAX_LEVELS_REG+2];
 
+#define MAX_EPISODE_NAME_LEN 18
+extern char EpisodeNames[2][MAX_EPISODE_NAME_LEN+2];	// +2 = leading '^' and trailing NULL
+
 typedef struct 
     {
     SHORT vel;
@@ -2379,8 +2382,10 @@ long OLDsetsprite(short spritenum, long newx, long newy, long newz);
 void TermSetup(void);	// swconfig.c
 
 void InitSetup(void);	// setup.c
+
 void LoadKVXFromScript(char *filename);	// scrip2.c
 void LoadPLockFromScript(char *filename);	// scrip2.c
+void LoadCustomInfoFromScript(char *filename);	// scrip2.c
 
 void EveryCheatToggle(PLAYERp pp,char *cheat_string);	// cheats.c
 

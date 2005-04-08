@@ -265,8 +265,8 @@ MenuGroup skillgroup = {100, 5, "^Skill", skill_i, pic_newgametitl, 0, m_defshad
 
 MenuItem episode_i[] =
     {
-    {DefLayer(KEYSC_S, "^Enter the Wang",  &skillgroup), 30, 46, pic_episode1, m_defshade, 0, MNU_EpisodeCustom, NULL, NULL},
-    {DefLayer(KEYSC_F, "^Code of Honor", &skillgroup), 30, 78, pic_episode2, m_defshade, 0, MNU_EpisodeCustom, MNU_ShareWareCheck, MNU_ShareWareMessage},
+    {DefLayer(KEYSC_S, &EpisodeNames[0][0], &skillgroup), 30, 46, pic_episode1, m_defshade, 0, MNU_EpisodeCustom, NULL, NULL},
+    {DefLayer(KEYSC_F, &EpisodeNames[1][0], &skillgroup), 30, 78, pic_episode2, m_defshade, 0, MNU_EpisodeCustom, MNU_ShareWareCheck, MNU_ShareWareMessage},
     //{DefLayer(KEYSC_S, NULL, &skillgroup), 60, 30, pic_episode1, m_defshade, 0, MNU_EpisodeCustom},
     //{DefLayer(KEYSC_F, NULL, &skillgroup), 60, 46, pic_episode2, m_defshade, 0, MNU_EpisodeCustom},
     //{DefLayer(KEYSC_T, NULL, &skillgroup), 60, 62, pic_episode3, m_defshade, 0, MNU_EpisodeCustom},

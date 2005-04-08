@@ -391,3 +391,202 @@ void LoadPLockFromScript( char *filename )
 }
 
 
+#include "scriptfile.h"
+
+enum {
+	CM_MAP,
+	CM_EPISODE,
+	CM_TITLE,
+	CM_FILENAME,
+	CM_SONG,
+	CM_CDATRACK,
+	CM_BESTTIME,
+	CM_PARTIME
+};
+
+static const struct {
+	char *str;
+	int tokn;
+} cm_tokens[] = {
+	{ "map",         CM_MAP      },
+	{ "level",       CM_MAP      },
+	{ "episode",     CM_EPISODE  },
+	{ "filename",    CM_FILENAME },
+	{ "file",        CM_FILENAME },
+	{ "fn",          CM_FILENAME },
+	{ "levelname",   CM_FILENAME },
+	{ "song",        CM_SONG     },
+	{ "music",       CM_SONG     },
+	{ "songname",    CM_SONG     },
+	{ "title",       CM_TITLE    },
+	{ "name",        CM_TITLE    },
+	{ "description", CM_TITLE    },
+	{ "besttime",    CM_BESTTIME },
+	{ "partime",     CM_PARTIME  },
+	{ "cdatrack",    CM_CDATRACK },
+	{ "cdtrack",     CM_CDATRACK },
+};
+#define cm_numtokens (sizeof(cm_tokens)/sizeof(cm_tokens[0]))
+
+static int cm_transtok(const char *tok)
+{
+	int i;
+
+	for (i=0; i<cm_numtokens; i++) {
+		if (!Bstrcasecmp(tok, cm_tokens[i].str))
+			return cm_tokens[i].tokn;
+	}
+
+	return -1;
+}
+
+// Load custom map and episode information
+//   level # {
+//      title    "Map Name"
+//      filename "filename.map" 
+//      song     "filename.mid"
+//      cdatrack n
+//      besttime secs
+//      partime  secs
+//   }
+//
+//   episode # {
+//      title "Episode Name"
+//   }
+
+static LEVEL_INFO custommaps[MAX_LEVELS_REG];
+
+// FIXME: yes, we are leaking memory here at the end of the program by not freeing anything
+void LoadCustomInfoFromScript(char *filename)
+{
+	scriptfile *script;
+	char *token;
+	char *braceend;
+	int curmap = -1;
+
+	script = scriptfile_fromfile(filename);
+	if (!script) return;
+
+	while ((token = scriptfile_gettoken(script))) {
+		switch (cm_transtok(token)) {
+			case CM_MAP:
+				if (scriptfile_getnumber(script, &curmap)) break;
+				if (scriptfile_getbraces(script, &braceend)) break;
+
+				// first map file in LevelInfo[] is bogus, last map file is NULL
+				if (curmap < 1 || curmap > MAX_LEVELS_REG) {
+					initprintf("Error: map number %d not in range 1-%d\n", curmap, MAX_LEVELS_REG);
+					script->textptr = braceend;
+					break;
+				}
+
+				while (script->textptr < braceend) {
+					if (!(token = scriptfile_gettoken(script))) break;
+					switch (cm_transtok(token)) {
+						case CM_FILENAME:
+						{
+							char *t;
+							if (scriptfile_getstring(script, &t)) break;
+
+							if (custommaps[curmap].LevelName) free(custommaps[curmap].LevelName);
+							custommaps[curmap].LevelName = strdup(t);
+							LevelInfo[curmap].LevelName = custommaps[curmap].LevelName;
+							break;
+						}
+						case CM_SONG:
+						{
+							char *t;
+							if (scriptfile_getstring(script, &t)) break;
+
+							if (custommaps[curmap].SongName) free(custommaps[curmap].SongName);
+							custommaps[curmap].SongName = strdup(t);
+							LevelInfo[curmap].SongName = custommaps[curmap].SongName;
+							break;
+						}
+						case CM_TITLE:
+						{
+							char *t;
+							if (scriptfile_getstring(script, &t)) break;
+
+							if (custommaps[curmap].Description) free(custommaps[curmap].Description);
+							custommaps[curmap].Description = strdup(t);
+							LevelInfo[curmap].Description = custommaps[curmap].Description;
+							break;
+						}
+						case CM_BESTTIME:
+						{
+							int n;
+							char s[10];
+							if (scriptfile_getnumber(script, &n)) break;
+
+							Bsnprintf(s, 10, "%d : %02d", n/60, n%60);
+							if (custommaps[curmap].BestTime) free(custommaps[curmap].BestTime);
+							custommaps[curmap].BestTime = strdup(s);
+							LevelInfo[curmap].BestTime = custommaps[curmap].BestTime;
+							break;
+						}
+						case CM_PARTIME:
+						{
+							int n;
+							char s[10];
+							if (scriptfile_getnumber(script, &n)) break;
+
+							Bsnprintf(s, 10, "%d : %02d", n/60, n%60);
+							if (custommaps[curmap].ParTime) free(custommaps[curmap].ParTime);
+							custommaps[curmap].ParTime = strdup(s);
+							LevelInfo[curmap].ParTime = custommaps[curmap].ParTime;
+							break;
+						}
+						case CM_CDATRACK:
+						{
+							int n;
+							if (scriptfile_getnumber(script, &n)) break;
+							break;
+						}
+						default:
+							initprintf("Error on line %d of %s\n", script->linenum, script->filename);
+							break;
+					}
+				}
+				break;
+
+			case CM_EPISODE:
+				if (scriptfile_getnumber(script, &curmap)) break;
+				if (scriptfile_getbraces(script, &braceend)) break;
+
+				// first map file in LevelInfo[] is bogus, last map file is NULL
+				if (curmap < 1 || curmap > 2) {
+					initprintf("Error: episode number %d not in range 1-2\n", curmap);
+					script->textptr = braceend;
+					break;
+				}
+				curmap--;
+
+				while (script->textptr < braceend) {
+					if (!(token = scriptfile_gettoken(script))) break;
+					switch (cm_transtok(token)) {
+						case CM_TITLE:
+						{
+							char *t;
+							if (scriptfile_getstring(script, &t)) break;
+
+							strncpy(&EpisodeNames[curmap][1], t, MAX_EPISODE_NAME_LEN);
+							EpisodeNames[curmap][MAX_EPISODE_NAME_LEN+1] = 0;
+							break;
+						}
+						default:
+							initprintf("Error on line %d of %s\n", script->linenum, script->filename);
+							break;
+					}
+				}
+				break;
+			
+			default:
+				initprintf("Error on line %d of %s\n", script->linenum, script->filename);
+				break;
+		}
+	}
+
+	scriptfile_close(script);
+}
+

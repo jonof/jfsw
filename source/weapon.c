@@ -8915,7 +8915,7 @@ DoCoolgFire(SHORT Weapon)
             {
             PlaySound(DIGI_CGMAGICHIT,&sp->x,&sp->y,&sp->z,v3df_follow);
             ChangeState(Weapon, s_CoolgFireDone);
-            if (User[sp->owner] && User[sp->owner]->ID != RIPPER_RUN_R0)
+            if (sp->owner >= 0 && User[sp->owner] && User[sp->owner]->ID != RIPPER_RUN_R0)	// JBF: added range check
                 SpawnDemonFist(Weapon); // Just a red magic circle flash
             return (TRUE);
             }

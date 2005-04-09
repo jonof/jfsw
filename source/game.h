@@ -1012,6 +1012,9 @@ extern LEVEL_INFO LevelInfo[MAX_LEVELS_REG+2];
 #define MAX_EPISODE_NAME_LEN 18
 extern char EpisodeNames[2][MAX_EPISODE_NAME_LEN+2];	// +2 = leading '^' and trailing NULL
 
+#define MAX_EPISODE_SUBTITLE_LEN 40
+extern char EpisodeSubtitles[2][MAX_EPISODE_SUBTITLE_LEN+1];
+
 typedef struct 
     {
     SHORT vel;

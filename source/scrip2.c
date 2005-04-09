@@ -401,7 +401,8 @@ enum {
 	CM_SONG,
 	CM_CDATRACK,
 	CM_BESTTIME,
-	CM_PARTIME
+	CM_PARTIME,
+	CM_SUBTITLE
 };
 
 static const struct {
@@ -425,6 +426,7 @@ static const struct {
 	{ "partime",     CM_PARTIME  },
 	{ "cdatrack",    CM_CDATRACK },
 	{ "cdtrack",     CM_CDATRACK },
+	{ "subtitle",    CM_SUBTITLE },
 };
 #define cm_numtokens (sizeof(cm_tokens)/sizeof(cm_tokens[0]))
 
@@ -470,18 +472,23 @@ void LoadCustomInfoFromScript(char *filename)
 	while ((token = scriptfile_gettoken(script))) {
 		switch (cm_transtok(token)) {
 			case CM_MAP:
-				if (scriptfile_getnumber(script, &curmap)) break;
+			{
+				char *mapnumptr;
+				if (scriptfile_getnumber(script, &curmap)) break; mapnumptr = script->ltextptr;
 				if (scriptfile_getbraces(script, &braceend)) break;
 
 				// first map file in LevelInfo[] is bogus, last map file is NULL
 				if (curmap < 1 || curmap > MAX_LEVELS_REG) {
-					initprintf("Error: map number %d not in range 1-%d\n", curmap, MAX_LEVELS_REG);
+					initprintf("Error: map number %d not in range 1-%d on line %s:%d\n",
+							curmap, MAX_LEVELS_REG, script->filename,
+							scriptfile_getlinum(script,mapnumptr));
 					script->textptr = braceend;
 					break;
 				}
 
 				while (script->textptr < braceend) {
 					if (!(token = scriptfile_gettoken(script))) break;
+					if (token == braceend) break;
 					switch (cm_transtok(token)) {
 						case CM_FILENAME:
 						{
@@ -544,19 +551,26 @@ void LoadCustomInfoFromScript(char *filename)
 							break;
 						}
 						default:
-							initprintf("Error on line %d of %s\n", script->linenum, script->filename);
+							initprintf("A Error on line %s:%d\n",
+									script->filename,
+									scriptfile_getlinum(script,script->ltextptr));
 							break;
 					}
 				}
 				break;
+			}
 
 			case CM_EPISODE:
-				if (scriptfile_getnumber(script, &curmap)) break;
+			{
+				char *epnumptr;
+				if (scriptfile_getnumber(script, &curmap)) break; epnumptr = script->ltextptr;
 				if (scriptfile_getbraces(script, &braceend)) break;
 
 				// first map file in LevelInfo[] is bogus, last map file is NULL
 				if (curmap < 1 || curmap > 2) {
-					initprintf("Error: episode number %d not in range 1-2\n", curmap);
+					initprintf("Error: episode number %d not in range 1-2 on line %s:%d\n",
+							curmap, script->filename,
+							scriptfile_getlinum(script,epnumptr));
 					script->textptr = braceend;
 					break;
 				}
@@ -564,6 +578,7 @@ void LoadCustomInfoFromScript(char *filename)
 
 				while (script->textptr < braceend) {
 					if (!(token = scriptfile_gettoken(script))) break;
+					if (token == braceend) break;
 					switch (cm_transtok(token)) {
 						case CM_TITLE:
 						{
@@ -574,15 +589,29 @@ void LoadCustomInfoFromScript(char *filename)
 							EpisodeNames[curmap][MAX_EPISODE_NAME_LEN+1] = 0;
 							break;
 						}
+						case CM_SUBTITLE:
+						{
+							char *t;
+							if (scriptfile_getstring(script, &t)) break;
+
+							strncpy(EpisodeSubtitles[curmap], t, MAX_EPISODE_SUBTITLE_LEN);
+							EpisodeSubtitles[curmap][MAX_EPISODE_SUBTITLE_LEN+1] = 0;
+							break;
+						}
 						default:
-							initprintf("Error on line %d of %s\n", script->linenum, script->filename);
+							initprintf("Error on line %s:%d\n",
+									script->filename,
+									scriptfile_getlinum(script,script->ltextptr));
 							break;
 					}
 				}
 				break;
-			
+			}
+
 			default:
-				initprintf("Error on line %d of %s\n", script->linenum, script->filename);
+				initprintf("Error on line %s:%d\n",
+						script->filename,
+						scriptfile_getlinum(script,script->ltextptr));
 				break;
 		}
 	}

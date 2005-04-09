@@ -446,10 +446,10 @@ MNU_DoEpisodeSelect(UserCall call, MenuItem * item)
     char TempString[80];
     char *extra_text;
 
-    extra_text = "Four levels (Shareware Version)";
+    extra_text = EpisodeSubtitles[0];
     MNU_MeasureString(extra_text, &w, &h);
     MNU_DrawString(30, 63, extra_text, 1, 16);
-    extra_text = "Eighteen levels (Full Version Only)";
+    extra_text = EpisodeSubtitles[1];
     MNU_MeasureString(extra_text, &w, &h);
     MNU_DrawString(30, 96, extra_text, 1, 16);
 

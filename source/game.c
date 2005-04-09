@@ -1206,6 +1206,10 @@ char EpisodeNames[2][MAX_EPISODE_NAME_LEN+2] = {
 	"^Enter the Wang",
 	"^Code of Honor"
 };
+char EpisodeSubtitles[2][MAX_EPISODE_SUBTITLE_LEN+1] = {
+	"Four levels (Shareware Version)",
+	"Eighteen levels (Full Version Only)"
+};
 
 VOID
 InitNewGame(VOID)

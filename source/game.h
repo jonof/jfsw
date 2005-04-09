@@ -2323,7 +2323,6 @@ extern SHORT StatDamageList[STAT_DAMAGE_LIST_SIZE];
 extern void SetFadeAmt( PLAYERp pp, short damage, unsigned char startcolor );
 extern void DoPaletteFlash( PLAYERp pp );
 extern unsigned char palette_data[256][3];
-extern unsigned char opalette_data[256][3];
 extern BOOL NightVision;
 #endif
 

@@ -710,7 +710,6 @@ int SaveGame(short save_num)
     
     MWRITE(palette,sizeof(palette),1,fil);
     MWRITE(palette_data,sizeof(palette_data),1,fil);
-    MWRITE(opalette_data,sizeof(opalette_data),1,fil);
     MWRITE(&gs,sizeof(gs),1,fil);
     MWRITE(picanm,sizeof(picanm),1,fil);
     
@@ -1192,7 +1191,6 @@ int LoadGame(short save_num)
     
     MREAD(palette,sizeof(palette),1,fil);
     MREAD(palette_data,sizeof(palette_data),1,fil);
-    MREAD(opalette_data,sizeof(opalette_data),1,fil);
     
     {
     BOOL AmbBak = gs.Ambient;

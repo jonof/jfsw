@@ -91,7 +91,6 @@ GAMEOBJS=$(OBJ)actor.$o &
 	$(OBJ)net.$o &
 	$(OBJ)ninja.$o &
 	$(OBJ)panel.$o &
-	$(OBJ)pcx.$o &
 	$(OBJ)player.$o &
 	$(OBJ)predict.$o &
 	$(OBJ)quake.$o &

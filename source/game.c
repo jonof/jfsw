@@ -873,48 +873,6 @@ void MultiSharewareCheck(void)
         }
      }
  
-#if 0
-VOID MakePal(VOID)
-    {
-    FILE *fout;
-    boolean DisplayPCX(char file_name[]);
-    DisplayPCX("realms6n.pcx");
-    GetPaletteFromVESA(&palette_data[0][0]);
-    SetPaletteToVESA(&palette_data[0][0]);
-
-    DSPRINTF(ds,"MakePal...");
-    MONO_PRINT(ds);
-
-    #if 0
-    while (!KEY_PRESSED(KEYSC_ESC));
-    KEY_PRESSED(KEYSC_ESC) = FALSE;
-    
-    Set_GameMode();  
-    
-    {
-    int i;
-    for (i = 0; i < 256; i++)
-        tempbuf[i] = i;
-    palookup[0] = tempbuf;    
-    }
-      
-    SetPaletteToVESA(&palette_data[0][0]);
-    LoadImages("tiles000.art");
-    rotatesprite(0, 0, RS_SCALE, 0, THREED_REALMS_PIC, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
-    nextpage();
-    
-    while (!KEY_PRESSED(KEYSC_ESC));
-    KEY_PRESSED(KEYSC_ESC) = FALSE;
-    #endif
-    
-    fout = fopen("3drealms.pal","wb");
-    ASSERT(fout != -1);
-    ASSERT(fwrite(palette_data, sizeof(palette_data), 1, fout) == 1);
-    fclose(fout);
-    TerminateGame();
-    exit(0);
-    }
-#endif
 
 // Some mem crap for Jim 
 // I reserve 1 meg of heap space for our use out side the cache   
@@ -1001,6 +959,7 @@ InitGame(VOID)
 
     //InitFX();
     
+    memcpy(palette_data,palette,768);
     InitPalette();
     // sets numplayers, connecthead, connectpoint2, myconnectindex
 
@@ -1080,7 +1039,6 @@ InitGame(VOID)
         }
 	*/
 
-    //MakePal();    
     Connect();
     SortBreakInfo();
     //parallaxyoffs = 40;
@@ -1122,15 +1080,11 @@ InitGame(VOID)
         SetupPreCache();
         DoTheCache();    
         }    
-    
-    //getvalidvesamodes();
+
     Set_GameMode();    
     GraphicsMode = TRUE;
-    //getvalidvesamodes();
     SetupAspectRatio();
     
-    GetPaletteFromVESA(palette_data);	// JBF: this one saves the palette loaded by the engine
-    memcpy(opalette_data,palette_data,768);
     COVERsetbrightness(gs.Brightness,(char *)palette_data);
 
     InitFX();	// JBF: do it down here so we get a hold of the window handle
@@ -1799,9 +1753,6 @@ LogoLevel(VOID)
     DSPRINTF(ds,"Got Palette from VESA...");
     MONO_PRINT(ds);
 
-    clearview(0);
-    nextpage();
-    
     // PreCache Anim
     LoadAnm(0);
 
@@ -1809,13 +1760,10 @@ LogoLevel(VOID)
         {
         kread(fin, pal, PAL_SIZE);
         kclose(fin);
-        SetPaletteToVESA(pal);
+        setbrightness(gs.Brightness, pal, 2);
         }
     DSPRINTF(ds,"Just read in 3drealms.pal...");
     MONO_PRINT(ds);
-
-    clearview(0);
-    nextpage();
 
     //FadeOut(0, 0);
     ready2send = 0;
@@ -4659,7 +4607,7 @@ FunctionKeys(PLAYERp pp)
         KEY_PRESSED(KEYSC_F11) = 0;
 
         gs.Brightness++;
-        if (gs.Brightness > 7)
+        if (gs.Brightness >= SLDR_BRIGHTNESSMAX)
             gs.Brightness = 0;
            
         sprintf(ds,"Brightness level (%d)",gs.Brightness+1);   

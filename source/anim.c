@@ -291,7 +291,6 @@ playanm(short anim_num)
     long i, j, k, length = 0, numframes = 0;
     int32 handle = -1;
     char ANIMvesapal[4*256];
-    char backup_pal[3*256];
     char tempbuf[256];
     char *palook_bak = palookup[0];
 
@@ -316,41 +315,26 @@ playanm(short anim_num)
     for (i = 0; i < 256; i++)
         tempbuf[i] = i;
     palookup[0] = tempbuf;    
-    GetPaletteFromVESA(backup_pal);
         
     ANIM_LoadAnim(animbuf);
     ANIMnumframes = ANIM_NumFrames();
     numframes = ANIMnumframes;
     
     palptr = ANIM_GetPalette();
-    for (i = 0; i < 256; i++)
-        {
-	/*
-        j = (i << 2);
-        k = j - i;
-        ANIMvesapal[j + 0] = (palptr[k + 2] >> 2);
-        ANIMvesapal[j + 1] = (palptr[k + 1] >> 2);
-        ANIMvesapal[j + 2] = (palptr[k + 0] >> 2);
-        ANIMvesapal[j + 3] = 0;
-	*/
-	j = i*3;
-        ANIMvesapal[j + 0] = (palptr[j + 0] >> 2);
-        ANIMvesapal[j + 1] = (palptr[j + 1] >> 2);
-        ANIMvesapal[j + 2] = (palptr[j + 2] >> 2);
-        }
+    for (i = 0; i < 768; i++)
+	ANIMvesapal[i] = palptr[i]>>2;
 
     tilesizx[ANIM_TILE(ANIMnum)] = 200;
     tilesizy[ANIM_TILE(ANIMnum)] = 320;
 
+    setbrightness(gs.Brightness,ANIMvesapal,2);
     if (ANIMnum == 1)
         {
         // draw the first frame
         waloff[ANIM_TILE(ANIMnum)] = FP_OFF(ANIM_DrawFrame(1));
 	invalidatetile(ANIM_TILE(ANIMnum), 0, 1<<4);
         rotatesprite(0 << 16, 0 << 16, 65536L, 512, ANIM_TILE(ANIMnum), 0, 0, 2 + 4 + 8 + 16 + 64, 0, 0, xdim - 1, ydim - 1);
-             }
-    //VBE_setPalette(0L, 256L, ANIMvesapal);
-    setbrightness(0,ANIMvesapal,4|2);
+        }
 
     SoundState = 0;
     //ototalclock = totalclock + 120*2;
@@ -404,17 +388,10 @@ playanm(short anim_num)
         
 ENDOFANIMLOOP:
 
-    //GetPaletteFromVESA(palette_data);
-    //FadeOut(0,5);
-    //memcpy(palette_data, backup_pal, 3*256);
     clearview(0);
     nextpage();
     palookup[0] = palook_bak;
-    SetPaletteToVESA(backup_pal);
-    //GetPaletteFromVESA(palette_data);
-    //FadeOut(0,0);
-    clearview(0);
-    nextpage();
+    setbrightness(gs.Brightness, palette_data, 2);
     
     KB_FlushKeyboardQueue();    
     KB_ClearKeysDown();    

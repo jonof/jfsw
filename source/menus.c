@@ -3551,7 +3551,6 @@ typedef struct RGB_color_typ
 #define PALETTE_DATA            0x3c9
 
 unsigned char palette_data[256][3];     // Global palette array
-unsigned char opalette_data[256][3];    // Global palette array
 
 // V E R T I C A L   R E T R A C E   V A R I A B L E S //////////////////////////////////////////
 

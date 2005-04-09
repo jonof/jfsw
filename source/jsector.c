@@ -1080,7 +1080,14 @@ JAnalyzeSprites(SPRITEp tspr)
     // Take care of autosizing
     DoAutoSize(tspr);
 
-    if (getrendermode() >= 3) return;	// JBF: No voxels in Polymost
+    if (getrendermode() >= 3) {	// JBF: No voxels in Polymost
+	switch (tspr->picnum) {
+	    case 764:	// Some gun barrels aren't set to be wall sprites, and some are also one-sided
+		tspr->cstat = (tspr->cstat & ~(CSTAT_SPRITE_SLAB|CSTAT_SPRITE_ONE_SIDE)) | CSTAT_SPRITE_WALL;
+		break;
+	}
+	return;
+    }
     
     // Check for voxels
     //if (bVoxelsOn)

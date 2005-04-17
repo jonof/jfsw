@@ -114,3 +114,4 @@ $(OBJ)midi.$o: $(SRC)jaudiolib/midi.c $(SRC)jaudiolib/standard.h $(SRC)jaudiolib
 $(OBJ)mpu401.$o: $(SRC)jaudiolib/mpu401.c $(SRC)jaudiolib/mpu401.h
 $(OBJ)music.$o: $(SRC)jaudiolib/music.c $(SRC)jaudiolib/music.h $(SRC)jaudiolib/midi.h $(SRC)jaudiolib/mpu401.h
 
+$(OBJ)cda_win32.$o: $(SRC)cda_win32.c $(INC)cda.h

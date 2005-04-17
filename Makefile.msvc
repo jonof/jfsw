@@ -144,7 +144,7 @@ EDITOROBJS=$(OBJ)jnstub.$o \
 PLATFORM=WINDOWS
 CFLAGS=$(CFLAGS) /I$(DXROOT)\include
 LIBS=$(LIBS) user32.lib gdi32.lib
-GAMEOBJS=$(GAMEOBJS) $(OBJ)gameres.res #$(OBJ)winbits.$o
+GAMEOBJS=$(GAMEOBJS) $(OBJ)cda_win32.$o $(OBJ)gameres.res #$(OBJ)winbits.$o
 EDITOROBJS=$(EDITOROBJS) $(OBJ)buildres.res
 !ifndef RENDERTYPE
 RENDERTYPE=WIN

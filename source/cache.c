@@ -158,7 +158,7 @@ short Pachinko_SCTable[] =
 419,420,421,422,423
 };
 
-int PreCacheSoundList(short table[], long num);
+void PreCacheSoundList(short table[], long num);
 void PreCacheTable(short table[], long num);
 VOID PreCacheGhost(VOID);
 
@@ -401,7 +401,7 @@ VOID PreCachePachinko(VOID)
     PreCacheSoundList(Pachinko_SCTable, SIZ(Pachinko_SCTable));
     }
 
-int PreCacheSoundList(short table[], long num)
+void PreCacheSoundList(short table[], long num)
     {
     short j;
 

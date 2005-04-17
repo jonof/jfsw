@@ -144,7 +144,7 @@ else
 	ifeq ($(PLATFORM),WINDOWS)
 		override CFLAGS+= -DUNDERSCORES -I$(DXROOT)/include
 		NASMFLAGS+= -DUNDERSCORES -f win32
-		GAMEOBJS+= $(OBJ)gameres.$o #$(OBJ)winbits.$o
+		GAMEOBJS+= $(OBJ)cda_win32.$o $(OBJ)gameres.$o #$(OBJ)winbits.$o
 		EDITOROBJS+= $(OBJ)buildres.$o
 	endif
 endif

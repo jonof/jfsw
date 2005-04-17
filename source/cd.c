@@ -1291,7 +1291,13 @@ CDAudio_Shutdown(void)
 #else
 #include "mytypes.h"
 #include "compat.h"
-//JBF stubbed out
+
+#ifdef RENDERTYPEWIN
+#include "cda.h"
+static int loopmode=0, playmode = CDA_Stopped;
+extern long totalclock;
+#endif
+
 BOOL enabled = TRUE;
 BOOL cdvalid = FALSE;
 BYTE playTrack;
@@ -1306,46 +1312,90 @@ BYTE RedBookSong[40] =
     };
 void CDAudio_Eject(void)
 {
-	//fprintf(stderr,"CDAudio_Eject() called\n");
 }
 BYTE CDAudio_GetVolume(void )
 {
-	//fprintf(stderr,"CDAudio_GetVolume() called\n");
 	return 0;
 }
 void CDAudio_SetVolume(BYTE volume)
 {
-	//fprintf(stderr,"CDAudio_SetVolume(%d) called\n", volume);
 }
 void CDAudio_Play(BYTE track,BOOL looping)
 {
-	//fprintf(stderr,"CDAudio_Play(%d,%d) called\n", track,looping);
+#ifdef RENDERTYPEWIN
+	if (cda_numtracks <= 0) return;
+	
+	track--;	// my CDA code is based at 0
+	if ((unsigned)track >= (unsigned)cda_numtracks) return;
+
+	loopmode = looping;
+
+	if (cda_play(cda_trackinfo[track].start, cda_trackinfo[track].start + cda_trackinfo[track].length - 1)) return;
+
+	playmode = CDA_Playing;
+	playTrack = track;
+#endif
 }
 void CDAudio_Stop(void )
 {
-	//fprintf(stderr,"CDAudio_Stop() called\n");
+#ifdef RENDERTYPEWIN
+	cda_pause(1);
+	playmode = CDA_Paused;
+#endif
 }
 void CDAudio_Resume(void )
 {
-	//fprintf(stderr,"CDAudio_Resume() called\n");
+#ifdef RENDERTYPEWIN
+	cda_pause(0);
+	playmode = CDA_Playing;
+#endif
 }
 void CDAudio_Update(void )
 {
-	//fprintf(stderr,"CDAudio_Update() called\n");
+	if (totalclock-lastUpdate < 30) return;
+	lastUpdate = totalclock;
+
+#ifdef RENDERTYPEWIN
+	if (playmode == CDA_Playing) {
+		switch (cda_getstatus()) {
+			case CDA_Stopped:
+				cda_play(cda_trackinfo[playTrack].start,
+					cda_trackinfo[playTrack].start + cda_trackinfo[playTrack].length - 1);
+				break;
+			case CDA_NotReady:
+				playmode = CDA_Stopped;
+				break;
+			default: break;
+		}
+	}
+#endif
 }
 BOOL CDAudio_Playing(void )
 {
-	//fprintf(stderr,"CDAudio_Playing() called\n");
+#ifdef RENDERTYPEWIN
+	if (cda_getstatus() == CDA_Playing) return 1;
+#endif
 	return 0;
 }
 int CDAudio_Init(void )
 {
-	//fprintf(stderr,"CDAudio_Init() called\n");
+#ifdef RENDERTYPEWIN
+	if (cda_opendevice()) return -1;
+
+	if (cda_getstatus() != CDA_NotReady)
+		cda_querydisc();
+
+	return 0;
+#else
 	return -1;
+#endif
 }
 void CDAudio_Shutdown(void )
 {
-	//fprintf(stderr,"CDAudio_Shutdown() called\n");
+#ifdef RENDERTYPEWIN
+	cda_stop();
+	cda_closedevice();
+#endif
 }
 #endif
 

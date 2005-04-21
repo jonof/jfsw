@@ -2025,7 +2025,7 @@ MNU_SaveGameCheck(MenuItem *item)
     extern BOOL InMenuLevel;
     extern BOOL DemoMode;
     
-    {	// JBF: Until we fix the symbol table dilemma, saving is off limits
+    if (0) {	// JBF: Until we fix the symbol table dilemma, saving is off limits
         SET(item->flags, mf_disabled);
         return(TRUE);
     }
@@ -2066,7 +2066,7 @@ BOOL
 MNU_LoadGameCheck(MenuItem *item)
     {
 
-    {	// JBF: Until we fix the symbol table dilemma, loading is off limits
+    if (0) {	// JBF: Until we fix the symbol table dilemma, loading is off limits
         SET(item->flags, mf_disabled);
         return(TRUE);
     }

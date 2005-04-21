@@ -67,9 +67,6 @@ void Error (char *error, ...)
 }
 #else
 void Error(char *,...);
-void Shutdown(void)
-{
-}
 #endif
 
 

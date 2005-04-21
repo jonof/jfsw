@@ -57,7 +57,8 @@ AUDIOLIB_MUSIC=$(OBJ)midi.$o \
 	  $(OBJ)mpu401.$o \
 	  $(OBJ)music.$o
 
-GAMEOBJS=$(OBJ)actor.$o \
+GAMEOBJS= \
+	$(OBJ)actor.$o \
 	$(OBJ)ai.$o \
 	$(OBJ)anim.$o \
 	$(OBJ)border.$o \
@@ -128,6 +129,7 @@ GAMEOBJS=$(OBJ)actor.$o \
 	$(OBJ)weapon.$o \
 	$(OBJ)zilla.$o \
 	$(OBJ)zombie.$o \
+	$(OBJ)saveable.$o \
 	$(JMACTOBJ)
 
 EDITOROBJS=$(OBJ)jnstub.$o \

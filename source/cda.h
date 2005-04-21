@@ -16,7 +16,7 @@ typedef struct {
 extern cdatoc cda_trackinfo[MAX_CDA_TRACKS];
 extern int    cda_numtracks;
 
-int cda_opendevice(void);
+int cda_opendevice(int devicenum);
 int cda_closedevice(void);
 int cda_getstatus(void);
 int cda_querydisc(void);

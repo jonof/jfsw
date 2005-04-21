@@ -1380,7 +1380,7 @@ BOOL CDAudio_Playing(void )
 int CDAudio_Init(void )
 {
 #ifdef RENDERTYPEWIN
-	if (cda_opendevice()) return -1;
+	if (cda_opendevice(-1)) return -1;
 
 	if (cda_getstatus() != CDA_NotReady)
 		cda_querydisc();

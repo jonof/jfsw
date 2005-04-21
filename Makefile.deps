@@ -75,6 +75,7 @@ $(OBJ)warp.$o: $(SRC)warp.c $(names2_h) $(panel_h) $(game_h) $(INC)warp.h
 $(OBJ)weapon.$o: $(SRC)weapon.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(SRC)jmact/mathutil.h $(INC)break.h $(INC)quake.h $(INC)net.h $(INC)pal.h $(INC)vis.h $(INC)ai.h $(INC)weapon.h $(INC)anim.h $(INC)damage.h $(INC)sector.h $(INC)sprite.h $(INC)actor.h $(INC)track.h $(INC)player.h
 $(OBJ)zilla.$o: $(SRC)zilla.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)ai.h $(INC)quake.h $(INC)actor.h $(INC)track.h $(SRC)jaudiolib/fx_man.h
 $(OBJ)zombie.$o: $(SRC)zombie.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)ai.h $(INC)pal.h $(INC)player.h $(INC)net.h $(INC)sprite.h $(INC)weapon.h $(INC)actor.h $(INC)track.h
+$(OBJ)saveable.$o: $(SRC)saveable.c $(INC)saveable.h
 
 $(OBJ)makesym.$o: $(SRC)makesym.c
 

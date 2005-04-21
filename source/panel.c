@@ -7669,5 +7669,156 @@ PANEL_STATE ps_PanelKeyYellow[] = {
     };
 
 
+#include "saveable.h"
 
-    
+static saveable_code saveable_panel_code[] = {
+};
+
+static saveable_data saveable_panel_data[] = {
+	SAVE_DATA(ps_PresentSword),
+	SAVE_DATA(ps_SwordRest),
+	SAVE_DATA(ps_SwordHide),
+	SAVE_DATA(ps_SwordSwing),
+	SAVE_DATA(ps_RetractSword),
+
+	SAVE_DATA(ps_PresentStar),
+	SAVE_DATA(ps_StarHide),
+	SAVE_DATA(ps_StarRest),
+	SAVE_DATA(ps_ThrowStar),
+	SAVE_DATA(ps_RetractStar),
+
+	SAVE_DATA(ps_FireUzi),
+	SAVE_DATA(ps_UziNull),
+	SAVE_DATA(ps_UziHide),
+	SAVE_DATA(ps_PresentUzi),
+	SAVE_DATA(ps_PresentUziReload),
+	SAVE_DATA(ps_RetractUzi),
+	SAVE_DATA(ps_FireUzi2),
+	SAVE_DATA(ps_PresentUzi2),
+	SAVE_DATA(ps_Uzi2Hide),
+	SAVE_DATA(ps_RetractUzi2),
+	SAVE_DATA(ps_Uzi2Suicide),
+	SAVE_DATA(ps_Uzi2Null),
+	SAVE_DATA(ps_UziEject),
+	SAVE_DATA(ps_UziClip),
+	SAVE_DATA(ps_UziReload),
+	SAVE_DATA(ps_UziDoneReload),
+	SAVE_DATA(ps_UziShell),
+	SAVE_DATA(ps_Uzi2Shell),
+
+	SAVE_DATA(ps_ShotgunShell),
+	SAVE_DATA(ps_PresentShotgun),
+	SAVE_DATA(ps_ShotgunRest),
+	SAVE_DATA(ps_ShotgunHide),
+	SAVE_DATA(ps_ShotgunRecoil),
+	SAVE_DATA(ps_ShotgunRecoilAuto),
+	SAVE_DATA(ps_ShotgunFire),
+	SAVE_DATA(ps_ShotgunAutoFire),
+	SAVE_DATA(ps_ShotgunReload),
+	SAVE_DATA(ps_RetractShotgun),
+	SAVE_DATA(ps_ShotgunFlash),
+
+	SAVE_DATA(ps_PresentRail),
+	SAVE_DATA(ps_RailRest),
+	SAVE_DATA(ps_RailHide),
+	SAVE_DATA(ps_RailRecoil),
+	SAVE_DATA(ps_RailFire),
+	SAVE_DATA(ps_RailFireEMP),
+	SAVE_DATA(ps_RetractRail),
+
+	SAVE_DATA(ps_PresentHothead),
+	SAVE_DATA(ps_HotheadHide),
+	SAVE_DATA(ps_RetractHothead),
+	SAVE_DATA(ps_HotheadRest),
+	SAVE_DATA(ps_HotheadRestRing),
+	SAVE_DATA(ps_HotheadRestNapalm),
+	SAVE_DATA(ps_HotheadAttack),
+	SAVE_DATA(ps_HotheadRing),
+	SAVE_DATA(ps_HotheadNapalm),
+	SAVE_DATA(ps_HotheadTurn),
+	SAVE_DATA(ps_HotheadTurnRing),
+	SAVE_DATA(ps_HotheadTurnNapalm),
+	SAVE_DATA(ps_OnFire),
+
+	SAVE_DATA(ps_PresentMicro),
+	SAVE_DATA(ps_MicroRest),
+	SAVE_DATA(ps_MicroHide),
+	SAVE_DATA(ps_InitNuke),
+	SAVE_DATA(ps_MicroRecoil),
+	SAVE_DATA(ps_MicroFire),
+	SAVE_DATA(ps_MicroSingleFire),
+	SAVE_DATA(ps_RetractMicro),
+	SAVE_DATA(ps_MicroHeatFlash),
+	SAVE_DATA(ps_MicroNukeFlash),
+
+	SAVE_DATA(ps_PresentHeart),
+	SAVE_DATA(ps_HeartRest),
+	SAVE_DATA(ps_HeartHide),
+	SAVE_DATA(ps_HeartAttack),
+	SAVE_DATA(ps_RetractHeart),
+	SAVE_DATA(ps_HeartBlood),
+	SAVE_DATA(ps_HeartBloodSmall),
+	SAVE_DATA(ps_HeartBlood),
+
+	SAVE_DATA(ps_PresentGrenade),
+	SAVE_DATA(ps_GrenadeRest),
+	SAVE_DATA(ps_GrenadeHide),
+	SAVE_DATA(ps_GrenadeFire),
+	SAVE_DATA(ps_GrenadeRecoil),
+	SAVE_DATA(ps_RetractGrenade),
+
+	SAVE_DATA(ps_PresentMine),
+	SAVE_DATA(ps_MineRest),
+	SAVE_DATA(ps_MineHide),
+	SAVE_DATA(ps_MineThrow),
+	SAVE_DATA(ps_RetractMine),
+
+	SAVE_DATA(ps_ChopsAttack1),
+	SAVE_DATA(ps_ChopsAttack2),
+	SAVE_DATA(ps_ChopsAttack3),
+	SAVE_DATA(ps_ChopsAttack4),
+	SAVE_DATA(ps_ChopsWait),
+	SAVE_DATA(ps_ChopsRetract),
+
+	SAVE_DATA(ps_PresentFist),
+	SAVE_DATA(ps_FistRest),
+	SAVE_DATA(ps_FistHide),
+	SAVE_DATA(ps_PresentFist2),
+	SAVE_DATA(ps_Fist2Rest),
+	SAVE_DATA(ps_Fist2Hide),
+	/*
+	SAVE_DATA(ps_PresentFist3),
+	SAVE_DATA(ps_Fist3Rest),
+	SAVE_DATA(ps_Fist3Hide),
+	*/
+	SAVE_DATA(ps_FistSwing),
+	SAVE_DATA(ps_Fist2Swing),
+	SAVE_DATA(ps_Fist3Swing),
+	SAVE_DATA(ps_Kick),
+	SAVE_DATA(ps_RetractFist),
+
+	SAVE_DATA(ps_PanelEnvironSuit),
+	SAVE_DATA(ps_PanelCloak),
+	SAVE_DATA(ps_PanelRepairKit),
+	SAVE_DATA(ps_PanelMedkit),
+	SAVE_DATA(ps_PanelNightVision),
+	SAVE_DATA(ps_PanelChemBomb),
+	SAVE_DATA(ps_PanelFlashBomb),
+	SAVE_DATA(ps_PanelCaltrops),
+	SAVE_DATA(ps_PanelSelectionBox),
+	SAVE_DATA(ps_PanelKeyRed),
+	SAVE_DATA(ps_PanelKeyGreen),
+	SAVE_DATA(ps_PanelKeyBlue),
+	SAVE_DATA(ps_PanelKeyYellow),
+};
+
+saveable_module saveable_panel = {
+	// code
+	saveable_panel_code,
+	SIZ(saveable_panel_code),
+
+	// data
+	saveable_panel_data,
+	SIZ(saveable_panel_data)
+};
+

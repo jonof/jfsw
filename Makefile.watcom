@@ -177,6 +177,7 @@ sw$(EXESUFFIX): $(GAMEOBJS) $(OBJ)gameres.res $(EOBJ)$(ENGINELIB)
 	%write $@.wlink NAME     $(OBJ)$@
 	%write $@.wlink SYSTEM   WIN95
 	%write $@.wlink DEBUG    ALL
+	%write $@.wlink OPTION   MAP
 	%write $@.wlink FILE     { $(GAMEOBJS) $(ENGINEOBJS) }
 	%write $@.wlink RESOURCE $(OBJ)gameres.res
 	%write $@.wlink LIBPATH  $(DXROOT)\lib

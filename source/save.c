@@ -56,6 +56,8 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "colormap.h"
 #include "player.h"
 
+#include "saveable.h"
+
 //void TimerFunc(task * Task);
 
 /*
@@ -150,6 +152,48 @@ PanelNdxToSprite(PLAYERp pp, long ndx)
     return(NULL);    
     }    
 
+#define SaveSymDataInfo(fil,ptr) SaveSymDataInfo_(fil,ptr, #ptr)
+int SaveSymDataInfo_(MFILE fil, void *ptr, char *s)
+{
+	saveddatasym sym;
+
+	if (Saveable_FindDataSym(ptr, &sym)) {
+		FILE *fp;
+
+		fp = fopen("savegame symbols missing.txt", "a");
+		if (fp) {
+			fprintf(fp,"data %p %s\n",ptr,s);
+			fclose(fp);
+		}
+		return 1;
+	}
+
+	MWRITE(&sym, sizeof(sym), 1, fil);
+
+	return 0;
+}
+#define SaveSymCodeInfo(fil,ptr) SaveSymCodeInfo_(fil,ptr, #ptr)
+int SaveSymCodeInfo_(MFILE fil, void *ptr, char *s)    
+{
+	savedcodesym sym;
+
+	if (Saveable_FindCodeSym(ptr, &sym)) {
+		FILE *fp;
+
+		fp = fopen("savegame symbols missing.txt", "a");
+		if (fp) {
+			fprintf(fp,"code %p %s\n",ptr,s);
+			fclose(fp);
+		}
+		return 1;
+	}
+
+	MWRITE(&sym, sizeof(sym), 1, fil);
+
+	return 0;
+}
+
+/*
 void SaveSymDataInfo(MFILE fil, void *ptr)    
     {
     unsigned long unrelocated_offset, offset_from_symbol;
@@ -205,6 +249,7 @@ void SaveSymCodeInfo(MFILE fil, void *ptr)
     MWRITE(sym_name, sizeof(st_ptr->Name), 1, fil);
     MWRITE(&offset_from_symbol, sizeof(offset_from_symbol), 1, fil);
     }
+    */
 
 //#define LoadSymDataInfo(fil) _LoadSymDataInfo(__FILE__,__LINE__,fil)    
 //#define LoadSymCodeInfo(fil) _LoadSymCodeInfo(__FILE__,__LINE__,fil)    
@@ -272,14 +317,14 @@ int SaveGame(short save_num)
     PANEL_SPRITEp psp,cur,next;
     SECTOR_OBJECTp sop;
     char game_name[80];
-    long cnt = 0;
+    long cnt = 0, saveisshot=0;
     OrgTileP otp, next_otp;
 
-    LoadSymTable("swdata.sym", &SymTableData, &SymCountData);
-    LoadSymTable("swcode.sym", &SymTableCode, &SymCountCode);
+    //LoadSymTable("swdata.sym", &SymTableData, &SymCountData);
+    //LoadSymTable("swcode.sym", &SymTableCode, &SymCountCode);
     
-    if (SymCountData <= 0 || SymCountCode <= 0)
-        return(-1);
+    //if (SymCountData <= 0 || SymCountCode <= 0)
+    //    return(-1);
 
     sprintf(game_name,"game%d.sav",save_num);
     if ((fil = MOPEN_WRITE(game_name)) == MF_ERR)
@@ -329,23 +374,23 @@ int SaveGame(short save_num)
         
         //////
      
-        SaveSymDataInfo(fil, pp->remote_sprite);
-        SaveSymDataInfo(fil, pp->remote.sop_control);
-        SaveSymDataInfo(fil, pp->sop_remote);
-        SaveSymDataInfo(fil, pp->sop);
-        SaveSymDataInfo(fil, pp->hi_sectp);
-        SaveSymDataInfo(fil, pp->lo_sectp);
-        SaveSymDataInfo(fil, pp->hi_sp);
-        SaveSymDataInfo(fil, pp->lo_sp);
+        saveisshot |= SaveSymDataInfo(fil, pp->remote_sprite);
+        saveisshot |= SaveSymDataInfo(fil, pp->remote.sop_control);
+        saveisshot |= SaveSymDataInfo(fil, pp->sop_remote);
+        saveisshot |= SaveSymDataInfo(fil, pp->sop);
+        saveisshot |= SaveSymDataInfo(fil, pp->hi_sectp);
+        saveisshot |= SaveSymDataInfo(fil, pp->lo_sectp);
+        saveisshot |= SaveSymDataInfo(fil, pp->hi_sp);
+        saveisshot |= SaveSymDataInfo(fil, pp->lo_sp);
         
-        SaveSymDataInfo(fil, pp->last_camera_sp);
-        SaveSymDataInfo(fil, pp->SpriteP);
-        SaveSymDataInfo(fil, pp->UnderSpriteP);
+        saveisshot |= SaveSymDataInfo(fil, pp->last_camera_sp);
+        saveisshot |= SaveSymDataInfo(fil, pp->SpriteP);
+        saveisshot |= SaveSymDataInfo(fil, pp->UnderSpriteP);
         
-        SaveSymCodeInfo(fil, pp->DoPlayerAction);
+        saveisshot |= SaveSymCodeInfo(fil, pp->DoPlayerAction);
         
-        SaveSymDataInfo(fil, pp->sop_control);
-        SaveSymDataInfo(fil, pp->sop_riding);
+        saveisshot |= SaveSymDataInfo(fil, pp->sop_control);
+        saveisshot |= SaveSymDataInfo(fil, pp->sop_riding);
         }
 
     #if PANEL_SAVE
@@ -368,17 +413,17 @@ int SaveGame(short save_num)
             psp->sibling = (PANEL_SPRITEp)PanelSpriteToNdx(pp, cur->sibling);
             MWRITE(psp, sizeof(PANEL_SPRITE),1,fil);
           
-            SaveSymDataInfo(fil, psp->PlayerP);
-            SaveSymDataInfo(fil, psp->State);
-            SaveSymDataInfo(fil, psp->RetractState);
-            SaveSymDataInfo(fil, psp->PresentState);
-            SaveSymDataInfo(fil, psp->ActionState);
-            SaveSymDataInfo(fil, psp->RestState);
-            SaveSymCodeInfo(fil, psp->PanelSpriteFunc);
+            saveisshot |= SaveSymDataInfo(fil, psp->PlayerP);
+            saveisshot |= SaveSymDataInfo(fil, psp->State);
+            saveisshot |= SaveSymDataInfo(fil, psp->RetractState);
+            saveisshot |= SaveSymDataInfo(fil, psp->PresentState);
+            saveisshot |= SaveSymDataInfo(fil, psp->ActionState);
+            saveisshot |= SaveSymDataInfo(fil, psp->RestState);
+            saveisshot |= SaveSymCodeInfo(fil, psp->PanelSpriteFunc);
             
             for (j = 0; j < SIZ(psp->over); j++)
                 {
-                SaveSymDataInfo(fil, psp->over[j].State);
+                saveisshot |= SaveSymDataInfo(fil, psp->over[j].State);
                 }
                       
             ndx++;
@@ -464,24 +509,24 @@ int SaveGame(short save_num)
                     MWRITE(u->rotator->origy,sizeof(*u->rotator->origy)*u->rotator->num_walls,1,fil);
                 }    
             
-            SaveSymDataInfo(fil, u->WallP);
-            SaveSymDataInfo(fil, u->State);
-            SaveSymDataInfo(fil, u->Rot);
-            SaveSymDataInfo(fil, u->StateStart);
-            SaveSymDataInfo(fil, u->StateEnd);
-            SaveSymDataInfo(fil, u->StateFallOverride);
-            SaveSymCodeInfo(fil, u->ActorActionFunc);
-            SaveSymDataInfo(fil, u->ActorActionSet);
-            SaveSymDataInfo(fil, u->Personality);
-            SaveSymDataInfo(fil, u->Attrib);
-            SaveSymDataInfo(fil, u->sop_parent);
-            SaveSymDataInfo(fil, u->hi_sectp);
-            SaveSymDataInfo(fil, u->lo_sectp);
-            SaveSymDataInfo(fil, u->hi_sp);
-            SaveSymDataInfo(fil, u->lo_sp);
-            SaveSymDataInfo(fil, u->SpriteP);
-            SaveSymDataInfo(fil, u->PlayerP);
-            SaveSymDataInfo(fil, u->tgt_sp);
+            saveisshot |= SaveSymDataInfo(fil, u->WallP);
+            saveisshot |= SaveSymDataInfo(fil, u->State);
+            saveisshot |= SaveSymDataInfo(fil, u->Rot);
+            saveisshot |= SaveSymDataInfo(fil, u->StateStart);
+            saveisshot |= SaveSymDataInfo(fil, u->StateEnd);
+            saveisshot |= SaveSymDataInfo(fil, u->StateFallOverride);
+            saveisshot |= SaveSymCodeInfo(fil, u->ActorActionFunc);
+            saveisshot |= SaveSymDataInfo(fil, u->ActorActionSet);
+            saveisshot |= SaveSymDataInfo(fil, u->Personality);
+            saveisshot |= SaveSymDataInfo(fil, u->Attrib);
+            saveisshot |= SaveSymDataInfo(fil, u->sop_parent);
+            saveisshot |= SaveSymDataInfo(fil, u->hi_sectp);
+            saveisshot |= SaveSymDataInfo(fil, u->lo_sectp);
+            saveisshot |= SaveSymDataInfo(fil, u->hi_sp);
+            saveisshot |= SaveSymDataInfo(fil, u->lo_sp);
+            saveisshot |= SaveSymDataInfo(fil, u->SpriteP);
+            saveisshot |= SaveSymDataInfo(fil, u->PlayerP);
+            saveisshot |= SaveSymDataInfo(fil, u->tgt_sp);
             }
         }
     ndx = -1;
@@ -497,11 +542,11 @@ int SaveGame(short save_num)
         {
         sop = &SectorObject[ndx];
         
-        SaveSymCodeInfo(fil, sop->PreMoveAnimator);
-        SaveSymCodeInfo(fil, sop->PostMoveAnimator);
-        SaveSymCodeInfo(fil, sop->Animator);
-        SaveSymDataInfo(fil, sop->controller);
-        SaveSymDataInfo(fil, sop->sp_child);
+        saveisshot |= SaveSymCodeInfo(fil, sop->PreMoveAnimator);
+        saveisshot |= SaveSymCodeInfo(fil, sop->PostMoveAnimator);
+        saveisshot |= SaveSymCodeInfo(fil, sop->Animator);
+        saveisshot |= SaveSymDataInfo(fil, sop->controller);
+        saveisshot |= SaveSymDataInfo(fil, sop->sp_child);
         }
     
     
@@ -554,17 +599,11 @@ int SaveGame(short save_num)
             {
             if (User[j])
                 {
-                                // CTW MODIFICATION
-                                BYTEp bp = (BYTEp)User[j];
-                                //USERp bp = User[j];
-                                // CTW MODIFICATION END
+                BYTEp bp = (BYTEp)User[j];
                 
                 if (a->ptr >= bp && a->ptr < bp + sizeof(USER))
                     {
-                    // CTW MODIFICATION
-                     offset = (long)((BYTEp)a->ptr - bp); // offset from user data
-                    //offset = (long*)a->ptr - bp; // offset from user data
-                                        // CTW MODIFICATION END
+                    offset = (long)((BYTEp)a->ptr - bp); // offset from user data
                     a->ptr = -2;
                     break;
                     }
@@ -577,17 +616,11 @@ int SaveGame(short save_num)
                 {
                 if (SectUser[j])
                     {
-                                        // CTW MODIFICATION
-                                        BYTEp bp = (BYTEp)SectUser[j];
-                                        //SECT_USERp bp = SectUser[j];
-                                        // CTW MODIFICATION END
+                    BYTEp bp = (BYTEp)SectUser[j];
                     
                     if (a->ptr >= bp && a->ptr < bp + sizeof(SECT_USER))
                         {
-                                                // CTW MODIFICATION
                         offset = (long)((BYTEp)a->ptr - bp); // offset from user data
-                        //offset = (long*)a->ptr - bp; // offset from user data
-                                                // CTW MODIFICATION END
                         a->ptr = -3;
                         break;
                         }
@@ -603,11 +636,11 @@ int SaveGame(short save_num)
             }
         else    
             {
-            SaveSymDataInfo(fil, a->ptr);
+            saveisshot |= SaveSymDataInfo(fil, a->ptr);
             }
             
-        SaveSymCodeInfo(fil, a->callback);
-        SaveSymDataInfo(fil, a->callbackdata);
+        saveisshot |= SaveSymCodeInfo(fil, a->callback);
+        saveisshot |= SaveSymDataInfo(fil, a->callbackdata);
         }
     
     #else
@@ -620,9 +653,9 @@ int SaveGame(short save_num)
         memcpy(a,&Anim[i],sizeof(ANIM));
         MWRITE(a,sizeof(ANIM),1,fil);
         
-        SaveSymDataInfo(fil, a->ptr);
-        SaveSymCodeInfo(fil, a->callback);
-        SaveSymDataInfo(fil, a->callbackdata);
+        saveisshot |= SaveSymDataInfo(fil, a->ptr);
+        saveisshot |= SaveSymCodeInfo(fil, a->callback);
+        saveisshot |= SaveSymDataInfo(fil, a->callbackdata);
         
         ndx++;
         }
@@ -656,7 +689,7 @@ int SaveGame(short save_num)
     MWRITE(oldipos,sizeof(oldipos),1,fil);
     MWRITE(bakipos,sizeof(bakipos),1,fil);
     for (i = numinterpolations - 1; i >= 0; i--)
-        SaveSymDataInfo(fil, curipos[i]);
+        saveisshot |= SaveSymDataInfo(fil, curipos[i]);
     
     // short interpolations
     MWRITE(&short_numinterpolations,sizeof(short_numinterpolations),1,fil);
@@ -664,7 +697,7 @@ int SaveGame(short save_num)
     MWRITE(short_oldipos,sizeof(short_oldipos),1,fil);
     MWRITE(short_bakipos,sizeof(short_bakipos),1,fil);
     for (i = short_numinterpolations - 1; i >= 0; i--)
-        SaveSymDataInfo(fil, short_curipos[i]);
+        saveisshot |= SaveSymDataInfo(fil, short_curipos[i]);
 
     
     // parental lock
@@ -732,15 +765,18 @@ int SaveGame(short save_num)
     
     MCLOSE(fil);
     
-    FreeMem(SymTableData);
-    SymTableData = NULL;
-    FreeMem(SymTableCode);
-    SymTableCode = NULL;
+    //FreeMem(SymTableData);
+    //SymTableData = NULL;
+    //FreeMem(SymTableCode);
+    //SymTableCode = NULL;
     
     ////DSPRINTF(ds, "done saving");
     //MONO_PRINT(ds);
     
-    return(0);
+    if (saveisshot)
+	CON_Message("There was a problem saving. See \"Save Help\" section of release notes.");
+    
+    return(saveisshot);
 }
 
 int LoadGameFullHeader(short save_num, char *descr, short *level, short *skill)
@@ -1061,10 +1097,7 @@ int LoadGame(short save_num)
             long offset;
             MREAD(&j, sizeof(j),1,fil);
             MREAD(&offset, sizeof(offset),1,fil);
-                        // CTW MODIFICATION
-                        a->ptr = (long*)(((char *)User[j]) + offset);
-                        //a->ptr = ((long *)User[j]) + offset;
-                        // CTW MODIFICATION END
+            a->ptr = (long*)(((char *)User[j]) + offset);
             }
         else
         if (a->ptr == -3)
@@ -1073,10 +1106,7 @@ int LoadGame(short save_num)
             long offset;
             MREAD(&j, sizeof(j),1,fil);
             MREAD(&offset, sizeof(offset),1,fil);
-                        // CTW MODIFICATION
-                        a->ptr = (long*)(((char *)SectUser[j]) + offset);
-                        //a->ptr = ((long *)SectUser[j]) + offset;
-                        // CTW MODIFICATION END
+            a->ptr = (long*)(((char *)SectUser[j]) + offset);
             }
         else   
             {

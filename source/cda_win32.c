@@ -44,10 +44,16 @@ static int toMSF(int frames)
 }
 
 
-int cda_opendevice(void)
+int cda_opendevice(int devicenum)
 {
 	MCI_OPEN_PARMS mop;
 	MCI_SET_PARMS  msp;
+	CHAR drive[4] = "?:";
+
+	if (devicenum >= 0 && devicenum < 26)
+		drive[0] = 'A'+devicenum;
+	else
+		devicenum = -1;
 
 	pausepos = lastplayendtime = -1;
 
@@ -55,8 +61,11 @@ int cda_opendevice(void)
 
 	memset(&mop, 0, sizeof(mop));
 	mop.lpstrDeviceType = (LPCSTR)MCI_DEVTYPE_CD_AUDIO;
+	mop.lpstrElementName = drive;
 
-	if (sendCommand(MCI_OPEN, MCI_WAIT | MCI_OPEN_SHAREABLE | MCI_OPEN_TYPE | MCI_OPEN_TYPE_ID, (DWORD)&mop)) return -1;
+	if (sendCommand(MCI_OPEN,
+		MCI_WAIT|MCI_OPEN_SHAREABLE|MCI_OPEN_TYPE|MCI_OPEN_TYPE_ID|(devicenum<0?0:MCI_OPEN_ELEMENT),
+		(DWORD)&mop)) return -1;
 
 	deviceid = mop.wDeviceID;
 

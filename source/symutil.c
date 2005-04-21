@@ -56,8 +56,10 @@ long filesize( FILE *fp )
   }
     
 
+#ifndef __WATCOMC__
 int _nullarea = 0;	// XXX: This all needs to be reevaluated!
 int __begtext = 0;
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////////////    

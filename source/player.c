@@ -8472,3 +8472,24 @@ VOID CheckFootPrints(PLAYERp pp)
         FootMode = WATER_FOOT;
     }
 }
+
+
+#include "saveable.h"
+
+static saveable_code saveable_player_code[] = {
+	SAVE_CODE(DoPlayerRun)
+};
+
+static saveable_data saveable_player_data[] = {
+	SAVE_DATA(Player)
+};
+
+saveable_module saveable_player = {
+	// code
+	saveable_player_code,
+	SIZ(saveable_player_code),
+
+	// data
+	saveable_player_data,
+	SIZ(saveable_player_data)
+};

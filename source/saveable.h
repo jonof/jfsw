@@ -32,7 +32,12 @@ typedef struct {
 	unsigned long offset;
 } saveddatasym;
 
+void Saveable_Init(void);
+
 int Saveable_FindCodeSym(void *ptr, savedcodesym *sym);
 int Saveable_FindDataSym(void *ptr, saveddatasym *sym);
+
+int Saveable_RestoreCodeSym(savedcodesym *sym, void **ptr);
+int Saveable_RestoreDataSym(saveddatasym *sym, void **ptr);
 
 #endif

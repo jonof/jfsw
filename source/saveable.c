@@ -42,8 +42,6 @@ int Saveable_FindCodeSym(void *ptr, savedcodesym *sym)
 {
 	unsigned int m,i;
 
-	Saveable_Init();
-	
 	if (!ptr) {
 		sym->module = 0;	// module 0 is the "null module" for null pointers
 		sym->index  = 0;
@@ -68,8 +66,6 @@ int Saveable_FindDataSym(void *ptr, saveddatasym *sym)
 {
 	unsigned int m,i;
 
-	Saveable_Init();
-	
 	if (!ptr) {
 		sym->module = 0;
 		sym->index  = 0;

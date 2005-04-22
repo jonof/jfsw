@@ -193,6 +193,23 @@ int SaveSymCodeInfo_(MFILE fil, void *ptr, char *s)
 	return 0;
 }
 
+int LoadSymDataInfo(MFILE fil, void **ptr)
+{
+	saveddatasym sym;
+
+	MREAD(&sym, sizeof(sym), 1, fil);
+
+	return Saveable_RestoreDataSym(&sym, ptr);
+}
+int LoadSymCodeInfo(MFILE fil, void **ptr)
+{
+	savedcodesym sym;
+
+	MREAD(&sym, sizeof(sym), 1, fil);
+
+	return Saveable_RestoreCodeSym(&sym, ptr);
+}
+
 /*
 void SaveSymDataInfo(MFILE fil, void *ptr)    
     {
@@ -249,7 +266,6 @@ void SaveSymCodeInfo(MFILE fil, void *ptr)
     MWRITE(sym_name, sizeof(st_ptr->Name), 1, fil);
     MWRITE(&offset_from_symbol, sizeof(offset_from_symbol), 1, fil);
     }
-    */
 
 //#define LoadSymDataInfo(fil) _LoadSymDataInfo(__FILE__,__LINE__,fil)    
 //#define LoadSymCodeInfo(fil) _LoadSymCodeInfo(__FILE__,__LINE__,fil)    
@@ -295,6 +311,8 @@ void *LoadSymCodeInfo(MFILE fil)
     
     return(code_ptr);
     }
+    */
+
     
 int SaveGame(short save_num)
 {
@@ -319,6 +337,8 @@ int SaveGame(short save_num)
     char game_name[80];
     long cnt = 0, saveisshot=0;
     OrgTileP otp, next_otp;
+
+    Saveable_Init();
 
     //LoadSymTable("swdata.sym", &SymTableData, &SymCountData);
     //LoadSymTable("swcode.sym", &SymTableCode, &SymCountCode);
@@ -776,7 +796,7 @@ int SaveGame(short save_num)
     if (saveisshot)
 	CON_Message("There was a problem saving. See \"Save Help\" section of release notes.");
     
-    return(saveisshot);
+    return(saveisshot?-1:0);
 }
 
 int LoadGameFullHeader(short save_num, char *descr, short *level, short *skill)
@@ -821,7 +841,7 @@ void LoadGameDescr(short save_num, char *descr)
 int LoadGame(short save_num)
 {
     MFILE fil;
-    long i,j;
+    long i,j,saveisshot=0;
     short ndx,SpriteNum,sectnum;
     PLAYERp pp;
     SPRITEp sp;
@@ -842,6 +862,8 @@ int LoadGame(short save_num)
     long StateNdx;
     long StateEndNdx;
     extern BOOL InMenuLevel;
+
+    Saveable_Init();
 
     //LoadSymTable("swdata.sym", &SymTableData, &SymCountData);
     //LoadSymTable("swcode.sym", &SymTableCode, &SymCountCode);
@@ -887,23 +909,24 @@ int LoadGame(short save_num)
         
         MREAD(pp, sizeof(*pp), 1, fil);
 
-        pp->remote_sprite = LoadSymDataInfo(fil);
-        pp->remote.sop_control = LoadSymDataInfo(fil);
-        pp->sop_remote = LoadSymDataInfo(fil);
-        pp->sop = LoadSymDataInfo(fil);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->remote_sprite);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->remote.sop_control);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->sop_remote);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->sop);
         
-        pp->hi_sectp = LoadSymDataInfo(fil);
-        pp->lo_sectp = LoadSymDataInfo(fil);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->hi_sectp);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->lo_sectp);
         
-        pp->hi_sp = LoadSymDataInfo(fil);
-        pp->lo_sp = LoadSymDataInfo(fil);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->hi_sp);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->lo_sp);
         
-        pp->last_camera_sp = LoadSymDataInfo(fil);
-        pp->SpriteP = LoadSymDataInfo(fil);
-        pp->UnderSpriteP = LoadSymDataInfo(fil);
-        pp->DoPlayerAction = LoadSymCodeInfo(fil);
-        pp->sop_control = LoadSymDataInfo(fil);
-        pp->sop_riding = LoadSymDataInfo(fil);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->last_camera_sp);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->SpriteP);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->UnderSpriteP);
+        saveisshot |= LoadSymCodeInfo(fil, (void**)&pp->DoPlayerAction);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->sop_control);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&pp->sop_riding);
+	if (saveisshot) { MCLOSE(fil); return -1; }
         }
     
     
@@ -928,17 +951,19 @@ int LoadGame(short save_num)
             MREAD(psp, sizeof(PANEL_SPRITE),1,fil);
             INSERT_TAIL(&pp->PanelSpriteList,psp);
             
-            psp->PlayerP = LoadSymDataInfo(fil);
-            psp->State = LoadSymDataInfo(fil);
-            psp->RetractState = LoadSymDataInfo(fil);
-            psp->PresentState = LoadSymDataInfo(fil);
-            psp->ActionState = LoadSymDataInfo(fil);
-            psp->RestState = LoadSymDataInfo(fil);
-            psp->PanelSpriteFunc = LoadSymCodeInfo(fil);
+            saveisshot |= LoadSymDataInfo(fil, (void**)&psp->PlayerP);
+            saveisshot |= LoadSymDataInfo(fil, (void**)&psp->State);
+            saveisshot |= LoadSymDataInfo(fil, (void**)&psp->RetractState);
+            saveisshot |= LoadSymDataInfo(fil, (void**)&psp->PresentState);
+            saveisshot |= LoadSymDataInfo(fil, (void**)&psp->ActionState);
+            saveisshot |= LoadSymDataInfo(fil, (void**)&psp->RestState);
+            saveisshot |= LoadSymCodeInfo(fil, (void**)&psp->PanelSpriteFunc);
+	    if (saveisshot) { MCLOSE(fil); return -1; }
 
             for (j = 0; j < SIZ(psp->over); j++)
                 {
-                psp->over[j].State = LoadSymDataInfo(fil);
+                saveisshot |= LoadSymDataInfo(fil, (void**)&psp->over[j].State);
+		if (saveisshot) { MCLOSE(fil); return -1; }
                 }
 
             }
@@ -1010,24 +1035,25 @@ int LoadGame(short save_num)
                 }
             }    
         
-        u->WallP = LoadSymDataInfo(fil);
-        u->State = LoadSymDataInfo(fil);
-        u->Rot = LoadSymDataInfo(fil);
-        u->StateStart = LoadSymDataInfo(fil);
-        u->StateEnd = LoadSymDataInfo(fil);
-        u->StateFallOverride = LoadSymDataInfo(fil);
-        u->ActorActionFunc = LoadSymCodeInfo(fil);
-        u->ActorActionSet = LoadSymDataInfo(fil);
-        u->Personality = LoadSymDataInfo(fil);
-        u->Attrib = LoadSymDataInfo(fil);
-        u->sop_parent = LoadSymDataInfo(fil);
-        u->hi_sectp = LoadSymDataInfo(fil);
-        u->lo_sectp = LoadSymDataInfo(fil);
-        u->hi_sp = LoadSymDataInfo(fil);
-        u->lo_sp = LoadSymDataInfo(fil);
-        u->SpriteP = LoadSymDataInfo(fil);
-        u->PlayerP = LoadSymDataInfo(fil);
-        u->tgt_sp = LoadSymDataInfo(fil);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->WallP);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->State);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->Rot);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->StateStart);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->StateEnd);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->StateFallOverride);
+        saveisshot |= LoadSymCodeInfo(fil, (void**)&u->ActorActionFunc);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->ActorActionSet);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->Personality);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->Attrib);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->sop_parent);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->hi_sectp);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->lo_sectp);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->hi_sp);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->lo_sp);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->SpriteP);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->PlayerP);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&u->tgt_sp);
+	if (saveisshot) { MCLOSE(fil); return -1; }
         
         MREAD(&SpriteNum,sizeof(SpriteNum),1,fil);
         }
@@ -1038,11 +1064,12 @@ int LoadGame(short save_num)
         {
         sop = &SectorObject[ndx];
         
-        sop->PreMoveAnimator = LoadSymCodeInfo(fil);
-        sop->PostMoveAnimator = LoadSymCodeInfo(fil);
-        sop->Animator = LoadSymCodeInfo(fil);
-        sop->controller = LoadSymDataInfo(fil);
-        sop->sp_child = LoadSymDataInfo(fil);
+        saveisshot |= LoadSymCodeInfo(fil, (void**)&sop->PreMoveAnimator);
+        saveisshot |= LoadSymCodeInfo(fil, (void**)&sop->PostMoveAnimator);
+        saveisshot |= LoadSymCodeInfo(fil, (void**)&sop->Animator);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&sop->controller);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&sop->sp_child);
+	if (saveisshot) { MCLOSE(fil); return -1; }
         }
     
     MREAD(SineWaveFloor, sizeof(SineWaveFloor),1,fil);
@@ -1110,11 +1137,12 @@ int LoadGame(short save_num)
             }
         else   
             {
-            a->ptr = LoadSymDataInfo(fil);
+            saveisshot |= LoadSymDataInfo(fil, (void**)&a->ptr);
             }
                 
-        a->callback = LoadSymCodeInfo(fil);
-        a->callbackdata = LoadSymDataInfo(fil);
+        saveisshot |= LoadSymCodeInfo(fil, (void**)&a->callback);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&a->callbackdata);
+	if (saveisshot) { MCLOSE(fil); return -1; }
         }
     #else
     AnimCnt = 0;
@@ -1131,9 +1159,10 @@ int LoadGame(short save_num)
         
         MREAD(a,sizeof(ANIM),1,fil);
         
-        a->ptr = LoadSymDataInfo(fil);
-        a->callback = LoadSymCodeInfo(fil);
-        a->callbackdata = LoadSymDataInfo(fil);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&a->ptr);
+        saveisshot |= LoadSymCodeInfo(fil, (void**)&a->callback);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&a->callbackdata);
+	if (saveisshot) { MCLOSE(fil); return -1; }
         }
     #endif    
     #endif    
@@ -1161,7 +1190,8 @@ int LoadGame(short save_num)
     MREAD(oldipos,sizeof(oldipos),1,fil);
     MREAD(bakipos,sizeof(bakipos),1,fil);
     for (i = numinterpolations - 1; i >= 0; i--)
-        curipos[i] = LoadSymDataInfo(fil);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&curipos[i]);
+    if (saveisshot) { MCLOSE(fil); return -1; }
 
     // short interpolations
     MREAD(&short_numinterpolations,sizeof(short_numinterpolations),1,fil);
@@ -1169,7 +1199,8 @@ int LoadGame(short save_num)
     MREAD(short_oldipos,sizeof(short_oldipos),1,fil);
     MREAD(short_bakipos,sizeof(short_bakipos),1,fil);
     for (i = short_numinterpolations - 1; i >= 0; i--)
-        short_curipos[i] = LoadSymDataInfo(fil);
+        saveisshot |= LoadSymDataInfo(fil, (void**)&short_curipos[i]);
+    if (saveisshot) { MCLOSE(fil); return -1; }
     
     // parental lock
     for (i = 0; i < SIZ(otlist); i++)
@@ -1377,7 +1408,7 @@ int LoadGame(short save_num)
     
     DoPlayerDivePalette(Player+myconnectindex);
     DoPlayerNightVisionPalette(Player+myconnectindex);
-    
+
     return(0);
 }
 

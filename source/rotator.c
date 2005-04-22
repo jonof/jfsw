@@ -443,3 +443,28 @@ int DoRotator(short SpriteNum)
     return(0);
     }
 
+#include "saveable.h"
+
+static saveable_code saveable_rotator_code[] = {
+	SAVE_CODE(ReverseRotator),
+	SAVE_CODE(RotatorSwitch),
+	SAVE_CODE(SetRotatorActive),
+	SAVE_CODE(SetRotatorInactive),
+	SAVE_CODE(DoRotatorOperate),
+	SAVE_CODE(DoRotatorMatch),
+	SAVE_CODE(TestRotatorMatchActive),
+	SAVE_CODE(DoRotatorSetInterp),
+	SAVE_CODE(DoRotatorStopInterp),
+	SAVE_CODE(DoRotatorMove),
+	SAVE_CODE(DoRotator)
+};
+
+saveable_module saveable_rotator = {
+	// code
+	saveable_rotator_code,
+	SIZ(saveable_rotator_code),
+
+	// data
+	NULL,0
+};
+

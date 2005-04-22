@@ -2488,4 +2488,116 @@ SpawnPlayerUnderSprite(PLAYERp pp)
     //sp->pal = psp->pal;
     //u->spal = pu->spal;
     }
-    
+   
+#include "saveable.h"
+
+static saveable_code saveable_ninja_code[] = {
+	SAVE_CODE(DoHariKariBlood),
+	SAVE_CODE(SetupNinja),
+	SAVE_CODE(DoNinjaHariKari),
+	SAVE_CODE(DoNinjaGrabThroat),
+	SAVE_CODE(DoNinjaMove),
+	SAVE_CODE(NinjaJumpActionFunc),
+	SAVE_CODE(NullNinja),
+	SAVE_CODE(DoNinjaPain),
+	SAVE_CODE(DoNinjaSpecial),
+	SAVE_CODE(CheckFire),
+	SAVE_CODE(DoNinjaCeiling)
+};
+
+static saveable_data saveable_ninja_data[] = {
+	SAVE_DATA(NinjaBattle),
+	SAVE_DATA(NinjaOffense),
+	SAVE_DATA(NinjaBroadcast),
+	SAVE_DATA(NinjaSurprised),
+	SAVE_DATA(NinjaEvasive),
+	SAVE_DATA(NinjaLostTarget),
+	SAVE_DATA(NinjaCloseRange),
+	SAVE_DATA(NinjaSniperRoam),
+	SAVE_DATA(NinjaSniperBattle),
+
+	SAVE_DATA(NinjaPersonality),
+	SAVE_DATA(NinjaSniperPersonality),
+
+	SAVE_DATA(NinjaAttrib),
+	SAVE_DATA(InvisibleNinjaAttrib),
+	SAVE_DATA(DefaultAttrib),
+
+	SAVE_DATA(s_NinjaRun),
+	SAVE_DATA(sg_NinjaRun),
+	SAVE_DATA(s_NinjaStand),
+	SAVE_DATA(sg_NinjaStand),
+	SAVE_DATA(s_NinjaRise),
+	SAVE_DATA(sg_NinjaRise),
+	SAVE_DATA(s_NinjaCrawl),
+	SAVE_DATA(sg_NinjaCrawl),
+	SAVE_DATA(s_NinjaKneelCrawl),
+	SAVE_DATA(sg_NinjaKneelCrawl),
+	SAVE_DATA(s_NinjaDuck),
+	SAVE_DATA(sg_NinjaDuck),
+	SAVE_DATA(s_NinjaSit),
+	SAVE_DATA(sg_NinjaSit),
+	SAVE_DATA(s_NinjaCeiling),
+	SAVE_DATA(sg_NinjaCeiling),
+	SAVE_DATA(s_NinjaJump),
+	SAVE_DATA(sg_NinjaJump),
+	SAVE_DATA(s_NinjaFall),
+	SAVE_DATA(sg_NinjaFall),
+	SAVE_DATA(s_NinjaSwim),
+	SAVE_DATA(sg_NinjaSwim),
+	SAVE_DATA(s_NinjaDive),
+	SAVE_DATA(sg_NinjaDive),
+	SAVE_DATA(s_NinjaClimb),
+	SAVE_DATA(sg_NinjaClimb),
+	SAVE_DATA(s_NinjaFly),
+	SAVE_DATA(sg_NinjaFly),
+	SAVE_DATA(s_NinjaPain),
+	SAVE_DATA(sg_NinjaPain),
+	SAVE_DATA(s_NinjaStar),
+	SAVE_DATA(sg_NinjaStar),
+	SAVE_DATA(s_NinjaMirv),
+	SAVE_DATA(sg_NinjaMirv),
+	SAVE_DATA(s_NinjaNapalm),
+	SAVE_DATA(sg_NinjaNapalm),
+	SAVE_DATA(s_NinjaRocket),
+	SAVE_DATA(sg_NinjaRocket),
+	SAVE_DATA(s_NinjaGrenade),
+	SAVE_DATA(sg_NinjaGrenade),
+	SAVE_DATA(s_NinjaFlashBomb),
+	SAVE_DATA(sg_NinjaFlashBomb),
+	SAVE_DATA(s_NinjaUzi),
+	SAVE_DATA(sg_NinjaUzi),
+	SAVE_DATA(s_NinjaHariKari),
+	SAVE_DATA(sg_NinjaHariKari),
+	SAVE_DATA(s_NinjaGrabThroat),
+	SAVE_DATA(sg_NinjaGrabThroat),
+	SAVE_DATA(s_NinjaDie),
+	SAVE_DATA(s_NinjaDieSliced),
+	SAVE_DATA(s_NinjaDead),
+	SAVE_DATA(s_NinjaDeathJump),
+	SAVE_DATA(s_NinjaDeathFall),
+	SAVE_DATA(sg_NinjaDie),
+	SAVE_DATA(sg_NinjaDieSliced),
+	SAVE_DATA(sg_NinjaDead),
+	SAVE_DATA(sg_NinjaDeathJump),
+	SAVE_DATA(sg_NinjaDeathFall),
+
+	SAVE_DATA(NinjaSniperActionSet),
+	SAVE_DATA(NinjaActionSet),
+	SAVE_DATA(NinjaRedActionSet),
+	SAVE_DATA(NinjaSeekerActionSet),
+	SAVE_DATA(NinjaGrenadeActionSet),
+	SAVE_DATA(NinjaGreenActionSet),
+	SAVE_DATA(PlayerNinjaActionSet),
+};
+
+saveable_module saveable_ninja = {
+	// code
+	saveable_ninja_code,
+	SIZ(saveable_ninja_code),
+
+	// data
+	saveable_ninja_data,
+	SIZ(saveable_ninja_data)
+};
+

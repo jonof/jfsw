@@ -5955,3 +5955,21 @@ StdRandomRange(int range)
     return(value);
     }
 
+#include "saveable.h"
+
+static saveable_data saveable_build_data[] = {
+	SAVE_DATA(sector),
+	SAVE_DATA(sprite),
+	SAVE_DATA(wall)
+};
+
+saveable_module saveable_build = {
+	// code
+	NULL,
+	0,
+
+	// data
+	saveable_build_data,
+	NUM_SAVEABLE_ITEMS(saveable_build_data)
+};
+

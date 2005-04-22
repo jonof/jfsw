@@ -1,29 +1,39 @@
 #include "saveable.h"
 #include "stdlib.h"
 
-extern saveable_module
-	saveable_build,
-	saveable_player,
-	saveable_panel
-	;
-
 #define maxModules 100
 
 static saveable_module *saveablemodules[maxModules];
-
+static int nummodules = 0;
 
 void Saveable_Init(void)
 {
 	static int inited = 0;
-	int di=0;
 
 	if (inited) return;
 
-#define module(x) saveablemodules[di++] = &saveable_ ##x
+#define module(x) \
+	extern saveable_module saveable_ ##x ; \
+	saveablemodules[nummodules++] = &saveable_ ##x
 
+	module(actor);
+	module(ai);
 	module(build);
-	module(player);
+	module(coolg);
+	module(coolie);
+	module(eel);
+	module(jweapon);
+	module(miscactr);
+	module(morph);
+	module(ninja);
 	module(panel);
+	module(player);
+	module(rotator);
+	module(slidor);
+	module(spike);
+	module(sprite);
+	module(track);
+	module(vator);
 
 	inited=1;
 }
@@ -40,8 +50,7 @@ int Saveable_FindCodeSym(void *ptr, savedcodesym *sym)
 		return 0;
 	}
 
-	for (m=0; m<maxModules; m++) {
-		if (!saveablemodules[m]) break;
+	for (m=0; m<nummodules; m++) {
 		for (i=0; i<saveablemodules[m]->numcode; i++) {
 			if (ptr != saveablemodules[m]->code[i]) continue;
 
@@ -68,8 +77,7 @@ int Saveable_FindDataSym(void *ptr, saveddatasym *sym)
 		return 0;
 	}
 
-	for (m=0; m<maxModules; m++) {
-		if (!saveablemodules[m]) break;
+	for (m=0; m<nummodules; m++) {
 		for (i=0; i<saveablemodules[m]->numdata; i++) {
 			if (ptr < saveablemodules[m]->data[i].base) continue;
 			if (ptr >= (void*)((unsigned long)saveablemodules[m]->data[i].base +
@@ -85,21 +93,33 @@ int Saveable_FindDataSym(void *ptr, saveddatasym *sym)
 	return -1;
 }
 
+int Saveable_RestoreCodeSym(savedcodesym *sym, void **ptr)
+{
+	if (sym->module == 0) {
+		*ptr = NULL;
+		return 0;
+	}
 
-#include "build.h"
+	if (sym->module > nummodules) return -1;
+	if (sym->index  >= saveablemodules[ sym->module-1 ]->numcode) return -1;
 
-saveable_data saveable_build_data[] = {
-	SAVE_DATA(sector),
-	SAVE_DATA(sprite),
-	SAVE_DATA(wall)
-};
+	*ptr = saveablemodules[ sym->module-1 ]->code[ sym->index ];
 
-saveable_module saveable_build = {
-	// code
-	NULL,
-	0,
+	return 0;
+}
 
-	// data
-	saveable_build_data,
-	NUM_SAVEABLE_ITEMS(saveable_build_data)
-};
+int Saveable_RestoreDataSym(saveddatasym *sym, void **ptr)
+{
+	if (sym->module == 0) {
+		*ptr = NULL;
+		return 0;
+	}
+
+	if (sym->module > nummodules) return -1;
+	if (sym->index  >= saveablemodules[ sym->module-1 ]->numdata) return -1;
+	if (sym->offset >= saveablemodules[ sym->module-1 ]->data[ sym->index ].size) return -1;
+
+	*ptr = (void*)((unsigned long)saveablemodules[ sym->module-1 ]->data[ sym->index ].base + sym->offset);
+
+	return 0;
+}

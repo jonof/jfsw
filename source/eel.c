@@ -628,3 +628,51 @@ int DoEelMove(short SpriteNum)
 }    
 
 
+#include "saveable.h"
+
+static saveable_code saveable_eel_code[] = {
+	SAVE_CODE(EelCommon),
+	SAVE_CODE(SetupEel),
+	//SAVE_CODE(NewEel),
+	SAVE_CODE(DoEelMatchPlayerZ),
+	SAVE_CODE(DoEelDeath),
+	SAVE_CODE(DoEelMove)
+};
+
+static saveable_data saveable_eel_data[] = {
+	SAVE_DATA(EelBattle),
+	SAVE_DATA(EelOffense),
+	SAVE_DATA(EelBroadcast),
+	SAVE_DATA(EelSurprised),
+	SAVE_DATA(EelEvasive),
+	SAVE_DATA(EelLostTarget),
+	SAVE_DATA(EelCloseRange),
+	SAVE_DATA(EelTouchTarget),
+
+	SAVE_DATA(EelPersonality),
+
+	SAVE_DATA(EelAttrib),
+
+	SAVE_DATA(s_EelRun),
+	SAVE_DATA(sg_EelRun),
+	SAVE_DATA(s_EelStand),
+	SAVE_DATA(sg_EelStand),
+	SAVE_DATA(s_EelAttack),
+	SAVE_DATA(sg_EelAttack),
+	SAVE_DATA(s_EelDie),
+	SAVE_DATA(sg_EelDie),
+	SAVE_DATA(s_EelDead),
+	SAVE_DATA(sg_EelDead),
+
+	SAVE_DATA(EelActionSet)
+};
+
+saveable_module saveable_eel = {
+	// code
+	saveable_eel_code,
+	SIZ(saveable_eel_code),
+
+	// data
+	saveable_eel_data,
+	SIZ(saveable_eel_data)
+};

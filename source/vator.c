@@ -680,3 +680,29 @@ int DoVatorAuto(short SpriteNum)
     return(0);
     }    
 
+
+#include "saveable.h"
+
+static saveable_code saveable_vator_code[] = {
+	SAVE_CODE(ReverseVator),
+	SAVE_CODE(VatorSwitch),
+	SAVE_CODE(SetVatorActive),
+	SAVE_CODE(SetVatorInactive),
+	SAVE_CODE(DoVatorOperate),
+	SAVE_CODE(DoVatorMatch),
+	SAVE_CODE(TestVatorMatchActive),
+	SAVE_CODE(InterpSectorSprites),
+	SAVE_CODE(MoveSpritesWithSector),
+	SAVE_CODE(DoVatorMove),
+	SAVE_CODE(DoVator),
+	SAVE_CODE(DoVatorAuto),
+};
+
+saveable_module saveable_vator = {
+	// code
+	saveable_vator_code,
+	SIZ(saveable_vator_code),
+
+	// data
+	NULL,0
+};

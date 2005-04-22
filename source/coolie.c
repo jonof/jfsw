@@ -677,3 +677,56 @@ DoCoolieWaitBirth(short SpriteNum)
     
     return(0);
     }
+
+
+#include "saveable.h"
+
+static saveable_code saveable_coolie_code[] = {
+	SAVE_CODE(EnemyDefaults),
+	SAVE_CODE(SetupCoolie),
+	SAVE_CODE(SpawnCoolg),
+	SAVE_CODE(CooliePain),
+	SAVE_CODE(NullCoolie),
+	SAVE_CODE(DoCoolieMove),
+	SAVE_CODE(InitCoolieCharge),
+	SAVE_CODE(DoCoolieWaitBirth),
+};
+
+static saveable_data saveable_coolie_data[] = {
+	SAVE_DATA(CoolieBattle),
+	SAVE_DATA(CoolieOffense),
+	SAVE_DATA(CoolieBroadcast),
+	SAVE_DATA(CoolieSurprised),
+	SAVE_DATA(CoolieEvasive),
+	SAVE_DATA(CoolieLostTarget),
+	SAVE_DATA(CoolieCloseRange),
+
+	SAVE_DATA(CooliePersonality),
+
+	SAVE_DATA(CoolieAttrib),
+
+	SAVE_DATA(s_CoolieRun),
+	SAVE_DATA(sg_CoolieRun),
+	SAVE_DATA(s_CoolieCharge),
+	SAVE_DATA(sg_CoolieCharge),
+	SAVE_DATA(s_CoolieStand),
+	SAVE_DATA(sg_CoolieStand),
+	SAVE_DATA(s_CooliePain),
+	SAVE_DATA(sg_CooliePain),
+	SAVE_DATA(s_CoolieDie),
+	SAVE_DATA(sg_CoolieDie),
+	SAVE_DATA(s_CoolieDead),
+	SAVE_DATA(sg_CoolieDead),
+
+	SAVE_DATA(CoolieActionSet),
+};
+
+saveable_module saveable_coolie = {
+	// code
+	saveable_coolie_code,
+	SIZ(saveable_coolie_code),
+
+	// data
+	saveable_coolie_data,
+	SIZ(saveable_coolie_data)
+};

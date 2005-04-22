@@ -8477,7 +8477,42 @@ VOID CheckFootPrints(PLAYERp pp)
 #include "saveable.h"
 
 static saveable_code saveable_player_code[] = {
-	SAVE_CODE(DoPlayerRun)
+	SAVE_CODE(DoPlayerSlide),
+	SAVE_CODE(DoPlayerBeginSwim),
+	SAVE_CODE(DoPlayerSwim),
+	SAVE_CODE(DoPlayerWade),
+	SAVE_CODE(DoPlayerBeginWade),
+	SAVE_CODE(DoPlayerBeginCrawl),
+	SAVE_CODE(DoPlayerCrawl),
+	SAVE_CODE(DoPlayerRun),
+	SAVE_CODE(DoPlayerBeginRun),
+	SAVE_CODE(DoPlayerFall),
+	SAVE_CODE(DoPlayerBeginFall),
+	SAVE_CODE(DoPlayerJump),
+	SAVE_CODE(DoPlayerBeginJump),
+	SAVE_CODE(DoPlayerForceJump),
+	SAVE_CODE(DoPlayerBeginFly),
+	SAVE_CODE(DoPlayerFly),
+	SAVE_CODE(DoPlayerBeginClimb),
+	SAVE_CODE(DoPlayerClimb),
+	SAVE_CODE(DoPlayerBeginDie),
+	SAVE_CODE(DoPlayerDie),
+	SAVE_CODE(DoPlayerBeginOperateBoat),
+	SAVE_CODE(DoPlayerBeginOperateTank),
+	SAVE_CODE(DoPlayerBeginOperate),
+	SAVE_CODE(DoPlayerOperateBoat),
+	SAVE_CODE(DoPlayerOperateTank),
+	SAVE_CODE(DoPlayerOperateTurret),
+	SAVE_CODE(DoPlayerBeginDive),
+	SAVE_CODE(DoPlayerDive),
+	SAVE_CODE(DoPlayerTeleportPause),
+	SAVE_CODE(DoPlayerTestCrawl),
+	SAVE_CODE(DoPlayerDeathFlip),
+	SAVE_CODE(DoPlayerDeathCrumble),
+	SAVE_CODE(DoPlayerDeathExplode),
+	SAVE_CODE(DoPlayerDeathFall),
+	SAVE_CODE(DoPlayerBeginDiveNoWarp),
+	SAVE_CODE(DoPlayerCurrent),
 };
 
 static saveable_data saveable_player_data[] = {

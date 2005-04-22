@@ -843,11 +843,11 @@ int LoadGame(short save_num)
     long StateEndNdx;
     extern BOOL InMenuLevel;
 
-    LoadSymTable("swdata.sym", &SymTableData, &SymCountData);
-    LoadSymTable("swcode.sym", &SymTableCode, &SymCountCode);
+    //LoadSymTable("swdata.sym", &SymTableData, &SymCountData);
+    //LoadSymTable("swcode.sym", &SymTableCode, &SymCountCode);
     
-    if (SymCountData <= 0 || SymCountCode <= 0)
-        return(-1);
+    //if (SymCountData <= 0 || SymCountCode <= 0)
+    //    return(-1);
         
     sprintf(game_name,"game%d.sav",save_num);
     if ((fil = MOPEN_READ(game_name)) == MF_ERR)
@@ -1260,10 +1260,10 @@ int LoadGame(short save_num)
     
     MCLOSE(fil);
     
-    FreeMem(SymTableData);
-    SymTableData = NULL;
-    FreeMem(SymTableCode);
-    SymTableCode = NULL;
+    //FreeMem(SymTableData);
+    //SymTableData = NULL;
+    //FreeMem(SymTableCode);
+    //SymTableCode = NULL;
     
     
     //!!IMPORTANT - this POST stuff will not work here now becaus it does actual reads

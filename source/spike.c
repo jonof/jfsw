@@ -496,3 +496,29 @@ int DoSpikeAuto(short SpriteNum)
     return(0);
     }    
 
+
+#include "saveable.h"
+
+static saveable_code saveable_spike_code[] = {
+	SAVE_CODE(ReverseSpike),
+	SAVE_CODE(SpikeSwitch),
+	SAVE_CODE(SetSpikeActive),
+	SAVE_CODE(SetSpikeInactive),
+	SAVE_CODE(DoSpikeOperate),
+	SAVE_CODE(DoSpikeMatch),
+	SAVE_CODE(TestSpikeMatchActive),
+	SAVE_CODE(DoSpikeMove),
+	SAVE_CODE(SpikeAlign),
+	SAVE_CODE(MoveSpritesWithSpike),
+	SAVE_CODE(DoSpike),
+	SAVE_CODE(DoSpikeAuto),
+};
+
+saveable_module saveable_spike = {
+	// code
+	saveable_spike_code,
+	SIZ(saveable_spike_code),
+
+	// data
+	NULL,0
+};

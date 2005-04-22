@@ -570,3 +570,27 @@ SpikeFloor(SECTOR_OBJECTp sop)
     #endif        
     }
     
+
+#include "saveable.h"
+
+static saveable_code saveable_morph_code[] = {
+	SAVE_CODE(DoSectorObjectSetScale),
+	SAVE_CODE(DoSOevent),
+	SAVE_CODE(ScaleSectorObject),
+	SAVE_CODE(ScaleRandomPoint),
+	SAVE_CODE(MorphTornado),
+	SAVE_CODE(MorphFloor),
+	SAVE_CODE(SOBJ_AlignFloorToPoint),
+	SAVE_CODE(SOBJ_AlignCeilingToPoint),
+	SAVE_CODE(SOBJ_AlignFloorCeilingToPoint),
+	SAVE_CODE(SpikeFloor),
+};
+
+saveable_module saveable_morph = {
+	// code
+	saveable_morph_code,
+	SIZ(saveable_morph_code),
+
+	// data
+	NULL,0
+};

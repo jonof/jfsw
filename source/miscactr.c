@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -41,7 +41,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 ANIMATOR NullToiletGirl;
 
-ATTRIBUTE ToiletGirlAttrib = 
+ATTRIBUTE ToiletGirlAttrib =
     {
     {0, 0, 0, 0},                     // Speeds
     {0, 0, 0, 0},                     // Tic Adjusts
@@ -50,7 +50,7 @@ ATTRIBUTE ToiletGirlAttrib =
      DIGI_TOILETGIRLPAIN, DIGI_TOILETGIRLSCREAM, 0,0,0,0,0}
     };
 
-//////////////////////    
+//////////////////////
 //
 // TOILETGIRL STAND
 //
@@ -64,12 +64,12 @@ STATE s_ToiletGirlStand[2] =
     {TOILETGIRL_R0 + 1, TOILETGIRL_RATE, DoToiletGirl, &s_ToiletGirlStand[0]}
     };
 
-//////////////////////    
+//////////////////////
 //
 // TOILETGIRL PAIN
 //
 //////////////////////
-    
+
 #define TOILETGIRL_PAIN_RATE 32
 #define TOILETGIRL_PAIN_R0 TOILETGIRL_R0
 ANIMATOR ToiletGirlPain;
@@ -78,7 +78,7 @@ STATE s_ToiletGirlPain[2] =
     {
     {TOILETGIRL_PAIN_R0 + 0, TOILETGIRL_PAIN_RATE, ToiletGirlPain, &s_ToiletGirlPain[1]},
     {TOILETGIRL_PAIN_R0 + 0, 0|SF_QUICK_CALL, InitActorDecide, &s_ToiletGirlPain[0]}
-    };    
+    };
 
 //////////////////////
 //
@@ -110,13 +110,13 @@ STATE s_ToiletGirlUzi[16] =
     {TOILETGIRL_FIRE_R0 + 1, 0 | SF_QUICK_CALL, InitEnemyUzi, &s_ToiletGirlUzi[0]},
     };
 
-int 
-SetupToiletGirl(short SpriteNum)    
+int
+SetupToiletGirl(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -131,7 +131,7 @@ SetupToiletGirl(short SpriteNum)
 
     EnemyDefaults(SpriteNum, NULL, NULL);
 
-    ChangeState(SpriteNum,s_ToiletGirlStand);    
+    ChangeState(SpriteNum,s_ToiletGirlStand);
     u->Attrib = &ToiletGirlAttrib;
     u->StateEnd = s_ToiletGirlStand;
     u->Rot = 0;
@@ -143,11 +143,11 @@ SetupToiletGirl(short SpriteNum)
     sp->lotag = TOILETGIRL_R0;
     u->FlagOwner = 0;
     u->ID = TOILETGIRL_R0;
-    
+
     RESET(u->Flags, SPR_XFLIP_TOGGLE);
-    
+
     return(0);
-}    
+}
 
 int DoToiletGirl(short SpriteNum)
 {
@@ -159,37 +159,37 @@ int DoToiletGirl(short SpriteNum)
 
     DoActorPickClosePlayer(SpriteNum);
     ICanSee = FAFcansee(sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum,u->tgt_sp->x,u->tgt_sp->y,SPRITEp_MID(u->tgt_sp),u->tgt_sp->sectnum);
-    
+
     if(u->FlagOwner != 1)
         {
         if(RANDOM_RANGE(1000) > 980)
             {
             static int handle;
             short choose_snd;
-            
+
             choose_snd = RANDOM_P2(1024<<4)>>4;
-            
+
             if(!FX_SoundActive(handle))
                 {
                 if(choose_snd > 750)
                     handle = PlaySound(DIGI_TOILETGIRLFART1,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else 
+                else
                 if(choose_snd > 350)
                     handle = PlaySound(DIGI_TOILETGIRLFART2,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     handle = PlaySound(DIGI_TOILETGIRLFART3,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
-            }    
+            }
         }else
         if ((u->WaitTics -= ACTORMOVETICS) <= 0 && ICanSee)
             {
             static int madhandle;
-        
+
             if(!FX_SoundActive(madhandle))
                 {
                 if(RANDOM_RANGE(1000<<8)>>8 > 500)
                     madhandle = PlaySound(DIGI_ANIMEMAD1,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     madhandle = PlaySound(DIGI_ANIMEMAD2,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
             ChangeState(SpriteNum,s_ToiletGirlUzi);
@@ -198,15 +198,15 @@ int DoToiletGirl(short SpriteNum)
             }
 
     //(*u->ActorActionFunc) (SpriteNum);
-        
 
-    // stay on floor unless doing certain things    
+
+    // stay on floor unless doing certain things
     if (!TEST(u->Flags, SPR_JUMPING | SPR_FALLING | SPR_CLIMBING))
         {
         KeepActorOnFloor(SpriteNum);
         }
 
-    // take damage from environment 
+    // take damage from environment
     DoActorSectorDamage(SpriteNum);
     sp->xvel = sp->yvel = sp->zvel = 0;
 
@@ -221,7 +221,7 @@ int NullToiletGirl(short SpriteNum)
 
     DoActorPickClosePlayer(SpriteNum);
     ICanSee = FAFcansee(sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum,u->tgt_sp->x,u->tgt_sp->y,u->tgt_sp->z,u->tgt_sp->sectnum);
-    
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
@@ -231,12 +231,12 @@ int NullToiletGirl(short SpriteNum)
         if ((u->WaitTics -= ACTORMOVETICS) <= 0 && ICanSee)
             {
             static int madhandle;
-        
+
             if(!FX_SoundActive(madhandle))
                 {
                 if(RANDOM_RANGE(1000<<8)>>8 > 500)
                     madhandle = PlaySound(DIGI_ANIMEMAD1,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     madhandle = PlaySound(DIGI_ANIMEMAD2,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
             ChangeState(SpriteNum,s_ToiletGirlUzi);
@@ -251,7 +251,7 @@ int ToiletGirlUzi(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
@@ -269,20 +269,20 @@ int ToiletGirlPain(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     NullToiletGirl(SpriteNum);
-    
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         ChangeState(SpriteNum,s_ToiletGirlStand);
-        
+
     return(0);
-    }    
+    }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 ANIMATOR NullWashGirl;
 
-ATTRIBUTE WashGirlAttrib = 
+ATTRIBUTE WashGirlAttrib =
     {
     {0, 0, 0, 0},                     // Speeds
     {0, 0, 0, 0},                     // Tic Adjusts
@@ -291,7 +291,7 @@ ATTRIBUTE WashGirlAttrib =
      DIGI_TOILETGIRLPAIN, DIGI_TOILETGIRLSCREAM, 0,0,0,0,0}
     };
 
-//////////////////////    
+//////////////////////
 //
 // WASHGIRL STAND
 //
@@ -304,7 +304,7 @@ STATE s_WashGirlStand[2] =
     {WASHGIRL_R0 + 0, WASHGIRL_RATE, DoWashGirl, &s_WashGirlStand[1]},
     {WASHGIRL_R0 + 1, WASHGIRL_RATE, DoWashGirl, &s_WashGirlStand[0]}
     };
-    
+
 #define WASHGIRL_RATE2 20
 STATE s_WashGirlStandScrub[2] =
     {
@@ -312,12 +312,12 @@ STATE s_WashGirlStandScrub[2] =
     {WASHGIRL_R0 + 1, WASHGIRL_RATE2, DoWashGirl, &s_WashGirlStandScrub[0]}
     };
 
-//////////////////////    
+//////////////////////
 //
 // WASHGIRL PAIN
 //
 //////////////////////
-    
+
 #define WASHGIRL_PAIN_RATE 30
 #define WASHGIRL_PAIN_R0 WASHGIRL_R0
 ANIMATOR WashGirlPain;
@@ -326,7 +326,7 @@ STATE s_WashGirlPain[2] =
     {
     {WASHGIRL_PAIN_R0 + 0, WASHGIRL_PAIN_RATE, WashGirlPain, &s_WashGirlPain[1]},
     {WASHGIRL_PAIN_R0 + 0, 0|SF_QUICK_CALL, InitActorDecide, &s_WashGirlPain[0]}
-    };    
+    };
 
 //////////////////////
 //
@@ -358,13 +358,13 @@ STATE s_WashGirlUzi[16] =
     {WASHGIRL_FIRE_R0 + 1, 0 | SF_QUICK_CALL, InitEnemyUzi, &s_WashGirlUzi[0]},
     };
 
-int 
-SetupWashGirl(short SpriteNum)    
+int
+SetupWashGirl(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -378,7 +378,7 @@ SetupWashGirl(short SpriteNum)
 
     EnemyDefaults(SpriteNum, NULL, NULL);
 
-    ChangeState(SpriteNum,s_WashGirlStand);    
+    ChangeState(SpriteNum,s_WashGirlStand);
     u->Attrib = &WashGirlAttrib;
     u->StateEnd = s_WashGirlStand;
     u->Rot = 0;
@@ -390,11 +390,11 @@ SetupWashGirl(short SpriteNum)
     sp->lotag = WASHGIRL_R0;
     u->FlagOwner = 0;
     u->ID = WASHGIRL_R0;
-    
+
     RESET(u->Flags, SPR_XFLIP_TOGGLE);
 
     return(0);
-}    
+}
 
 int DoWashGirl(short SpriteNum)
 {
@@ -410,15 +410,15 @@ int DoWashGirl(short SpriteNum)
     if(RANDOM_RANGE(1000) > 980 && u->ShellNum <= 0)
         {
         static int handle;
-        
+
         if(!FX_SoundActive(handle))
             {
             if(RANDOM_P2(1024<<4)>>4 > 500)
                 handle = PlaySound(DIGI_ANIMESING1,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-            else 
+            else
                 handle = PlaySound(DIGI_ANIMESING2,&sp->x,&sp->y,&sp->z,v3df_dontpan);
             }
-            
+
         ChangeState(SpriteNum,s_WashGirlStandScrub);
         u->ShellNum = RANDOM_RANGE(2*120)+240;
         } else
@@ -439,12 +439,12 @@ int DoWashGirl(short SpriteNum)
         if ((u->WaitTics -= ACTORMOVETICS) <= 0 && ICanSee)
             {
             static int madhandle;
-        
+
             if(!FX_SoundActive(madhandle))
                 {
                 if(RANDOM_RANGE(1000<<8)>>8 > 500)
                     madhandle = PlaySound(DIGI_ANIMEMAD1,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     madhandle = PlaySound(DIGI_ANIMEMAD2,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
             ChangeState(SpriteNum,s_WashGirlUzi);
@@ -452,13 +452,13 @@ int DoWashGirl(short SpriteNum)
             u->FlagOwner = 0;
             }
 
-    // stay on floor unless doing certain things    
+    // stay on floor unless doing certain things
     if (!TEST(u->Flags, SPR_JUMPING | SPR_FALLING | SPR_CLIMBING))
         {
         KeepActorOnFloor(SpriteNum);
         }
 
-    // take damage from environment 
+    // take damage from environment
     DoActorSectorDamage(SpriteNum);
     sp->xvel = sp->yvel = sp->zvel = 0;
 
@@ -473,7 +473,7 @@ int NullWashGirl(short SpriteNum)
 
     DoActorPickClosePlayer(SpriteNum);
     ICanSee = FAFcansee(sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum,u->tgt_sp->x,u->tgt_sp->y,u->tgt_sp->z,u->tgt_sp->sectnum);
-    
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
@@ -483,12 +483,12 @@ int NullWashGirl(short SpriteNum)
         if ((u->WaitTics -= ACTORMOVETICS) <= 0 && ICanSee)
             {
             static int madhandle;
-        
+
             if(!FX_SoundActive(madhandle))
                 {
                 if(RANDOM_RANGE(1000<<8)>>8 > 500)
                     madhandle = PlaySound(DIGI_ANIMEMAD1,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     madhandle = PlaySound(DIGI_ANIMEMAD2,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
             ChangeState(SpriteNum,s_WashGirlUzi);
@@ -503,7 +503,7 @@ int WashGirlUzi(short SpriteNum)
 {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
@@ -513,7 +513,7 @@ int WashGirlUzi(short SpriteNum)
         ChangeState(SpriteNum,s_WashGirlStand);
         u->FlagOwner = 0;
         }
-    
+
     return(0);
 }
 
@@ -521,19 +521,19 @@ int WashGirlPain(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     NullWashGirl(SpriteNum);
-    
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         ChangeState(SpriteNum,s_WashGirlStand);
-        
+
     return(0);
-}    
+}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-ATTRIBUTE TrashCanAttrib = 
+ATTRIBUTE TrashCanAttrib =
     {
     {0, 0, 0, 0},                     // Speeds
     {0, 0, 0, 0},                     // Tic Adjusts
@@ -541,7 +541,7 @@ ATTRIBUTE TrashCanAttrib =
     {0, 0, DIGI_TRASHLID, DIGI_TRASHLID, 0, 0,0,0,0,0}
     };
 
-//////////////////////    
+//////////////////////
 //
 // TRASHCAN STAND
 //
@@ -554,13 +554,13 @@ STATE s_TrashCanStand[1] =
     {
     {TRASHCAN_R0 + 0, TRASHCAN_RATE, DoTrashCan, &s_TrashCanStand[0]}
     };
-    
-//////////////////////    
+
+//////////////////////
 //
 // TRASHCAN PAIN
 //
 //////////////////////
-    
+
 #define TRASHCAN_PAIN_RATE 8
 #define TRASHCAN_PAIN_R0 TRASHCAN
 ANIMATOR TrashCanPain, TrashCanStand;
@@ -574,15 +574,15 @@ STATE s_TrashCanPain[7] =
     {TRASHCAN_PAIN_R0 + 4, TRASHCAN_PAIN_RATE, TrashCanPain, &s_TrashCanPain[5]},
     {TRASHCAN_PAIN_R0 + 5, TRASHCAN_PAIN_RATE, TrashCanPain, &s_TrashCanPain[6]},
     {TRASHCAN_PAIN_R0 + 6, TRASHCAN_PAIN_RATE, TrashCanPain, &s_TrashCanPain[0]}
-    };    
+    };
 
-int 
-SetupTrashCan(short SpriteNum)    
+int
+SetupTrashCan(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -596,23 +596,23 @@ SetupTrashCan(short SpriteNum)
 
     EnemyDefaults(SpriteNum, NULL, NULL);
 
-    ChangeState(SpriteNum,s_TrashCanStand);    
+    ChangeState(SpriteNum,s_TrashCanStand);
     u->Attrib = &TrashCanAttrib;
     u->StateEnd = s_TrashCanStand;
     u->Rot = 0;
     u->RotNum = 0;
-    
-    
+
+
     sp->xrepeat = 46;
     sp->yrepeat = 42;
     sp->xvel = sp->yvel = sp->zvel = 0;
     u->ID = TRASHCAN;
-    
+
     RESET(u->Flags, SPR_XFLIP_TOGGLE);
     RESET(sp->extra, SPRX_PLAYER_OR_ENEMY);
-    
+
     return(0);
-}    
+}
 
 int DoTrashCan(short SpriteNum)
 {
@@ -622,8 +622,8 @@ int DoTrashCan(short SpriteNum)
     static int handle=0;
 
     //(*u->ActorActionFunc) (SpriteNum);
-        
-    // stay on floor unless doing certain things    
+
+    // stay on floor unless doing certain things
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
 
@@ -641,18 +641,18 @@ int TrashCanPain(short SpriteNum)
 {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
-        
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
-        ChangeState(SpriteNum,s_TrashCanStand);    
-        
+        ChangeState(SpriteNum,s_TrashCanStand);
+
     return(0);
-}    
+}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -660,7 +660,7 @@ int TrashCanPain(short SpriteNum)
 ////////////////////////////////////////////////////////////////////
 // PACHINKO WIN LIGHT
 ////////////////////////////////////////////////////////////////////
-ATTRIBUTE PachinkoLightAttrib = 
+ATTRIBUTE PachinkoLightAttrib =
     {
     {0, 0, 0, 0},                     // Speeds
     {0, 0, 0, 0},                     // Tic Adjusts
@@ -686,14 +686,14 @@ STATE s_PachinkoLightOperate[] =
     {PACHINKOLIGHT_R0 - 4, 12, PachinkoLightOperate, &s_PachinkoLightOperate[5]},
     {PACHINKOLIGHT_R0 - 5, 12, PachinkoLightOperate, &s_PachinkoLightOperate[0]},
     };
-    
-int 
-SetupPachinkoLight(short SpriteNum)    
+
+int
+SetupPachinkoLight(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -707,13 +707,13 @@ SetupPachinkoLight(short SpriteNum)
 
     EnemyDefaults(SpriteNum, NULL, NULL);
 
-    ChangeState(SpriteNum,s_PachinkoLightStand);    
+    ChangeState(SpriteNum,s_PachinkoLightStand);
     u->Attrib = &PachinkoLightAttrib;
     u->StateEnd = s_PachinkoLightStand;
     u->Rot = 0;
     u->RotNum = 0;
     u->ID = PACHINKOLIGHT_R0;
-    
+
     sp->xvel = sp->yvel = sp->zvel = 0;
     sp->lotag = TAG_PACHINKOLIGHT;
     sp->shade = -2;
@@ -721,9 +721,9 @@ SetupPachinkoLight(short SpriteNum)
 
     RESET(u->Flags, SPR_XFLIP_TOGGLE);
     RESET(sp->extra, SPRX_PLAYER_OR_ENEMY);
-    
+
     return(0);
-}    
+}
 
 int PachinkoLightOperate(short SpriteNum)
     {
@@ -744,7 +744,7 @@ int PachinkoLightOperate(short SpriteNum)
 
 BOOL Pachinko_Win_Cheat = FALSE;
 
-ATTRIBUTE Pachinko1Attrib = 
+ATTRIBUTE Pachinko1Attrib =
     {
     {0, 0, 0, 0},                     // Speeds
     {0, 0, 0, 0},                     // Tic Adjusts
@@ -787,14 +787,14 @@ STATE s_Pachinko1Operate[] =
     {PACHINKO1_R0 + 21, 12, Pachinko1Operate, &s_Pachinko1Operate[22]},
     {PACHINKO1_R0 + 22, SF_QUICK_CALL, PachinkoCheckWin, &s_Pachinko1Stand[0]}
     };
-    
-int 
-SetupPachinko1(short SpriteNum)    
+
+int
+SetupPachinko1(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -808,21 +808,21 @@ SetupPachinko1(short SpriteNum)
 
     EnemyDefaults(SpriteNum, NULL, NULL);
 
-    ChangeState(SpriteNum,s_Pachinko1Stand);    
+    ChangeState(SpriteNum,s_Pachinko1Stand);
     u->Attrib = &Pachinko1Attrib;
     u->StateEnd = s_Pachinko1Stand;
     u->Rot = 0;
     u->RotNum = 0;
     u->ID = PACHINKO1;
-    
+
     sp->yvel = sp->zvel = 0;
     sp->lotag = PACHINKO1;
 
     RESET(u->Flags, SPR_XFLIP_TOGGLE);
     RESET(sp->extra, SPRX_PLAYER_OR_ENEMY);
-    
+
     return(0);
-}    
+}
 
 int PachinkoCheckWin(short SpriteNum)
     {
@@ -855,19 +855,19 @@ int PachinkoCheckWin(short SpriteNum)
 
         // Can't win any more now!
         SET_BOOL1(sp);
-        
+
         // Turn on the pachinko lights
         TRAVERSE_SPRITE_STAT(headspritestat[STAT_ENEMY], i, nexti)
             {
             tsp = &sprite[i];
             tu = User[i];
-    
+
             if(tsp->lotag == TAG_PACHINKOLIGHT)
                 {
                 if(tsp->hitag == SP_TAG5(sp))
                     {
                     tsp->shade = -90; // Full brightness
-                    tu->WaitTics = SEC(3); // Flash 
+                    tu->WaitTics = SEC(3); // Flash
                     ChangeState(i,s_PachinkoLightOperate);
                     }
                 }
@@ -885,8 +885,8 @@ int PachinkoCheckWin(short SpriteNum)
         //if(rnd > 850)
         //    PlayerSound(DIGI_HURTBAD5,&pp->posx,&pp->posy,&pp->posz,v3df_follow|v3df_dontpan,pp);
         //}
-        
-    return(0);    
+
+    return(0);
     }
 
 int Pachinko1Operate(short SpriteNum)
@@ -908,16 +908,16 @@ int Pachinko1Operate(short SpriteNum)
         else
             PlaySound(DIGI_PROLL3,&sp->x,&sp->y,&sp->z,v3df_none);
         }
-        
+
     return(0);
-    }    
+    }
 
 
 ////////////////////////////////////////////////////////////////////
 // PACHINKO MACHINE #2
 ////////////////////////////////////////////////////////////////////
 
-ATTRIBUTE Pachinko2Attrib = 
+ATTRIBUTE Pachinko2Attrib =
     {
     {0, 0, 0, 0},                     // Speeds
     {0, 0, 0, 0},                     // Tic Adjusts
@@ -960,14 +960,14 @@ STATE s_Pachinko2Operate[] =
     {PACHINKO2_R0 + 21, 12, Pachinko1Operate, &s_Pachinko2Operate[22]},
     {PACHINKO2_R0 + 22, SF_QUICK_CALL, PachinkoCheckWin, &s_Pachinko2Stand[0]}
     };
-    
-int 
-SetupPachinko2(short SpriteNum)    
+
+int
+SetupPachinko2(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -981,27 +981,27 @@ SetupPachinko2(short SpriteNum)
 
     EnemyDefaults(SpriteNum, NULL, NULL);
 
-    ChangeState(SpriteNum,s_Pachinko2Stand);    
+    ChangeState(SpriteNum,s_Pachinko2Stand);
     u->Attrib = &Pachinko2Attrib;
     u->StateEnd = s_Pachinko2Stand;
     u->Rot = 0;
     u->RotNum = 0;
     u->ID = PACHINKO2;
-    
+
     sp->yvel = sp->zvel = 0;
     sp->lotag = PACHINKO2;
 
     RESET(u->Flags, SPR_XFLIP_TOGGLE);
     RESET(sp->extra, SPRX_PLAYER_OR_ENEMY);
-    
+
     return(0);
-}    
+}
 
 ////////////////////////////////////////////////////////////////////
 // PACHINKO MACHINE #3
 ////////////////////////////////////////////////////////////////////
 
-ATTRIBUTE Pachinko3Attrib = 
+ATTRIBUTE Pachinko3Attrib =
     {
     {0, 0, 0, 0},                     // Speeds
     {0, 0, 0, 0},                     // Tic Adjusts
@@ -1044,14 +1044,14 @@ STATE s_Pachinko3Operate[] =
     {PACHINKO3_R0 + 21, 12, Pachinko1Operate, &s_Pachinko3Operate[22]},
     {PACHINKO3_R0 + 22, SF_QUICK_CALL, PachinkoCheckWin, &s_Pachinko3Stand[0]}
     };
-    
-int 
-SetupPachinko3(short SpriteNum)    
+
+int
+SetupPachinko3(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -1065,28 +1065,28 @@ SetupPachinko3(short SpriteNum)
 
     EnemyDefaults(SpriteNum, NULL, NULL);
 
-    ChangeState(SpriteNum,s_Pachinko3Stand);    
+    ChangeState(SpriteNum,s_Pachinko3Stand);
     u->Attrib = &Pachinko3Attrib;
     u->StateEnd = s_Pachinko3Stand;
     u->Rot = 0;
     u->RotNum = 0;
     u->ID = PACHINKO3;
-    
+
     sp->yvel = sp->zvel = 0;
     sp->lotag = PACHINKO3;
 
     RESET(u->Flags, SPR_XFLIP_TOGGLE);
     RESET(sp->extra, SPRX_PLAYER_OR_ENEMY);
-    
+
     return(0);
-}    
+}
 
 
 ////////////////////////////////////////////////////////////////////
 // PACHINKO MACHINE #4
 ////////////////////////////////////////////////////////////////////
 
-ATTRIBUTE Pachinko4Attrib = 
+ATTRIBUTE Pachinko4Attrib =
     {
     {0, 0, 0, 0},                     // Speeds
     {0, 0, 0, 0},                     // Tic Adjusts
@@ -1129,14 +1129,14 @@ STATE s_Pachinko4Operate[] =
     {PACHINKO4_R0 + 21, 12, Pachinko1Operate, &s_Pachinko4Operate[22]},
     {PACHINKO4_R0 + 22, SF_QUICK_CALL, PachinkoCheckWin, &s_Pachinko4Stand[0]}
     };
-    
-int 
-SetupPachinko4(short SpriteNum)    
+
+int
+SetupPachinko4(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -1150,21 +1150,21 @@ SetupPachinko4(short SpriteNum)
 
     EnemyDefaults(SpriteNum, NULL, NULL);
 
-    ChangeState(SpriteNum,s_Pachinko4Stand);    
+    ChangeState(SpriteNum,s_Pachinko4Stand);
     u->Attrib = &Pachinko4Attrib;
     u->StateEnd = s_Pachinko4Stand;
     u->Rot = 0;
     u->RotNum = 0;
     u->ID = PACHINKO4;
-    
+
     sp->yvel = sp->zvel = 0;
     sp->lotag = PACHINKO4;
 
     RESET(u->Flags, SPR_XFLIP_TOGGLE);
     RESET(sp->extra, SPRX_PLAYER_OR_ENEMY);
-    
+
     return(0);
-}    
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1172,7 +1172,7 @@ SetupPachinko4(short SpriteNum)
 
 ANIMATOR NullCarGirl;
 
-ATTRIBUTE CarGirlAttrib = 
+ATTRIBUTE CarGirlAttrib =
     {
     {0, 0, 0, 0},                     // Speeds
     {0, 0, 0, 0},                     // Tic Adjusts
@@ -1181,7 +1181,7 @@ ATTRIBUTE CarGirlAttrib =
      DIGI_TOILETGIRLPAIN, DIGI_TOILETGIRLSCREAM, 0,0,0,0,0}
     };
 
-//////////////////////    
+//////////////////////
 //
 // CARGIRL STAND
 //
@@ -1195,12 +1195,12 @@ STATE s_CarGirlStand[2] =
     {CARGIRL_R0 + 1, CARGIRL_RATE, DoCarGirl, &s_CarGirlStand[0]}
     };
 
-//////////////////////    
+//////////////////////
 //
 // CARGIRL PAIN
 //
 //////////////////////
-    
+
 #define CARGIRL_PAIN_RATE 32
 #define CARGIRL_PAIN_R0 CARGIRL_R0
 ANIMATOR CarGirlPain;
@@ -1209,7 +1209,7 @@ STATE s_CarGirlPain[2] =
     {
     {CARGIRL_PAIN_R0 + 0, CARGIRL_PAIN_RATE, CarGirlPain, &s_CarGirlPain[1]},
     {CARGIRL_PAIN_R0 + 0, 0|SF_QUICK_CALL, InitActorDecide, &s_CarGirlPain[0]}
-    };    
+    };
 
 //////////////////////
 //
@@ -1241,13 +1241,13 @@ STATE s_CarGirlUzi[16] =
     {CARGIRL_FIRE_R0 + 1, 0 | SF_QUICK_CALL, InitEnemyUzi, &s_CarGirlUzi[0]},
     };
 
-int 
-SetupCarGirl(short SpriteNum)    
+int
+SetupCarGirl(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -1262,7 +1262,7 @@ SetupCarGirl(short SpriteNum)
 
     EnemyDefaults(SpriteNum, NULL, NULL);
 
-    ChangeState(SpriteNum,s_CarGirlStand);    
+    ChangeState(SpriteNum,s_CarGirlStand);
     u->Attrib = &CarGirlAttrib;
     u->StateEnd = s_CarGirlStand;
     u->Rot = 0;
@@ -1274,12 +1274,12 @@ SetupCarGirl(short SpriteNum)
     sp->lotag = CARGIRL_R0;
     u->FlagOwner = 0;
     u->ID = CARGIRL_R0;
-    
+
     RESET(u->Flags, SPR_XFLIP_TOGGLE);
     SET(sp->cstat, CSTAT_SPRITE_XFLIP);
-    
+
     return(0);
-}    
+}
 
 int DoCarGirl(short SpriteNum)
 {
@@ -1291,13 +1291,13 @@ int DoCarGirl(short SpriteNum)
 
     DoActorPickClosePlayer(SpriteNum);
     ICanSee = FAFcansee(sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum,u->tgt_sp->x,u->tgt_sp->y,SPRITEp_MID(u->tgt_sp),u->tgt_sp->sectnum);
-    
+
     if(u->FlagOwner == 1)
         {
         if ((u->WaitTics -= ACTORMOVETICS) <= 0 && ICanSee)
             {
             static int madhandle;
-        
+
             if(!FX_SoundActive(madhandle))
                 {
                 short choose;
@@ -1305,31 +1305,31 @@ int DoCarGirl(short SpriteNum)
 
                 if(choose > 750)
                     madhandle = PlaySound(DIGI_LANI049,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 500)
                     madhandle = PlaySound(DIGI_LANI051,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 250)
                     madhandle = PlaySound(DIGI_LANI052,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     madhandle = PlaySound(DIGI_LANI054,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
             ChangeState(SpriteNum,s_CarGirlUzi);
             u->WaitTics = SEC(3)+SEC(RANDOM_RANGE(2<<8)>>8);
             u->FlagOwner = 0;
             }
-        }    
+        }
 
     //(*u->ActorActionFunc) (SpriteNum);
-        
 
-    // stay on floor unless doing certain things    
+
+    // stay on floor unless doing certain things
     if (!TEST(u->Flags, SPR_JUMPING | SPR_FALLING | SPR_CLIMBING))
         {
         KeepActorOnFloor(SpriteNum);
         }
 
-    // take damage from environment 
+    // take damage from environment
     DoActorSectorDamage(SpriteNum);
     sp->xvel = sp->yvel = sp->zvel = 0;
 
@@ -1344,7 +1344,7 @@ int NullCarGirl(short SpriteNum)
 
     DoActorPickClosePlayer(SpriteNum);
     ICanSee = FAFcansee(sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum,u->tgt_sp->x,u->tgt_sp->y,u->tgt_sp->z,u->tgt_sp->sectnum);
-    
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
@@ -1354,7 +1354,7 @@ int NullCarGirl(short SpriteNum)
         if ((u->WaitTics -= ACTORMOVETICS) <= 0 && ICanSee)
             {
             static int madhandle;
-        
+
             if(!FX_SoundActive(madhandle))
                 {
                 short choose;
@@ -1362,13 +1362,13 @@ int NullCarGirl(short SpriteNum)
 
                 if(choose > 750)
                     madhandle = PlaySound(DIGI_LANI049,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 500)
                     madhandle = PlaySound(DIGI_LANI051,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 250)
                     madhandle = PlaySound(DIGI_LANI052,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     madhandle = PlaySound(DIGI_LANI054,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
             ChangeState(SpriteNum,s_CarGirlUzi);
@@ -1383,7 +1383,7 @@ int CarGirlUzi(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
@@ -1401,21 +1401,21 @@ int CarGirlPain(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     NullCarGirl(SpriteNum);
-    
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         ChangeState(SpriteNum,s_CarGirlStand);
-        
+
     return(0);
-    }    
+    }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 
 ANIMATOR NullMechanicGirl;
 
-ATTRIBUTE MechanicGirlAttrib = 
+ATTRIBUTE MechanicGirlAttrib =
     {
     {0, 0, 0, 0},                     // Speeds
     {0, 0, 0, 0},                     // Tic Adjusts
@@ -1424,7 +1424,7 @@ ATTRIBUTE MechanicGirlAttrib =
      DIGI_TOILETGIRLPAIN, DIGI_TOILETGIRLSCREAM, 0,0,0,0,0}
     };
 
-//////////////////////    
+//////////////////////
 //
 // MECHANICGIRL STAND
 //
@@ -1438,12 +1438,12 @@ STATE s_MechanicGirlStand[2] =
     {MECHANICGIRL_R0 + 1, MECHANICGIRL_RATE, DoMechanicGirl, &s_MechanicGirlStand[0]}
     };
 
-//////////////////////    
+//////////////////////
 //
 // MECHANICGIRL PAIN
 //
 //////////////////////
-    
+
 #define MECHANICGIRL_PAIN_RATE 32
 #define MECHANICGIRL_PAIN_R0 MECHANICGIRL_R0
 ANIMATOR MechanicGirlPain;
@@ -1452,14 +1452,14 @@ STATE s_MechanicGirlPain[2] =
     {
     {MECHANICGIRL_PAIN_R0 + 0, MECHANICGIRL_PAIN_RATE, MechanicGirlPain, &s_MechanicGirlPain[1]},
     {MECHANICGIRL_PAIN_R0 + 0, 0|SF_QUICK_CALL, InitActorDecide, &s_MechanicGirlPain[0]}
-    };    
+    };
 
-//////////////////////    
+//////////////////////
 //
 // MECHANICGIRL DRILL
 //
 //////////////////////
-    
+
 #define MECHANICGIRL_DRILL_RATE 32
 #define MECHANICGIRL_DRILL_R0 MECHANICGIRL_R0 + 2
 ANIMATOR MechanicGirlDrill;
@@ -1468,16 +1468,16 @@ STATE s_MechanicGirlDrill[2] =
     {
     {MECHANICGIRL_DRILL_R0 + 0, MECHANICGIRL_DRILL_RATE, MechanicGirlDrill, &s_MechanicGirlDrill[1]},
     {MECHANICGIRL_DRILL_R0 + 1, MECHANICGIRL_DRILL_RATE, MechanicGirlDrill, &s_MechanicGirlDrill[0]},
-    };    
-    
+    };
 
-int 
-SetupMechanicGirl(short SpriteNum)    
+
+int
+SetupMechanicGirl(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -1492,7 +1492,7 @@ SetupMechanicGirl(short SpriteNum)
 
     EnemyDefaults(SpriteNum, NULL, NULL);
 
-    ChangeState(SpriteNum,s_MechanicGirlStand);    
+    ChangeState(SpriteNum,s_MechanicGirlStand);
     u->Attrib = &MechanicGirlAttrib;
     u->StateEnd = s_MechanicGirlStand;
     u->Rot = 0;
@@ -1504,11 +1504,11 @@ SetupMechanicGirl(short SpriteNum)
     sp->lotag = MECHANICGIRL_R0;
     u->FlagOwner = 0;
     u->ID = MECHANICGIRL_R0;
-    
+
     RESET(u->Flags, SPR_XFLIP_TOGGLE);
-    
+
     return(0);
-}    
+}
 
 int DoMechanicGirl(short SpriteNum)
 {
@@ -1520,13 +1520,13 @@ int DoMechanicGirl(short SpriteNum)
 
     DoActorPickClosePlayer(SpriteNum);
     ICanSee = FAFcansee(sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum,u->tgt_sp->x,u->tgt_sp->y,SPRITEp_MID(u->tgt_sp),u->tgt_sp->sectnum);
-    
+
     if(u->FlagOwner == 1)
         {
         if ((u->WaitTics -= ACTORMOVETICS) <= 0 && ICanSee)
             {
             static int madhandle;
-        
+
             if(!FX_SoundActive(madhandle))
                 {
                 short choose;
@@ -1534,31 +1534,31 @@ int DoMechanicGirl(short SpriteNum)
 
                 if(choose > 750)
                     madhandle = PlaySound(DIGI_LANI073,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 500)
                     madhandle = PlaySound(DIGI_LANI075,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 250)
                     madhandle = PlaySound(DIGI_LANI077,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     madhandle = PlaySound(DIGI_LANI079,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
             ChangeState(SpriteNum,s_MechanicGirlDrill);
             u->WaitTics = SEC(1)+SEC(RANDOM_RANGE(2<<8)>>8);
             u->FlagOwner = 0;
             }
-        }    
+        }
 
     //(*u->ActorActionFunc) (SpriteNum);
-        
 
-    // stay on floor unless doing certain things    
+
+    // stay on floor unless doing certain things
     if (!TEST(u->Flags, SPR_JUMPING | SPR_FALLING | SPR_CLIMBING))
         {
         KeepActorOnFloor(SpriteNum);
         }
 
-    // take damage from environment 
+    // take damage from environment
     DoActorSectorDamage(SpriteNum);
     sp->xvel = sp->yvel = sp->zvel = 0;
 
@@ -1573,7 +1573,7 @@ int NullMechanicGirl(short SpriteNum)
 
     DoActorPickClosePlayer(SpriteNum);
     ICanSee = FAFcansee(sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum,u->tgt_sp->x,u->tgt_sp->y,u->tgt_sp->z,u->tgt_sp->sectnum);
-    
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
@@ -1583,7 +1583,7 @@ int NullMechanicGirl(short SpriteNum)
         if ((u->WaitTics -= ACTORMOVETICS) <= 0 && ICanSee)
             {
             static int madhandle;
-        
+
             if(!FX_SoundActive(madhandle))
                 {
                 short choose;
@@ -1591,13 +1591,13 @@ int NullMechanicGirl(short SpriteNum)
 
                 if(choose > 750)
                     madhandle = PlaySound(DIGI_LANI073,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 500)
                     madhandle = PlaySound(DIGI_LANI075,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 250)
                     madhandle = PlaySound(DIGI_LANI077,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     madhandle = PlaySound(DIGI_LANI079,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
             ChangeState(SpriteNum,s_MechanicGirlDrill);
@@ -1612,7 +1612,7 @@ int MechanicGirlDrill(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
@@ -1630,21 +1630,21 @@ int MechanicGirlPain(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     NullMechanicGirl(SpriteNum);
-    
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         ChangeState(SpriteNum,s_MechanicGirlStand);
-        
+
     return(0);
-    }    
+    }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 
 ANIMATOR NullSailorGirl;
 
-ATTRIBUTE SailorGirlAttrib = 
+ATTRIBUTE SailorGirlAttrib =
     {
     {0, 0, 0, 0},                     // Speeds
     {0, 0, 0, 0},                     // Tic Adjusts
@@ -1653,7 +1653,7 @@ ATTRIBUTE SailorGirlAttrib =
      DIGI_TOILETGIRLPAIN, DIGI_TOILETGIRLSCREAM, 0,0,0,0,0}
     };
 
-//////////////////////    
+//////////////////////
 //
 // SAILORGIRL STAND
 //
@@ -1667,12 +1667,12 @@ STATE s_SailorGirlStand[2] =
     {SAILORGIRL_R0 + 1, SAILORGIRL_RATE, DoSailorGirl, &s_SailorGirlStand[0]}
     };
 
-//////////////////////    
+//////////////////////
 //
 // SAILORGIRL PAIN
 //
 //////////////////////
-    
+
 #define SAILORGIRL_PAIN_RATE 32
 #define SAILORGIRL_PAIN_R0 SAILORGIRL_R0
 ANIMATOR SailorGirlPain;
@@ -1681,7 +1681,7 @@ STATE s_SailorGirlPain[2] =
     {
     {SAILORGIRL_PAIN_R0 + 0, SAILORGIRL_PAIN_RATE, SailorGirlPain, &s_SailorGirlPain[1]},
     {SAILORGIRL_PAIN_R0 + 0, 0|SF_QUICK_CALL, InitActorDecide, &s_SailorGirlPain[0]}
-    };    
+    };
 
 //////////////////////
 //
@@ -1700,13 +1700,13 @@ STATE s_SailorGirlThrow[] =
 
 short alreadythrew;
 
-int 
-SetupSailorGirl(short SpriteNum)    
+int
+SetupSailorGirl(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -1721,7 +1721,7 @@ SetupSailorGirl(short SpriteNum)
 
     EnemyDefaults(SpriteNum, NULL, NULL);
 
-    ChangeState(SpriteNum,s_SailorGirlStand);    
+    ChangeState(SpriteNum,s_SailorGirlStand);
     u->Attrib = &SailorGirlAttrib;
     u->StateEnd = s_SailorGirlStand;
     u->Rot = 0;
@@ -1733,12 +1733,12 @@ SetupSailorGirl(short SpriteNum)
     sp->lotag = SAILORGIRL_R0;
     u->FlagOwner = 0;
     u->ID = SAILORGIRL_R0;
-    
+
     RESET(u->Flags, SPR_XFLIP_TOGGLE);
     alreadythrew = 0;
-    
+
     return(0);
-}    
+}
 
 int DoSailorGirl(short SpriteNum)
 {
@@ -1750,13 +1750,13 @@ int DoSailorGirl(short SpriteNum)
 
     DoActorPickClosePlayer(SpriteNum);
     ICanSee = FAFcansee(sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum,u->tgt_sp->x,u->tgt_sp->y,SPRITEp_MID(u->tgt_sp),u->tgt_sp->sectnum);
-    
+
     if(u->FlagOwner == 1)
         {
         if ((u->WaitTics -= ACTORMOVETICS) <= 0 && ICanSee)
             {
             static int madhandle;
-        
+
             if(!FX_SoundActive(madhandle))
                 {
                 short choose;
@@ -1768,31 +1768,31 @@ int DoSailorGirl(short SpriteNum)
                     alreadythrew++;
                     madhandle = PlaySound(DIGI_LANI060,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                     }
-                else    
+                else
                 if(choose > 500)
                     madhandle = PlaySound(DIGI_LANI063,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 250)
                     madhandle = PlaySound(DIGI_LANI065,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     madhandle = PlaySound(DIGI_LANI066,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
             ChangeState(SpriteNum,s_SailorGirlThrow);
             u->WaitTics = SEC(1)+SEC(RANDOM_RANGE(3<<8)>>8);
             u->FlagOwner = 0;
             }
-        }    
+        }
 
     //(*u->ActorActionFunc) (SpriteNum);
-        
 
-    // stay on floor unless doing certain things    
+
+    // stay on floor unless doing certain things
     if (!TEST(u->Flags, SPR_JUMPING | SPR_FALLING | SPR_CLIMBING))
         {
         KeepActorOnFloor(SpriteNum);
         }
 
-    // take damage from environment 
+    // take damage from environment
     DoActorSectorDamage(SpriteNum);
     sp->xvel = sp->yvel = sp->zvel = 0;
 
@@ -1808,7 +1808,7 @@ int NullSailorGirl(short SpriteNum)
 
     DoActorPickClosePlayer(SpriteNum);
     ICanSee = FAFcansee(sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum,u->tgt_sp->x,u->tgt_sp->y,u->tgt_sp->z,u->tgt_sp->sectnum);
-    
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
@@ -1818,7 +1818,7 @@ int NullSailorGirl(short SpriteNum)
         if ((u->WaitTics -= ACTORMOVETICS) <= 0 && ICanSee)
             {
             static int madhandle;
-        
+
             if(!FX_SoundActive(madhandle))
                 {
                 short choose;
@@ -1830,13 +1830,13 @@ int NullSailorGirl(short SpriteNum)
                     alreadythrew++;
                     madhandle = PlaySound(DIGI_LANI060,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                     }
-                else    
+                else
                 if(choose > 500)
                     madhandle = PlaySound(DIGI_LANI063,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 250)
                     madhandle = PlaySound(DIGI_LANI065,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     madhandle = PlaySound(DIGI_LANI066,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
             ChangeState(SpriteNum,s_SailorGirlThrow);
@@ -1851,7 +1851,7 @@ int SailorGirlThrow(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
@@ -1869,21 +1869,21 @@ int SailorGirlPain(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     NullSailorGirl(SpriteNum);
-    
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         ChangeState(SpriteNum,s_SailorGirlStand);
-        
+
     return(0);
-    }    
+    }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 
 ANIMATOR NullPruneGirl;
 
-ATTRIBUTE PruneGirlAttrib = 
+ATTRIBUTE PruneGirlAttrib =
     {
     {450, 450, 450, 450},             // Speeds
     {0, 0, 0, 0},                     // Tic Adjusts
@@ -1893,7 +1893,7 @@ ATTRIBUTE PruneGirlAttrib =
      DIGI_TOILETGIRLPAIN, DIGI_TOILETGIRLSCREAM, 0,0,0,0,0}
     };
 
-//////////////////////    
+//////////////////////
 //
 // PRUNEGIRL STAND
 //
@@ -1907,12 +1907,12 @@ STATE s_PruneGirlStand[2] =
     {PRUNEGIRL_R0 + 1, PRUNEGIRL_RATE, DoPruneGirl, &s_PruneGirlStand[0]}
     };
 
-//////////////////////    
+//////////////////////
 //
 // PRUNEGIRL PAIN
 //
 //////////////////////
-    
+
 #define PRUNEGIRL_PAIN_RATE 32
 #define PRUNEGIRL_PAIN_R0 PRUNEGIRL_R0
 ANIMATOR PruneGirlPain;
@@ -1921,15 +1921,15 @@ STATE s_PruneGirlPain[2] =
     {
     {PRUNEGIRL_PAIN_R0 + 0, PRUNEGIRL_PAIN_RATE, PruneGirlPain, &s_PruneGirlPain[1]},
     {PRUNEGIRL_PAIN_R0 + 0, 0|SF_QUICK_CALL, InitActorDecide, &s_PruneGirlPain[0]}
-    };    
+    };
 
-int 
-SetupPruneGirl(short SpriteNum)    
+int
+SetupPruneGirl(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -1944,7 +1944,7 @@ SetupPruneGirl(short SpriteNum)
 
     EnemyDefaults(SpriteNum, NULL, NULL);
 
-    ChangeState(SpriteNum,s_PruneGirlStand);    
+    ChangeState(SpriteNum,s_PruneGirlStand);
     u->Attrib = &PruneGirlAttrib;
     u->StateEnd = s_PruneGirlStand;
     u->Rot = 0;
@@ -1956,11 +1956,11 @@ SetupPruneGirl(short SpriteNum)
     sp->lotag = PRUNEGIRL_R0;
     u->FlagOwner = 0;
     u->ID = PRUNEGIRL_R0;
-    
+
     RESET(u->Flags, SPR_XFLIP_TOGGLE);
-    
+
     return(0);
-}    
+}
 
 int DoPruneGirl(short SpriteNum)
 {
@@ -1972,7 +1972,7 @@ int DoPruneGirl(short SpriteNum)
 
     DoActorPickClosePlayer(SpriteNum);
     ICanSee = FAFcansee(sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum,u->tgt_sp->x,u->tgt_sp->y,SPRITEp_MID(u->tgt_sp),u->tgt_sp->sectnum);
-    
+
     if(u->FlagOwner == 1)
         {
         if ((u->WaitTics -= ACTORMOVETICS) <= 0 && ICanSee)
@@ -1984,13 +1984,13 @@ int DoPruneGirl(short SpriteNum)
 
                 if(choose > 750)
                     madhandle = PlaySound(DIGI_LANI089,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 500)
                     madhandle = PlaySound(DIGI_LANI091,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 250)
                     madhandle = PlaySound(DIGI_LANI093,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     madhandle = PlaySound(DIGI_LANI095,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
             u->WaitTics = SEC(1)+SEC(RANDOM_RANGE(3<<8)>>8);
@@ -2005,28 +2005,28 @@ int DoPruneGirl(short SpriteNum)
 
              if(choose > 990)
                  coyhandle = PlaySound(DIGI_PRUNECACKLE,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-             else    
+             else
              if(choose > 985)
                  coyhandle = PlaySound(DIGI_PRUNECACKLE2,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-             else    
+             else
              if(choose > 980)
                  coyhandle = PlaySound(DIGI_PRUNECACKLE3,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-             else    
+             else
              if(choose > 975)
                  coyhandle = PlaySound(DIGI_LANI091,&sp->x,&sp->y,&sp->z,v3df_dontpan);
             }
         }
 
     //(*u->ActorActionFunc) (SpriteNum);
-        
 
-    // stay on floor unless doing certain things    
+
+    // stay on floor unless doing certain things
     if (!TEST(u->Flags, SPR_JUMPING | SPR_FALLING | SPR_CLIMBING))
         {
         KeepActorOnFloor(SpriteNum);
         }
 
-    // take damage from environment 
+    // take damage from environment
     DoActorSectorDamage(SpriteNum);
     sp->xvel = sp->yvel = sp->zvel = 0;
 
@@ -2041,7 +2041,7 @@ int NullPruneGirl(short SpriteNum)
 
     DoActorPickClosePlayer(SpriteNum);
     ICanSee = FAFcansee(sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum,u->tgt_sp->x,u->tgt_sp->y,u->tgt_sp->z,u->tgt_sp->sectnum);
-    
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
@@ -2051,7 +2051,7 @@ int NullPruneGirl(short SpriteNum)
         if ((u->WaitTics -= ACTORMOVETICS) <= 0 && ICanSee)
             {
             static int madhandle;
-        
+
             if(!FX_SoundActive(madhandle))
                 {
                 short choose;
@@ -2059,13 +2059,13 @@ int NullPruneGirl(short SpriteNum)
 
                 if(choose > 750)
                     madhandle = PlaySound(DIGI_LANI089,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 500)
                     madhandle = PlaySound(DIGI_LANI091,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                 if(choose > 250)
                     madhandle = PlaySound(DIGI_LANI093,&sp->x,&sp->y,&sp->z,v3df_dontpan);
-                else    
+                else
                     madhandle = PlaySound(DIGI_LANI095,&sp->x,&sp->y,&sp->z,v3df_dontpan);
                 }
             u->WaitTics = SEC(1)+SEC(RANDOM_RANGE(3<<8)>>8);
@@ -2079,7 +2079,7 @@ int PruneGirlUzi(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
 
@@ -2097,17 +2097,122 @@ int PruneGirlPain(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     NullPruneGirl(SpriteNum);
-    
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         ChangeState(SpriteNum,s_PruneGirlStand);
-        
+
     return(0);
-    }    
+    }
 
 
+#include "saveable.h"
 
+static saveable_code saveable_miscactr_code[] = {
+	SAVE_CODE(SetupToiletGirl),
+	SAVE_CODE(DoToiletGirl),
+	SAVE_CODE(NullToiletGirl),
+	SAVE_CODE(ToiletGirlUzi),
+	SAVE_CODE(ToiletGirlPain),
 
+	SAVE_CODE(SetupWashGirl),
+	SAVE_CODE(DoWashGirl),
+	SAVE_CODE(NullWashGirl),
+	SAVE_CODE(WashGirlUzi),
+	SAVE_CODE(WashGirlPain),
 
+	SAVE_CODE(SetupTrashCan),
+	SAVE_CODE(DoTrashCan),
+	SAVE_CODE(TrashCanPain),
 
+	SAVE_CODE(SetupPachinkoLight),
+	SAVE_CODE(PachinkoLightOperate),
+
+	SAVE_CODE(SetupPachinko1),
+	SAVE_CODE(SetupPachinko2),
+	SAVE_CODE(SetupPachinko3),
+	SAVE_CODE(SetupPachinko4),
+	SAVE_CODE(PachinkoCheckWin),
+	SAVE_CODE(Pachinko1Operate),
+
+	SAVE_CODE(SetupCarGirl),
+	SAVE_CODE(DoCarGirl),
+	SAVE_CODE(NullCarGirl),
+	SAVE_CODE(CarGirlUzi),
+	SAVE_CODE(CarGirlPain),
+
+	SAVE_CODE(SetupMechanicGirl),
+	SAVE_CODE(DoMechanicGirl),
+	SAVE_CODE(NullMechanicGirl),
+	SAVE_CODE(MechanicGirlDrill),
+	SAVE_CODE(MechanicGirlPain),
+
+	SAVE_CODE(SetupSailorGirl),
+	SAVE_CODE(DoSailorGirl),
+	SAVE_CODE(NullSailorGirl),
+	SAVE_CODE(SailorGirlThrow),
+	SAVE_CODE(SailorGirlPain),
+
+	SAVE_CODE(SetupPruneGirl),
+	SAVE_CODE(DoPruneGirl),
+	SAVE_CODE(NullPruneGirl),
+	SAVE_CODE(PruneGirlUzi),
+	SAVE_CODE(PruneGirlPain),
+};
+
+static saveable_code saveable_miscactr_data[] = {
+	SAVE_DATA(ToiletGirlAttrib),
+	SAVE_DATA(WashGirlAttrib),
+	SAVE_DATA(TrashCanAttrib),
+	SAVE_DATA(PachinkoLightAttrib),
+	SAVE_DATA(Pachinko1Attrib),
+	SAVE_DATA(Pachinko2Attrib),
+	SAVE_DATA(Pachinko3Attrib),
+	SAVE_DATA(Pachinko4Attrib),
+	SAVE_DATA(CarGirlAttrib),
+	SAVE_DATA(MechanicGirlAttrib),
+	SAVE_DATA(SailorGirlAttrib),
+	SAVE_DATA(PruneGirlAttrib),
+
+	SAVE_DATA(s_ToiletGirlStand),
+	SAVE_DATA(s_ToiletGirlPain),
+	SAVE_DATA(s_ToiletGirlUzi),
+	SAVE_DATA(s_WashGirlStand),
+	SAVE_DATA(s_WashGirlStandScrub),
+	SAVE_DATA(s_WashGirlPain),
+	SAVE_DATA(s_WashGirlUzi),
+	SAVE_DATA(s_TrashCanStand),
+	SAVE_DATA(s_TrashCanPain),
+	SAVE_DATA(s_PachinkoLightStand),
+	SAVE_DATA(s_PachinkoLightOperate),
+	SAVE_DATA(s_Pachinko1Stand),
+	SAVE_DATA(s_Pachinko1Operate),
+	SAVE_DATA(s_Pachinko2Stand),
+	SAVE_DATA(s_Pachinko2Operate),
+	SAVE_DATA(s_Pachinko3Stand),
+	SAVE_DATA(s_Pachinko3Operate),
+	SAVE_DATA(s_Pachinko4Stand),
+	SAVE_DATA(s_Pachinko4Operate),
+	SAVE_DATA(s_CarGirlStand),
+	SAVE_DATA(s_CarGirlPain),
+	SAVE_DATA(s_CarGirlUzi),
+	SAVE_DATA(s_MechanicGirlStand),
+	SAVE_DATA(s_MechanicGirlPain),
+	SAVE_DATA(s_MechanicGirlDrill),
+	SAVE_DATA(s_SailorGirlStand),
+	SAVE_DATA(s_SailorGirlPain),
+	SAVE_DATA(s_SailorGirlThrow),
+	SAVE_DATA(s_PruneGirlStand),
+	SAVE_DATA(s_PruneGirlPain)
+};
+
+saveable_module saveable_miscactr = {
+	// code
+	saveable_miscactr_code,
+	SIZ(saveable_miscactr_code),
+
+	// data
+	saveable_miscactr_data,
+	SIZ(saveable_miscactr_data)
+};

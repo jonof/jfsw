@@ -7598,3 +7598,82 @@ int push_check(short SpriteNum)
 */    
 
 
+#include "saveable.h"
+
+static saveable_data saveable_sprite_data[] = {
+	SAVE_DATA(Track),
+	SAVE_DATA(SectorObject),
+
+	SAVE_DATA(s_DebrisNinja),
+	SAVE_DATA(s_DebrisRat),
+	SAVE_DATA(s_DebrisCrab),
+	SAVE_DATA(s_DebrisStarFish),
+	SAVE_DATA(s_RepairKit),
+	SAVE_DATA(s_GoldSkelKey),
+	SAVE_DATA(s_BlueKey),
+	SAVE_DATA(s_BlueCard),
+	SAVE_DATA(s_SilverSkelKey),
+	SAVE_DATA(s_RedKey),
+	SAVE_DATA(s_RedCard),
+	SAVE_DATA(s_BronzeSkelKey),
+	SAVE_DATA(s_GreenKey),
+	SAVE_DATA(s_GreenCard),
+	SAVE_DATA(s_RedSkelKey),
+	SAVE_DATA(s_YellowKey),
+	SAVE_DATA(s_YellowCard),
+	SAVE_DATA(s_Key),
+	SAVE_DATA(s_BlueKey),
+	SAVE_DATA(s_RedKey),
+	SAVE_DATA(s_GreenKey),
+	SAVE_DATA(s_YellowKey),
+	SAVE_DATA(s_Key),
+	/*
+	SAVE_DATA(s_BlueKeyStatue),
+	SAVE_DATA(s_RedKeyStatue),
+	SAVE_DATA(s_GreenKeyStatue),
+	SAVE_DATA(s_YellowKeyStatue),
+	SAVE_DATA(s_KeyStatue),
+	*/
+	SAVE_DATA(s_RedCoin),
+	SAVE_DATA(s_YellowCoin),
+	SAVE_DATA(s_GreenCoin),
+	SAVE_DATA(s_FireFly),
+	SAVE_DATA(s_IconStar),
+	SAVE_DATA(s_IconUzi),
+	SAVE_DATA(s_IconUziFloor),
+	SAVE_DATA(s_IconRocket),
+	SAVE_DATA(s_IconShotgun),
+	SAVE_DATA(s_IconGrenadeLauncher),
+	SAVE_DATA(s_IconLgMine),
+	SAVE_DATA(s_IconGuardHead),
+	SAVE_DATA(s_IconHeart),
+	SAVE_DATA(s_IconMicroGun),
+	SAVE_DATA(s_IconRailGun),
+	SAVE_DATA(s_IconRailAmmo),
+	SAVE_DATA(s_IconElectro),
+	SAVE_DATA(s_IconSpell),
+	SAVE_DATA(s_IconArmor),
+	SAVE_DATA(s_IconMedkit),
+	SAVE_DATA(s_IconChemBomb),
+	SAVE_DATA(s_IconFlashBomb),
+	SAVE_DATA(s_IconNuke),
+	SAVE_DATA(s_IconCaltrops),
+	SAVE_DATA(s_IconSmMedkit),
+	SAVE_DATA(s_IconBooster),
+	SAVE_DATA(s_IconHeatCard),
+	//SAVE_DATA(s_IconEnvironSuit),
+	SAVE_DATA(s_IconCloak),
+	SAVE_DATA(s_IconFly),
+	SAVE_DATA(s_IconNightVision),
+	SAVE_DATA(s_IconFlag),
+};
+
+saveable_module saveable_sprite = {
+	// code
+	NULL,0,
+
+	// data
+	saveable_sprite_data,
+	SIZ(saveable_sprite_data)
+};
+

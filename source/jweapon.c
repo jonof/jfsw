@@ -2587,3 +2587,30 @@ InitShell(SHORT SpriteNum, SHORT ShellNum)
     return (0);
     }
     
+
+#include "saveable.h"
+
+static saveable_data saveable_jweapon_data[] = {
+	SAVE_DATA(s_BloodSpray),
+	SAVE_DATA(s_PhosphorExp),
+	SAVE_DATA(s_NukeMushroom),
+	SAVE_DATA(s_RadiationCloud),
+	SAVE_DATA(s_ChemBomb),
+	SAVE_DATA(s_Caltrops),
+	SAVE_DATA(s_CaltropsStick),
+	SAVE_DATA(s_CarryFlag),
+	SAVE_DATA(s_CarryFlagNoDet),
+	SAVE_DATA(s_Flag),
+	SAVE_DATA(s_Phosphorus),
+	SAVE_DATA(s_BloodSprayChunk),
+	SAVE_DATA(s_BloodSprayDrip),
+};
+
+saveable_module saveable_jweapon = {
+	// code
+	NULL,0,
+
+	// data
+	saveable_jweapon_data,
+	SIZ(saveable_jweapon_data)
+};

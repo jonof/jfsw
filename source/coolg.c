@@ -929,3 +929,64 @@ int DoCoolgPain(short SpriteNum)
         
     return(0);
 }    
+
+
+#include "saveable.h"
+
+static saveable_code saveable_coolg_code[] = {
+	SAVE_CODE(CoolgCommon),
+	SAVE_CODE(SetupCoolg),
+	SAVE_CODE(NewCoolg),
+	SAVE_CODE(DoCoolgBirth),
+	SAVE_CODE(NullCoolg),
+	SAVE_CODE(DoCoolgMatchPlayerZ),
+	SAVE_CODE(InitCoolgCircle),
+	SAVE_CODE(DoCoolgCircle),
+	SAVE_CODE(DoCoolgDeath),
+	SAVE_CODE(DoCoolgMove),
+	SAVE_CODE(DoCoolgPain),
+};
+
+static saveable_data saveable_coolg_data[] = {
+	SAVE_DATA(CoolgBattle),
+	SAVE_DATA(CoolgOffense),
+	SAVE_DATA(CoolgBroadcast),
+	SAVE_DATA(CoolgSurprised),
+	SAVE_DATA(CoolgEvasive),
+	SAVE_DATA(CoolgLostTarget),
+	SAVE_DATA(CoolgCloseRange),
+	SAVE_DATA(CoolgTouchTarget),
+
+	SAVE_DATA(CoolgPersonality),
+
+	SAVE_DATA(CoolgAttrib),
+
+	SAVE_DATA(s_CoolgRun),
+	SAVE_DATA(sg_CoolgRun),
+	SAVE_DATA(s_CoolgStand),
+	SAVE_DATA(sg_CoolgStand),
+	SAVE_DATA(s_CoolgClub),
+	SAVE_DATA(sg_CoolgClub),
+	SAVE_DATA(s_CoolgAttack),
+	SAVE_DATA(sg_CoolgAttack),
+	SAVE_DATA(s_CoolgPain),
+	SAVE_DATA(sg_CoolgPain),
+	SAVE_DATA(s_CoolgDie),
+	SAVE_DATA(sg_CoolgDie),
+	SAVE_DATA(s_CoolgDead),
+	SAVE_DATA(sg_CoolgDead),
+	SAVE_DATA(s_CoolgBirth),
+	SAVE_DATA(sg_CoolgBirth),
+
+	SAVE_DATA(CoolgActionSet),
+};
+
+saveable_module saveable_coolg = {
+	// code
+	saveable_coolg_code,
+	SIZ(saveable_coolg_code),
+
+	// data
+	saveable_coolg_data,
+	SIZ(saveable_coolg_data)
+};

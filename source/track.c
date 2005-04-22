@@ -3871,3 +3871,22 @@ ActorFollowTrack(short SpriteNum, short locktics)
     return (TRUE);
     }
     
+
+#include "saveable.h"
+
+static saveable_code saveable_track_code[] = {
+	SAVE_CODE(DoTrack),
+	SAVE_CODE(DoTornadoObject),
+	SAVE_CODE(DoAutoTurretObject),
+	SAVE_CODE(DoActorHitTrackEndPoint),
+};
+
+saveable_module saveable_track = {
+	// code
+	saveable_track_code,
+	SIZ(saveable_track_code),
+
+	// data
+	NULL,0
+};
+

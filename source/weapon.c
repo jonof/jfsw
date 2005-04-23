@@ -21895,6 +21895,10 @@ int QueueLoWangs(short SpriteNum)
 #include "saveable.h"
 
 static saveable_code saveable_weapon_code[] = {
+	SAVE_CODE(MissileHitMatch),
+	SAVE_CODE(SpawnShrapX),
+	SAVE_CODE(DoLavaErupt),
+	SAVE_CODE(UserShrapSetup),
 	SAVE_CODE(SpawnShrap),
 	SAVE_CODE(DoShrapMove),
 	SAVE_CODE(DoVomit),

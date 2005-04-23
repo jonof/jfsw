@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -40,7 +40,7 @@ int InitFlashBomb(short SpriteNum);
 int InitCaltrops(short SpriteNum);
 int InitPhosphorus(SHORT SpriteNum);
 
-//////////////////////    
+//////////////////////
 //
 // SKULL Wait
 //
@@ -82,15 +82,15 @@ STATEp sg_SkullWait[] =
     &s_SkullWait[4][0]
     };
 
-ATTRIBUTE SkullAttrib = 
+ATTRIBUTE SkullAttrib =
     {
     {60, 80, 100, 130},                 // Speeds
     {3, 0, -2, -3},                     // Tic Adjusts
      3,                                 // MaxWeapons;
-    {DIGI_AHAMBIENT, 0, 0, 0, DIGI_AHSCREAM, 
+    {DIGI_AHAMBIENT, 0, 0, 0, DIGI_AHSCREAM,
      DIGI_AHEXPLODE,0,0,0,0}
     };
-    
+
 //////////////////////
 //
 // SKULL for Serp God
@@ -142,7 +142,7 @@ STATE s_SkullJump[5][1] =
     {
     {
     {SKULL_R0 + 0, SKULL_RATE, DoSkullJump, &s_SkullJump[0][0]},
-    },                                                       
+    },
     {
     {SKULL_R1 + 0, SKULL_RATE, DoSkullJump, &s_SkullJump[1][0]},
     },
@@ -166,19 +166,19 @@ STATEp sg_SkullJump[] =
     &s_SkullJump[3][0],
     &s_SkullJump[4][0]
     };
-    
-    
-//////////////////////    
+
+
+//////////////////////
 //
 // SKULL Explode
 //
 //////////////////////
-    
+
 #define SKULL_EXPLODE_RATE 11
 ANIMATOR DoSuicide;
 ANIMATOR DoDamageTest;
 ANIMATOR DoSkullSpawnShrap;
-    
+
 STATE s_SkullExplode[] =
     {
     {SKULL_EXPLODE + 0, 1,                  NullAnimator, &s_SkullExplode[1]},
@@ -200,20 +200,20 @@ STATE s_SkullExplode[] =
     {SKULL_EXPLODE +13, SKULL_EXPLODE_RATE, NullAnimator, &s_SkullExplode[17]},
     {SKULL_EXPLODE +13, SKULL_EXPLODE_RATE, DoSuicide,    &s_SkullExplode[17]}
     };
-    
+
 STATEp sg_SkullExplode[] =
     {
     s_SkullExplode,
     };
 
 
-int 
-SetupSkull(short SpriteNum)    
+int
+SetupSkull(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -237,13 +237,13 @@ SetupSkull(short SpriteNum)
     sp->clipdist = (128+64) >> 2;
     SET(u->Flags, SPR_XFLIP_TOGGLE);
     SET(sp->cstat, CSTAT_SPRITE_YCENTER);
-    
+
     u->Radius = 400;
-    
+
     if (SPRITEp_BOS(sp) > u->loz - Z(16))
         {
         sp->z = u->loz + Z(SPRITEp_YOFF(sp));
-        
+
         u->loz = sp->z;
         // leave 8 pixels above the ground
         sp->z += SPRITEp_SIZE_TOS(sp) - Z(3);;
@@ -253,10 +253,10 @@ SetupSkull(short SpriteNum)
         u->Counter = RANDOM_P2(2048);
         u->sz = sp->z;
         }
-            
-    
+
+
     return(0);
-}    
+}
 
 int
 DoSkullMove(SHORT SpriteNum)
@@ -355,7 +355,7 @@ DoSkullBeginDeath(SHORT SpriteNum)
 
     SpawnLittleExp(SpriteNum);
     SetSuicide(SpriteNum);
-    
+
     //u->spal = sp->pal = PALETTE_RED_LIGHTING;
 
 
@@ -367,18 +367,18 @@ int DoSkullJump(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
-    
+
+
     if (sp->xvel)
         DoSkullMove(SpriteNum);
-    else    
+    else
         sp->ang = NORM_ANGLE(sp->ang + (64 * ACTORMOVETICS));
-    
+
     if (TEST(u->Flags,SPR_JUMPING))
         {
         DoJump(SpriteNum);
         }
-    else    
+    else
     if (TEST(u->Flags,SPR_FALLING))
         {
         DoFall(SpriteNum);
@@ -424,7 +424,7 @@ int DoSkullJump(short SpriteNum)
         UpdateSinglePlayKills(SpriteNum);
         DoSkullBeginDeath(SpriteNum);
         }
-        
+
     return(0);
 }
 
@@ -435,11 +435,11 @@ int DoSkullBob(short SpriteNum)
 
     // actor does a sine wave about u->sz - this is the z mid point
     #define SKULL_BOB_AMT (Z(16))
-    
+
     u->Counter = (u->Counter + (ACTORMOVETICS << 3) + (ACTORMOVETICS << 1)) & 2047;
     sp->z = u->sz + ((SKULL_BOB_AMT * (long)sintable[u->Counter]) >> 14) +
                     ((DIV2(SKULL_BOB_AMT) * (long)sintable[u->Counter]) >> 14);
-    
+
     return(0);
 }
 
@@ -459,19 +459,19 @@ int DoSkullWait(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     long a,b,c,dist;
-    
+
     DISTANCE(sp->x, sp->y, u->tgt_sp->x, u->tgt_sp->y, dist, a, b, c);
-    
-    DoActorPickClosePlayer(SpriteNum);    
-    
+
+    DoActorPickClosePlayer(SpriteNum);
+
     //if (dist < u->active_range)
     //    return(0);
-    
+
     if((u->WaitTics -= ACTORMOVETICS) <= 0)
         {
         PlaySound(DIGI_AHSCREAM,&sp->x,&sp->y,&sp->z,v3df_none);
         u->WaitTics = SEC(3) + RANDOM_RANGE(360);
-        }    
+        }
 
     // below the floor type
     if (sp->z > u->loz)
@@ -489,9 +489,9 @@ int DoSkullWait(short SpriteNum)
     // above the floor type
         {
         sp->ang = NORM_ANGLE(sp->ang + (48 * ACTORMOVETICS));
-    
+
         DoSkullBob(SpriteNum);
-        
+
         if (dist < 8000)
             {
             sp->ang = getangle(u->tgt_sp->x - sp->x, u->tgt_sp->y - sp->y);
@@ -500,14 +500,14 @@ int DoSkullWait(short SpriteNum)
             NewStateGroup(SpriteNum, sg_SkullJump);
             DoBeginJump(SpriteNum);
             }
-        }        
-    
-    return(0);    
-}    
+        }
+
+    return(0);
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////    
+//////////////////////
 //
 // BETTY Wait
 //
@@ -558,7 +558,7 @@ STATEp sg_BettyWait[] =
     &s_BettyWait[4][0]
     };
 
-ATTRIBUTE BettyAttrib = 
+ATTRIBUTE BettyAttrib =
     {
     {60, 80, 100, 130},                 // Speeds
     {3, 0, -2, -3},                     // Tic Adjusts
@@ -578,7 +578,7 @@ STATE s_BettyJump[5][1] =
     {
     {
     {BETTY_R0 + 0, BETTY_RATE, DoBettyJump, &s_BettyJump[0][0]},
-    },                                                       
+    },
     {
     {BETTY_R1 + 0, BETTY_RATE, DoBettyJump, &s_BettyJump[1][0]},
     },
@@ -602,39 +602,39 @@ STATEp sg_BettyJump[] =
     &s_BettyJump[3][0],
     &s_BettyJump[4][0]
     };
-    
-    
-//////////////////////    
+
+
+//////////////////////
 //
 // BETTY Explode
 //
 //////////////////////
-    
+
 #define BETTY_EXPLODE_RATE 11
 #define BETTY_EXPLODE BETTY_R0
 ANIMATOR DoSuicide;
 ANIMATOR DoDamageTest;
 ANIMATOR DoBettySpawnShrap;
-    
+
 STATE s_BettyExplode[] =
     {
     {BETTY_EXPLODE + 0, SF_QUICK_CALL,      DoDamageTest, &s_BettyExplode[1]},
     {BETTY_EXPLODE + 0, BETTY_EXPLODE_RATE, DoSuicide, &s_BettyExplode[0]}
     };
-    
+
 STATEp sg_BettyExplode[] =
     {
     s_BettyExplode,
     };
 
 
-int 
-SetupBetty(short SpriteNum)    
+int
+SetupBetty(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -658,13 +658,13 @@ SetupBetty(short SpriteNum)
     sp->clipdist = (128+64) >> 2;
     SET(u->Flags, SPR_XFLIP_TOGGLE);
     SET(sp->cstat, CSTAT_SPRITE_YCENTER);
-    
+
     u->Radius = 400;
-    
+
     if (SPRITEp_BOS(sp) > u->loz - Z(16))
         {
         sp->z = u->loz + Z(SPRITEp_YOFF(sp));
-        
+
         u->loz = sp->z;
         // leave 8 pixels above the ground
         sp->z += SPRITEp_SIZE_TOS(sp) - Z(3);;
@@ -674,10 +674,10 @@ SetupBetty(short SpriteNum)
         u->Counter = RANDOM_P2(2048);
         u->sz = sp->z;
         }
-            
-    
+
+
     return(0);
-}    
+}
 
 int
 DoBettyMove(SHORT SpriteNum)
@@ -771,7 +771,7 @@ DoBettyBeginDeath(SHORT SpriteNum)
 
     SpawnLittleExp(SpriteNum);
     SetSuicide(SpriteNum);
-    
+
     //u->spal = sp->pal = PALETTE_RED_LIGHTING;
 
 
@@ -783,18 +783,18 @@ int DoBettyJump(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
-    
+
+
     if (sp->xvel)
         DoBettyMove(SpriteNum);
-    else    
+    else
         sp->ang = NORM_ANGLE(sp->ang + (64 * ACTORMOVETICS));
-    
+
     if (TEST(u->Flags,SPR_JUMPING))
         {
         DoJump(SpriteNum);
         }
-    else    
+    else
     if (TEST(u->Flags,SPR_FALLING))
         {
         DoFall(SpriteNum);
@@ -850,11 +850,11 @@ int DoBettyBob(short SpriteNum)
 
     // actor does a sine wave about u->sz - this is the z mid point
     #define BETTY_BOB_AMT (Z(16))
-    
+
     u->Counter = (u->Counter + (ACTORMOVETICS << 3) + (ACTORMOVETICS << 1)) & 2047;
     sp->z = u->sz + ((BETTY_BOB_AMT * (long)sintable[u->Counter]) >> 14) +
                     ((DIV2(BETTY_BOB_AMT) * (long)sintable[u->Counter]) >> 14);
-    
+
     return(0);
 }
 
@@ -871,19 +871,19 @@ int DoBettyWait(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     long a,b,c,dist;
-    
+
     DISTANCE(sp->x, sp->y, u->tgt_sp->x, u->tgt_sp->y, dist, a, b, c);
-    
-    DoActorPickClosePlayer(SpriteNum);    
-    
+
+    DoActorPickClosePlayer(SpriteNum);
+
     //if (dist < u->active_range)
     //    return(0);
-    
+
     if((u->WaitTics -= ACTORMOVETICS) <= 0)
         {
         PlaySound(DIGI_MINEBEEP,&sp->x,&sp->y,&sp->z,v3df_none);
         u->WaitTics = SEC(3);
-        }    
+        }
 
     // below the floor type
     if (sp->z > u->loz)
@@ -901,9 +901,9 @@ int DoBettyWait(short SpriteNum)
     // above the floor type
         {
         sp->ang = NORM_ANGLE(sp->ang + (48 * ACTORMOVETICS));
-    
+
         DoBettyBob(SpriteNum);
-        
+
         if (dist < 8000)
             {
             sp->ang = getangle(u->tgt_sp->x - sp->x, u->tgt_sp->y - sp->y);
@@ -912,7 +912,61 @@ int DoBettyWait(short SpriteNum)
             NewStateGroup(SpriteNum, sg_BettyJump);
             DoBeginJump(SpriteNum);
             }
-        }        
-    
-    return(0);    
-}    
+        }
+
+    return(0);
+}
+
+
+#include "saveable.h"
+
+static saveable_code saveable_skull_code[] = {
+	SAVE_CODE(SetupSkull),
+	SAVE_CODE(DoSkullMove),
+	SAVE_CODE(DoSkullBeginDeath),
+	SAVE_CODE(DoSkullJump),
+	SAVE_CODE(DoSkullBob),
+	SAVE_CODE(DoSkullSpawnShrap),
+	SAVE_CODE(DoSkullWait),
+
+	SAVE_CODE(SetupBetty),
+	SAVE_CODE(DoBettyMove),
+	SAVE_CODE(DoBettyBeginDeath),
+	SAVE_CODE(DoBettyJump),
+	SAVE_CODE(DoBettyBob),
+	SAVE_CODE(DoBettySpawnShrap),
+	SAVE_CODE(DoBettyWait),
+};
+
+static saveable_data saveable_skull_data[] = {
+	SAVE_DATA(s_SkullWait),
+	SAVE_DATA(sg_SkullWait),
+
+	SAVE_DATA(SkullAttrib),
+
+	SAVE_DATA(s_SkullRing),
+	SAVE_DATA(sg_SkullRing),
+	SAVE_DATA(s_SkullJump),
+	SAVE_DATA(sg_SkullJump),
+	SAVE_DATA(s_SkullExplode),
+	SAVE_DATA(sg_SkullExplode),
+	SAVE_DATA(s_BettyWait),
+	SAVE_DATA(sg_BettyWait),
+
+	SAVE_DATA(BettyAttrib),
+
+	SAVE_DATA(s_BettyJump),
+	SAVE_DATA(sg_BettyJump),
+	SAVE_DATA(s_BettyExplode),
+	SAVE_DATA(sg_BettyExplode),
+};
+
+saveable_module saveable_skull = {
+	// code
+	saveable_skull_code,
+	SIZ(saveable_skull_code),
+
+	// data
+	saveable_skull_data,
+	SIZ(saveable_skull_data)
+};

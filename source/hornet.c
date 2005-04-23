@@ -619,3 +619,51 @@ int DoHornetMove(short SpriteNum)
     }    
 
 
+#include "saveable.h"
+
+static saveable_code saveable_hornet_code[] = {
+	SAVE_CODE(SetupHornet),
+	SAVE_CODE(NullHornet),
+	SAVE_CODE(DoHornetMatchPlayerZ),
+	SAVE_CODE(InitHornetCircle),
+	SAVE_CODE(DoHornetCircle),
+	SAVE_CODE(DoHornetDeath),
+	SAVE_CODE(DoCheckSwarm),
+	SAVE_CODE(DoHornetMove),
+};
+
+static saveable_data saveable_hornet_data[] = {
+	SAVE_DATA(HornetBattle),
+	SAVE_DATA(HornetOffense),
+	SAVE_DATA(HornetBroadcast),
+	SAVE_DATA(HornetSurprised),
+	SAVE_DATA(HornetEvasive),
+	SAVE_DATA(HornetLostTarget),
+	SAVE_DATA(HornetCloseRange),
+	SAVE_DATA(HornetTouchTarget),
+
+	SAVE_DATA(HornetPersonality),
+
+	SAVE_DATA(HornetAttrib),
+
+	SAVE_DATA(s_HornetRun),
+	SAVE_DATA(sg_HornetRun),
+	SAVE_DATA(s_HornetStand),
+	SAVE_DATA(sg_HornetStand),
+	SAVE_DATA(s_HornetDie),
+	SAVE_DATA(sg_HornetDie),
+	SAVE_DATA(s_HornetDead),
+	SAVE_DATA(sg_HornetDead),
+
+	SAVE_DATA(HornetActionSet),
+};
+
+saveable_module saveable_hornet = {
+	// code
+	saveable_hornet_code,
+	SIZ(saveable_hornet_code),
+
+	// data
+	saveable_hornet_data,
+	SIZ(saveable_hornet_data)
+};

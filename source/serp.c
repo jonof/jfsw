@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -38,7 +38,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 extern BYTE RedBookSong[40];
 extern short BossSpriteNum[3];
 
-DECISION SerpBattle[] = 
+DECISION SerpBattle[] =
     {
     {670,   InitActorMoveCloser         },
     {700,   InitActorAmbientNoise         },
@@ -46,57 +46,57 @@ DECISION SerpBattle[] =
     {1024,  InitActorAttack             }
     };
 
-DECISION SerpOffense[] = 
+DECISION SerpOffense[] =
     {
     {775,   InitActorMoveCloser         },
     {800,   InitActorAmbientNoise         },
     {1024,  InitActorAttack             }
     };
 
-DECISION SerpBroadcast[] = 
+DECISION SerpBroadcast[] =
     {
     //{21,    InitActorAlertNoise         },
     {10,    InitActorAmbientNoise       },
     {1024,  InitActorDecide             }
     };
 
-DECISION SerpSurprised[] = 
+DECISION SerpSurprised[] =
     {
     {701,   InitActorMoveCloser        },
     {1024,  InitActorDecide            }
     };
 
-DECISION SerpEvasive[] = 
+DECISION SerpEvasive[] =
     {
     {10,   InitActorEvade  },
     {1024, NULL            }
     };
 
-DECISION SerpLostTarget[] = 
+DECISION SerpLostTarget[] =
     {
     {900,   InitActorFindPlayer         },
     {921,   InitActorAmbientNoise       },
     {1024,  InitActorWanderAround       }
     };
 
-DECISION SerpCloseRange[] = 
+DECISION SerpCloseRange[] =
     {
     {700,   InitActorAttack             },
     {1024,  InitActorReposition         }
     };
 
-PERSONALITY SerpPersonality = 
+PERSONALITY SerpPersonality =
     {
-    SerpBattle, 
-    SerpOffense, 
-    SerpBroadcast, 
-    SerpSurprised, 
-    SerpEvasive, 
-    SerpLostTarget, 
+    SerpBattle,
+    SerpOffense,
+    SerpBroadcast,
+    SerpSurprised,
+    SerpEvasive,
+    SerpLostTarget,
     SerpCloseRange,
     SerpCloseRange
     };
-    
+
 ATTRIBUTE SerpAttrib =
     {
     {200, 220, 240, 270},                 // Speeds
@@ -118,7 +118,7 @@ ATTRIBUTE SerpPissedAttrib =
     };
 
 
-//////////////////////    
+//////////////////////
 //
 // SERP RUN
 //
@@ -172,7 +172,7 @@ STATEp sg_SerpRun[] =
     &s_SerpRun[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // SERP SLASH
 //
@@ -256,8 +256,8 @@ STATEp sg_SerpSlash[] =
     &s_SerpSlash[4][0]
     };
 
-    
-//////////////////////    
+
+//////////////////////
 //
 // SERP SKULL SPELL
 //
@@ -331,9 +331,9 @@ STATEp sg_SerpSkullSpell[] =
     &s_SerpSkullSpell[4][0]
     };
 
-    
-    
-//////////////////////    
+
+
+//////////////////////
 //
 // SERP SPELL
 //
@@ -406,7 +406,7 @@ STATEp sg_SerpSpell[] =
     &s_SerpSpell[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // SERP SPELL MONSTER
 //
@@ -479,7 +479,7 @@ STATEp sg_SerpMonstSpell[] =
     };
 
 
-//////////////////////    
+//////////////////////
 //
 // SERP RAPID SPELL
 //
@@ -561,14 +561,14 @@ STATEp sg_SerpRapidSpell[] =
     &s_SerpRapidSpell[3][0],
     &s_SerpRapidSpell[4][0]
     };
-    
-//////////////////////    
+
+//////////////////////
 //
 // SERP STAND
 //
 //////////////////////
-    
-#define SERP_STAND_RATE 12    
+
+#define SERP_STAND_RATE 12
 
 STATE s_SerpStand[5][1] =
     {
@@ -598,13 +598,13 @@ STATEp sg_SerpStand[] =
     s_SerpStand[3],
     s_SerpStand[4]
     };
-    
-//////////////////////    
+
+//////////////////////
 //
 // SERP DIE
 //
 //////////////////////
-    
+
 #define SERP_DIE_RATE 20
 ANIMATOR DoDeathSpecial;
 
@@ -637,7 +637,7 @@ STATEp sg_SerpDead[] =
     {
     s_SerpDead
     };
-    
+
 /*
 STATEp *Stand[MAX_WEAPONS];
 STATEp *Run;
@@ -661,16 +661,16 @@ STATEp *Attack[6];
 STATEp *Special[2];
 */
 
-    
+
 ACTOR_ACTION_SET SerpActionSet =
   {
   sg_SerpStand,
   sg_SerpRun,
-  NULL,//sg_SerpJump,  
-  NULL,//sg_SerpFall, 
-  NULL,//sg_SerpCrawl, 
-  NULL,//sg_SerpSwim, 
-  NULL,//sg_SerpFly, 
+  NULL,//sg_SerpJump,
+  NULL,//sg_SerpFall,
+  NULL,//sg_SerpCrawl,
+  NULL,//sg_SerpSwim,
+  NULL,//sg_SerpFly,
   NULL,//sg_SerpRise,
   NULL,//sg_SerpSit,
   NULL,//sg_SerpLook,
@@ -689,14 +689,14 @@ ACTOR_ACTION_SET SerpActionSet =
   NULL,
   NULL
   };
- 
-int 
-SetupSerp(short SpriteNum)    
+
+int
+SetupSerp(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -710,7 +710,7 @@ SetupSerp(short SpriteNum)
 
     if (Skill == 0) u->Health = 1100;
     if (Skill == 1) u->Health = 2200;
-        
+
     ChangeState(SpriteNum, s_SerpRun[0]);
     u->Attrib = &SerpAttrib;
     DoActorSetSpeed(SpriteNum, NORM_SPEED);
@@ -718,7 +718,7 @@ SetupSerp(short SpriteNum)
     u->Rot = sg_SerpRun;
 
     EnemyDefaults(SpriteNum, &SerpActionSet, &SerpPersonality);
-    
+
     // Mini-Boss Serp
     if (sp->pal == 16)
         {
@@ -730,10 +730,10 @@ SetupSerp(short SpriteNum)
         sp->yrepeat = 100;
         sp->xrepeat = 128;
         }
-    
+
     sp->clipdist = (512) >> 2;
     SET(u->Flags, SPR_XFLIP_TOGGLE|SPR_ELECTRO_TOLERANT);
-    
+
     u->loz = sp->z;
 
     // amount to move up for clipmove
@@ -745,27 +745,27 @@ SetupSerp(short SpriteNum)
     u->ceiling_dist = SPRITEp_SIZE_Z(sp) - u->zclip;
 
     return(0);
-}    
+}
 
 int NullSerp(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
 
     KeepActorOnFloor(SpriteNum);
-    
+
     //DoActorSectorDamage(SpriteNum);
     return(0);
-}    
+}
 
 int DoSerpMove(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
 
@@ -773,7 +773,7 @@ int DoSerpMove(short SpriteNum)
         ActorFollowTrack(SpriteNum, ACTORMOVETICS);
     else
         (*u->ActorActionFunc)(SpriteNum);
-    
+
     // serp ring
     if (sp->pal != 16)
         {
@@ -786,7 +786,7 @@ int DoSerpMove(short SpriteNum)
                     u->Counter2++;
                     }
                 break;
-                
+
             case 1:
                 //if (u->Health <= DIV2(u->MaxHealth))
                     {
@@ -795,7 +795,7 @@ int DoSerpMove(short SpriteNum)
                     }
                 break;
             }
-        }    
+        }
 
     KeepActorOnFloor(SpriteNum);
 
@@ -808,7 +808,7 @@ int DoDeathSpecial(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     static BOOL alreadydid = FALSE;
-    
+
     DoMatchEverything(NULL, sp->lotag, ON);
 
     if (!SW_SHAREWARE) {
@@ -820,6 +820,63 @@ int DoDeathSpecial(short SpriteNum)
         }
     }
 
-    BossSpriteNum[0] = -2;    
+    BossSpriteNum[0] = -2;
     return(0);
-}    
+}
+
+
+#include "saveable.h"
+
+static saveable_code saveable_serp_code[] = {
+	SAVE_CODE(SetupSerp),
+	SAVE_CODE(NullSerp),
+	SAVE_CODE(DoSerpMove),
+	SAVE_CODE(DoDeathSpecial),
+};
+
+static saveable_data saveable_serp_data[] = {
+	SAVE_DATA(SerpBattle),
+	SAVE_DATA(SerpOffense),
+	SAVE_DATA(SerpBroadcast),
+	SAVE_DATA(SerpSurprised),
+	SAVE_DATA(SerpEvasive),
+	SAVE_DATA(SerpLostTarget),
+	SAVE_DATA(SerpCloseRange),
+
+	SAVE_DATA(SerpPersonality),
+
+	SAVE_DATA(SerpAttrib),
+	SAVE_DATA(SerpPissedAttrib),
+
+	SAVE_DATA(s_SerpRun),
+	SAVE_DATA(sg_SerpRun),
+	SAVE_DATA(s_SerpSlash),
+	SAVE_DATA(sg_SerpSlash),
+	SAVE_DATA(s_SerpSkullSpell),
+	SAVE_DATA(sg_SerpSkullSpell),
+	SAVE_DATA(s_SerpSpell),
+	SAVE_DATA(sg_SerpSpell),
+	SAVE_DATA(s_SerpMonstSpell),
+	SAVE_DATA(sg_SerpMonstSpell),
+	SAVE_DATA(s_SerpRapidSpell),
+	SAVE_DATA(sg_SerpRapidSpell),
+	SAVE_DATA(s_SerpStand),
+	SAVE_DATA(sg_SerpStand),
+	SAVE_DATA(s_SerpDie),
+	SAVE_DATA(s_SerpDead),
+	SAVE_DATA(sg_SerpDie),
+	SAVE_DATA(sg_SerpDead),
+
+	SAVE_DATA(SerpActionSet),
+};
+
+saveable_module saveable_serp = {
+	// code
+	saveable_serp_code,
+	SIZ(saveable_serp_code),
+
+	// data
+	saveable_serp_data,
+	SIZ(saveable_serp_data)
+};
+

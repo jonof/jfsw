@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -34,7 +34,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "actor.h"
 #include "track.h"
 
-DECISION SkelBattle[] = 
+DECISION SkelBattle[] =
     {
     {600,   InitActorMoveCloser         },
     {602,   InitActorAlertNoise         },
@@ -42,58 +42,58 @@ DECISION SkelBattle[] =
     {1024,  InitActorAttack             }
     };
 
-DECISION SkelOffense[] = 
+DECISION SkelOffense[] =
     {
     {700,   InitActorMoveCloser         },
     {702,   InitActorAlertNoise         },
     {1024,  InitActorAttack             }
     };
 
-DECISION SkelBroadcast[] = 
+DECISION SkelBroadcast[] =
     {
     {3,    InitActorAlertNoise        },
     {6,    InitActorAmbientNoise      },
     {1024,  InitActorDecide            }
     };
 
-DECISION SkelSurprised[] = 
+DECISION SkelSurprised[] =
     {
     {701,   InitActorMoveCloser         },
     {1024,  InitActorDecide            }
     };
 
-DECISION SkelEvasive[] = 
+DECISION SkelEvasive[] =
     {
     {22,     InitActorDuck             },
     {30,     InitActorEvade            },
     {1024,   NULL                      },
     };
 
-DECISION SkelLostTarget[] = 
+DECISION SkelLostTarget[] =
     {
     {900,   InitActorFindPlayer         },
     {1024,  InitActorWanderAround       }
     };
 
-DECISION SkelCloseRange[] = 
+DECISION SkelCloseRange[] =
     {
     {800,   InitActorAttack             },
     {1024,  InitActorReposition            }
     };
 
-PERSONALITY SkelPersonality = 
+PERSONALITY SkelPersonality =
     {
-    SkelBattle, 
-    SkelOffense, 
-    SkelBroadcast, 
-    SkelSurprised, 
-    SkelEvasive, 
-    SkelLostTarget, 
+    SkelBattle,
+    SkelOffense,
+    SkelBroadcast,
+    SkelSurprised,
+    SkelEvasive,
+    SkelLostTarget,
     SkelCloseRange,
     SkelCloseRange
     };
 
-ATTRIBUTE SkelAttrib = 
+ATTRIBUTE SkelAttrib =
     {
     {60, 80, 100, 130},                 // Speeds
     {3, 0, -2, -3},                     // Tic Adjusts
@@ -102,8 +102,8 @@ ATTRIBUTE SkelAttrib =
      DIGI_SPPAIN, DIGI_SPSCREAM, DIGI_SPBLADE,
      DIGI_SPELEC,DIGI_SPTELEPORT,0,0}
     };
-    
-//////////////////////    
+
+//////////////////////
 //
 // SKEL RUN
 //
@@ -169,7 +169,7 @@ STATEp sg_SkelRun[] =
     &s_SkelRun[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // SKEL SLASH
 //
@@ -238,8 +238,8 @@ STATEp sg_SkelSlash[] =
     &s_SkelSlash[4][0]
     };
 
-    
-//////////////////////    
+
+//////////////////////
 //
 // SKEL SPELL
 //
@@ -305,13 +305,13 @@ STATEp sg_SkelSpell[] =
     &s_SkelSpell[3][0],
     &s_SkelSpell[4][0]
     };
-    
-//////////////////////    
+
+//////////////////////
 //
 // SKEL PAIN
 //
 //////////////////////
-    
+
 #define SKEL_PAIN_RATE 38
 ANIMATOR DoSkelPain;
 
@@ -332,7 +332,7 @@ STATE s_SkelPain[5][1] =
     {
     {SKEL_PAIN_R4 + 0, SKEL_PAIN_RATE, DoSkelPain, &s_SkelPain[4][0]},
     }
-    };    
+    };
 
 STATEp sg_SkelPain[] =
     {
@@ -343,16 +343,16 @@ STATEp sg_SkelPain[] =
     &s_SkelPain[4][0]
     };
 
-    
-    
-//////////////////////    
+
+
+//////////////////////
 //
 // SKEL TELEPORT
 //
 //////////////////////
 
 ANIMATOR DoSkelInitTeleport, DoSkelTeleport, DoSkelTermTeleport;
-    
+
 #define SKEL_TELEPORT_RATE 20
 
 STATE s_SkelTeleport[] =
@@ -365,9 +365,9 @@ STATE s_SkelTeleport[] =
     {SKEL_TELEPORT + 3,  SKEL_TELEPORT_RATE, NullAnimator, &s_SkelTeleport[6]},
     {SKEL_TELEPORT + 4,  SKEL_TELEPORT_RATE, NullAnimator, &s_SkelTeleport[7]},
     {SKEL_TELEPORT + 5,  SKEL_TELEPORT_RATE, NullAnimator, &s_SkelTeleport[8]},
-    
+
     {SKEL_TELEPORT + 5,  0|SF_QUICK_CALL,    DoSkelTeleport, &s_SkelTeleport[9]},
-    
+
     {SKEL_TELEPORT + 5,  SKEL_TELEPORT_RATE, NullAnimator, &s_SkelTeleport[10]},
     {SKEL_TELEPORT + 4,  SKEL_TELEPORT_RATE, NullAnimator, &s_SkelTeleport[11]},
     {SKEL_TELEPORT + 3,  SKEL_TELEPORT_RATE, NullAnimator, &s_SkelTeleport[12]},
@@ -386,14 +386,14 @@ STATEp sg_SkelTeleport[] =
     s_SkelTeleport,
     s_SkelTeleport
     };
-    
-//////////////////////    
+
+//////////////////////
 //
 // SKEL STAND
 //
 //////////////////////
-    
-#define SKEL_STAND_RATE 12    
+
+#define SKEL_STAND_RATE 12
 
 STATE s_SkelStand[5][1] =
     {
@@ -423,13 +423,13 @@ STATEp sg_SkelStand[] =
     s_SkelStand[3],
     s_SkelStand[4]
     };
-    
-//////////////////////    
+
+//////////////////////
 //
 // SKEL DIE
 //
 //////////////////////
-    
+
 #define SKEL_DIE_RATE 25
 
 STATE s_SkelDie[] =
@@ -446,7 +446,7 @@ STATEp sg_SkelDie[] =
     {
     s_SkelDie
     };
-    
+
 /*
 STATEp *Stand[MAX_WEAPONS];
 STATEp *Run;
@@ -474,11 +474,11 @@ ACTOR_ACTION_SET SkelActionSet =
   {
   sg_SkelStand,
   sg_SkelRun,
-  NULL,//sg_SkelJump,  
-  NULL,//sg_SkelFall, 
-  NULL,//sg_SkelCrawl, 
-  NULL,//sg_SkelSwim, 
-  NULL,//sg_SkelFly, 
+  NULL,//sg_SkelJump,
+  NULL,//sg_SkelFall,
+  NULL,//sg_SkelCrawl,
+  NULL,//sg_SkelSwim,
+  NULL,//sg_SkelFly,
   NULL,//sg_SkelRise,
   NULL,//sg_SkelSit,
   NULL,//sg_SkelLook,
@@ -497,14 +497,14 @@ ACTOR_ACTION_SET SkelActionSet =
   sg_SkelTeleport,
   NULL
   };
- 
-int 
-SetupSkel(short SpriteNum)    
+
+int
+SetupSkel(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -523,21 +523,21 @@ SetupSkel(short SpriteNum)
     u->Rot = sg_SkelRun;
 
     EnemyDefaults(SpriteNum, &SkelActionSet, &SkelPersonality);
-    
+
     // 256 is default
     //sp->clipdist = 256 >> 2;
     SET(u->Flags, SPR_XFLIP_TOGGLE);
 
     return(0);
-}    
+}
 
 int DoSkelInitTeleport(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     RESET(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     PlaySpriteSound(SpriteNum,attr_extra3,v3df_follow);
 
     return(0);
@@ -551,29 +551,29 @@ int DoSkelTeleport(short SpriteNum)
 
     x = sp->x;
     y = sp->y;
-    
+
     while (TRUE)
         {
         sp->x = x;
         sp->y = y;
-        
+
         if (RANDOM_P2(1024) < 512)
             sp->x += 512 + RANDOM_P2(1024);
-        else    
+        else
             sp->x -= 512 + RANDOM_P2(1024);
-            
+
         if (RANDOM_P2(1024) < 512)
             sp->y += 512 + RANDOM_P2(1024);
-        else    
+        else
             sp->y -= 512 + RANDOM_P2(1024);
-        
+
         setsprite(SpriteNum, sp->x, sp->y, sp->z);
         //COVERupdatesector(sp->x, sp->y, &sp->sectnum);
-        
-        if (sp->sectnum != -1)    
+
+        if (sp->sectnum != -1)
             break;
         }
-    
+
     return(0);
 }
 
@@ -583,7 +583,7 @@ int DoSkelTermTeleport(short SpriteNum)
     USERp u = User[SpriteNum];
 
     SET(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     return(0);
 }
 
@@ -591,34 +591,34 @@ int NullSkel(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
 
     KeepActorOnFloor(SpriteNum);
     DoActorSectorDamage(SpriteNum);
-    
+
     return(0);
-}    
+}
 
 int DoSkelPain(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     NullSkel(SpriteNum);
-    
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         InitActorDecide(SpriteNum);
-        
+
     return(0);
-}    
+}
 
 int DoSkelMove(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
 
@@ -626,11 +626,64 @@ int DoSkelMove(short SpriteNum)
         ActorFollowTrack(SpriteNum, ACTORMOVETICS);
     else
         (*u->ActorActionFunc)(SpriteNum);
-    
+
     KeepActorOnFloor(SpriteNum);
 
     DoActorSectorDamage(SpriteNum);
-    
-    return(0);
-}    
 
+    return(0);
+}
+
+
+#include "saveable.h"
+
+static saveable_code saveable_skel_code[] = {
+	SAVE_CODE(SetupSkel),
+	SAVE_CODE(DoSkelInitTeleport),
+	SAVE_CODE(DoSkelTeleport),
+	SAVE_CODE(DoSkelTermTeleport),
+	SAVE_CODE(NullSkel),
+	SAVE_CODE(DoSkelPain),
+	SAVE_CODE(DoSkelMove),
+};
+
+static saveable_data saveable_skel_data[] = {
+	SAVE_DATA(SkelBattle),
+	SAVE_DATA(SkelOffense),
+	SAVE_DATA(SkelBroadcast),
+	SAVE_DATA(SkelSurprised),
+	SAVE_DATA(SkelEvasive),
+	SAVE_DATA(SkelLostTarget),
+	SAVE_DATA(SkelCloseRange),
+
+	SAVE_DATA(SkelPersonality),
+
+	SAVE_DATA(SkelAttrib),
+
+	SAVE_DATA(s_SkelRun),
+	SAVE_DATA(sg_SkelRun),
+	SAVE_DATA(s_SkelSlash),
+	SAVE_DATA(sg_SkelSlash),
+	SAVE_DATA(s_SkelSpell),
+	SAVE_DATA(sg_SkelSpell),
+	SAVE_DATA(s_SkelPain),
+	SAVE_DATA(sg_SkelPain),
+	SAVE_DATA(s_SkelTeleport),
+	SAVE_DATA(sg_SkelTeleport),
+	SAVE_DATA(s_SkelStand),
+	SAVE_DATA(sg_SkelStand),
+	SAVE_DATA(s_SkelDie),
+	SAVE_DATA(sg_SkelDie),
+
+	SAVE_DATA(SkelActionSet),
+};
+
+saveable_module saveable_skel = {
+	// code
+	saveable_skel_code,
+	SIZ(saveable_skel_code),
+
+	// data
+	saveable_skel_data,
+	SIZ(saveable_skel_data)
+};

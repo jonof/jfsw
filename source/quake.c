@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -55,7 +55,7 @@ short CopyQuakeSpotToOn(SPRITEp sp)
     {
     short new;
     SPRITEp np;
-    
+
     new = COVERinsertsprite(sp->sectnum, STAT_QUAKE_SPOT);
     np = &sprite[new];
 
@@ -69,9 +69,9 @@ short CopyQuakeSpotToOn(SPRITEp sp)
     np->owner = -1;
 
     change_sprite_stat(new, STAT_QUAKE_ON);
-    
+
     QUAKE_Duration(np) *= 120;
-    
+
     return(new);
     }
 
@@ -80,11 +80,11 @@ void DoQuakeMatch(short match)
     {
     short i, nexti;
     SPRITEp sp;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_QUAKE_SPOT], i, nexti)
         {
         sp = &sprite[i];
-        
+
         if (QUAKE_Match(sp) == match)
             {
             if (QUAKE_WaitTics(sp) > 0)
@@ -100,9 +100,9 @@ void DoQuakeMatch(short match)
                     KillSprite(i);
                     continue;
                     }
-                }    
+                }
             }
-            
+
         }
     }
 
@@ -110,11 +110,11 @@ void ProcessQuakeOn(void)
     {
     short i, nexti;
     SPRITEp sp;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_QUAKE_ON], i, nexti)
         {
         sp = &sprite[i];
-        
+
         // get rid of quake when timer runs out
         QUAKE_Duration(sp) -= synctics*4;
         if (QUAKE_Duration(sp) < 0)
@@ -130,27 +130,27 @@ void ProcessQuakeSpot(void)
     short i, nexti;
     SPRITEp sp;
     long rand_test;
-    
+
     // check timed quakes and random quakes
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_QUAKE_SPOT], i, nexti)
         {
         sp = &sprite[i];
-        
+
         // not a timed quake
         if (!QUAKE_WaitSecs(sp))
             continue;
-        
+
         // don't process unless triggered
         if (QUAKE_WaitForTrigger(sp))
             continue;
-        
+
         // spawn a quake if time is up
         QUAKE_WaitTics(sp) -= 4*synctics;
         if (QUAKE_WaitTics(sp) < 0)
             {
             // reset timer - add in Duration of quake
             QUAKE_WaitTics(sp) = ((QUAKE_WaitSecs(sp)*10L) + QUAKE_Duration(sp)) * 120L;
-            
+
             // spawn a quake if condition is met
             rand_test = QUAKE_RandomTest(sp);
             // wrong - all quakes need to happen at the same time on all computerssg
@@ -180,22 +180,22 @@ void QuakeViewChange(PLAYERp pp, long *z_diff, long *x_diff, long *y_diff, short
     long ang_amt;
     long radius;
     long pos_amt;
-    
+
     *z_diff = 0;
     *x_diff = 0;
     *y_diff = 0;
     *ang_diff = 0;
-    
-    if (GamePaused)    
+
+    if (GamePaused)
         return;
-    
+
     // find the closest quake - should be a strength value
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_QUAKE_ON], i, nexti)
         {
         sp = &sprite[i];
-        
+
         dist = FindDistance3D(pp->posx - sp->x, pp->posy - sp->y, (pp->posz - sp->z)>>4);
-        
+
         // shake whole level
         if (QUAKE_TestDontTaper(sp))
             {
@@ -203,25 +203,25 @@ void QuakeViewChange(PLAYERp pp, long *z_diff, long *x_diff, long *y_diff, short
             save_sp = sp;
             break;
             }
-        
+
         if (dist < save_dist)
             {
             save_dist = dist;
             save_sp = sp;
             }
         }
-    
-    if (!save_sp)    
+
+    if (!save_sp)
         return;
-    else    
+    else
         sp = save_sp;
-    
+
     radius = QUAKE_Radius(sp) * 8L;
     if (save_dist > radius)
         return;
-    
+
     *z_diff = Z(STD_RANDOM_RANGE(QUAKE_Zamt(sp)) - (QUAKE_Zamt(sp)/2));
-    
+
     ang_amt = QUAKE_AngAmt(sp) * 4L;
     *ang_diff = STD_RANDOM_RANGE(ang_amt) - (ang_amt/2);
 
@@ -241,18 +241,18 @@ void QuakeViewChange(PLAYERp pp, long *z_diff, long *x_diff, long *y_diff, short
         *y_diff = mulscale16(*y_diff, scale_value);
         }
     }
-    
-int SpawnQuake(short sectnum, long x, long y, long z, 
-    short tics, short amt, long radius)    
+
+int SpawnQuake(short sectnum, long x, long y, long z,
+    short tics, short amt, long radius)
     {
     short SpriteNum;
     SPRITEp sp;
-    
+
     SpriteNum = COVERinsertsprite(sectnum, STAT_QUAKE_ON);
     sp = &sprite[SpriteNum];
-    
+
     ASSERT(SpriteNum >= 0);
-    
+
     sp->x = x;
     sp->y = y;
     sp->z = z;
@@ -272,14 +272,14 @@ int SpawnQuake(short sectnum, long x, long y, long z,
 
     return(SpriteNum);
     }
-    
-BOOL 
-SetQuake(PLAYERp pp, short tics, short amt)    
+
+BOOL
+SetQuake(PLAYERp pp, short tics, short amt)
     {
     SpawnQuake(pp->cursectnum, pp->posx, pp->posy, pp->posz,  tics, amt, 30000);
     return(FALSE);
     }
-    
+
 int
 SetExpQuake(SHORT Weapon)
     {
@@ -287,7 +287,7 @@ SetExpQuake(SHORT Weapon)
 
     SpawnQuake(sp->sectnum, sp->x, sp->y, sp->z,  40, 4, 20000); // !JIM! was 8, 40000
     return(0);
-    }    
+    }
 
 int
 SetGunQuake(SHORT SpriteNum)
@@ -298,39 +298,67 @@ SetGunQuake(SHORT SpriteNum)
     SpawnQuake(sp->sectnum, sp->x, sp->y, sp->z,  40, 8, 40000);
 
     return(0);
-    }    
+    }
 
 int
 SetPlayerQuake(PLAYERp pp)
     {
     SpawnQuake(pp->cursectnum, pp->posx, pp->posy, pp->posz,  40, 8, 40000);
-    
+
     return(0);
-    }    
-    
+    }
+
 int
 SetNuclearQuake(SHORT Weapon)
     {
     SPRITEp sp = &sprite[Weapon];
 
-    SpawnQuake(sp->sectnum, sp->x, sp->y, sp->z, 400, 8, 64000); 
+    SpawnQuake(sp->sectnum, sp->x, sp->y, sp->z, 400, 8, 64000);
     return(0);
-    }    
+    }
 
 int
 SetSumoQuake(SHORT SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
 
-    SpawnQuake(sp->sectnum, sp->x, sp->y, sp->z,  120, 4, 20000); 
+    SpawnQuake(sp->sectnum, sp->x, sp->y, sp->z,  120, 4, 20000);
     return(0);
-    }    
+    }
 
 int
 SetSumoFartQuake(SHORT SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
 
-    SpawnQuake(sp->sectnum, sp->x, sp->y, sp->z,  60, 4, 4000); 
+    SpawnQuake(sp->sectnum, sp->x, sp->y, sp->z,  60, 4, 4000);
     return(0);
-    }    
+    }
+
+
+#include "saveable.h"
+
+static saveable_code saveable_quake_code[] = {
+	SAVE_CODE(CopyQuakeSpotToOn),
+	SAVE_CODE(DoQuakeMatch),
+	SAVE_CODE(ProcessQuakeOn),
+	SAVE_CODE(ProcessQuakeSpot),
+	SAVE_CODE(QuakeViewChange),
+	SAVE_CODE(SpawnQuake),
+	SAVE_CODE(SetQuake),
+	SAVE_CODE(SetExpQuake),
+	SAVE_CODE(SetGunQuake),
+	SAVE_CODE(SetPlayerQuake),
+	SAVE_CODE(SetNuclearQuake),
+	SAVE_CODE(SetSumoQuake),
+	SAVE_CODE(SetSumoFartQuake),
+};
+
+saveable_module saveable_quake = {
+	// code
+	saveable_quake_code,
+	SIZ(saveable_quake_code),
+
+	// data
+	NULL,0
+};

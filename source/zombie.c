@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -69,7 +69,7 @@ DECISION ZombieSurprised[] =
 
 DECISION ZombieEvasive[] =
     {
-    {400,   InitActorDuck}, 
+    {400,   InitActorDuck},
     {1024,  NULL}
     };
 
@@ -104,7 +104,7 @@ ATTRIBUTE ZombieAttrib =
     {4, 0, 0, -2},                      // Tic Adjusts
      3,                                 // MaxWeapons;
     {DIGI_NINJAAMBIENT, DIGI_NINJAALERT, DIGI_STAR,
-     DIGI_NINJAPAIN, DIGI_NINJASCREAM,0,0,0,0,0}                
+     DIGI_NINJAPAIN, DIGI_NINJASCREAM,0,0,0,0,0}
     };
 
 
@@ -227,8 +227,8 @@ STATE s_ZombiePain[5][2] =
     {PLAYER_NINJA_STAND_R4 + 0, ZOMBIE_PAIN_RATE, DoZombiePain, &s_ZombiePain[4][1]},
     {PLAYER_NINJA_STAND_R4 + 0, ZOMBIE_PAIN_RATE, DoZombiePain, &s_ZombiePain[4][1]},
     },
-    };    
-    
+    };
+
 STATEp sg_ZombiePain[] =
     {
     s_ZombiePain[0],
@@ -299,8 +299,8 @@ STATEp sg_ZombieNuke[] =
     s_ZombieNuke[3],
     s_ZombieNuke[4]
     };
-    
-    
+
+
 //////////////////////
 //
 // ZOMBIE ROCKET
@@ -416,7 +416,7 @@ STATEp sg_ZombieRail[] =
     s_ZombieRail[3],
     s_ZombieRail[4]
     };
-    
+
 //////////////////////
 //
 // ZOMBIE GRENADE
@@ -474,8 +474,8 @@ STATEp sg_ZombieGrenade[] =
     s_ZombieGrenade[3],
     s_ZombieGrenade[4]
     };
-    
-    
+
+
 //////////////////////
 //
 // ZOMBIE FLASHBOMB
@@ -762,7 +762,7 @@ SetupZombie(short SpriteNum)
 
     u->Attrib = &ZombieAttrib;
     EnemyDefaults(SpriteNum, &ZombieActionSet, &ZombiePersonality);
-    
+
     ChangeState(SpriteNum, s_ZombieRun[0]);
     DoActorSetSpeed(SpriteNum, NORM_SPEED);
 
@@ -774,20 +774,20 @@ SetupZombie(short SpriteNum)
 
 int
 SpawnZombie(PLAYERp pp, short Weapon)
-    {    
+    {
     short new,i,nexti;
     SPRITEp np,sp;
     USERp nu,u;
     short owner;
 
     owner = sprite[Weapon].owner;
-    
-    if (owner < 0) 
+
+    if (owner < 0)
         return(-1);
-    
+
     //Zombies++;
-    
-    new = SpawnSprite(STAT_ENEMY, ZOMBIE_RUN_R0, s_ZombieRun[0], pp->cursectnum, pp->posx, pp->posy, pp->posz, pp->pang, 0);    
+
+    new = SpawnSprite(STAT_ENEMY, ZOMBIE_RUN_R0, s_ZombieRun[0], pp->cursectnum, pp->posx, pp->posy, pp->posz, pp->pang, 0);
     np = &sprite[new];
     nu = User[new];
     np->sectnum = pp->cursectnum;
@@ -799,13 +799,13 @@ SpawnZombie(PLAYERp pp, short Weapon)
     np->shade = -10;
     SET(nu->Flags2, SPR2_DONT_TARGET_OWNER);
     SET(np->cstat, CSTAT_SPRITE_TRANSLUCENT);
-    
+
     DoActorPickClosePlayer(new);
     //nu->tgt_sp = pp->SpriteP; // Make it target last killed player initially
-        
+
     // make immediately active
     SET(nu->Flags, SPR_ACTIVE);
-    
+
     RESET(nu->Flags, SPR_JUMPING);
     RESET(nu->Flags, SPR_FALLING);
 
@@ -817,7 +817,7 @@ SpawnZombie(PLAYERp pp, short Weapon)
 
 int
 SpawnZombie2(short Weapon)
-    {    
+    {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
     short new,i,nexti;
@@ -828,16 +828,16 @@ SpawnZombie2(short Weapon)
     SECTORp sectp = &sector[sp->sectnum];
 
     owner = sprite[Weapon].owner;
-    
-    if (owner < 0) 
+
+    if (owner < 0)
         return(-1);
-    
+
     if (sectu && (TEST(sectp->extra, SECTFX_LIQUID_MASK) != SECTFX_LIQUID_NONE))
         return(-1);
 
     if (SectorIsUnderwaterArea(sp->sectnum))
         return(-1);
-        
+
     //if (FAF_ConnectArea(sp->sectnum))
     //    return(-1);
 
@@ -849,9 +849,9 @@ SpawnZombie2(short Weapon)
             return(-1);
         }
 
-    
+
     //Zombies++;
-    new = SpawnSprite(STAT_ENEMY, ZOMBIE_RUN_R0, s_ZombieRun[0], sp->sectnum, sp->x, sp->y, sp->z, sp->ang, 0);    
+    new = SpawnSprite(STAT_ENEMY, ZOMBIE_RUN_R0, s_ZombieRun[0], sp->sectnum, sp->x, sp->y, sp->z, sp->ang, 0);
     np = &sprite[new];
     nu = User[new];
     nu->Counter3 = 0;
@@ -863,13 +863,13 @@ SpawnZombie2(short Weapon)
     np->shade = -10;
     SET(nu->Flags2, SPR2_DONT_TARGET_OWNER);
     SET(np->cstat, CSTAT_SPRITE_TRANSLUCENT);
-    
+
     DoActorPickClosePlayer(new);
     //nu->tgt_sp = pp->SpriteP; // Make it target last killed player initially
-        
+
     // make immediately active
     SET(nu->Flags, SPR_ACTIVE);
-    
+
     RESET(nu->Flags, SPR_JUMPING);
     RESET(nu->Flags, SPR_FALLING);
 
@@ -878,13 +878,13 @@ SpawnZombie2(short Weapon)
 
     return(new);
     }
-    
-int 
+
+int
 DoZombieMove(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     if (u->Counter3++ >= ZOMBIE_TIME_LIMIT)
         {
         InitBloodSpray(SpriteNum,TRUE,105);
@@ -906,36 +906,36 @@ DoZombieMove(short SpriteNum)
             DoActorFall(SpriteNum);
         }
 
-    // sliding    
+    // sliding
     if (TEST(u->Flags, SPR_SLIDING))
         DoActorSlide(SpriteNum);
 
-    // Do track or call current action function - such as DoActorMoveCloser()    
+    // Do track or call current action function - such as DoActorMoveCloser()
     if (u->track >= 0)
         ActorFollowTrack(SpriteNum, ACTORMOVETICS);
     else
-    {   
+    {
         (*u->ActorActionFunc) (SpriteNum);
     }
 
-    // stay on floor unless doing certain things    
+    // stay on floor unless doing certain things
     if (!TEST(u->Flags, SPR_JUMPING | SPR_FALLING))
         {
         KeepActorOnFloor(SpriteNum);
         }
-        
-    // take damage from environment 
+
+    // take damage from environment
     DoActorSectorDamage(SpriteNum);
-    
+
     return(0);
     }
 
-int 
+int
 NullZombie(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     if (u->Counter3++ >= ZOMBIE_TIME_LIMIT)
         {
         InitBloodSpray(SpriteNum,TRUE,105);
@@ -947,10 +947,10 @@ NullZombie(short SpriteNum)
 
     if (u->tgt_sp && User[u->tgt_sp-sprite] && TEST(User[u->tgt_sp-sprite]->Flags, PF_DEAD))
         DoActorPickClosePlayer(SpriteNum);
-    
-    if(u->WaitTics > 0) 
+
+    if(u->WaitTics > 0)
         u->WaitTics -= ACTORMOVETICS;
-    
+
     if (TEST(u->Flags, SPR_SLIDING) && !TEST(u->Flags, SPR_JUMPING|SPR_FALLING))
         DoActorSlide(SpriteNum);
 
@@ -958,7 +958,7 @@ NullZombie(short SpriteNum)
         KeepActorOnFloor(SpriteNum);
 
     DoActorSectorDamage(SpriteNum);
-    
+
     return (0);
     }
 
@@ -969,10 +969,68 @@ int DoZombiePain(short SpriteNum)
     USERp u = User[SpriteNum];
 
     NullZombie(SpriteNum);
-    
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         InitActorDecide(SpriteNum);
-        
-    return(0);
-}    
 
+    return(0);
+}
+
+
+#include "saveable.h"
+
+static saveable_code saveable_zombie_code[] = {
+	SAVE_CODE(SetupZombie),
+	SAVE_CODE(SpawnZombie),
+	SAVE_CODE(SpawnZombie2),
+	SAVE_CODE(DoZombieMove),
+	SAVE_CODE(NullZombie),
+	SAVE_CODE(DoZombiePain),
+};
+
+static saveable_data saveable_zombie_data[] = {
+	SAVE_DATA(ZombieBattle),
+	SAVE_DATA(ZombieOffense),
+	SAVE_DATA(ZombieBroadcast),
+	SAVE_DATA(ZombieSurprised),
+	SAVE_DATA(ZombieEvasive),
+	SAVE_DATA(ZombieLostTarget),
+	SAVE_DATA(ZombieCloseRange),
+
+	SAVE_DATA(ZombiePersonality),
+
+	SAVE_DATA(ZombieAttrib),
+
+	SAVE_DATA(s_ZombieRun),
+	SAVE_DATA(sg_ZombieRun),
+	SAVE_DATA(s_ZombieStand),
+	SAVE_DATA(sg_ZombieStand),
+	SAVE_DATA(s_ZombiePain),
+	SAVE_DATA(sg_ZombiePain),
+	SAVE_DATA(s_ZombieNuke),
+	SAVE_DATA(sg_ZombieNuke),
+	SAVE_DATA(s_ZombieRocket),
+	SAVE_DATA(sg_ZombieRocket),
+	SAVE_DATA(s_ZombieRail),
+	SAVE_DATA(sg_ZombieRail),
+	SAVE_DATA(s_ZombieGrenade),
+	SAVE_DATA(sg_ZombieGrenade),
+	SAVE_DATA(s_ZombieFlashBomb),
+	SAVE_DATA(sg_ZombieFlashBomb),
+	SAVE_DATA(s_ZombieUzi),
+	SAVE_DATA(sg_ZombieUzi),
+	SAVE_DATA(s_ZombieFall),
+	SAVE_DATA(sg_ZombieFall),
+
+	SAVE_DATA(ZombieActionSet),
+};
+
+saveable_module saveable_zombie = {
+	// code
+	saveable_zombie_code,
+	SIZ(saveable_zombie_code),
+
+	// data
+	saveable_zombie_data,
+	SIZ(saveable_zombie_data)
+};

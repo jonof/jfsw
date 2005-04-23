@@ -563,3 +563,53 @@ int DoGoroMove(short SpriteNum)
     return(0);
 }    
 
+
+#include "saveable.h"
+
+static saveable_code saveable_goro_code[] = {
+	SAVE_CODE(SetupGoro),
+	SAVE_CODE(NullGoro),
+	SAVE_CODE(DoGoroPain),
+	SAVE_CODE(DoGoroMove),
+};
+
+static saveable_data saveable_goro_data[] = {
+	SAVE_DATA(GoroBattle),
+	SAVE_DATA(GoroOffense),
+	SAVE_DATA(GoroBroadcast),
+	SAVE_DATA(GoroSurprised),
+	SAVE_DATA(GoroEvasive),
+	SAVE_DATA(GoroLostTarget),
+	SAVE_DATA(GoroCloseRange),
+
+	SAVE_DATA(GoroPersonality),
+
+	SAVE_DATA(GoroAttrib),
+
+	SAVE_DATA(s_GoroRun),
+	SAVE_DATA(sg_GoroRun),
+	SAVE_DATA(s_GoroChop),
+	SAVE_DATA(sg_GoroChop),
+	SAVE_DATA(s_GoroSpell),
+	SAVE_DATA(sg_GoroSpell),
+	SAVE_DATA(s_GoroStand),
+	SAVE_DATA(sg_GoroStand),
+	SAVE_DATA(s_GoroPain),
+	SAVE_DATA(sg_GoroPain),
+	SAVE_DATA(s_GoroDie),
+	SAVE_DATA(s_GoroDead),
+	SAVE_DATA(sg_GoroDie),
+	SAVE_DATA(sg_GoroDead),
+
+	SAVE_DATA(GoroActionSet),
+};
+
+saveable_module saveable_goro = {
+	// code
+	saveable_goro_code,
+	SIZ(saveable_goro_code),
+
+	// data
+	saveable_goro_data,
+	SIZ(saveable_goro_data)
+};

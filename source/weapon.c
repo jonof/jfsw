@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -47,7 +47,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "track.h"
 #include "player.h"
 
-// 
+//
 // Damage Amounts defined in damage.h
 //
 #define DAMAGE_TABLE
@@ -57,11 +57,11 @@ DAMAGE_DATA DamageData[] =
     };
 #undef  DAMAGE_TABLE
 
-short ADJUST=120;    
-long ADJUSTV=1<<16;    
+short ADJUST=120;
+long ADJUSTV=1<<16;
 
 FOOT_TYPE FootMode=WATER_FOOT;
-BOOL left_foot = FALSE;  
+BOOL left_foot = FALSE;
 long FinishTimer = 0;
 
 // This is how many bullet shells have been spawned since the beginning of the game.
@@ -83,7 +83,7 @@ short LoWangsQueue[MAX_LOWANGS_QUEUE];
 int SpawnBreakStaticFlames(short);
 
 BOOL GlobalSkipZrange = FALSE;
-  
+
 long WeaponIsAmmo = BIT(WPN_STAR) | BIT(WPN_SWORD) | BIT(WPN_MINE) | BIT(WPN_FIST);
 
 short target_ang;
@@ -194,7 +194,7 @@ STATE s_BreakBarrel[] =
     {BREAK_BARREL + 8, BREAK_BARREL_RATE, NullAnimator, &s_BreakBarrel[5]},
     {BREAK_BARREL + 9, BREAK_BARREL_RATE, DoDefaultStat, &s_BreakBarrel[5]},
     };
-    
+
 #define BREAK_PEDISTAL_RATE 28
 STATE s_BreakPedistal[] =
     {
@@ -214,7 +214,7 @@ STATE s_BreakBottle1[] =
     {BREAK_BOTTLE1 + 5, BREAK_BOTTLE1_RATE, NullAnimator, &s_BreakBottle1[5]},
     {BREAK_BOTTLE1 + 6, BREAK_BOTTLE1_RATE, NullAnimator, &s_BreakBottle1[5]},
     };
-    
+
 #define BREAK_BOTTLE2_RATE 18
 STATE s_BreakBottle2[] =
     {
@@ -373,7 +373,7 @@ STATE s_TankShell[] =
     {
     {TRACER + 0, 200, DoTankShell, &s_TankShell[0]}
     };
-    
+
 ANIMATOR DoVehicleSmoke, SpawnVehicleSmoke;
 #define VEHICLE_SMOKE_RATE 18
 STATE s_VehicleSmoke[] =
@@ -399,9 +399,9 @@ STATE s_WaterSmoke[] =
     {PUFF + 5, WATER_SMOKE_RATE, DoWaterSmoke, &s_WaterSmoke[6]},
     {PUFF + 5, 100, DoSuicide, &s_WaterSmoke[6]}
     };
-    
+
 #define UZI_SPARK_REPEAT 24
-#define UZI_SMOKE_REPEAT 24 // Was 32    
+#define UZI_SMOKE_REPEAT 24 // Was 32
 #define UZI_SMOKE_RATE 16 // Was 9
 STATE s_UziSmoke[] =
     {
@@ -413,7 +413,7 @@ STATE s_UziSmoke[] =
     };
 
 #define SHOTGUN_SMOKE_RATE 16
-#define SHOTGUN_SMOKE_REPEAT 18 // Was 32    
+#define SHOTGUN_SMOKE_REPEAT 18 // Was 32
 #define SHOTGUN_SMOKE UZI_SMOKE+1
 ANIMATOR DoShotgunSmoke;
 STATE s_ShotgunSmoke[] =
@@ -424,7 +424,7 @@ STATE s_ShotgunSmoke[] =
     {UZI_SMOKE + 3, SHOTGUN_SMOKE_RATE, DoShotgunSmoke, &s_ShotgunSmoke[4]},
     {UZI_SMOKE + 3, 100, DoSuicide, &s_ShotgunSmoke[0]},
     };
-    
+
 #define UZI_BULLET_RATE 100
 #define UZI_BULLET 717 // actually a bubble
 ANIMATOR DoUziBullet;
@@ -445,7 +445,7 @@ STATE s_UziSpark[] =
     {UZI_SPARK + 4, UZI_SPARK_RATE, NullAnimator, &s_UziSpark[5]},
     {UZI_SPARK + 4, 100, DoSuicide, &s_UziSpark[0]},
     };
-    
+
 STATE s_UziPowerSpark[] =
     {
     {UZI_SPARK + 0, UZI_SPARK_RATE, DoUziSmoke, &s_UziSpark[1]},
@@ -509,7 +509,7 @@ STATEp sg_CrossBolt[] =
     &s_CrossBolt[3][0],
     &s_CrossBolt[4][0]
     };
-    
+
 #undef STAR
 #define STAR 2102
 #define STAR_RATE 6
@@ -534,7 +534,7 @@ STATE s_StarDown[] =
     {STAR_DOWN + 2, STAR_RATE, DoStar, &s_StarDown[3]},
     {STAR_DOWN + 3, STAR_RATE, DoStar, &s_StarDown[0]}
     };
-    
+
 STATE s_StarDownStuck[] =
     {
     {STAR + 0, STAR_RATE, NullAnimator, &s_StarDownStuck[0]},
@@ -586,10 +586,10 @@ STATE s_VulcanBoulder[] =
     {LAVA_BOULDER + 7, LAVA_BOULDER_RATE, DoVulcanBoulder, &s_VulcanBoulder[7]},
     {LAVA_BOULDER + 8, LAVA_BOULDER_RATE, DoVulcanBoulder, &s_VulcanBoulder[0]},
     };
-    
+
 //////////////////////
 //
-// GRENADE 
+// GRENADE
 //
 //////////////////////
 
@@ -606,7 +606,7 @@ STATE s_Grenade[] =
     {FIREBALL + 2, GRENADE_RATE, DoGrenade, &s_Grenade[3]},
     {FIREBALL + 3, GRENADE_RATE, DoGrenade, &s_Grenade[0]}
     };
-#else 
+#else
 #define GRENADE_FRAMES 1
 #define GRENADE_R0 2110
 #define GRENADE_R1 GRENADE_R0 + (GRENADE_FRAMES * 1)
@@ -647,11 +647,11 @@ STATEp sg_Grenade[] =
     &s_Grenade[3][0],
     &s_Grenade[4][0]
     };
-#endif    
-    
+#endif
+
 //////////////////////
 //
-// MINE 
+// MINE
 //
 //////////////////////
 
@@ -671,8 +671,8 @@ STATE s_Mine[] =
     {MINE + 0, MINE_RATE, DoMine, &s_Mine[1]},
     {MINE + 1, MINE_RATE, DoMine, &s_Mine[0]},
     };
-    
-ANIMATOR DoMineSpark;    
+
+ANIMATOR DoMineSpark;
 STATE s_MineSpark[] =
     {
     {UZI_SPARK + 0, UZI_SPARK_RATE, DoMineSpark, &s_MineSpark[1]},
@@ -682,7 +682,7 @@ STATE s_MineSpark[] =
     {UZI_SPARK + 4, UZI_SPARK_RATE, DoMineSpark, &s_MineSpark[5]},
     {UZI_SPARK + 4, 100, DoSuicide, &s_MineSpark[0]},
     };
-    
+
 //////////////////////
 //
 // METEOR
@@ -746,7 +746,7 @@ STATEp sg_Meteor[] =
 
 #define METEOR_EXP 2115
 #define METEOR_EXP_RATE 7
-    
+
 STATE s_MeteorExp[] =
     {
     {METEOR_EXP + 0, METEOR_EXP_RATE, NullAnimator, &s_MeteorExp[1]},
@@ -759,7 +759,7 @@ STATE s_MeteorExp[] =
     };
 
 #define MIRV_METEOR METEOR_R0
-ANIMATOR DoMirvMissile;    
+ANIMATOR DoMirvMissile;
 STATE s_MirvMeteor[5][4] =
     {
         {
@@ -816,7 +816,7 @@ STATE s_MirvMeteorExp[] =
     };
 
 #define SERP_METEOR METEOR_R0+1
-ANIMATOR DoSerpMeteor;    
+ANIMATOR DoSerpMeteor;
 STATE s_SerpMeteor[5][4] =
     {
         {
@@ -861,7 +861,7 @@ STATEp sg_SerpMeteor[] =
     &s_SerpMeteor[4][0]
     };
 
-    
+
 STATE s_SerpMeteorExp[] =
     {
     {METEOR_EXP + 0, METEOR_EXP_RATE, NullAnimator, &s_SerpMeteorExp[1]},
@@ -909,7 +909,7 @@ STATEp sg_Spear[] =
     s_Spear[3],
     s_Spear[4]
     };
-    
+
 //////////////////////
 //
 // ROCKET
@@ -997,7 +997,7 @@ STATEp sg_BunnyRocket[] =
     &s_BunnyRocket[3][0],
     &s_BunnyRocket[4][0]
     };
-    
+
 ANIMATOR DoRail;
 #define RAIL_RATE 8
 
@@ -1067,7 +1067,7 @@ STATE s_MicroPuff[] =
     {PUFF + 5, PUFF_RATE, DoPuff, &s_MicroPuff[6]},
     {PUFF + 5, 100, DoMicroPuffSuicide, &s_MicroPuff[6]}
     };
-#endif    
+#endif
 
 STATE s_Micro[5][1] =
     {
@@ -1097,7 +1097,7 @@ STATEp sg_Micro[] =
     &s_Micro[4][0]
     };
 
-ANIMATOR DoMicroMini;    
+ANIMATOR DoMicroMini;
 STATE s_MicroMini[5][1] =
     {
         {
@@ -1162,7 +1162,7 @@ STATEp sg_BoltThinMan[] =
     &s_BoltThinMan[3][0],
     &s_BoltThinMan[4][0]
     };
-    
+
 #define BOLT_SEEKER_RATE 8
 ANIMATOR DoBoltSeeker;
 
@@ -1248,7 +1248,7 @@ STATE s_CoolgFireDone[] =
     {COOLG_FIRE_DONE + 4, COOLG_FIRE_DONE_RATE, DoSuicide, &s_CoolgFireDone[5]}
     };
 
-ANIMATOR DoCoolgDrip;    
+ANIMATOR DoCoolgDrip;
 #define COOLG_DRIP 1720
 STATE s_CoolgDrip[] =
     {
@@ -1281,12 +1281,12 @@ STATE s_GoreSplash[] =
     {GORE_SPLASH + 5, GORE_SPLASH_RATE, DoSuicide, &s_GoreSplash[6]}
     };
 
-//////////////////////////////////////////////    
+//////////////////////////////////////////////
 //
 //  HEART ATTACK & PLASMA
 //
 //////////////////////////////////////////////
-    
+
 #define PLASMA 1562 //2058
 #define PLASMA_FOUNTAIN 2058+1
 #define PLASMA_RATE 8
@@ -1303,8 +1303,8 @@ STATE s_Plasma[] =
     };
 
 ANIMATOR DoPlasmaFountain;
-    
-// follows actor spewing blood    
+
+// follows actor spewing blood
 #define PLASMA_Drip 1562 //2420
 STATE s_PlasmaFountain[] =
     {
@@ -1337,8 +1337,8 @@ STATE s_PlasmaDone[] =
     {PLASMA + 2, PLASMA_DONE_RATE, DoPlasmaDone, &s_PlasmaDone[2]},
     {PLASMA + 1, PLASMA_DONE_RATE, DoPlasmaDone, &s_PlasmaDone[0]}
     };
-    
-#define TELEPORT_EFFECT 3240    
+
+#define TELEPORT_EFFECT 3240
 #define TELEPORT_EFFECT_RATE 6
 ANIMATOR DoTeleportEffect;
 STATE s_TeleportEffect[] =
@@ -1364,7 +1364,7 @@ STATE s_TeleportEffect[] =
     {TELEPORT_EFFECT + 17, TELEPORT_EFFECT_RATE, DoSuicide, &s_TeleportEffect[18]},
     };
 
-// Spawn a RIPPER teleport effect    
+// Spawn a RIPPER teleport effect
 ANIMATOR DoTeleRipper;
 STATE s_TeleportEffect2[] =
     {
@@ -1390,7 +1390,7 @@ STATE s_TeleportEffect2[] =
     {TELEPORT_EFFECT + 17, TELEPORT_EFFECT_RATE, DoSuicide, &s_TeleportEffect2[19]},
     };
 
-    
+
 ANIMATOR DoElectro;
 #define ELECTRO_SNAKE 2073
 #define ELECTRO_PLAYER (ELECTRO)
@@ -1404,7 +1404,7 @@ STATE s_Electro[] =
     {ELECTRO + 2, 12, DoElectro, &s_Electro[3]},
     {ELECTRO + 3, 12, DoElectro, &s_Electro[0]}
     };
-    
+
 STATE s_ElectroShrap[] =
     {
     {ELECTRO + 0, 12, DoShrapDamage, &s_ElectroShrap[1]},
@@ -1412,7 +1412,7 @@ STATE s_ElectroShrap[] =
     {ELECTRO + 2, 12, DoShrapDamage, &s_ElectroShrap[3]},
     {ELECTRO + 3, 12, DoShrapDamage, &s_ElectroShrap[0]}
     };
-    
+
 //////////////////////
 //
 // EXPS
@@ -1421,10 +1421,10 @@ STATE s_ElectroShrap[] =
 #define GRENADE_EXP 3121
 #define MINE_EXP GRENADE_EXP+1
 #define GRENADE_EXP_RATE 6
-    
-#if 0    
+
+#if 0
 STATE s_GrenadeExp[] =
-    {                             
+    {
     {GRENADE_EXP + 0, GRENADE_EXP_RATE, NullAnimator, &s_GrenadeExp[1]},
     {GRENADE_EXP + 1, GRENADE_EXP_RATE, NullAnimator, &s_GrenadeExp[2]},
     {GRENADE_EXP + 2, GRENADE_EXP_RATE, NullAnimator, &s_GrenadeExp[3]},
@@ -1451,7 +1451,7 @@ STATE s_GrenadeExp[] =
     };
 #else
 STATE s_GrenadeSmallExp[] =
-    {                             
+    {
     {GRENADE_EXP + 0, GRENADE_EXP_RATE, NullAnimator, &s_GrenadeSmallExp[1]},
     {GRENADE_EXP + 1, GRENADE_EXP_RATE, NullAnimator, &s_GrenadeSmallExp[2]},
     {GRENADE_EXP + 2, GRENADE_EXP_RATE, NullAnimator, &s_GrenadeSmallExp[3]},
@@ -1479,7 +1479,7 @@ STATE s_GrenadeSmallExp[] =
 
 ANIMATOR SpawnGrenadeSmallExp;
 STATE s_GrenadeExp[] =
-    {                             
+    {
     {GRENADE_EXP + 0, GRENADE_EXP_RATE, NullAnimator, &s_GrenadeExp[1]},
     {GRENADE_EXP + 1, GRENADE_EXP_RATE, NullAnimator, &s_GrenadeExp[2]},
     {GRENADE_EXP + 2, GRENADE_EXP_RATE, NullAnimator, &s_GrenadeExp[3]},
@@ -1507,12 +1507,12 @@ STATE s_GrenadeExp[] =
     {GRENADE_EXP + 21, GRENADE_EXP_RATE, NullAnimator, &s_GrenadeExp[25]},
     {GRENADE_EXP + 21, 100, DoSuicide, &s_GrenadeExp[25]}
     };
-#endif    
-    
+#endif
+
 #define MINE_EXP GRENADE_EXP+1
 ANIMATOR DoMineExp, DoMineExpMine;
 STATE s_MineExp[] =
-    {                             
+    {
     {GRENADE_EXP + 0, GRENADE_EXP_RATE, NullAnimator, &s_MineExp[1]},
     {GRENADE_EXP + 1, GRENADE_EXP_RATE, NullAnimator, &s_MineExp[2]},
     {GRENADE_EXP + 2, GRENADE_EXP_RATE, NullAnimator, &s_MineExp[3]},
@@ -1550,7 +1550,7 @@ STATE s_MineExp[] =
 #define TANK_SHELL_EXP EXP+7
 
 STATE s_BasicExp[] =
-    {                             
+    {
     {EXP + 0, EXP_RATE, NullAnimator, &s_BasicExp[1]},
     {EXP + 1, EXP_RATE, NullAnimator, &s_BasicExp[2]},
     {EXP + 2, EXP_RATE, NullAnimator, &s_BasicExp[3]},
@@ -1603,9 +1603,9 @@ STATE s_MicroExp[] =
     {EXP + 20, MICRO_EXP_RATE, NullAnimator, &s_MicroExp[22]},
     {EXP + 20, 100, DoSuicide, &s_MicroExp[22]}
     };
-    
-    
-#define BIG_GUN_FLAME_RATE 15   
+
+
+#define BIG_GUN_FLAME_RATE 15
 STATE s_BigGunFlame[] =
     {
     // first 3 frames
@@ -1619,7 +1619,7 @@ STATE s_BigGunFlame[] =
     {EXP + 20, BIG_GUN_FLAME_RATE, NullAnimator, &s_BigGunFlame[7]},
     {EXP + 20, 100, DoSuicide, &s_BigGunFlame[0]}
     };
-    
+
 STATE s_BoltExp[] =
     {
     {EXP + 0, EXP_RATE, NullAnimator, &s_BoltExp[1]},
@@ -1677,8 +1677,8 @@ STATE s_TankShellExp[] =
     {EXP + 20, EXP_RATE, NullAnimator, &s_TankShellExp[24]},
     {EXP + 20, 100, DoSuicide, &s_TankShellExp[0]}
     };
-    
-#define TRACER_EXP_RATE 4    
+
+#define TRACER_EXP_RATE 4
 STATE s_TracerExp[] =
     {
     {EXP + 0, TRACER_EXP_RATE, NullAnimator, &s_TracerExp[1]},
@@ -1707,7 +1707,7 @@ STATE s_TracerExp[] =
     {EXP + 20, TRACER_EXP_RATE, NullAnimator, &s_TracerExp[24]},
     {EXP + 20, 100, DoSuicide, &s_TracerExp[0]}
     };
-    
+
 #define EXP_RATE 7
 ANIMATOR SpawnShrapX;
 ANIMATOR DoSectorExp;
@@ -1740,10 +1740,10 @@ STATE s_SectorExp[] =
     {EXP + 20, EXP_RATE, DoSectorExp, &s_SectorExp[24]},
     {EXP + 20, 100, DoSuicide, &s_SectorExp[0]}
     };
-    
 
-#define FIREBALL_DISS 3196    
-#define FIREBALL_DISS_RATE 8    
+
+#define FIREBALL_DISS 3196
+#define FIREBALL_DISS_RATE 8
 STATE s_FireballExp[] =
     {
     {FIREBALL_DISS + 0, FIREBALL_DISS_RATE, NullAnimator, &s_FireballExp[1]},
@@ -1753,7 +1753,7 @@ STATE s_FireballExp[] =
     {FIREBALL_DISS + 4, FIREBALL_DISS_RATE, NullAnimator, &s_FireballExp[5]},
     {FIREBALL_DISS + 4, 100, DoSuicide, &s_FireballExp[0]}
     };
-    
+
 #define NAP_EXP (3072)
 #define NAP_EXP_RATE 6
 
@@ -1826,10 +1826,10 @@ STATE s_BreakFlames[] =
     {FIREBALL_FLAMES +12, FLAME_RATE, DoBreakFlames, &s_BreakFlames[13]},
     {FIREBALL_FLAMES +13, FLAME_RATE, DoBreakFlames, &s_BreakFlames[0]},
     };
-    
+
 //////////////////////
 //
-// FIREBALL 
+// FIREBALL
 //
 //////////////////////
 
@@ -1893,7 +1893,7 @@ STATEp sg_Fireball[] =
     s_Fireball[3],
     s_Fireball[4]
     };
-#endif    
+#endif
 
 #if 0
 ANIMATOR DoRing;
@@ -1950,7 +1950,7 @@ STATE s_Ring[] =
     {FIREBALL + 2, 12, DoRing, &s_Ring[3]},
     {FIREBALL + 3, 12, DoRing, &s_Ring[0]}
     };
-#endif    
+#endif
 
 STATE s_Ring2[] =
     {
@@ -1970,7 +1970,7 @@ STATE s_Napalm[] =
     {FIREBALL + 3, 12, DoNapalm, &s_Napalm[0]}
     };
 
-    
+
 ANIMATOR DoBloodWorm;
 
 #if 1
@@ -1993,9 +1993,9 @@ STATE s_BloodWorm[] =
     {FIREBALL + 2, 12, DoBloodWorm, &s_BloodWorm[3]},
     {FIREBALL + 3, 12, DoBloodWorm, &s_BloodWorm[0]}
     };
-#endif    
+#endif
 
-#if 1    
+#if 1
 #define PLASMA_EXP BLOOD_WORM+1
 #define PLASMA_EXP_RATE 8
 
@@ -2015,8 +2015,8 @@ STATE s_PlasmaExp[] =
     {BLOOD_WORM + 1, PLASMA_EXP_RATE, NullAnimator, &s_PlasmaExp[12]},
     {BLOOD_WORM + 0, PLASMA_EXP_RATE, DoSuicide, &s_PlasmaExp[12]},
     };
-    
-#else    
+
+#else
 #define PLASMA_EXP (NAP_EXP+1)
 #define PLASMA_EXP_RATE 4
 
@@ -2047,9 +2047,9 @@ STATE s_PlasmaExp[] =
     {PLASMA_EXP + 1,     PLASMA_EXP_RATE-2,    NullAnimator,  &s_PlasmaExp[23]},
     {PLASMA_EXP + 1,     PLASMA_EXP_RATE-2,    DoSuicide,     &s_PlasmaExp[23]}
     };
-#endif    
-    
-    
+#endif
+
+
 ANIMATOR DoMirv;
 
 STATE s_Mirv[] =
@@ -2256,12 +2256,12 @@ STATE s_FastGoreDrip[] =
     {GORE_Drip + 2, GORE_Drip_RATE, DoFastShrapJumpFall, &s_FastGoreDrip[3]},
     {GORE_Drip + 3, GORE_Drip_RATE, DoFastShrapJumpFall, &s_FastGoreDrip[0]},
     };
-    
-///////////////////////////////////////////////    
+
+///////////////////////////////////////////////
 //
 // This GORE mostly for the Accursed Heads
 //
-///////////////////////////////////////////////    
+///////////////////////////////////////////////
 
 #define GORE_Flame 847
 #define GORE_Flame_RATE 8
@@ -2278,7 +2278,7 @@ STATE s_GoreFlame[] =
     {GORE_Flame + 7, GORE_Flame_RATE, DoFastShrapJumpFall, &s_GoreFlame[0]},
     };
 
-ANIMATOR DoTracerShrap;    
+ANIMATOR DoTracerShrap;
 STATE s_TracerShrap[] =
     {
     {GORE_Flame + 0, GORE_Flame_RATE, DoTracerShrap, &s_TracerShrap[1]},
@@ -2342,7 +2342,7 @@ STATE s_ShotgunShellShrap[] =
     {SHOT_SHELL + 6, SHOTSHELL_RATE, DoShrapJumpFall, &s_ShotgunShellShrap[7]},
     {SHOT_SHELL + 7, SHOTSHELL_RATE, DoShrapJumpFall, &s_ShotgunShellShrap[0]},
     };
-    
+
 STATE s_ShotgunShellShrapStill1[] =
     {
     {SHOT_SHELL + 1, SHOTSHELL_RATE, NullAnimator, &s_ShotgunShellShrapStill1[0]}
@@ -2351,7 +2351,7 @@ STATE s_ShotgunShellShrapStill2[] =
     {
     {SHOT_SHELL + 3, SHOTSHELL_RATE, NullAnimator, &s_ShotgunShellShrapStill2[0]}
     };
-STATE s_ShotgunShellShrapStill3[] = 
+STATE s_ShotgunShellShrapStill3[] =
     {
     {SHOT_SHELL + 7, SHOTSHELL_RATE, NullAnimator, &s_ShotgunShellShrapStill3[0]}
     };
@@ -2381,8 +2381,8 @@ STATE s_GoreFlameChunkB[] =
 /////////////////////////////////////////////////////////////////////
 //
 // General Breaking Shrapnel
-//    
-/////////////////////////////////////////////////////////////////////    
+//
+/////////////////////////////////////////////////////////////////////
 
 #define COIN_SHRAP 2530
 #define CoinShrap_RATE 12
@@ -2451,11 +2451,11 @@ STATE s_GlassShrapC[] =
     {GLASS_SHRAP_C + 6, GlassShrapC_RATE, DoShrapJumpFall, &s_GlassShrapC[7]},
     {GLASS_SHRAP_C + 7, GlassShrapC_RATE, DoShrapJumpFall, &s_GlassShrapC[0]},
     };
-  
+
 //
 // Wood
-//  
-    
+//
+
 #define WOOD_SHRAP_A 3924
 #define WoodShrapA_RATE 12
 
@@ -2503,8 +2503,8 @@ STATE s_WoodShrapC[] =
 
 //
 // Stone
-//  
-    
+//
+
 #define STONE_SHRAP_A 3840
 #define StoneShrapA_RATE 12
 
@@ -2552,8 +2552,8 @@ STATE s_StoneShrapC[] =
 
 //
 // Metal
-//  
-    
+//
+
 #define METAL_SHRAP_A 3888
 #define MetalShrapA_RATE 12
 
@@ -2601,8 +2601,8 @@ STATE s_MetalShrapC[] =
 
 //
 // Paper
-//  
-    
+//
+
 #define PAPER_SHRAP_A 3924
 #define PaperShrapA_RATE 12
 
@@ -2637,17 +2637,17 @@ STATE s_PaperShrapC[] =
     };
 
 #if 1
-BOOL MissileHitMatch(short Weapon, short WeaponNum, short hitsprite)    
+BOOL MissileHitMatch(short Weapon, short WeaponNum, short hitsprite)
     {
     SPRITEp hsp = &sprite[hitsprite];
     SPRITEp wp = &sprite[Weapon];
     USERp wu = User[Weapon];
-    
+
     if (WeaponNum <= -1)
         {
         ASSERT(Weapon >= 0);
         WeaponNum = wu->WeaponNum;
-        
+
         // can be hit by SO only
         if (SP_TAG7(hsp) == 4)
             {
@@ -2656,13 +2656,13 @@ BOOL MissileHitMatch(short Weapon, short WeaponNum, short hitsprite)
                 DoMatchEverything(NULL, hsp->hitag, -1);
                 return(TRUE);
                 }
-            else 
-                {   
+            else
+                {
                 return(FALSE);
                 }
             }
         }
-        
+
     if (SP_TAG7(hsp) == 0)
         {
         switch (WeaponNum)
@@ -2675,7 +2675,7 @@ BOOL MissileHitMatch(short Weapon, short WeaponNum, short hitsprite)
                 return(TRUE);
             }
         }
-    else    
+    else
     if (SP_TAG7(hsp) == 1)
         {
         switch (WeaponNum)
@@ -2689,7 +2689,7 @@ BOOL MissileHitMatch(short Weapon, short WeaponNum, short hitsprite)
                 return(TRUE);
             }
         }
-    else    
+    else
     if (SP_TAG7(hsp) == 2)
         {
         switch (WeaponNum)
@@ -2704,8 +2704,8 @@ BOOL MissileHitMatch(short Weapon, short WeaponNum, short hitsprite)
                 DoMatchEverything(NULL, hsp->hitag, -1);
                 return(TRUE);
             }
-        }    
-    else    
+        }
+    else
     if (SP_TAG7(hsp) == 3)
         {
         switch (WeaponNum)
@@ -2724,35 +2724,35 @@ BOOL MissileHitMatch(short Weapon, short WeaponNum, short hitsprite)
                 return(TRUE);
             }
         }
-    
-    return(FALSE);    
-        
-    #if 0    
-    WPN_STAR   
-    WPN_UZI    
+
+    return(FALSE);
+
+    #if 0
+    WPN_STAR
+    WPN_UZI
     WPN_SHOTGUN
-    WPN_MICRO  
+    WPN_MICRO
     WPN_GRENADE
-    WPN_MINE   
-    WPN_RAIL   
-    WPN_HEART  
+    WPN_MINE
+    WPN_RAIL
+    WPN_HEART
     WPN_HOTHEAD
-    WPN_NAPALM 
-    WPN_RING   
-    WPN_ROCKET 
-    WPN_SWORD  
+    WPN_NAPALM
+    WPN_RING
+    WPN_ROCKET
+    WPN_SWORD
     WPN_FIST
     #endif
     }
-#endif    
+#endif
 
-int SpawnShrapX(short SpriteNum)    
+int SpawnShrapX(short SpriteNum)
     {
     //For shrap that has no Weapon to send over
     SpawnShrap(SpriteNum, -1);
     return(0);
     }
-    
+
 int DoLavaErupt(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
@@ -2761,7 +2761,7 @@ int DoLavaErupt(short SpriteNum)
     PLAYERp pp;
     SPRITEp tsp;
     BOOL found = FALSE;
-    
+
     if (TEST_BOOL1(sp))
         {
         TRAVERSE_CONNECT(pnum)
@@ -2772,23 +2772,23 @@ int DoLavaErupt(short SpriteNum)
                 TRAVERSE_SPRITE_SECT(headspritesect[pp->cursectnum],i,nexti)
                     {
                     tsp = &sprite[i];
-                    
+
                     if (tsp->statnum == STAT_TRIGGER && SP_TAG7(tsp) == 0 && SP_TAG5(tsp) == 1)
                         {
                         found = TRUE;
                         break;
                         }
                     }
-                if (found)    
+                if (found)
                     break;
                 }
             }
-            
+
         if (!found)
             return(0);
-        }    
-    
-    if (!TEST(u->Flags, SPR_ACTIVE))    
+        }
+
+    if (!TEST(u->Flags, SPR_ACTIVE))
         {
         // inactive
         if ((u->WaitTics -= synctics) <= 0)
@@ -2798,9 +2798,9 @@ int DoLavaErupt(short SpriteNum)
             u->WaitTics = SP_TAG9(sp) * 120L;
             }
         }
-    else 
+    else
         {
-        // active   
+        // active
         if ((u->WaitTics -= synctics) <= 0)
             {
             // Stop for this long
@@ -2808,14 +2808,14 @@ int DoLavaErupt(short SpriteNum)
             u->Counter = 0;
             u->WaitTics = SP_TAG10(sp) * 120L;
             }
-            
+
         // Counter controls the volume of lava erupting
         // starts out slow and increases to a max
         u->Counter += synctics;
-        if (u->Counter > SP_TAG2(sp))    
+        if (u->Counter > SP_TAG2(sp))
             u->Counter = SP_TAG2(sp);
-                            
-        if ((RANDOM_P2(1024<<6)>>6) < u->Counter)    
+
+        if ((RANDOM_P2(1024<<6)>>6) < u->Counter)
             {
             switch (SP_TAG3(sp))
                 {
@@ -2824,13 +2824,13 @@ int DoLavaErupt(short SpriteNum)
                     break;
                 case 1:
                     InitVulcanBoulder(SpriteNum);
-                    break;    
+                    break;
                 }
             }
-        }    
-    
-    return(0);    
-}                    
+        }
+
+    return(0);
+}
 
 
 VOID UserShrapSetup(SHRAPp shrap, STATEp state, long num_shrap)
@@ -2839,33 +2839,33 @@ VOID UserShrapSetup(SHRAPp shrap, STATEp state, long num_shrap)
     shrap->num = num_shrap;
     }
 
-#if 0    
+#if 0
 STATEp UserStateSetup(short base_tile, short num_tiles)
     {
     STATEp base_state, stp;
     short tile;
-    
+
 #define USER_PIC 0
 #define USER_RATE 12
 
     base_state = CallocMem(sizeof(STATE) * num_tiles, 1);
-   
+
     for (stp = base_state, tile = 0; stp->state || tile < num_tiles; stp++, tile++)
         {
         stp->Pic = base_tile + tile;
         stp->Tics = USER_RATE;
         stp->Animator = DoShrapJumpFall;
-        
+
         // if last tile
         if (tile == num_tiles - 1)
             stp->NextState = base_state;
-        else    
+        else
             stp->NextState = stp + 1;
         }
-    
-    return(base_state);    
+
+    return(base_state);
     }
-#endif    
+#endif
 
 int
 SpawnShrap(short ParentNum, short Secondary)
@@ -2875,16 +2875,16 @@ SpawnShrap(short ParentNum, short Secondary)
     USERp u, pu = User[ParentNum];
     short SpriteNum;
     short i;
-    
+
     /////////////////////////////////////////
     //
     // BREAK shrap types
     //
     /////////////////////////////////////////
-    
+
     // Individual shraps can be copied to this and then values can be changed
     static SHRAP CustomShrap[20];
-    
+
     static SHRAP CoinShrap[] =
         {
         {s_CoinShrap, COIN_SHRAP,      5, Z_MID, 200, 600, 100, 500, TRUE, 2048},
@@ -2944,7 +2944,7 @@ SpawnShrap(short ParentNum, short Secondary)
         {s_MetalShrapC, METAL_SHRAP_A, 1, Z_MID, 200, 600, 100, 500, TRUE, 2048},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     static SHRAP WoodMix[] =
         {
         {s_WoodShrapA, WOOD_SHRAP_A, 1, Z_MID, 200, 600, 100, 500, TRUE, 2048},
@@ -2966,7 +2966,7 @@ SpawnShrap(short ParentNum, short Secondary)
         {s_PaperShrapC, PAPER_SHRAP_A, 2, Z_MID, 200, 600, 100, 500, TRUE, 2048},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     static SHRAP Marbels[] =
         {
         {s_Marbel,      MARBEL,        5, Z_MID, 200, 600, 100, 500, TRUE, 2048},
@@ -2976,18 +2976,18 @@ SpawnShrap(short ParentNum, short Secondary)
         {NULL,0,0,0,0,0,0,0,0,0},
         };
 
-    #if 0        
+    #if 0
     static SHRAP BloodShrap[] =
         {
         {s_BloodShrap, BLOOD_SHRAP, 8, Z_MID, 200, 600, 100, 500, TRUE, 2048},
         {NULL},
         };
-    #endif        
+    #endif
 
     ////
     // END - BREAK shrap types
     ////
-    
+
     static SHRAP EMPShrap[] =
         {
         {s_EMPShrap, EMP, 1, Z_MID, 500, 1100, 300, 600, FALSE, 128},
@@ -3012,7 +3012,7 @@ SpawnShrap(short ParentNum, short Secondary)
         {s_GoreArm,     GORE_Arm,       2, Z_MID, 500, 1100, 350, 600, TRUE, 2048},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     static SHRAP SkelGore[] =
         {
         {s_GoreHead, GORE_Head, 1, Z_TOP, 400, 700, 20, 40, TRUE, 2048},
@@ -3062,7 +3062,7 @@ SpawnShrap(short ParentNum, short Secondary)
         {s_GoreFlame, GORE_Drip, 4, Z_BOT, 300, 700, 300, 600, TRUE, 2048},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     static SHRAP TracerExpShrap[] =
         {
         {s_TracerShrap, GORE_Drip, 3, Z_MID, 300, 700, 300, 600, TRUE, 2048},
@@ -3074,19 +3074,19 @@ SpawnShrap(short ParentNum, short Secondary)
         {s_GoreFlame, GORE_Drip, 1, Z_MID, 100, 300, 100, 200, TRUE, 2048},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     static SHRAP FireballExpShrap2[] =
         {
         {s_GoreFlame, GORE_Drip, 2, Z_MID, 100, 300, 100, 200, TRUE, 2048},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
 
-    static SHRAPp FireballExpShrap[] = 
+    static SHRAPp FireballExpShrap[] =
         {
         FireballExpShrap1,
         FireballExpShrap2
-        };    
-        
+        };
+
     // state, id, num, zlevel, min_jspeed, max_jspeed, min_vel, max_vel,
     // random_disperse, ang_range;
     static SHRAP ElectroShrap[] =
@@ -3108,31 +3108,31 @@ SpawnShrap(short ParentNum, short Secondary)
         {s_GoreFlameChunkB, GORE_Drip, 1, Z_TOP, 400, 1400, 100, 400, TRUE, 2048},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
-    static SHRAP *LavaShrapTable[] = 
+
+    static SHRAP *LavaShrapTable[] =
         {
         LavaShrap1,
         LavaShrap2
-        };        
-        
+        };
+
     static SHRAP LavaBoulderShrap[] =
         {
         {s_LavaShard, LAVA_SHARD, 16, Z_MID, 400, 900, 200, 600, TRUE, 2048},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     static SHRAP SectorSquishGore[] =
         {
         {s_FastGoreDrip,    GORE_Drip,   24, Z_MID, -400, -200, 600, 800, FALSE, 2048},
-        {NULL,0,0,0,0,0,0,0,0,0},              
+        {NULL,0,0,0,0,0,0,0,0,0},
         };
 
-        
-        
+
+
     //
     // PLAYER SHRAP
-    //    
-        
+    //
+
     // state, id, num, zlevel, min_jspeed, max_jspeed, min_vel, max_vel,
     // random_disperse, ang_range;
     static SHRAP PlayerGoreFall[] =
@@ -3156,7 +3156,7 @@ SpawnShrap(short ParentNum, short Secondary)
         {s_FastGoreDrip,    GORE_Drip,      16, Z_BOT, 500, 1100, 350, 600, FALSE, 2048},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     static SHRAP PlayerDeadHead[] =
         {
         {s_GoreDrip, GORE_Drip, 2, Z_TOP, 150, 400, 40, 80, TRUE, 2048},
@@ -3172,14 +3172,14 @@ SpawnShrap(short ParentNum, short Secondary)
         {NULL,0,0,0,0,0,0,0,0,0},
         };
 
-    #define WALL_FLOOR_SHRAP 4097        
+    #define WALL_FLOOR_SHRAP 4097
     ANIMATOR DoShrapWallFloor;
     static SHRAP SectorExpShrap[] =
         {
         {NULL, WALL_FLOOR_SHRAP, 1, Z_BOT, 550, 800, 200, 400, TRUE, 512},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     long hz[3];
     short dang;
 
@@ -3197,14 +3197,14 @@ SpawnShrap(short ParentNum, short Secondary)
     short start_ang;
     short shrap_owner = -1;
     long shrap_bounce = FALSE;
-    short WaitTics = 64; // for FastShrap    
+    short WaitTics = 64; // for FastShrap
     short shrap_type;
     long shrap_rand_zamt = 0;
     short shrap_ang = parent->ang;
     short shrap_delta_size = 0;
     short shrap_amt = 0;
     extern BREAK_INFOp GlobBreakInfo;
-    
+
     if (Prediction)
         return(0);
 
@@ -3234,16 +3234,16 @@ SpawnShrap(short ParentNum, short Secondary)
             goto UserShrap;
             }
         else
-            {             
+            {
             // has a user - is programmed
             change_sprite_stat(parent - sprite, STAT_MISC);
             RESET(parent->extra, SPRX_BREAKABLE);
             RESET(parent->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
             }
         }
-        
+
     ASSERT(pu);
-        
+
     switch (pu->ID)
         {
     case ST1:
@@ -3253,26 +3253,26 @@ SpawnShrap(short ParentNum, short Secondary)
                 {
                 if (pu->LastDamage)
                     shrap_type = SP_TAG3(parent);
-                else    
+                else
                     shrap_type = SP_TAG6(parent);
-                
+
                 UserShrap:
-                
+
                 shrap_delta_size = (signed char)SP_TAG10(parent);
                 shrap_rand_zamt = SP_TAG9(parent);
                 // Hey, better limit this in case mappers go crazy, like I did. :)
                 // Kills frame rate!
                 shrap_amt = SP_TAG8(parent);
-                if (shrap_amt > 5) 
+                if (shrap_amt > 5)
                     shrap_amt = 5;
-                
+
                 AutoShrap:
-                
+
                 switch (shrap_type)
                     {
                     case SHRAP_NONE:
                         return(FALSE);
-                        
+
                     case SHRAP_GLASS:
                         PlaySound(DIGI_BREAKGLASS,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
                         p = GlassShrap;
@@ -3283,10 +3283,10 @@ SpawnShrap(short ParentNum, short Secondary)
                             CustomShrap->num = shrap_amt;
                             p = CustomShrap;
                             }
-                            
+
                         shrap_xsize = shrap_ysize = 16 + shrap_delta_size;
                         shrap_bounce = TRUE;
-                        break;   
+                        break;
 
                     case SHRAP_GENERIC:
                     case SHRAP_STONE:
@@ -3298,11 +3298,11 @@ SpawnShrap(short ParentNum, short Secondary)
                             CustomShrap->num = shrap_amt;
                             p = CustomShrap;
                             }
-                            
+
                         shrap_xsize = shrap_ysize = 8 + shrap_delta_size;
                         shrap_bounce = TRUE;
-                        break;   
-                        
+                        break;
+
                     case SHRAP_WOOD:
                         PlaySound(DIGI_BREAKINGWOOD,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
                         p = WoodShrap;
@@ -3312,23 +3312,23 @@ SpawnShrap(short ParentNum, short Secondary)
                             CustomShrap->num = shrap_amt;
                             p = CustomShrap;
                             }
-                            
+
                         shrap_xsize = shrap_ysize = 16 + shrap_delta_size;
                         shrap_bounce = TRUE;
-                        break;   
-                        
+                        break;
+
                     case SHRAP_BLOOD:
                         shrap_xsize = shrap_ysize = 16 + shrap_delta_size;
-                        break;   
+                        break;
 
                     case SHRAP_GIBS:
                         PlaySound(DIGI_GIBS1,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
                         p = SmallGore;
                         shrap_xsize = shrap_ysize = 34;
                         shrap_bounce = FALSE;
-                        break;   
-                        
-                    case SHRAP_TREE_BARK: 
+                        break;
+
+                    case SHRAP_TREE_BARK:
                         PlaySound(DIGI_BREAKINGWOOD,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
                         p = WoodShrap;
                         if (shrap_amt)
@@ -3337,11 +3337,11 @@ SpawnShrap(short ParentNum, short Secondary)
                             CustomShrap->num = shrap_amt;
                             p = CustomShrap;
                             }
-                            
+
                         shrap_xsize = shrap_ysize = 16 + shrap_delta_size;
                         shrap_bounce = TRUE;
-                        break;   
-                        
+                        break;
+
                     case SHRAP_PAPER:
                         p = PaperShrap;
                         if (shrap_amt)
@@ -3350,11 +3350,11 @@ SpawnShrap(short ParentNum, short Secondary)
                             CustomShrap->num = shrap_amt;
                             p = CustomShrap;
                             }
-                            
+
                         shrap_xsize = shrap_ysize = 16 + shrap_delta_size;
-                        break;   
-                        
-                    case SHRAP_METAL:  
+                        break;
+
+                    case SHRAP_METAL:
                         PlaySound(DIGI_BREAKMETAL,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
                         p = MetalShrap;
                         if (shrap_amt)
@@ -3363,13 +3363,13 @@ SpawnShrap(short ParentNum, short Secondary)
                             CustomShrap->num = shrap_amt;
                             p = CustomShrap;
                             }
-                            
+
                         shrap_xsize = shrap_ysize = 16 + shrap_delta_size;
                         shrap_bounce = TRUE;
-                        break;   
-                        
+                        break;
 
-                    case SHRAP_COIN:          
+
+                    case SHRAP_COIN:
                         PlaySound(DIGI_COINS,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
                         p = CoinShrap;
                         if (shrap_amt)
@@ -3378,12 +3378,12 @@ SpawnShrap(short ParentNum, short Secondary)
                             CustomShrap->num = shrap_amt;
                             p = CustomShrap;
                             }
-                            
+
                         shrap_xsize = shrap_ysize = 16 + shrap_delta_size;
                         shrap_bounce = TRUE;
-                        break;   
+                        break;
 
-                    case SHRAP_METALMIX:          
+                    case SHRAP_METALMIX:
                         PlaySound(DIGI_BREAKMETAL,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
                         p = MetalMix;
                         if (shrap_amt)
@@ -3392,12 +3392,12 @@ SpawnShrap(short ParentNum, short Secondary)
                             CustomShrap->num = shrap_amt;
                             p = CustomShrap;
                             }
-                            
+
                         shrap_xsize = shrap_ysize = 16 + shrap_delta_size;
                         shrap_bounce = TRUE;
-                        break;   
+                        break;
 
-                    case SHRAP_MARBELS:          
+                    case SHRAP_MARBELS:
                         {
                         #if 0
                         short spnum;
@@ -3405,19 +3405,19 @@ SpawnShrap(short ParentNum, short Secondary)
                         SPRITEp ep;
                         USERp eu;
                         int SpawnLittleExp(SHORT Weapon);
-                        
+
                         spnum = SpawnLittleExp(ParentNum);
                         ASSERT(spnum >= 0);
                         ep = &sprite[spnum];
                         eu = User[spnum];
-                        
+
                         //eu->xchange = MOVEx(92, ep->ang);
                         //eu->ychange = MOVEy(92, ep->ang);
-                        
+
                         size = ep->xrepeat/2;
                         ep->xrepeat = ep->yrepeat = size + shrap_delta_size;
                         #endif
-                        
+
                         //PlaySound(DIGI_BREAKMARBELS,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
                         p = Marbels;
                         if (shrap_amt)
@@ -3426,13 +3426,13 @@ SpawnShrap(short ParentNum, short Secondary)
                             CustomShrap->num = shrap_amt;
                             p = CustomShrap;
                             }
-                            
+
                         shrap_xsize = shrap_ysize = 10 + shrap_delta_size;
                         shrap_bounce = TRUE;
                         }
-                        break;   
-                        
-                    case SHRAP_WOODMIX:          
+                        break;
+
+                    case SHRAP_WOODMIX:
                         PlaySound(DIGI_BREAKINGWOOD,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
                         p = WoodMix;
                         if (shrap_amt)
@@ -3441,12 +3441,12 @@ SpawnShrap(short ParentNum, short Secondary)
                             CustomShrap->num = shrap_amt;
                             p = CustomShrap;
                             }
-                            
+
                         shrap_xsize = shrap_ysize = 16 + shrap_delta_size;
                         shrap_bounce = TRUE;
-                        break;   
+                        break;
 
-                    case SHRAP_PAPERMIX:          
+                    case SHRAP_PAPERMIX:
                         PlaySound(DIGI_BREAKINGWOOD,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
                         p = PaperMix;
                         if (shrap_amt)
@@ -3455,60 +3455,60 @@ SpawnShrap(short ParentNum, short Secondary)
                             CustomShrap->num = shrap_amt;
                             p = CustomShrap;
                             }
-                            
+
                         shrap_xsize = shrap_ysize = 16 + shrap_delta_size;
                         shrap_bounce = FALSE;
-                        break;   
+                        break;
 
                     case SHRAP_SO_SMOKE:
                         return(FALSE);
-                        
-                    case SHRAP_EXPLOSION:      
+
+                    case SHRAP_EXPLOSION:
                         {
                         short spnum;
                         short size;
                         SPRITEp ep;
                         USERp eu;
-                        
+
                         spnum = SpawnLargeExp(ParentNum);
                         ASSERT(spnum >= 0);
                         //spnum = SpawnSectorExp(ParentNum);
                         ep = &sprite[spnum];
                         eu = User[spnum];
-                        
+
                         //eu->xchange = MOVEx(92, ep->ang);
                         //eu->ychange = MOVEy(92, ep->ang);
-                        
+
                         size = ep->xrepeat;
                         ep->xrepeat = ep->yrepeat = size + shrap_delta_size;
 
                         return(FALSE);
                         }
-                        
-                    case SHRAP_LARGE_EXPLOSION:      
+
+                    case SHRAP_LARGE_EXPLOSION:
                         {
                         short spnum;
                         short size;
                         SPRITEp ep;
                         USERp eu;
-                        
+
                         //spnum = SpawnSectorExp(ParentNum);
                         spnum = SpawnLargeExp(ParentNum);
                         ASSERT(spnum >= 0);
                         ep = &sprite[spnum];
                         eu = User[spnum];
-                        
+
                         //eu->xchange = MOVEx(92, ep->ang);
                         //eu->ychange = MOVEy(92, ep->ang);
-                        
+
                         size = ep->xrepeat;
                         ep->xrepeat = ep->yrepeat = size + shrap_delta_size;
-                        
+
                         InitPhosphorus(spnum);
 
                         return(FALSE);
                         }
-                    
+
                     default:
                         {
                         return(FALSE);
@@ -3516,68 +3516,68 @@ SpawnShrap(short ParentNum, short Secondary)
                     }
                 break;
                 }
-                
+
             default:
                 p = LavaShrapTable[RANDOM_P2(2<<8)>>8];
             }
         break;
-        
+
     case BREAK_BARREL:
         PlaySound(DIGI_BREAKDEBRIS,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
         p = WoodShrap;
         shrap_xsize = shrap_ysize = 24;
         shrap_bounce = TRUE;
         ChangeState(parent - sprite, s_BreakBarrel);
-        break;   
+        break;
     case BREAK_LIGHT:
         PlaySound(DIGI_BREAKGLASS,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
         p = GlassShrap;
         shrap_xsize = shrap_ysize = 24;
         shrap_bounce = TRUE;
         ChangeState(parent - sprite, s_BreakLight);
-        break;   
+        break;
     case BREAK_PEDISTAL:
         PlaySound(DIGI_BREAKSTONES,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
         p = StoneShrap;
         shrap_xsize = shrap_ysize = 24;
         shrap_bounce = TRUE;
         ChangeState(parent - sprite, s_BreakPedistal);
-        break;   
+        break;
     case BREAK_BOTTLE1:
         PlaySound(DIGI_BREAKGLASS,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
         p = GlassShrap;
         shrap_xsize = shrap_ysize = 8;
         shrap_bounce = TRUE;
         ChangeState(parent - sprite, s_BreakBottle1);
-        break;   
-    case BREAK_BOTTLE2: 
+        break;
+    case BREAK_BOTTLE2:
         PlaySound(DIGI_BREAKGLASS,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
         p = GlassShrap;
         shrap_xsize = shrap_ysize = 8;
         shrap_bounce = TRUE;
         ChangeState(parent - sprite, s_BreakBottle2);
-        break;   
+        break;
     case BREAK_MUSHROOM:
         PlaySound(DIGI_BREAKDEBRIS,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
         p = StoneShrap;
         shrap_xsize = shrap_ysize = 4;
         shrap_bounce = TRUE;
         SetSuicide(parent - sprite); // kill next iteration
-        break;   
+        break;
     case BOLT_EXP:
         return(FALSE);
 //        p = BoltExpShrap;
-//        break;   
+//        break;
     case TANK_SHELL_EXP:
         return(FALSE);
 //        p = BoltExpShrap;
-//        break;   
+//        break;
     case TRACER_EXP:
         return(FALSE);
 //        p = TracerExpShrap;
 //        shrap_xsize = shrap_ysize = 20;
 //        WaitTics = 10;
-//        break;   
+//        break;
     case BOLT_THINMAN_R1:
         p = MetalShrap;
         if (shrap_amt)
@@ -3586,29 +3586,29 @@ SpawnShrap(short ParentNum, short Secondary)
             CustomShrap->num = 1;
             p = CustomShrap;
             }
-            
+
         shrap_xsize = shrap_ysize = 10;
-        break;   
+        break;
     case LAVA_BOULDER:
         PlaySound(DIGI_BREAKSTONES,&parent->x,&parent->y,&parent->z,v3df_dontpan|v3df_doppler);
         p = LavaBoulderShrap;
         shrap_owner = parent->owner;
         shrap_xsize = shrap_ysize = 24;
         shrap_bounce = TRUE;
-        break;   
+        break;
     case SECTOR_EXP:
         //p = SectorExpShrap;
-        //break;   
+        //break;
         return(FALSE);
     case GRENADE_EXP:
         //p = SectorExpShrap;
-        //break;   
+        //break;
         return(FALSE);
     case FIREBALL_EXP:
         return(FALSE);
 //        p = FireballExpShrap[RANDOM_P2(2<<8)>>8];
 //        shrap_pal = pu->spal;
-        break;   
+        break;
     case ELECTRO_PLAYER:
     case ELECTRO_ENEMY:
         shrap_owner = parent->owner;
@@ -3626,7 +3626,7 @@ SpawnShrap(short ParentNum, short Secondary)
     case NINJA_Head_R0:
         {
         extern STATEp sg_PlayerHeadHurl[];
-        
+
         if (pu->Rot == sg_PlayerHeadHurl)
             {
             p = PlayerHeadHurl1;
@@ -3637,21 +3637,21 @@ SpawnShrap(short ParentNum, short Secondary)
             shrap_xsize = shrap_ysize = 16+8;
             shrap_bounce = TRUE;
             }
-        break;    
+        break;
         }
     case GIRLNINJA_RUN_R0:
         p = StdShrap;
-        break;    
+        break;
     case NINJA_RUN_R0:
         {
         p = StdShrap;
         if (pu->PlayerP)
             {
             PLAYERp pp = pu->PlayerP;
-            
+
             if (pp->DeathType == PLAYER_DEATH_CRUMBLE)
                 p = PlayerGoreFall;
-            else    
+            else
                 p = PlayerGoreFly;
             }
         break;
@@ -3712,21 +3712,21 @@ SpawnShrap(short ParentNum, short Secondary)
     case ZILLA_RUN_R0:
         p = MetalShrap;
         shrap_xsize = shrap_ysize = 10;
-        break;    
+        break;
     case EMP:
         p = EMPShrap;
         shrap_xsize = shrap_ysize = 8;
         shrap_bounce = FALSE;
         break;
         }
-        
+
     // second sprite involved
     // most of the time is is the weapon
-    if (Secondary >= 0)    
+    if (Secondary >= 0)
         {
         SPRITEp wp = &sprite[Secondary];
         USERp wu = User[Secondary];
-        
+
         if (wu->PlayerP && wu->PlayerP->sop_control)
             {
             p = StdShrap;
@@ -3739,11 +3739,11 @@ SpawnShrap(short ParentNum, short Secondary)
                 break;
             }
         }
-        
+
     hz[Z_TOP] = SPRITEp_TOS(parent);        // top
     hz[Z_BOT] = SPRITEp_BOS(parent);        // bottom
     hz[Z_MID] = DIV2(hz[0] + hz[2]);        // mid
-    
+
     for (; p->id; p++)
         {
         if (!p->random_disperse)
@@ -3752,15 +3752,15 @@ SpawnShrap(short ParentNum, short Secondary)
             start_ang = NORM_ANGLE(shrap_ang - DIV2(p->ang_range));
             dang = (p->ang_range / p->num);
             }
-        
+
         for (i = 0; i < p->num; i++)
             {
-            SpriteNum = SpawnSprite(STAT_SKIP4, p->id, p->state, parent->sectnum, 
+            SpriteNum = SpawnSprite(STAT_SKIP4, p->id, p->state, parent->sectnum,
                 parent->x, parent->y, hz[p->zlevel], shrap_ang, 512);
-        
+
             sp = &sprite[SpriteNum];
             u = User[SpriteNum];
-            
+
             if (p->random_disperse)
                 {
                 sp->ang = shrap_ang + (RANDOM_P2(p->ang_range<<5)>>5) - DIV2(p->ang_range);
@@ -3771,7 +3771,7 @@ SpawnShrap(short ParentNum, short Secondary)
                 sp->ang = start_ang + (i * dang);
                 sp->ang = NORM_ANGLE(sp->ang);
                 }
-            
+
             // for FastShrap
             u->zchange = labs(u->jump_speed*4) - RANDOM_RANGE(labs(u->jump_speed)*8)*2;
             u->WaitTics = WaitTics + RANDOM_RANGE(WaitTics/2);
@@ -3780,7 +3780,7 @@ SpawnShrap(short ParentNum, short Secondary)
                 {
             case GORE_Drip:
                 shrap_bounce = FALSE;
-                break; 
+                break;
             case GORE_Lung:
                 shrap_xsize = 20;
                 shrap_ysize = 20;
@@ -3812,14 +3812,14 @@ SpawnShrap(short ParentNum, short Secondary)
                 shrap_xsize = u->sx = 12 + (RANDOM_P2(32<<8)>>8);
                 shrap_ysize = u->sy = 12 + (RANDOM_P2(32<<8)>>8);
                 u->Counter = (RANDOM_P2(2048<<5)>>5);
-                
+
                 nx = sintable[NORM_ANGLE(sp->ang+512)]>>6;
                 ny = sintable[sp->ang]>>6;
                 move_missile(SpriteNum, nx, ny, 0, Z(8), Z(8), CLIPMASK_MISSILE, MISSILEMOVETICS);
-                
+
                 if (RANDOM_P2(1024)<700)
                     u->ID = 0;
-                
+
                 break;
             case EMP:
                 shrap_bounce = FALSE;
@@ -3829,18 +3829,18 @@ SpawnShrap(short ParentNum, short Secondary)
                 shrap_ysize = u->sy = 5 + (RANDOM_P2(4<<8)>>8);
                 break;
                 }
-            
+
             sp->shade = shrap_shade;
             sp->xrepeat = shrap_xsize;
             sp->yrepeat = shrap_ysize;
             sp->clipdist = 16L >> 2;
-            
+
             if (shrap_owner >= 0)
                 {
                 SetOwner(shrap_owner, SpriteNum);
                 }
-            
-            if (shrap_rand_zamt)    
+
+            if (shrap_rand_zamt)
                 {
                 sp->z += Z( RANDOM_RANGE(shrap_rand_zamt) - (shrap_rand_zamt/2));
                 }
@@ -3858,10 +3858,10 @@ SpawnShrap(short ParentNum, short Secondary)
 
             DoBeginJump(SpriteNum);
             u->jump_grav = jump_grav;
-            
+
             u->xchange = MOVEx(sp->xvel, sp->ang);
             u->ychange = MOVEy(sp->xvel, sp->ang);
-            
+
             if (!shrap_bounce)
                 SET(u->Flags, SPR_BOUNCE);
             }
@@ -3878,7 +3878,7 @@ DoShrapMove(SHORT SpriteNum)
 
     u->ret = move_missile(SpriteNum, u->xchange, u->ychange, 0, u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS*2);
 
-    return(0);    
+    return(0);
     }
 
 #if 1
@@ -3915,8 +3915,8 @@ DoVomit(short SpriteNum)
         u->sy = sp->yrepeat;
         return(0);
         }
-    
-    if (TEST(u->ret, HIT_MASK) == HIT_SPRITE)    
+
+    if (TEST(u->ret, HIT_MASK) == HIT_SPRITE)
         {
         short hitsprite = NORM_SPRITE(u->ret);
         if (TEST(sprite[hitsprite].extra, SPRX_PLAYER_OR_ENEMY))
@@ -3927,9 +3927,9 @@ DoVomit(short SpriteNum)
             }
         }
 
-    //if (u->ID)    
-    //    DoDamageTest(SpriteNum);    
-        
+    //if (u->ID)
+    //    DoDamageTest(SpriteNum);
+
     return (0);
     }
 #else
@@ -3942,7 +3942,7 @@ DoVomit(short SpriteNum)
     u->Counter = NORM_ANGLE(u->Counter + (30*MISSILEMOVETICS));
     sp->xrepeat = u->sx + ((12 * sintable[NORM_ANGLE(u->Counter+512)]) >> 14);
     sp->yrepeat = u->sy + ((12 * sintable[u->Counter]) >> 14);
-    
+
     if (TEST(u->Flags, SPR_JUMPING))
         {
         DoShrapVelocity(SpriteNum);
@@ -3963,7 +3963,7 @@ DoVomit(short SpriteNum)
         return(0);
         }
 
-    if (TEST(u->ret, HIT_MASK) == HIT_SPRITE)    
+    if (TEST(u->ret, HIT_MASK) == HIT_SPRITE)
         {
         short hitsprite = NORM_SPRITE(u->ret);
         if (TEST(sprite[hitsprite].extra, SPRX_PLAYER_OR_ENEMY))
@@ -3977,7 +3977,7 @@ DoVomit(short SpriteNum)
     return (0);
     }
 #endif
-    
+
 
 int
 DoVomitSplash(short SpriteNum)
@@ -3988,9 +3988,9 @@ DoVomitSplash(short SpriteNum)
     if ((u->WaitTics-=MISSILEMOVETICS) < 0)
         {
         KillSprite(SpriteNum);
-        return(0);    
+        return(0);
         }
-        
+
     return (0);
     }
 
@@ -4003,7 +4003,7 @@ DoFastShrapJumpFall(short SpriteNum)
     sp->x += u->xchange*2;
     sp->y += u->ychange*2;
     sp->z += u->zchange*2;
-    
+
     u->WaitTics -= MISSILEMOVETICS;
     if (u->WaitTics <= 0)
         KillSprite(SpriteNum);
@@ -4020,7 +4020,7 @@ DoTracerShrap(short SpriteNum)
     sp->x += u->xchange;
     sp->y += u->ychange;
     sp->z += u->zchange;
-    
+
     u->WaitTics -= MISSILEMOVETICS;
     if (u->WaitTics <= 0)
         KillSprite(SpriteNum);
@@ -4052,7 +4052,7 @@ DoShrapJumpFall(short SpriteNum)
             DoShrapVelocity(SpriteNum);
             return (0);
             }
-            
+
             if(u->ID == GORE_Drip)
                 ChangeState(SpriteNum, s_GoreFloorSplash);
             else
@@ -4093,8 +4093,8 @@ DoShrapDamage(short SpriteNum)
         KillSprite(SpriteNum);
         return (0);
         }
-    
-    if (u->ret)    
+
+    if (u->ret)
         {
         switch (TEST(u->ret, HIT_MASK))
             {
@@ -4109,7 +4109,7 @@ DoShrapDamage(short SpriteNum)
 
     return (0);
     }
-    
+
 int
 SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, long hitz)
     {
@@ -4117,8 +4117,8 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
     SPRITEp np;
     USERp nu, u;
     short i,new;
-    
-    
+
+
     // state, id, num, zlevel, min_jspeed, max_jspeed, min_vel, max_vel,
     // random_disperse, ang_range;
 
@@ -4128,21 +4128,21 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
         //{s_GoreSplash, PLASMA_Drip, 1, Z_BOT, 0, 0, 0, 0, FALSE, 512},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     static SHRAP SmallBlood[] =
         {
         {s_GoreDrip, GORE_Drip, 1, Z_TOP, 100, 250, 10, 20, TRUE, 512},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     static SHRAP PlasmaFountainBlood[] =
         {
         {s_PlasmaDrip, PLASMA_Drip, 1, Z_TOP, 200, 500, 100, 300, TRUE, 16},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     static SHRAP SomeBlood[] =
-        {                
+        {
         {s_GoreDrip, GORE_Drip, 1, Z_TOP, 100, 250, 10, 20, TRUE, 512},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
@@ -4158,7 +4158,7 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
         {s_GoreDrip, GORE_Drip, 4, Z_TOP, 100, 250, 10, 20, TRUE, 512},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     static SHRAP HariKariBlood[] =
         {
         {s_FastGoreDrip, GORE_Drip, 32, Z_TOP, 200, 650, 70, 100, TRUE, 1024},
@@ -4170,21 +4170,21 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
         {s_ElectroShrap, ELECTRO_SHARD, 16, Z_TOP, 75, 200, 70, 150, TRUE, 512},
         {NULL,0,0,0,0,0,0,0,0,0},
         };
-        
+
     long hz;
     short dang;
 
     SHRAPp p = UziBlood;
     short shrap_shade = -15;
-    short shrap_xsize = 20, shrap_ysize = 20; 
+    short shrap_xsize = 20, shrap_ysize = 20;
     short retval = TRUE;
     short shrap_pal = PALETTE_DEFAULT;
     long shrap_z = 0;
     short start_ang;
-    
+
     u = User[SpriteNum];
 
-    switch(u->ID) 
+    switch(u->ID)
         {
         case TRASHCAN:
         case PACHINKO1:
@@ -4195,14 +4195,14 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
         case ZILLA_RUN_R0:
         return(0); // Don't put blood on trashcan
         }
-    
+
     // second sprite involved
     // most of the time is the weapon
-    if (Weapon >= 0)    
+    if (Weapon >= 0)
         {
         SPRITEp wp = &sprite[Weapon];
         USERp wu = User[Weapon];
-        
+
         switch (wu->ID)
             {
             case NINJA_RUN_R0: //sword
@@ -4222,7 +4222,7 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
                     hitx = sp->x;
                     hity = sp->y;
                     hitz = SPRITEp_TOS(wp) + DIV4(SPRITEp_SIZE_Z(wp));
-                    
+
                     //ASSERT(wu->PlayerP);
                     }
                 break;
@@ -4270,7 +4270,7 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
     else
         {
         hitang = NORM_ANGLE(hitang + 1024);
-        }    
+        }
 
     for (; p->state; p++)
         {
@@ -4286,14 +4286,14 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
                 hitx, hity, hitz, hitang, 0);
             np = &sprite[new];
             nu = User[new];
-            
+
             switch (nu->ID)
                 {
                 case ELECTRO_SHARD:
                     shrap_xsize = 7;
                     shrap_ysize = 7;
                     break;
-                    
+
                 case PLASMA_Drip:
                     // Don't do central blood splats for every hitscan
                     if(RANDOM_P2(1024) < 950)
@@ -4308,7 +4308,7 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
                     //shrap_ysize = 10;
                     break;
                 }
-            
+
             if (p->random_disperse)
                 {
                 np->ang = hitang + (RANDOM_P2(p->ang_range<<5)>>5) - DIV2(p->ang_range);
@@ -4319,9 +4319,9 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
                 np->ang = start_ang + (i * dang);
                 np->ang = NORM_ANGLE(np->ang);
                 }
-                
+
             SET(nu->Flags, SPR_BOUNCE);
-            
+
             np->shade = shrap_shade;
             np->xrepeat = shrap_xsize;
             np->yrepeat = shrap_ysize;
@@ -4331,7 +4331,7 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
 
             np->xvel = p->min_vel;
             np->xvel += RANDOM_RANGE(p->max_vel - p->min_vel);
-            
+
             // special case
             // blood coming off of actors should have the acceleration of the actor
             // so add it in
@@ -4341,15 +4341,15 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
             nu->jump_speed = p->min_jspeed;
             nu->jump_speed += RANDOM_RANGE(p->max_jspeed - p->min_jspeed);
             nu->jump_speed = -nu->jump_speed;
-            
+
             //setsprite(new, np->x, np->y, np->z);
             nu->xchange = MOVEx(np->xvel, np->ang);
             nu->ychange = MOVEy(np->xvel, np->ang);
-            
+
             // for FastShrap
             nu->zchange = labs(nu->jump_speed*4) - RANDOM_RANGE(labs(nu->jump_speed)*8);
             nu->WaitTics = 64 + RANDOM_P2(32);
-            
+
             SET(u->Flags, SPR_BOUNCE);
 
             DoBeginJump(new);
@@ -4359,7 +4359,7 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
     return (retval);
     }
 
-    
+
 BOOL
 VehicleMoveHit(short SpriteNum)
     {
@@ -4369,26 +4369,26 @@ VehicleMoveHit(short SpriteNum)
     SECTOR_OBJECTp hsop;
     BOOL TestKillSectorObject(SECTOR_OBJECTp);
     short controller;
-    
+
     short hitsect, hitwall;
-    
+
     if (!u->ret)
         return (FALSE);
-    
+
     sop = u->sop_parent;
-    
+
     // sprite controlling sop
     cp = sop->controller;
     controller = cp - sprite;
     cu = User[controller];
-    
+
     switch (TEST(u->ret, HIT_MASK))
         {
     case HIT_SECTOR:
             {
             short hitsect;
             SECTORp sectp;
-            
+
             hitsect = NORM_SECTOR(u->ret);
 
             sectp = &sector[hitsect];
@@ -4397,15 +4397,15 @@ VehicleMoveHit(short SpriteNum)
                 {
                 // shouldn't ever really happen
                 }
-                
-            return(TRUE);    
+
+            return(TRUE);
             }
 
     case HIT_SPRITE:
             {
             SPRITEp hsp;
             short hitsprite;
-            
+
             hitsprite = NORM_SPRITE(u->ret);
             hsp = &sprite[hitsprite];
 
@@ -4414,7 +4414,7 @@ VehicleMoveHit(short SpriteNum)
                 HitBreakSprite(hitsprite, u->ID);
                 return(TRUE);
                 }
-                    
+
             if (TEST(hsp->extra, SPRX_PLAYER_OR_ENEMY))
                 {
                 if (hitsprite != cp->owner)
@@ -4430,9 +4430,9 @@ VehicleMoveHit(short SpriteNum)
                     DoDamage(hitsprite, SpriteNum);
                     return (TRUE);
                     }
-                }    
+                }
 
-            return(TRUE);    
+            return(TRUE);
             }
 
     case HIT_WALL:
@@ -4444,7 +4444,7 @@ VehicleMoveHit(short SpriteNum)
 
             hitwall = NORM_WALL(u->ret);
             wph = &wall[hitwall];
-            
+
             if (TEST(wph->extra, WALLFX_SECTOR_OBJECT))
                 {
                 // sector object collision
@@ -4454,7 +4454,7 @@ VehicleMoveHit(short SpriteNum)
                     SopDamage(hsop, sop->ram_damage);
                     if (hsop->max_damage <= 0)
                         SopCheckKill(hsop);
-                    else    
+                    else
                         DoSpawnSpotsForDamage(hsop->match_event);
                     #else
                     // drivable damage is DIE_HARD type
@@ -4469,19 +4469,19 @@ VehicleMoveHit(short SpriteNum)
                             {
                             DoSpawnSpotsForDamage(hsop->match_event);
                             }
-                        }    
-                    #endif        
-                    }    
+                        }
+                    #endif
+                    }
                 }
 
-            return(TRUE);    
+            return(TRUE);
             }
         }
 
     return (FALSE);
     }
 
-    
+
 BOOL
 WeaponMoveHit(short SpriteNum)
     {
@@ -4489,52 +4489,52 @@ WeaponMoveHit(short SpriteNum)
     SPRITEp sp = User[SpriteNum]->SpriteP;
     //short hitsect, hitwall;
 
-    
+
     if (!u->ret)
         return (FALSE);
-    
+
     switch (TEST(u->ret, HIT_MASK))
         {
     case HIT_PLAX_WALL:
         SetSuicide(SpriteNum);
         return (TRUE);
-        
+
     case HIT_SECTOR:
             {
             short hitsect;
             SECTORp sectp;
             SECTOR_OBJECTp sop;
-            
+
             hitsect = NORM_SECTOR(u->ret);
             sectp = &sector[hitsect];
 
             ASSERT(sectp->extra != -1);
-            
+
             // hit floor - closer to floor than ceiling
-            if (sp->z > DIV2(u->hiz + u->loz)) 
+            if (sp->z > DIV2(u->hiz + u->loz))
                 {
                 // hit a floor sprite
                 if (u->lo_sp)
                     {
-                    
-                    if (u->lo_sp->lotag == TAG_SPRITE_HIT_MATCH)    
+
+                    if (u->lo_sp->lotag == TAG_SPRITE_HIT_MATCH)
                         {
                         if (MissileHitMatch(SpriteNum, -1, u->lo_sp - sprite))
                             return(TRUE);
                         //DoMatchEverything(NULL, u->lo_sp->hitag, -1);
                         //return(TRUE);
                         }
-                        
+
                     return(TRUE);
                     }
-                
+
                 if (SectUser[hitsect] && SectUser[hitsect]->depth > 0)
                     {
                     SpawnSplash(SpriteNum);
                     //SetSuicide(SpriteNum);
                     return (TRUE);
                     }
-                    
+
                 }
             // hit ceiling
             else
@@ -4542,7 +4542,7 @@ WeaponMoveHit(short SpriteNum)
                 // hit a floor sprite
                 if (u->hi_sp)
                     {
-                    if (u->hi_sp->lotag == TAG_SPRITE_HIT_MATCH)    
+                    if (u->hi_sp->lotag == TAG_SPRITE_HIT_MATCH)
                         {
                         if (MissileHitMatch(SpriteNum, -1, u->hi_sp - sprite))
                             return(TRUE);
@@ -4550,9 +4550,9 @@ WeaponMoveHit(short SpriteNum)
                         //return(TRUE);
                         }
                     }
-                }        
+                }
 
-                
+
             if (TEST(sectp->extra, SECTFX_SECTOR_OBJECT))
                 {
                 if (sop = DetectSectorObject(sectp))
@@ -4562,7 +4562,7 @@ WeaponMoveHit(short SpriteNum)
                     return(TRUE);
                     }
                 }
-            
+
             if (TEST(sectp->ceilingstat, CEILING_STAT_PLAX) && sectp->ceilingpicnum != FAF_MIRROR_PIC)
                 {
                 if (labs(sp->z - sectp->ceilingz) < SPRITEp_SIZE_Z(sp))
@@ -4572,7 +4572,7 @@ WeaponMoveHit(short SpriteNum)
                     }
                 }
 
-            return(TRUE);    
+            return(TRUE);
             }
 
     case HIT_SPRITE:
@@ -4580,7 +4580,7 @@ WeaponMoveHit(short SpriteNum)
             SPRITEp hsp;
             USERp hu;
             short hitsprite;
-            
+
             hitsprite = NORM_SPRITE(u->ret);
             hsp = &sprite[hitsprite];
             hu = User[hitsprite];
@@ -4590,15 +4590,15 @@ WeaponMoveHit(short SpriteNum)
                 ////DSPRINTF(ds, "Bullet Hit Monster %d, stat %d ", hsp-sprite, (short)hsp->statnum);
                 //MONO_PRINT(ds);
                 }
-              
+
             ASSERT(hsp->extra != -1);
-                
+
             if (TEST(hsp->extra, SPRX_BREAKABLE))
                 {
                 HitBreakSprite(hitsprite, u->ID);
                 return(TRUE);
                 }
-                    
+
             if (TEST(hsp->extra, SPRX_PLAYER_OR_ENEMY))
                 {
                 // make sure you didn't hit the owner of the missile
@@ -4642,16 +4642,16 @@ WeaponMoveHit(short SpriteNum)
                     DoDamage(hitsprite, SpriteNum);
                     return (TRUE);
                     }
-                }    
+                }
 
-            if (hsp->lotag == TAG_SPRITE_HIT_MATCH)    
+            if (hsp->lotag == TAG_SPRITE_HIT_MATCH)
                 {
                 if (MissileHitMatch(SpriteNum, -1, hitsprite))
                     return(TRUE);
                 //DoMatchEverything(NULL, hsp->hitag, -1);
                 //return(TRUE);
                 }
-    
+
             if (TEST(hsp->cstat, CSTAT_SPRITE_WALL))
                 {
                 if (hsp->lotag || hsp->hitag)
@@ -4661,7 +4661,7 @@ WeaponMoveHit(short SpriteNum)
                     }
                 }
 
-            return(TRUE);    
+            return(TRUE);
             }
 
     case HIT_WALL:
@@ -4674,7 +4674,7 @@ WeaponMoveHit(short SpriteNum)
 
             hitwall = NORM_WALL(u->ret);
             wph = &wall[hitwall];
-            
+
             ASSERT(wph->extra != -1);
 
             if (TEST(wph->extra, WALLFX_SECTOR_OBJECT))
@@ -4693,7 +4693,7 @@ WeaponMoveHit(short SpriteNum)
                 u->ret = 0;
                 return(TRUE);
                 }
-                
+
             // clipmove does not correctly return the sprite for WALL sprites
             // on walls, so look with hitscan
 
@@ -4712,12 +4712,12 @@ WeaponMoveHit(short SpriteNum)
                 {
                 SPRITEp hsp = &sprite[hitsprite];
 
-                if (hsp->lotag == TAG_SPRITE_HIT_MATCH)    
+                if (hsp->lotag == TAG_SPRITE_HIT_MATCH)
                     {
                     if (MissileHitMatch(SpriteNum, -1, hitsprite))
                         return(TRUE);
                     }
-                    
+
                 if (TEST(hsp->cstat, CSTAT_SPRITE_WALL))
                     {
                     if (hsp->lotag || hsp->hitag)
@@ -4728,7 +4728,7 @@ WeaponMoveHit(short SpriteNum)
                     }
                 }
 
-            return(TRUE);    
+            return(TRUE);
             }
         }
 
@@ -4748,7 +4748,7 @@ DoUziSmoke(short SpriteNum)
 
     return (0);
     }
-    
+
 int
 DoShotgunSmoke(short SpriteNum)
     {
@@ -4762,7 +4762,7 @@ DoShotgunSmoke(short SpriteNum)
 
     return (0);
     }
-    
+
 int
 DoMineSpark(short SpriteNum)
     {
@@ -4789,12 +4789,12 @@ DoFireballFlames(short SpriteNum)
     if (u->Attach >= 0)
         {
         ap = &sprite[u->Attach];
-        
+
         sp->x = ap->x;
         sp->y = ap->y;
-        
+
         sp->z = DIV2(SPRITEp_TOS(ap) + SPRITEp_BOS(ap));
-        
+
         if (TEST(ap->extra, SPRX_BURNABLE))
             {
             if (MOD2(u->Counter2) == 0)
@@ -4802,7 +4802,7 @@ DoFireballFlames(short SpriteNum)
                 ap->shade++;
                 if (ap->shade > 10)
                     ap->shade = 10;
-                }    
+                }
             }
         }
     else
@@ -4813,7 +4813,7 @@ DoFireballFlames(short SpriteNum)
             jumping = TRUE;
             //u->ret = move_missile(SpriteNum, dax, day, daz, Z(16), Z(16), CLIPMASK_MISSILE, MISSILEMOVETICS);
             }
-        else 
+        else
         if (TEST(u->Flags, SPR_FALLING))
             {
             DoFall(SpriteNum);
@@ -4830,23 +4830,23 @@ DoFireballFlames(short SpriteNum)
                     return(0);
                     }
                 }
-            
+
             if (TestDontStickSector(sp->sectnum))
                 {
                 KillSprite(SpriteNum);
                 return(0);
                 }
-            }    
-        }    
-        
-    if (!jumping)    
+            }
+        }
+
+    if (!jumping)
         {
         if ((u->WaitTics += MISSILEMOVETICS) > 4 * 120)
             {
             // shrink and go away
             sp->xrepeat--;
             sp->yrepeat--;
-            
+
             if (((signed char)sp->xrepeat) == 0)
                 {
                 if (u->Attach >= 0)
@@ -4864,10 +4864,10 @@ DoFireballFlames(short SpriteNum)
                 sp->yrepeat += 3;
                 }
             }
-        }    
-    
+        }
+
     u->Counter2++;
-    if (u->Counter2 > 9)    
+    if (u->Counter2 > 9)
         {
         u->Counter2 = 0;
         DoFlamesDamageTest(SpriteNum);
@@ -4888,7 +4888,7 @@ DoBreakFlames(short SpriteNum)
         DoJump(SpriteNum);
         jumping = TRUE;
         }
-    else 
+    else
     if (TEST(u->Flags, SPR_FALLING))
         {
         DoFall(SpriteNum);
@@ -4904,22 +4904,22 @@ DoBreakFlames(short SpriteNum)
                 return(0);
                 }
             }
-        
+
         if (TestDontStickSector(sp->sectnum))
             {
             KillSprite(SpriteNum);
             return(0);
             }
-        }    
-        
-    if (!jumping)    
+        }
+
+    if (!jumping)
         {
         if ((u->WaitTics += MISSILEMOVETICS) > 4 * 120)
             {
             // shrink and go away
             sp->xrepeat--;
             sp->yrepeat--;
-            
+
             if (((signed char)sp->xrepeat) == 0)
                 {
                 if (u->Attach >= 0)
@@ -4936,16 +4936,16 @@ DoBreakFlames(short SpriteNum)
                 sp->xrepeat += 3;
                 sp->yrepeat += 3;
                 }
-                
+
             if (u->WaitTics + MISSILEMOVETICS > 4 * 120)
                 {
                 SpawnBreakStaticFlames(SpriteNum);
                 }
             }
-        }    
-    
+        }
+
     u->Counter2++;
-    if (u->Counter2 > 9)    
+    if (u->Counter2 > 9)
         {
         u->Counter2 = 0;
         DoFlamesDamageTest(SpriteNum);
@@ -4953,7 +4953,7 @@ DoBreakFlames(short SpriteNum)
 
     return (0);
     }
-    
+
 int
 SetSuicide(short SpriteNum)
     {
@@ -4971,7 +4971,7 @@ SetSuicide(short SpriteNum)
     // and will have a different nextspritestat[nexti] result
     changespritestat(SpriteNum, STAT_SUICIDE);
     #endif
-    return(0);    
+    return(0);
     }
 
 int
@@ -4989,8 +4989,8 @@ DoActorScale(short SpriteNum)
         u->scale_speed = 0;
         u->scale_tgt = 256;
         }
-        
-    return(0);    
+
+    return(0);
     }
 
 int
@@ -5008,12 +5008,12 @@ DoRipperGrow(short SpriteNum)
         u->scale_speed = 0;
         u->scale_tgt = 128;
         }
-        
-    return(0);    
+
+    return(0);
     }
 
 VOID UpdateSinglePlayKills(short SpriteNum)
-    {    
+    {
     // single play and coop kill count
     if (gNet.MultiGameType != MULTI_GAME_COMMBAT)
         {
@@ -5025,15 +5025,15 @@ VOID UpdateSinglePlayKills(short SpriteNum)
             sprintf(ds,"KILLED: spnum %d, pic %d, x %d, y %d",SpriteNum,sp->picnum,sp->x,sp->y);
             DebugWriteString(ds);
             }
-        #endif    
-        
+        #endif
+
         ASSERT(User[SpriteNum]);
 
         if (TEST(User[SpriteNum]->Flags, SPR_SUICIDE))
             {
             return;
             }
-        
+
         switch (User[SpriteNum]->ID)
             {
             case COOLIE_RUN_R0:
@@ -5060,11 +5060,11 @@ VOID UpdateSinglePlayKills(short SpriteNum)
                 // always give kills to the first player
                 Player->Kills++;
                 break;
-            }    
-        }    
-    }    
+            }
+        }
+    }
 
-    
+
 int
 ActorChooseDeath(short SpriteNum, short Weapon)
     {
@@ -5074,14 +5074,14 @@ ActorChooseDeath(short SpriteNum, short Weapon)
     USERp wu = User[Weapon];
 
     ASSERT(u);
-        
+
     if (u->Health > 0)
         return (FALSE);
-                  
+
     UpdateSinglePlayKills(SpriteNum);
 
-    ASSERT(Weapon >= 0);    
-    
+    ASSERT(Weapon >= 0);
+
     #if 0
     if (Weapon < 0)
         {
@@ -5094,11 +5094,11 @@ ActorChooseDeath(short SpriteNum, short Weapon)
             }
         return (FALSE);
         }
-    #endif    
+    #endif
 
-    if(u->Attrib)    
+    if(u->Attrib)
         PlaySpriteSound(SpriteNum,attr_die,v3df_follow);
-    
+
     switch(u->ID)
     {
     case PACHINKO1:
@@ -5127,7 +5127,7 @@ ActorChooseDeath(short SpriteNum, short Weapon)
         //UpdateSinglePlayKills(SpriteNum);
     break;
     }
-    
+
     switch (u->ID)
         {
     case BETTY_R0:
@@ -5155,27 +5155,27 @@ ActorChooseDeath(short SpriteNum, short Weapon)
     case PACHINKO4:
     case 623:
             {
-            if (u->ID == TOILETGIRL_R0 || 
+            if (u->ID == TOILETGIRL_R0 ||
                 u->ID == CARGIRL_R0 || u->ID == MECHANICGIRL_R0 || u->ID == SAILORGIRL_R0 || u->ID == PRUNEGIRL_R0 ||
-                u->ID == WASHGIRL_R0 && wu->ID == NINJA_RUN_R0 && wu->PlayerP)    
+                u->ID == WASHGIRL_R0 && wu->ID == NINJA_RUN_R0 && wu->PlayerP)
                 {
                 PLAYERp pp = wu->PlayerP;
                 if (pp && !TEST(pp->Flags, PF_DIVING))	// JBF: added null test
                     pp->Bloody = TRUE;
-                PlaySound(DIGI_TOILETGIRLSCREAM, &sp->x, &sp->y, &sp->z, v3df_none);    
-                }    
+                PlaySound(DIGI_TOILETGIRLSCREAM, &sp->x, &sp->y, &sp->z, v3df_none);
+                }
             if (SpawnShrap(SpriteNum, Weapon))
                 SetSuicide(SpriteNum);
             break;
             }
 
-    // These are player zombies    
+    // These are player zombies
     case ZOMBIE_RUN_R0:
-        InitBloodSpray(SpriteNum,TRUE,105);    
-        InitBloodSpray(SpriteNum,TRUE,105);    
+        InitBloodSpray(SpriteNum,TRUE,105);
+        InitBloodSpray(SpriteNum,TRUE,105);
         if (SpawnShrap(SpriteNum, Weapon))
             SetSuicide(SpriteNum);
-        break;    
+        break;
 
     default:
 
@@ -5215,7 +5215,7 @@ ActorChooseDeath(short SpriteNum, short Weapon)
                 if(wu->WeaponNum == WPN_SWORD && STD_RANDOM_RANGE(1000)>500 && pp == Player+myconnectindex)
                     {
                     short choose_snd;
-                    
+
                     choose_snd = STD_RANDOM_RANGE(1000);
                     if(choose_snd > 750)
                         PlayerSound(DIGI_SWORDGOTU1,&pp->posx,&pp->posy,&pp->posz,v3df_follow|v3df_dontpan,pp);
@@ -5227,14 +5227,14 @@ ActorChooseDeath(short SpriteNum, short Weapon)
                         PlayerSound(DIGI_SWORDGOTU3,&pp->posx,&pp->posy,&pp->posz,v3df_follow|v3df_dontpan,pp);
                     else
                         PlayerSound(DIGI_CANBEONLYONE,&pp->posx,&pp->posy,&pp->posz,v3df_follow|v3df_dontpan,pp);
-                    }    
+                    }
                 if (!TEST(pp->Flags, PF_DIVING))
                     pp->Bloody = TRUE;
                 }
 
-            if (u->WeaponNum == WPN_FIST)    
+            if (u->WeaponNum == WPN_FIST)
                 DoActorDie(SpriteNum, Weapon);
-            else    
+            else
             if (u->ID == NINJA_RUN_R0 || RANDOM_RANGE(1000) < 500)
                 DoActorDie(SpriteNum, Weapon);
             else
@@ -5245,27 +5245,27 @@ ActorChooseDeath(short SpriteNum, short Weapon)
                     DoActorDie(SpriteNum, Weapon);
                     break;
                     }
-                    
+
                 // Gib out the ones you can't cut in half
                 // Blood fountains
                 InitBloodSpray(SpriteNum,TRUE,-1);
-                    
+
                 if (SpawnShrap(SpriteNum, Weapon))
                     {
                     SetSuicide(SpriteNum);
                     }else
                     DoActorDie(SpriteNum, Weapon);
 
-                }   
+                }
             break;
-        #if 0    
+        #if 0
         case PLASMA_FOUNTAIN:
             if (SpawnShrap(SpriteNum, Weapon))
                 SetSuicide(SpriteNum);
             else
                 DoActorDie(SpriteNum, Weapon);
             break;
-        #endif    
+        #endif
         case BOLT_THINMAN_R0:
         case BOLT_THINMAN_R1:
         case BOLT_THINMAN_R2:
@@ -5292,7 +5292,7 @@ ActorChooseDeath(short SpriteNum, short Weapon)
             #endif
                 {
                 char choosesnd = 0;
-                
+
                 // For the Nuke, do residual radiation if he gibs
                 if(wu->Radius == NUKE_RADIUS)
                     SpawnFireballFlames(SpriteNum, -1);
@@ -5301,34 +5301,34 @@ ActorChooseDeath(short SpriteNum, short Weapon)
                 if(RANDOM_RANGE(1000) > 400)
                 {
                     PLAYERp pp;
-                    
+
                     if(wp && wp->owner >= 0)
                         {
                         if (User[wp->owner]->PlayerP)
                             {
-                        
+
                             pp = User[wp->owner]->PlayerP;
-                        
-                
+
+
                             ASSERT(pp >= Player && pp <= Player+MAX_SW_PLAYERS);
                             choosesnd=STD_RANDOM_RANGE(MAX_TAUNTAI<<8)>>8;
 
                             if(pp && pp == Player+myconnectindex)
                             PlayerSound(TauntAIVocs[choosesnd],&pp->posx,
                                 &pp->posy,&pp->posy,v3df_dontpan|v3df_follow,pp);
-                            }        
-                        }        
+                            }
+                        }
                 }
-                
-                // These guys cough items only if gibbed    
-                if (u->ID == GORO_RUN_R0 || u->ID == RIPPER2_RUN_R0)    
+
+                // These guys cough items only if gibbed
+                if (u->ID == GORO_RUN_R0 || u->ID == RIPPER2_RUN_R0)
                     ActorCoughItem(SpriteNum);
-                    
+
                 // Blood fountains
                 InitBloodSpray(SpriteNum,TRUE,-1);
 
-                // Bosses do not gib                    
-                if (u->ID == SERP_RUN_R0 || u->ID == SUMO_RUN_R0 || u->ID == ZILLA_RUN_R0)    
+                // Bosses do not gib
+                if (u->ID == SERP_RUN_R0 || u->ID == SUMO_RUN_R0 || u->ID == ZILLA_RUN_R0)
                     {
                     DoActorDie(SpriteNum, Weapon);
                     return(TRUE);
@@ -5340,9 +5340,9 @@ ActorChooseDeath(short SpriteNum, short Weapon)
                 }else
                     DoActorDie(SpriteNum, Weapon);
 
-                }   
+                }
 
-            break;     
+            break;
         default:
             DoActorDie(SpriteNum, Weapon);
             break;
@@ -5360,8 +5360,8 @@ ActorHealth(short SpriteNum, short amt)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    extern BOOL FinishAnim;    
-    extern BOOL FinishedLevel;    
+    extern BOOL FinishAnim;
+    extern BOOL FinishedLevel;
 
     if (u->ID == TRASHCAN && amt > -75)
         {
@@ -5403,54 +5403,54 @@ ActorHealth(short SpriteNum, short amt)
             }
         }
 
-    if(u->Attrib && RANDOM_P2(1024) > 850)    
+    if(u->Attrib && RANDOM_P2(1024) > 850)
         PlaySpriteSound(SpriteNum,attr_pain,v3df_follow|v3df_dontpan);
-        
+
     // keep track of the last damage
     if (amt < 0)
         u->LastDamage = -amt;
 
-    // Do alternate Death2 if it exists    
+    // Do alternate Death2 if it exists
     if (u->ActorActionSet && u->ActorActionSet->Death2)	// JBF: added null check
         {
         #define DEATH2_HEALTH_VALUE 15
-        
+
         if (u->Health  <= DEATH2_HEALTH_VALUE)
             {
-            // If he's dead, possibly choose a special death type    
+            // If he's dead, possibly choose a special death type
             #if 1 // Problematic code, REMOVED.
-            switch(u->ID)    
-                {    
-                case NINJA_RUN_R0:    
-                    {    
-                    extern STATEp sg_NinjaGrabThroat[];     
+            switch(u->ID)
+                {
+                case NINJA_RUN_R0:
+                    {
+                    extern STATEp sg_NinjaGrabThroat[];
 
                     if(TEST(u->Flags2, SPR2_DYING)) return(TRUE);
                     if(TEST(u->Flags, SPR_FALLING | SPR_JUMPING | SPR_CLIMBING)) return(TRUE);
-                    
+
                     if (!TEST(u->Flags2, SPR2_DYING))
                         {
                         short rnd;
 
                         rnd = RANDOM_P2(1024<<4)>>4;
                         if(rnd < 950)
-                            return(TRUE);    
+                            return(TRUE);
                         SET(u->Flags2, SPR2_DYING); // Only let it check this once!
-                        u->WaitTics = SEC(1) + SEC(RANDOM_RANGE(2));    
+                        u->WaitTics = SEC(1) + SEC(RANDOM_RANGE(2));
                         u->Health = 60;
-                        PlaySound(DIGI_NINJACHOKE,&sp->x,&sp->y,&sp->z,v3df_follow);    
-                        InitPlasmaFountain(NULL, sp);    
+                        PlaySound(DIGI_NINJACHOKE,&sp->x,&sp->y,&sp->z,v3df_follow);
+                        InitPlasmaFountain(NULL, sp);
                         InitBloodSpray(SpriteNum,FALSE,105);
-                        sp->ang = NORM_ANGLE(getangle(u->tgt_sp->x - sp->x, u->tgt_sp->y - sp->y) + 1024);    
+                        sp->ang = NORM_ANGLE(getangle(u->tgt_sp->x - sp->x, u->tgt_sp->y - sp->y) + 1024);
                         RESET(sp->cstat, CSTAT_SPRITE_YFLIP);
                         NewStateGroup(SpriteNum, sg_NinjaGrabThroat);
                         }
-                    break;    
-                    }    
-                }    
-            #endif    
-            } 
-        }    
+                    break;
+                    }
+                }
+            #endif
+            }
+        }
 
     return (TRUE);
     }
@@ -5470,7 +5470,7 @@ SopDamage(SECTOR_OBJECTp sop, short amt)
     // keep track of the last damage
     if (amt < 0)
         u->LastDamage = -amt;
-        
+
     return (TRUE);
     }
 
@@ -5484,11 +5484,11 @@ SopCheckKill(SECTOR_OBJECTp sop)
 
     if (TEST(sop->flags, SOBJ_BROKEN))
         return(FALSE);
-    
+
     // does not have damage
     if (sop->max_damage == -9999)
         return(killed);
-    
+
     if (sop->max_damage <= 0)
         {
         // returns whether so was collapsed(killed)
@@ -5499,10 +5499,10 @@ SopCheckKill(SECTOR_OBJECTp sop)
             SET(sop->flags, SOBJ_BROKEN);
             }
         }
-    
-    return(killed);    
+
+    return(killed);
     }
-    
+
 int
 ActorPain(short SpriteNum)
     {
@@ -5522,10 +5522,10 @@ ActorPain(short SpriteNum)
             u->FlagOwner = 1;
             break;
         }
-                                             
-    if (RANDOM_RANGE(1000) < 875 || u->WaitTics > 0) 
+
+    if (RANDOM_RANGE(1000) < 875 || u->WaitTics > 0)
         return (FALSE);
-    
+
     if (!TEST(u->Flags, SPR_JUMPING | SPR_FALLING))
         {
         if (u->ActorActionSet && u->ActorActionSet->Pain)
@@ -5563,7 +5563,7 @@ ActorPainPlasma(short SpriteNum)
 
     return (FALSE);
     }
-    
+
 int
 ActorStdMissile(short SpriteNum, short Weapon)
     {
@@ -5583,8 +5583,8 @@ ActorStdMissile(short SpriteNum, short Weapon)
         if (User[wp->owner]->PlayerP && sp->owner != wp->owner)
             {
                 u->tgt_sp = &sprite[wp->owner];
-            } 
-        }    
+            }
+        }
 
     // Reset the weapons target before dying
     if (wu->WpnGoal >= 0)
@@ -5604,21 +5604,21 @@ ActorDamageSlide(short SpriteNum, short damage, short ang)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     long slide_vel,slide_dec;
-    
+
     if (TEST(u->Flags, SPR_CLIMBING))
         return(FALSE);
-    
+
     damage = labs(damage);
-    
+
     if (!damage)
         return(FALSE);
-        
+
     if (damage <= 10)
         {
         DoActorBeginSlide(SpriteNum, ang, 64, 5);
         return(TRUE);
         }
-    else    
+    else
     if (damage <= 20)
         {
         DoActorBeginSlide(SpriteNum, ang, 128, 5);
@@ -5645,12 +5645,12 @@ PlayerDamageSlide(PLAYERp pp, short damage, short ang)
     {
     long slide_vel;
     USERp u = User[pp->PlayerSprite];
-    
+
     damage = labs(damage);
-    
+
     if (!damage)
         return(FALSE);
-    
+
     if (damage <= 5)
         {
         //nudge
@@ -5659,7 +5659,7 @@ PlayerDamageSlide(PLAYERp pp, short damage, short ang)
         //return(TRUE);
         return(FALSE);
         }
-    else    
+    else
     if (damage <= 10)
         {
         //nudge
@@ -5667,7 +5667,7 @@ PlayerDamageSlide(PLAYERp pp, short damage, short ang)
         pp->slide_yvect = MOVEy(16, ang)<<15;
         return(TRUE);
         }
-    else    
+    else
     if (damage <= 20)
         {
         //bigger nudge
@@ -5693,9 +5693,9 @@ int
 GetDamage(short SpriteNum, short Weapon, short DamageNdx)
     {
     DAMAGE_DATAp d = &DamageData[DamageNdx];
-    
+
     ASSERT(SpriteNum >= 0 && Weapon >= 0);
-        
+
     // if ndx does radius
     if (d->radius > 0)
         {
@@ -5705,10 +5705,10 @@ GetDamage(short SpriteNum, short Weapon, short DamageNdx)
         USERp wu = User[Weapon];
         long dist,a,b,c;
         long damage_per_pixel, damage_force, damage_amt;
-        
-    
+
+
         DISTANCE(wp->x,wp->y,sp->x,sp->y,dist,a,b,c);
-        
+
         // take off the box around the player or else you'll never get
         // the max_damage;
         dist -= ((long)sp->clipdist)<<(2);
@@ -5718,11 +5718,11 @@ GetDamage(short SpriteNum, short Weapon, short DamageNdx)
         if (dist < d->radius)
             {
             damage_per_pixel = (d->damage_hi<<16)/d->radius;
-            
+
             //the closer your distance is to 0 the more damage
             damage_force = (d->radius - dist);
             damage_amt = -((damage_force * damage_per_pixel)>>16);
-            
+
             //return(damage_amt);
             // formula: damage_amt = 75% + random(25%)
             return( DIV2(damage_amt) + DIV4(damage_amt) + RANDOM_RANGE(DIV4(damage_amt)));
@@ -5732,10 +5732,10 @@ GetDamage(short SpriteNum, short Weapon, short DamageNdx)
             return(0);
             }
         }
-    
+
     return( -(d->damage_lo + RANDOM_RANGE(d->damage_hi - d->damage_lo)) );
     }
-    
+
 int
 RadiusGetDamage(short SpriteNum, short Weapon, long max_damage)
     {
@@ -5745,36 +5745,36 @@ RadiusGetDamage(short SpriteNum, short Weapon, long max_damage)
     USERp wu = User[Weapon];
     long dist,a,b,c;
     long damage_per_pixel, damage_force, damage_amt;
-    
+
     max_damage = labs(max_damage);
-    
+
     DISTANCE(wp->x,wp->y,sp->x,sp->y,dist,a,b,c);
-    
+
     // take off the box around the player or else you'll never get
     // the max_damage;
     dist -= ((long)sp->clipdist)<<(2);
-    
+
     if (dist < wu->Radius)
         {
         damage_per_pixel = (max_damage<<16)/wu->Radius;
-        
+
         //the closer your distance is to 0 the more damage
         damage_force = (wu->Radius - dist);
         // fudge factor
         //damage_force += 400;
-        
+
         damage_amt = -((damage_force * damage_per_pixel)>>16);
         }
     else
         {
         damage_amt = 0;
         }
-            
-    
+
+
     return(damage_amt);
     }
 
-    
+
 int
 PlayerCheckDeath(PLAYERp pp, short Weapon)
     {
@@ -5783,43 +5783,43 @@ PlayerCheckDeath(PLAYERp pp, short Weapon)
     SPRITEp wp = &sprite[Weapon];
     USERp   wu = User[Weapon];
     int SpawnZombie(PLAYERp pp, short);
-    
-    
+
+
     // Store off what player was struck by
     pp->HitBy = Weapon;
-    
+
     if (u->Health <= 0 && !TEST(pp->Flags, PF_DEAD))
         {
         VOID DoPlayerBeginDie(PLAYERp);
-        
+
         // pick a death type
         if (u->LastDamage >= PLAYER_DEATH_EXPLODE_DAMMAGE_AMT)
             pp->DeathType = PLAYER_DEATH_EXPLODE;
-        else    
+        else
         if (u->LastDamage >= PLAYER_DEATH_CRUMBLE_DAMMAGE_AMT)
             pp->DeathType = PLAYER_DEATH_CRUMBLE;
         else
             pp->DeathType = PLAYER_DEATH_FLIP;
-        
+
         if (Weapon < 0)
             {
             pp->Killer = -1;
             DoPlayerBeginDie(pp);
             return(TRUE);
             }
-            
-        if (Weapon > -1 && wu->ID == RIPPER_RUN_R0 || wu->ID == RIPPER2_RUN_R0)    
+
+        if (Weapon > -1 && wu->ID == RIPPER_RUN_R0 || wu->ID == RIPPER2_RUN_R0)
             pp->DeathType = PLAYER_DEATH_RIPPER;
 
         if (Weapon > -1 && wu->ID == CALTROPS)
             pp->DeathType = PLAYER_DEATH_FLIP;
-            
+
         if (Weapon > -1 && wu->ID == NINJA_RUN_R0 && wu->PlayerP)
             {
             PLAYERp wp = wu->PlayerP;
-            
+
             pp->DeathType = PLAYER_DEATH_FLIP;
-            wu->PlayerP->Bloody = TRUE;   
+            wu->PlayerP->Bloody = TRUE;
             }
 
         // keep track of who killed you for death purposes
@@ -5828,24 +5828,24 @@ PlayerCheckDeath(PLAYERp pp, short Weapon)
             {
             if (wp->owner >= 0)
                 pp->Killer = wp->owner;
-            else    
+            else
             if (TEST(wp->extra, SPRX_PLAYER_OR_ENEMY))
                 pp->Killer = Weapon;
             }
 
         // start the death process
         DoPlayerBeginDie(pp);
-        
+
         // for death direction
-        //u->slide_ang = wp->ang;    
-        u->slide_ang = getangle(sp->x - wp->x, sp->y - wp->y);        
+        //u->slide_ang = wp->ang;
+        u->slide_ang = getangle(sp->x - wp->x, sp->y - wp->y);
         // for death velocity
         u->slide_vel = u->LastDamage * 5;
-        
-        return(TRUE);    
-        }    
-    
-    return(FALSE);    
+
+        return(TRUE);
+        }
+
+    return(FALSE);
     }
 
 BOOL
@@ -5858,7 +5858,7 @@ PlayerTakeDamage(PLAYERp pp, short Weapon)
 
     if (Weapon < 0)
         return(TRUE);
-    
+
     if (gNet.MultiGameType == MULTI_GAME_NONE)
         {
         // ZOMBIE special case for single play
@@ -5868,48 +5868,48 @@ PlayerTakeDamage(PLAYERp pp, short Weapon)
             if (wp->owner == pp->PlayerSprite)
                 return(FALSE);
             }
-            
+
         return(TRUE);
         }
-    
+
     if (gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
         {
         // everything hurts you
-        if (gNet.HurtTeammate)    
+        if (gNet.HurtTeammate)
             return(TRUE);
 
         // if weapon IS the YOURSELF take damage
-        if (wu->PlayerP == pp)    
+        if (wu->PlayerP == pp)
             return(TRUE);
-            
+
         // if the weapons owner is YOURSELF take damage
-        if (wp->owner >= 0 && User[wp->owner] && User[wp->owner]->PlayerP && User[wp->owner]->PlayerP == pp)    
+        if (wp->owner >= 0 && User[wp->owner] && User[wp->owner]->PlayerP && User[wp->owner]->PlayerP == pp)
             return(TRUE);
-        
+
         // if weapon IS the player no damage
-        if (wu->PlayerP)    
+        if (wu->PlayerP)
             return(FALSE);
-        
+
         // if the weapons owner is a player
-        if (wp->owner >= 0 && User[wp->owner] && User[wp->owner]->PlayerP)    
+        if (wp->owner >= 0 && User[wp->owner] && User[wp->owner]->PlayerP)
             return(FALSE);
         }
     else
     if (gNet.MultiGameType == MULTI_GAME_COMMBAT && gNet.TeamPlay)
         {
         // everything hurts you
-        if (gNet.HurtTeammate)    
+        if (gNet.HurtTeammate)
             return(TRUE);
-        
+
         // if weapon IS the YOURSELF take damage
-        if (wu->PlayerP == pp)    
+        if (wu->PlayerP == pp)
             return(TRUE);
-            
+
         // if the weapons owner is YOURSELF take damage
-        if (wp->owner >= 0 && User[wp->owner] && User[wp->owner]->PlayerP && User[wp->owner]->PlayerP == pp)    
+        if (wp->owner >= 0 && User[wp->owner] && User[wp->owner]->PlayerP && User[wp->owner]->PlayerP == pp)
             return(TRUE);
-        
-        if (wu->PlayerP)    
+
+        if (wu->PlayerP)
             {
             // if both on the same team then no damage
             if (wu->spal == u->spal)
@@ -5917,15 +5917,15 @@ PlayerTakeDamage(PLAYERp pp, short Weapon)
             }
 
         // if the weapons owner is a player
-        if (wp->owner >= 0 && User[wp->owner] && User[wp->owner]->PlayerP)    
+        if (wp->owner >= 0 && User[wp->owner] && User[wp->owner]->PlayerP)
             {
             // if both on the same team then no damage
             if (User[wp->owner]->spal == u->spal)
                 return(FALSE);
             }
-        }        
-            
-    return(TRUE);    
+        }
+
+    return(TRUE);
     }
 
 
@@ -5935,22 +5935,22 @@ StarBlood(short SpriteNum, short Weapon)
     USERp u = User[SpriteNum];
     short blood_num = 1;
     short i;
-    
-    if (u->Health <= 0)    
+
+    if (u->Health <= 0)
         blood_num = 4;
-        
+
     for (i = 0; i < blood_num; i++)
         SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-    return(0);    
-    } 
+    return(0);
+    }
 
-    
+
 /*
 
 !AIC KEY - This is where damage is assesed when missiles hit actors and other
 objects.
 
-*/    
+*/
 
 int
 DoDamage(short SpriteNum, short Weapon)
@@ -5961,8 +5961,8 @@ DoDamage(short SpriteNum, short Weapon)
     USERp wu;
     long dist;
     int damage=0;
-    
-    ASSERT(u);    
+
+    ASSERT(u);
 
     // don't hit a dead player
     if (u->PlayerP && TEST(u->PlayerP->Flags, PF_DEAD))
@@ -5977,8 +5977,8 @@ DoDamage(short SpriteNum, short Weapon)
     wp = &sprite[Weapon];
     wu = User[Weapon];
 
-    ASSERT(wu);    
-    
+    ASSERT(wu);
+
     if (TEST(wu->Flags, SPR_SUICIDE))
         return (0);
 
@@ -5993,14 +5993,14 @@ DoDamage(short SpriteNum, short Weapon)
         }
 
 
-    // special case for shooting mines    
+    // special case for shooting mines
     if (sp->statnum == STAT_MINE_STUCK)
         {
         SpawnMineExp(SpriteNum);
         KillSprite(SpriteNum);
         return(0);
         }
-    
+
     // weapon is drivable object manned by player
     if (wu->PlayerP && wu->PlayerP->sop)
         {
@@ -6008,12 +6008,12 @@ DoDamage(short SpriteNum, short Weapon)
             {
             case SO_TANK:
                 damage = -200;
-        
-                if (u->sop_parent)        
+
+                if (u->sop_parent)
                     {
                     break;
                     }
-                else    
+                else
                 if (u->PlayerP)
                     {
                     PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -6023,7 +6023,7 @@ DoDamage(short SpriteNum, short Weapon)
                         PlayerCheckDeath(u->PlayerP, Weapon);
                         }
                     }
-                else    
+                else
                     {
                     PLAYERp pp = Player + screenpeek;
 
@@ -6044,15 +6044,15 @@ DoDamage(short SpriteNum, short Weapon)
                         }
                     }
                 break;
-                
+
             case SO_SPEED_BOAT:
                 damage = -100;
-        
-                if (u->sop_parent)        
+
+                if (u->sop_parent)
                     {
                     break;
                     }
-                else    
+                else
                 if (u->PlayerP)
                     {
                     PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -6062,36 +6062,36 @@ DoDamage(short SpriteNum, short Weapon)
                         PlayerCheckDeath(u->PlayerP, Weapon);
                         }
                     }
-                else    
+                else
                     {
                     ActorHealth(SpriteNum, damage);
                     ActorPain(SpriteNum);
                     ActorChooseDeath(SpriteNum, Weapon);
                     }
-                    
+
                 SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
                 break;
             }
         }
-    
-    if (Player[0].PlayerSprite == Weapon)    
+
+    if (Player[0].PlayerSprite == Weapon)
         {
         //DSPRINTF(ds,"got here 4, %d", User[Player[0].PlayerSprite]->ID);
         MONO_PRINT(ds);
         }
-    
-        
-    // weapon is the actor - no missile used - example swords, axes, etc    
+
+
+    // weapon is the actor - no missile used - example swords, axes, etc
     switch (wu->ID)
         {
         case NINJA_RUN_R0:
-        
+
             ASSERT(wu->PlayerP);
-            
+
             if(wu->WeaponNum == WPN_SWORD)
                 damage = GetDamage(SpriteNum, Weapon, WPN_SWORD);
-            else 
-                {   
+            else
+                {
                 damage = GetDamage(SpriteNum, Weapon, WPN_FIST);
                 // Add damage for stronger attacks!
                 switch(wu->PlayerP->WpnKungFuMove)
@@ -6105,15 +6105,15 @@ DoDamage(short SpriteNum, short Weapon)
                     }
                 PlaySound(DIGI_CGTHIGHBONE,&wp->x,&wp->y,&wp->z,v3df_follow|v3df_dontpan);
                 }
-                   
+
             ////DSPRINTF(ds,"got here 3, %d",damage);
             //MONO_PRINT(ds);
-                    
-            if (u->sop_parent)        
+
+            if (u->sop_parent)
                 {
                 break;
                 }
-            else    
+            else
             if (u->PlayerP)
                 {
                 // Is the player blocking?
@@ -6128,27 +6128,27 @@ DoDamage(short SpriteNum, short Weapon)
                 if(u->PlayerP->Armor)
                 PlaySound(DIGI_ARMORHIT,&u->PlayerP->posx,&u->PlayerP->posy,&u->PlayerP->posz,v3df_dontpan|v3df_follow|v3df_doppler);
                 }
-            else    
+            else
                 {
                 ActorHealth(SpriteNum, damage);
                 ActorPain(SpriteNum);
                 ActorChooseDeath(SpriteNum, Weapon);
                 }
-                
+
             SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-            
-            break;    
-                
+
+            break;
+
         case SKEL_RUN_R0:
         case COOLG_RUN_R0:
         case GORO_RUN_R0:
 
             damage = GetDamage(SpriteNum, Weapon, DMG_SKEL_SLASH);
-            if (u->sop_parent)        
+            if (u->sop_parent)
                 {
                 break;
                 }
-            else    
+            else
             if (u->PlayerP)
                 {
                 // Is the player blocking?
@@ -6167,19 +6167,19 @@ DoDamage(short SpriteNum, short Weapon)
                 ActorPain(SpriteNum);
                 ActorChooseDeath(SpriteNum, Weapon);
                 }
-                
+
             SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-            
+
             break;
-            
+
         case HORNET_RUN_R0:
             PlaySound(DIGI_HORNETSTING,&sp->x,&sp->y,&sp->z,v3df_follow|v3df_dontpan);
             damage = GetDamage(SpriteNum, Weapon, DMG_HORNET_STING);
-            if (u->sop_parent)        
+            if (u->sop_parent)
                 {
                 break;
                 }
-            else    
+            else
             if (u->PlayerP)
                 {
                 // Is the player blocking?
@@ -6198,19 +6198,19 @@ DoDamage(short SpriteNum, short Weapon)
                 ActorPain(SpriteNum);
                 ActorChooseDeath(SpriteNum, Weapon);
                 }
-                
+
             //SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-            
+
             break;
-            
+
     case EEL_RUN_R0:
         damage = GetDamage(SpriteNum, Weapon, DMG_RIPPER_SLASH);
-        damage /= 3; 
-        if (u->sop_parent)        
+        damage /= 3;
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             // Is the player blocking?
@@ -6221,7 +6221,7 @@ DoDamage(short SpriteNum, short Weapon)
                 {
                 PlayerUpdateHealth(u->PlayerP, damage);
                 PlayerCheckDeath(u->PlayerP, Weapon);
-                }  
+                }
             }
         else
             {
@@ -6231,17 +6231,17 @@ DoDamage(short SpriteNum, short Weapon)
             }
 
         SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-        
+
         break;
 
     case RIPPER_RUN_R0:
         damage = GetDamage(SpriteNum, Weapon, DMG_RIPPER_SLASH);
         damage /= 3; // Little rippers aren't as tough.
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             // Is the player blocking?
@@ -6255,10 +6255,10 @@ DoDamage(short SpriteNum, short Weapon)
                   {
                     PlaySound(DIGI_RIPPERHEARTOUT,&u->PlayerP->posx,&u->PlayerP->posy,
                             &u->PlayerP->posz,v3df_dontpan|v3df_doppler);
-                    
+
                     DoRipperRipHeart(Weapon);
                   }
-                }  
+                }
             }
         else
             {
@@ -6268,16 +6268,16 @@ DoDamage(short SpriteNum, short Weapon)
             }
 
         SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-        
+
         break;
 
     case RIPPER2_RUN_R0:
         damage = GetDamage(SpriteNum, Weapon, DMG_RIPPER_SLASH);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             // Is the player blocking?
@@ -6294,7 +6294,7 @@ DoDamage(short SpriteNum, short Weapon)
 
                     DoRipper2RipHeart(Weapon);
                     }
-                }  
+                }
             }
         else
             {
@@ -6304,17 +6304,17 @@ DoDamage(short SpriteNum, short Weapon)
             }
 
         SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-        
+
         break;
 
     case BUNNY_RUN_R0:
         damage = GetDamage(SpriteNum, Weapon, DMG_RIPPER_SLASH);
-        damage /= 3; 
-        if (u->sop_parent)        
+        damage /= 3;
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             extern int DoBunnyRipHeart(short SpriteNum);
@@ -6329,7 +6329,7 @@ DoDamage(short SpriteNum, short Weapon)
                   {
                     DoBunnyRipHeart(Weapon);
                   }
-                }  
+                }
             }
         else
             {
@@ -6339,16 +6339,16 @@ DoDamage(short SpriteNum, short Weapon)
             }
 
         SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-        
+
         break;
 
     case SERP_RUN_R0:
         damage = GetDamage(SpriteNum, Weapon, DMG_SERP_SLASH);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             if(u->PlayerP->WpnKungFuMove == 3)
@@ -6370,9 +6370,9 @@ DoDamage(short SpriteNum, short Weapon)
         SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
         SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
         SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-        
+
         break;
-        
+
     case BLADE1:
     case BLADE2:
     case BLADE3:
@@ -6380,13 +6380,13 @@ DoDamage(short SpriteNum, short Weapon)
 
         if(wu->ID == 5011)
             damage = -(3 + (RANDOM_RANGE(4<<8)>>8));
-        else    
+        else
             damage = GetDamage(SpriteNum, Weapon, DMG_BLADE);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             if(u->PlayerP->WpnKungFuMove == 3)
@@ -6414,18 +6414,18 @@ DoDamage(short SpriteNum, short Weapon)
             }
 
         SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-        
+
         break;
 
     case STAR1:
     case CROSSBOLT:
         damage = GetDamage(SpriteNum, Weapon, WPN_STAR);
-        
-        if (u->sop_parent)        
+
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             MONO_PRINT("Stat Hit Actor");
@@ -6451,20 +6451,20 @@ DoDamage(short SpriteNum, short Weapon)
             ActorChooseDeath(SpriteNum, Weapon);
             }
 
-        StarBlood(SpriteNum, Weapon);    
-            
+        StarBlood(SpriteNum, Weapon);
+
         wu->ID = 0;
         SetSuicide(Weapon);
         break;
-        
+
     case SPEAR_R0:
         damage = GetDamage(SpriteNum, Weapon, DMG_SPEAR_TRAP);
-        
-        if (u->sop_parent)        
+
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -6486,19 +6486,19 @@ DoDamage(short SpriteNum, short Weapon)
             }
 
         SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-        
+
         wu->ID = 0;
         SetSuicide(Weapon);
         break;
-        
+
     case LAVA_BOULDER:
         damage = GetDamage(SpriteNum, Weapon, DMG_LAVA_BOULDER);
-        
-        if (u->sop_parent)        
+
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -6518,19 +6518,19 @@ DoDamage(short SpriteNum, short Weapon)
             }
 
         SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-        
+
         wu->ID = 0;
         SetSuicide(Weapon);
         break;
-        
+
     case LAVA_SHARD:
         damage = GetDamage(SpriteNum, Weapon, DMG_LAVA_SHARD);
-        
-        if (u->sop_parent)        
+
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -6550,11 +6550,11 @@ DoDamage(short SpriteNum, short Weapon)
             }
 
         SpawnBlood(SpriteNum, Weapon, 0, 0, 0, 0);
-        
+
         wu->ID = 0;
         SetSuicide(Weapon);
         break;
-        
+
     case UZI_SMOKE:
     case UZI_SMOKE+2:
         if(wu->ID == UZI_SMOKE)
@@ -6562,11 +6562,11 @@ DoDamage(short SpriteNum, short Weapon)
         else
             damage = GetDamage(SpriteNum, Weapon, WPN_UZI)/3; // Enemy Uzi, 1/3 damage
 
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             //PlayerDamageSlide(u->PlayerP, damage, ANG2PLAYER(u->PlayerP, wp));
@@ -6613,11 +6613,11 @@ DoDamage(short SpriteNum, short Weapon)
     case SHOTGUN_SMOKE:
         damage = GetDamage(SpriteNum, Weapon, WPN_SHOTGUN);
 
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -6658,16 +6658,16 @@ DoDamage(short SpriteNum, short Weapon)
         // reset id so no more damage is taken
         wu->ID = 0;
         break;
-        
+
     case MIRV_METEOR:
 
         //damage = -DAMAGE_MIRV_METEOR;
         damage = GetDamage(SpriteNum, Weapon, DMG_MIRV_METEOR);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -6691,11 +6691,11 @@ DoDamage(short SpriteNum, short Weapon)
 
         //damage = -DAMAGE_SERP_METEOR;
         damage = GetDamage(SpriteNum, Weapon, DMG_SERP_METEOR);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -6718,11 +6718,11 @@ DoDamage(short SpriteNum, short Weapon)
     case BOLT_THINMAN_R0:
         damage = GetDamage(SpriteNum, Weapon, WPN_ROCKET);
 
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             if (PlayerTakeDamage(u->PlayerP, Weapon))
@@ -6737,7 +6737,7 @@ DoDamage(short SpriteNum, short Weapon)
             ActorPain(SpriteNum);
             ActorStdMissile(SpriteNum, Weapon);
             }
-        
+
         if(wu->Radius == NUKE_RADIUS)
             SpawnNuclearExp(Weapon);
         else
@@ -6747,9 +6747,9 @@ DoDamage(short SpriteNum, short Weapon)
 
     case BOLT_THINMAN_R1:
         //damage =  -(2000 + (65 + RANDOM_RANGE(40))); // -2000 makes armor not count
-        damage =  -(65 + RANDOM_RANGE(40)); 
+        damage =  -(65 + RANDOM_RANGE(40));
 
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             if (TEST(u->sop_parent->flags, SOBJ_DIE_HARD))
                 break;
@@ -6757,7 +6757,7 @@ DoDamage(short SpriteNum, short Weapon)
             SopCheckKill(u->sop_parent);
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             if (PlayerTakeDamage(u->PlayerP, Weapon))
@@ -6771,21 +6771,21 @@ DoDamage(short SpriteNum, short Weapon)
         else
             {
             // this is special code to prevent the Zombie from taking out the Bosses to quick
-            // if rail gun weapon owner is not player 
+            // if rail gun weapon owner is not player
             if (wp->owner >= 0 && User[wp->owner] && !User[wp->owner]->PlayerP)
                 {
                 // if actor is a boss
                 if (u->ID == ZILLA_RUN_R0 || u->ID == SERP_RUN_R0 || u->ID == SUMO_RUN_R0)
                     damage /= 2;
                 }
-            
+
             ActorHealth(SpriteNum, damage);
             ActorPain(SpriteNum);
             ActorStdMissile(SpriteNum, Weapon);
             ActorDamageSlide(SpriteNum, damage>>1, wp->ang);
             ActorChooseDeath(SpriteNum, Weapon);
             }
-        
+
         wu->ID = 0; // No more damage
         SpawnTracerExp(Weapon);
         SetSuicide(Weapon);
@@ -6794,11 +6794,11 @@ DoDamage(short SpriteNum, short Weapon)
     case BOLT_THINMAN_R2:
         damage = (GetDamage(SpriteNum, Weapon, WPN_ROCKET)/2);
 
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             if (PlayerTakeDamage(u->PlayerP, Weapon))
@@ -6813,7 +6813,7 @@ DoDamage(short SpriteNum, short Weapon)
             ActorPain(SpriteNum);
             ActorStdMissile(SpriteNum, Weapon);
             }
-        
+
         if(wu->Radius == NUKE_RADIUS)
             SpawnNuclearExp(Weapon);
         else
@@ -6824,11 +6824,11 @@ DoDamage(short SpriteNum, short Weapon)
     case BOLT_THINMAN_R4:
         damage = GetDamage(SpriteNum, Weapon, DMG_GRENADE_EXP);
 
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, ANG2PLAYER(u->PlayerP, wp));
@@ -6846,7 +6846,7 @@ DoDamage(short SpriteNum, short Weapon)
             ActorChooseDeath(SpriteNum, Weapon);
             }
 
-        SpawnBunnyExp(Weapon);    
+        SpawnBunnyExp(Weapon);
         //InitBloodSpray(Weapon,TRUE,-1);
         //InitBloodSpray(Weapon,TRUE,-1);
         //InitBloodSpray(Weapon,TRUE,-1);
@@ -6857,7 +6857,7 @@ DoDamage(short SpriteNum, short Weapon)
         damage = GetDamage(SpriteNum, Weapon, DMG_FLASHBOMB);
 
         damage /= 3;
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             if (TEST(u->sop_parent->flags, SOBJ_DIE_HARD))
                 break;
@@ -6865,7 +6865,7 @@ DoDamage(short SpriteNum, short Weapon)
             SopCheckKill(u->sop_parent);
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, ANG2PLAYER(u->PlayerP, wp));
@@ -6884,12 +6884,12 @@ DoDamage(short SpriteNum, short Weapon)
             }
 
         break;
-        
+
     case BOLT_EXP:
         damage = GetDamage(SpriteNum, Weapon, DMG_BOLT_EXP);
 //      //DSPRINTF(ds,"Damage Bolt: %d\n",damage);
 //      MONO_PRINT(ds);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             if (TEST(u->sop_parent->flags, SOBJ_DIE_HARD))
                 break;
@@ -6897,7 +6897,7 @@ DoDamage(short SpriteNum, short Weapon)
             SopCheckKill(u->sop_parent);
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, ANG2PLAYER(u->PlayerP, wp));
@@ -6918,18 +6918,18 @@ DoDamage(short SpriteNum, short Weapon)
         break;
 
     case BLOOD_WORM:
-    
+
         // Don't hurt blood worm zombies!
-        if (u->ID == ZOMBIE_RUN_R0) 
+        if (u->ID == ZOMBIE_RUN_R0)
             break;
-        
+
         damage = GetDamage(SpriteNum, Weapon, WPN_HEART);
-        
-        if (u->sop_parent)        
+
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             //PlayerDamageSlide(u->PlayerP, damage, ANG2PLAYER(u->PlayerP, wp));
@@ -6950,16 +6950,16 @@ DoDamage(short SpriteNum, short Weapon)
             ActorDamageSlide(SpriteNum, damage, ANG2SPRITE(sp, wp));
             ActorChooseDeath(SpriteNum, Weapon);
             }
-        
+
         // degrade blood worm life
         wu->Counter3 += (2*120)/MISSILEMOVETICS;
 
         break;
 
-        
+
     case TANK_SHELL_EXP:
         damage = GetDamage(SpriteNum, Weapon, DMG_TANK_SHELL_EXP);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             if (TEST(u->sop_parent->flags, SOBJ_DIE_HARD))
                 break;
@@ -6967,7 +6967,7 @@ DoDamage(short SpriteNum, short Weapon)
             SopCheckKill(u->sop_parent);
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, ANG2PLAYER(u->PlayerP, wp));
@@ -6997,7 +6997,7 @@ DoDamage(short SpriteNum, short Weapon)
         //DSPRINTF(ds,"MUSHROOM: damage = %d, wu->radius = %d\n",damage,wu->Radius);
         MONO_PRINT(ds);
 
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             if (TEST(u->sop_parent->flags, SOBJ_DIE_HARD))
                 break;
@@ -7005,7 +7005,7 @@ DoDamage(short SpriteNum, short Weapon)
             SopCheckKill(u->sop_parent);
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, ANG2PLAYER(u->PlayerP, wp));
@@ -7026,15 +7026,15 @@ DoDamage(short SpriteNum, short Weapon)
             }
 
         break;
-        
+
     case MICRO_EXP:
-        
+
         damage = GetDamage(SpriteNum, Weapon, DMG_MINE_EXP);
 
 //      //DSPRINTF(ds,"Damage Micro: %d\n",damage);
 //      MONO_PRINT(ds);
 
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             if (TEST(u->sop_parent->flags, SOBJ_DIE_HARD))
                 break;
@@ -7042,7 +7042,7 @@ DoDamage(short SpriteNum, short Weapon)
             SopCheckKill(u->sop_parent);
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, ANG2PLAYER(u->PlayerP, wp));
@@ -7063,12 +7063,12 @@ DoDamage(short SpriteNum, short Weapon)
 
     case MINE_EXP:
         damage = GetDamage(SpriteNum, Weapon, DMG_MINE_EXP);
-        if (wp->owner >= 0 && User[wp->owner] && User[wp->owner]->ID == SERP_RUN_R0)        
+        if (wp->owner >= 0 && User[wp->owner] && User[wp->owner]->ID == SERP_RUN_R0)
             {
             damage /= 6;
             }
-            
-        if (u->sop_parent)        
+
+        if (u->sop_parent)
             {
             if (TEST(u->sop_parent->flags, SOBJ_DIE_HARD))
                 break;
@@ -7076,7 +7076,7 @@ DoDamage(short SpriteNum, short Weapon)
             SopCheckKill(u->sop_parent);
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, ANG2PLAYER(u->PlayerP, wp));
@@ -7096,7 +7096,7 @@ DoDamage(short SpriteNum, short Weapon)
 	    }
             if(u->ID == TRASHCAN)
                 ActorHealth(SpriteNum, -500);
-            else    
+            else
                 ActorHealth(SpriteNum, damage);
             ActorPain(SpriteNum);
             ActorDamageSlide(SpriteNum, damage, ANG2SPRITE(sp, wp));
@@ -7107,15 +7107,15 @@ DoDamage(short SpriteNum, short Weapon)
         wu->ID = 0;
         break;
 
-#if 0    
+#if 0
     case MINE_SHRAP:
-    
+
         damage = GetDamage(SpriteNum, Weapon, DMG_MINE_SHRAP);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -7138,7 +7138,7 @@ DoDamage(short SpriteNum, short Weapon)
         wu->ID = 0;
         break;
 #endif
-        
+
     case NAP_EXP:
 
         damage = GetDamage(SpriteNum, Weapon, DMG_NAPALM_EXP);
@@ -7146,8 +7146,8 @@ DoDamage(short SpriteNum, short Weapon)
         // Sumo Nap does less
         if (User[wp->owner]->ID == SUMO_RUN_R0)
             damage /= 4;
-        
-        if (u->sop_parent)        
+
+        if (u->sop_parent)
             {
             if (TEST(u->sop_parent->flags, SOBJ_DIE_HARD))
                 break;
@@ -7155,7 +7155,7 @@ DoDamage(short SpriteNum, short Weapon)
             SopCheckKill(u->sop_parent);
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, ANG2PLAYER(u->PlayerP, wp));
@@ -7180,11 +7180,11 @@ DoDamage(short SpriteNum, short Weapon)
     case Vomit2:
 
         damage = GetDamage(SpriteNum, Weapon, DMG_VOMIT);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -7206,11 +7206,11 @@ DoDamage(short SpriteNum, short Weapon)
 
     case COOLG_FIRE:
         damage = GetDamage(SpriteNum, Weapon, DMG_COOLG_FIRE);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -7227,7 +7227,7 @@ DoDamage(short SpriteNum, short Weapon)
             ActorChooseDeath(SpriteNum, Weapon);
             }
 
-//        u->ID = 0;    
+//        u->ID = 0;
         SetSuicide(Weapon);
         break;
 
@@ -7237,7 +7237,7 @@ DoDamage(short SpriteNum, short Weapon)
 
         damage = GetDamage(SpriteNum, Weapon, DMG_SKULL_EXP);
 
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             if (TEST(u->sop_parent->flags, SOBJ_DIE_HARD))
                 break;
@@ -7245,7 +7245,7 @@ DoDamage(short SpriteNum, short Weapon)
             SopCheckKill(u->sop_parent);
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, ANG2PLAYER(u->PlayerP, wp));
@@ -7273,11 +7273,11 @@ DoDamage(short SpriteNum, short Weapon)
     case FIREBALL1:
         ASSERT(SpriteNum >= 0 && Weapon >= 0);
         damage = GetDamage(SpriteNum, Weapon, WPN_HOTHEAD);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -7304,14 +7304,14 @@ DoDamage(short SpriteNum, short Weapon)
 
     case FIREBALL:
     case GORO_FIREBALL:
-    
+
         ASSERT(SpriteNum >= 0 && Weapon >= 0);
         damage = GetDamage(SpriteNum, Weapon, DMG_GORO_FIREBALL);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerDamageSlide(u->PlayerP, damage, wp->ang);
@@ -7335,16 +7335,16 @@ DoDamage(short SpriteNum, short Weapon)
         SpawnGoroFireballExp(Weapon);
         SetSuicide(Weapon);
         break;
-        
+
     case FIREBALL_FLAMES:
 
         damage = -DamageData[DMG_FIREBALL_FLAMES].damage_lo;
-        
-        if (u->sop_parent)        
+
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             if (PlayerTakeDamage(u->PlayerP, Weapon))
@@ -7369,17 +7369,17 @@ DoDamage(short SpriteNum, short Weapon)
 //      //DSPRINTF(ds,"Radiation damage = %d\n",damage);
 //      MONO_PRINT(ds);
 
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             if (PlayerTakeDamage(u->PlayerP, Weapon))
                 {
                 PLAYERp pp = u->PlayerP;
-                
+
                 PlayerSound(DIGI_GASHURT,&pp->posx,&pp->posy,&pp->posz,v3df_dontpan|v3df_follow|v3df_doppler,pp);
                 PlayerUpdateHealth(u->PlayerP, damage-1000);
                 PlayerCheckDeath(u->PlayerP, Weapon);
@@ -7394,18 +7394,18 @@ DoDamage(short SpriteNum, short Weapon)
             ActorChooseDeath(SpriteNum, Weapon);
             }
 
-//        u->ID = 0;    
+//        u->ID = 0;
         wu->ID = 0;
         break;
 
     case PLASMA:
 
         //damage = GetDamage(SpriteNum, Weapon, WPN_HEART);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             //PlayerUpdateHealth(u->PlayerP, damage);
@@ -7427,26 +7427,26 @@ DoDamage(short SpriteNum, short Weapon)
                 ANIMATOR DoRipperGrow;
                 DoRipperGrow(SpriteNum);
                 break;
-                }    
-                 
+                }
+
             ActorPainPlasma(SpriteNum);
             }
 
         InitPlasmaFountain(wp, sp);
-        
+
         SetSuicide(Weapon);
 
         break;
 
     case CALTROPS:
-    
+
         ASSERT(SpriteNum >= 0 && Weapon >= 0);
         damage = GetDamage(SpriteNum, Weapon, DMG_MINE_SHRAP);
-        if (u->sop_parent)        
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             if (PlayerTakeDamage(u->PlayerP, Weapon))
@@ -7468,17 +7468,17 @@ DoDamage(short SpriteNum, short Weapon)
         SetSuicide(Weapon);
         break;
 
-    #if 0    
+    #if 0
     case PLASMA_FOUNTAIN:
 
         //damage = GetDamage(SpriteNum, Weapon, WPN_HEART);
         damage = -300;
-        
-        if (u->sop_parent)        
+
+        if (u->sop_parent)
             {
             break;
             }
-        else    
+        else
         if (u->PlayerP)
             {
             PlayerUpdateHealth(u->PlayerP, damage);
@@ -7523,12 +7523,12 @@ DoDamage(short SpriteNum, short Weapon)
     return (0);
     }
 
-#if 1    
+#if 1
 // Select death text based on ID
 char *DeathString(short SpriteNum)
     {
     USERp ku = User[SpriteNum];
-    
+
     switch(ku->ID)
         {
         case NINJA_RUN_R0:
@@ -7560,13 +7560,13 @@ char *DeathString(short SpriteNum)
         case BLADE3:
         case 5011:
             return("blade");
-        #ifdef UK_VERSION    
+        #ifdef UK_VERSION
         case STAR1:
             return("dart");
         #else
         case STAR1:
             return("shuriken");
-        #endif    
+        #endif
         case CROSSBOLT:
             return("crossbow bolt");
         case SPEAR_R0:
@@ -7629,8 +7629,8 @@ char *DeathString(short SpriteNum)
         }
 	return "";
      }
-#endif     
-    
+#endif
+
 int
 DoDamageTest(short Weapon)
     {
@@ -7688,7 +7688,7 @@ DoHitscanDamage(short Weapon, short hitsprite)
 
     // this routine needs some sort of sprite generated from the hitscan
     // such as a smoke or spark sprite - reason is because of DoDamage()
-    
+
     for (stat = 0; stat < SIZ(StatDamageList); stat++)
         {
         if (sprite[hitsprite].statnum == StatDamageList[stat])
@@ -7744,7 +7744,7 @@ DoFlamesDamageTest(short Weapon)
 
             if (!TEST(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN))
                 continue;
-            
+
             if(TEST(wp->cstat, CSTAT_SPRITE_INVISIBLE))
                 continue;
 
@@ -7755,8 +7755,8 @@ DoFlamesDamageTest(short Weapon)
                     DoDamage(i, Weapon);
                     }
                 }
-            else    
-            if (SpriteOverlap(Weapon, i))  
+            else
+            if (SpriteOverlap(Weapon, i))
                 {
                 DoDamage(i, Weapon);
                 }
@@ -7766,11 +7766,11 @@ DoFlamesDamageTest(short Weapon)
 
     return (0);
     }
-    
+
 short PrevWall(short wall_num)
     {
     short start_wall,prev_wall;
-    
+
     start_wall = wall_num;
 
     do
@@ -7779,19 +7779,19 @@ short PrevWall(short wall_num)
         wall_num = wall[wall_num].point2;
         }
     while(wall_num != start_wall);
-    
-    return(prev_wall);
-    }                    
-    
 
-short StatBreakList[] = 
+    return(prev_wall);
+    }
+
+
+short StatBreakList[] =
 {
 STAT_DEFAULT,
 STAT_BREAKABLE,
 STAT_NO_STATE,
 STAT_DEAD_ACTOR,
 };
-    
+
 VOID TraverseBreakableWalls(short start_sect, long x, long y, long z, short ang, long radius)
     {
     int WallBreakPosition(short hitwall, short *sectnum, long *x, long *y, long *z, short *ang);
@@ -7801,27 +7801,27 @@ VOID TraverseBreakableWalls(short start_sect, long x, long y, long z, short ang,
     long xmid,ymid;
     long dist;
     short break_count;
-    
+
     short sectnum,wall_ang;
     long hitx,hity,hitz;
-    
+
     sectlist[0] = start_sect;
     sectlistplc = 0; sectlistend = 1;
-    
+
     // limit radius
     if (radius > 2000)
         radius = 2000;
-    
+
     break_count = 0;
     while (sectlistplc < sectlistend)
         {
         sect = sectlist[sectlistplc++];
-        
+
         ASSERT(sectlistplc < SIZ(sectlist));
-        
+
         startwall = sector[sect].wallptr;
         endwall = startwall + sector[sect].wallnum;
-        
+
         for(j = startwall; j < endwall - 1; j++)
             {
             // see if this wall should be broken
@@ -7830,51 +7830,51 @@ VOID TraverseBreakableWalls(short start_sect, long x, long y, long z, short ang,
                 // find midpoint
                 xmid = DIV2(wall[j].x + wall[j+1].x);
                 ymid = DIV2(wall[j].y + wall[j+1].y);
-                
+
                 // don't need to go further if wall is too far out
-                
+
                 dist = Distance(xmid, ymid, x, y);
                 if (dist > radius)
                     continue;
-            
+
                 if (WallBreakPosition(j, &sectnum, &hitx, &hity, &hitz, &wall_ang))
                     {
                     if (hitx != MAXLONG && sectnum >= 0 && FAFcansee( x, y, z, start_sect, hitx, hity, hitz, sectnum))
                         {
                         //HitBreakWall(&wall[j], x, y, z, ang, 0);
                         HitBreakWall(&wall[j], MAXLONG, MAXLONG, MAXLONG, ang, 0);
-                        
+
                         break_count++;
-                        if (break_count > 4)    
+                        if (break_count > 4)
                             return;
                         }
-                    }    
-                }    
-            
+                    }
+                }
+
             nextsector = wall[j].nextsector;
-            
-            if (nextsector < 0) 
+
+            if (nextsector < 0)
                 continue;
 
-            // make sure its not on the list    
+            // make sure its not on the list
             for(k = sectlistend - 1; k >= 0; k--)
                 {
                 if (sectlist[k] == nextsector)
                     break;
                 }
-                    
-            // if its not on the list add it to the end        
+
+            // if its not on the list add it to the end
             if (k < 0)
                 {
                 sectlist[sectlistend++] = nextsector;
                 ASSERT(sectlistend < SIZ(sectlist));
                 }
             }
-                       
+
         }
     }
 
-    
+
 int DoExpDamageTest(short Weapon)
     {
     SPRITEp wp = &sprite[Weapon];
@@ -7887,17 +7887,17 @@ int DoExpDamageTest(short Weapon)
     long tmin;
     long max_stat;
     short break_count;
-    
+
     SPRITEp found_sp = NULL;
     long found_dist = 999999;
     int DoWallMoveMatch(short match);
-    
+
     // crack sprites
     if(wu->ID != MUSHROOM_CLOUD)
         WeaponExplodeSectorInRange(Weapon);
-    
+
     // Just like DoDamageTest() except that it doesn't care about the owner
-    
+
     max_stat = SIZ(StatDamageList);
     // don't check for mines if the weapon is a mine
     if (wp->statnum == STAT_MINE_STUCK)
@@ -7917,38 +7917,38 @@ int DoExpDamageTest(short Weapon)
 
             if (sp == wp)
                 continue;
-            
-            if (StatDamageList[stat] == STAT_SO_SP_CHILD)    
+
+            if (StatDamageList[stat] == STAT_SO_SP_CHILD)
                 {
                 DoDamage(i, Weapon);
                 }
-            else    
+            else
                 {
                 long zdist=0;
 
-                if (FindDistance3D(sp->x - wp->x, sp->y - wp->y, (sp->z - wp->z)>>4) > wu->Radius + u->Radius) 
+                if (FindDistance3D(sp->x - wp->x, sp->y - wp->y, (sp->z - wp->z)>>4) > wu->Radius + u->Radius)
                     continue;
 
                 // added hitscan block because mines no long clip against actors/players
                 if (!TEST(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN))
                     continue;
 
-                // Second parameter MUST have blocking bits set or cansee won't work    
+                // Second parameter MUST have blocking bits set or cansee won't work
                 // added second check for FAF water - hitscans were hitting ceiling
-                if (!FAFcansee(wp->x, wp->y, wp->z, wp->sectnum, sp->x, sp->y, SPRITEp_UPPER(sp), sp->sectnum) &&     
-                    !FAFcansee(wp->x, wp->y, wp->z, wp->sectnum, sp->x, sp->y, SPRITEp_LOWER(sp), sp->sectnum))    
+                if (!FAFcansee(wp->x, wp->y, wp->z, wp->sectnum, sp->x, sp->y, SPRITEp_UPPER(sp), sp->sectnum) &&
+                    !FAFcansee(wp->x, wp->y, wp->z, wp->sectnum, sp->x, sp->y, SPRITEp_LOWER(sp), sp->sectnum))
                     continue;
-                    
+
                 DoDamage(i, Weapon);
-                }    
+                }
             }
         }
-        
+
     if(wu->ID == MUSHROOM_CLOUD) return(0); // Central Nuke doesn't break stuff
                                             // Only secondaries do that
-                                            
+
     TraverseBreakableWalls(wp->sectnum, wp->x, wp->y, wp->z, wp->ang, wu->Radius);
-    
+
     break_count = 0;
     max_stat = SIZ(StatBreakList);
     // Breakable stuff
@@ -7966,7 +7966,7 @@ int DoExpDamageTest(short Weapon)
             dist = FindDistance3D(sp->x - wp->x, sp->y - wp->y, (SPRITEp_MID(sp) - wp->z)>>4 );
             if (dist > wu->Radius)
                 continue;
-            
+
             if (!FAFcansee(sp->x, sp->y, SPRITEp_MID(sp), sp->sectnum, wp->x, wp->y, wp->z, wp->sectnum))
                 continue;
 
@@ -7974,42 +7974,42 @@ int DoExpDamageTest(short Weapon)
                 {
                 HitBreakSprite(i, wu->ID);
                 break_count++;
-                if (break_count > 6)    
+                if (break_count > 6)
                     break;
                 }
-            }        
+            }
         }
 
-    if (wu->ID == BLOOD_WORM)    
+    if (wu->ID == BLOOD_WORM)
         return(0);
-        
-    // wall damaging    
+
+    // wall damaging
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_WALL_MOVE], i, nexti)
         {
         sp = &sprite[i];
-        
+
         DISTANCE(sp->x, sp->y, wp->x, wp->y, dist, tx, ty, tmin);
         if (dist > wu->Radius/4)
             continue;
-        
-        if (TEST_BOOL1(sp))    
+
+        if (TEST_BOOL1(sp))
             continue;
 
         if (!CanSeeWallMove(wp, SP_TAG2(sp)))
             continue;
-            
-        if (dist < found_dist)    
+
+        if (dist < found_dist)
             {
             found_dist = dist;
             found_sp = sp;
             }
         }
 
-    
-        
-    if (found_sp)    
+
+
+    if (found_sp)
         {
-        if (SP_TAG2(found_sp) == 0)    
+        if (SP_TAG2(found_sp) == 0)
             {
             // just do one
             DoWallMove(found_sp);
@@ -8017,18 +8017,18 @@ int DoExpDamageTest(short Weapon)
         else
             {
             BOOL once = FALSE;
-            
+
             if (DoWallMoveMatch(SP_TAG2(found_sp)))
                 {
                 DoSpawnSpotsForDamage(SP_TAG2(found_sp));
                 }
-            }    
+            }
         }
-    
+
     return (0);
     }
 
-    
+
 int DoMineExpMine(short Weapon)
     {
     SPRITEp wp = &sprite[Weapon];
@@ -8052,7 +8052,7 @@ int DoMineExpMine(short Weapon)
 
         if (sp == wp)
             continue;
-        
+
         //if (!TEST(sp->cstat, CSTAT_SPRITE_BLOCK))
         //    continue;
         if (!TEST(sp->cstat, CSTAT_SPRITE_BLOCK_HITSCAN))
@@ -8064,12 +8064,12 @@ int DoMineExpMine(short Weapon)
             {
             DoDamage(i, Weapon);
             // only explode one mine at a time
-            break;    
+            break;
             }
         }
 
     return (0);
-    }           
+    }
 
 int
 DoStar(SHORT Weapon)
@@ -8085,43 +8085,43 @@ DoStar(SHORT Weapon)
 
 //    if (!TEST(u->Flags, SPR_BOUNCE))
 //        DoBlurExtend(Weapon, 0, 2);
-        
+
     if (TEST(u->Flags, SPR_UNDERWATER))
         {
         u->motion_blur_num = 0;
         ScaleSpriteVector(Weapon, 54000);
-        
+
         vel = ksqrt(SQ(u->xchange) + SQ(u->ychange));
-        
+
         if (vel > 100)
             {
             if ((RANDOM_P2(1024 << 4) >> 4) < 128)
                 SpawnBubble(Weapon);
-            }    
-            
+            }
+
         sp->z += 128 * MISSILEMOVETICS;
 
         DoActorZrange(Weapon);
         MissileWaterAdjust(Weapon);
-        
+
         if (sp->z > u->loz)
             {
             KillSprite(Weapon);
             return (TRUE);
             }
         }
-    else    
+    else
         {
         vel = ksqrt(SQ(u->xchange) + SQ(u->ychange));
 
-        
+
         if (vel < 800)
             {
             u->Counter += 50;
             u->zchange += u->Counter;
-            }    
-        }    
-    
+            }
+        }
+
     u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
     MissileHitDiveArea(Weapon);
@@ -8133,28 +8133,28 @@ DoStar(SHORT Weapon)
             {
             case HIT_PLAX_WALL:
                 break;
-                
+
             case HIT_WALL:
                 {
                 short hitwall,nw,wall_ang,dang;
                 WALLp wph;
-                
+
                 hitwall = NORM_WALL(u->ret);
                 wph = &wall[hitwall];
-                
+
                 #define STAR_STICK_RNUM 400
                 #define STAR_BOUNCE_RNUM 600
-                
+
                 if (wph->lotag == TAG_WALL_BREAK)
                     {
                     HitBreakWall(&wall[hitwall], sp->x, sp->y, sp->z, sp->ang, u->ID);
                     u->ret = 0;
                     break;
                     }
-                    
+
                 // special case with MissileSetPos - don't queue star
                 // from this routine
-                if (TEST(u->Flags, SPR_SET_POS_DONT_KILL))                
+                if (TEST(u->Flags, SPR_SET_POS_DONT_KILL))
                     break;
 
                 // chance of sticking
@@ -8174,14 +8174,14 @@ DoStar(SHORT Weapon)
                     QueueStar(Weapon);
                     return(0);
                     }
-                
+
                 // chance of bouncing
                 if (RANDOM_P2(1024) < STAR_BOUNCE_RNUM)
                     break;
-                    
+
                 nw = wall[hitwall].point2;
                 wall_ang = NORM_ANGLE(getangle(wall[nw].x - wph->x, wall[nw].y - wph->y)+512);
-                
+
                 WallBounce(Weapon, wall_ang);
                 ScaleSpriteVector(Weapon, 36000);
                 SET(u->Flags, SPR_BOUNCE);
@@ -8189,13 +8189,13 @@ DoStar(SHORT Weapon)
                 u->ret = 0;
                 break;
                 }
-                    
+
             case HIT_SECTOR:
                 {
                 BOOL hitwall;
                 short hitsect = NORM_SECTOR(u->ret);
-                
-                if (sp->z > DIV2(u->hiz + u->loz)) 
+
+                if (sp->z > DIV2(u->hiz + u->loz))
                     {
                     if (SectUser[hitsect] && SectUser[hitsect]->depth > 0)
                         {
@@ -8205,31 +8205,31 @@ DoStar(SHORT Weapon)
                         // hit water - will be taken care of in WeaponMoveHit
                         //break;
                         }
-                    }    
-                
+                    }
+
                 if (u->lo_sp)
-                    if (u->lo_sp->lotag == TAG_SPRITE_HIT_MATCH)    
+                    if (u->lo_sp->lotag == TAG_SPRITE_HIT_MATCH)
                         break;
                 if (u->hi_sp)
-                    if (u->hi_sp->lotag == TAG_SPRITE_HIT_MATCH)    
+                    if (u->hi_sp->lotag == TAG_SPRITE_HIT_MATCH)
                         break;
-                    
+
                 ScaleSpriteVector(Weapon, 58000);
-                
+
                 vel = ksqrt(SQ(u->xchange) + SQ(u->ychange));
-                
+
                 if (vel < 500)
                     break; // will be killed below - u->ret != 0
-                    
+
                 // 32000 to 96000
                 u->xchange = mulscale16(u->xchange, 64000 + (RANDOM_RANGE(64000) - 32000));
                 u->ychange = mulscale16(u->ychange, 64000 + (RANDOM_RANGE(64000) - 32000));
-                
-                if (sp->z > DIV2(u->hiz + u->loz)) 
+
+                if (sp->z > DIV2(u->hiz + u->loz))
                     u->zchange = mulscale16(u->zchange, 50000); // floor
-                else    
+                else
                     u->zchange = mulscale16(u->zchange, 40000); // ceiling
-                    
+
                 if (SlopeBounce(Weapon, &hitwall))
                     {
                     if (hitwall)
@@ -8237,15 +8237,15 @@ DoStar(SHORT Weapon)
                         // chance of sticking
                         if (RANDOM_P2(1024) < STAR_STICK_RNUM)
                             break;
-                        
+
                         // chance of bouncing
                         if (RANDOM_P2(1024) < STAR_BOUNCE_RNUM)
                             break;
-                        
+
                         SET(u->Flags, SPR_BOUNCE);
                         u->motion_blur_num = 0;
                         u->ret = 0;
-                        
+
                         }
                     else
                         {
@@ -8254,27 +8254,27 @@ DoStar(SHORT Weapon)
                         u->motion_blur_num = 0;
                         u->ret = 0;
                         }
-                        
-                    // BREAK HERE - LOOOK !!!!!!!!!!!!!!!!!!!!!!!!    
-                    break; // hit a slope   
+
+                    // BREAK HERE - LOOOK !!!!!!!!!!!!!!!!!!!!!!!!
+                    break; // hit a slope
                     }
-                    
+
                 SET(u->Flags, SPR_BOUNCE);
                 u->motion_blur_num = 0;
                 u->ret = 0;
                 u->zchange = -u->zchange;
-                
+
                 // 32000 to 96000
                 u->xchange = mulscale16(u->xchange, 64000 + (RANDOM_RANGE(64000) - 32000));
                 u->ychange = mulscale16(u->ychange, 64000 + (RANDOM_RANGE(64000) - 32000));
-                if (sp->z > DIV2(u->hiz + u->loz)) 
+                if (sp->z > DIV2(u->hiz + u->loz))
                     u->zchange = mulscale16(u->zchange, 50000); // floor
-                else    
+                else
                     u->zchange = mulscale16(u->zchange, 40000); // ceiling
-                
-                break;    
+
+                break;
                 }
-            }    
+            }
         }
 
     if (u->ret)
@@ -8286,7 +8286,7 @@ DoStar(SHORT Weapon)
             if (su && (su->ID == TRASHCAN || su->ID == ZILLA_RUN_R0))	// JBF: added null test
                 PlaySound(DIGI_STARCLINK, &sp->x, &sp->y, &sp->z, v3df_none);
             }
-            
+
         if (TEST(u->ret, HIT_MASK) != HIT_SPRITE) // Don't clank on sprites
             PlaySound(DIGI_STARCLINK, &sp->x, &sp->y, &sp->z, v3df_none);
 
@@ -8315,13 +8315,13 @@ DoCrossBolt(SHORT Weapon)
     u = User[Weapon];
 
     ASSERT(Weapon >= 0);
-    
+
     DoBlurExtend(Weapon, 0, 2);
 
     u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, Z(16), Z(16), CLIPMASK_MISSILE, MISSILEMOVETICS);
-    
+
     MissileHitDiveArea(Weapon);
-    
+
     if (u->ret)
         {
         if (WeaponMoveHit(Weapon))
@@ -8330,12 +8330,12 @@ DoCrossBolt(SHORT Weapon)
                 {
                 case HIT_SPRITE:
                     {
-                    break;    
+                    break;
                     }
-                }    
-                
+                }
+
             KillSprite(Weapon);
-            
+
             return (TRUE);
             }
         }
@@ -8344,7 +8344,7 @@ DoCrossBolt(SHORT Weapon)
 
     }
 
-    
+
 int
 DoPlasmaDone(SHORT Weapon)
     {
@@ -8358,16 +8358,16 @@ DoPlasmaDone(SHORT Weapon)
     if (sp->yrepeat < 6)
         {
         KillSprite(Weapon);
-        return(0);    
+        return(0);
         }
-        
-    return(0);    
+
+    return(0);
     }
 
 int PickEnemyTarget(SPRITEp sp, short aware_range)
     {
     TARGET_SORTp ts;
-    
+
     DoPickTarget(sp, aware_range, FALSE);
 
     for (ts = TargetSort; ts < &TargetSort[TargetSortCount]; ts++)
@@ -8376,30 +8376,30 @@ int PickEnemyTarget(SPRITEp sp, short aware_range)
             {
             if (ts->sprite_num == sp->owner || sprite[ts->sprite_num].owner == sp->owner)
                 continue;
-            
-            return(ts->sprite_num);    
+
+            return(ts->sprite_num);
             }
         }
-    
-    return(-1);    
+
+    return(-1);
     }
 
-int 
-MissileSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range, SHORT dang_shift, SHORT turn_limit, SHORT z_limit)    
+int
+MissileSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range, SHORT dang_shift, SHORT turn_limit, SHORT z_limit)
     {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
-    
+
     long dist;
     long zh;
     short ang2tgt, delta_ang, ang_adj;
     long ozvel;
-    
+
     SPRITEp hp;
 
     if (u->WaitTics <= delay_tics)
         u->WaitTics += MISSILEMOVETICS;
-        
+
     if (u->WpnGoal == -1)
         {
         if (u->WaitTics > delay_tics)
@@ -8418,7 +8418,7 @@ MissileSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range, SHORT dang_shift,
                     SET(hu->Flags, SPR_ATTACKED);
                     }
                 }
-            else    
+            else
             if ((hitsprite = DoPickTarget(sp, aware_range, FALSE)) != -1)
                 {
                 SPRITEp hp = &sprite[hitsprite];
@@ -8429,30 +8429,30 @@ MissileSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range, SHORT dang_shift,
                 SET(hu->Flags, SPR_ATTACKED);
                 }
             }
-        }    
-            
+        }
+
     if (u->WpnGoal >= 0)
         {
         hp = &sprite[User[Weapon]->WpnGoal];
-        
+
         // move to correct angle
         ang2tgt = getangle(hp->x - sp->x, hp->y - sp->y);
 
         delta_ang = GetDeltaAngle(sp->ang, ang2tgt);
-        
+
         if (labs(delta_ang) > 32)
             {
             if (delta_ang > 0)
                 delta_ang = 32;
             else
                 delta_ang = -32;
-            }    
-            
+            }
+
         sp->ang -= delta_ang;
 
         zh = SPRITEp_TOS(hp) + DIV4(SPRITEp_SIZE_Z(hp));
-            
-        delta_ang = (zh - sp->z)>>1;    
+
+        delta_ang = (zh - sp->z)>>1;
 
         if (labs(delta_ang) > Z(16))
             {
@@ -8461,33 +8461,33 @@ MissileSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range, SHORT dang_shift,
             else
                 delta_ang = -Z(16);
             }
-            
-        sp->zvel = delta_ang;    
-        
+
+        sp->zvel = delta_ang;
+
         u->xchange = MOVEx(sp->xvel, sp->ang);
         u->ychange = MOVEy(sp->xvel, sp->ang);
-        u->zchange = sp->zvel;    
-        }    
-    return(0);    
+        u->zchange = sp->zvel;
+        }
+    return(0);
     }
 
 // combination of vector manipulation
-int 
-ComboMissileSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range, SHORT dang_shift, SHORT turn_limit, SHORT z_limit)    
+int
+ComboMissileSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range, SHORT dang_shift, SHORT turn_limit, SHORT z_limit)
     {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
-    
+
     long dist;
     long zh;
     short ang2tgt, delta_ang, ang_adj;
     long ozvel;
-    
+
     SPRITEp hp;
 
     if (u->WaitTics <= delay_tics)
         u->WaitTics += MISSILEMOVETICS;
-        
+
     if (u->WpnGoal == -1)
         {
         if (u->WaitTics > delay_tics)
@@ -8504,61 +8504,61 @@ ComboMissileSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range, SHORT dang_s
                 SET(hu->Flags, SPR_ATTACKED);
                 }
             }
-        }    
-            
+        }
+
     if (u->WpnGoal >= 0)
         {
         long oz;
         hp = &sprite[User[Weapon]->WpnGoal];
-        
+
         // move to correct angle
         ang2tgt = getangle(hp->x - sp->x, hp->y - sp->y);
 
         delta_ang = GetDeltaAngle(sp->ang, ang2tgt);
-        
+
         if (labs(delta_ang) > 32)
             {
             if (delta_ang > 0)
                 delta_ang = 32;
             else
                 delta_ang = -32;
-            }    
-            
+            }
+
         sp->ang -= delta_ang;
 
         u->xchange = MOVEx(sp->xvel, sp->ang);
         u->ychange = MOVEy(sp->xvel, sp->ang);
-        
+
         zh = SPRITEp_TOS(hp) + DIV4(SPRITEp_SIZE_Z(hp));
-        
+
         dist = ksqrt(SQ(sp->x - hp->x) + SQ(sp->y - hp->y) + (SQ(sp->z - zh)>>8));
-        
+
         oz = u->zchange;
-        
+
         u->zchange = scale(sp->xvel, zh - sp->z, dist);
         u->zchange = (u->zchange + oz*15)/16;
-        }    
-    return(0);    
+        }
+    return(0);
     }
 
 // completely vector manipulation
-int 
-VectorMissileSeek(SHORT Weapon, SHORT delay_tics, SHORT turn_speed, SHORT aware_range1, SHORT aware_range2)    
+int
+VectorMissileSeek(SHORT Weapon, SHORT delay_tics, SHORT turn_speed, SHORT aware_range1, SHORT aware_range2)
     {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
-    
+
     long dist;
     long zh;
     short ang2tgt, delta_ang, ang_adj;
     long ozchange;
     long zdiff;
-    
+
     SPRITEp hp;
-    
+
     if (u->WaitTics <= delay_tics)
         u->WaitTics += MISSILEMOVETICS;
-        
+
     if (u->WpnGoal == -1)
         {
         if (u->WaitTics > delay_tics)
@@ -8576,7 +8576,7 @@ VectorMissileSeek(SHORT Weapon, SHORT delay_tics, SHORT turn_speed, SHORT aware_
                     SET(hu->Flags, SPR_TARGETED);
                     SET(hu->Flags, SPR_ATTACKED);
                     }
-                else    
+                else
                 if ((hitsprite = PickEnemyTarget(sp, aware_range2)) != -1)
                     {
                     SPRITEp hp = &sprite[hitsprite];
@@ -8587,7 +8587,7 @@ VectorMissileSeek(SHORT Weapon, SHORT delay_tics, SHORT turn_speed, SHORT aware_
                     SET(hu->Flags, SPR_ATTACKED);
                     }
                 }
-            else    
+            else
                 {
                 if ((hitsprite = DoPickTarget(sp, aware_range1, FALSE)) != -1)
                     {
@@ -8598,7 +8598,7 @@ VectorMissileSeek(SHORT Weapon, SHORT delay_tics, SHORT turn_speed, SHORT aware_
                     SET(hu->Flags, SPR_TARGETED);
                     SET(hu->Flags, SPR_ATTACKED);
                     }
-                else    
+                else
                 if ((hitsprite = DoPickTarget(sp, aware_range2, FALSE)) != -1)
                     {
                     SPRITEp hp = &sprite[hitsprite];
@@ -8608,59 +8608,59 @@ VectorMissileSeek(SHORT Weapon, SHORT delay_tics, SHORT turn_speed, SHORT aware_
                     SET(hu->Flags, SPR_TARGETED);
                     SET(hu->Flags, SPR_ATTACKED);
                     }
-                }    
+                }
             }
-        }    
-            
+        }
+
     if (u->WpnGoal >= 0)
         {
         long ox,oy,oz;
         hp = &sprite[User[Weapon]->WpnGoal];
 
         if (!hp) return(0);
-        
+
         zh = SPRITEp_TOS(hp) + DIV4(SPRITEp_SIZE_Z(hp));
-        
+
         dist = ksqrt(SQ(sp->x - hp->x) + SQ(sp->y - hp->y) + (SQ(sp->z - zh)>>8));
-        
+
         ox = u->xchange;
         oy = u->ychange;
         oz = u->zchange;
-        
+
         u->xchange = scale(sp->xvel, hp->x - sp->x, dist);
         u->ychange = scale(sp->xvel, hp->y - sp->y, dist);
         u->zchange = scale(sp->xvel, zh - sp->z, dist);
-        
+
         // the large turn_speed is the slower the turn
 
         u->xchange = (u->xchange + ox*(turn_speed-1))/turn_speed;
         u->ychange = (u->ychange + oy*(turn_speed-1))/turn_speed;
         u->zchange = (u->zchange + oz*(turn_speed-1))/turn_speed;
-        
+
         sp->ang = getangle(u->xchange, u->ychange);
-        }    
-        
-    return(0);    
+        }
+
+    return(0);
     }
-    
+
 // completely vector manipulation
-int 
-VectorWormSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range1, SHORT aware_range2)    
+int
+VectorWormSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range1, SHORT aware_range2)
     {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
-    
+
     long dist;
     long zh;
     short ang2tgt, delta_ang, ang_adj;
     long ozchange;
     long zdiff;
-    
+
     SPRITEp hp;
-    
+
     if (u->WaitTics <= delay_tics)
         u->WaitTics += MISSILEMOVETICS;
-        
+
     if (u->WpnGoal == -1)
         {
         if (u->WaitTics > delay_tics)
@@ -8676,7 +8676,7 @@ VectorWormSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range1, SHORT aware_r
                 SET(hu->Flags, SPR_TARGETED);
                 SET(hu->Flags, SPR_ATTACKED);
                 }
-            else    
+            else
             if ((hitsprite = DoPickTarget(sp, aware_range2, FALSE)) != -1)
                 {
                 SPRITEp hp = &sprite[hitsprite];
@@ -8687,21 +8687,21 @@ VectorWormSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range1, SHORT aware_r
                 SET(hu->Flags, SPR_ATTACKED);
                 }
             }
-        }    
-            
+        }
+
     if (u->WpnGoal >= 0)
         {
         long ox,oy,oz;
         hp = &sprite[User[Weapon]->WpnGoal];
-        
+
         zh = SPRITEp_TOS(hp) + DIV4(SPRITEp_SIZE_Z(hp));
-        
+
         dist = ksqrt(SQ(sp->x - hp->x) + SQ(sp->y - hp->y) + (SQ(sp->z - zh)>>8));
-        
+
         ox = u->xchange;
         oy = u->ychange;
         oz = u->zchange;
-        
+
         u->xchange = scale(sp->xvel, hp->x - sp->x, dist);
         u->ychange = scale(sp->xvel, hp->y - sp->y, dist);
         u->zchange = scale(sp->xvel, zh - sp->z, dist);
@@ -8709,34 +8709,34 @@ VectorWormSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range1, SHORT aware_r
         u->xchange = (u->xchange + ox*7)/8;
         u->ychange = (u->ychange + oy*7)/8;
         u->zchange = (u->zchange + oz*7)/8;
-        
+
         sp->ang = getangle(u->xchange, u->ychange);
-        }    
-        
-    return(0);    
+        }
+
+    return(0);
     }
-    
+
 int
 DoBlurExtend(SHORT Weapon, SHORT interval, SHORT blur_num)
     {
     USERp u = User[Weapon];
-    
+
     if (u->motion_blur_num >= blur_num)
         return(0);
-    
+
     u->Counter2++;
     if (u->Counter2 > interval)
         u->Counter2 = 0;
-    
-    if (!u->Counter2)    
+
+    if (!u->Counter2)
         {
         u->motion_blur_num++;
         if (u->motion_blur_num > blur_num)
             u->motion_blur_num = blur_num;
-        } 
-        
+        }
+
     return(0);
-    }    
+    }
 
 int
 InitPlasmaFountain(SPRITEp wp, SPRITEp sp)
@@ -8745,25 +8745,25 @@ InitPlasmaFountain(SPRITEp wp, SPRITEp sp)
     SPRITEp np;
     USERp nu;
     short SpriteNum;
-    
+
     SpriteNum = SpawnSprite(STAT_MISSILE, PLASMA_FOUNTAIN, s_PlasmaFountain, sp->sectnum,
         sp->x, sp->y, SPRITEp_BOS(sp), sp->ang, 0);
-            
+
     np = &sprite[SpriteNum];
     nu = User[SpriteNum];
 
     np->shade = -40;
     if(wp)
-        SetOwner(wp->owner, SpriteNum);  
-    SetAttach(sp - sprite, SpriteNum);  
+        SetOwner(wp->owner, SpriteNum);
+    SetAttach(sp - sprite, SpriteNum);
     np->yrepeat = 0;
     np->clipdist = 8>>2;
-    
+
     // start off on a random frame
     //nu->WaitTics = PLASMA_FOUNTAIN_TIME;
     nu->WaitTics = 120+60;
     nu->Radius = 50;
-    return(0);    
+    return(0);
     }
 
 int
@@ -8773,7 +8773,7 @@ DoPlasmaFountain(SHORT Weapon)
     SPRITEp ap;
     USERp u = User[Weapon];
     short bak_cstat;
-    
+
     // if no owner then die
     if (u->Attach < 0)
         {
@@ -8783,16 +8783,16 @@ DoPlasmaFountain(SHORT Weapon)
     else
         {
         ap = &sprite[u->Attach];
-        
+
         // move with sprite
         setsprite(Weapon, ap->x, ap->y, ap->z);
         sp->ang = ap->ang;
-    
+
         u->Counter++;
-        if (u->Counter > 3)    
+        if (u->Counter > 3)
             u->Counter = 0;
-              
-        if (!u->Counter)                    
+
+        if (!u->Counter)
             {
             SpawnBlood(ap-sprite, Weapon, 0, 0, 0, 0);
             if(RANDOM_RANGE(1000) > 600)
@@ -8804,17 +8804,17 @@ DoPlasmaFountain(SHORT Weapon)
     if ((u->WaitTics-=MISSILEMOVETICS) <= 0)
         {
         u->WaitTics = 0;
-        
+
         bak_cstat = sp->cstat;
         RESET(sp->cstat, CSTAT_SPRITE_BLOCK);
         //DoDamageTest(Weapon); // fountain not doing the damage an more
         sp->cstat = bak_cstat;
-                
+
         KillSprite(Weapon);
         }
-    return(0);    
+    return(0);
     }
-    
+
 int
 DoPlasma(SHORT Weapon)
     {
@@ -8822,12 +8822,12 @@ DoPlasma(SHORT Weapon)
     USERp u = User[Weapon];
     LONG dax, day, daz;
     long ox,oy,oz;
-    
+
     ox = sp->x;
     oy = sp->y;
     oz = sp->z;
 
-//MissileSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range, SHORT dang_shift, SHORT turn_limit, SHORT z_limit)    
+//MissileSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range, SHORT dang_shift, SHORT turn_limit, SHORT z_limit)
     //MissileSeek(Weapon, 20, 1024, 6, 80, 6);
     DoBlurExtend(Weapon, 0, 4);
 
@@ -8836,7 +8836,7 @@ DoPlasma(SHORT Weapon)
     daz = sp->zvel;
 
     u->ret = move_missile(Weapon, dax, day, daz, Z(16), Z(16), CLIPMASK_MISSILE, MISSILEMOVETICS);
-    
+
     if (u->ret)
         {
         // this sprite is supposed to go through players/enemys
@@ -8850,7 +8850,7 @@ DoPlasma(SHORT Weapon)
             if (TEST(hsp->cstat, CSTAT_SPRITE_BLOCK) && !TEST(hsp->cstat, CSTAT_SPRITE_WALL))
                 {
                 short hcstat = hsp->cstat;
-                
+
                 if (hu &&  hitsprite != u->WpnGoal)
                     {
                     sp->x = ox;
@@ -8864,7 +8864,7 @@ DoPlasma(SHORT Weapon)
                 }
             }
         }
-    
+
 
     MissileHitDiveArea(Weapon);
     if (TEST(u->Flags, SPR_UNDERWATER) && (RANDOM_P2(1024 << 4) >> 4) < 256)
@@ -8878,7 +8878,7 @@ DoPlasma(SHORT Weapon)
             if (TEST(u->Flags, SPR_SUICIDE))
                 {
                 KillSprite(Weapon);
-                return(TRUE);    
+                return(TRUE);
                 }
             else
                 {
@@ -8905,7 +8905,7 @@ DoCoolgFire(SHORT Weapon)
     MissileHitDiveArea(Weapon);
     if (TEST(u->Flags, SPR_UNDERWATER) && (RANDOM_P2(1024 << 4) >> 4) < 256)
         SpawnBubble(Weapon);
-    
+
     // !JIM! //!FRANK WHY???
     //DoDamageTest(Weapon);
 
@@ -8932,7 +8932,7 @@ DoEelFire(short Weapon)
 
     if (TEST(u->Flags, SPR_UNDERWATER) && (RANDOM_P2(1024 << 4) >> 4) < 256)
         SpawnBubble(Weapon);
-        
+
     //DoDamageTest(Weapon);
 
     return (FALSE);
@@ -8943,14 +8943,14 @@ VOID ScaleSpriteVector(short SpriteNum, long scale)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
-    
+
     u->xchange = mulscale16(u->xchange, scale);
     u->ychange = mulscale16(u->ychange, scale);
     u->zchange = mulscale16(u->zchange, scale);
     }
 
 VOID WallBounce(short SpriteNum, short ang)
-    {   
+    {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     long old_ang;
@@ -8959,12 +8959,12 @@ VOID WallBounce(short SpriteNum, short ang)
     long k,l;
     //short ang;
     long dax, day;
-    
+
     //hitwall = NORM_WALL(u->ret);
-    
+
     //nextwall = wall[hitwall].point2;
     //ang = getangle(wall[nextwall].x - wall[hitwall].x, wall[nextwall].y - wall[hitwall].y)+512;
-    
+
     u->bounce++;
 
     //k = cos(ang) * sin(ang) * 2
@@ -8972,17 +8972,17 @@ VOID WallBounce(short SpriteNum, short ang)
     //l = cos(ang * 2)
     l = sintable[NORM_ANGLE((ang*2)+512)];
 
-    dax = -u->xchange; 
+    dax = -u->xchange;
     day = -u->ychange;
-    
+
     u->xchange = dmulscale14(day, k, dax, l);
     u->ychange = dmulscale14(dax, k, -day, l);
-    
+
     old_ang = sp->ang;
     sp->ang = getangle(u->xchange, u->ychange);
-    
+
     // hack to prevent missile from sticking to a wall
-    // 
+    //
     if (old_ang == sp->ang)
         {
         u->xchange = -u->xchange;
@@ -8991,9 +8991,9 @@ VOID WallBounce(short SpriteNum, short ang)
         }
     }
 
-    
+
 BOOL SlopeBounce(short SpriteNum, BOOL *hitwall)
-    {   
+    {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     long k,l;
@@ -9002,44 +9002,44 @@ BOOL SlopeBounce(short SpriteNum, BOOL *hitwall)
     long dax,day,daz;
     short hitsector;
     short daang;
-    
+
     hitsector = NORM_SECTOR(u->ret);
-     
+
     getzsofslope(hitsector, sp->x, sp->y, &hiz, &loz);
-    
+
     // detect the ceiling and the hitwall
-    if (sp->z < DIV2(hiz+loz)) 
+    if (sp->z < DIV2(hiz+loz))
         {
         if (!TEST(sector[hitsector].ceilingstat, CEILING_STAT_SLOPE))
             slope = 0;
-        else    
+        else
             slope = sector[hitsector].ceilingheinum;
         }
-    else 
-        {    
+    else
+        {
         if (!TEST(sector[hitsector].floorstat, FLOOR_STAT_SLOPE))
             slope = 0;
-        else    
+        else
             slope = sector[hitsector].floorheinum;
         }
-    
+
     if (!slope)
         return(FALSE);
-    
+
     // if greater than a 45 degree angle
-    if (labs(slope) > 4096)    
+    if (labs(slope) > 4096)
         *hitwall = TRUE;
     else
         *hitwall = FALSE;
-    
+
     // get angle of the first wall of the sector
-    k = sector[hitsector].wallptr; 
+    k = sector[hitsector].wallptr;
     l = wall[k].point2;
     daang = getangle(wall[l].x - wall[k].x, wall[l].y - wall[k].y);
 
     // k is now the slope of the ceiling or floor
-    
-    // normal vector of the slope    
+
+    // normal vector of the slope
     dax = mulscale14(slope, sintable[(daang)&2047]);
     day = mulscale14(slope, sintable[(daang+1536)&2047]);
     daz = 4096; // 4096 = 45 degrees
@@ -9047,7 +9047,7 @@ BOOL SlopeBounce(short SpriteNum, BOOL *hitwall)
     // reflection code
     k = ((u->xchange*dax) + (u->ychange*day)) + mulscale4(u->zchange, daz);
     l = (dax*dax) + (day*day) + (daz*daz);
-    
+
     // make sure divscale doesn't overflow
     if ((klabs(k)>>14) < l)
         {
@@ -9055,11 +9055,11 @@ BOOL SlopeBounce(short SpriteNum, BOOL *hitwall)
         u->xchange -= mulscale16(dax, k);
         u->ychange -= mulscale16(day, k);
         u->zchange -= mulscale12(daz, k);
-        
+
         sp->ang = getangle(u->xchange, u->ychange);
         }
-    
-    return(TRUE);    
+
+    return(TRUE);
     }
 
 extern STATE s_Phosphorus[];
@@ -9075,7 +9075,7 @@ DoGrenade(SHORT Weapon)
     if (TEST(u->Flags, SPR_UNDERWATER))
         {
         ScaleSpriteVector(Weapon, 50000);
-        
+
         u->Counter += 20;
         u->zchange += u->Counter;
         }
@@ -9083,9 +9083,9 @@ DoGrenade(SHORT Weapon)
         {
         u->Counter += 20;
         u->zchange += u->Counter;
-        }    
-    
-    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, 
+        }
+
+    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange,
         u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
     MissileHitDiveArea(Weapon);
@@ -9108,19 +9108,19 @@ DoGrenade(SHORT Weapon)
                 short wall_ang, dang;
                 short hitsprite = -2;
                 SPRITEp hsp;
-                
+
                 PlaySound(DIGI_40MMBNCE, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                
+
                 hitsprite = NORM_SPRITE(u->ret);
                 hsp = &sprite[hitsprite];
-                
+
                 // special case so grenade can ring gong
-                if (hsp->lotag == TAG_SPRITE_HIT_MATCH)    
+                if (hsp->lotag == TAG_SPRITE_HIT_MATCH)
                     {
                     if (TEST(SP_TAG8(hsp), BIT(3)))
                         DoMatchEverything(NULL, hsp->hitag, -1);
                     }
-                
+
                 if (TEST(hsp->cstat, CSTAT_SPRITE_WALL))
                     {
                     wall_ang = NORM_ANGLE(hsp->ang);
@@ -9140,12 +9140,12 @@ DoGrenade(SHORT Weapon)
                     SpawnGrenadeExp(Weapon);
                     KillSprite((short) Weapon);
                     return (TRUE);
-                    }    
-                    
-                    
+                    }
+
+
                 break;
                 }
-                
+
         case HIT_WALL:
                 {
                 short hitwall,nw,wall_ang,dang;
@@ -9153,26 +9153,26 @@ DoGrenade(SHORT Weapon)
 
                 hitwall = NORM_WALL(u->ret);
                 wph = &wall[hitwall];
-                
+
                 if (wph->lotag == TAG_WALL_BREAK)
                     {
                     HitBreakWall(wph, sp->x, sp->y, sp->z, sp->ang, u->ID);
                     u->ret = 0;
                     break;
                     }
-                
+
                 PlaySound(DIGI_40MMBNCE, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                
+
                 nw = wall[hitwall].point2;
                 wall_ang = NORM_ANGLE(getangle(wall[nw].x - wph->x, wall[nw].y - wph->y)+512);
-                
+
                 //sp->ang = NORM_ANGLE(sp->ang + 1);
                 WallBounce(Weapon, wall_ang);
                 ScaleSpriteVector(Weapon, 22000);
 
                 break;
                 }
-                
+
             case HIT_SECTOR:
                 {
                 BOOL hitwall;
@@ -9188,7 +9188,7 @@ DoGrenade(SHORT Weapon)
                     else
                         {
                         // hit a sector
-                        if (sp->z > DIV2(u->hiz + u->loz)) 
+                        if (sp->z > DIV2(u->hiz + u->loz))
                             {
                             // hit a floor
                             if (!TEST(u->Flags, SPR_BOUNCE))
@@ -9217,21 +9217,21 @@ DoGrenade(SHORT Weapon)
                         else
                             {
                             // hit a ceiling
-                            ScaleSpriteVector(Weapon, 22000); 
-                            }    
-                        }    
+                            ScaleSpriteVector(Weapon, 22000);
+                            }
+                        }
                     }
                 else
-                    {    
+                    {
                     // hit floor
-                    if (sp->z > DIV2(u->hiz + u->loz)) 
+                    if (sp->z > DIV2(u->hiz + u->loz))
                         {
                         if (TEST(u->Flags, SPR_UNDERWATER))
                             SET(u->Flags, SPR_BOUNCE); // no bouncing underwater
-                            
+
                         if (u->lo_sectp && SectUser[sp->sectnum] && SectUser[sp->sectnum]->depth)
                             SET(u->Flags, SPR_BOUNCE); // no bouncing on shallow water
-                                
+
                         if (!TEST(u->Flags, SPR_BOUNCE))
                             {
                             SET(u->Flags, SPR_BOUNCE);
@@ -9262,36 +9262,36 @@ DoGrenade(SHORT Weapon)
                     // hit something above
                         {
                         u->zchange = -u->zchange;
-                        ScaleSpriteVector(Weapon, 22000); 
+                        ScaleSpriteVector(Weapon, 22000);
                         PlaySound(DIGI_40MMBNCE, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                        }        
+                        }
                     }
-                break;    
+                break;
                 }
-            }    
+            }
         }
-    
-    if (u->bounce > 10)    
+
+    if (u->bounce > 10)
         {
         SpawnGrenadeExp(Weapon);
         KillSprite(Weapon);
         return (TRUE);
         }
 
-    // if you haven't bounced or your going slow do some puffs        
+    // if you haven't bounced or your going slow do some puffs
     if (!TEST(u->Flags, SPR_BOUNCE|SPR_UNDERWATER))
         {
         SPRITEp np;
         USERp nu;
         short new;
-        
+
         new = SpawnSprite(STAT_MISSILE, PUFF, s_Puff, sp->sectnum,
             sp->x, sp->y, sp->z, sp->ang, 100);
 
         np = &sprite[new];
         nu = User[new];
 
-        SetOwner(Weapon, new);  
+        SetOwner(Weapon, new);
         np->shade = -40;
         np->xrepeat = 40;
         np->yrepeat = 40;
@@ -9304,9 +9304,9 @@ DoGrenade(SHORT Weapon)
         nu->xchange = u->xchange;
         nu->ychange = u->ychange;
         nu->zchange = u->zchange;
-        
+
         ScaleSpriteVector(new, 22000);
-    
+
         if (TEST(u->Flags, SPR_UNDERWATER))
             SET(nu->Flags, SPR_UNDERWATER);
         }
@@ -9323,19 +9323,19 @@ DoVulcanBoulder(SHORT Weapon)
 
     u->Counter += 40;
     u->zchange += u->Counter;
-    
-    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, 
+
+    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange,
         u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
     vel = ksqrt(SQ(u->xchange) + SQ(u->ychange));
-    
+
     if (vel < 30)
         {
         SpawnLittleExp(Weapon);
         KillSprite(Weapon);
         return(TRUE);
         }
-  
+
     if (u->ret)
         {
         switch (TEST(u->ret, HIT_MASK))
@@ -9348,12 +9348,12 @@ DoVulcanBoulder(SHORT Weapon)
                 short wall_ang, dang;
                 short hitsprite = -2;
                 SPRITEp hsp;
-                
+
 //                PlaySound(DIGI_DHCLUNK, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                
+
                 hitsprite = NORM_SPRITE(u->ret);
                 hsp = &sprite[hitsprite];
-                
+
                 if (TEST(hsp->cstat, CSTAT_SPRITE_WALL))
                     {
                     wall_ang = NORM_ANGLE(hsp->ang);
@@ -9366,12 +9366,12 @@ DoVulcanBoulder(SHORT Weapon)
                     SpawnLittleExp(Weapon);
                     KillSprite((short) Weapon);
                     return (TRUE);
-                    }    
-                    
-                    
+                    }
+
+
                 break;
                 }
-                
+
         case HIT_WALL:
                 {
                 short hitwall,nw,wall_ang,dang;
@@ -9379,28 +9379,28 @@ DoVulcanBoulder(SHORT Weapon)
 
                 hitwall = NORM_WALL(u->ret);
                 wph = &wall[hitwall];
-                
+
                 if (wph->lotag == TAG_WALL_BREAK)
                     {
                     HitBreakWall(wph, sp->x, sp->y, sp->z, sp->ang, u->ID);
                     u->ret = 0;
                     break;
                     }
-                
+
 //                PlaySound(DIGI_DHCLUNK, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                
+
                 nw = wall[hitwall].point2;
                 wall_ang = NORM_ANGLE(getangle(wall[nw].x - wph->x, wall[nw].y - wph->y)+512);
-                
+
                 WallBounce(Weapon, wall_ang);
                 ScaleSpriteVector(Weapon, 40000);
                 break;
                 }
-                
+
             case HIT_SECTOR:
                 {
                 BOOL hitwall;
-                
+
                 if (SlopeBounce(Weapon, &hitwall))
                     {
                     if (hitwall)
@@ -9413,7 +9413,7 @@ DoVulcanBoulder(SHORT Weapon)
                     else
                         {
                         // hit a sloped sector
-                        if (sp->z > DIV2(u->hiz + u->loz)) 
+                        if (sp->z > DIV2(u->hiz + u->loz))
                             {
                             // hit a floor
                             u->xchange = mulscale16(u->xchange, 30000);
@@ -9421,7 +9421,7 @@ DoVulcanBoulder(SHORT Weapon)
                             u->zchange = mulscale16(u->zchange, 12000);
                             u->ret = 0;
                             u->Counter = 0;
-                            
+
                             // limit to a reasonable bounce value
                             if (u->zchange > Z(32))
                                 u->zchange = Z(32);
@@ -9432,39 +9432,39 @@ DoVulcanBoulder(SHORT Weapon)
                             u->ret = 0;
                             u->Counter = 0;
                             ScaleSpriteVector(Weapon, 30000);
-                            }    
-                        }    
+                            }
+                        }
                     }
-                else    
+                else
                     {
                     // hit unsloped floor
-                    if (sp->z > DIV2(u->hiz + u->loz)) 
+                    if (sp->z > DIV2(u->hiz + u->loz))
                         {
                         u->ret = 0;
                         u->Counter = 0;
-                        
+
                         u->xchange = mulscale16(u->xchange, 20000);
                         u->ychange = mulscale16(u->ychange, 20000);
                         u->zchange = mulscale16(u->zchange, 32000);
-                        
+
                         // limit to a reasonable bounce value
                         if (u->zchange > Z(24))
                             u->zchange = Z(24);
-                        
+
                         u->zchange = -u->zchange;
-                        
+
                         }
                     else
                     // hit unsloped ceiling
                         {
                         u->zchange = -u->zchange;
                         ScaleSpriteVector(Weapon, 30000);
-                        }        
-                    }    
-                    
-                break;    
+                        }
+                    }
+
+                break;
                 }
-            }    
+            }
         }
 
     return (FALSE);
@@ -9475,14 +9475,14 @@ OwnerIsPlayer(short Weapon)
     {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon],uo;
-    
+
     if (!u) return(FALSE);
     uo = User[sp->owner];
     if (uo && uo->PlayerP) return(TRUE);
-    
+
     return(FALSE);
     }
-    
+
 int
 DoMineRangeTest(short Weapon, short range)
     {
@@ -9495,9 +9495,9 @@ DoMineRangeTest(short Weapon, short range)
     long dist, tx, ty;
     long tmin;
     BOOL ownerisplayer = FALSE;
-    
+
     ownerisplayer = OwnerIsPlayer(Weapon);
-    
+
     for (stat = 0; stat < SIZ(StatDamageList); stat++)
         {
         TRAVERSE_SPRITE_STAT(headspritestat[StatDamageList[stat]], i, nexti)
@@ -9508,7 +9508,7 @@ DoMineRangeTest(short Weapon, short range)
             // don't detect the owner or the owners bottom half
             //if (wp->owner == i || (u->PlayerP && (wp->owner == u->PlayerP->PlayerSprite)))
             //    continue;
-            
+
             DISTANCE(sp->x, sp->y, wp->x, wp->y, dist, tx, ty, tmin);
             if (dist > range)
                 continue;
@@ -9521,18 +9521,18 @@ DoMineRangeTest(short Weapon, short range)
 
             if (!TEST(sp->extra, SPRX_PLAYER_OR_ENEMY))
                 continue;
-            
+
             if (u->ID == GIRLNINJA_RUN_R0 && !ownerisplayer)
                 continue;
-            
+
             dist = FindDistance3D(wp->x - sp->x, wp->y - sp->y, (wp->z - sp->z)>>4);
             if (dist > range)
                 continue;
-    
-            if (!FAFcansee(sp->x,sp->y,SPRITEp_UPPER(sp),sp->sectnum,wp->x,wp->y,wp->z,wp->sectnum))    
+
+            if (!FAFcansee(sp->x,sp->y,SPRITEp_UPPER(sp),sp->sectnum,wp->x,wp->y,wp->z,wp->sectnum))
                 continue;
-    
-            return(TRUE);    
+
+            return(TRUE);
             }
         }
 
@@ -9552,33 +9552,33 @@ DoMineStuck(SHORT Weapon)
         {
         SPRITEp ap = &sprite[u->Attach];
         USERp au = User[u->Attach];
-        
+
         ASSERT(au);
-        
+
         // Is it attached to a dead actor? Blow it up if so.
         if(TEST(au->Flags, SPR_DEAD) && u->Counter2 < MINE_DETONATE_STATE)
         {
             u->Counter2 = MINE_DETONATE_STATE;
-            u->WaitTics = SEC(1)/2; 
+            u->WaitTics = SEC(1)/2;
         }
 
         setsprite(Weapon, ap->x, ap->y, ap->z - u->sz);
         sp->z = ap->z - DIV2(SPRITEp_SIZE_Z(ap));
         }
-    
+
     // not activated yet
     if (!TEST(u->Flags, SPR_ACTIVE))
         {
         if ((u->WaitTics -= (MISSILEMOVETICS*2)) > 0)
             return(FALSE);
-        
+
         // activate it
         //u->WaitTics = 65536;
         u->WaitTics = 32767;
         u->Counter2 = 0;
         SET(u->Flags, SPR_ACTIVE);
         }
-    
+
     // limit the number of times DoMineRangeTest is called
     u->Counter++;
     if (u->Counter > 1)
@@ -9593,7 +9593,7 @@ DoMineStuck(SHORT Weapon)
             u->Counter2 = 0;
             }
         }
-        
+
     if (!u->Counter)
         {
         // not already in detonate state
@@ -9604,13 +9604,13 @@ DoMineStuck(SHORT Weapon)
                 {
                 // move directly to detonate state
                 u->Counter2 = MINE_DETONATE_STATE;
-                u->WaitTics = SEC(1)/2; 
+                u->WaitTics = SEC(1)/2;
                 }
-            }    
-        }    
-        
+            }
+        }
+
     u->WaitTics -= (MISSILEMOVETICS * 2);
-    
+
 
     // start beeping with pauses
     // quick and dirty beep countdown code
@@ -9621,56 +9621,56 @@ DoMineStuck(SHORT Weapon)
             if (u->WaitTics < SEC(45))
                 {
                 PlaySound(DIGI_MINEBEEP, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                u->Counter2++;    
+                u->Counter2++;
                 }
             break;
         case 1:
             if (u->WaitTics < SEC(38))
                 {
                 PlaySound(DIGI_MINEBEEP, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                u->Counter2++;    
+                u->Counter2++;
                 }
             break;
         case 2:
             if (u->WaitTics < SEC(30))
                 {
                 PlaySound(DIGI_MINEBEEP, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                u->Counter2++;    
+                u->Counter2++;
                 }
             break;
         case 3:
             if (u->WaitTics < SEC(20))
                 {
                 PlaySound(DIGI_MINEBEEP, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                u->Counter2++;    
+                u->Counter2++;
                 }
             break;
         case 4:
             if (u->WaitTics < SEC(15))
                 {
                 PlaySound(DIGI_MINEBEEP, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                u->Counter2++;    
+                u->Counter2++;
                 }
             break;
         case 5:
             if (u->WaitTics < SEC(12))
                 {
                 PlaySound(DIGI_MINEBEEP, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                u->Counter2++;    
+                u->Counter2++;
                 }
             break;
         case 6:
             if (u->WaitTics < SEC(10))
                 {
                 PlaySound(DIGI_MINEBEEP, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                u->Counter2++;    
+                u->Counter2++;
                 }
             break;
         case 7:
             if (u->WaitTics < SEC(8))
                 {
                 PlaySound(DIGI_MINEBEEP, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                u->Counter2++;    
+                u->Counter2++;
                 }
             break;
         #endif
@@ -9678,7 +9678,7 @@ DoMineStuck(SHORT Weapon)
             if (u->WaitTics < SEC(6))
                 {
                 PlaySound(DIGI_MINEBEEP, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                u->Counter2 = MINE_DETONATE_STATE;    
+                u->Counter2 = MINE_DETONATE_STATE;
                 }
             break;
 //        case MINE_DETONATE_STATE:
@@ -9686,7 +9686,7 @@ DoMineStuck(SHORT Weapon)
 //                {
                 // start frantic beeping
 //                PlaySound(DIGI_MINEBEEP, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-//                u->Counter2++;    
+//                u->Counter2++;
 //                }
 //            break;
         case MINE_DETONATE_STATE:
@@ -9697,9 +9697,9 @@ DoMineStuck(SHORT Weapon)
                 KillSprite(Weapon);
                 return(FALSE);
                 }
-            break;    
+            break;
         }
-        
+
     return(FALSE);
     }
 
@@ -9708,10 +9708,10 @@ SetMineStuck(SHORT Weapon)
     {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
-    
+
     // stuck
     SET(u->Flags, SPR_BOUNCE);
-    // not yet active for 1 sec 
+    // not yet active for 1 sec
     RESET(u->Flags, SPR_ACTIVE);
     u->WaitTics = SEC(3);
     //SET(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
@@ -9721,18 +9721,18 @@ SetMineStuck(SHORT Weapon)
     ChangeState(Weapon, s_MineStuck);
     return(0);
     }
-    
+
 int
 DoMine(SHORT Weapon)
     {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
-    
+
     if (TEST(u->Flags, SPR_UNDERWATER))
         {
-        // decrease velocity    
+        // decrease velocity
         ScaleSpriteVector(Weapon, 50000);
-        
+
         u->Counter += 20;
         u->zchange += u->Counter;
         }
@@ -9741,9 +9741,9 @@ DoMine(SHORT Weapon)
         //u->Counter += 75;
         u->Counter += 40;
         u->zchange += u->Counter;
-        }    
-    
-    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, 
+        }
+
+    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange,
         u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
     MissileHitDiveArea(Weapon);
@@ -9764,11 +9764,11 @@ DoMine(SHORT Weapon)
                 short hitsprite = NORM_SPRITE(u->ret);
                 SPRITEp hsp = &sprite[hitsprite];
                 USERp hu = User[hitsprite];
-                
+
                 SetMineStuck(Weapon);
                 // Set the Z position
                 sp->z = hsp->z - DIV2(SPRITEp_SIZE_Z(hsp));
-                
+
                 // If it's not alive, don't stick it
                 if(hu && hu->Health <= 0) return(FALSE);	// JBF: added null check
 
@@ -9779,17 +9779,17 @@ DoMine(SHORT Weapon)
                     PLAYERp pp;
 
                     // attach weapon to sprite
-                    SetAttach(hitsprite, Weapon);  
+                    SetAttach(hitsprite, Weapon);
                     u->sz = sprite[hitsprite].z - sp->z;
-                    
+
                     if (sp->owner >= 0)
                         {
                         uo = User[sp->owner];
-                        
+
                         if (uo && uo->PlayerP)
                             {
                             pp = uo->PlayerP;
-                            
+
                             if(RANDOM_RANGE(1000) > 800)
                                 PlayerSound(DIGI_STICKYGOTU1,&pp->posx,&pp->posy,&pp->posz,v3df_follow|v3df_dontpan,pp);
                             else
@@ -9810,11 +9810,11 @@ DoMine(SHORT Weapon)
                         {
                         SET(u->Flags2, SPR2_ATTACH_WALL);
                         }
-                    else    
+                    else
                     if (TEST(hsp->cstat, CSTAT_SPRITE_FLOOR))
                         {
                         // hit floor
-                        if (sp->z > DIV2(u->hiz + u->loz)) 
+                        if (sp->z > DIV2(u->hiz + u->loz))
                             SET(u->Flags2, SPR2_ATTACH_FLOOR);
                         else
                             SET(u->Flags2, SPR2_ATTACH_CEILING);
@@ -9824,12 +9824,12 @@ DoMine(SHORT Weapon)
                         SpawnMineExp(Weapon);
                         KillSprite(Weapon);
                         return(FALSE);
-                        }    
-                    }    
-                    
+                        }
+                    }
+
                 break;
                 }
-                
+
             case HIT_WALL:
                 {
                 short hitwall = NORM_WALL(u->ret);
@@ -9840,52 +9840,52 @@ DoMine(SHORT Weapon)
                     u->ret = 0;
                     break;
                     }
-            
+
                 SetMineStuck(Weapon);
-                
+
                 SET(u->Flags2, SPR2_ATTACH_WALL);
-                    
+
                 if (TEST(wall[hitwall].extra, WALLFX_SECTOR_OBJECT))
                     {
                     }
-                
+
                 if (TEST(wall[hitwall].extra, WALLFX_DONT_STICK))
                     {
                     SpawnMineExp(Weapon);
                     KillSprite(Weapon);
                     return(FALSE);
                     }
-                    
-                break;    
+
+                break;
                 }
-                
+
             case HIT_SECTOR:
                 {
                 short hitsect = NORM_SECTOR(u->ret);
-                
+
                 SetMineStuck(Weapon);
-                
+
                 // hit floor
-                if (sp->z > DIV2(u->hiz + u->loz)) 
+                if (sp->z > DIV2(u->hiz + u->loz))
                     SET(u->Flags2, SPR2_ATTACH_FLOOR);
                 else
                     SET(u->Flags2, SPR2_ATTACH_CEILING);
-                   
-                
+
+
                 if (TEST(sector[hitsect].extra, SECTFX_SECTOR_OBJECT))
                     {
                     SpawnMineExp(Weapon);
                     KillSprite(Weapon);
                     return(FALSE);
                     }
-                    
-                break;    
-                }    
+
+                break;
+                }
             }
-            
+
         u->ret = 0;
         }
-        
+
     return (FALSE);
     }
 
@@ -9898,7 +9898,7 @@ DoPuff(short SpriteNum)
     sp->x += u->xchange;
     sp->y += u->ychange;
     sp->z += u->zchange;
-    
+
     return (0);
     }
 
@@ -9910,10 +9910,10 @@ DoRailPuff(short SpriteNum)
 
     sp->xrepeat += 4;
     sp->yrepeat += 4;
-    
+
     return (0);
     }
-    
+
 int
 DoBoltThinMan(SHORT Weapon)
     {
@@ -9923,7 +9923,7 @@ DoBoltThinMan(SHORT Weapon)
     short NewWeapon;
 
     DoBlurExtend(Weapon, 0, 4);
-    
+
     dax = MOVEx(sp->xvel, sp->ang);
     day = MOVEy(sp->xvel, sp->ang);
     daz = sp->zvel;
@@ -9953,7 +9953,7 @@ DoBoltThinMan(SHORT Weapon)
 
     return (FALSE);
     }
-    
+
 int
 DoTracer(SHORT Weapon)
     {
@@ -9970,7 +9970,7 @@ DoTracer(SHORT Weapon)
         u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
         MissileHitDiveArea(Weapon);
-        
+
         if (u->ret)
             {
             if (WeaponMoveHit(Weapon))
@@ -9982,8 +9982,8 @@ DoTracer(SHORT Weapon)
         }
 
     RESET(sp->cstat, CSTAT_SPRITE_INVISIBLE);
-    
-    return(FALSE);    
+
+    return(FALSE);
     }
 
 int
@@ -10012,7 +10012,7 @@ DoEMP(SHORT Weapon)
             sp->xrepeat = 8;
             sp->yrepeat = 38;
             }
-        
+
         if (u->ret)
             {
             if (WeaponMoveHit(Weapon))
@@ -10022,10 +10022,10 @@ DoEMP(SHORT Weapon)
                 }
             }
         }
-    
+
     RESET(sp->cstat, CSTAT_SPRITE_INVISIBLE);
-    
-    return(FALSE);    
+
+    return(FALSE);
     }
 
 int
@@ -10038,13 +10038,13 @@ DoEMPBurst(SHORT Weapon)
         {
         SPRITEp ap = &sprite[u->Attach];
         USERp au = User[u->Attach];
-        
+
         ASSERT(au);
-        
+
         setsprite(Weapon, ap->x, ap->y, ap->z - u->sz);
         sp->ang = NORM_ANGLE(ap->ang+1024);
         }
-    
+
     // not activated yet
     if (!TEST(u->Flags, SPR_ACTIVE))
         {
@@ -10062,8 +10062,8 @@ DoEMPBurst(SHORT Weapon)
         sp->xrepeat = 8;
         sp->yrepeat = 38;
         }
-    
-    if ((RANDOM_P2(1024<<6)>>6) < 700)    
+
+    if ((RANDOM_P2(1024<<6)>>6) < 700)
         {
             SpawnShrapX(Weapon);
         }
@@ -10077,7 +10077,7 @@ DoEMPBurst(SHORT Weapon)
         KillSprite(Weapon);
         return(FALSE);
         }
-        
+
     return(FALSE);
     }
 
@@ -10109,10 +10109,10 @@ DoTankShell(SHORT Weapon)
                 }
             }
         }
-    
-    return(FALSE);    
+
+    return(FALSE);
     }
-    
+
 int
 DoTracerStart(SHORT Weapon)
     {
@@ -10124,7 +10124,7 @@ DoTracerStart(SHORT Weapon)
     short spawn_count = 0;
     short i;
 
-    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, 
+    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange,
         u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
     MissileHitDiveArea(Weapon);
@@ -10137,8 +10137,8 @@ DoTracerStart(SHORT Weapon)
             return (TRUE);
             }
         }
-        
-    return(FALSE);    
+
+    return(FALSE);
     }
 
 int
@@ -10168,7 +10168,7 @@ DoLaser(SHORT Weapon)
                 return (TRUE);
                 }
             }
-        
+
         spawn_count++;
         if (spawn_count < 256)
             {
@@ -10181,7 +10181,7 @@ DoLaser(SHORT Weapon)
             np->xrepeat = 16;
             np->yrepeat = 16;
             np->pal = nu->spal = PALETTE_RED_LIGHTING;
-            
+
             SET(np->cstat, CSTAT_SPRITE_YCENTER);
             RESET(np->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
 
@@ -10199,7 +10199,7 @@ DoLaserStart(SHORT Weapon)
     USERp nu;
 
     if (SW_SHAREWARE) return FALSE;	// JBF: verify
-    
+
     u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
     MissileHitDiveArea(Weapon);
@@ -10216,7 +10216,7 @@ DoLaserStart(SHORT Weapon)
 
     return(0);
     }
-    
+
 int
 DoRail(SHORT Weapon)
     {
@@ -10249,7 +10249,7 @@ DoRail(SHORT Weapon)
                     if (TEST(sprite[hitsprite].extra, SPRX_PLAYER_OR_ENEMY))
                         {
                         short cstat_save = sprite[hitsprite].cstat;
-                        
+
                         RESET(sprite[hitsprite].cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN|CSTAT_SPRITE_BLOCK_MISSILE);
                         DoRail(Weapon);
                         sprite[hitsprite].cstat = cstat_save;
@@ -10261,8 +10261,8 @@ DoRail(SHORT Weapon)
                         SpawnShrapX(Weapon);
                         KillSprite((short) Weapon);
                         return (TRUE);
-                        }    
-                    }    
+                        }
+                    }
                 else
                     {
                     SpawnTracerExp(Weapon);
@@ -10272,7 +10272,7 @@ DoRail(SHORT Weapon)
                     }
                 }
             }
-            
+
         spawn_count++;
         if (spawn_count < 128)
             {
@@ -10288,7 +10288,7 @@ DoRail(SHORT Weapon)
 
             nu->RotNum = 5;
             NewStateGroup(new, sg_RailPuff);
-            
+
             np->shade = -40;
             np->xrepeat = 10;
             np->yrepeat = 10;
@@ -10301,12 +10301,12 @@ DoRail(SHORT Weapon)
             nu->xchange = u->xchange;
             nu->ychange = u->ychange;
             nu->zchange = u->zchange;
-            
+
             ScaleSpriteVector(new, 1500);
-        
+
             if (TEST(u->Flags, SPR_UNDERWATER))
                 SET(nu->Flags, SPR_UNDERWATER);
-            }    
+            }
         }
     }
 
@@ -10337,7 +10337,7 @@ DoRailStart(SHORT Weapon)
             }
         }
 
-    return(0);    
+    return(0);
     }
 
 int
@@ -10350,7 +10350,7 @@ DoRocket(SHORT Weapon)
     long dist,a,b,c;
 
 
-    if ((u->FlagOwner -= ACTORMOVETICS)<=0 && u->spal == 20)    
+    if ((u->FlagOwner -= ACTORMOVETICS)<=0 && u->spal == 20)
         {
         DISTANCE(sp->x, sp->y, u->tgt_sp->x, u->tgt_sp->y, dist, a, b, c);
         u->FlagOwner = dist>>6;
@@ -10363,7 +10363,7 @@ DoRocket(SHORT Weapon)
         //MissileSeek(Weapon, 10, 768, 3, 48, 6);
         VectorMissileSeek(Weapon, 30, 16, 128, 768);
         }
-    
+
     u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
     MissileHitDiveArea(Weapon);
@@ -10372,7 +10372,7 @@ DoRocket(SHORT Weapon)
         SpawnBubble(Weapon);
 
     //DoDamageTest(Weapon);
-    
+
     if (TEST(u->Flags, SPR_SUICIDE))
         return (TRUE);
 
@@ -10393,20 +10393,20 @@ DoRocket(SHORT Weapon)
             return (TRUE);
             }
         }
-    
+
     if (!u->Counter)
         {
         SPRITEp np;
         USERp nu;
         short new;
-        
+
         new = SpawnSprite(STAT_MISSILE, PUFF, s_Puff, sp->sectnum,
             u->ox, u->oy, u->oz, sp->ang, 100);
 
         np = &sprite[new];
         nu = User[new];
 
-        SetOwner(Weapon, new);  
+        SetOwner(Weapon, new);
         np->shade = -40;
         np->xrepeat = 40;
         np->yrepeat = 40;
@@ -10419,11 +10419,11 @@ DoRocket(SHORT Weapon)
         nu->xchange = u->xchange;
         nu->ychange = u->ychange;
         nu->zchange = u->zchange;
-        
+
         ScaleSpriteVector(new, 20000);
-        
+
         //nu->zchange -= Z(8);
-    
+
         if (TEST(u->Flags, SPR_UNDERWATER))
             SET(nu->Flags, SPR_UNDERWATER);
         }
@@ -10458,8 +10458,8 @@ DoMicroMini(SHORT Weapon)
                 }
             }
         }
-    
-    return(FALSE);    
+
+    return(FALSE);
     }
 
 int
@@ -10470,19 +10470,19 @@ SpawnExtraMicroMini(SHORT Weapon)
     SPRITEp wp;
     USERp wu;
     short w;
-    
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Micro, sp->sectnum, 
+
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Micro, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, sp->xvel);
 
     wp = &sprite[w];
     wu = User[w];
 
-    SetOwner(sp->owner, w);  
+    SetOwner(sp->owner, w);
     wp->yrepeat = wp->xrepeat = sp->xrepeat;
     //wp->xrepeat = 64;
     wp->shade = sp->shade;
     wp->clipdist = sp->clipdist;
-    
+
     wu->RotNum = 5;
     NewStateGroup(w, &sg_MicroMini);
     wu->WeaponNum = u->WeaponNum;
@@ -10494,13 +10494,13 @@ SpawnExtraMicroMini(SHORT Weapon)
     wp->ang = NORM_ANGLE(wp->ang + RANDOM_RANGE(64) - 32);
     wp->zvel = sp->zvel;
     wp->zvel += RANDOM_RANGE(Z(16)) - Z(8);
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
     return(0);
     }
-         
+
 int
 DoMicro(SHORT Weapon)
     {
@@ -10511,7 +10511,7 @@ DoMicro(SHORT Weapon)
 
     if (SW_SHAREWARE) return FALSE;	// JBF: verify
 
-    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, 
+    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange,
         u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
     MissileHitDiveArea(Weapon);
@@ -10520,19 +10520,19 @@ DoMicro(SHORT Weapon)
         SpawnBubble(Weapon);
 
     //DoDamageTest(Weapon);
-    
+
     if (!u->Counter)
         {
         SPRITEp np;
         USERp nu;
-        
+
         new = SpawnSprite(STAT_MISSILE, PUFF, s_Puff, sp->sectnum,
             sp->x, sp->y, sp->z, sp->ang, 100);
 
         np = &sprite[new];
         nu = User[new];
 
-        SetOwner(sp->owner, new);  
+        SetOwner(sp->owner, new);
         np->shade = -40;
         np->xrepeat = 20;
         np->yrepeat = 20;
@@ -10546,12 +10546,12 @@ DoMicro(SHORT Weapon)
         nu->xchange = u->xchange;
         nu->ychange = u->ychange;
         nu->zchange = u->zchange;
-        
+
         ScaleSpriteVector(new, 20000);
-        
+
         if (TEST(u->Flags, SPR_UNDERWATER))
             SET(nu->Flags, SPR_UNDERWATER);
-            
+
         // last smoke
         if ((u->WaitTics -= MISSILEMOVETICS) <= 0)
             {
@@ -10564,7 +10564,7 @@ DoMicro(SHORT Weapon)
             }
         }
 
-    
+
     // hit something
     if (u->ret)
         {
@@ -10578,7 +10578,7 @@ DoMicro(SHORT Weapon)
 
     return (FALSE);
     }
-    
+
 int
 DoUziBullet(SHORT Weapon)
     {
@@ -10606,7 +10606,7 @@ DoUziBullet(SHORT Weapon)
 
         if (TEST(u->Flags, SPR_UNDERWATER) && (RANDOM_P2(1024 << 4) >> 4) < 128)
             SpawnBubble(Weapon);
-        
+
         if (u->ret)
             {
             SPRITEp wp;
@@ -10619,7 +10619,7 @@ DoUziBullet(SHORT Weapon)
             wp->shade = -40;
             wp->xrepeat = UZI_SMOKE_REPEAT;
             wp->yrepeat = UZI_SMOKE_REPEAT;
-            SetOwner(sp->owner, j);  
+            SetOwner(sp->owner, j);
             wp->ang = sp->ang;
             wp->clipdist = 128 >> 2;
             SET(wp->cstat, CSTAT_SPRITE_TRANSLUCENT | CSTAT_SPRITE_YCENTER);
@@ -10632,7 +10632,7 @@ DoUziBullet(SHORT Weapon)
                 wp->xrepeat = UZI_SPARK_REPEAT;
                 wp->yrepeat = UZI_SPARK_REPEAT;
                 //wp->owner = sp->owner;
-                SetOwner(sp->owner, j);  
+                SetOwner(sp->owner, j);
                 wp->ang = sp->ang;
                 SET(wp->cstat, CSTAT_SPRITE_YCENTER);
                 }
@@ -10642,7 +10642,7 @@ DoUziBullet(SHORT Weapon)
             return (TRUE);
             }
         else
-        if (u->Dist > 8000)    
+        if (u->Dist > 8000)
             {
             KillSprite((short) Weapon);
             return(0);
@@ -10692,13 +10692,13 @@ DoBoltSeeker(SHORT Weapon)
 int
 DoBoltShrapnel(SHORT Weapon)
     {
-    return(0);    
+    return(0);
     }
 
 int
 DoBoltFatMan(SHORT Weapon)
     {
-    return(0);    
+    return(0);
     }
 
 int
@@ -10713,7 +10713,7 @@ DoElectro(SHORT Weapon)
     // only seek on Electro's after a hit on an actor
     if (u->Counter > 0)
         MissileSeek(Weapon, 30, 512, 3, 52, 2);
-    
+
     dax = MOVEx(sp->xvel, sp->ang);
     day = MOVEy(sp->xvel, sp->ang);
     daz = sp->zvel;
@@ -10738,17 +10738,17 @@ DoElectro(SHORT Weapon)
                     {
                     SPRITEp hsp = &sprite[NORM_SPRITE(u->ret)];
                     USERp hu = User[NORM_SPRITE(u->ret)];
-                    
+
                     if (!TEST(hsp->extra, SPRX_PLAYER_OR_ENEMY) || hu->ID == SKULL_R0 || hu->ID == BETTY_R0)
                         SpawnShrap(Weapon, -1);
-                    break;    
+                    break;
                     }
-                    
-                default:    
+
+                default:
                     SpawnShrap(Weapon, -1);
                     break;
-                }    
-                    
+                }
+
             //SpawnShrap(Weapon, -1);
             KillSprite(Weapon);
             return (TRUE);
@@ -10757,7 +10757,7 @@ DoElectro(SHORT Weapon)
 
     return (FALSE);
     }
-    
+
 int
 DoLavaBoulder(SHORT Weapon)
     {
@@ -10765,7 +10765,7 @@ DoLavaBoulder(SHORT Weapon)
     USERp u = User[Weapon];
     LONG dax, day, daz;
 
-    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, 
+    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange,
         u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
     MissileHitDiveArea(Weapon);
@@ -10788,7 +10788,7 @@ DoLavaBoulder(SHORT Weapon)
 
     return (FALSE);
     }
-    
+
 int
 DoSpear(SHORT Weapon)
     {
@@ -10796,14 +10796,14 @@ DoSpear(SHORT Weapon)
     USERp u = User[Weapon];
     LONG dax, day, daz;
 
-    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, 
+    u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange,
         u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
     MissileHitDiveArea(Weapon);
-    
+
     if (TEST(u->Flags, SPR_UNDERWATER) && (RANDOM_P2(1024 << 4) >> 4) < 256)
         SpawnBubble(Weapon);
-        
+
     //DoDamageTest(Weapon);
 
     if (TEST(u->Flags, SPR_SUICIDE))
@@ -10827,41 +10827,41 @@ int SpawnCoolieExp(short SpriteNum)
     USERp u = User[SpriteNum], eu;
     SPRITEp sp = &sprite[SpriteNum];
     extern STATE s_BasicExp[];
-    
+
     short explosion;
     SPRITEp exp;
     long zh,nx,ny;
-    
+
     ASSERT(u);
-    
+
     u->Counter = RANDOM_RANGE(120);  // This is the wait til birth time!
 
     zh = sp->z - SPRITEp_SIZE_Z(sp) + DIV4(SPRITEp_SIZE_Z(sp));
     nx = sp->x + MOVEx(64, sp->ang+1024);
     ny = sp->y + MOVEy(64, sp->ang+1024);
-    
+
     PlaySound(DIGI_COOLIEEXPLODE, &sp->x, &sp->y, &sp->z, v3df_none);
 
-    explosion = SpawnSprite(STAT_MISSILE, BOLT_EXP, s_BoltExp, sp->sectnum, 
+    explosion = SpawnSprite(STAT_MISSILE, BOLT_EXP, s_BoltExp, sp->sectnum,
         nx, ny, zh, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
-    
+
     exp->hitag = LUMINOUS; //Always full brightness
-    SetOwner(SpriteNum, explosion);  
+    SetOwner(SpriteNum, explosion);
     exp->shade = -40;
     exp->pal = eu->spal = u->spal;
     SET(exp->cstat, CSTAT_SPRITE_YCENTER);
     RESET(exp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     eu->Radius = DamageData[DMG_BOLT_EXP].radius;
-    
+
     DoExpDamageTest(explosion);
-    
+
     return(explosion);
     }
 
-    
+
 int
 SpawnBasicExp(SHORT Weapon)
     {
@@ -10872,13 +10872,13 @@ SpawnBasicExp(SHORT Weapon)
     short explosion;
 
     ASSERT(u);
-    
+
     if (TEST(u->Flags, SPR_SUICIDE))
         return (-1);
 
     PlaySound(DIGI_MEDIUMEXP, &sp->x, &sp->y, &sp->z, v3df_none);
-    
-    explosion = SpawnSprite(STAT_MISSILE, BASIC_EXP, s_BasicExp, sp->sectnum, 
+
+    explosion = SpawnSprite(STAT_MISSILE, BASIC_EXP, s_BasicExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -10901,10 +10901,10 @@ SpawnBasicExp(SHORT Weapon)
     SpawnExpZadjust(Weapon, exp, Z(15), Z(15));
     DoExpDamageTest(explosion);
     SpawnVis(-1, exp->sectnum, exp->x, exp->y, exp->z, 16);
-    
+
     return(explosion);
     }
-    
+
 int
 SpawnFireballFlames(SHORT SpriteNum, SHORT enemy)
     {
@@ -10918,28 +10918,28 @@ SpawnFireballFlames(SHORT SpriteNum, SHORT enemy)
 
     if (TEST(u->Flags, SPR_UNDERWATER))
         return(-1);
-    
+
     if (enemy >= 0)
         {
         // test for already burned
         if (TEST(ep->extra, SPRX_BURNABLE) && ep->shade > 40)
             return(-1);
-                
-        if (!eu)    
+
+        if (!eu)
             {
             ASSERT(TRUE == FALSE);
             }
-            
-        if (eu->flame >= 0)    
+
+        if (eu->flame >= 0)
             {
             long sizez = SPRITEp_SIZE_Z(ep) + DIV4(SPRITEp_SIZE_Z(ep));
             np = &sprite[eu->flame];
             nu = User[eu->flame];
-            
-            if (TEST(ep->extra, SPRX_BURNABLE))    
+
+            if (TEST(ep->extra, SPRX_BURNABLE))
                 return(eu->flame);
-            
-            if (nu->Counter >= SPRITEp_SIZE_Z_2_YREPEAT(np, sizez))    
+
+            if (nu->Counter >= SPRITEp_SIZE_Z_2_YREPEAT(np, sizez))
                 {
                 // keep flame only slightly bigger than the enemy itself
                 nu->Counter = SPRITEp_SIZE_Z_2_YREPEAT(np, sizez);
@@ -10948,18 +10948,18 @@ SpawnFireballFlames(SHORT SpriteNum, SHORT enemy)
                 {
                 //increase max size
                 nu->Counter += SPRITEp_SIZE_Z_2_YREPEAT(np, 8<<8);
-                }            
-            
-            // Counter is max size 
+                }
+
+            // Counter is max size
             if (nu->Counter >= 230)
                 {
                 // this is far too big
                 nu->Counter = 230;
                 }
-            
-            if (nu->WaitTics < 2*120) 
+
+            if (nu->WaitTics < 2*120)
                 nu->WaitTics = 2*120;  // allow it to grow again
-            
+
             return(eu->flame);
             }
         else
@@ -10969,10 +10969,10 @@ SpawnFireballFlames(SHORT SpriteNum, SHORT enemy)
                 void SpawnOnFire(PLAYERp pp);
                 //SpawnOnFire(eu->PlayerP);  //Nobody likes the panel fire
                 }
-            }    
-        }    
-        
-    new = SpawnSprite(STAT_MISSILE, FIREBALL_FLAMES, s_FireballFlames, sp->sectnum, 
+            }
+        }
+
+    new = SpawnSprite(STAT_MISSILE, FIREBALL_FLAMES, s_FireballFlames, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     np = &sprite[new];
     nu = User[new];
@@ -10981,7 +10981,7 @@ SpawnFireballFlames(SHORT SpriteNum, SHORT enemy)
 
     if (enemy >= 0)
         eu->flame = new;
-        
+
     np->xrepeat = 16;
     np->yrepeat = 16;
     if (enemy >= 0)
@@ -10997,23 +10997,23 @@ SpawnFireballFlames(SHORT SpriteNum, SHORT enemy)
             nu->Counter = SPRITEp_SIZE_Z_2_YREPEAT(np, SPRITEp_SIZE_Z(ep)>>1);
             }
         }
-    else    
+    else
         {
         nu->Counter = 48; // max flame size
         }
-        
+
     SetOwner(sp->owner, new);
     np->shade = -40;
     np->pal = nu->spal = u->spal;
     SET(np->cstat, CSTAT_SPRITE_YCENTER);
     RESET(np->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     //nu->Radius = DamageData[DMG_FIREBALL_FLAMES].radius;
     nu->Radius = 200;
-    
+
     if (enemy >= 0)
         {
-        SetAttach(enemy, new);  
+        SetAttach(enemy, new);
         }
     else
         {
@@ -11022,9 +11022,9 @@ SpawnFireballFlames(SHORT SpriteNum, SHORT enemy)
             KillSprite(new);
             return(-1);
             }
-            
+
         nu->floor_dist = nu->ceiling_dist = 0;
-        
+
         DoFindGround(new);
         nu->jump_speed = 0;
         DoBeginJump(new);
@@ -11048,7 +11048,7 @@ SpawnBreakFlames(SHORT SpriteNum, SHORT enemy)
     USERp nu;
     short new;
 
-    new = SpawnSprite(STAT_MISSILE, FIREBALL_FLAMES+1, s_BreakFlames, sp->sectnum, 
+    new = SpawnSprite(STAT_MISSILE, FIREBALL_FLAMES+1, s_BreakFlames, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     np = &sprite[new];
     nu = User[new];
@@ -11058,28 +11058,28 @@ SpawnBreakFlames(SHORT SpriteNum, SHORT enemy)
     np->xrepeat = 16;
     np->yrepeat = 16;
     nu->Counter = 48; // max flame size
-        
+
     //SetOwner(sp->owner, new);
     np->shade = -40;
     if (u)
         np->pal = nu->spal = u->spal;
     SET(np->cstat, CSTAT_SPRITE_YCENTER);
     RESET(np->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     nu->Radius = 200;
 
     nu->floor_dist = nu->ceiling_dist = 0;
-    
+
     DoFindGround(new);
     nu->jump_speed = 0;
     DoBeginJump(new);
-    
+
     PlaySound(DIGI_FIRE1,&np->x,&np->y,&np->z,v3df_dontpan|v3df_doppler);
     Set3DSoundOwner(new);
 
     return(new);
     }
-    
+
 
 int
 SpawnBreakStaticFlames(SHORT SpriteNum)
@@ -11090,15 +11090,15 @@ SpawnBreakStaticFlames(SHORT SpriteNum)
     USERp nu;
     short new;
 
-    new = SpawnSprite(STAT_STATIC_FIRE, FIREBALL_FLAMES, NULL, sp->sectnum, 
+    new = SpawnSprite(STAT_STATIC_FIRE, FIREBALL_FLAMES, NULL, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     np = &sprite[new];
     nu = User[new];
-    
+
     if (RANDOM_RANGE(1000) > 500)
         np->picnum = 3143;
     else
-        np->picnum = 3157;    
+        np->picnum = 3157;
 
     np->hitag = LUMINOUS; //Always full brightness
 
@@ -11107,19 +11107,19 @@ SpawnBreakStaticFlames(SHORT SpriteNum)
     np->xrepeat = 32;
     np->yrepeat = 32;
     //nu->Counter = 48; // max flame size
-        
+
     //SetOwner(sp->owner, new);
     np->shade = -40;
     np->pal = nu->spal = u->spal;
     //SET(np->cstat, CSTAT_SPRITE_YCENTER);
     RESET(np->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     nu->Radius = 200;
-    
+
     nu->floor_dist = nu->ceiling_dist = 0;
-    
+
     np->z = getflorzofslope(np->sectnum,np->x,np->y);
-    
+
     //DoFindGround(new);
     //nu->jump_speed = 0;
     //DoBeginJump(new);
@@ -11130,7 +11130,7 @@ SpawnBreakStaticFlames(SHORT SpriteNum)
     return(new);
     }
 
-    
+
 int
 SpawnFireballExp(SHORT Weapon)
     {
@@ -11141,13 +11141,13 @@ SpawnFireballExp(SHORT Weapon)
     short explosion;
 
     ASSERT(u);
-    
+
     if (TEST(u->Flags, SPR_SUICIDE))
         return (-1);
 
     PlaySound(DIGI_SMALLEXP, &sp->x, &sp->y, &sp->z, v3df_none);
-    
-    explosion = SpawnSprite(STAT_MISSILE, FIREBALL_EXP, s_FireballExp, sp->sectnum, 
+
+    explosion = SpawnSprite(STAT_MISSILE, FIREBALL_EXP, s_FireballExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -11168,7 +11168,7 @@ SpawnFireballExp(SHORT Weapon)
     //
 
     SpawnExpZadjust(Weapon, exp, Z(15), Z(15));
-    
+
     if (RANDOM_P2(1024) < 150)
         SpawnFireballFlames(explosion,-1);
     return(explosion);
@@ -11184,13 +11184,13 @@ SpawnGoroFireballExp(SHORT Weapon)
     short explosion;
 
     ASSERT(u);
-    
+
     if (TEST(u->Flags, SPR_SUICIDE))
         return (-1);
 
     PlaySound(DIGI_MEDIUMEXP, &sp->x, &sp->y, &sp->z, v3df_none);
-    
-    explosion = SpawnSprite(STAT_MISSILE, 0, s_FireballExp, sp->sectnum, 
+
+    explosion = SpawnSprite(STAT_MISSILE, 0, s_FireballExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -11212,7 +11212,7 @@ SpawnGoroFireballExp(SHORT Weapon)
     SpawnExpZadjust(Weapon, exp, Z(15), Z(15));
     return(explosion);
     }
-    
+
 int
 SpawnBoltExp(SHORT Weapon)
     {
@@ -11221,15 +11221,15 @@ SpawnBoltExp(SHORT Weapon)
     SPRITEp exp;
     USERp eu;
     short explosion;
-    
+
     ASSERT(u);
-    
+
     if (u && TEST(u->Flags, SPR_SUICIDE))
         return (-1);
 
     PlaySound(DIGI_BOLTEXPLODE, &sp->x, &sp->y, &sp->z, v3df_none);
-    
-    explosion = SpawnSprite(STAT_MISSILE, BOLT_EXP, s_BoltExp, sp->sectnum, 
+
+    explosion = SpawnSprite(STAT_MISSILE, BOLT_EXP, s_BoltExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -11246,9 +11246,9 @@ SpawnBoltExp(SHORT Weapon)
     eu->Radius = DamageData[DMG_BOLT_EXP].radius;
 
     SpawnExpZadjust(Weapon, exp, Z(40), Z(40));
-    
+
     DoExpDamageTest(explosion);
-    
+
     SetExpQuake(explosion); // !JIM! made rocket launcher shake things
     SpawnVis(-1, exp->sectnum, exp->x, exp->y, exp->z, 16);
 
@@ -11263,23 +11263,23 @@ SpawnBunnyExp(SHORT Weapon)
     SPRITEp exp;
     USERp eu;
     short explosion;
-    
+
     ASSERT(u);
-    
+
     if (u && TEST(u->Flags, SPR_SUICIDE))
         return (-1);
 
     PlaySound(DIGI_BUNNYDIE3, &sp->x, &sp->y, &sp->z, v3df_none);
 
     u->ID = BOLT_EXP; // Change id
-    InitBloodSpray(Weapon,TRUE,-1);    
-    InitBloodSpray(Weapon,TRUE,-1);    
-    InitBloodSpray(Weapon,TRUE,-1);    
+    InitBloodSpray(Weapon,TRUE,-1);
+    InitBloodSpray(Weapon,TRUE,-1);
+    InitBloodSpray(Weapon,TRUE,-1);
     DoExpDamageTest(Weapon);
-    
+
     return(0);
     }
-    
+
 int
 SpawnTankShellExp(SHORT Weapon)
     {
@@ -11290,13 +11290,13 @@ SpawnTankShellExp(SHORT Weapon)
     short explosion;
 
     ASSERT(u);
-    
+
     if (u && TEST(u->Flags, SPR_SUICIDE))
         return (-1);
 
     PlaySound(DIGI_BOLTEXPLODE, &sp->x, &sp->y, &sp->z, v3df_none);
-    
-    explosion = SpawnSprite(STAT_MISSILE, TANK_SHELL_EXP, s_TankShellExp, sp->sectnum, 
+
+    explosion = SpawnSprite(STAT_MISSILE, TANK_SHELL_EXP, s_TankShellExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -11315,7 +11315,7 @@ SpawnTankShellExp(SHORT Weapon)
     SpawnExpZadjust(Weapon, exp, Z(40), Z(40));
     DoExpDamageTest(explosion);
     SpawnVis(-1, exp->sectnum, exp->x, exp->y, exp->z, 16);
-    
+
     return(explosion);
     }
 
@@ -11330,8 +11330,8 @@ SpawnNuclearSecondaryExp(SHORT Weapon, short ang)
     short explosion;
 
     ASSERT(u);
-    
-    explosion = SpawnSprite(STAT_MISSILE, GRENADE_EXP, s_GrenadeExp, sp->sectnum, 
+
+    explosion = SpawnSprite(STAT_MISSILE, GRENADE_EXP, s_GrenadeExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 512);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -11346,25 +11346,25 @@ SpawnNuclearSecondaryExp(SHORT Weapon, short ang)
     eu->floor_dist = Z(16);
     SET(exp->cstat, CSTAT_SPRITE_YCENTER);
     RESET(exp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     //ang = RANDOM_P2(2048);
     vel = (2048+128) + RANDOM_RANGE(2048);
     eu->xchange = MOVEx(vel, ang);
     eu->ychange = MOVEy(vel, ang);
     eu->Radius = 200; // was NUKE_RADIUS
-    eu->ret = move_missile(explosion, eu->xchange, eu->ychange, 0, 
+    eu->ret = move_missile(explosion, eu->xchange, eu->ychange, 0,
         eu->ceiling_dist, eu->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
-    if (FindDistance3D(exp->x - sp->x, exp->y - sp->y, (exp->z - sp->z)>>4) < 1024)        
+    if (FindDistance3D(exp->x - sp->x, exp->y - sp->y, (exp->z - sp->z)>>4) < 1024)
         {
         KillSprite(explosion);
         return(-1);
         }
-    
+
     SpawnExpZadjust(Weapon, exp, Z(50), Z(10));
 
-    InitChemBomb(explosion);    
-    
+    InitChemBomb(explosion);
+
     return(explosion);
     }
 
@@ -11386,7 +11386,7 @@ SpawnNuclearExp(SHORT Weapon)
     PlaySound(DIGI_NUCLEAREXP, &sp->x, &sp->y, &sp->z, v3df_dontpan | v3df_doppler);
 
     if(sp->owner)
-        {    
+        {
         pp = User[sp->owner]->PlayerP;
         rnd_rng = RANDOM_RANGE(1000);
 
@@ -11399,9 +11399,9 @@ SpawnNuclearExp(SHORT Weapon)
         if(rnd_rng > 970)
             PlayerSound(DIGI_LIKEPEARL,&pp->posx,&pp->posy,&pp->posz,v3df_follow|v3df_dontpan,pp);
         }
-    
+
     // Spawn big mushroom cloud
-    explosion = SpawnSprite(STAT_MISSILE, MUSHROOM_CLOUD, s_NukeMushroom, sp->sectnum, 
+    explosion = SpawnSprite(STAT_MISSILE, MUSHROOM_CLOUD, s_NukeMushroom, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -11416,11 +11416,11 @@ SpawnNuclearExp(SHORT Weapon)
     RESET(exp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
     eu->spal = exp->pal = PALETTE_PLAYER1;  // Set nuke puff to gray
 
-    InitChemBomb(explosion);    
+    InitChemBomb(explosion);
 
 
     // Do central explosion
-    explosion = SpawnSprite(STAT_MISSILE, MUSHROOM_CLOUD, s_GrenadeExp, sp->sectnum, 
+    explosion = SpawnSprite(STAT_MISSILE, MUSHROOM_CLOUD, s_GrenadeExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -11437,12 +11437,12 @@ SpawnNuclearExp(SHORT Weapon)
     eu->Radius = NUKE_RADIUS;
 
     SpawnExpZadjust(Weapon, exp, Z(30), Z(30));
-    
+
     DoExpDamageTest(explosion);
-    
+
     // Nuclear effects
-    SetNuclearQuake(explosion); 
-    
+    SetNuclearQuake(explosion);
+
 //  if (pp->NightVision)
 //      {
 //      SetFadeAmt(pp, -300, 1); // Idiot had night vision on in nuke flash
@@ -11463,7 +11463,7 @@ SpawnNuclearExp(SHORT Weapon)
 
     return(explosion);
     }
-    
+
 int
 SpawnTracerExp(SHORT Weapon)
     {
@@ -11478,10 +11478,10 @@ SpawnTracerExp(SHORT Weapon)
         return (-1);
 
     if(u->ID == BOLT_THINMAN_R1)
-        explosion = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R1, s_TracerExp, sp->sectnum, 
+        explosion = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R1, s_TracerExp, sp->sectnum,
             sp->x, sp->y, sp->z, sp->ang, 0);
     else
-        explosion = SpawnSprite(STAT_MISSILE, TRACER_EXP, s_TracerExp, sp->sectnum, 
+        explosion = SpawnSprite(STAT_MISSILE, TRACER_EXP, s_TracerExp, sp->sectnum,
             sp->x, sp->y, sp->z, sp->ang, 0);
 
     exp = &sprite[explosion];
@@ -11494,10 +11494,10 @@ SpawnTracerExp(SHORT Weapon)
     exp->yrepeat = 4;
     SET(exp->cstat, CSTAT_SPRITE_YCENTER);
     RESET(exp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     if (RANDOM_P2(1024) > 512)
         SET(exp->cstat, CSTAT_SPRITE_XFLIP);
-        
+
     if(u->ID == BOLT_THINMAN_R1)
     {
         eu->Radius = DamageData[DMG_BASIC_EXP].radius;
@@ -11508,7 +11508,7 @@ SpawnTracerExp(SHORT Weapon)
 
     return(explosion);
     }
-    
+
 int
 SpawnMicroExp(SHORT Weapon)
     {
@@ -11523,8 +11523,8 @@ SpawnMicroExp(SHORT Weapon)
         return (-1);
 
 //    PlaySound(DIGI_MISSLEXP, &sp->x, &sp->y, &sp->z, v3df_none);
-    
-    explosion = SpawnSprite(STAT_MISSILE, MICRO_EXP, s_MicroExp, sp->sectnum, 
+
+    explosion = SpawnSprite(STAT_MISSILE, MICRO_EXP, s_MicroExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -11549,43 +11549,43 @@ SpawnMicroExp(SHORT Weapon)
 
     SpawnExpZadjust(Weapon, exp, Z(20), Z(20));
     SpawnVis(-1, exp->sectnum, exp->x, exp->y, exp->z, 16);
-    
+
     return(explosion);
     }
 
-int    
+int
 AddSpriteToSectorObject(short SpriteNum, SECTOR_OBJECTp sop)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     short sn;
-    
+
     // make sure it has a user
     if (!u)
         {
         u = SpawnUser(SpriteNum, 0, NULL);
         }
-    
+
     // find a free place on this list
     for (sn = 0; sn < SIZ(sop->sp_num); sn++)
         {
         if (sop->sp_num[sn] == -1)
             break;
         }
-        
+
     ASSERT(sn < SIZ(sop->sp_num) - 1);
     sop->sp_num[sn] = SpriteNum;
 
     SET(u->Flags, SPR_ON_SO_SECTOR|SPR_SO_ATTACHED);
-    
+
     u->sx = sop->xmid - sp->x;
     u->sy = sop->ymid - sp->y;
     u->sz = sector[sop->mid_sector].floorz - sp->z;
-    
+
     u->sang = sp->ang;
     return(0);
     }
-    
+
 int
 SpawnBigGunFlames(SHORT Weapon, SHORT Operator, SECTOR_OBJECTp sop)
     {
@@ -11596,7 +11596,7 @@ SpawnBigGunFlames(SHORT Weapon, SHORT Operator, SECTOR_OBJECTp sop)
     short explosion;
     short sn,shoot_pt;
     BOOL smallflames = FALSE;
-    
+
     if (Weapon < 0)
         {
         Weapon  = abs(Weapon);
@@ -11606,7 +11606,7 @@ SpawnBigGunFlames(SHORT Weapon, SHORT Operator, SECTOR_OBJECTp sop)
     sp = &sprite[Weapon];
     u = User[Weapon];
 
-    explosion = SpawnSprite(STAT_MISSILE, MICRO_EXP, s_BigGunFlame, sp->sectnum, 
+    explosion = SpawnSprite(STAT_MISSILE, MICRO_EXP, s_BigGunFlame, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -11625,19 +11625,19 @@ SpawnBigGunFlames(SHORT Weapon, SHORT Operator, SECTOR_OBJECTp sop)
         }
     SET(exp->cstat, CSTAT_SPRITE_YCENTER);
     RESET(exp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     if (RANDOM_P2(1024) > 512)
         SET(exp->cstat, CSTAT_SPRITE_XFLIP);
     if (RANDOM_P2(1024) > 512)
         SET(exp->cstat, CSTAT_SPRITE_YFLIP);
-    
+
     // place all sprites on list
     for (sn = 0; sn < SIZ(sop->sp_num); sn++)
         {
         if (sop->sp_num[sn] == -1)
             break;
         }
-        
+
     ASSERT(sn < SIZ(sop->sp_num) - 1);
     sop->sp_num[sn] = explosion;
 
@@ -11646,22 +11646,22 @@ SpawnBigGunFlames(SHORT Weapon, SHORT Operator, SECTOR_OBJECTp sop)
     //exp->y = eu->oy = sop->ymid - u->sy;
 
     SET(eu->Flags, TEST(u->Flags, SPR_ON_SO_SECTOR|SPR_SO_ATTACHED));
-    
+
     if (TEST(u->Flags, SPR_ON_SO_SECTOR))
         {
         // move with sector its on
         exp->z = eu->oz = sector[sp->sectnum].floorz - u->sz;
         }
-    else    
+    else
         {
         // move with the mid sector
         exp->z = eu->oz = sector[sop->mid_sector].floorz - u->sz;
         }
-    
+
     eu->sx = u->sx;
     eu->sy = u->sy;
     eu->sz = u->sz;
-        
+
     return(explosion);
     }
 
@@ -11677,7 +11677,7 @@ SpawnGrenadeSecondaryExp(SHORT Weapon, short ang)
 
 
     ASSERT(u);
-    explosion = SpawnSprite(STAT_MISSILE, GRENADE_EXP, s_GrenadeSmallExp, sp->sectnum, 
+    explosion = SpawnSprite(STAT_MISSILE, GRENADE_EXP, s_GrenadeSmallExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 1024);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -11692,40 +11692,40 @@ SpawnGrenadeSecondaryExp(SHORT Weapon, short ang)
     eu->floor_dist = Z(16);
     SET(exp->cstat, CSTAT_SPRITE_YCENTER);
     RESET(exp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     //ang = RANDOM_P2(2048);
     vel = (1024+512) + RANDOM_RANGE(1024);
     eu->xchange = MOVEx(vel, ang);
     eu->ychange = MOVEy(vel, ang);
-    
-    eu->ret = move_missile(explosion, eu->xchange, eu->ychange, 0, 
+
+    eu->ret = move_missile(explosion, eu->xchange, eu->ychange, 0,
         eu->ceiling_dist, eu->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
 
-    if (FindDistance3D(exp->x - sp->x, exp->y - sp->y, (exp->z - sp->z)>>4) < 1024)        
+    if (FindDistance3D(exp->x - sp->x, exp->y - sp->y, (exp->z - sp->z)>>4) < 1024)
         {
         KillSprite(explosion);
         return(-1);
         }
-    
+
     SpawnExpZadjust(Weapon, exp, Z(50), Z(10));
-    
+
     eu->ox = exp->x;
     eu->oy = exp->y;
     eu->oz = exp->z;
-    
+
     return(explosion);
     }
-    
+
 int
 SpawnGrenadeSmallExp(SHORT Weapon)
     {
     short ang;
-    
+
     ang = RANDOM_P2(2048);
     SpawnGrenadeSecondaryExp(Weapon, ang);
     return(0);
     }
-    
+
 int
 SpawnGrenadeExp(SHORT Weapon)
     {
@@ -11755,8 +11755,8 @@ SpawnGrenadeExp(SHORT Weapon)
 
     dx = sp->x;
     dy = sp->y;
-    dz = sp->z;    
-    
+    dz = sp->z;
+
     if (u->ID == ZILLA_RUN_R0)
         {
         dx += RANDOM_RANGE(1000)-RANDOM_RANGE(1000);
@@ -11764,7 +11764,7 @@ SpawnGrenadeExp(SHORT Weapon)
         dz = SPRITEp_MID(sp) + RANDOM_RANGE(1000)-RANDOM_RANGE(1000);
         }
 
-    explosion = SpawnSprite(STAT_MISSILE, GRENADE_EXP, s_GrenadeExp, sp->sectnum, 
+    explosion = SpawnSprite(STAT_MISSILE, GRENADE_EXP, s_GrenadeExp, sp->sectnum,
         dx, dy, dz, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -11785,13 +11785,13 @@ SpawnGrenadeExp(SHORT Weapon)
     //
 
     SpawnExpZadjust(Weapon, exp, Z(100), Z(30));
-    
+
     DoExpDamageTest(explosion);
     //InitMineShrap(explosion);
-    
+
     SetExpQuake(explosion);
     SpawnVis(-1, exp->sectnum, exp->x, exp->y, exp->z, 0);
-    
+
     #if 0
     ang = RANDOM_P2(2048);
     SpawnGrenadeSecondaryExp(explosion, ang);
@@ -11802,41 +11802,41 @@ SpawnGrenadeExp(SHORT Weapon)
     ang = ang + 512 + RANDOM_P2(256);
     SpawnGrenadeSecondaryExp(explosion, ang);
     #endif
-    
+
     return(explosion);
     }
 
-void SpawnExpZadjust(short Weapon, SPRITEp exp, long upper_zsize, long lower_zsize)    
+void SpawnExpZadjust(short Weapon, SPRITEp exp, long upper_zsize, long lower_zsize)
     {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
     USERp eu = User[exp - sprite];
     long tos_z, bos_z;
-    
+
     ASSERT(eu);
-    
+
     if (u)
         {
         tos_z = exp->z - upper_zsize;
         bos_z = exp->z + lower_zsize;
-    
+
         if (tos_z <= u->hiz + Z(4))
             {
             exp->z = u->hiz + upper_zsize;
             SET(exp->cstat, CSTAT_SPRITE_YFLIP);
             }
-        else 
+        else
         if (bos_z > u->loz)
             {
             exp->z = u->loz - lower_zsize;
             }
         }
-    else    
+    else
         {
         long cz,fz;
-        
+
         getzsofslope(exp->sectnum, exp->x, exp->y, &cz, &fz);
-        
+
         tos_z = exp->z - upper_zsize;
         bos_z = exp->z + lower_zsize;
 
@@ -11845,14 +11845,14 @@ void SpawnExpZadjust(short Weapon, SPRITEp exp, long upper_zsize, long lower_zsi
             exp->z = cz + upper_zsize;
             SET(exp->cstat, CSTAT_SPRITE_YFLIP);
             }
-        else 
+        else
         if (bos_z > fz)
             {
             exp->z = fz - lower_zsize;
             }
         }
-    
-    eu->oz = exp->z;    
+
+    eu->oz = exp->z;
     }
 int
 SpawnMineExp(SHORT Weapon)
@@ -11866,12 +11866,12 @@ SpawnMineExp(SHORT Weapon)
     ASSERT(u);
     if (u && TEST(u->Flags, SPR_SUICIDE))
         return (-1);
-    
-    change_sprite_stat(Weapon, STAT_MISSILE);    
+
+    change_sprite_stat(Weapon, STAT_MISSILE);
 
     PlaySound(DIGI_MINEBLOW, &sp->x, &sp->y, &sp->z, v3df_none);
-    
-    explosion = SpawnSprite(STAT_MISSILE, MINE_EXP, s_MineExp, sp->sectnum, 
+
+    explosion = SpawnSprite(STAT_MISSILE, MINE_EXP, s_MineExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
@@ -11892,15 +11892,15 @@ SpawnMineExp(SHORT Weapon)
 
     SpawnExpZadjust(Weapon, exp, Z(100), Z(20));
     SpawnVis(-1, exp->sectnum, exp->x, exp->y, exp->z, 16);
-    
+
     SetExpQuake(explosion);
-    
+
     //DoExpDamageTest(explosion);
-    
+
     return(explosion);
     }
 
-    
+
 int
 InitMineShrap(short SpriteNum)
     {
@@ -11918,7 +11918,7 @@ InitMineShrap(short SpriteNum)
         ang = RANDOM_P2(2048);
         daz = Z(RANDOM_P2(48))<<3;
         daz -= DIV2(Z(48)<<3);
-        
+
         FAFhitscan(sp->x, sp->y, sp->z - Z(30), sp->sectnum,   // Start position
             sintable[NORM_ANGLE(ang + 512)],        // X vector of 3D ang
             sintable[NORM_ANGLE(ang)],              // Y vector of 3D ang
@@ -11927,23 +11927,23 @@ InitMineShrap(short SpriteNum)
 
         if (hitsect < 0)
             continue;
-        
-        
+
+
         // check to see what you hit
         if (hitsprite < 0 && hitwall < 0)
             {
             }
 
         #define MINE_SHRAP_DIST_MAX 20000
-        if (Distance(hitx, hity, sp->x, sp->y) > MINE_SHRAP_DIST_MAX)    
+        if (Distance(hitx, hity, sp->x, sp->y) > MINE_SHRAP_DIST_MAX)
             continue;
-                
+
         // hit a sprite?
         if (hitsprite >= 0)
             {
             hsp = &sprite[hitsprite];
-            }    
-        
+            }
+
         w = SpawnSprite(STAT_MISSILE, MINE_SHRAP, s_MineSpark, hitsect, hitx, hity, hitz, ang, 0);
         wp = &sprite[w];
         wp->shade = -40;
@@ -11952,21 +11952,21 @@ InitMineShrap(short SpriteNum)
         SET(wp->cstat, CSTAT_SPRITE_TRANSLUCENT | CSTAT_SPRITE_YCENTER);
 
         wp->clipdist = 32 >> 2;
-        
+
         HitscanSpriteAdjust(w, hitwall);
         }
-    
+
     return (0);
     }
 
-int DoMineExp(short SpriteNum)    
+int DoMineExp(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     DoExpDamageTest(SpriteNum);
     //InitMineShrap(SpriteNum);
-    
+
     return(0);
     }
 
@@ -11975,10 +11975,10 @@ DoSectorExp(SHORT SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     sp->x += u->xchange;
     sp->y += u->ychange;
-    
+
     return(0);
     }
 
@@ -11994,16 +11994,16 @@ SpawnSectorExp(SHORT Weapon)
     ASSERT(u);
     if (TEST(u->Flags, SPR_SUICIDE))
         return (-1);
-    
+
     PlaySound(DIGI_30MMEXPLODE, &sp->x, &sp->y, &sp->z, v3df_none);
-    
-    explosion = SpawnSprite(STAT_MISSILE, GRENADE_EXP, s_SectorExp, sp->sectnum, 
+
+    explosion = SpawnSprite(STAT_MISSILE, GRENADE_EXP, s_SectorExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
 
     exp->hitag = LUMINOUS; //Always full brightness
-    exp->owner = -1;  
+    exp->owner = -1;
     exp->shade = -40;
     exp->xrepeat = 90; // was 40,40
     exp->yrepeat = 90;
@@ -12014,11 +12014,11 @@ SpawnSectorExp(SHORT Weapon)
     DoExpDamageTest(explosion);
     SetExpQuake(explosion);
     SpawnVis(-1, exp->sectnum, exp->x, exp->y, exp->z, 16);
-    
+
     return(explosion);
     }
 
-// called from SpawnShrap    
+// called from SpawnShrap
 int
 SpawnLargeExp(SHORT Weapon)
     {
@@ -12026,16 +12026,16 @@ SpawnLargeExp(SHORT Weapon)
     SPRITEp exp;
     USERp eu;
     short explosion;
-    
+
     PlaySound(DIGI_30MMEXPLODE, &sp->x, &sp->y, &sp->z, v3df_none);
-    
-    explosion = SpawnSprite(STAT_MISSILE, GRENADE_EXP, s_SectorExp, sp->sectnum, 
+
+    explosion = SpawnSprite(STAT_MISSILE, GRENADE_EXP, s_SectorExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
 
     exp->hitag = LUMINOUS; //Always full brightness
-    exp->owner = -1;  
+    exp->owner = -1;
     exp->shade = -40;
     exp->xrepeat = 90; // was 40,40
     exp->yrepeat = 90;
@@ -12049,10 +12049,10 @@ SpawnLargeExp(SHORT Weapon)
     DoExpDamageTest(explosion);
     SetExpQuake(explosion);
     SpawnVis(-1, exp->sectnum, exp->x, exp->y, exp->z, 16);
-    
+
     return(explosion);
     }
-    
+
 int
 SpawnMeteorExp(SHORT Weapon)
     {
@@ -12068,20 +12068,20 @@ SpawnMeteorExp(SHORT Weapon)
 
     if (u->spal == 25)    // Serp ball
         {
-        explosion = SpawnSprite(STAT_MISSILE, METEOR_EXP, s_TeleportEffect2, sp->sectnum, 
+        explosion = SpawnSprite(STAT_MISSILE, METEOR_EXP, s_TeleportEffect2, sp->sectnum,
             sp->x, sp->y, sp->z, sp->ang, 0);
         } else
         {
         PlaySound(DIGI_MEDIUMEXP, &sp->x, &sp->y, &sp->z, v3df_none);
-        explosion = SpawnSprite(STAT_MISSILE, METEOR_EXP, s_MeteorExp, sp->sectnum, 
+        explosion = SpawnSprite(STAT_MISSILE, METEOR_EXP, s_MeteorExp, sp->sectnum,
             sp->x, sp->y, sp->z, sp->ang, 0);
-        }        
-        
+        }
+
     exp = &sprite[explosion];
     eu = User[explosion];
 
     exp->hitag = LUMINOUS; //Always full brightness
-    exp->owner = -1;  
+    exp->owner = -1;
     exp->shade = -40;
     if (sp->yrepeat < 64)
         {
@@ -12094,8 +12094,8 @@ SpawnMeteorExp(SHORT Weapon)
         // large - boss
         exp->xrepeat = 80;
         exp->yrepeat = 80;
-        }    
-        
+        }
+
     SET(exp->cstat, CSTAT_SPRITE_YCENTER);
     RESET(exp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
     eu->Radius = DamageData[DMG_BASIC_EXP].radius;
@@ -12112,15 +12112,15 @@ SpawnLittleExp(SHORT Weapon)
     short explosion;
 
     PlaySound(DIGI_HEADSHOTHIT, &sp->x, &sp->y, &sp->z, v3df_none);
-    explosion = SpawnSprite(STAT_MISSILE, BOLT_EXP, s_SectorExp, sp->sectnum, 
+    explosion = SpawnSprite(STAT_MISSILE, BOLT_EXP, s_SectorExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 0);
     exp = &sprite[explosion];
     eu = User[explosion];
 
     exp->hitag = LUMINOUS; //Always full brightness
-    exp->owner = -1;  
+    exp->owner = -1;
     exp->shade = -127;
-        
+
     SET(exp->cstat, CSTAT_SPRITE_YCENTER);
     RESET(exp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
     eu->Radius = DamageData[DMG_BASIC_EXP].radius;
@@ -12143,7 +12143,7 @@ DoFireball(SHORT Weapon)
     u = User[Weapon];
 
     ASSERT(Weapon >= 0);
-    
+
     if (TEST(u->Flags, SPR_UNDERWATER))
         {
         sp->xrepeat = sp->yrepeat -= 1;
@@ -12154,16 +12154,16 @@ DoFireball(SHORT Weapon)
             return(TRUE);
             }
         }
-    
+
     #if 0
-    ox = sp->x;    
-    oy = sp->y;    
-    oz = sp->z;    
+    ox = sp->x;
+    oy = sp->y;
+    oz = sp->z;
     os = sp->sectnum
     #endif
 
     u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
-    
+
     #if 0
     if (u->ret)
         {
@@ -12171,17 +12171,17 @@ DoFireball(SHORT Weapon)
         xv = u->xchange/2;
         yv = u->ychange/2;
         zv = u->zchange/2;
-        
+
         u->ret = move_missile(Weapon, xv, yv, zv, Z(16), Z(16), CLIPMASK_MISSILE, MISSILEMOVETICS);
         }
-    #endif    
-    
+    #endif
+
     MissileHitDiveArea(Weapon);
 
     if (u->ret)
         {
         char hit_burn = 0;
-    
+
         if (WeaponMoveHit(Weapon))
             {
             switch (TEST(u->ret, HIT_MASK))
@@ -12190,10 +12190,10 @@ DoFireball(SHORT Weapon)
                     {
                     SPRITEp hsp;
                     USERp hu;
-                    
+
                     hsp = &sprite[NORM_SPRITE(u->ret)];
                     hu = User[NORM_SPRITE(u->ret)];
-                    
+
                     if (TEST(hsp->extra, SPRX_BURNABLE))
                         {
                         if (!hu)
@@ -12201,21 +12201,21 @@ DoFireball(SHORT Weapon)
                         SpawnFireballFlames(Weapon, hsp - sprite);
                         hit_burn = TRUE;
                         }
-                        
-                    break;    
+
+                    break;
                     }
-                }    
-                
-            if (!hit_burn)    
+                }
+
+            if (!hit_burn)
                 {
                 if (u->ID == GORO_FIREBALL)
                     SpawnGoroFireballExp(Weapon);
                 else
                     SpawnFireballExp(Weapon);
-                }    
-                
+                }
+
             KillSprite(Weapon);
-            
+
             return (TRUE);
             }
         }
@@ -12354,7 +12354,7 @@ DoNapalm(SHORT Weapon)
     long ox, oy, oz;
 
     DoBlurExtend(Weapon, 1, 7);
-    
+
     u = User[Weapon];
 
     if (TEST(u->Flags, SPR_UNDERWATER))
@@ -12367,7 +12367,7 @@ DoNapalm(SHORT Weapon)
             return(TRUE);
             }
         }
-    
+
     ox = sp->x;
     oy = sp->y;
     oz = sp->z;
@@ -12411,7 +12411,7 @@ DoNapalm(SHORT Weapon)
         USERp eu;
 
         PlaySound(DIGI_NAPPUFF, &sp->x, &sp->y, &sp->z, v3df_none);
-        
+
         explosion = SpawnSprite(STAT_MISSILE, NAP_EXP, s_NapExp, sp->sectnum,
             sp->x, sp->y, sp->z, sp->ang, 0);
 
@@ -12419,8 +12419,8 @@ DoNapalm(SHORT Weapon)
         eu = User[explosion];
 
         exp->hitag = LUMINOUS; //Always full brightness
-        //exp->owner = sp->owner;         
-        SetOwner(sp->owner, explosion);  
+        //exp->owner = sp->owner;
+        SetOwner(sp->owner, explosion);
         exp->shade = -40;
         exp->cstat = sp->cstat;
         exp->xrepeat = 48;
@@ -12489,7 +12489,7 @@ DoBloodWorm(SHORT Weapon)
         }
 
     MissileHitDiveArea(Weapon);
-    
+
     if (!u->z_tgt)
         {
         // stay alive for 10 seconds
@@ -12498,19 +12498,19 @@ DoBloodWorm(SHORT Weapon)
             SPRITEp tsp;
             USERp tu;
             int i,nexti;
-            
+
             InitBloodSpray(Weapon, FALSE, 1);
             InitBloodSpray(Weapon, FALSE, 1);
             InitBloodSpray(Weapon, FALSE, 1);
 
-            // Kill any old zombies you own    
+            // Kill any old zombies you own
             TRAVERSE_SPRITE_STAT(headspritestat[STAT_ENEMY], i, nexti)
                 {
                 tsp = &sprite[i];
                 tu = User[i];
-        
+
                 ASSERT(tu);
-                
+
                 if (tu->ID == ZOMBIE_RUN_R0 && tsp->owner == sp->owner)
                     {
                     InitBloodSpray(i,TRUE,105);
@@ -12519,21 +12519,21 @@ DoBloodWorm(SHORT Weapon)
                     break;
                     }
                 }
-            
+
             SpawnZombie2(Weapon);
             KillSprite(Weapon);
             return(TRUE);
             }
-        }    
-    
+        }
+
     ang = NORM_ANGLE(sp->ang + 512);
-    
+
     xvect = sintable[NORM_ANGLE(ang+512)];
     yvect = sintable[ang];
-    
+
     bx = sp->x;
     by = sp->y;
-    
+
     amt = RANDOM_P2(2048) - 1024;
     sp->x += mulscale15(amt,xvect);
     sp->y += mulscale15(amt,yvect);
@@ -12546,10 +12546,10 @@ DoBloodWorm(SHORT Weapon)
         InitBloodSpray(Weapon, FALSE, 1);
         GlobalSkipZrange = FALSE;
         }
-    
+
     sp->x = bx;
     sp->y = by;
-    
+
     return (FALSE);
     }
 #endif
@@ -12572,19 +12572,19 @@ DoBloodWorm(SHORT Weapon)
     u = User[Weapon];
 
     u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
-    
+
     // stay on ground
     sp->z = u->loz - Z(32);
-    
+
     if (u->ret)
         {
         switch (TEST(u->ret, HIT_MASK))
             {
-            
+
         case HIT_PLAX_WALL:
             KillSprite(Weapon);
             return(TRUE);
-            
+
         case HIT_SPRITE:
         case HIT_WALL:
             {
@@ -12594,38 +12594,38 @@ DoBloodWorm(SHORT Weapon)
             sp->ang = NORM_ANGLE(sp->ang + 1024);
             break;
             }
-                
+
         case HIT_SECTOR:
             {
             sp->z -= Z(32);
-            
+
             u->xchange = -u->xchange;
             u->ychange = -u->ychange;
             u->ret = 0;
             sp->ang = NORM_ANGLE(sp->ang + 1024);
             break;
             }
-            
-            }    
+
+            }
         }
-    
+
     if (++u->Counter3 > 3)
         {
         SPRITEp tsp;
         USERp tu;
         int i,nexti;
-        
+
         InitBloodSpray(Weapon, FALSE, 1);
         InitBloodSpray(Weapon, FALSE, 1);
 
-        // Kill any old zombies you own    
+        // Kill any old zombies you own
         TRAVERSE_SPRITE_STAT(headspritestat[STAT_ENEMY], i, nexti)
             {
             tsp = &sprite[i];
             tu = User[i];
-    
+
             ASSERT(tu);
-            
+
             if (tu->ID == ZOMBIE_RUN_R0 && tsp->owner == sp->owner)
                 {
                 InitBloodSpray(i,TRUE,105);
@@ -12634,20 +12634,20 @@ DoBloodWorm(SHORT Weapon)
                 break;
                 }
             }
-        
+
         SpawnZombie2(Weapon);
         KillSprite(Weapon);
         return(TRUE);
         }
-    
+
     ang = NORM_ANGLE(sp->ang + 512);
-    
+
     xvect = sintable[NORM_ANGLE(ang+512)];
     yvect = sintable[ang];
-    
+
     bx = sp->x;
     by = sp->y;
-    
+
     amt = RANDOM_P2(2048) - 1024;
     sp->x += mulscale15(amt,xvect);
     sp->y += mulscale15(amt,yvect);
@@ -12660,16 +12660,16 @@ DoBloodWorm(SHORT Weapon)
         InitBloodSpray(Weapon, FALSE, 1);
         //GlobalSkipZrange = FALSE;
         }
-    
+
     if (RANDOM_P2(2048) < 512)
         {
         sp->x = bx;
         sp->y = by;
-    
+
         amt = RANDOM_P2(2048) - 1024;
         sp->x += mulscale15(amt,xvect);
         sp->y += mulscale15(amt,yvect);
-        
+
         sectnum = sp->sectnum;
         updatesectorz(sp->x, sp->y, sp->z, &sectnum);
         if (sectnum >= 0)
@@ -12678,15 +12678,15 @@ DoBloodWorm(SHORT Weapon)
             InitBloodSpray(Weapon, FALSE, 1);
             //GlobalSkipZrange = FALSE;
             }
-        }    
-     
+        }
+
     sp->x = bx;
     sp->y = by;
-    
+
     return (FALSE);
     }
 #endif
-    
+
 int
 DoMeteor(SHORT Weapon)
     {
@@ -12720,7 +12720,7 @@ DoSerpMeteor(SHORT Weapon)
             {
             SPRITEp hsp = &sprite[NORM_SPRITE(u->ret)];
             USERp hu = User[NORM_SPRITE(u->ret)];
-                         
+
             if (hu && hu->ID >= SKULL_R0 && hu->ID <= SKULL_SERP)
                 {
                 short hcstat = hsp->cstat;
@@ -12735,7 +12735,7 @@ DoSerpMeteor(SHORT Weapon)
                 }
             }
         }
-    
+
     if (u->ret)
         {
         if (WeaponMoveHit(Weapon))
@@ -12752,7 +12752,7 @@ DoSerpMeteor(SHORT Weapon)
 
     }
 
-    
+
 int
 DoMirvMissile(SHORT Weapon)
     {
@@ -12768,7 +12768,7 @@ DoMirvMissile(SHORT Weapon)
         sp->xrepeat = 80;
 
     u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange, u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
-    
+
     if (TEST(u->Flags, SPR_UNDERWATER) && (RANDOM_P2(1024 << 4) >> 4) < 256)
         SpawnBubble(Weapon);
 
@@ -12810,7 +12810,7 @@ DoMirv(SHORT Weapon)
     if (TEST(u->Flags, SPR_UNDERWATER) && (RANDOM_P2(1024 << 4) >> 4) < 256)
         SpawnBubble(Weapon);
 
-    #if 0    
+    #if 0
     if (u->ret)
         {
         // this sprite is supposed to go through players/enemys
@@ -12833,7 +12833,7 @@ DoMirv(SHORT Weapon)
                 }
             }
         }
-    #endif    
+    #endif
 
     u->Counter++;
     u->Counter &= 1;
@@ -12842,7 +12842,7 @@ DoMirv(SHORT Weapon)
         {
         int i;
         static short angs[] =
-            {   
+            {
             512,
             -512
             };
@@ -12858,9 +12858,9 @@ DoMirv(SHORT Weapon)
             nu->RotNum = 5;
             NewStateGroup(new, &sg_MirvMeteor);
             nu->StateEnd = s_MirvMeteorExp;
-            
-            //np->owner = Weapon;        
-            SetOwner(Weapon, new);  
+
+            //np->owner = Weapon;
+            SetOwner(Weapon, new);
             np->shade = -40;
             np->xrepeat = 40;
             np->yrepeat = 40;
@@ -12893,7 +12893,7 @@ DoMirv(SHORT Weapon)
 
     return (FALSE);
     }
-    
+
 BOOL
 MissileSetPos(short Weapon, ANIMATORp DoWeapon, long dist)
     {
@@ -12920,10 +12920,10 @@ MissileSetPos(short Weapon, ANIMATORp DoWeapon, long dist)
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
 
-    SET(wu->Flags, SPR_SET_POS_DONT_KILL);    
+    SET(wu->Flags, SPR_SET_POS_DONT_KILL);
     if ((*DoWeapon) (Weapon))
         retval = TRUE;
-    RESET(wu->Flags, SPR_SET_POS_DONT_KILL);    
+    RESET(wu->Flags, SPR_SET_POS_DONT_KILL);
 
     // reset values
     wu->xchange = oldxc;
@@ -12966,10 +12966,10 @@ TestMissileSetPos(short Weapon, ANIMATORp DoWeapon, long dist, long zvel)
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = zvel;
 
-    SET(wu->Flags, SPR_SET_POS_DONT_KILL);    
+    SET(wu->Flags, SPR_SET_POS_DONT_KILL);
     if ((*DoWeapon) (Weapon))
         retval = TRUE;
-    RESET(wu->Flags, SPR_SET_POS_DONT_KILL);    
+    RESET(wu->Flags, SPR_SET_POS_DONT_KILL);
 
     // reset values
     wu->xchange = oldxc;
@@ -12985,7 +12985,7 @@ TestMissileSetPos(short Weapon, ANIMATORp DoWeapon, long dist, long zvel)
 
     return (retval);
     }
-    
+
 int
 DoRing(SHORT Weapon)
     {
@@ -12999,9 +12999,9 @@ DoRing(SHORT Weapon)
     #define RINGMOVETICS (MISSILEMOVETICS * 2)
     #define RING_OUTER_DIST 3200
     #define RING_INNER_DIST 800
-    
+
     ASSERT(sp->owner != -1);
-    
+
     if (TEST(u->Flags, SPR_UNDERWATER))
         {
         sp->xrepeat = sp->yrepeat -= 1;
@@ -13019,7 +13019,7 @@ DoRing(SHORT Weapon)
     if(User[sp->owner]->PlayerP)
         sp->z = pp->posz + Z(20);
     else
-        sp->z = SPRITEp_MID(so) + Z(30);    
+        sp->z = SPRITEp_MID(so) + Z(30);
 
     // go out until its time to come back in
     if (u->Counter2 == FALSE)
@@ -13045,7 +13045,7 @@ DoRing(SHORT Weapon)
         }
 
     //sp->ang = NORM_ANGLE(sp->ang - 512);
-        
+
     // rotate the ring
     sp->ang = NORM_ANGLE(sp->ang + (4 * RINGMOVETICS) + RINGMOVETICS);
 
@@ -13054,7 +13054,7 @@ DoRing(SHORT Weapon)
     sp->y += ((long) u->Dist * (long) sintable[sp->ang]) >> 14;
     if(User[sp->owner]->PlayerP)
         sp->z += (u->Dist * ((100 - pp->horiz) * HORIZ_MULT)) >> 9;
-    
+
     //sp->ang = NORM_ANGLE(sp->ang + 512);
     //updatesector(sp->x, sp->y);
 
@@ -13062,9 +13062,9 @@ DoRing(SHORT Weapon)
     sect = sp->sectnum;
 
     ASSERT(sp->sectnum >= 0);
-    
+
     getzsofslope(sp->sectnum, sp->x, sp->y, &cz, &fz);
-    
+
     // bound the sprite by the sectors ceiling and floor
     if (sp->z > fz)
         {
@@ -13092,14 +13092,14 @@ InitSpellRing(PLAYERp pp)
     USERp u, pu = User[pp->PlayerSprite];
     short max_missiles = 16;
     short ammo;
-    
+
     ammo = NAPALM_MIN_AMMO;
-    
+
     if (pp->WpnAmmo[WPN_HOTHEAD] < ammo)
         return;
     else
         PlayerUpdateAmmo(pp, WPN_HOTHEAD, -ammo);
-    
+
     ang_diff = 2048 / max_missiles;
 
     ang_start = NORM_ANGLE(pp->pang - DIV2(2048));
@@ -13116,7 +13116,7 @@ InitSpellRing(PLAYERp pp)
         sp->hitag = LUMINOUS; //Always full brightness
         sp->xvel = 500;
         //sp->owner = pp->SpriteP - sprite;
-        SetOwner(pp->SpriteP - sprite, SpriteNum);  
+        SetOwner(pp->SpriteP - sprite, SpriteNum);
         sp->shade = -40;
         sp->xrepeat = 32;
         sp->yrepeat = 32;
@@ -13130,22 +13130,22 @@ InitSpellRing(PLAYERp pp)
         u->Counter2 = 0;
         u->ceiling_dist = Z(10);
         u->floor_dist = Z(10);
-        
+
         //u->RotNum = 5;
         //NewStateGroup(SpriteNum, &sg_Ring);
         //SET(u->Flags, SPR_XFLIP_TOGGLE);
-        
+
         // put it out there
         sp->x += ((long) u->Dist * (long) sintable[NORM_ANGLE(sp->ang + 512)]) >> 14;
         sp->y += ((long) u->Dist * (long) sintable[sp->ang]) >> 14;
         sp->z = pp->posz + Z(20) + ((u->Dist * ((100 - pp->horiz) * HORIZ_MULT)) >> 9);
 
         sp->ang = NORM_ANGLE(sp->ang + 512);
-        
+
         u->ox = sp->x;
         u->oy = sp->y;
         u->oz = sp->z;
-        
+
         if (TEST(pp->Flags, PF_DIVING) || SpriteInUnderwaterArea(sp))
             SET(u->Flags, SPR_UNDERWATER);
         }
@@ -13160,7 +13160,7 @@ DoSerpRing(SHORT Weapon)
     short sect;
     long dist,a,b,c;
     long cz,fz;
-    
+
     // if owner does not exist or he's dead on the floor
     // kill off all of his skull children
     if (sp->owner == -1 || ou->RotNum < 5)
@@ -13171,7 +13171,7 @@ DoSerpRing(SHORT Weapon)
         u->ID = SKULL_SERP;
         return(0);
         }
-    
+
     // move the center with the player
     sp->x = sprite[sp->owner].x;
     sp->y = sprite[sp->owner].y;
@@ -13206,9 +13206,9 @@ DoSerpRing(SHORT Weapon)
     sect = sp->sectnum;
 
     ASSERT(sp->sectnum >= 0);
-    
+
     getzsofslope(sp->sectnum, sp->x, sp->y, &cz, &fz);
-    
+
     // bound the sprite by the sectors ceiling and floor
     if (sp->z > fz)
         {
@@ -13228,13 +13228,13 @@ DoSerpRing(SHORT Weapon)
             {
             u->tgt_sp = ou->tgt_sp;
             DISTANCE(sp->x, sp->y, u->tgt_sp->x, u->tgt_sp->y, dist, a,b,c);
-            
+
             // if ((dist ok and random ok) OR very few skulls left)
             if ((dist < 18000 && (RANDOM_P2(2048<<5)>>5) < 16) || User[sp->owner]->Counter < 4)
                 {
                 short sectnum = sp->sectnum;
                 COVERupdatesector(sp->x,sp->y,&sectnum);
-                
+
                 // if (valid sector and can see target)
                 if (sectnum != -1 && CanSeePlayer(Weapon))
                     {
@@ -13254,11 +13254,11 @@ DoSerpRing(SHORT Weapon)
                     }
                 }
             }
-        }    
+        }
 
     // Done last - check for damage
     //DoDamageTest(Weapon);
-    
+
     // if its exploded
     #if 0
     if (u->RotNum == 0)
@@ -13266,11 +13266,11 @@ DoSerpRing(SHORT Weapon)
         // tell owner that one is gone
         User[sp->owner]->Counter--;
         }
-    #endif    
+    #endif
 
     return (0);
     }
-    
+
 int
 InitLavaFlame(short SpriteNum)
     {
@@ -13284,7 +13284,7 @@ InitLavaThrow(short SpriteNum)
     USERp u = User[SpriteNum], wu;
     long nx, ny, nz, dist, nang;
     short w;
-    
+
     //PlaySound(DIGI_NINJAROCKETATTACK, &sp->x, &sp->y, &sp->z, v3df_none);
 
     // get angle to player and also face player when attacking
@@ -13295,13 +13295,13 @@ InitLavaThrow(short SpriteNum)
     nz = SPRITEp_TOS(sp) + DIV4(SPRITEp_SIZE_Z(sp));
 
     // Spawn a shot
-    w = SpawnSprite(STAT_MISSILE, LAVA_BOULDER, s_LavaBoulder, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, LAVA_BOULDER, s_LavaBoulder, sp->sectnum,
         nx, ny, nz, nang, NINJA_BOLT_VELOCITY);
 
     wp = &sprite[w];
     wu = User[w];
 
-    SetOwner(SpriteNum, w);  
+    SetOwner(SpriteNum, w);
     wp->hitag = LUMINOUS; //Always full brightness
     wp->yrepeat = 72;
     wp->xrepeat = 72;
@@ -13331,7 +13331,7 @@ InitLavaThrow(short SpriteNum)
 
     if (dist != 0)
         wu->zchange = wp->zvel = (wp->xvel * (SPRITEp_UPPER(u->tgt_sp) - wp->z)) / dist;
-        
+
     return (w);
     }
 
@@ -13350,14 +13350,14 @@ InitVulcanBoulder(short SpriteNum)
     nx = sp->x;
     ny = sp->y;
     nz = sp->z - Z(40);
-    
+
     if (SP_TAG7(sp))
         {
         delta = SP_TAG5(sp);
         nang = sp->ang + (RANDOM_RANGE(delta) - DIV2(delta));
         nang = NORM_ANGLE(nang);
         }
-    else    
+    else
         {
         nang = RANDOM_P2(2048);
         }
@@ -13365,12 +13365,12 @@ InitVulcanBoulder(short SpriteNum)
     if (SP_TAG6(sp))
         vel = SP_TAG6(sp);
     else
-        vel = 800;    
-        
+        vel = 800;
+
     // Spawn a shot
-    w = SpawnSprite(STAT_MISSILE, LAVA_BOULDER, s_VulcanBoulder, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, LAVA_BOULDER, s_VulcanBoulder, sp->sectnum,
         nx, ny, nz, nang, (vel/2 + vel/4) + RANDOM_RANGE(vel/4));
-        
+
     wp = &sprite[w];
     wu = User[w];
 
@@ -13381,7 +13381,7 @@ InitVulcanBoulder(short SpriteNum)
     wu->Counter = 0;
 
     zsize = SPRITEp_SIZE_Z(wp);
-    
+
     wu->Radius = 200;
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
     wp->clipdist = 256>>2;
@@ -13391,7 +13391,7 @@ InitVulcanBoulder(short SpriteNum)
         SET(wp->cstat, CSTAT_SPRITE_XFLIP);
     if (RANDOM_P2(1024) > 512)
         SET(wp->cstat, CSTAT_SPRITE_YFLIP);
-    
+
     if (SP_TAG7(sp))
         {
         zvel = SP_TAG7(sp);
@@ -13401,16 +13401,16 @@ InitVulcanBoulder(short SpriteNum)
         {
         zvel = 50;
         zvel_rand = 40;
-        }    
+        }
 
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = -Z(zvel) + -Z(RANDOM_RANGE(zvel_rand));
-    
+
     return (w);
     }
 
-#if 0    
+#if 0
 int
 InitSerpRing(short SpriteNum)
     {
@@ -13418,7 +13418,7 @@ InitSerpRing(short SpriteNum)
     USERp u = User[SpriteNum], nu;
     short ang, ang_diff, ang_start, ang_finish, missiles, NewSprite;
     short max_missiles = 16;
-    
+
     u->Counter = max_missiles;
 
     ang_diff = 2048 / max_missiles;
@@ -13436,7 +13436,7 @@ InitSerpRing(short SpriteNum)
 
         np->hitag = LUMINOUS; //Always full brightness
         np->xvel = 500;
-        SetOwner(SpriteNum, NewSprite);  
+        SetOwner(SpriteNum, NewSprite);
         np->shade = -40;
         np->xrepeat = 32;
         np->yrepeat = 32;
@@ -13451,18 +13451,18 @@ InitSerpRing(short SpriteNum)
         nu->ceiling_dist = Z(10);
         nu->floor_dist = Z(10);
         nu->spal = np->pal = 27; // Bright Green
-        
+
         // put it out there
         np->x += ((long) nu->Dist * (long) sintable[NORM_ANGLE(np->ang + 512)]) >> 14;
         np->y += ((long) nu->Dist * (long) sintable[np->ang]) >> 14;
         np->z = SPRITEp_TOS(sp) + Z(20);
 
         np->ang = NORM_ANGLE(np->ang + 512);
-        
+
         nu->ox = np->x;
         nu->oy = np->y;
         nu->oz = np->z;
-        
+
         if (SpriteInUnderwaterArea(sp))
             SET(nu->Flags, SPR_UNDERWATER);
         }
@@ -13477,13 +13477,13 @@ InitSerpRing(short SpriteNum)
     short max_missiles;
 
     #define SERP_RING_DIST 2800 // Was 3500
-    
+
     extern STATE s_SkullExplode[];
     extern STATE s_SkullRing[5][1];
     extern STATEp sg_SkullRing[];
 
     max_missiles = 12;
-    
+
     u->Counter = max_missiles;
 
     ang_diff = 2048 / max_missiles;
@@ -13501,7 +13501,7 @@ InitSerpRing(short SpriteNum)
 
         np->xvel = 500;
         //np->owner = SpriteNum;
-        SetOwner(SpriteNum, new);  
+        SetOwner(SpriteNum, new);
         np->shade = -20;
         np->xrepeat = 64;
         np->yrepeat = 64;
@@ -13562,7 +13562,7 @@ InitSerpRing2(short SpriteNum)
     static long zpos[NUM_SERP_RING] = {Z(25), Z(130)};
 
     PlaySound(DIGI_SERPSUMMONHEADS, &sp->x, &sp->y, &sp->z, v3df_none);
-    
+
     for (i = 0; i < NUM_SERP_RING; i++)
     {
     max_missiles = 12;
@@ -13579,7 +13579,7 @@ InitSerpRing2(short SpriteNum)
         nu = User[new];
 
         //np->owner = SpriteNum;
-        SetOwner(SpriteNum, new);  
+        SetOwner(SpriteNum, new);
         np->shade = -20;
         np->xrepeat = 64;
         np->yrepeat = 64;
@@ -13647,12 +13647,12 @@ InitSpellNapalm(PLAYERp pp)
         };
 
     ammo = NAPALM_MIN_AMMO;
-    
+
     if (pp->WpnAmmo[WPN_HOTHEAD] < ammo)
         return;
     else
         PlayerUpdateAmmo(pp, WPN_HOTHEAD, -ammo);
-        
+
     PlaySound(DIGI_NAPFIRE, &pp->posx, &pp->posy, &pp->posz, v3df_none);
 
     for (i = 0; i < SIZ(mp); i++)
@@ -13668,11 +13668,11 @@ InitSpellNapalm(PLAYERp pp)
         if(i==0) // Only attach sound to first projectile
           {
           PlaySound(DIGI_NAPWIZ, &sp->x, &sp->y, &sp->z, v3df_follow);
-          Set3DSoundOwner(SpriteNum);   
+          Set3DSoundOwner(SpriteNum);
           }
 
-        //sp->owner = pp->SpriteP - sprite;     
-        SetOwner(pp->SpriteP - sprite, SpriteNum);  
+        //sp->owner = pp->SpriteP - sprite;
+        SetOwner(pp->SpriteP - sprite, SpriteNum);
         sp->shade = -40;
         sp->xrepeat = 32;
         sp->yrepeat = 32;
@@ -13706,10 +13706,10 @@ InitSpellNapalm(PLAYERp pp)
             KillSprite(SpriteNum);
             continue;
             }
-         
+
         if (TEST(pp->Flags, PF_DIVING) || SpriteInUnderwaterArea(sp))
             SET(u->Flags, SPR_UNDERWATER);
-            
+
         pp->SpriteP->clipdist = oclipdist;
 
         u->Counter = 0;
@@ -13754,14 +13754,14 @@ InitEnemyNapalm(short SpriteNum)
         if(i==0) // Only attach sound to first projectile
           {
           PlaySound(DIGI_NAPWIZ, &wp->x, &wp->y, &wp->z, v3df_follow);
-          Set3DSoundOwner(w);   
+          Set3DSoundOwner(w);
           }
 
-        if (u->ID == ZOMBIE_RUN_R0)    
+        if (u->ID == ZOMBIE_RUN_R0)
             SetOwner(sp->owner, w);
-        else    
-            SetOwner(SpriteNum, w);  
-            
+        else
+            SetOwner(SpriteNum, w);
+
         wp->shade = -40;
         wp->xrepeat = 32;
         wp->yrepeat = 32;
@@ -13783,7 +13783,7 @@ InitEnemyNapalm(short SpriteNum)
             HelpMissileLateral(w, mp[i].dist_over);
             wp->ang = NORM_ANGLE(wp->ang - mp[i].ang);
             }
-        
+
         // find the distance to the target (player)
         dist = Distance(wp->x, wp->y, u->tgt_sp->x, u->tgt_sp->y);
 
@@ -13795,7 +13795,7 @@ InitEnemyNapalm(short SpriteNum)
         wu->zchange = wp->zvel;
 
         MissileSetPos(w, DoNapalm, mp[i].dist_out);
-            
+
         sp->clipdist = oclipdist;
 
         u->Counter = 0;
@@ -13803,7 +13803,7 @@ InitEnemyNapalm(short SpriteNum)
         }
     return(0);
     }
-    
+
 int
 InitSpellMirv(PLAYERp pp)
     {
@@ -13822,10 +13822,10 @@ InitSpellMirv(PLAYERp pp)
     u = User[SpriteNum];
 
     PlaySound(DIGI_MIRVWIZ, &sp->x, &sp->y, &sp->z, v3df_follow);
-    Set3DSoundOwner(SpriteNum);   
+    Set3DSoundOwner(SpriteNum);
 
-    //sp->owner = pp->SpriteP - sprite;  
-    SetOwner(pp->SpriteP - sprite, SpriteNum);  
+    //sp->owner = pp->SpriteP - sprite;
+    SetOwner(pp->SpriteP - sprite, SpriteNum);
     sp->shade = -40;
     sp->xrepeat = 72;
     sp->yrepeat = 72;
@@ -13871,27 +13871,27 @@ InitEnemyMirv(short SpriteNum)
     wu = User[w];
 
     PlaySound(DIGI_MIRVWIZ, &wp->x, &wp->y, &wp->z, v3df_follow);
-    Set3DSoundOwner(w);   
+    Set3DSoundOwner(w);
 
-    SetOwner(SpriteNum, w);  
+    SetOwner(SpriteNum, w);
     wp->shade = -40;
     wp->xrepeat = 72;
     wp->yrepeat = 72;
     wp->clipdist = 32L >> 2;
-    
+
     SET(wp->cstat, CSTAT_SPRITE_TRANSLUCENT | CSTAT_SPRITE_YCENTER);
     RESET(wp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
 
     wu->floor_dist = Z(16);
     wu->ceiling_dist = Z(16);
     wu->Dist = 200;
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
 
     MissileSetPos(w, DoMirv, 600);
-    
+
     // find the distance to the target (player)
     dist = Distance(wp->x, wp->y, u->tgt_sp->x, u->tgt_sp->y);
 
@@ -13899,7 +13899,7 @@ InitEnemyMirv(short SpriteNum)
         wu->zchange = wp->zvel = (wp->xvel * (SPRITEp_UPPER(u->tgt_sp) - wp->z)) / dist;
     return(0);
     }
-    
+
 
 int
 InitSwordAttack(PLAYERp pp)
@@ -13911,7 +13911,7 @@ InitSwordAttack(PLAYERp pp)
     short reach,face;
 
     PlaySound(DIGI_SWORDSWOOSH, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
-     
+
     if (TEST(pp->Flags, PF_DIVING))
         {
         short bubble;
@@ -13919,12 +13919,12 @@ InitSwordAttack(PLAYERp pp)
         SPRITEp bp;
         long nx,ny;
         short random_amt;
-        
-        static SHORT dangs[] = 
+
+        static SHORT dangs[] =
             {
             -256, -128, 0, 128, 256
             };
-        
+
         for (i = 0; i < SIZ(dangs); i++)
             {
             if (RANDOM_RANGE(1000) < 500) continue; // Don't spawn bubbles every time
@@ -13933,20 +13933,20 @@ InitSwordAttack(PLAYERp pp)
                 {
                 bu = User[bubble];
                 bp = &sprite[bubble];
-                
+
                 bp->ang = pp->pang;
 
                 random_amt = (RANDOM_P2(32<<8)>>8) - 16;
-                
+
                 // back it up a bit to get it out of your face
                 nx = MOVEx((1024+256)*3, NORM_ANGLE(bp->ang + dangs[i] + random_amt));
                 ny = MOVEy((1024+256)*3, NORM_ANGLE(bp->ang + dangs[i] + random_amt));
-                
+
                 move_missile(bubble, nx, ny, 0L, u->ceiling_dist, u->floor_dist, CLIPMASK_PLAYER, 1);
                 }
             }
         }
-    
+
     for (stat = 0; stat < SIZ(StatDamageList); stat++)
         {
         TRAVERSE_SPRITE_STAT(headspritestat[StatDamageList[stat]], i, nexti)
@@ -13955,17 +13955,17 @@ InitSwordAttack(PLAYERp pp)
 
             //if (pp->SpriteP == sp) // UnderSprite was getting hit
             //    break;
-            if (User[i]->PlayerP == pp)    
+            if (User[i]->PlayerP == pp)
                 break;
 
             if (!TEST(sp->extra, SPRX_PLAYER_OR_ENEMY))
                 continue;
-            
+
             dist = Distance(pp->posx, pp->posy, sp->x, sp->y);
-            
+
             reach = 1000; // !JIM! was 800
             face = 200;
-            
+
             if (dist < CLOSE_RANGE_DIST_FUDGE(sp, pp->SpriteP, reach) && PLAYER_FACING_RANGE(pp, sp, face))
                 {
                 if (SpriteOverlapZ(pp->PlayerSprite, i, Z(20)))
@@ -13976,12 +13976,12 @@ InitSwordAttack(PLAYERp pp)
                 }
             }
         }
-      
-    // all this is to break glass    
+
+    // all this is to break glass
         {
         short hitsect, hitwall, hitsprite, daang;
         long hitx, hity, hitz, daz;
-        
+
         daang = pp->pang;
         daz = ((100 - pp->horiz) * 2000) + (RANDOM_RANGE(24000) - 12000);
 
@@ -13993,10 +13993,10 @@ InitSwordAttack(PLAYERp pp)
 
         if (hitsect < 0)
             return(0);
-           
-        if (FindDistance3D(pp->posx - hitx, pp->posy - hity, (pp->posz - hitz)>>4) < 700)   
+
+        if (FindDistance3D(pp->posx - hitx, pp->posy - hity, (pp->posz - hitz)>>4) < 700)
             {
-            
+
             if (hitsprite >= 0)
                 {
                 extern STATE s_TrashCanPain[];
@@ -14005,7 +14005,7 @@ InitSwordAttack(PLAYERp pp)
 
 		if (tu)	// JBF: added null check
                 switch(tu->ID)
-                    {    
+                    {
                     case ZILLA_RUN_R0:
                         SpawnSwordSparks(pp, hitsect, -1, hitx, hity, hitz, daang);
                         PlaySound(DIGI_SWORDCLANK, &hitx, &hity, &hitz, v3df_none);
@@ -14030,7 +14030,7 @@ InitSwordAttack(PLAYERp pp)
                     break;
                     }
 
-                if (sprite[hitsprite].lotag == TAG_SPRITE_HIT_MATCH)    
+                if (sprite[hitsprite].lotag == TAG_SPRITE_HIT_MATCH)
                     {
                     if (MissileHitMatch(-1, WPN_STAR, hitsprite))
                         return(0);
@@ -14040,14 +14040,14 @@ InitSwordAttack(PLAYERp pp)
                     {
                     HitBreakSprite(hitsprite,0);
                     }
-                    
+
                 // hit a switch?
                 if (TEST(hsp->cstat, CSTAT_SPRITE_WALL) && (hsp->lotag || hsp->hitag))
                     {
                     ShootableSwitch(hitsprite,-1);
                     }
 
-                }    
+                }
 
             if (hitwall >= 0)
                 {
@@ -14060,22 +14060,22 @@ InitSwordAttack(PLAYERp pp)
                             return(0);
                             }
                         }
-                    }    
-                
+                    }
+
                 if (wall[hitwall].lotag == TAG_WALL_BREAK)
                     {
                     HitBreakWall(&wall[hitwall], hitx, hity, hitz, daang, u->ID);
                     }
-                // hit non breakable wall - do sound and puff    
+                // hit non breakable wall - do sound and puff
                 else
                     {
                     SpawnSwordSparks(pp, hitsect, hitwall, hitx, hity, hitz, daang);
                     PlaySound(DIGI_SWORDCLANK, &hitx, &hity, &hitz, v3df_none);
-                    }    
-                } 
-            }  
+                    }
+                }
+            }
         }
-        
+
     return (0);
     }
 
@@ -14089,7 +14089,7 @@ InitFistAttack(PLAYERp pp)
     short reach,face;
 
     PlaySound(DIGI_STAR, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
-        
+
     if (TEST(pp->Flags, PF_DIVING))
         {
         short bubble;
@@ -14097,12 +14097,12 @@ InitFistAttack(PLAYERp pp)
         SPRITEp bp;
         long nx,ny;
         short random_amt;
-        
-        static SHORT dangs[] = 
+
+        static SHORT dangs[] =
             {
             -128,128
             };
-        
+
         for (i = 0; i < SIZ(dangs); i++)
             {
             bubble = SpawnBubble(pp->SpriteP - sprite);
@@ -14110,20 +14110,20 @@ InitFistAttack(PLAYERp pp)
                 {
                 bu = User[bubble];
                 bp = &sprite[bubble];
-                
+
                 bp->ang = pp->pang;
 
                 random_amt = (RANDOM_P2(32<<8)>>8) - 16;
-                
+
                 // back it up a bit to get it out of your face
                 nx = MOVEx((1024+256)*3, NORM_ANGLE(bp->ang + dangs[i] + random_amt));
                 ny = MOVEy((1024+256)*3, NORM_ANGLE(bp->ang + dangs[i] + random_amt));
-                
+
                 move_missile(bubble, nx, ny, 0L, u->ceiling_dist, u->floor_dist, CLIPMASK_PLAYER, 1);
                 }
             }
         }
-    
+
     for (stat = 0; stat < SIZ(StatDamageList); stat++)
         {
         TRAVERSE_SPRITE_STAT(headspritestat[StatDamageList[stat]], i, nexti)
@@ -14132,32 +14132,32 @@ InitFistAttack(PLAYERp pp)
 
             //if (pp->SpriteP == sp) // UnderSprite was getting hit
             //    break;
-            if (User[i]->PlayerP == pp)    
+            if (User[i]->PlayerP == pp)
                 break;
 
             if (!TEST(sp->extra, SPRX_PLAYER_OR_ENEMY))
                 continue;
-            
+
             dist = Distance(pp->posx, pp->posy, sp->x, sp->y);
-            
+
             if (pp->InventoryActive[2]) // Shadow Bombs give you demon fist
                 {
                 face = 190;
-                reach = 2300; 
+                reach = 2300;
                 }
             else
                 {
-                reach = 1000; 
+                reach = 1000;
                 face = 200;
                 }
-            
+
             if (dist < CLOSE_RANGE_DIST_FUDGE(sp, pp->SpriteP, reach) && PLAYER_FACING_RANGE(pp, sp, face))
                 {
                 if (SpriteOverlapZ(pp->PlayerSprite, i, Z(20)) || face == 190)
                     {
                     if (FAFcansee(sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum,pp->SpriteP->x,pp->SpriteP->y,SPRITEp_MID(pp->SpriteP),pp->SpriteP->sectnum))
                         DoDamage(i, pp->PlayerSprite);
-                    if (face == 190)    
+                    if (face == 190)
                         {
                         SpawnDemonFist(i);
                         }
@@ -14166,12 +14166,12 @@ InitFistAttack(PLAYERp pp)
             }
         }
 
-        
-    // all this is to break glass    
+
+    // all this is to break glass
         {
         short hitsect, hitwall, hitsprite, daang;
         long hitx, hity, hitz, daz;
-        
+
         daang = pp->pang;
         daz = ((100 - pp->horiz) * 2000) + (RANDOM_RANGE(24000) - 12000);
 
@@ -14183,19 +14183,19 @@ InitFistAttack(PLAYERp pp)
 
         if (hitsect < 0)
             return(0);
-           
-        if (FindDistance3D(pp->posx - hitx, pp->posy - hity, (pp->posz - hitz)>>4) < 700)   
+
+        if (FindDistance3D(pp->posx - hitx, pp->posy - hity, (pp->posz - hitz)>>4) < 700)
             {
-            
+
             if (hitsprite >= 0)
                 {
                 extern STATE s_TrashCanPain[];
                 SPRITEp hsp = &sprite[hitsprite];
                 tu = User[hitsprite];
-                
+
 		if (tu)		// JBF: added null check
                 switch(tu->ID)
-                    {    
+                    {
                     case ZILLA_RUN_R0:
                         SpawnSwordSparks(pp, hitsect, -1, hitx, hity, hitz, daang);
                         PlaySound(DIGI_ARMORHIT, &hitx, &hity, &hitz, v3df_none);
@@ -14219,8 +14219,8 @@ InitFistAttack(PLAYERp pp)
                         PlaySound(DIGI_ARMORHIT, &hitx, &hity, &hitz, v3df_none);
                     break;
                     }
-                    
-                if (sprite[hitsprite].lotag == TAG_SPRITE_HIT_MATCH)    
+
+                if (sprite[hitsprite].lotag == TAG_SPRITE_HIT_MATCH)
                     {
                     if (MissileHitMatch(-1, WPN_STAR, hitsprite))
                         return(0);
@@ -14230,13 +14230,13 @@ InitFistAttack(PLAYERp pp)
                     {
                     HitBreakSprite(hitsprite,0);
                     }
-                    
+
                 // hit a switch?
                 if (TEST(hsp->cstat, CSTAT_SPRITE_WALL) && (hsp->lotag || hsp->hitag))
                     {
                     ShootableSwitch(hitsprite,-1);
                     }
-                    
+
                 switch (hsp->picnum)
                     {
                     case 5062:
@@ -14249,9 +14249,9 @@ InitFistAttack(PLAYERp pp)
                         SET(hsp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
                         break;
                     }
-                }    
-            
-                    
+                }
+
+
             if (hitwall >= 0)
                 {
                 if (wall[hitwall].nextsector >= 0)
@@ -14263,13 +14263,13 @@ InitFistAttack(PLAYERp pp)
                             return(0);
                             }
                         }
-                    }    
-                
+                    }
+
                 if (wall[hitwall].lotag == TAG_WALL_BREAK)
                     {
                     HitBreakWall(&wall[hitwall], hitx, hity, hitz, daang, u->ID);
                     }
-                // hit non breakable wall - do sound and puff    
+                // hit non breakable wall - do sound and puff
                 else
                     {
                     SpawnSwordSparks(pp, hitsect, hitwall, hitx, hity, hitz, daang);
@@ -14279,10 +14279,10 @@ InitFistAttack(PLAYERp pp)
                         PlayerUpdateHealth(pp, -(RANDOM_RANGE(2<<8)>>8));
                         PlayerCheckDeath(pp, -1);
                         }
-                    }    
-                }    
-            }    
-            
+                    }
+                }
+            }
+
         return (0);
         }
     }
@@ -14325,10 +14325,10 @@ InitSumoNapalm(short SpriteNum)
             if(i==0) // Only attach sound to first projectile
               {
               PlaySound(DIGI_NAPWIZ, &wp->x, &wp->y, &wp->z, v3df_follow);
-              Set3DSoundOwner(w);   
+              Set3DSoundOwner(w);
               }
 
-            SetOwner(SpriteNum, w);  
+            SetOwner(SpriteNum, w);
             wp->shade = -40;
             wp->xrepeat = 32;
             wp->yrepeat = 32;
@@ -14350,7 +14350,7 @@ InitSumoNapalm(short SpriteNum)
                 HelpMissileLateral(w, mp[i].dist_over);
                 wp->ang = NORM_ANGLE(wp->ang - mp[i].ang);
                 }
-            
+
             // find the distance to the target (player)
             dist = Distance(wp->x, wp->y, u->tgt_sp->x, u->tgt_sp->y);
 
@@ -14362,17 +14362,17 @@ InitSumoNapalm(short SpriteNum)
             wu->zchange = wp->zvel;
 
             MissileSetPos(w, DoNapalm, mp[i].dist_out);
-                
+
             sp->clipdist = oclipdist;
 
             u->Counter = 0;
 
             }
-        ang += 512;    
-        }    
+        ang += 512;
+        }
     return(0);
     }
-    
+
 int
 InitSumoSkull(short SpriteNum)
     {
@@ -14384,9 +14384,9 @@ InitSumoSkull(short SpriteNum)
     extern STATE s_SkullExplode[];
     extern STATE s_SkullWait[];
     extern STATEp sg_SkullWait[];
-    extern ATTRIBUTE SkullAttrib; 
+    extern ATTRIBUTE SkullAttrib;
 
-    
+
     PlaySound(DIGI_SERPSUMMONHEADS, &sp->x, &sp->y, &sp->z, v3df_none);
 
     new = SpawnSprite(STAT_ENEMY, SKULL_R0, &s_SkullWait[0], sp->sectnum, sp->x, sp->y, SPRITEp_MID(sp), sp->ang, 0);
@@ -14395,7 +14395,7 @@ InitSumoSkull(short SpriteNum)
     nu = User[new];
 
     np->xvel = 500;
-    SetOwner(SpriteNum, new);  
+    SetOwner(SpriteNum, new);
     np->shade = -20;
     np->xrepeat = 64;
     np->yrepeat = 64;
@@ -14429,7 +14429,7 @@ InitSumoSkull(short SpriteNum)
     nu->Radius = 400;
     return (0);
     }
-    
+
 int
 InitSumoStompAttack(short SpriteNum)
     {
@@ -14439,7 +14439,7 @@ InitSumoStompAttack(short SpriteNum)
     long dist;
     short reach,face;
 
-    
+
     PlaySound(DIGI_30MMEXPLODE, &sp->x, &sp->y, &sp->z, v3df_dontpan|v3df_doppler);
 
     for (stat = 0; stat < SIZ(StatDamageList); stat++)
@@ -14447,17 +14447,17 @@ InitSumoStompAttack(short SpriteNum)
         TRAVERSE_SPRITE_STAT(headspritestat[StatDamageList[stat]], i, nexti)
             {
             tsp = &sprite[i];
-            
-            if (tsp != u->tgt_sp)    
+
+            if (tsp != u->tgt_sp)
                 break;
 
             if (!TEST(tsp->extra, SPRX_PLAYER_OR_ENEMY))
                 continue;
-            
+
             dist = Distance(sp->x, sp->y, tsp->x, tsp->y);
-            
-            reach = 16384; 
-            
+
+            reach = 16384;
+
             if (dist < CLOSE_RANGE_DIST_FUDGE(tsp, sp, reach))
                 {
                 if (FAFcansee(tsp->x,tsp->y,SPRITEp_MID(tsp),tsp->sectnum,sp->x,sp->y,SPRITEp_MID(sp),sp->sectnum))
@@ -14466,10 +14466,10 @@ InitSumoStompAttack(short SpriteNum)
             }
         }
 
-        
+
     return (0);
     }
-    
+
 int
 InitMiniSumoClap(short SpriteNum)
     {
@@ -14481,11 +14481,11 @@ InitMiniSumoClap(short SpriteNum)
 
 
     if (!u->tgt_sp) return(0);
-    
+
     dist = Distance(sp->x, sp->y, u->tgt_sp->x, u->tgt_sp->y);
-    
-    reach = 10000; 
-    
+
+    reach = 10000;
+
     if (dist < CLOSE_RANGE_DIST_FUDGE(u->tgt_sp, sp, 1000))
         {
         if (SpriteOverlapZ(SpriteNum, u->tgt_sp - sprite, Z(20)))
@@ -14505,8 +14505,8 @@ InitMiniSumoClap(short SpriteNum)
             SpawnFireballFlames(SpriteNum, u->tgt_sp - sprite);
             }
         }
-        
-    return(0);    
+
+    return(0);
     }
 
 int
@@ -14518,16 +14518,16 @@ WeaponAutoAim(SPRITEp sp, short Missile, short ang, BOOL test)
     short hitsprite = -1;
     long dist;
     long zh;
-    
+
     //return(-1);
-    
+
     #if 0
     //formula for leading a player
     dist = Distance(sp->x, sp->y, hp->x, hp->y);
     time_to_target = dist/wp->xvel;
     lead_dist = time_to_target*hp->vel;
     #endif
-    
+
     if (u && u->PlayerP)
         {
         if (!TEST(u->PlayerP->Flags, PF_AUTO_AIM))
@@ -14535,7 +14535,7 @@ WeaponAutoAim(SPRITEp sp, short Missile, short ang, BOOL test)
             return(-1);
             }
         }
-        
+
     if ((hitsprite = DoPickTarget(sp, ang, test)) != -1)
         {
         SPRITEp hp = &sprite[hitsprite];
@@ -14548,28 +14548,28 @@ WeaponAutoAim(SPRITEp sp, short Missile, short ang, BOOL test)
         wp->ang = NORM_ANGLE(getangle(hp->x - wp->x, hp->y - wp->y));
         //dist = FindDistance2D(wp->x, wp->y, hp->x, hp->y);
         dist = FindDistance2D(wp->x - hp->x, wp->y - hp->y);
-        
+
         if (dist != 0)
             {
             #if 1
             long tos, diff, siz;
-            
+
             tos = SPRITEp_TOS(hp);
             diff = wp->z - tos;
             siz = SPRITEp_SIZE_Z(hp);
-            
+
             // hitsprite is below
             if (diff < -Z(50))
                 zh = tos + DIV2(siz);
-            else 
+            else
             // hitsprite is above
             if (diff > Z(50))
                 zh = tos + DIV8(siz);
             else
                 zh = tos + DIV4(siz);
-                
+
             wp->zvel = (wp->xvel * (zh - wp->z)) / dist;
-            #else        
+            #else
             zh = SPRITEp_TOS(hp) + DIV4(SPRITEp_SIZE_Z(hp));
             wp->zvel = (wp->xvel * (zh - wp->z)) / dist;
             #endif
@@ -14588,16 +14588,16 @@ WeaponAutoAimZvel(SPRITEp sp, short Missile, long *zvel, short ang, BOOL test)
     short hitsprite = -1;
     long dist;
     long zh;
-    
+
     //return(-1);
-    
+
     #if 0
     //formula for leading a player
     dist = Distance(sp->x, sp->y, hp->x, hp->y);
     time_to_target = dist/wp->xvel;
     lead_dist = time_to_target*hp->vel;
     #endif
-    
+
     if (u && u->PlayerP)
         {
         if (!TEST(u->PlayerP->Flags, PF_AUTO_AIM))
@@ -14605,7 +14605,7 @@ WeaponAutoAimZvel(SPRITEp sp, short Missile, long *zvel, short ang, BOOL test)
             return(-1);
             }
         }
-        
+
     if ((hitsprite = DoPickTarget(sp, ang, test)) != -1)
         {
         SPRITEp hp = &sprite[hitsprite];
@@ -14618,28 +14618,28 @@ WeaponAutoAimZvel(SPRITEp sp, short Missile, long *zvel, short ang, BOOL test)
         wp->ang = NORM_ANGLE(getangle(hp->x - wp->x, hp->y - wp->y));
         //dist = FindDistance2D(wp->x, wp->y, hp->x, hp->y);
         dist = FindDistance2D(wp->x - hp->x, wp->y - hp->y);
-        
+
         if (dist != 0)
             {
             #if 1
             long tos, diff, siz;
-            
+
             tos = SPRITEp_TOS(hp);
             diff = wp->z - tos;
             siz = SPRITEp_SIZE_Z(hp);
-            
+
             // hitsprite is below
             if (diff < -Z(50))
                 zh = tos + DIV2(siz);
-            else 
+            else
             // hitsprite is above
             if (diff > Z(50))
                 zh = tos + DIV8(siz);
             else
                 zh = tos + DIV4(siz);
-                
+
             *zvel = (wp->xvel * (zh - wp->z)) / dist;
-            #else        
+            #else
             zh = SPRITEp_TOS(hp) + DIV4(SPRITEp_SIZE_Z(hp));
             wp->zvel = (wp->xvel * (zh - wp->z)) / dist;
             #endif
@@ -14648,7 +14648,7 @@ WeaponAutoAimZvel(SPRITEp sp, short Missile, long *zvel, short ang, BOOL test)
 
     return (hitsprite);
     }
-    
+
 
 int
 AimHitscanToTarget(SPRITEp sp, long *z, short *ang, long z_ratio)
@@ -14661,10 +14661,10 @@ AimHitscanToTarget(SPRITEp sp, long *z, short *ang, long z_ratio)
     long yvect;
     SPRITEp hp;
     USERp hu;
-      
+
     if (!u->tgt_sp)
         return(-1);
-      
+
     hitsprite = u->tgt_sp - sprite;
     hp = &sprite[hitsprite];
     hu = User[hitsprite];
@@ -14684,17 +14684,17 @@ AimHitscanToTarget(SPRITEp sp, long *z, short *ang, long z_ratio)
 
         xvect = sintable[NORM_ANGLE(*ang + 512)];
         yvect = sintable[NORM_ANGLE(*ang)];
-        
+
         if (hp->x - sp->x != 0)
             //*z = xvect * ((zh - *z)/(hp->x - sp->x));
             *z = scale(xvect,zh - *z,hp->x - sp->x);
-        else    
+        else
         if (hp->y - sp->y != 0)
             //*z = yvect * ((zh - *z)/(hp->y - sp->y));
             *z = scale(yvect,zh - *z,hp->y - sp->y);
         else
             *z = 0;
-        
+
         // so actors won't shoot straight up at you
         // need to be a bit of a distance away
         // before they have a valid shot
@@ -14703,11 +14703,11 @@ AimHitscanToTarget(SPRITEp sp, long *z, short *ang, long z_ratio)
             return(-1);
             }
         }
-    
+
 
     return (hitsprite);
     }
-    
+
 int
 WeaponAutoAimHitscan(SPRITEp sp, long *z, short *ang, BOOL test)
     {
@@ -14717,7 +14717,7 @@ WeaponAutoAimHitscan(SPRITEp sp, long *z, short *ang, BOOL test)
     long zh;
     long xvect;
     long yvect;
-      
+
     if (u && u->PlayerP)
         {
         if (!TEST(u->PlayerP->Flags, PF_AUTO_AIM))
@@ -14747,11 +14747,11 @@ WeaponAutoAimHitscan(SPRITEp sp, long *z, short *ang, BOOL test)
 
             xvect = sintable[NORM_ANGLE(*ang + 512)];
             yvect = sintable[NORM_ANGLE(*ang)];
-            
+
             if (hp->x - sp->x != 0)
                 //*z = xvect * ((zh - *z)/(hp->x - sp->x));
                 *z = scale(xvect,zh - *z,hp->x - sp->x);
-            else    
+            else
             if (hp->y - sp->y != 0)
                 //*z = yvect * ((zh - *z)/(hp->y - sp->y));
                 *z = scale(yvect,zh - *z,hp->y - sp->y);
@@ -14762,7 +14762,7 @@ WeaponAutoAimHitscan(SPRITEp sp, long *z, short *ang, BOOL test)
 
     return (hitsprite);
     }
-    
+
 VOID
 WeaponHitscanShootFeet(SPRITEp sp, SPRITEp hp, long *zvect)
     {
@@ -14772,7 +14772,7 @@ WeaponHitscanShootFeet(SPRITEp sp, SPRITEp hp, long *zvect)
     long yvect;
     long z;
     short ang;
-      
+
     // Global set by DoPickTarget
     //*ang = target_ang;
     ang = NORM_ANGLE(getangle(hp->x - sp->x, hp->y - sp->y));
@@ -14787,11 +14787,11 @@ WeaponHitscanShootFeet(SPRITEp sp, SPRITEp hp, long *zvect)
 
         xvect = sintable[NORM_ANGLE(ang + 512)];
         yvect = sintable[NORM_ANGLE(ang)];
-        
+
         if (hp->x - sp->x != 0)
             //*z = xvect * ((zh - *z)/(hp->x - sp->x));
             *zvect = scale(xvect,zh - z, hp->x - sp->x);
-        else    
+        else
         if (hp->y - sp->y != 0)
             //*z = yvect * ((zh - *z)/(hp->y - sp->y));
             *zvect = scale(yvect,zh - z, hp->y - sp->y);
@@ -14810,7 +14810,7 @@ InitStar(PLAYERp pp)
     short hitsprite, Weapon, w;
     long oclipdist;
     long zvel;
-    
+
     static short dang[] = {-12, 12};
 //    static short dang[] = {-0, 0};
     char i;
@@ -14821,7 +14821,7 @@ InitStar(PLAYERp pp)
     #define STAR_REPEAT  26
     #define STAR_HORIZ_ADJ 100L
     //#define STAR_HORIZ_ADJ 0
-    
+
     PlayerUpdateAmmo(pp, u->WeaponNum, -3);
 
     nx = pp->posx;
@@ -14830,20 +14830,20 @@ InitStar(PLAYERp pp)
     nz = pp->posz + pp->bob_z + Z(8);
 
     PlaySound(DIGI_STAR, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
-    
+
     // Spawn a shot
     // Inserting and setting up variables
 
     w = SpawnSprite(STAT_MISSILE, STAR1, s_Star, pp->cursectnum, nx, ny, nz, pp->pang, STAR_VELOCITY);
     wp = &sprite[w];
     wu = User[w];
-    
+
     // Attach sound to moving shuriken  (* Screw off, yucky sound! *)
 //    PlaySound(DIGI_STARWIZ, &wp->x, &wp->y, &wp->z, v3df_follow);
-//    Set3DSoundOwner(w);   
+//    Set3DSoundOwner(w);
 
     //SET(wp->cstat, CSTAT_SPRITE_WALL);
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = wp->xrepeat = STAR_REPEAT;
     wp->shade = -25;
     wp->clipdist = 32L >> 2;
@@ -14868,34 +14868,34 @@ InitStar(PLAYERp pp)
         KillSprite(w);
         return(0);
         }
-        
+
     if (WeaponAutoAim(pp->SpriteP, w, 32, FALSE) != -1)
         {
         AutoAim = TRUE;
         zvel = wp->zvel;
         }
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = zvel;
 
     if (TEST(pp->Flags, PF_DIVING) || SpriteInUnderwaterArea(wp))
         SET(wu->Flags, SPR_UNDERWATER);
-    
-    wu->ox = wp->x;    
-    wu->oy = wp->y;    
-    wu->oz = wp->z;    
-    
+
+    wu->ox = wp->x;
+    wu->oy = wp->y;
+    wu->oz = wp->z;
+
     for (i = 0; i < SIZ(dang); i++)
         {
         nw = SpawnSprite(STAT_MISSILE, STAR1, s_Star, pp->cursectnum, nx, ny, nz, NORM_ANGLE(wp->ang + dang[i]), wp->xvel);
         np = &sprite[nw];
         nu = User[nw];
 
-        SetOwner(wp->owner, nw);  
+        SetOwner(wp->owner, nw);
         np->yrepeat = np->xrepeat = STAR_REPEAT;
         np->shade = wp->shade;
-        
+
         np->extra = wp->extra;
         np->clipdist = wp->clipdist;
         nu->WeaponNum = wu->WeaponNum;
@@ -14909,29 +14909,29 @@ InitStar(PLAYERp pp)
 
         zvel = ((100 - pp->horiz) * (HORIZ_MULT+STAR_HORIZ_ADJ));
         np->zvel = zvel >> 1;
-            
+
         if (MissileSetPos(nw, DoStar, 1000))
             {
             KillSprite(nw);
             return(0);
             }
-        
-        // move the same as middle star    
+
+        // move the same as middle star
         zvel = wu->zchange;
-        
+
         nu->xchange = MOVEx(np->xvel, np->ang);
         nu->ychange = MOVEy(np->xvel, np->ang);
         nu->zchange = zvel;
-        
-        nu->ox = np->x;    
-        nu->oy = np->y;    
-        nu->oz = np->z;    
+
+        nu->ox = np->x;
+        nu->oy = np->y;
+        nu->oz = np->z;
         }
 
     return (0);
     }
 
-#if WORM == 1    
+#if WORM == 1
 VOID
 InitHeartAttack(PLAYERp pp)
     {
@@ -14954,7 +14954,7 @@ InitHeartAttack(PLAYERp pp)
         };
 
     PlayerUpdateAmmo(pp, WPN_HEART, -1);
-        
+
     SpriteNum = SpawnSprite(STAT_MISSILE_SKIP4, BLOOD_WORM, s_BloodWorm, pp->cursectnum,
         pp->posx, pp->posy, pp->posz + Z(12), pp->pang, BLOOD_WORM_VELOCITY*2);
 
@@ -14963,8 +14963,8 @@ InitHeartAttack(PLAYERp pp)
 
     sp->hitag = LUMINOUS; //Always full brightness
 
-    //sp->owner = pp->SpriteP - sprite;     
-    SetOwner(pp->SpriteP - sprite, SpriteNum);  
+    //sp->owner = pp->SpriteP - sprite;
+    SetOwner(pp->SpriteP - sprite, SpriteNum);
     sp->shade = -10;
     sp->xrepeat = 52;
     sp->yrepeat = 52;
@@ -14992,10 +14992,10 @@ InitHeartAttack(PLAYERp pp)
         KillSprite(SpriteNum);
         continue;
         }
-    #endif    
-        
+    #endif
+
     MissileSetPos(SpriteNum, DoBloodWorm, mp[i].dist_out);
-        
+
     pp->SpriteP->clipdist = oclipdist;
     u->Counter = 0;
     u->Counter2 = 0;
@@ -15027,7 +15027,7 @@ InitHeartAttack(PLAYERp pp)
         };
 
     PlayerUpdateAmmo(pp, WPN_HEART, -1);
-        
+
     SpriteNum = SpawnSprite(STAT_MISSILE_SKIP4, BLOOD_WORM, s_BloodWorm, pp->cursectnum,
         pp->posx, pp->posy, pp->posz + Z(12), pp->pang, BLOOD_WORM_VELOCITY*2);
 
@@ -15036,8 +15036,8 @@ InitHeartAttack(PLAYERp pp)
 
     sp->hitag = LUMINOUS; //Always full brightness
 
-    //sp->owner = pp->SpriteP - sprite;     
-    SetOwner(pp->SpriteP - sprite, SpriteNum);  
+    //sp->owner = pp->SpriteP - sprite;
+    SetOwner(pp->SpriteP - sprite, SpriteNum);
     sp->shade = -10;
     sp->xrepeat = 52;
     sp->yrepeat = 52;
@@ -15059,7 +15059,7 @@ InitHeartAttack(PLAYERp pp)
     u->zchange = sp->zvel;
 
     MissileSetPos(SpriteNum, DoBloodWorm, 1100);
-        
+
     pp->SpriteP->clipdist = oclipdist;
     u->Counter = 0;
     u->Counter2 = 0;
@@ -15074,14 +15074,14 @@ int ContinueHitscan(PLAYERp pp, short sectnum, long x, long y, long z, short ang
     short hitsect, hitwall, hitsprite;
     long hitx, hity, hitz;
     USERp u = User[pp->PlayerSprite];
-    
-    FAFhitscan(x, y, z, sectnum,  
+
+    FAFhitscan(x, y, z, sectnum,
         xvect, yvect, zvect,
         &hitsect, &hitwall, &hitsprite, &hitx, &hity, &hitz, CLIPMASK_MISSILE);
 
     if (hitsect < 0)
         return(0);
-    
+
     if (hitsprite < 0 && hitwall < 0)
         {
         if (labs(hitz - sector[hitsect].ceilingz) <= Z(1))
@@ -15090,7 +15090,7 @@ int ContinueHitscan(PLAYERp pp, short sectnum, long x, long y, long z, short ang
             if (TEST(sector[hitsect].ceilingstat, CEILING_STAT_PLAX))
                 return(0);
             }
-        else 
+        else
         if (labs(hitz - sector[hitsect].floorz) <= Z(1))
             {
             }
@@ -15107,49 +15107,49 @@ int ContinueHitscan(PLAYERp pp, short sectnum, long x, long y, long z, short ang
                     return(0);
                     }
                 }
-            }    
-        
+            }
+
         if (wall[hitwall].lotag == TAG_WALL_BREAK)
             {
             HitBreakWall(&wall[hitwall], hitx, hity, hitz, ang, u->ID);
             return(0);
             }
-            
+
         QueueHole(ang,hitsect,hitwall,hitx,hity,hitz);
-        }    
+        }
 
     // hit a sprite?
     if (hitsprite >= 0)
         {
         SPRITEp hsp = &sprite[hitsprite];
-        
-        if (hsp->lotag == TAG_SPRITE_HIT_MATCH)    
+
+        if (hsp->lotag == TAG_SPRITE_HIT_MATCH)
             {
             if (MissileHitMatch(-1, WPN_SHOTGUN, hitsprite))
                 return(0);
             }
-                
+
         if (TEST(hsp->extra, SPRX_BREAKABLE))
             {
             HitBreakSprite(hitsprite,0);
             return(0);
             }
-            
+
         if (BulletHitSprite(pp->SpriteP, hitsprite, hitsect, hitwall, hitx, hity, hitz, 0))
             return(0);
-            
+
         // hit a switch?
         if (TEST(hsp->cstat, CSTAT_SPRITE_WALL) && (hsp->lotag || hsp->hitag))
             {
             ShootableSwitch(hitsprite,-1);
             }
-        }    
-    
+        }
+
     j = SpawnShotgunSparks(pp, hitsect, hitwall, hitx, hity, hitz, ang);
     DoHitscanDamage(j, hitsprite);
-    
+
     return(0);
-    }    
+    }
 
 int
 InitShotgun(PLAYERp pp)
@@ -15166,19 +15166,19 @@ InitShotgun(PLAYERp pp)
     SPRITEp sp,ep;
 
     PlayerUpdateAmmo(pp, u->WeaponNum, -1);
-    
+
     PlaySound(DIGI_RIOTFIRE2, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
 
     // Make sprite shade brighter
     u->Vis = 128;
-    
+
     if (pp->WpnShotgunAuto)
         {
         switch (pp->WpnShotgunType)
             {
             case 1:
                 pp->WpnShotgunAuto--;
-            }    
+            }
         }
 
     nx = pp->posx;
@@ -15186,7 +15186,7 @@ InitShotgun(PLAYERp pp)
     daz = nz = pp->posz + pp->bob_z;
     nsect = pp->cursectnum;
     sp = pp->SpriteP;
-    
+
     daang = 64;
     if (WeaponAutoAimHitscan(sp, &daz, &daang, FALSE) != -1)
         {
@@ -15196,7 +15196,7 @@ InitShotgun(PLAYERp pp)
         daz = (100 - pp->horiz) * 2000;
         daang = pp->pang;
         }
-            
+
     for (i = 0; i < 12; i++)
         {
         if(pp->WpnShotgunType == 0)
@@ -15208,7 +15208,7 @@ InitShotgun(PLAYERp pp)
             ndaz = daz + (RANDOM_RANGE(Z(200)) - Z(65));
             ndaang = NORM_ANGLE(daang + (RANDOM_RANGE(70) - 30));
             }
-               
+
         xvect = sintable[NORM_ANGLE(ndaang + 512)];
         yvect = sintable[NORM_ANGLE(ndaang)];
         zvect = ndaz;
@@ -15222,7 +15222,7 @@ InitShotgun(PLAYERp pp)
             //MONO_PRINT(ds);
             continue;
             }
-        
+
         if (hitsprite < 0 && hitwall < 0)
             {
             if (labs(hitz - sector[hitsect].ceilingz) <= Z(1))
@@ -15232,7 +15232,7 @@ InitShotgun(PLAYERp pp)
 
                 if (TEST(sector[hitsect].ceilingstat, CEILING_STAT_PLAX))
                     continue;
-                
+
                 if (SectorIsUnderwaterArea(hitsect))
                     {
                     WarpToSurface(&hitsect, &hitx, &hity, &hitz);
@@ -15240,24 +15240,24 @@ InitShotgun(PLAYERp pp)
                     continue;
                     }
                 }
-            else 
+            else
             if (labs(hitz - sector[hitsect].floorz) <= Z(1))
                 {
                 if (TEST(sector[hitsect].extra, SECTFX_LIQUID_MASK) != SECTFX_LIQUID_NONE)
                     {
                     SpawnSplashXY(hitx,hity,hitz,hitsect);
-                    
+
                     if (SectorIsDiveArea(hitsect))
                         {
                         WarpToUnderwater(&hitsect, &hitx, &hity, &hitz);
                         ContinueHitscan(pp, hitsect, hitx, hity, hitz, ndaang, xvect, yvect, zvect);
                         }
-                    
+
                     continue;
                     }
                 }
             }
-    
+
         if (hitwall >= 0)
             {
             if (wall[hitwall].nextsector >= 0)
@@ -15269,27 +15269,27 @@ InitShotgun(PLAYERp pp)
                         continue;
                         }
                     }
-                }    
-            
+                }
+
             if (wall[hitwall].lotag == TAG_WALL_BREAK)
                 {
                 HitBreakWall(&wall[hitwall], hitx, hity, hitz, ndaang, u->ID);
                 continue;
                 }
-                
+
             QueueHole(ndaang,hitsect,hitwall,hitx,hity,hitz);
-            }    
-    
+            }
+
         // hit a sprite?
         if (hitsprite >= 0)
             {
             SPRITEp hsp = &sprite[hitsprite];
             USERp hu = User[hitsprite];
-        
+
             if (hu && hu->ID == TRASHCAN)	// JBF: added null check
                 {
                 extern STATE s_TrashCanPain[];
-            
+
                 PlaySound(DIGI_TRASHLID, &sp->x, &sp->y, &sp->z, v3df_none);
                 if(hu->WaitTics <= 0)
                     {
@@ -15297,29 +15297,29 @@ InitShotgun(PLAYERp pp)
                     ChangeState(hitsprite,s_TrashCanPain);
                     }
                 }
-            
-            if (hsp->lotag == TAG_SPRITE_HIT_MATCH)    
+
+            if (hsp->lotag == TAG_SPRITE_HIT_MATCH)
                 {
                 if (MissileHitMatch(-1, WPN_SHOTGUN, hitsprite))
                     continue;
                 }
-                    
+
             if (TEST(hsp->extra, SPRX_BREAKABLE))
                 {
                 HitBreakSprite(hitsprite,0);
                 continue;
                 }
-                
+
             if (BulletHitSprite(pp->SpriteP, hitsprite, hitsect, hitwall, hitx, hity, hitz, SHOTGUN_SMOKE))
                 continue;
-                
+
             // hit a switch?
             if (TEST(hsp->cstat, CSTAT_SPRITE_WALL) && (hsp->lotag || hsp->hitag))
                 {
                 ShootableSwitch(hitsprite,-1);
                 }
-            }    
-        
+            }
+
         j = SpawnShotgunSparks(pp, hitsect, hitwall, hitx, hity, hitz, ndaang);
         DoHitscanDamage(j, hitsprite);
         }
@@ -15337,9 +15337,9 @@ InitLaser(PLAYERp pp)
     long nx, ny, nz;
     short w, hitsprite;
     short oclipdist;
-    
+
     DoPlayerBeginRecoil(pp, RAIL_RECOIL_AMT);
-    
+
     PlayerUpdateAmmo(pp, u->WeaponNum, -1);
 
     PlaySound(DIGI_RIOTFIRE, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
@@ -15352,19 +15352,19 @@ InitLaser(PLAYERp pp)
     // Spawn a shot
     // Inserting and setting up variables
 
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Laser, pp->cursectnum, 
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Laser, pp->cursectnum,
         nx, ny, nz, pp->pang, 300);
 
     wp = &sprite[w];
     wu = User[w];
 
     wp->hitag = LUMINOUS; //Always full brightness
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 52;
     wp->xrepeat = 52;
     wp->shade = -15;
     wp->clipdist = 64L>>2;
-    
+
     // the slower the missile travels the less of a zvel it needs
     wp->zvel = ((100 - pp->horiz) * HORIZ_MULT);
     wp->zvel /= 4;
@@ -15421,11 +15421,11 @@ InitLaser(PLAYERp pp)
         {
         wp->ang = NORM_ANGLE(wp->ang - 5);
         }
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
-    
+
     return (0);
     }
 
@@ -15441,11 +15441,11 @@ InitRail(PLAYERp pp)
     short w, hitsprite;
     short oclipdist;
     long zvel;
-    
+
     if (SW_SHAREWARE) return FALSE;	// JBF: verify
-    
+
     DoPlayerBeginRecoil(pp, RAIL_RECOIL_AMT);
-    
+
     PlayerUpdateAmmo(pp, u->WeaponNum, -1);
 
     PlaySound(DIGI_RAILFIRE, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
@@ -15461,17 +15461,17 @@ InitRail(PLAYERp pp)
     // Spawn a shot
     // Inserting and setting up variables
 
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R1, s_Rail, pp->cursectnum, 
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R1, s_Rail, pp->cursectnum,
         nx, ny, nz, pp->pang, 1200);
 
     wp = &sprite[w];
     wu = User[w];
 
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 52;
     wp->xrepeat = 52;
     wp->shade = -15;
-    zvel = ((100 - pp->horiz) * (HORIZ_MULT+17)); 
+    zvel = ((100 - pp->horiz) * (HORIZ_MULT+17));
 
     wu->RotNum = 5;
     NewStateGroup(w, &sg_Rail);
@@ -15505,17 +15505,17 @@ InitRail(PLAYERp pp)
 
     pp->SpriteP->clipdist = oclipdist;
 
-    wp->zvel = zvel >> 1; 
+    wp->zvel = zvel >> 1;
     if (WeaponAutoAim(pp->SpriteP, w, 32, FALSE) == -1)
         {
         wp->ang = NORM_ANGLE(wp->ang - 4);
         }else
         zvel = wp->zvel;  // Let autoaiming set zvel now
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = zvel;
-    
+
     return (0);
     }
 
@@ -15530,7 +15530,7 @@ InitZillaRail(short SpriteNum)
     short w, hitsprite;
     short oclipdist;
     long zvel;
-    
+
     if (SW_SHAREWARE) return FALSE;	// JBF: verify
 
     PlaySound(DIGI_RAILFIRE, &sp->x, &sp->y, &sp->z, v3df_dontpan|v3df_doppler);
@@ -15546,17 +15546,17 @@ InitZillaRail(short SpriteNum)
     // Spawn a shot
     // Inserting and setting up variables
 
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R1, s_Rail, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R1, s_Rail, sp->sectnum,
         nx, ny, nz, sp->ang, 1200);
 
     wp = &sprite[w];
     wu = User[w];
 
-    SetOwner(SpriteNum, w);  
+    SetOwner(SpriteNum, w);
     wp->yrepeat = 52;
     wp->xrepeat = 52;
     wp->shade = -15;
-    zvel = (100 * (HORIZ_MULT+17)); 
+    zvel = (100 * (HORIZ_MULT+17));
 
     wu->RotNum = 5;
     NewStateGroup(w, &sg_Rail);
@@ -15590,20 +15590,20 @@ InitZillaRail(short SpriteNum)
 
     sp->clipdist = oclipdist;
 
-    wp->zvel = zvel >> 1; 
+    wp->zvel = zvel >> 1;
     if (WeaponAutoAim(sp, w, 32, FALSE) == -1)
         {
         wp->ang = NORM_ANGLE(wp->ang - 4);
         }else
         zvel = wp->zvel;  // Let autoaiming set zvel now
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = zvel;
-    
+
     return (0);
     }
-    
+
 int
 InitRocket(PLAYERp pp)
     {
@@ -15614,23 +15614,23 @@ InitRocket(PLAYERp pp)
     short w, hitsprite;
     short oclipdist;
     long zvel;
-    
+
     #if 0
-    static short lat_dist[3] = 
+    static short lat_dist[3] =
       {
       //800,1000,600
       600,900,300
       };
-      
-    static short z_off[3] = 
+
+    static short z_off[3] =
       {
       //Z(8), Z(14), Z(14)
       Z(6), Z(12), Z(12)
       };
-    #endif  
-    
+    #endif
+
     DoPlayerBeginRecoil(pp, ROCKET_RECOIL_AMT);
-    
+
     PlayerUpdateAmmo(pp, u->WeaponNum, -1);
 
     PlaySound(DIGI_RIOTFIRE, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
@@ -15645,19 +15645,19 @@ InitRocket(PLAYERp pp)
     // Inserting and setting up variables
     //nz = pp->posz + pp->bob_z + Z(12);
     nz = pp->posz + pp->bob_z + Z(8);
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Rocket, pp->cursectnum, 
-        nx, ny, nz, pp->pang, ROCKET_VELOCITY); 
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Rocket, pp->cursectnum,
+        nx, ny, nz, pp->pang, ROCKET_VELOCITY);
 
     wp = &sprite[w];
     wu = User[w];
 
     //wp->owner = pp->PlayerSprite;
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 90;
     wp->xrepeat = 90;
     wp->shade = -15;
-    zvel = ((100 - pp->horiz) * (HORIZ_MULT+35)); 
-    
+    zvel = ((100 - pp->horiz) * (HORIZ_MULT+35));
+
     wp->clipdist = 64L>>2;
 
     wu->RotNum = 5;
@@ -15672,7 +15672,7 @@ InitRocket(PLAYERp pp)
 
     // Set default palette
     wp->pal = wu->spal = 17; // White
-    
+
     if (pp->WpnRocketHeat)
         {
         switch (pp->WpnRocketType)
@@ -15682,7 +15682,7 @@ InitRocket(PLAYERp pp)
                 SET(wu->Flags, SPR_FIND_PLAYER);
                 wp->pal = wu->spal = 20; // Yellow
             break;
-            }    
+            }
         }
 
     // at certain angles the clipping box was big enough to block the
@@ -15697,30 +15697,30 @@ InitRocket(PLAYERp pp)
     if (TEST(pp->Flags, PF_DIVING) || SpriteInUnderwaterArea(wp))
         SET(wu->Flags, SPR_UNDERWATER);
 
-    // cancel smoke trail    
-    wu->Counter = 1;    
+    // cancel smoke trail
+    wu->Counter = 1;
     if (TestMissileSetPos(w, DoRocket, 1200, zvel))
         {
         pp->SpriteP->clipdist = oclipdist;
         KillSprite(w);
         return(0);
         }
-    // inable smoke trail    
-    wu->Counter = 0;    
+    // inable smoke trail
+    wu->Counter = 0;
 
     pp->SpriteP->clipdist = oclipdist;
 
-    wp->zvel = zvel >> 1; 
+    wp->zvel = zvel >> 1;
     if (WeaponAutoAim(pp->SpriteP, w, 32, FALSE) == -1)
         {
         wp->ang = NORM_ANGLE(wp->ang - 5);
         } else
         zvel = wp->zvel;  // Let autoaiming set zvel now
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = zvel;
-    
+
     return (0);
     }
 
@@ -15734,23 +15734,23 @@ InitBunnyRocket(PLAYERp pp)
     short w, hitsprite;
     short oclipdist;
     long zvel;
-    
+
     #if 0
-    static short lat_dist[3] = 
+    static short lat_dist[3] =
       {
       //800,1000,600
       600,900,300
       };
-      
-    static short z_off[3] = 
+
+    static short z_off[3] =
       {
       //Z(8), Z(14), Z(14)
       Z(6), Z(12), Z(12)
       };
-    #endif  
-    
+    #endif
+
     DoPlayerBeginRecoil(pp, ROCKET_RECOIL_AMT);
-    
+
     PlayerUpdateAmmo(pp, u->WeaponNum, -1);
 
     PlaySound(DIGI_BUNNYATTACK, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
@@ -15762,19 +15762,19 @@ InitBunnyRocket(PLAYERp pp)
     // Inserting and setting up variables
     //nz = pp->posz + pp->bob_z + Z(12);
     nz = pp->posz + pp->bob_z + Z(8);
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R4, s_BunnyRocket, pp->cursectnum, 
-        nx, ny, nz, pp->pang, ROCKET_VELOCITY); 
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R4, s_BunnyRocket, pp->cursectnum,
+        nx, ny, nz, pp->pang, ROCKET_VELOCITY);
 
     wp = &sprite[w];
     wu = User[w];
 
     //wp->owner = pp->PlayerSprite;
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 64;
     wp->xrepeat = 64;
     wp->shade = -15;
-    zvel = ((100 - pp->horiz) * (HORIZ_MULT+35)); 
-    
+    zvel = ((100 - pp->horiz) * (HORIZ_MULT+35));
+
     wp->clipdist = 64L>>2;
 
     wu->RotNum = 5;
@@ -15787,7 +15787,7 @@ InitBunnyRocket(PLAYERp pp)
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
     SET(wp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
     SET(wu->Flags, SPR_XFLIP_TOGGLE);
-    
+
     if (pp->WpnRocketHeat)
         {
         switch (pp->WpnRocketType)
@@ -15795,7 +15795,7 @@ InitBunnyRocket(PLAYERp pp)
             case 1:
                 pp->WpnRocketHeat--;
                 SET(wu->Flags, SPR_FIND_PLAYER);
-            }    
+            }
         }
 
     // at certain angles the clipping box was big enough to block the
@@ -15810,34 +15810,34 @@ InitBunnyRocket(PLAYERp pp)
     if (TEST(pp->Flags, PF_DIVING) || SpriteInUnderwaterArea(wp))
         SET(wu->Flags, SPR_UNDERWATER);
 
-    // cancel smoke trail    
-    wu->Counter = 1;    
+    // cancel smoke trail
+    wu->Counter = 1;
     if (TestMissileSetPos(w, DoRocket, 1200, zvel))
         {
         pp->SpriteP->clipdist = oclipdist;
         KillSprite(w);
         return(0);
         }
-    // inable smoke trail    
-    wu->Counter = 0;    
+    // inable smoke trail
+    wu->Counter = 0;
 
     pp->SpriteP->clipdist = oclipdist;
 
-    wp->zvel = zvel >> 1; 
+    wp->zvel = zvel >> 1;
     if (WeaponAutoAim(pp->SpriteP, w, 32, FALSE) == -1)
         {
         wp->ang = NORM_ANGLE(wp->ang - 5);
         } else
         zvel = wp->zvel;  // Let autoaiming set zvel now
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = zvel;
     wu->spal = wp->pal = PALETTE_PLAYER1;
-    
+
     return (0);
     }
-    
+
 int
 InitNuke(PLAYERp pp)
     {
@@ -15848,8 +15848,8 @@ InitNuke(PLAYERp pp)
     short w, hitsprite;
     short oclipdist;
     long zvel;
-    
-    
+
+
 //    PlayerUpdateAmmo(pp, u->WeaponNum, -1);
     if(pp->WpnRocketNuke > 0)
         pp->WpnRocketNuke = 0;  // Bye Bye little nukie.
@@ -15857,7 +15857,7 @@ InitNuke(PLAYERp pp)
         return(0);
 
     DoPlayerBeginRecoil(pp, ROCKET_RECOIL_AMT*12);
-    
+
 
     PlaySound(DIGI_RIOTFIRE, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
 
@@ -15871,14 +15871,14 @@ InitNuke(PLAYERp pp)
     // Inserting and setting up variables
     //nz = pp->posz + pp->bob_z + Z(12);
     nz = pp->posz + pp->bob_z + Z(8);
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Rocket, pp->cursectnum, 
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Rocket, pp->cursectnum,
         nx, ny, nz, pp->pang, 700);
 
     wp = &sprite[w];
     wu = User[w];
 
     //wp->owner = pp->PlayerSprite;
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 128;
     wp->xrepeat = 128;
     wp->shade = -15;
@@ -15887,7 +15887,7 @@ InitNuke(PLAYERp pp)
 
     // Set to red palette
     wp->pal = wu->spal = 19;
-    
+
     wu->RotNum = 5;
     NewStateGroup(w, &sg_Rocket);
 
@@ -15897,7 +15897,7 @@ InitNuke(PLAYERp pp)
     wu->floor_dist = Z(3);
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
     SET(wp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     // at certain angles the clipping box was big enough to block the
     // initial positioning of the fireball.
     oclipdist = pp->SpriteP->clipdist;
@@ -15910,30 +15910,30 @@ InitNuke(PLAYERp pp)
     if (TEST(pp->Flags, PF_DIVING) || SpriteInUnderwaterArea(wp))
         SET(wu->Flags, SPR_UNDERWATER);
 
-    // cancel smoke trail    
-    wu->Counter = 1;    
+    // cancel smoke trail
+    wu->Counter = 1;
     if (TestMissileSetPos(w, DoRocket, 1200, zvel))
         {
         pp->SpriteP->clipdist = oclipdist;
         KillSprite(w);
         return(0);
         }
-    // inable smoke trail    
-    wu->Counter = 0;    
+    // inable smoke trail
+    wu->Counter = 0;
 
     pp->SpriteP->clipdist = oclipdist;
 
-    wp->zvel = zvel >> 1; 
+    wp->zvel = zvel >> 1;
     if (WeaponAutoAim(pp->SpriteP, w, 32, FALSE) == -1)
         {
         wp->ang = NORM_ANGLE(wp->ang - 5);
         } else
         zvel = wp->zvel;  // Let autoaiming set zvel now
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = zvel;
-    
+
     PlayerDamageSlide(pp, -40, NORM_ANGLE(pp->pang+1024)); // Recoil slide
 
     return (0);
@@ -15950,8 +15950,8 @@ InitEnemyNuke(short SpriteNum)
     short w, hitsprite;
     short oclipdist;
     long zvel;
-    
-    
+
+
     PlaySound(DIGI_RIOTFIRE, &sp->x, &sp->y, &sp->z, v3df_dontpan|v3df_doppler);
 
     // Make sprite shade brighter
@@ -15964,7 +15964,7 @@ InitEnemyNuke(short SpriteNum)
     // Inserting and setting up variables
     //nz = pp->posz + pp->bob_z + Z(12);
     nz = sp->z + Z(40);
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Rocket, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Rocket, sp->sectnum,
         nx, ny, nz, sp->ang, 700);
 
     wp = &sprite[w];
@@ -15972,9 +15972,9 @@ InitEnemyNuke(short SpriteNum)
 
     if (u->ID == ZOMBIE_RUN_R0)
         SetOwner(sp->owner, w);
-    else    
-        SetOwner(SpriteNum, w);  
-        
+    else
+        SetOwner(SpriteNum, w);
+
     wp->yrepeat = 128;
     wp->xrepeat = 128;
     wp->shade = -15;
@@ -15983,7 +15983,7 @@ InitEnemyNuke(short SpriteNum)
 
     // Set to red palette
     wp->pal = wu->spal = 19;
-    
+
     wu->RotNum = 5;
     NewStateGroup(w, &sg_Rocket);
 
@@ -15993,7 +15993,7 @@ InitEnemyNuke(short SpriteNum)
     wu->floor_dist = Z(3);
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
     SET(wp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     wp->ang = NORM_ANGLE(wp->ang + 512);
     HelpMissileLateral(w, 500);
     wp->ang = NORM_ANGLE(wp->ang - 512);
@@ -16001,31 +16001,31 @@ InitEnemyNuke(short SpriteNum)
     if (SpriteInUnderwaterArea(wp))
         SET(wu->Flags, SPR_UNDERWATER);
 
-    // cancel smoke trail    
-    wu->Counter = 1;    
+    // cancel smoke trail
+    wu->Counter = 1;
     if (TestMissileSetPos(w, DoRocket, 1200, zvel))
         {
         KillSprite(w);
         return(0);
         }
 
-    // enable smoke trail    
-    wu->Counter = 0;    
+    // enable smoke trail
+    wu->Counter = 0;
 
-    wp->zvel = zvel >> 1; 
+    wp->zvel = zvel >> 1;
     if (WeaponAutoAim(sp, w, 32, FALSE) == -1)
         {
         wp->ang = NORM_ANGLE(wp->ang - 5);
         } else
         zvel = wp->zvel;  // Let autoaiming set zvel now
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = zvel;
-    
+
     return (0);
     }
-    
+
 int
 InitMicro(PLAYERp pp)
     {
@@ -16037,29 +16037,29 @@ InitMicro(PLAYERp pp)
     short oclipdist;
     short i,ang;
     TARGET_SORTp ts = TargetSort;
-    
+
     //DoPlayerBeginRecoil(pp, MICRO_RECOIL_AMT);
     //PlayerUpdateAmmo(pp, u->WeaponNum, -1);
 
     nx = pp->posx;
     ny = pp->posy;
-    
-    #define MAX_MICRO 1  
+
+    #define MAX_MICRO 1
 
     DoPickTarget(pp->SpriteP, 256, FALSE);
 
     if (TargetSortCount > MAX_MICRO)
         TargetSortCount = MAX_MICRO;
-    
+
     for (i = 0; i < MAX_MICRO; i++)
         {
         if (ts < &TargetSort[TargetSortCount] && ts->sprite_num >= 0)
             {
             hp = &sprite[ts->sprite_num];
             hu = User[ts->sprite_num];
-            
+
             ang = getangle(hp->x - nx, hp->y - ny);
-            
+
             ts++;
             }
         else
@@ -16067,27 +16067,27 @@ InitMicro(PLAYERp pp)
             hp = NULL;
             hu = NULL;
             ang = pp->pang;
-            }    
-            
+            }
+
         nz = pp->posz + pp->bob_z + Z(14);
         nz += Z(RANDOM_RANGE(20)) - Z(10);
-        
+
         // Spawn a shot
         // Inserting and setting up variables
-        
-        w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Micro, pp->cursectnum, 
+
+        w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Micro, pp->cursectnum,
             nx, ny, nz, ang, 1200);
 
         wp = &sprite[w];
         wu = User[w];
 
-        SetOwner(pp->PlayerSprite, w);  
+        SetOwner(pp->PlayerSprite, w);
         wp->yrepeat = 24;
         wp->xrepeat = 24;
         wp->shade = -15;
         wp->zvel = ((100 - pp->horiz) * HORIZ_MULT);
         wp->clipdist = 64L>>2;
-        
+
         // randomize zvelocity
         wp->zvel += RANDOM_RANGE(Z(8)) - Z(5);
 
@@ -16101,7 +16101,7 @@ InitMicro(PLAYERp pp)
         RESET(wp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
         SET(wp->cstat, CSTAT_SPRITE_YCENTER);
         SET(wp->cstat, CSTAT_SPRITE_INVISIBLE);
-        
+
         wu->WaitTics = 10 + RANDOM_RANGE(40);
 
         // at certain angles the clipping box was big enough to block the
@@ -16117,21 +16117,21 @@ InitMicro(PLAYERp pp)
         if (TEST(pp->Flags, PF_DIVING) || SpriteInUnderwaterArea(wp))
             SET(wu->Flags, SPR_UNDERWATER);
 
-        // cancel smoke trail    
-        wu->Counter = 1;    
+        // cancel smoke trail
+        wu->Counter = 1;
         if (MissileSetPos(w, DoMicro, 700))
             {
             pp->SpriteP->clipdist = oclipdist;
             KillSprite(w);
             continue;
             }
-        // inable smoke trail    
-        wu->Counter = 0;    
+        // inable smoke trail
+        wu->Counter = 0;
 
         pp->SpriteP->clipdist = oclipdist;
-        
+
         #define MICRO_ANG 400
-            
+
         if (hp)
             {
             dist = Distance(wp->x, wp->y, hp->x, hp->y);
@@ -16141,24 +16141,24 @@ InitMicro(PLAYERp pp)
                 zh = SPRITEp_TOS(hp) + DIV4(SPRITEp_SIZE_Z(hp));
                 wp->zvel = (wp->xvel * (zh - wp->z)) / dist;
                 }
-                
+
             wu->WpnGoal = ts->sprite_num;
             SET(hu->Flags, SPR_TARGETED);
             SET(hu->Flags, SPR_ATTACKED);
-            }    
+            }
         else
             {
             wp->ang = NORM_ANGLE(wp->ang + (RANDOM_RANGE(MICRO_ANG) - DIV2(MICRO_ANG)) - 16);
             }
-        
+
         wu->xchange = MOVEx(wp->xvel, wp->ang);
         wu->ychange = MOVEy(wp->xvel, wp->ang);
         wu->zchange = wp->zvel;
         }
-   
+
     return (0);
     }
-    
+
 int
 InitRipperSlash(short SpriteNum)
     {
@@ -16180,9 +16180,9 @@ InitRipperSlash(short SpriteNum)
             if (i == SpriteNum)
                 break;
 
-            if (FindDistance3D(sp->x - hp->x, sp->y - hp->y, (sp->z - hp->z)>>4) > hu->Radius + u->Radius) 
+            if (FindDistance3D(sp->x - hp->x, sp->y - hp->y, (sp->z - hp->z)>>4) > hu->Radius + u->Radius)
                 continue;
-            
+
             DISTANCE(hp->x, hp->y, sp->x, sp->y, dist, a, b, c);
 
             if (dist < CLOSE_RANGE_DIST_FUDGE(sp, hp, 600) && FACING_RANGE(hp, sp, 150))
@@ -16216,7 +16216,7 @@ InitBunnySlash(short SpriteNum)
 
             if (i == SpriteNum)
                 break;
-            
+
             DISTANCE(hp->x, hp->y, sp->x, sp->y, dist, a, b, c);
 
             if (dist < CLOSE_RANGE_DIST_FUDGE(sp, hp, 600) && FACING_RANGE(hp, sp, 150))
@@ -16228,7 +16228,7 @@ InitBunnySlash(short SpriteNum)
 
     return (0);
     }
-    
+
 
 int
 InitSerpSlash(short SpriteNum)
@@ -16250,7 +16250,7 @@ InitSerpSlash(short SpriteNum)
 
             if (i == SpriteNum)
                 break;
-            
+
             DISTANCE(hp->x, hp->y, sp->x, sp->y, dist, a, b, c);
 
             if (dist < CLOSE_RANGE_DIST_FUDGE(sp, hp, 800) && FACING_RANGE(hp, sp, 150))
@@ -16263,7 +16263,7 @@ InitSerpSlash(short SpriteNum)
 
     return (0);
     }
-    
+
 BOOL
 WallSpriteInsideSprite(SPRITEp wsp, SPRITEp sp)
     {
@@ -16320,23 +16320,23 @@ DoBladeDamage(short SpriteNum)
 
             if (!TEST(hp->extra, SPRX_PLAYER_OR_ENEMY))
                 continue;
-                
+
             DISTANCE(hp->x, hp->y, sp->x, sp->y, dist, a, b, c);
-            
+
             if (dist > 2000)
                 continue;
 
             dist = FindDistance3D(sp->x - hp->x, sp->y - hp->y, (sp->z - hp->z)>>4);
-            
+
             if (dist > 2000)
                 continue;
-                
+
             if (WallSpriteInsideSprite(sp, hp))
                 {
                 DoDamage(i, SpriteNum);
 //                    PlaySound(PlayerPainVocs[RANDOM_RANGE(MAX_PAIN)], &sp->x, &sp->y, &sp->z, v3df_none);
                 }
-            }  
+            }
         }
 
     return (0);
@@ -16362,17 +16362,17 @@ DoStaticFlamesDamage(short SpriteNum)
 
         if (!TEST(hp->extra, SPRX_PLAYER_OR_ENEMY))
             continue;
-            
+
         DISTANCE(hp->x, hp->y, sp->x, sp->y, dist, a, b, c);
-        
+
         if (dist > 2000)
             continue;
 
         dist = FindDistance3D(sp->x - hp->x, sp->y - hp->y, (sp->z - hp->z)>>4);
-        
+
         if (dist > 2000)
             continue;
-           
+
         if (SpriteOverlap(SpriteNum, i))  // If sprites are overlapping, cansee will fail!
             DoDamage(i, SpriteNum);
         else
@@ -16382,7 +16382,7 @@ DoStaticFlamesDamage(short SpriteNum)
                 DoDamage(i, SpriteNum);
             }
         }
-        }  
+        }
 
     return (0);
     }
@@ -16406,7 +16406,7 @@ InitCoolgBash(short SpriteNum)
 
             if (i == SpriteNum)
                 break;
-            
+
             // don't set off mine
             if (!TEST(hp->extra, SPRX_PLAYER_OR_ENEMY))
                 continue;
@@ -16496,13 +16496,13 @@ InitHornetSting(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
     short HitSprite = NORM_SPRITE(u->ret);
-    
+
     DoDamage(HitSprite, SpriteNum);
     InitActorReposition(SpriteNum);
 
     return (0);
     }
-    
+
 int
 InitSerpSpell(short SpriteNum)
     {
@@ -16511,21 +16511,21 @@ InitSerpSpell(short SpriteNum)
     long dist;
     short new, save_ang, i;
     short oclipdist;
-    
-    static short lat_ang[] = 
+
+    static short lat_ang[] =
       {
       512, -512
       };
 
-    static short delta_ang[] = 
+    static short delta_ang[] =
       {
       -10, 10
       };
-    
+
     for (i = 0; i < 2; i++)
         {
         sp->ang = getangle(u->tgt_sp->x - sp->x, u->tgt_sp->y - sp->y);
-        
+
         new = SpawnSprite(STAT_MISSILE, SERP_METEOR, &sg_SerpMeteor[0][0], sp->sectnum,
             sp->x, sp->y, sp->z, sp->ang, 1500);
 
@@ -16533,13 +16533,13 @@ InitSerpSpell(short SpriteNum)
         nu = User[new];
 
         np->z = SPRITEp_TOS(sp);
-        
+
         nu->RotNum = 5;
         NewStateGroup(new, &sg_SerpMeteor);
         nu->StateEnd = s_MirvMeteorExp;
-        
-        //np->owner = SpriteNum;        
-        SetOwner(SpriteNum, new);  
+
+        //np->owner = SpriteNum;
+        SetOwner(SpriteNum, new);
         np->shade = -40;
         PlaySound(DIGI_SERPMAGICLAUNCH, &sp->x, &sp->y, &sp->z, v3df_none);
         nu->spal = np->pal = 27; // Bright Green
@@ -16555,7 +16555,7 @@ InitSerpSpell(short SpriteNum)
 
         oclipdist = sp->clipdist;
         sp->clipdist = 1;
-        
+
         np->ang = NORM_ANGLE(np->ang + lat_ang[i]);
         HelpMissileLateral(new, 4200L);
         np->ang = NORM_ANGLE(np->ang - lat_ang[i]);
@@ -16564,21 +16564,21 @@ InitSerpSpell(short SpriteNum)
         dist = Distance(np->x, np->y, u->tgt_sp->x, u->tgt_sp->y);
         if (dist != 0)
             np->zvel = (np->xvel * (SPRITEp_UPPER(u->tgt_sp) - np->z)) / dist;
-            
+
         np->ang = NORM_ANGLE(np->ang + delta_ang[i]);
-            
+
         nu->xchange = MOVEx(np->xvel, np->ang);
         nu->ychange = MOVEy(np->xvel, np->ang);
         nu->zchange = np->zvel;
-        
+
         MissileSetPos(new, DoMirvMissile, 400);
         sp->clipdist = oclipdist;
 
         if (TEST(u->Flags, SPR_UNDERWATER))
             SET(nu->Flags, SPR_UNDERWATER);
         }
-        
-    return(0);    
+
+    return(0);
     }
 
 int
@@ -16595,23 +16595,23 @@ SpawnDemonFist(SHORT Weapon)
         return (-1);
 
     //PlaySound(DIGI_ITEM_SPAWN, &sp->x, &sp->y, &sp->z, v3df_none);
-    explosion = SpawnSprite(STAT_MISSILE, 0, s_TeleportEffect, sp->sectnum, 
+    explosion = SpawnSprite(STAT_MISSILE, 0, s_TeleportEffect, sp->sectnum,
         sp->x, sp->y, SPRITEp_MID(sp), sp->ang, 0);
-        
+
     exp = &sprite[explosion];
     eu = User[explosion];
 
     exp->hitag = LUMINOUS; //Always full brightness
-    exp->owner = -1;  
+    exp->owner = -1;
     exp->shade = -40;
     exp->xrepeat = 32;
     exp->yrepeat = 32;
     eu->spal = exp->pal = 25;
-        
+
     SET(exp->cstat, CSTAT_SPRITE_YCENTER);
     RESET(exp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
     eu->Radius = DamageData[DMG_BASIC_EXP].radius;
-    
+
     if (RANDOM_P2(1024<<8)>>8 > 600)
         SET(exp->cstat, CSTAT_SPRITE_XFLIP);
     if (RANDOM_P2(1024<<8)>>8 > 600)
@@ -16619,7 +16619,7 @@ SpawnDemonFist(SHORT Weapon)
 
     return(explosion);
     }
-    
+
 int
 InitSerpMonstSpell(short SpriteNum)
     {
@@ -16628,23 +16628,23 @@ InitSerpMonstSpell(short SpriteNum)
     long dist;
     short new, save_ang, i;
     short oclipdist;
-    
-    static short lat_ang[] = 
+
+    static short lat_ang[] =
       {
       512, -512
       };
 
-    static short delta_ang[] = 
+    static short delta_ang[] =
       {
       -10, 10
       };
-    
+
     PlaySound(DIGI_MISSLFIRE, &sp->x, &sp->y, &sp->z, v3df_none);
-    
+
     for (i = 0; i < 1; i++)
         {
         sp->ang = getangle(u->tgt_sp->x - sp->x, u->tgt_sp->y - sp->y);
-        
+
         new = SpawnSprite(STAT_MISSILE, SERP_METEOR, &sg_SerpMeteor[0][0], sp->sectnum,
             sp->x, sp->y, sp->z, sp->ang, 500);
 
@@ -16653,13 +16653,13 @@ InitSerpMonstSpell(short SpriteNum)
 
         nu->spal = np->pal = 25; // Bright Red
         np->z = SPRITEp_TOS(sp);
-        
+
         nu->RotNum = 5;
         NewStateGroup(new, &sg_SerpMeteor);
         //nu->StateEnd = s_MirvMeteorExp;
         nu->StateEnd = s_TeleportEffect2;
-        
-        SetOwner(SpriteNum, new);  
+
+        SetOwner(SpriteNum, new);
         np->shade = -40;
         np->xrepeat = 122;
         np->yrepeat = 116;
@@ -16674,7 +16674,7 @@ InitSerpMonstSpell(short SpriteNum)
 
         oclipdist = sp->clipdist;
         sp->clipdist = 1;
-        
+
         np->ang = NORM_ANGLE(np->ang + lat_ang[i]);
         HelpMissileLateral(new, 4200L);
         np->ang = NORM_ANGLE(np->ang - lat_ang[i]);
@@ -16683,21 +16683,21 @@ InitSerpMonstSpell(short SpriteNum)
         dist = Distance(np->x, np->y, u->tgt_sp->x, u->tgt_sp->y);
         if (dist != 0)
             np->zvel = (np->xvel * (SPRITEp_UPPER(u->tgt_sp) - np->z)) / dist;
-            
+
         np->ang = NORM_ANGLE(np->ang + delta_ang[i]);
-            
+
         nu->xchange = MOVEx(np->xvel, np->ang);
         nu->ychange = MOVEy(np->xvel, np->ang);
         nu->zchange = np->zvel;
-        
+
         MissileSetPos(new, DoMirvMissile, 400);
         sp->clipdist = oclipdist;
 
         if (TEST(u->Flags, SPR_UNDERWATER))
             SET(nu->Flags, SPR_UNDERWATER);
         }
-        
-    return(0);    
+
+    return(0);
     }
 
 int
@@ -16709,9 +16709,9 @@ DoTeleRipper(short SpriteNum)
 
     PlaySound(DIGI_ITEM_SPAWN,&sp->x,&sp->y,&sp->z,v3df_none);
     Ripper2Hatch(SpriteNum);
-    }    
+    }
 
-    
+
 int
 InitEnemyRocket(short SpriteNum)
     {
@@ -16733,7 +16733,7 @@ InitEnemyRocket(short SpriteNum)
     // Spawn a shot
     // wp = &sprite[w = SpawnSprite(STAT_MISSILE, STAR1, s_Star, sp->sectnum,
     // nx, ny, nz, u->tgt_sp->ang, 250)];
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R2, s_Rocket, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R2, s_Rocket, sp->sectnum,
         nx, ny, nz-Z(8), u->tgt_sp->ang, NINJA_BOLT_VELOCITY);
     wp = &sprite[w];
     wu = User[w];
@@ -16741,10 +16741,10 @@ InitEnemyRocket(short SpriteNum)
     // Set default palette
     wp->pal = wu->spal = 17; // White
 
-    if (u->ID == ZOMBIE_RUN_R0)    
+    if (u->ID == ZOMBIE_RUN_R0)
         SetOwner(sp->owner, w);
-    else    
-        SetOwner(SpriteNum, w);  
+    else
+        SetOwner(SpriteNum, w);
     wp->yrepeat = 28;
     wp->xrepeat = 28;
     wp->shade = -15;
@@ -16774,7 +16774,7 @@ InitEnemyRocket(short SpriteNum)
 
     if (dist != 0)
         wu->zchange = wp->zvel = (wp->xvel * (SPRITEp_UPPER(u->tgt_sp) - wp->z)) / dist;
-        
+
     return (w);
     }
 
@@ -16792,11 +16792,11 @@ InitEnemyRail(short SpriteNum)
     if (SW_SHAREWARE) return FALSE;	// JBF: verify
 
     // if co-op don't hurt teammate
-    if (gNet.MultiGameType == MULTI_GAME_COOPERATIVE && u->ID == ZOMBIE_RUN_R0)    
+    if (gNet.MultiGameType == MULTI_GAME_COOPERATIVE && u->ID == ZOMBIE_RUN_R0)
         {
         PLAYERp pp;
         SPRITEp psp;
-        
+
         // Check all players
         TRAVERSE_CONNECT(pnum)
             {
@@ -16805,18 +16805,18 @@ InitEnemyRail(short SpriteNum)
 
             if (u->tgt_sp == psp)
                 return(0);
-            }    
+            }
         }
 
     PlaySound(DIGI_RAILFIRE, &sp->x, &sp->y, &sp->z, v3df_dontpan|v3df_doppler);
-    
+
     // get angle to player and also face player when attacking
     sp->ang = nang = getangle(u->tgt_sp->x - sp->x, u->tgt_sp->y - sp->y);
-    
+
     // add a bit of randomness
     if (RANDOM_P2(1024) < 512)
         sp->ang = NORM_ANGLE(sp->ang + RANDOM_P2(128) - 64);
-    
+
     nx = sp->x;
     ny = sp->y;
     nz = sp->z - DIV2(SPRITEp_SIZE_Z(sp))-Z(8);
@@ -16824,17 +16824,17 @@ InitEnemyRail(short SpriteNum)
     // Spawn a shot
     // Inserting and setting up variables
 
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R1, s_Rail, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R1, s_Rail, sp->sectnum,
         nx, ny, nz, sp->ang, 1200);
 
     wp = &sprite[w];
     wu = User[w];
 
-    if (u->ID == ZOMBIE_RUN_R0)    
+    if (u->ID == ZOMBIE_RUN_R0)
         SetOwner(sp->owner, w);
-    else    
+    else
         SetOwner(SpriteNum, w);
-        
+
     wp->yrepeat = 52;
     wp->xrepeat = 52;
     wp->shade = -15;
@@ -16855,23 +16855,23 @@ InitEnemyRail(short SpriteNum)
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
-    
+
     if (TestMissileSetPos(w, DoRailStart, 600, wp->zvel))
         {
         //sprite->clipdist = oclipdist;
         KillSprite(w);
         return(0);
         }
-    
+
     // find the distance to the target (player)
     dist = Distance(wp->x, wp->y, u->tgt_sp->x, u->tgt_sp->y);
 
     if (dist != 0)
         wu->zchange = wp->zvel = (wp->xvel * (SPRITEp_UPPER(u->tgt_sp) - wp->z)) / dist;
-        
+
     return (w);
     }
-    
+
 
 int
 InitZillaRocket(short SpriteNum)
@@ -16907,33 +16907,33 @@ InitZillaRocket(short SpriteNum)
         nx = sp->x;
         ny = sp->y;
         nz = sp->z - DIV2(SPRITEp_SIZE_Z(sp))-Z(8);
-    
+
         // Spawn a shot
         // wp = &sprite[w = SpawnSprite(STAT_MISSILE, STAR1, s_Star, sp->sectnum,
         // nx, ny, nz, u->tgt_sp->ang, 250)];
-        w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R2, s_Rocket, sp->sectnum, 
+        w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R2, s_Rocket, sp->sectnum,
             nx, ny, nz-Z(8), u->tgt_sp->ang, NINJA_BOLT_VELOCITY);
         wp = &sprite[w];
         wu = User[w];
-    
-        SetOwner(SpriteNum, w);  
+
+        SetOwner(SpriteNum, w);
         wp->yrepeat = 28;
         wp->xrepeat = 28;
         wp->shade = -15;
         wp->zvel = 0;
         wp->ang = nang;
         wp->clipdist = 64L>>2;
-    
+
         wu->RotNum = 5;
         NewStateGroup(w, &sg_Rocket);
         wu->Radius = 200;
         SET(wp->cstat, CSTAT_SPRITE_YCENTER);
-    
+
         wu->xchange = MOVEx(wp->xvel, wp->ang);
         wu->ychange = MOVEy(wp->xvel, wp->ang);
         wu->zchange = wp->zvel;
 
-        // Zilla has seekers!    
+        // Zilla has seekers!
         if (i != 1 && i != 4)
             wp->pal = wu->spal = 17; // White
         else
@@ -16941,7 +16941,7 @@ InitZillaRocket(short SpriteNum)
             SET(wu->Flags, SPR_FIND_PLAYER);
             wp->pal = wu->spal = 20; // Yellow
             }
-    
+
         if (mp[i].dist_over != 0)
             {
             wp->ang = NORM_ANGLE(wp->ang + mp[i].ang);
@@ -16950,14 +16950,14 @@ InitZillaRocket(short SpriteNum)
             }
 
         MissileSetPos(w, DoBoltThinMan, mp[i].dist_out);
-    
+
         // find the distance to the target (player)
         dist = Distance(wp->x, wp->y, u->tgt_sp->x, u->tgt_sp->y);
-    
+
         if (dist != 0)
             wu->zchange = wp->zvel = (wp->xvel * (SPRITEp_UPPER(u->tgt_sp) - wp->z)) / dist;
-        }    
-        
+        }
+
     return (w);
     }
 
@@ -16977,13 +16977,13 @@ InitEnemyStar(short SpriteNum)
     nz = SPRITEp_MID(sp);
 
     // Spawn a shot
-    wp = &sprite[w = SpawnSprite(STAT_MISSILE, STAR1, s_Star, sp->sectnum, 
+    wp = &sprite[w = SpawnSprite(STAT_MISSILE, STAR1, s_Star, sp->sectnum,
         nx, ny, nz, u->tgt_sp->ang, NINJA_STAR_VELOCITY)];
 
     wu = User[w];
-    
+
     //wp->owner = SpriteNum;
-    SetOwner(SpriteNum, w);  
+    SetOwner(SpriteNum, w);
     wp->yrepeat = 16;
     wp->xrepeat = 16;
     wp->shade = -25;
@@ -16994,15 +16994,15 @@ InitEnemyStar(short SpriteNum)
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
-    
+
     MissileSetPos(w, DoStar, 400);
-    
+
     // find the distance to the target (player)
     dist = Distance(wp->x, wp->y, u->tgt_sp->x, u->tgt_sp->y);
 
     if (dist != 0)
         wu->zchange = wp->zvel = (wp->xvel * (SPRITEp_UPPER(u->tgt_sp) - wp->z)) / dist;
-        
+
     //
     // Star Power Up Code
     //
@@ -17023,7 +17023,7 @@ InitEnemyStar(short SpriteNum)
             np = &sprite[sn];
             nu = User[sn];
 
-            SetOwner(wp->owner, sn);  
+            SetOwner(wp->owner, sn);
             np->yrepeat = wp->yrepeat;
             np->xrepeat = wp->xrepeat;
             np->shade = wp->shade;
@@ -17035,15 +17035,15 @@ InitEnemyStar(short SpriteNum)
             np->zvel = 0;
 
             MissileSetPos(sn, DoStar, 400);
-            
+
             nu->zchange = wu->zchange;
             np->zvel = wp->zvel;
             }
         } else
         #endif
-        
+
         PlaySound(DIGI_STAR, &sp->x, &sp->y, &sp->z, v3df_none);
-        
+
 
 
     return (w);
@@ -17065,13 +17065,13 @@ InitEnemyCrossbow(short SpriteNum)
     nz = SPRITEp_MID(sp)-Z(14);
 
     // Spawn a shot
-    wp = &sprite[w = SpawnSprite(STAT_MISSILE, CROSSBOLT, s_CrossBolt, sp->sectnum, 
+    wp = &sprite[w = SpawnSprite(STAT_MISSILE, CROSSBOLT, s_CrossBolt, sp->sectnum,
         nx, ny, nz, u->tgt_sp->ang, 800)];
 
     wu = User[w];
-    
+
     //wp->owner = SpriteNum;
-    SetOwner(SpriteNum, w);  
+    SetOwner(SpriteNum, w);
     wp->xrepeat = 16;
     wp->yrepeat = 26;
     wp->shade = -25;
@@ -17085,17 +17085,17 @@ InitEnemyCrossbow(short SpriteNum)
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
-    
+
     SET(wu->Flags, SPR_XFLIP_TOGGLE);
-    
+
     MissileSetPos(w, DoStar, 400);
-    
+
     // find the distance to the target (player)
     dist = Distance(wp->x, wp->y, u->tgt_sp->x, u->tgt_sp->y);
 
     if (dist != 0)
         wu->zchange = wp->zvel = (wp->xvel * (SPRITEp_UPPER(u->tgt_sp) - wp->z)) / dist;
-        
+
     //
     // Star Power Up Code
     //
@@ -17116,7 +17116,7 @@ InitEnemyCrossbow(short SpriteNum)
             np = &sprite[sn];
             nu = User[sn];
 
-            SetOwner(wp->owner, sn);  
+            SetOwner(wp->owner, sn);
             np->yrepeat = wp->yrepeat;
             np->xrepeat = wp->xrepeat;
             np->shade = wp->shade;
@@ -17128,20 +17128,20 @@ InitEnemyCrossbow(short SpriteNum)
             np->zvel = 0;
 
             MissileSetPos(sn, DoStar, 400);
-            
+
             nu->zchange = wu->zchange;
             np->zvel = wp->zvel;
             }
         } else
         #endif
-        
+
         PlaySound(DIGI_STAR, &sp->x, &sp->y, &sp->z, v3df_none);
-        
+
 
 
     return (w);
     }
-    
+
 
 int
 InitSkelSpell(short SpriteNum)
@@ -17161,13 +17161,13 @@ InitSkelSpell(short SpriteNum)
     nz = sp->z - DIV2(SPRITEp_SIZE_Z(sp));
 
     // Spawn a shot
-    w = SpawnSprite(STAT_MISSILE, ELECTRO_ENEMY, s_Electro, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, ELECTRO_ENEMY, s_Electro, sp->sectnum,
         nx, ny, nz, u->tgt_sp->ang, SKEL_ELECTRO_VELOCITY);
     wp = &sprite[w];
     wu = User[w];
 
     //wp->owner = SpriteNum;
-    SetOwner(SpriteNum, w);  
+    SetOwner(SpriteNum, w);
     wp->xrepeat -= 20;
     wp->yrepeat -= 20;
     wp->shade = -40;
@@ -17213,15 +17213,15 @@ InitCoolgFire(short SpriteNum)
 
     PlaySound(DIGI_CGMAGIC, &sp->x, &sp->y, &sp->z, v3df_follow);
 
-    w = SpawnSprite(STAT_MISSILE, COOLG_FIRE, s_CoolgFire, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, COOLG_FIRE, s_CoolgFire, sp->sectnum,
         nx, ny, nz, u->tgt_sp->ang, COOLG_FIRE_VELOCITY);
-        
+
     wp = &sprite[w];
     wu = User[w];
 
     //wp->owner = SpriteNum;
-    SetOwner(SpriteNum, w); 
-    wp->hitag = LUMINOUS; 
+    SetOwner(SpriteNum, w);
+    wp->hitag = LUMINOUS;
     wp->yrepeat = 18;
     wp->xrepeat = 18;
     wp->shade = -40;
@@ -17231,10 +17231,10 @@ InitCoolgFire(short SpriteNum)
     wu->ceiling_dist = Z(4);
     wu->floor_dist = Z(4);
     if (u->ID == RIPPER_RUN_R0)
-        wu->spal = wp->pal = 27; // Bright Green       
+        wu->spal = wp->pal = 27; // Bright Green
     else
-        wu->spal = wp->pal = 25; // Bright Red       
-            
+        wu->spal = wp->pal = 25; // Bright Red
+
     PlaySound(DIGI_MAGIC1, &wp->x, &wp->y, &wp->z, v3df_follow|v3df_doppler);
 
     // find the distance to the target (player)
@@ -17248,7 +17248,7 @@ InitCoolgFire(short SpriteNum)
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
-    
+
     nx = ((long) 728 * (long) sintable[NORM_ANGLE(nang + 512)]) >> 14;
     ny = ((long) 728 * (long) sintable[nang]) >> 14;
 
@@ -17261,10 +17261,10 @@ int DoCoolgDrip(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     u->Counter += 220;
     sp->z += u->Counter;
-    
+
     if (sp->z > u->loz - u->floor_dist)
         {
         sp->z = u->loz - u->floor_dist;
@@ -17274,7 +17274,7 @@ int DoCoolgDrip(short SpriteNum)
             PlaySound(DIGI_DRIP, &sp->x, &sp->y, &sp->z, v3df_none);
         }
     return(0);
-    }    
+    }
 
 int
 InitCoolgDrip(short SpriteNum)
@@ -17288,14 +17288,14 @@ InitCoolgDrip(short SpriteNum)
     ny = sp->y;
     nz = sp->z;
 
-    w = SpawnSprite(STAT_MISSILE, COOLG_DRIP, s_CoolgDrip, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, COOLG_DRIP, s_CoolgDrip, sp->sectnum,
         nx, ny, nz, sp->ang, 0);
-        
+
     wp = &sprite[w];
     wu = User[w];
 
     //wp->owner = SpriteNum;
-    SetOwner(SpriteNum, w);  
+    SetOwner(SpriteNum, w);
     wp->yrepeat = wp->xrepeat = 20;
     wp->shade = -5;
     wp->zvel = 0;
@@ -17305,7 +17305,7 @@ InitCoolgDrip(short SpriteNum)
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
 
     DoFindGroundPoint(SpriteNum);
-    
+
     return (w);
     }
 
@@ -17321,27 +17321,27 @@ GenerateDrips(short SpriteNum)
         {
         if (sp->lotag == 0)
             u->WaitTics = RANDOM_P2(256<<8)>>8;
-        else    
+        else
             u->WaitTics = (sp->lotag * 120) + SEC(RANDOM_RANGE(3<<8)>>8);
-        
+
         if (TEST_BOOL2(sp))
             {
             w = SpawnBubble(SpriteNum);
             return(w);
             }
-        
+
         nx = sp->x;
         ny = sp->y;
         nz = sp->z;
 
-        w = SpawnSprite(STAT_SHRAP, COOLG_DRIP, s_CoolgDrip, sp->sectnum, 
+        w = SpawnSprite(STAT_SHRAP, COOLG_DRIP, s_CoolgDrip, sp->sectnum,
             nx, ny, nz, sp->ang, 0);
-            
+
         wp = &sprite[w];
         wu = User[w];
 
         //wp->owner = SpriteNum;
-        SetOwner(SpriteNum, w);  
+        SetOwner(SpriteNum, w);
         wp->yrepeat = wp->xrepeat = 20;
         wp->shade = -10;
         wp->zvel = 0;
@@ -17356,7 +17356,7 @@ GenerateDrips(short SpriteNum)
         }
     return (w);
     }
-    
+
 int
 InitEelFire(short SpriteNum)
     {
@@ -17375,13 +17375,13 @@ InitEelFire(short SpriteNum)
 
             if (i == SpriteNum)
                 continue;
-            
-            if (hp != u->tgt_sp)    
+
+            if (hp != u->tgt_sp)
                 continue;
 
-            if (FindDistance3D(sp->x - hp->x, sp->y - hp->y, (sp->z - hp->z)>>4) > hu->Radius + u->Radius) 
+            if (FindDistance3D(sp->x - hp->x, sp->y - hp->y, (sp->z - hp->z)>>4) > hu->Radius + u->Radius)
                 continue;
-            
+
             DISTANCE(hp->x, hp->y, sp->x, sp->y, dist, a, b, c);
 
             if (dist < CLOSE_RANGE_DIST_FUDGE(sp, hp, 600) && FACING_RANGE(hp, sp, 150))
@@ -17411,14 +17411,14 @@ InitFireballTrap(short SpriteNum)
     nz = sp->z - SPRITEp_SIZE_Z(sp);
 
     // Spawn a shot
-    w = SpawnSprite(STAT_MISSILE, FIREBALL, s_Fireball, sp->sectnum, nx, ny, nz, 
+    w = SpawnSprite(STAT_MISSILE, FIREBALL, s_Fireball, sp->sectnum, nx, ny, nz,
         sp->ang, FIREBALL_TRAP_VELOCITY);
     wp = &sprite[w];
     wu = User[w];
 
     //wp->owner = SpriteNum;
     wp->hitag = LUMINOUS; //Always full brightness
-    SetOwner(SpriteNum, w);  
+    SetOwner(SpriteNum, w);
     wp->xrepeat -= 20;
     wp->yrepeat -= 20;
     wp->shade = -40;
@@ -17449,13 +17449,13 @@ InitBoltTrap(short SpriteNum)
     nz = sp->z - SPRITEp_SIZE_Z(sp);
 
     // Spawn a shot
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Rocket, sp->sectnum, nx, ny, nz, 
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Rocket, sp->sectnum, nx, ny, nz,
         sp->ang, BOLT_TRAP_VELOCITY);
     wp = &sprite[w];
     wu = User[w];
 
     //wp->owner = SpriteNum;
-    SetOwner(SpriteNum, w);  
+    SetOwner(SpriteNum, w);
     wp->yrepeat = 32;
     wp->xrepeat = 32;
     wp->shade = -15;
@@ -17490,13 +17490,13 @@ InitEnemyCrossbow(short SpriteNum)
     nz = SPRITEp_MID(sp);
 
     // Spawn a shot
-    wp = &sprite[w = SpawnSprite(STAT_MISSILE, CROSSBOLT, s_CrossBolt, sp->sectnum, 
+    wp = &sprite[w = SpawnSprite(STAT_MISSILE, CROSSBOLT, s_CrossBolt, sp->sectnum,
         nx, ny, nz, u->tgt_sp->ang, 800)];
 
     wu = User[w];
-    
+
     //wp->owner = SpriteNum;
-    SetOwner(SpriteNum, w);  
+    SetOwner(SpriteNum, w);
     wp->xrepeat = 16;
     wp->yrepeat = 26;
     wp->shade = -25;
@@ -17510,22 +17510,22 @@ InitEnemyCrossbow(short SpriteNum)
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
-    
+
     SET(wu->Flags, SPR_XFLIP_TOGGLE);
-    
+
     MissileSetPos(w, DoStar, 400);
-    
+
     // find the distance to the target (player)
     dist = Distance(wp->x, wp->y, u->tgt_sp->x, u->tgt_sp->y);
 
     if (dist != 0)
         wu->zchange = wp->zvel = (wp->xvel * (SPRITEp_UPPER(u->tgt_sp) - wp->z)) / dist;
-        
+
     PlaySound(DIGI_STAR, &sp->x, &sp->y, &sp->z, v3df_none);
 
     return (w);
     }
-#endif    
+#endif
 
 int
 InitSpearTrap(short SpriteNum)
@@ -17542,12 +17542,12 @@ InitSpearTrap(short SpriteNum)
 
     // Spawn a shot
     w = SpawnSprite(STAT_MISSILE, CROSSBOLT, s_CrossBolt, sp->sectnum, nx, ny, nz, sp->ang, 750);
-        
+
     wp = &sprite[w];
     wu = User[w];
-    
+
     //wp->owner = SpriteNum;
-    SetOwner(SpriteNum, w);  
+    SetOwner(SpriteNum, w);
     wp->xrepeat = 16;
     wp->yrepeat = 26;
     wp->shade = -25;
@@ -17561,28 +17561,28 @@ InitSpearTrap(short SpriteNum)
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
-    
+
     SET(wu->Flags, SPR_XFLIP_TOGGLE);
-    
+
     //MissileSetPos(w, DoStar, 400);
-    
+
     // find the distance to the target (player)
     //dist = Distance(wp->x, wp->y, u->tgt_sp->x, u->tgt_sp->y);
 
     //if (dist != 0)
         //wu->zchange = wp->zvel = (wp->xvel * (SPRITEp_UPPER(u->tgt_sp) - wp->z)) / dist;
-        
+
     PlaySound(DIGI_STAR, &sp->x, &sp->y, &sp->z, v3df_none);
     return (w);
     }
-    
+
 int
 DoSuicide(short SpriteNum)
     {
     KillSprite(SpriteNum);
     return (0);
     }
-    
+
 int
 DoDefaultStat(short SpriteNum)
     {
@@ -17601,7 +17601,7 @@ InitTracerUzi(PLAYERp pp)
     long nx, ny, nz, dist, nang;
     short hitsprite, w;
     long oclipdist;
-    
+
     short lat_dist[] = {800,-800};
 
     nx = pp->posx;
@@ -17612,7 +17612,7 @@ InitTracerUzi(PLAYERp pp)
 
     // Spawn a shot
     // Inserting and setting up variables
-    w = SpawnSprite(STAT_MISSILE, NULL, s_Tracer, pp->cursectnum, 
+    w = SpawnSprite(STAT_MISSILE, NULL, s_Tracer, pp->cursectnum,
         nx, ny, nz, pp->pang, TRACER_VELOCITY);
 
     wp = &sprite[w];
@@ -17620,7 +17620,7 @@ InitTracerUzi(PLAYERp pp)
 
     wp->hitag = LUMINOUS; //Always full brightness
     //wp->owner = pp->PlayerSprite;
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 10;
     wp->xrepeat = 10;
     wp->shade = -40;
@@ -17637,25 +17637,25 @@ InitTracerUzi(PLAYERp pp)
 
     oclipdist = pp->SpriteP->clipdist;
     pp->SpriteP->clipdist = 0;
-    
+
     wp->ang = NORM_ANGLE(wp->ang + 512);
     if (TEST(pp->Flags, PF_TWO_UZI) && pp->WpnUziType == 0)
         HelpMissileLateral(w, lat_dist[RANDOM_P2(2<<8)>>8]);
-    else    
+    else
         HelpMissileLateral(w, lat_dist[0]);
     wp->ang = NORM_ANGLE(wp->ang - 512);
-    
+
     if (MissileSetPos(w, DoTracerStart, 800))
         {
         pp->SpriteP->clipdist = oclipdist;
         KillSprite(w);
         return(0);
         }
-        
+
     wp->zvel = ((100 - pp->horiz) * (wp->xvel/8));
-    
+
     pp->SpriteP->clipdist = oclipdist;
-    
+
     WeaponAutoAim(pp->SpriteP, w, 32, FALSE);
 
     // a bit of randomness
@@ -17690,7 +17690,7 @@ InitTracerTurret(short SpriteNum, short Operator, long horiz)
     // Spawn a shot
     // Inserting and setting up variables
 
-    w = SpawnSprite(STAT_MISSILE, NULL, s_Tracer, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, NULL, s_Tracer, sp->sectnum,
     nx, ny, nz, sp->ang, TRACER_VELOCITY);
 
     wp = &sprite[w];
@@ -17698,7 +17698,7 @@ InitTracerTurret(short SpriteNum, short Operator, long horiz)
 
     wp->hitag = LUMINOUS; //Always full brightness
     if (Operator >= 0)
-        SetOwner(Operator, w);  
+        SetOwner(Operator, w);
     wp->yrepeat = 10;
     wp->xrepeat = 10;
     wp->shade = -40;
@@ -17713,7 +17713,7 @@ InitTracerTurret(short SpriteNum, short Operator, long horiz)
     SET(wp->cstat, CSTAT_SPRITE_INVISIBLE);
 
     wp->zvel = ((100 - horiz) * (wp->xvel/8));
-    
+
     WeaponAutoAim(sp, w, 32, FALSE);
 
     // a bit of randomness
@@ -17729,7 +17729,7 @@ InitTracerTurret(short SpriteNum, short Operator, long horiz)
     return (0);
     }
 
-#if 1   
+#if 1
 int
 InitTracerAutoTurret(short SpriteNum, short Operator, long xchange, long ychange, long zchange)
     {
@@ -17749,7 +17749,7 @@ InitTracerAutoTurret(short SpriteNum, short Operator, long xchange, long ychange
     // Spawn a shot
     // Inserting and setting up variables
 
-    w = SpawnSprite(STAT_MISSILE, NULL, s_Tracer, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, NULL, s_Tracer, sp->sectnum,
     nx, ny, nz, sp->ang, TRACER_VELOCITY);
 
     wp = &sprite[w];
@@ -17757,7 +17757,7 @@ InitTracerAutoTurret(short SpriteNum, short Operator, long xchange, long ychange
 
     wp->hitag = LUMINOUS; //Always full brightness
     if (Operator >= 0)
-        SetOwner(Operator, w);  
+        SetOwner(Operator, w);
     wp->yrepeat = 10;
     wp->xrepeat = 10;
     wp->shade = -40;
@@ -17770,7 +17770,7 @@ InitTracerAutoTurret(short SpriteNum, short Operator, long xchange, long ychange
     wu->floor_dist = Z(1);
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
     SET(wp->cstat, CSTAT_SPRITE_INVISIBLE);
-    
+
     wu->xchange = xchange;
     wu->ychange = ychange;
     wu->zchange = zchange;
@@ -17780,8 +17780,8 @@ InitTracerAutoTurret(short SpriteNum, short Operator, long xchange, long ychange
 
     return (0);
     }
-#endif    
-    
+#endif
+
 int
 BulletHitSprite(SPRITEp sp, short hitsprite, short hitsect, short hitwall, long hitx, long hity, long hitz, short ID)
     {
@@ -17791,23 +17791,23 @@ BulletHitSprite(SPRITEp sp, short hitsprite, short hitsect, short hitwall, long 
     USERp wu;
     short new;
     short id;
-        
+
     // hit a NPC or PC?
     if (TEST(hsp->extra, SPRX_PLAYER_OR_ENEMY))
         {
-        // spawn a red splotch   
+        // spawn a red splotch
         // !FRANK! this if was incorrect - its not who is HIT, its who is SHOOTING
         //if(!hu->PlayerP)
         if(User[sp - sprite]->PlayerP)
             id = UZI_SMOKE;
         else
-        if (TEST(User[sp - sprite]->Flags, SPR_SO_ATTACHED))    
+        if (TEST(User[sp - sprite]->Flags, SPR_SO_ATTACHED))
             id = UZI_SMOKE;
         else // Spawn NPC uzi with less damage
             id = UZI_SMOKE+2;
-        
+
         if (ID>0) id = ID;
-            
+
         new = SpawnSprite(STAT_MISSILE, id, s_UziSmoke, 0, hitx, hity, hitz, sp->ang, 0);
         wp = &sprite[new];
         wu = User[new];
@@ -17838,13 +17838,13 @@ BulletHitSprite(SPRITEp sp, short hitsprite, short hitsect, short hitwall, long 
             break;
             }
 
-        SetOwner(sp - sprite, new);  
+        SetOwner(sp - sprite, new);
         wp->ang = sp->ang;
 
         setsprite(new, hitx, hity, hitz);
         SET(wp->cstat, CSTAT_SPRITE_YCENTER);
         RESET(wp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
-        
+
         if ((RANDOM_P2(1024<<5)>>5) < 512+128)
             {
             if(!hu->PlayerP)
@@ -17860,15 +17860,15 @@ BulletHitSprite(SPRITEp sp, short hitsprite, short hitsect, short hitwall, long 
                 if(hu->ID != TRASHCAN && hu->ID != ZILLA_RUN_R0)
                     QueueWallBlood(hitsprite, sp->ang);  //QueueWallBlood needs bullet angle.
                 }
-            } 
-            
+            }
+
         DoHitscanDamage(new, hitsprite);
-                       
+
         return(TRUE);
         }
-        
-    return(FALSE);    
-    }    
+
+    return(FALSE);
+    }
 
 int SpawnWallHole(short hitsect, short hitwall, long hitx, long hity, long hitz)
     {
@@ -17876,7 +17876,7 @@ int SpawnWallHole(short hitsect, short hitwall, long hitx, long hity, long hitz)
     short SpriteNum;
     long nx,ny;
     SPRITEp sp;
-  
+
     SpriteNum = COVERinsertsprite(hitsect, STAT_DEFAULT);
     sp = &sprite[SpriteNum];
     sp->owner = -1;
@@ -17886,7 +17886,7 @@ int SpawnWallHole(short hitsect, short hitwall, long hitx, long hity, long hitz)
     sp->y = hity;
     sp->z = hitz;
     sp->picnum = 2151;
-    
+
     //SET(sp->cstat, CSTAT_SPRITE_TRANSLUCENT|CSTAT_SPRITE_WALL);
     SET(sp->cstat, CSTAT_SPRITE_WALL);
     SET(sp->cstat, CSTAT_SPRITE_ONE_SIDE);
@@ -17894,14 +17894,14 @@ int SpawnWallHole(short hitsect, short hitwall, long hitx, long hity, long hitz)
     w = hitwall;
     nw = wall[w].point2;
     wall_ang = NORM_ANGLE(getangle(wall[nw].x - wall[w].x, wall[nw].y - wall[w].y)-512);
-    
+
     sp->ang = NORM_ANGLE(wall_ang + 1024);
-                
+
     //nx = (sintable[(512 + Player[0].pang) & 2047] >> 7);
     //ny = (sintable[Player[0].pang] >> 7);
     //sp->x -= nx;
     //sp->y -= ny;
-    
+
     return(SpriteNum);
     }
 
@@ -17912,17 +17912,17 @@ HitscanSpriteAdjust(short SpriteNum, short hitwall)
     short w, nw, ang = sp->ang, wall_ang;
     long xvect,yvect;
     short sectnum;
-    
+
     #if 1
     w = hitwall;
     nw = wall[w].point2;
     wall_ang = NORM_ANGLE(getangle(wall[nw].x - wall[w].x, wall[nw].y - wall[w].y));
-    
+
     if (hitwall >= 0)
         ang = sp->ang = NORM_ANGLE(wall_ang + 512);
-    else    
+    else
         ang = sp->ang;
-    #endif    
+    #endif
 
     #if 0
     xvect = (sintable[(512 + ang) & 2047] >> 7);
@@ -17932,21 +17932,21 @@ HitscanSpriteAdjust(short SpriteNum, short hitwall)
     xvect = sintable[(512 + ang) & 2047] << 4;
     yvect = sintable[ang] << 4;
 
-    clipmoveboxtracenum = 1;    
-    
+    clipmoveboxtracenum = 1;
+
     // must have this
     sectnum = sp->sectnum;
     clipmove(&sp->x, &sp->y, &sp->z, &sectnum, xvect, yvect,
         4L, 4L<<8, 4L<<8, CLIPMASK_MISSILE);
     clipmoveboxtracenum = 3;
 
-    if (sp->sectnum != sectnum)    
+    if (sp->sectnum != sectnum)
         changespritesect(SpriteNum, sectnum);
-    #endif    
+    #endif
 
     return(TRUE);
     }
-    
+
 int
 InitUzi(PLAYERp pp)
     {
@@ -17968,7 +17968,7 @@ InitUzi(PLAYERp pp)
 
     VOID InitUziShell(PLAYERp);
 
-    
+
     PlayerUpdateAmmo(pp, u->WeaponNum, -1);
 
     if (uziclock > totalclock)
@@ -17976,15 +17976,15 @@ InitUzi(PLAYERp pp)
         uziclock = totalclock;
         FireSnd = TRUE;
         }
-        
+
     clockdiff = totalclock - uziclock;
-    if (clockdiff > UZIFIRE_WAIT) 
+    if (clockdiff > UZIFIRE_WAIT)
         {
-        uziclock = totalclock; 
+        uziclock = totalclock;
         FireSnd = TRUE;
         }
 
-    if (FireSnd)    
+    if (FireSnd)
         PlaySound(DIGI_UZIFIRE, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
 
     // Make sprite shade brighter
@@ -17992,7 +17992,7 @@ InitUzi(PLAYERp pp)
 
     if (RANDOM_P2(1024) < 400)
         InitTracerUzi(pp);
-    
+
     nz = pp->posz + pp->bob_z;
     daz = pp->posz + pp->bob_z;
     daang = 32;
@@ -18009,7 +18009,7 @@ InitUzi(PLAYERp pp)
         daz = ((100 - pp->horiz) * 2000) + (RANDOM_RANGE(24000) - 12000);
         }
 
-        
+
     xvect = sintable[NORM_ANGLE(daang + 512)];
     yvect = sintable[NORM_ANGLE(daang)];
     zvect = daz;
@@ -18021,7 +18021,7 @@ InitUzi(PLAYERp pp)
         {
         return(0);
         }
-    
+
     SetVisHigh();
 
     // check to see what you hit
@@ -18034,7 +18034,7 @@ InitUzi(PLAYERp pp)
 
             if (TEST(sector[hitsect].ceilingstat, CEILING_STAT_PLAX))
                 return (0);
-            
+
             if (SectorIsUnderwaterArea(hitsect))
                 {
                 WarpToSurface(&hitsect, &hitx, &hity, &hitz);
@@ -18042,25 +18042,25 @@ InitUzi(PLAYERp pp)
                 return (0);
                 }
             }
-        else 
+        else
         if (labs(hitz - sector[hitsect].floorz) <= Z(1))
             {
             if (TEST(sector[hitsect].extra, SECTFX_LIQUID_MASK) != SECTFX_LIQUID_NONE)
                 {
                 SpawnSplashXY(hitx,hity,hitz,hitsect);
-                
+
                 if (SectorIsDiveArea(hitsect))
                     {
                     WarpToUnderwater(&hitsect, &hitx, &hity, &hitz);
                     ContinueHitscan(pp, hitsect, hitx, hity, hitz, daang, xvect, yvect, zvect);
                     return (0);
                     }
-                
-                return(0);    
+
+                return(0);
                 }
             }
         }
-    
+
     if (hitwall >= 0)
         {
         if (wall[hitwall].nextsector >= 0)
@@ -18072,29 +18072,29 @@ InitUzi(PLAYERp pp)
                     return(0);
                     }
                 }
-            }    
-        
-        
+            }
+
+
         if (wall[hitwall].lotag == TAG_WALL_BREAK)
             {
             HitBreakWall(&wall[hitwall], hitx, hity, hitz, daang, u->ID);
             return(0);
             }
-            
+
         QueueHole(daang,hitsect,hitwall,hitx,hity,hitz);
-        }    
+        }
 
     // hit a sprite?
     if (hitsprite >= 0)
         {
         USERp hu = User[hitsprite];
         hsp = &sprite[hitsprite];
-        
+
 	if (hu)	// JBF: added null check
         if (hu->ID == TRASHCAN)
             {
             extern STATE s_TrashCanPain[];
-            
+
             PlaySound(DIGI_TRASHLID, &hsp->x, &hsp->y, &hsp->z, v3df_none);
             if(hu->WaitTics <= 0)
                 {
@@ -18102,60 +18102,60 @@ InitUzi(PLAYERp pp)
                 ChangeState(hitsprite,s_TrashCanPain);
                 }
             }
-            
-        if (hsp->lotag == TAG_SPRITE_HIT_MATCH)    
+
+        if (hsp->lotag == TAG_SPRITE_HIT_MATCH)
             {
             if (MissileHitMatch(-1, WPN_UZI, hitsprite))
                 return(0);
             }
-                
+
         if (TEST(hsp->extra, SPRX_BREAKABLE) && HitBreakSprite(hitsprite,0))
             {
             return(0);
             }
-            
+
         if (BulletHitSprite(pp->SpriteP, hitsprite, hitsect, hitwall, hitx, hity, hitz, 0))
             return(0);
-            
+
         // hit a switch?
         if (TEST(hsp->cstat, CSTAT_SPRITE_WALL) && (hsp->lotag || hsp->hitag))
             {
             ShootableSwitch(hitsprite,-1);
             }
-        }    
-    
-    
+        }
+
+
     j = SpawnSprite(STAT_MISSILE, UZI_SMOKE, s_UziSmoke, hitsect, hitx, hity, hitz, daang, 0);
     wp = &sprite[j];
     wp->shade = -40;
     wp->xrepeat = UZI_SMOKE_REPEAT;
     wp->yrepeat = UZI_SMOKE_REPEAT;
-    SetOwner(pp->PlayerSprite, j);  
+    SetOwner(pp->PlayerSprite, j);
     //SET(wp->cstat, cstat | CSTAT_SPRITE_TRANSLUCENT | CSTAT_SPRITE_YCENTER);
     SET(wp->cstat, cstat | CSTAT_SPRITE_YCENTER);
     wp->clipdist = 8 >> 2;
 
     HitscanSpriteAdjust(j, hitwall);
     DoHitscanDamage(j, hitsprite);
-    
+
     j = SpawnSprite(STAT_MISSILE, UZI_SPARK, s_UziSpark, hitsect, hitx, hity, hitz, daang, 0);
     wp = &sprite[j];
     wu = User[j];
     wp->shade = -40;
     wp->xrepeat = UZI_SPARK_REPEAT;
     wp->yrepeat = UZI_SPARK_REPEAT;
-    SetOwner(pp->PlayerSprite, j);  
+    SetOwner(pp->PlayerSprite, j);
     wu->spal = wp->pal = pal;
     SET(wp->cstat, cstat | CSTAT_SPRITE_YCENTER);
     wp->clipdist = 8 >> 2;
 
     HitscanSpriteAdjust(j, hitwall);
-    
+
     if (RANDOM_P2(1024) < 100)
     {
         PlaySound(DIGI_RICHOCHET1,&wp->x, &wp->y, &wp->z, v3df_none);
     }
-    else    
+    else
     if (RANDOM_P2(1024) < 100)
         PlaySound(DIGI_RICHOCHET2,&wp->x, &wp->y, &wp->z, v3df_none);
 
@@ -18184,7 +18184,7 @@ InitEMP(PLAYERp pp)
     PlaySound(DIGI_RAILFIRE, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
 
     InitTracerUzi(pp);
-    
+
     //daz = nz = pp->posz + Z(8) + ((100 - pp->horiz) * 72);
     //daang = NORM_ANGLE(pp->pang + (RANDOM_RANGE(50) - 25));
 
@@ -18206,13 +18206,13 @@ InitEMP(PLAYERp pp)
         &hitsect, &hitwall, &hitsprite, &hitx, &hity, &hitz, CLIPMASK_MISSILE);
 
     j = SpawnSprite(STAT_MISSILE, EMP, s_EMPBurst, hitsect, hitx, hity, hitz, daang, 0);
-    
+
     wp = &sprite[j];
     wu = User[j];
 
     wu->WaitTics = SEC(7);
     wp->shade = -127;
-    SetOwner(pp->PlayerSprite, j);  
+    SetOwner(pp->PlayerSprite, j);
     SET(wp->cstat, cstat | CSTAT_SPRITE_YCENTER);
     wp->clipdist = 8 >> 2;
 
@@ -18222,7 +18222,7 @@ InitEMP(PLAYERp pp)
         //MONO_PRINT(ds);
         return(0);
         }
-    
+
     #if 0
     if (TEST(pp->Flags, PF_DIVING) ||
         (hitwall < 0 && hitsprite < 0 && SectorIsDiveArea(hitsect))
@@ -18231,7 +18231,7 @@ InitEMP(PLAYERp pp)
         InitUziBullet(pp);
         return (0);
         }
-    #endif    
+    #endif
 
     SetVisHigh();
 
@@ -18246,13 +18246,13 @@ InitEMP(PLAYERp pp)
             if (TEST(sector[hitsect].ceilingstat, CEILING_STAT_PLAX))
                 return (0);
             }
-        else 
+        else
         if (labs(hitz - sector[hitsect].floorz) <= Z(1))
             {
             if (TEST(sector[hitsect].extra, SECTFX_LIQUID_MASK) != SECTFX_LIQUID_NONE)
                 {
                 SpawnSplashXY(hitx,hity,hitz,hitsect);
-                return(0);    
+                return(0);
                 }
             }
         }
@@ -18268,36 +18268,36 @@ InitEMP(PLAYERp pp)
                     return(0);
                     }
                 }
-            }    
-        
+            }
+
         HitscanSpriteAdjust(j, hitwall);
         if (wall[hitwall].lotag == TAG_WALL_BREAK)
             {
             HitBreakWall(&wall[hitwall], hitx, hity, hitz, daang, u->ID);
             return(0);
             }
-        }    
+        }
 
     // hit a sprite?
     if (hitsprite >= 0)
         {
         hsp = &sprite[hitsprite];
-        
-        if (hsp->lotag == TAG_SPRITE_HIT_MATCH)    
+
+        if (hsp->lotag == TAG_SPRITE_HIT_MATCH)
             {
             if (MissileHitMatch(-1, WPN_UZI, hitsprite))
                 return(0);
             }
-                
+
         if (TEST(hsp->extra, SPRX_BREAKABLE))
             {
             HitBreakSprite(hitsprite,0);
             //return(0);
             }
-            
+
         if (BulletHitSprite(pp->SpriteP, hitsprite, hitsect, hitwall, hitx, hity, hitz,0))
             //return(0);
-            
+
         // hit a switch?
         if (TEST(hsp->cstat, CSTAT_SPRITE_WALL) && (hsp->lotag || hsp->hitag))
             {
@@ -18307,7 +18307,7 @@ InitEMP(PLAYERp pp)
         if (TEST(hsp->extra, SPRX_PLAYER_OR_ENEMY))
             {
             // attach weapon to sprite
-            SetAttach(hitsprite, j);  
+            SetAttach(hitsprite, j);
             wu->sz = sprite[hitsprite].z - wp->z;
             if(RANDOM_RANGE(1000) > 500)
                 PlayerSound(DIGI_YOULOOKSTUPID,&pp->posx,&pp->posy,&pp->posz,v3df_follow|v3df_dontpan,pp);
@@ -18318,11 +18318,11 @@ InitEMP(PLAYERp pp)
                 {
                 SET(wu->Flags2, SPR2_ATTACH_WALL);
                 }
-            else    
+            else
             if (TEST(hsp->cstat, CSTAT_SPRITE_FLOOR))
                 {
                 // hit floor
-                if (wp->z > DIV2(wu->hiz + wu->loz)) 
+                if (wp->z > DIV2(wu->hiz + wu->loz))
                     SET(wu->Flags2, SPR2_ATTACH_FLOOR);
                 else
                     SET(wu->Flags2, SPR2_ATTACH_CEILING);
@@ -18331,10 +18331,10 @@ InitEMP(PLAYERp pp)
                 {
                 KillSprite(j);
                 return(FALSE);
-                }    
+                }
             }
 
-        }    
+        }
     return (0);
     }
 
@@ -18350,14 +18350,14 @@ InitTankShell(short SpriteNum, PLAYERp pp)
 
     if (!SW_SHAREWARE)
     PlaySound(DIGI_CANNON, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
-    
-    w = SpawnSprite(STAT_MISSILE, NULL, s_TankShell, sp->sectnum, 
+
+    w = SpawnSprite(STAT_MISSILE, NULL, s_TankShell, sp->sectnum,
     sp->x, sp->y, sp->z, sp->ang, TANK_SHELL_VELOCITY);
 
     wp = &sprite[w];
     wu = User[w];
 
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 8;
     wp->xrepeat = 8;
     wp->shade = -40;
@@ -18373,7 +18373,7 @@ InitTankShell(short SpriteNum, PLAYERp pp)
     SET(wp->cstat, CSTAT_SPRITE_INVISIBLE);
 
     wp->zvel = ((100 - pp->horiz) * (wp->xvel/8));
-    
+
     WeaponAutoAim(sp, w, 64, FALSE);
     // a bit of randomness
     wp->ang += RANDOM_RANGE(30) - 15;
@@ -18386,7 +18386,7 @@ InitTankShell(short SpriteNum, PLAYERp pp)
     if (SpriteInUnderwaterArea(wp))
         SET(wu->Flags, SPR_UNDERWATER);
 
-        
+
     return (0);
     }
 
@@ -18395,7 +18395,7 @@ InitTurretMicro(short SpriteNum, PLAYERp pp)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
-    
+
     USERp pu = User[pp->PlayerSprite];
     USERp wu,hu;
     SPRITEp wp,hp;
@@ -18404,29 +18404,29 @@ InitTurretMicro(short SpriteNum, PLAYERp pp)
     short oclipdist;
     short i,ang;
     TARGET_SORTp ts = TargetSort;
-    
+
     if (SW_SHAREWARE) return FALSE;	// JBF: verify
 
 
     nx = sp->x;
     ny = sp->y;
-    
+
     #define MAX_TURRET_MICRO 10
 
     DoPickTarget(pp->SpriteP, 256, FALSE);
 
     if (TargetSortCount > MAX_TURRET_MICRO)
         TargetSortCount = MAX_TURRET_MICRO;
-    
+
     for (i = 0; i < MAX_TURRET_MICRO; i++)
         {
         if (ts < &TargetSort[TargetSortCount] && ts->sprite_num >= 0)
             {
             hp = &sprite[ts->sprite_num];
             hu = User[ts->sprite_num];
-            
+
             ang = getangle(hp->x - nx, hp->y - ny);
-            
+
             ts++;
             }
         else
@@ -18434,27 +18434,27 @@ InitTurretMicro(short SpriteNum, PLAYERp pp)
             hp = NULL;
             hu = NULL;
             ang = sp->ang;
-            }    
-            
+            }
+
         nz = sp->z;
         nz += Z(RANDOM_RANGE(20)) - Z(10);
-        
+
         // Spawn a shot
         // Inserting and setting up variables
-        
-        w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Micro, sp->sectnum, 
+
+        w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Micro, sp->sectnum,
             nx, ny, nz, ang, 1200);
 
         wp = &sprite[w];
         wu = User[w];
 
-        SetOwner(pp->PlayerSprite, w);  
+        SetOwner(pp->PlayerSprite, w);
         wp->yrepeat = 24;
         wp->xrepeat = 24;
         wp->shade = -15;
         wp->zvel = ((100 - pp->horiz) * HORIZ_MULT);
         wp->clipdist = 64L>>2;
-        
+
         // randomize zvelocity
         wp->zvel += RANDOM_RANGE(Z(8)) - Z(5);
 
@@ -18468,11 +18468,11 @@ InitTurretMicro(short SpriteNum, PLAYERp pp)
         RESET(wp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
         SET(wp->cstat, CSTAT_SPRITE_YCENTER);
         SET(wp->cstat, CSTAT_SPRITE_INVISIBLE);
-        
+
         wu->WaitTics = 10 + RANDOM_RANGE(40);
 
         #define MICRO_ANG 400
-            
+
         if (hp)
             {
             dist = Distance(wp->x, wp->y, hp->x, hp->y);
@@ -18482,25 +18482,25 @@ InitTurretMicro(short SpriteNum, PLAYERp pp)
                 zh = SPRITEp_TOS(hp) + DIV4(SPRITEp_SIZE_Z(hp));
                 wp->zvel = (wp->xvel * (zh - wp->z)) / dist;
                 }
-                
+
             wu->WpnGoal = ts->sprite_num;
             SET(hu->Flags, SPR_TARGETED);
             SET(hu->Flags, SPR_ATTACKED);
-            }    
+            }
         else
             {
             wp->ang = NORM_ANGLE(wp->ang + (RANDOM_RANGE(MICRO_ANG) - DIV2(MICRO_ANG)) - 16);
             }
-        
+
         wu->xchange = MOVEx(wp->xvel, wp->ang);
         wu->ychange = MOVEy(wp->xvel, wp->ang);
         wu->zchange = wp->zvel;
         }
-   
+
     return (0);
     }
 
-    
+
 int
 InitTurretRocket(short SpriteNum, PLAYERp pp)
     {
@@ -18513,14 +18513,14 @@ InitTurretRocket(short SpriteNum, PLAYERp pp)
 
     if (SW_SHAREWARE) return FALSE;	// JBF: verify
 
-    
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Rocket, sp->sectnum, 
+
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Rocket, sp->sectnum,
     sp->x, sp->y, sp->z, sp->ang, ROCKET_VELOCITY);
 
     wp = &sprite[w];
     wu = User[w];
 
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 40;
     wp->xrepeat = 40;
     wp->shade = -40;
@@ -18535,7 +18535,7 @@ InitTurretRocket(short SpriteNum, PLAYERp pp)
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
 
     wp->zvel = ((100 - pp->horiz) * (wp->xvel/8));
-    
+
     WeaponAutoAim(sp, w, 64, FALSE);
     // a bit of randomness
     //wp->ang += RANDOM_RANGE(30) - 15;
@@ -18561,14 +18561,14 @@ InitTurretFireball(short SpriteNum, PLAYERp pp)
     short hitsprite, w;
 
     if (SW_SHAREWARE) return FALSE;	// JBF: verify
-    
-    w = SpawnSprite(STAT_MISSILE, FIREBALL, s_Fireball, sp->sectnum, 
+
+    w = SpawnSprite(STAT_MISSILE, FIREBALL, s_Fireball, sp->sectnum,
     sp->x, sp->y, sp->z, sp->ang, FIREBALL_VELOCITY);
 
     wp = &sprite[w];
     wu = User[w];
 
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 40;
     wp->xrepeat = 40;
     wp->shade = -40;
@@ -18583,7 +18583,7 @@ InitTurretFireball(short SpriteNum, PLAYERp pp)
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
 
     wp->zvel = ((100 - pp->horiz) * (wp->xvel/8));
-    
+
     WeaponAutoAim(sp, w, 64, FALSE);
     // a bit of randomness
     wp->ang += RANDOM_RANGE(30) - 15;
@@ -18598,7 +18598,7 @@ InitTurretFireball(short SpriteNum, PLAYERp pp)
 
     return (0);
     }
-    
+
 int
 InitTurretRail(short SpriteNum, PLAYERp pp)
     {
@@ -18609,9 +18609,9 @@ InitTurretRail(short SpriteNum, PLAYERp pp)
     long nx, ny, nz;
     short w, hitsprite;
     short oclipdist;
-    
+
     if (SW_SHAREWARE) return FALSE;	// JBF: verify
-    
+
     nx = sp->x;
     ny = sp->y;
     nz = sp->z;
@@ -18619,13 +18619,13 @@ InitTurretRail(short SpriteNum, PLAYERp pp)
     // Spawn a shot
     // Inserting and setting up variables
 
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R1, s_Rail, pp->cursectnum, 
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R1, s_Rail, pp->cursectnum,
         nx, ny, nz, sp->ang, 1200);
 
     wp = &sprite[w];
     wu = User[w];
 
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 52;
     wp->xrepeat = 52;
     wp->shade = -15;
@@ -18647,14 +18647,14 @@ InitTurretRail(short SpriteNum, PLAYERp pp)
         {
         wp->ang = NORM_ANGLE(wp->ang);
         }
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
 
     return (0);
     }
-    
+
 int
 InitTurretLaser(short SpriteNum, PLAYERp pp)
     {
@@ -18665,10 +18665,10 @@ InitTurretLaser(short SpriteNum, PLAYERp pp)
     long nx, ny, nz;
     short w, hitsprite;
     short oclipdist;
-    
+
     if (SW_SHAREWARE) return FALSE;	// JBF: verify
 
-    
+
     nx = sp->x;
     ny = sp->y;
     nz = sp->z;
@@ -18676,17 +18676,17 @@ InitTurretLaser(short SpriteNum, PLAYERp pp)
     // Spawn a shot
     // Inserting and setting up variables
 
-    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Laser, pp->cursectnum, 
+    w = SpawnSprite(STAT_MISSILE, BOLT_THINMAN_R0, s_Laser, pp->cursectnum,
         nx, ny, nz, sp->ang, 300);
 
     wp = &sprite[w];
     wu = User[w];
 
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 52;
     wp->xrepeat = 52;
     wp->shade = -15;
-    
+
     // the slower the missile travels the less of a zvel it needs
     wp->zvel = ((100 - pp->horiz) * HORIZ_MULT);
     wp->zvel /= 4;
@@ -18703,7 +18703,7 @@ InitTurretLaser(short SpriteNum, PLAYERp pp)
         {
         wp->ang = NORM_ANGLE(wp->ang);
         }
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
@@ -18729,12 +18729,12 @@ InitSobjMachineGun(short SpriteNum, PLAYERp pp)
     //sound = (++sound)&1;
     //if (sound == 0)
         PlaySound(DIGI_BOATFIRE, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_doppler);
-    
+
     nx = sp->x;
     ny = sp->y;
     daz = nz = sp->z;
     nsect = sp->sectnum;
-    
+
     if (RANDOM_P2(1024) < 200)
         InitTracerTurret(sp - sprite, pp->PlayerSprite, pp->horiz);
 
@@ -18750,11 +18750,11 @@ InitSobjMachineGun(short SpriteNum, PLAYERp pp)
         horiz = pp->horiz;
         if (horiz < 75)
             horiz = 75;
-            
+
         daz = ((100 - horiz) * 2000) + (RANDOM_RANGE(Z(80)) - Z(40));
         daang = sp->ang;
         }
-            
+
     FAFhitscan(nx, ny, nz, nsect,       // Start position
         sintable[NORM_ANGLE(daang + 512)],      // X vector of 3D ang
         sintable[NORM_ANGLE(daang)],    // Y vector of 3D ang
@@ -18767,7 +18767,7 @@ InitSobjMachineGun(short SpriteNum, PLAYERp pp)
         MONO_PRINT(ds);
         return(0);
         }
-    
+
     if (hitsprite < 0 && hitwall < 0)
         {
         if (labs(hitz - sector[hitsect].ceilingz) <= Z(1))
@@ -18778,7 +18778,7 @@ InitSobjMachineGun(short SpriteNum, PLAYERp pp)
             if (TEST(sector[hitsect].ceilingstat, CEILING_STAT_PLAX))
                 return(0);
             }
-        else 
+        else
         if (labs(hitz - sector[hitsect].floorz) <= Z(1))
             {
             if (TEST(sector[hitsect].extra, SECTFX_LIQUID_MASK) != SECTFX_LIQUID_NONE)
@@ -18787,15 +18787,15 @@ InitSobjMachineGun(short SpriteNum, PLAYERp pp)
                 return(0);
                 }
             }
-            
+
         }
-        
+
     // hit a sprite?
     if (hitsprite >= 0)
         {
         SPRITEp hsp = &sprite[hitsprite];
-        
-        if (sprite[hitsprite].lotag == TAG_SPRITE_HIT_MATCH)    
+
+        if (sprite[hitsprite].lotag == TAG_SPRITE_HIT_MATCH)
             {
             // spawn sparks here and pass the sprite as SO_MISSILE
             spark = SpawnBoatSparks(pp, hitsect, hitwall, hitx, hity, hitz, daang);
@@ -18804,29 +18804,29 @@ InitSobjMachineGun(short SpriteNum, PLAYERp pp)
                 return(0);
             return(0);
             }
-                
+
         if (TEST(hsp->extra, SPRX_BREAKABLE))
             {
             HitBreakSprite(hitsprite,0);
             return(0);
             }
-            
+
         if (BulletHitSprite(pp->SpriteP, hitsprite, hitsect, hitwall, hitx, hity, hitz, 0))
             return(0);
-            
+
         // hit a switch?
         if (TEST(hsp->cstat, CSTAT_SPRITE_WALL) && (hsp->lotag || hsp->hitag))
             {
             ShootableSwitch(hitsprite,-1);
             }
-        }    
-    
+        }
+
     spark = SpawnBoatSparks(pp, hitsect, hitwall, hitx, hity, hitz, daang);
     DoHitscanDamage(spark, hitsprite);
-    
+
     return (0);
     }
-    
+
 int
 InitSobjGun(PLAYERp pp)
     {
@@ -18840,7 +18840,7 @@ InitSobjGun(PLAYERp pp)
         if (sprite[pp->sop->sp_num[i]].statnum == STAT_SO_SHOOT_POINT)
             {
             sp = &sprite[pp->sop->sp_num[i]];
-            
+
             // match when firing
             if (SP_TAG2(sp))
                 {
@@ -18850,18 +18850,18 @@ InitSobjGun(PLAYERp pp)
                     SP_TAG2(sp) = 0;
                     }
                 }
-            
+
             // inert shoot point
             if ((BYTE)SP_TAG3(sp) == 255)
                 return(0);
-            
-            if (!first)    
+
+            if (!first)
                 {
                 first = TRUE;
                 if (SP_TAG6(sp))
                     DoSoundSpotMatch(SP_TAG6(sp), 1, SOUND_OBJECT_TYPE);
                 }
-                
+
             switch (SP_TAG3(sp))
                 {
                 case 32:
@@ -18872,7 +18872,7 @@ InitSobjGun(PLAYERp pp)
                     InitTankShell(sp - sprite, pp);
                     if (!SP_TAG5(sp))
                         pp->FirePause = 80;
-                    else    
+                    else
                         pp->FirePause = SP_TAG5(sp);
                     break;
                 case 1:
@@ -18881,7 +18881,7 @@ InitSobjGun(PLAYERp pp)
                     InitSobjMachineGun(sp - sprite, pp);
                     if (!SP_TAG5(sp))
                         pp->FirePause = 10;
-                    else    
+                    else
                         pp->FirePause = SP_TAG5(sp);
                     break;
                 case 2:
@@ -18890,7 +18890,7 @@ InitSobjGun(PLAYERp pp)
                     InitTurretLaser(sp - sprite, pp);
                     if (!SP_TAG5(sp))
                         pp->FirePause = 120;
-                    else    
+                    else
                         pp->FirePause = SP_TAG5(sp);
                     break;
                 case 3:
@@ -18899,7 +18899,7 @@ InitSobjGun(PLAYERp pp)
                     InitTurretRail(sp - sprite, pp);
                     if (!SP_TAG5(sp))
                         pp->FirePause = 120;
-                    else    
+                    else
                         pp->FirePause = SP_TAG5(sp);
                     break;
                 case 4:
@@ -18908,7 +18908,7 @@ InitSobjGun(PLAYERp pp)
                     InitTurretFireball(sp - sprite, pp);
                     if (!SP_TAG5(sp))
                         pp->FirePause = 20;
-                    else    
+                    else
                         pp->FirePause = SP_TAG5(sp);
                     break;
                 case 5:
@@ -18917,7 +18917,7 @@ InitSobjGun(PLAYERp pp)
                     InitTurretRocket(sp - sprite, pp);
                     if (!SP_TAG5(sp))
                         pp->FirePause = 100;
-                    else    
+                    else
                         pp->FirePause = SP_TAG5(sp);
                     break;
                 case 6:
@@ -18926,16 +18926,16 @@ InitSobjGun(PLAYERp pp)
                     InitTurretMicro(sp - sprite, pp);
                     if (!SP_TAG5(sp))
                         pp->FirePause = 100;
-                    else    
+                    else
                         pp->FirePause = SP_TAG5(sp);
                     break;
                 }
             }
         }
-        
+
     return (0);
     }
-    
+
 int
 SpawnBoatSparks(PLAYERp pp, short hitsect, short hitwall, long hitx, long hity, long hitz, short hitang)
     {
@@ -18944,13 +18944,13 @@ SpawnBoatSparks(PLAYERp pp, short hitsect, short hitwall, long hitx, long hity, 
     long nx,ny;
     SPRITEp wp;
     USERp wu;
-    
+
     j = SpawnSprite(STAT_MISSILE, UZI_SMOKE, s_UziSmoke, hitsect, hitx, hity, hitz, hitang, 0);
     wp = &sprite[j];
     wp->shade = -40;
     wp->xrepeat = UZI_SMOKE_REPEAT + 12;
     wp->yrepeat = UZI_SMOKE_REPEAT + 12;
-    SetOwner(pp->PlayerSprite, j);  
+    SetOwner(pp->PlayerSprite, j);
     SET(wp->cstat, CSTAT_SPRITE_TRANSLUCENT | CSTAT_SPRITE_YCENTER);
 
     wp->hitag = LUMINOUS; //Always full brightness
@@ -18958,27 +18958,27 @@ SpawnBoatSparks(PLAYERp pp, short hitsect, short hitwall, long hitx, long hity, 
     // This moves it back enough to see it at all angles.
 
     wp->clipdist = 32 >> 2;
-    
+
     HitscanSpriteAdjust(j, hitwall);
-    
+
     j = SpawnSprite(STAT_MISSILE, UZI_SPARK, s_UziSpark, hitsect, hitx, hity, hitz, hitang, 0);
     wp = &sprite[j];
     wu = User[j];
     wp->shade = -40;
     wp->xrepeat = UZI_SPARK_REPEAT + 10;
     wp->yrepeat = UZI_SPARK_REPEAT + 10;
-    SetOwner(pp->PlayerSprite, j);  
+    SetOwner(pp->PlayerSprite, j);
     wu->spal = wp->pal = PALETTE_DEFAULT;
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
 
     wp->clipdist = 32 >> 2;
-    
+
     HitscanSpriteAdjust(j, hitwall);
-    
+
     if (RANDOM_P2(1024) < 100)
         PlaySound(DIGI_RICHOCHET1,&wp->x, &wp->y, &wp->z, v3df_none);
-    
-    return(j);    
+
+    return(j);
 }
 
 int
@@ -18989,12 +18989,12 @@ SpawnSwordSparks(PLAYERp pp, short hitsect, short hitwall, long hitx, long hity,
     long nx,ny;
     SPRITEp wp;
     USERp wu;
-    
+
     j = SpawnSprite(STAT_MISSILE, UZI_SMOKE, s_UziSmoke, hitsect, hitx, hity, hitz, hitang, 0);
     wp = &sprite[j];
     wp->shade = -40;
     wp->xrepeat = wp->yrepeat = 20;
-    SetOwner(pp->PlayerSprite, j);  
+    SetOwner(pp->PlayerSprite, j);
     SET(wp->cstat, CSTAT_SPRITE_TRANSLUCENT | CSTAT_SPRITE_YCENTER);
     wp->hitag = LUMINOUS; //Always full brightness
 
@@ -19002,27 +19002,27 @@ SpawnSwordSparks(PLAYERp pp, short hitsect, short hitwall, long hitx, long hity,
     // This moves it back enough to see it at all angles.
 
     wp->clipdist = 32 >> 2;
-    
+
     if(hitwall != -1)
         HitscanSpriteAdjust(j, hitwall);
-    
+
     j = SpawnSprite(STAT_MISSILE, UZI_SPARK, s_UziSpark, hitsect, hitx, hity, hitz, hitang, 0);
     wp = &sprite[j];
     wu = User[j];
     wp->shade = -40;
     wp->xrepeat = wp->yrepeat = 20;
-    SetOwner(pp->PlayerSprite, j);  
+    SetOwner(pp->PlayerSprite, j);
     wu->spal = wp->pal = PALETTE_DEFAULT;
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
     if(u->WeaponNum == WPN_FIST)
         SET(wp->cstat, CSTAT_SPRITE_INVISIBLE);
 
     wp->clipdist = 32 >> 2;
-    
+
     if(hitwall != -1)
         HitscanSpriteAdjust(j, hitwall);
-    
-    return(0);    
+
+    return(0);
 }
 
 int
@@ -19033,7 +19033,7 @@ SpawnTurretSparks(SPRITEp sp, short hitsect, short hitwall, long hitx, long hity
     long nx,ny;
     SPRITEp wp;
     USERp wu;
-    
+
     j = SpawnSprite(STAT_MISSILE, UZI_SMOKE, s_UziSmoke, hitsect, hitx, hity, hitz, hitang, 0);
     wp = &sprite[j];
     wp->shade = -40;
@@ -19047,7 +19047,7 @@ SpawnTurretSparks(SPRITEp sp, short hitsect, short hitwall, long hitx, long hity
 
     wp->clipdist = 32 >> 2;
     HitscanSpriteAdjust(j, hitwall);
-    
+
     j = SpawnSprite(STAT_MISSILE, UZI_SPARK, s_UziSpark, hitsect, hitx, hity, hitz, hitang, 0);
     wp = &sprite[j];
     wu = User[j];
@@ -19059,11 +19059,11 @@ SpawnTurretSparks(SPRITEp sp, short hitsect, short hitwall, long hitx, long hity
 
     wp->clipdist = 32 >> 2;
     HitscanSpriteAdjust(j, hitwall);
-    
+
     if (RANDOM_P2(1024) < 100)
         PlaySound(DIGI_RICHOCHET1, &wp->x, &wp->y, &wp->z, v3df_none);
-    
-    return(j);    
+
+    return(j);
 }
 
 int
@@ -19074,27 +19074,27 @@ SpawnShotgunSparks(PLAYERp pp, short hitsect, short hitwall, long hitx, long hit
     long nx,ny;
     SPRITEp wp;
     USERp wu;
-    
+
     j = SpawnSprite(STAT_MISSILE, UZI_SPARK, s_UziSpark, hitsect, hitx, hity, hitz, hitang, 0);
     wp = &sprite[j];
     wu = User[j];
     wp->shade = -40;
     wp->xrepeat = UZI_SPARK_REPEAT;
     wp->yrepeat = UZI_SPARK_REPEAT;
-    SetOwner(pp->PlayerSprite, j);  
+    SetOwner(pp->PlayerSprite, j);
     wu->spal = wp->pal = PALETTE_DEFAULT;
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
 
     wp->clipdist = 32 >> 2;
-    
+
     HitscanSpriteAdjust(j, hitwall);
-    
+
     j = SpawnSprite(STAT_MISSILE, SHOTGUN_SMOKE, s_ShotgunSmoke, hitsect, hitx, hity, hitz, hitang, 0);
     wp = &sprite[j];
     wp->shade = -40;
     wp->xrepeat = SHOTGUN_SMOKE_REPEAT;
     wp->yrepeat = SHOTGUN_SMOKE_REPEAT;
-    SetOwner(pp->PlayerSprite, j);  
+    SetOwner(pp->PlayerSprite, j);
     SET(wp->cstat, CSTAT_SPRITE_TRANSLUCENT | CSTAT_SPRITE_YCENTER);
 
     wp->hitag = LUMINOUS; //Always full brightness
@@ -19102,9 +19102,9 @@ SpawnShotgunSparks(PLAYERp pp, short hitsect, short hitwall, long hitx, long hit
     // This moves it back enough to see it at all angles.
 
     wp->clipdist = 32 >> 2;
-    
+
     HitscanSpriteAdjust(j, hitwall);
-    
+
     return(j);
 }
 
@@ -19123,18 +19123,18 @@ InitTurretMgun(SECTOR_OBJECTp sop)
     long xvect,yvect,zvect;
 
     PlaySound(DIGI_BOATFIRE, &sop->xmid, &sop->ymid, &sop->zmid, v3df_dontpan|v3df_doppler);
-    
+
     for (i = 0; sop->sp_num[i] != -1; i++)
         {
         if (sprite[sop->sp_num[i]].statnum == STAT_SO_SHOOT_POINT)
             {
             sp = &sprite[sop->sp_num[i]];
-            
+
             nx = sp->x;
             ny = sp->y;
             daz = nz = sp->z;
             nsect = sp->sectnum;
-            
+
             // if its not operated by a player
             if (sop->Animator)
                 {
@@ -19147,14 +19147,14 @@ InitTurretMgun(SECTOR_OBJECTp sop)
                         {
                         // don't shoot if greater than 128
                         return(0);
-                        }    
-                    else    
+                        }
+                    else
                     if (delta > 24)
                         {
                         // always shoot the ground when tracking
                         // and not close
                         WeaponHitscanShootFeet(sp, &sprite[hitsprite], &daz);
-                        
+
                         daang = sp->ang;
                         daang = NORM_ANGLE(daang + RANDOM_P2(32) - 16);
                         }
@@ -19162,7 +19162,7 @@ InitTurretMgun(SECTOR_OBJECTp sop)
                         {
                         // randomize the z for shots
                         daz += RANDOM_RANGE(Z(120)) - Z(60);
-                        // never auto aim the angle    
+                        // never auto aim the angle
                         daang = sp->ang;
                         daang = NORM_ANGLE(daang + RANDOM_P2(64) - 32);
                         }
@@ -19175,25 +19175,25 @@ InitTurretMgun(SECTOR_OBJECTp sop)
                     {
                     daz += RANDOM_RANGE(Z(30)) - Z(15);
                     }
-                }    
-                
+                }
+
             xvect = sintable[NORM_ANGLE(daang + 512)];
             yvect = sintable[NORM_ANGLE(daang)];
             zvect = daz;
-            
+
             FAFhitscan(nx, ny, nz, nsect,       // Start position
                 xvect, yvect, zvect,
                 &hitsect, &hitwall, &hitsprite, &hitx, &hity, &hitz, CLIPMASK_MISSILE);
 
             if (RANDOM_P2(1024) < 400)
                 {
-                InitTracerAutoTurret(sop->sp_num[i], -1, 
+                InitTracerAutoTurret(sop->sp_num[i], -1,
                     xvect>>4, yvect>>4, zvect>>4);
-                }    
-                    
+                }
+
             if (hitsect < 0)
                 continue;
-                
+
             if (hitsprite < 0 && hitwall < 0)
                 {
                 if (labs(hitz - sector[hitsect].ceilingz) <= Z(1))
@@ -19204,7 +19204,7 @@ InitTurretMgun(SECTOR_OBJECTp sop)
                     if (TEST(sector[hitsect].ceilingstat, CEILING_STAT_PLAX))
                         continue;
                     }
-                else 
+                else
                 if (labs(hitz - sector[hitsect].floorz) <= Z(1))
                     {
                     if (TEST(sector[hitsect].extra, SECTFX_LIQUID_MASK) != SECTFX_LIQUID_NONE)
@@ -19213,9 +19213,9 @@ InitTurretMgun(SECTOR_OBJECTp sop)
                         continue;
                         }
                     }
-                    
+
                 }
-                
+
             if (hitwall >= 0)
                 {
                 if (wall[hitwall].nextsector >= 0)
@@ -19227,54 +19227,54 @@ InitTurretMgun(SECTOR_OBJECTp sop)
                             return(0);
                             }
                         }
-                    }    
-                
+                    }
+
                 if (wall[hitwall].lotag == TAG_WALL_BREAK)
                     {
                     HitBreakWall(&wall[hitwall], hitx, hity, hitz, daang, NULL);
                     continue;
                     }
-                    
+
                 QueueHole(daang,hitsect,hitwall,hitx,hity,hitz);
-                }    
-            
+                }
+
             // hit a sprite?
             if (hitsprite >= 0)
                 {
                 hsp = &sprite[hitsprite];
-                
-                if (hsp->lotag == TAG_SPRITE_HIT_MATCH)    
+
+                if (hsp->lotag == TAG_SPRITE_HIT_MATCH)
                     {
                     if (MissileHitMatch(-1, WPN_UZI, hitsprite))
                         continue;
                     }
-                    
+
                 if (TEST(hsp->extra, SPRX_BREAKABLE))
                     {
                     HitBreakSprite(hitsprite,0);
                     continue;
                     }
-                    
+
                 if (BulletHitSprite(sp, hitsprite, hitsect, hitwall, hitx, hity, hitz, 0))
                     continue;
-                    
+
                 // hit a switch?
                 if (TEST(hsp->cstat, CSTAT_SPRITE_WALL) && (hsp->lotag || hsp->hitag))
                     {
                     ShootableSwitch(hitsprite,-1);
                     }
-                }    
-            
-                
+                }
+
+
             j = SpawnTurretSparks(sp, hitsect, hitwall, hitx, hity, hitz, daang);
             DoHitscanDamage(j, hitsprite);
             }
         }
-    
+
     return (0);
     }
 
-    
+
 int
 InitEnemyUzi(short SpriteNum)
     {
@@ -19305,7 +19305,7 @@ InitEnemyUzi(short SpriteNum)
         zh -= DIV4(zh);
         }
     daz = sp->z - zh;
-    
+
     if (AimHitscanToTarget(sp, &daz, &daang, 200) != -1)
         {
         // set angle to player and also face player when attacking
@@ -19317,14 +19317,14 @@ InitEnemyUzi(short SpriteNum)
     else
         {
         // couldn't shoot target for some reason
-        
+
         // don't bother wasting processing 50% of the time
         if (RANDOM_P2(1024) < 512)
             return(0);
-        
+
         daz = 0;
         daang = NORM_ANGLE(sp->ang + (RANDOM_P2(128)) - 64);
-        }    
+        }
 
     FAFhitscan(sp->x, sp->y, sp->z - zh, sp->sectnum,      // Start position
         sintable[NORM_ANGLE(daang + 512)],      // X vector of 3D ang
@@ -19335,11 +19335,11 @@ InitEnemyUzi(short SpriteNum)
     if (hitsect < 0)
         return(0);
 
-    if(RANDOM_P2(1024<<4)>>4 > 700) 
+    if(RANDOM_P2(1024<<4)>>4 > 700)
         {
         if(u->ID == TOILETGIRL_R0 || u->ID == WASHGIRL_R0 || u->ID == CARGIRL_R0)
             SpawnShell(SpriteNum,-3);
-        else   
+        else
             SpawnShell(SpriteNum,-2); // Enemy Uzi shell
         }
 
@@ -19351,7 +19351,7 @@ InitEnemyUzi(short SpriteNum)
             PlaySound(DIGI_M60, &sp->x, &sp->y, &sp->z, v3df_none);
         else
             PlaySound(DIGI_NINJAUZIATTACK, &sp->x, &sp->y, &sp->z, v3df_none);
-        }    
+        }
 
     if (hitwall >= 0)
         {
@@ -19364,16 +19364,16 @@ InitEnemyUzi(short SpriteNum)
                 return(0);
                 }
             }
-        }    
-        
+        }
+
         if (wall[hitwall].lotag == TAG_WALL_BREAK)
             {
             HitBreakWall(&wall[hitwall], hitx, hity, hitz, daang, u->ID);
             return(0);
             }
-            
+
         QueueHole(daang,hitsect,hitwall,hitx,hity,hitz);
-        }    
+        }
 
     if (hitsprite >= 0)
         {
@@ -19387,10 +19387,10 @@ InitEnemyUzi(short SpriteNum)
     wp->xrepeat = UZI_SMOKE_REPEAT;
     wp->yrepeat = UZI_SMOKE_REPEAT;
 
-    if (u->ID == ZOMBIE_RUN_R0)    
+    if (u->ID == ZOMBIE_RUN_R0)
         SetOwner(sp->owner, j);
-    else    
-        SetOwner(SpriteNum, j);  
+    else
+        SetOwner(SpriteNum, j);
 
     User[j]->WaitTics = 63;
     //SET(wp->cstat, CSTAT_SPRITE_TRANSLUCENT | CSTAT_SPRITE_YCENTER);
@@ -19404,31 +19404,31 @@ InitEnemyUzi(short SpriteNum)
     wp->shade = -40;
     wp->xrepeat = UZI_SMOKE_REPEAT;
     wp->yrepeat = UZI_SMOKE_REPEAT;
-    SetOwner(SpriteNum, j);  
+    SetOwner(SpriteNum, j);
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
     wp->clipdist = 8 >> 2;
 
     HitscanSpriteAdjust(j, hitwall);
     DoHitscanDamage(j, hitsprite);
-    
+
     j = SpawnSprite(STAT_MISSILE, UZI_SPARK, s_UziSpark, hitsect, hitx, hity, hitz, daang, 0);
     wp = &sprite[j];
     wu = User[j];
     wp->shade = -40;
     wp->xrepeat = UZI_SPARK_REPEAT;
     wp->yrepeat = UZI_SPARK_REPEAT;
-    SetOwner(SpriteNum, j);  
+    SetOwner(SpriteNum, j);
     wu->spal = wp->pal;
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
     wp->clipdist = 8 >> 2;
 
     HitscanSpriteAdjust(j, hitwall);
-    
+
     if (RANDOM_P2(1024) < 100)
     {
         PlaySound(DIGI_RICHOCHET1,&wp->x, &wp->y, &wp->z, v3df_none);
     }
-    else    
+    else
     if (RANDOM_P2(1024) < 100)
         PlaySound(DIGI_RICHOCHET2,&wp->x, &wp->y, &wp->z, v3df_none);
 
@@ -19448,7 +19448,7 @@ InitGrenade(PLAYERp pp)
     long dist;
     long zvel;
     BOOL auto_aim = FALSE;
-    
+
     DoPlayerBeginRecoil(pp, GRENADE_RECOIL_AMT);
 
     PlayerUpdateAmmo(pp, u->WeaponNum, -1);
@@ -19464,7 +19464,7 @@ InitGrenade(PLAYERp pp)
 
     // Spawn a shot
     // Inserting and setting up variables
-    w = SpawnSprite(STAT_MISSILE, GRENADE, s_Grenade, pp->cursectnum, 
+    w = SpawnSprite(STAT_MISSILE, GRENADE, s_Grenade, pp->cursectnum,
         nx, ny, nz, pp->pang, GRENADE_VELOCITY);
 
     wp = &sprite[w];
@@ -19475,12 +19475,12 @@ InitGrenade(PLAYERp pp)
         {
         wp->xvel -= DIV4(wp->xvel);
         }
-    
+
     wu->RotNum = 5;
     NewStateGroup(w, &sg_Grenade);
     SET(wu->Flags, SPR_XFLIP_TOGGLE);
-    
-    SetOwner(pp->PlayerSprite, w);  
+
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 32;
     wp->xrepeat = 32;
     wp->shade = -15;
@@ -19498,38 +19498,38 @@ InitGrenade(PLAYERp pp)
         SET(wu->Flags, SPR_UNDERWATER);
 
     wp->zvel = ((100 - pp->horiz) * HORIZ_MULT);
-    
+
     ////DSPRINTF(ds,"horiz %d, ho %d, ho+ho %d",pp->horiz, pp->horizoff, pp->horizoff + pp->horiz);
     //MONO_PRINT(ds);
-    
+
     oclipdist = pp->SpriteP->clipdist;
     pp->SpriteP->clipdist = 0;
-    
+
     wp->ang = NORM_ANGLE(wp->ang + 512);
     HelpMissileLateral(w, 800);
     wp->ang = NORM_ANGLE(wp->ang - 512);
-    
+
     // don't do smoke for this movement
     SET(wu->Flags, SPR_BOUNCE);
     MissileSetPos(w, DoGrenade, 1000);
     RESET(wu->Flags, SPR_BOUNCE);
-    
+
     pp->SpriteP->clipdist = oclipdist;
 
     //dist = FindDistance2D(pp->xvect, pp->yvect)>>12;
     //dist = dist - (dist/2);
-    
-    zvel = wp->zvel;    
+
+    zvel = wp->zvel;
     if (WeaponAutoAim(pp->SpriteP, w, 32, FALSE) >= 0)
         {
         auto_aim = TRUE;
         }
-    wp->zvel = zvel;    
-    
+    wp->zvel = zvel;
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
-    
+
     if (!auto_aim)
         {
         // adjust xvel according to player velocity
@@ -19538,7 +19538,7 @@ InitGrenade(PLAYERp pp)
         }
 
     wu->Counter2 = TRUE;  // Phosphorus Grenade
-    
+
     return (0);
     }
 
@@ -19553,7 +19553,7 @@ InitSpriteGrenade(short SpriteNum)
     short w, hitsprite;
     short oclipdist;
     long dist;
-    
+
 
     PlaySound(DIGI_30MMFIRE, &sp->x, &sp->y, &sp->z, v3df_dontpan|v3df_doppler);
 
@@ -19563,7 +19563,7 @@ InitSpriteGrenade(short SpriteNum)
 
     // Spawn a shot
     // Inserting and setting up variables
-    w = SpawnSprite(STAT_MISSILE, GRENADE, s_Grenade, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, GRENADE, s_Grenade, sp->sectnum,
         nx, ny, nz, sp->ang, GRENADE_VELOCITY);
 
     wp = &sprite[w];
@@ -19573,10 +19573,10 @@ InitSpriteGrenade(short SpriteNum)
     NewStateGroup(w, &sg_Grenade);
     SET(wu->Flags, SPR_XFLIP_TOGGLE);
 
-    if (u->ID == ZOMBIE_RUN_R0)    
+    if (u->ID == ZOMBIE_RUN_R0)
         SetOwner(sp->owner, w);
-    else    
-        SetOwner(SpriteNum, w);  
+    else
+        SetOwner(SpriteNum, w);
     wp->yrepeat = 32;
     wp->xrepeat = 32;
     wp->shade = -15;
@@ -19590,10 +19590,10 @@ InitSpriteGrenade(short SpriteNum)
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
     SET(wp->cstat, CSTAT_SPRITE_BLOCK);
 
-    
+
     //wp->zvel = (-RANDOM_RANGE(100) * HORIZ_MULT);
     wp->zvel = -2000;
-    
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel;
@@ -19601,12 +19601,12 @@ InitSpriteGrenade(short SpriteNum)
     wp->ang = NORM_ANGLE(wp->ang + 512);
     HelpMissileLateral(w, 800);
     wp->ang = NORM_ANGLE(wp->ang - 512);
-    
+
     // don't do smoke for this movement
     SET(wu->Flags, SPR_BOUNCE);
     MissileSetPos(w, DoGrenade, 400);
     RESET(wu->Flags, SPR_BOUNCE);
-    
+
     return (0);
     }
 
@@ -19631,13 +19631,13 @@ InitMine(PLAYERp pp)
 
     // Spawn a shot
     // Inserting and setting up variables
-    w = SpawnSprite(STAT_MISSILE, MINE, s_Mine, pp->cursectnum, 
+    w = SpawnSprite(STAT_MISSILE, MINE, s_Mine, pp->cursectnum,
         nx, ny, nz, pp->pang, MINE_VELOCITY);
 
     wp = &sprite[w];
     wu = User[w];
 
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     wp->yrepeat = 32;
     wp->xrepeat = 32;
     wp->shade = -15;
@@ -19651,28 +19651,28 @@ InitMine(PLAYERp pp)
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
     RESET(wp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
     wu->spal = wp->pal = User[pp->PlayerSprite]->spal; // Set sticky color
-    
+
     if (TEST(pp->Flags, PF_DIVING) || SpriteInUnderwaterArea(wp))
         SET(wu->Flags, SPR_UNDERWATER);
 
     //wp->zvel = ((100 - pp->horiz) * HORIZ_MULT);
-    
+
     MissileSetPos(w, DoMine, 800);
-    
+
     wu->zchange = wp->zvel>>1;
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
-    
+
     dot = DOT_PRODUCT_2D(pp->xvect, pp->yvect, sintable[NORM_ANGLE(pp->pang+512)], sintable[pp->pang]);
-    
-    // don't adjust for strafing    
-    if (labs(dot) > 10000)    
+
+    // don't adjust for strafing
+    if (labs(dot) > 10000)
         {
         // adjust xvel according to player velocity
         wu->xchange += pp->xvect>>13;
         wu->ychange += pp->yvect>>13;
         }
-    
+
     return (0);
     }
 
@@ -19699,13 +19699,13 @@ InitEnemyMine(short SpriteNum)
 
     // Spawn a shot
     // Inserting and setting up variables
-    w = SpawnSprite(STAT_MISSILE, MINE, s_Mine, sp->sectnum, 
+    w = SpawnSprite(STAT_MISSILE, MINE, s_Mine, sp->sectnum,
         nx, ny, nz, sp->ang, MINE_VELOCITY);
 
     wp = &sprite[w];
     wu = User[w];
 
-    SetOwner(SpriteNum, w);  
+    SetOwner(SpriteNum, w);
     wp->yrepeat = 32;
     wp->xrepeat = 32;
     wp->shade = -15;
@@ -19722,7 +19722,7 @@ InitEnemyMine(short SpriteNum)
     // (velocity * difference between the target and the object) /
     // distance
     tvel = -((((MINE_VELOCITY) * (wp->z - dz)) / dist)*128);
-    
+
     wu->WeaponNum = u->WeaponNum;
     wu->Radius = 200;
     wu->ceiling_dist = Z(5);
@@ -19731,7 +19731,7 @@ InitEnemyMine(short SpriteNum)
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
     RESET(wp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
     wu->spal = wp->pal = User[SpriteNum]->spal; // Set sticky color
-    
+
     if (SpriteInUnderwaterArea(wp))
         SET(wu->Flags, SPR_UNDERWATER);
 
@@ -19739,15 +19739,15 @@ InitEnemyMine(short SpriteNum)
     wp->ang = NORM_ANGLE(wp->ang-512);
     MissileSetPos(w, DoMine, 300);
     wp->ang = NORM_ANGLE(wp->ang+512);
-    
+
     wu->zchange = -5000;
     //CON_Message("change = %ld",wu->zchange);
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
-    
+
     return (0);
     }
-    
+
 int
 HelpMissileLateral(SHORT Weapon, long dist)
     {
@@ -19812,21 +19812,21 @@ InitFireball(PLAYERp pp)
     w = SpawnSprite(STAT_MISSILE, FIREBALL1, s_Fireball, pp->cursectnum, nx, ny, nz, pp->pang, FIREBALL_VELOCITY);
     wp = &sprite[w];
     wu = User[w];
-        
+
     wp->hitag = LUMINOUS; //Always full brightness
     wp->xrepeat = 40;
     wp->yrepeat = 40;
     wp->shade = -40;
     wp->clipdist = 32>>2;
-    SetOwner(pp->PlayerSprite, w);  
+    SetOwner(pp->PlayerSprite, w);
     SET(wp->cstat, CSTAT_SPRITE_YCENTER);
     wu->Radius = 100;
-    
+
     wu->ceiling_dist = Z(6);
     wu->floor_dist = Z(6);
     //zvel = ((100 - pp->horiz) * (100+ADJUST));
     zvel = ((100 - pp->horiz) * (240L));
-    
+
     //wu->RotNum = 5;
     //NewStateGroup(w, &sg_Fireball);
     //SET(wu->Flags, SPR_XFLIP_TOGGLE);
@@ -19852,16 +19852,16 @@ InitFireball(PLAYERp pp)
 
     pp->SpriteP->clipdist = oclipdist;
 
-    wp->zvel = zvel >> 1; 
+    wp->zvel = zvel >> 1;
     if (WeaponAutoAimZvel(pp->SpriteP, w, &zvel, 32, FALSE) == -1)
         {
         wp->ang = NORM_ANGLE(wp->ang - 9);
-        } 
-        
+        }
+
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = zvel;
-    
+
     return (0);
     }
 
@@ -19877,12 +19877,12 @@ InitEnemyFireball(short SpriteNum)
     USERp wu;
     SPRITEp tsp;
     long i, targ_z, zvel=0, xchange, ychange, zchange;
-    
-    static short lat_ang[] = 
+
+    static short lat_ang[] =
       {
       512, -512
       };
-    
+
     ASSERT(SpriteNum >= 0);
 
     tsp = u->tgt_sp;
@@ -19895,15 +19895,15 @@ InitEnemyFireball(short SpriteNum)
     size_z = Z(SPRITEp_SIZE_Y(sp));
     //nz = sp->z - size_z + DIV4(size_z) + DIV8(size_z);
     nz = sp->z - size_z + DIV4(size_z) + DIV8(size_z) + Z(4);
-    
+
     xchange = MOVEx(GORO_FIREBALL_VELOCITY, sp->ang);
     ychange = MOVEy(GORO_FIREBALL_VELOCITY, sp->ang);
-        
+
     for (i = 0; i < 2; i++)
         {
         w = SpawnSprite(STAT_MISSILE, GORO_FIREBALL, s_Fireball, sp->sectnum,
                 sp->x, sp->y, nz, sp->ang, GORO_FIREBALL_VELOCITY);
-        
+
         wp = &sprite[w];
         wu = User[w];
 
@@ -19912,26 +19912,26 @@ InitEnemyFireball(short SpriteNum)
         wp->yrepeat = 20;
         wp->shade = -40;
         //wp->owner = SpriteNum;
-        SetOwner(SpriteNum, w);  
+        SetOwner(SpriteNum, w);
         wp->zvel = 0;
         wp->clipdist = 16>>2;
-        
+
         wp->ang = NORM_ANGLE(wp->ang + lat_ang[i]);
         HelpMissileLateral(w, 500L);
         wp->ang = NORM_ANGLE(wp->ang - lat_ang[i]);
-        
+
         wu->xchange = xchange;
         wu->ychange = ychange;
-        
+
         //MissileSetPos(w, DoFireball, 700);
         MissileSetPos(w, DoFireball, 700);
-        
+
         if (i == 0)
             {
             // back up first one
             fp = wp;
             fu = wu;
-            
+
             // find the distance to the target (player)
             dist = ksqrt(SQ(wp->x - tsp->x) + SQ(wp->y - tsp->y));
             //dist = Distance(wp->x, wp->y, tsp->x, tsp->y);
@@ -19945,16 +19945,16 @@ InitEnemyFireball(short SpriteNum)
             // distance
             if (dist != 0)
                 wu->zchange = wp->zvel = (GORO_FIREBALL_VELOCITY * (targ_z - wp->z)) / dist;
-            }    
+            }
         else
             {
             // use the first calculations so the balls stay together
             wu->zchange = wp->zvel = fp->zvel;
             }
         }
-        
-    return(0);    
-    
+
+    return(0);
+
     }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -19974,7 +19974,7 @@ WarpToUnderwater(short *sectnum, long *x, long *y, long *z)
     // 0 not valid for water match tags
     if (sectu->number == 0)
         return(FALSE);
-    
+
     // search for DIVE_AREA "over" sprite for reference point
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_DIVE_AREA], i, nexti)
         {
@@ -20047,7 +20047,7 @@ WarpToSurface(short *sectnum, long *x, long *y, long *z)
     // 0 not valid for water match tags
     if (sectu->number == 0)
         return(FALSE);
-        
+
     // search for UNDERWATER "under" sprite for reference point
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_UNDERWATER], i, nexti)
         {
@@ -20103,7 +20103,7 @@ WarpToSurface(short *sectnum, long *x, long *y, long *z)
 
     return(TRUE);
     }
-    
+
 
 BOOL
 SpriteWarpToUnderwater(SPRITEp sp)
@@ -20119,7 +20119,7 @@ SpriteWarpToUnderwater(SPRITEp sp)
     // 0 not valid for water match tags
     if (sectu->number == 0)
         return(FALSE);
-    
+
     // search for DIVE_AREA "over" sprite for reference point
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_DIVE_AREA], i, nexti)
         {
@@ -20198,7 +20198,7 @@ SpriteWarpToSurface(SPRITEp sp)
     // 0 not valid for water match tags
     if (sectu->number == 0)
         return(FALSE);
-        
+
     // search for UNDERWATER "under" sprite for reference point
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_UNDERWATER], i, nexti)
         {
@@ -20214,10 +20214,10 @@ SpriteWarpToSurface(SPRITEp sp)
         }
 
     ASSERT(Found == TRUE);
-    
+
     if (under_sp->lotag == 0)
         return(FALSE);
-    
+
     Found = FALSE;
 
     // search for DIVE_AREA "over" sprite for reference point
@@ -20257,7 +20257,7 @@ SpriteWarpToSurface(SPRITEp sp)
     // set z range and wade depth so we know how high to set view
     DoActorZrange(sp - sprite);
     MissileWaterAdjust(sp - sprite);
-    
+
 
     u->ox = sp->x;
     u->oy = sp->y;
@@ -20276,10 +20276,10 @@ SpawnSplash(short SpriteNum)
 
     SECT_USERp sectu = SectUser[sp->sectnum];
     SECTORp sectp = &sector[sp->sectnum];
-    
+
     if (Prediction)
         return(0);
-    
+
     if (sectu && (TEST(sectp->extra, SECTFX_LIQUID_MASK) == SECTFX_LIQUID_NONE))
         return(0);
 
@@ -20318,30 +20318,30 @@ SpawnSplashXY(long hitx, long hity, long hitz, short sectnum)
 
     if (Prediction)
         return(0);
-        
+
     sectu = SectUser[sectnum];
     sectp = &sector[sectnum];
-    
+
     if (sectu && (TEST(sectp->extra, SECTFX_LIQUID_MASK) == SECTFX_LIQUID_NONE))
         return(0);
-        
+
     if (sectu && TEST(sectp->floorstat, FLOOR_STAT_PLAX))
         return(0);
-        
+
     w = SpawnSprite(STAT_MISSILE, SPLASH, s_Splash, sectnum, hitx, hity, hitz, 0, 0);
     wp = &sprite[w];
     wu = User[w];
-    
+
     if (sectu && TEST(sectp->extra, SECTFX_LIQUID_MASK) == SECTFX_LIQUID_LAVA)
         wu->spal = wp->pal = PALETTE_RED_LIGHTING;
-        
+
     wp->xrepeat = 45;
     wp->yrepeat = 42;
     wp->shade = sector[wp->sectnum].floorshade - 10;
 
     return (0);
     }
-    
+
 int
 SpawnUnderSplash(short SpriteNum)
     {
@@ -20351,12 +20351,12 @@ SpawnUnderSplash(short SpriteNum)
 
     SECT_USERp sectu = SectUser[sp->sectnum];
     SECTORp sectp = &sector[sp->sectnum];
-    
+
     return(0);
-    
+
     if (Prediction)
         return(0);
-    
+
     if (sectu && (TEST(sectp->extra, SECTFX_LIQUID_MASK) == SECTFX_LIQUID_NONE))
         return(0);
 
@@ -20369,8 +20369,8 @@ SpawnUnderSplash(short SpriteNum)
 
     if (sectu && TEST(sectp->extra, SECTFX_LIQUID_MASK) == SECTFX_LIQUID_LAVA)
         wu->spal = wp->pal = PALETTE_RED_LIGHTING;
-    
-    wp->xrepeat = 72;            
+
+    wp->xrepeat = 72;
     wp->yrepeat = 90;
     wp->shade = sector[sp->sectnum].floorshade - 10;
     SET(wp->cstat, CSTAT_SPRITE_YFLIP);
@@ -20385,16 +20385,16 @@ MissileHitDiveArea(short SpriteNum)
     SPRITEp sp = User[SpriteNum]->SpriteP;
     short hitsect, hitwall;
     SECTORp sectp;
-    
+
     // correctly set underwater bit for missiles
     // in Stacked water areas.
     if (FAF_ConnectArea(sp->sectnum))
         {
         if (SectorIsUnderwaterArea(sp->sectnum))
             SET(u->Flags, SPR_UNDERWATER);
-        else    
+        else
             RESET(u->Flags, SPR_UNDERWATER);
-        }    
+        }
 
     if (!u->ret)
         return (FALSE);
@@ -20410,13 +20410,13 @@ MissileHitDiveArea(short SpriteNum)
             if (SpriteInDiveArea(sp))
                 {
                 // make sure you are close to the floor
-                if (sp->z < DIV2(u->hiz + u->loz)) 
+                if (sp->z < DIV2(u->hiz + u->loz))
                     return(FALSE);
 
-                // Check added by Jim because of sprite bridge over water    
+                // Check added by Jim because of sprite bridge over water
                 if (sp->z < (sector[hitsect].floorz-Z(20)))
                     return(FALSE);
-                    
+
                 SET(u->Flags, SPR_UNDERWATER);
                 SpawnSplash(sp - sprite);
                 SpriteWarpToUnderwater(sp);
@@ -20425,13 +20425,13 @@ MissileHitDiveArea(short SpriteNum)
                 PlaySound(DIGI_PROJECTILEWATERHIT, &sp->x, &sp->y, &sp->z, v3df_none);
                 return (TRUE);
                 }
-            else 
+            else
             if (SpriteInUnderwaterArea(sp))
                 {
                 // make sure you are close to the ceiling
-                if (sp->z > DIV2(u->hiz + u->loz)) 
+                if (sp->z > DIV2(u->hiz + u->loz))
                     return(FALSE);
-                    
+
                 RESET(u->Flags, SPR_UNDERWATER);
                 if (!SpriteWarpToSurface(sp))
                     {
@@ -20458,7 +20458,7 @@ SpawnBubble(short SpriteNum)
 
     if (Prediction)
         return(-1);
-    
+
     b = SpawnSprite(STAT_MISSILE, BUBBLE, s_Bubble, sp->sectnum, sp->x, sp->y, sp->z, sp->ang, 0);
     bp = &sprite[b];
     bu = User[b];
@@ -20489,7 +20489,7 @@ DoVehicleSmoke(short SpriteNum)
     USERp u = User[SpriteNum];
 
     sp->z -= sp->zvel;
-    
+
     sp->x += u->xchange;
     sp->y += u->ychange;
 
@@ -20507,17 +20507,17 @@ DoWaterSmoke(short SpriteNum)
 
     return (FALSE);
     }
-    
+
 int
 SpawnVehicleSmoke(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum],np;
     USERp u = User[SpriteNum],nu;
     short new;
-    
+
     if (MoveSkip2 != 0)
         return(FALSE);
-    
+
     new = SpawnSprite(STAT_MISSILE, PUFF, s_VehicleSmoke, sp->sectnum,
         sp->x, sp->y, sp->z - RANDOM_P2(Z(8)), sp->ang, 0);
 
@@ -20535,13 +20535,13 @@ SpawnVehicleSmoke(short SpriteNum)
         SET(np->cstat, CSTAT_SPRITE_XFLIP);
     if (RANDOM_P2(1024) < 512)
         SET(np->cstat, CSTAT_SPRITE_YFLIP);
-        
+
     np->ang = RANDOM_P2(2048);
     np->xvel = RANDOM_P2(32);
     nu->xchange = MOVEx(np->xvel, np->ang);
     nu->ychange = MOVEy(np->xvel, np->ang);
     np->zvel = Z(4) + RANDOM_P2(Z(4));
-    
+
     return (FALSE);
     }
 
@@ -20551,7 +20551,7 @@ SpawnSmokePuff(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum],np;
     USERp u = User[SpriteNum],nu;
     short new;
-    
+
     new = SpawnSprite(STAT_MISSILE, PUFF, s_WaterSmoke, sp->sectnum,
         sp->x, sp->y, sp->z - RANDOM_P2(Z(8)), sp->ang, 0);
 
@@ -20569,18 +20569,18 @@ SpawnSmokePuff(short SpriteNum)
         SET(np->cstat, CSTAT_SPRITE_XFLIP);
     if (RANDOM_P2(1024) < 512)
         SET(np->cstat, CSTAT_SPRITE_YFLIP);
-        
+
     np->ang = RANDOM_P2(2048);
     np->xvel = RANDOM_P2(32);
     nu->xchange = MOVEx(np->xvel, np->ang);
     nu->ychange = MOVEy(np->xvel, np->ang);
     //np->zvel = Z(4) + RANDOM_P2(Z(4));
     np->zvel = Z(1) + RANDOM_P2(Z(2));
-    
+
     return (FALSE);
     }
-    
-    
+
+
 int
 DoBubble(short SpriteNum)
     {
@@ -20614,7 +20614,7 @@ DoBubble(short SpriteNum)
                 KillSprite(SpriteNum);
                 return (TRUE);
                 }
-            
+
             RESET(u->Flags, SPR_UNDERWATER);
             // stick around above water for this long
             u->WaitTics = (RANDOM_P2(64 << 8) >> 8);
@@ -20649,12 +20649,12 @@ DoBubble(short SpriteNum)
 
 // this needs to be called before killsprite
 // whenever killing a sprite that you aren't completely sure what it is, like
-// with the drivables, copy sectors, break sprites, etc    
-VOID    
+// with the drivables, copy sectors, break sprites, etc
+VOID
 SpriteQueueDelete(short SpriteNum)
     {
     int i;
-    
+
     for (i = 0; i < MAX_STAR_QUEUE; i++)
         if (StarQueue[i] == SpriteNum)
             StarQueue[i] = -1;
@@ -20662,25 +20662,25 @@ SpriteQueueDelete(short SpriteNum)
     for (i = 0; i < MAX_HOLE_QUEUE; i++)
         if (HoleQueue[i] == SpriteNum)
             HoleQueue[i] = -1;
-            
+
     for (i = 0; i < MAX_WALLBLOOD_QUEUE; i++)
         if (WallBloodQueue[i] == SpriteNum)
             WallBloodQueue[i] = -1;
-            
+
     for (i = 0; i < MAX_FLOORBLOOD_QUEUE; i++)
         if (FloorBloodQueue[i] == SpriteNum)
             FloorBloodQueue[i] = -1;
-            
+
     for (i = 0; i < MAX_GENERIC_QUEUE; i++)
         if (GenericQueue[i] == SpriteNum)
             GenericQueue[i] = -1;
-            
+
     for (i = 0; i < MAX_LOWANGS_QUEUE; i++)
         if (LoWangsQueue[i] == SpriteNum)
             LoWangsQueue[i] = -1;
-    }    
-        
-    
+    }
+
+
 void QueueReset(void)
     {
     short i;
@@ -20690,11 +20690,11 @@ void QueueReset(void)
     FloorBloodQueueHead=0;
     GenericQueueHead=0;
     LoWangsQueueHead=0;
-    
-    
+
+
     for (i = 0; i < MAX_STAR_QUEUE; i++)
         StarQueue[i] = -1;
-        
+
     for (i = 0; i < MAX_HOLE_QUEUE; i++)
         HoleQueue[i] = -1;
 
@@ -20711,40 +20711,40 @@ void QueueReset(void)
         LoWangsQueue[i] = -1;
     }
 
-BOOL TestDontStick(short SpriteNum, short hitsect, short hitwall, long hitz)    
+BOOL TestDontStick(short SpriteNum, short hitsect, short hitwall, long hitz)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     WALLp wp;
-    
+
     if (hitwall < 0)
         {
         ASSERT(SpriteNum>=0);
         hitwall = NORM_WALL(u->ret);
         hitsect = sp->sectnum;
         }
-        
+
     wp = &wall[hitwall];
-        
+
     if (TEST(wp->extra, WALLFX_DONT_STICK))
         return(TRUE);
 
-    // if blocking red wallo    
+    // if blocking red wallo
     if (TEST(wp->cstat, CSTAT_WALL_BLOCK) && wp->nextwall >= 0)
         return(TRUE);
 
-    return(FALSE);    
+    return(FALSE);
     }
 
-BOOL TestDontStickSector(short hitsect)    
+BOOL TestDontStickSector(short hitsect)
     {
     if (TEST(sector[hitsect].extra, SECTFX_DYNAMIC_AREA|SECTFX_SECTOR_OBJECT))
         return(TRUE);
-        
-    return(FALSE);    
+
+    return(FALSE);
     }
-    
-int QueueStar(short SpriteNum)   
+
+int QueueStar(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     SPRITEp osp;
@@ -20754,7 +20754,7 @@ int QueueStar(short SpriteNum)
         KillSprite(SpriteNum);
         return(-1);
         }
-    
+
     // can and should kill the user portion of the star
     if (StarQueue[StarQueueHead] == -1)
         {
@@ -20776,12 +20776,12 @@ int QueueStar(short SpriteNum)
         osp->z = sp->z;
         changespritesect(StarQueue[StarQueueHead], sp->sectnum);
         KillSprite(SpriteNum);
-        SpriteNum = StarQueue[StarQueueHead];        
+        SpriteNum = StarQueue[StarQueueHead];
         ASSERT(sprite[SpriteNum].statnum != MAXSTATUS);
-        }    
-    
-    StarQueueHead = (StarQueueHead+1) & (MAX_STAR_QUEUE-1);    
-    
+        }
+
+    StarQueueHead = (StarQueueHead+1) & (MAX_STAR_QUEUE-1);
+
     return(SpriteNum);
     }
 
@@ -20792,18 +20792,18 @@ int QueueHole(short ang, short hitsect, short hitwall, long hitx, long hity, lon
     long nx,ny;
     SPRITEp sp;
     short sectnum;
-    
 
-    if (TestDontStick(-1,hitsect,hitwall,hitz)) 
+
+    if (TestDontStick(-1,hitsect,hitwall,hitz))
         return(-1);
 
     if (HoleQueue[HoleQueueHead] == -1)
         HoleQueue[HoleQueueHead] = SpriteNum = COVERinsertsprite(hitsect, STAT_HOLE_QUEUE);
     else
         SpriteNum = HoleQueue[HoleQueueHead];
-    
-    HoleQueueHead = (HoleQueueHead+1) & (MAX_HOLE_QUEUE-1);    
-    
+
+    HoleQueueHead = (HoleQueueHead+1) & (MAX_HOLE_QUEUE-1);
+
     sp = &sprite[SpriteNum];
     sp->owner = -1;
     sp->xrepeat = sp->yrepeat = 16;
@@ -20815,7 +20815,7 @@ int QueueHole(short ang, short hitsect, short hitwall, long hitx, long hity, lon
     changespritesect(SpriteNum, hitsect);
 
     ASSERT(sp->statnum != MAXSTATUS);
-        
+
     SET(sp->cstat, CSTAT_SPRITE_WALL);
     SET(sp->cstat, CSTAT_SPRITE_ONE_SIDE);
     RESET(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
@@ -20824,21 +20824,21 @@ int QueueHole(short ang, short hitsect, short hitwall, long hitx, long hity, lon
     nw = wall[w].point2;
     wall_ang = NORM_ANGLE(getangle(wall[nw].x - wall[w].x, wall[nw].y - wall[w].y)+512);
     sp->ang = wall_ang;
-    
+
     // move it back some
     nx = sintable[(512 + sp->ang) & 2047]<<4;
     ny = sintable[sp->ang]<<4;
-    
+
     sectnum = sp->sectnum;
-    
-    clipmoveboxtracenum = 1;    
+
+    clipmoveboxtracenum = 1;
     clipmove(&sp->x, &sp->y, &sp->z, &sectnum, nx, ny,
     0L, 0L, 0L, CLIPMASK_MISSILE);
-    clipmoveboxtracenum = 3;    
+    clipmoveboxtracenum = 3;
 
-    if (sp->sectnum != sectnum)    
+    if (sp->sectnum != sectnum)
         changespritesect(SpriteNum, sectnum);
-    
+
     return(SpriteNum);
     }
 
@@ -20861,11 +20861,11 @@ int QueueFloorBlood(short hitsprite)
     short sectnum;
     USERp u = User[hitsprite];
     SECTORp sectp = &sector[hsp->sectnum];
-    
+
 
     if (TEST(sectp->extra, SECTFX_SINK)||TEST(sectp->extra, SECTFX_CURRENT))
         return(-1); // No blood in water or current areas
-        
+
     if (TEST(u->Flags, SPR_UNDERWATER) || SpriteInUnderwaterArea(hsp) || SpriteInDiveArea(hsp))
         return(-1); // No blood underwater!
 
@@ -20874,7 +20874,7 @@ int QueueFloorBlood(short hitsprite)
 
     if (TEST(sector[hsp->sectnum].extra, SECTFX_LIQUID_MASK) == SECTFX_LIQUID_LAVA)
         return(-1); // Not in lave either
-    
+
     if (TestDontStickSector(hsp->sectnum))
         return(-1); // Not on special sectors you don't
 
@@ -20884,8 +20884,8 @@ int QueueFloorBlood(short hitsprite)
     FloorBloodQueue[FloorBloodQueueHead] = SpriteNum =
     SpawnSprite(STAT_SKIP4, FLOORBLOOD1, s_FloorBlood1, hsp->sectnum, hsp->x, hsp->y, hsp->z, hsp->ang, 0);
 
-    FloorBloodQueueHead = (FloorBloodQueueHead+1) & (MAX_FLOORBLOOD_QUEUE-1);    
-        
+    FloorBloodQueueHead = (FloorBloodQueueHead+1) & (MAX_FLOORBLOOD_QUEUE-1);
+
     sp = &sprite[SpriteNum];
     sp->owner = -1;
     // Stupid hack to fix the blood under the skull to not show through
@@ -20901,12 +20901,12 @@ int QueueFloorBlood(short hitsprite)
     sp->z = hsp->z + Z(1);
     sp->ang = RANDOM_P2(2048); // Just make it any old angle
     sp->shade -= 5;  // Brighten it up just a bit
-    
+
     SET(sp->cstat, CSTAT_SPRITE_FLOOR);
     SET(sp->cstat, CSTAT_SPRITE_ONE_SIDE);
     RESET(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
     RESET(u->Flags, SPR_SHADOW);
-    
+
     return(SpriteNum);
     }
 
@@ -20944,7 +20944,7 @@ int QueueFootPrint(short hitsprite)
     short i, nexti;
     SECT_USERp sectu = SectUser[hsp->sectnum];
     SECTORp sectp = &sector[hsp->sectnum];
-    
+
 
     if (TEST(sectp->extra, SECTFX_SINK)||TEST(sectp->extra, SECTFX_CURRENT))
         return(-1); // No blood in water or current areas
@@ -20963,7 +20963,7 @@ int QueueFootPrint(short hitsprite)
 
     if (TEST(u->Flags, SPR_UNDERWATER) || SpriteInUnderwaterArea(hsp) || Found || SpriteInDiveArea(hsp))
         return(-1); // No prints underwater!
-    
+
     if (TEST(sector[hsp->sectnum].extra, SECTFX_LIQUID_MASK) == SECTFX_LIQUID_WATER)
         return(-1); // No prints liquid areas!
 
@@ -20979,24 +20979,24 @@ int QueueFootPrint(short hitsprite)
 
     rnd_num = RANDOM_RANGE(1024);
 
-    if(rnd_num > 683) 
+    if(rnd_num > 683)
         FloorBloodQueue[FloorBloodQueueHead] = SpriteNum =
         SpawnSprite(STAT_WALLBLOOD_QUEUE, FOOTPRINT1, s_FootPrint1, hsp->sectnum, hsp->x, hsp->y, hsp->z, hsp->ang, 0);
     else
-    if(rnd_num > 342) 
+    if(rnd_num > 342)
         FloorBloodQueue[FloorBloodQueueHead] = SpriteNum =
         SpawnSprite(STAT_WALLBLOOD_QUEUE, FOOTPRINT2, s_FootPrint2, hsp->sectnum, hsp->x, hsp->y, hsp->z, hsp->ang, 0);
     else
         FloorBloodQueue[FloorBloodQueueHead] = SpriteNum =
         SpawnSprite(STAT_WALLBLOOD_QUEUE, FOOTPRINT3, s_FootPrint3, hsp->sectnum, hsp->x, hsp->y, hsp->z, hsp->ang, 0);
 
-    FloorBloodQueueHead = (FloorBloodQueueHead+1) & (MAX_FLOORBLOOD_QUEUE-1);    
+    FloorBloodQueueHead = (FloorBloodQueueHead+1) & (MAX_FLOORBLOOD_QUEUE-1);
 
     // Decrease footprint count
     if(u->PlayerP)
         u->PlayerP->NumFootPrints--;
 
-        
+
     sp = &sprite[SpriteNum];
     nu = User[SpriteNum];
     sp->hitag = 0;
@@ -21011,7 +21011,7 @@ int QueueFootPrint(short hitsprite)
     RESET(nu->Flags, SPR_SHADOW);
     switch(FootMode)
     {
-        case BLOOD_FOOT: 
+        case BLOOD_FOOT:
         nu->spal = sp->pal = PALETTE_PLAYER3; // Turn blue to blood red
         break;
         default:
@@ -21072,7 +21072,7 @@ int QueueWallBlood(short hitsprite, short ang)
     short hitsect, hitwall;
     long hitx, hity, hitz;
     USERp u = User[hitsprite];
-    
+
 
     if (TEST(u->Flags, SPR_UNDERWATER) || SpriteInUnderwaterArea(hsp) || SpriteInDiveArea(hsp))
         return(-1); // No blood underwater!
@@ -21082,21 +21082,21 @@ int QueueWallBlood(short hitsprite, short ang)
     dang = (ang+(RANDOM_P2(128<<5) >> 5)) - DIV2(128);
     hitsprite=0; // Reset hitsprite
 
-    FAFhitscan(hsp->x, hsp->y, hsp->z - Z(30), hsp->sectnum,    // Start position    
-        sintable[NORM_ANGLE(dang + 512)],  // X vector of 3D ang    
-        sintable[NORM_ANGLE(dang)],                             // Y vector of 3D ang    
-        daz,                                                    // Z vector of 3D ang    
-        &hitsect, &hitwall, &hitsprite, &hitx, &hity, &hitz, CLIPMASK_MISSILE);    
+    FAFhitscan(hsp->x, hsp->y, hsp->z - Z(30), hsp->sectnum,    // Start position
+        sintable[NORM_ANGLE(dang + 512)],  // X vector of 3D ang
+        sintable[NORM_ANGLE(dang)],                             // Y vector of 3D ang
+        daz,                                                    // Z vector of 3D ang
+        &hitsect, &hitwall, &hitsprite, &hitx, &hity, &hitz, CLIPMASK_MISSILE);
 
-    if (hitsect < 0)    
-        return (-1);    
-        
-    #define WALLBLOOD_DIST_MAX 2500    
-    if (Distance(hitx, hity, hsp->x, hsp->y) > WALLBLOOD_DIST_MAX)        
-        return (-1);    
-                
-    // hit a sprite?    
-    if (hitsprite >= 0)    
+    if (hitsect < 0)
+        return (-1);
+
+    #define WALLBLOOD_DIST_MAX 2500
+    if (Distance(hitx, hity, hsp->x, hsp->y) > WALLBLOOD_DIST_MAX)
+        return (-1);
+
+    // hit a sprite?
+    if (hitsprite >= 0)
         return (0); // Don't try to put blood on a sprite
 
     if(hitwall >= 0)    // Don't check if blood didn't hit a wall, otherwise the ASSERT fails!
@@ -21106,7 +21106,7 @@ int QueueWallBlood(short hitsprite, short ang)
     }else
         return(-1);
 
-  
+
     if (WallBloodQueue[WallBloodQueueHead] != -1)
         KillSprite(WallBloodQueue[WallBloodQueueHead]);
 
@@ -21128,9 +21128,9 @@ int QueueWallBlood(short hitsprite, short ang)
             WallBloodQueue[WallBloodQueueHead] = SpriteNum =
             SpawnSprite(STAT_WALLBLOOD_QUEUE, WALLBLOOD4, s_WallBlood4, hitsect, hitx, hity, hitz, ang, 0);
         }
-    
-    WallBloodQueueHead = (WallBloodQueueHead+1) & (MAX_WALLBLOOD_QUEUE-1);    
-        
+
+    WallBloodQueueHead = (WallBloodQueueHead+1) & (MAX_WALLBLOOD_QUEUE-1);
+
     sp = &sprite[SpriteNum];
     sp->owner = -1;
     sp->xrepeat = 30;
@@ -21151,24 +21151,24 @@ int QueueWallBlood(short hitsprite, short ang)
     nw = wall[w].point2;
     wall_ang = NORM_ANGLE(getangle(wall[nw].x - wall[w].x, wall[nw].y - wall[w].y)+512);
     sp->ang = wall_ang;
-    
+
     // move it back some
     nx = sintable[(512 + sp->ang) & 2047]<<4;
     ny = sintable[sp->ang]<<4;
-    
+
     sectnum = sp->sectnum;
-    
-    clipmoveboxtracenum = 1;    
+
+    clipmoveboxtracenum = 1;
     clipmove(&sp->x, &sp->y, &sp->z, &sectnum, nx, ny,
     0L, 0L, 0L, CLIPMASK_MISSILE);
-    clipmoveboxtracenum = 3;    
+    clipmoveboxtracenum = 3;
 
-    if (sp->sectnum != sectnum)    
+    if (sp->sectnum != sectnum)
         changespritesect(SpriteNum, sectnum);
-    
+
     return(SpriteNum);
     }
-    
+
 #define FEET_IN_BLOOD_DIST 300
 int
 DoFloorBlood(short SpriteNum)
@@ -21181,7 +21181,7 @@ DoFloorBlood(short SpriteNum)
     short pnum;
     PLAYERp pp;
     short xsiz,ysiz;
-    
+
 
     if(sp->hitag == 9995)
         {
@@ -21257,7 +21257,7 @@ DoWallBlood(short SpriteNum)
     }
 
 // This is the FAST queue, it doesn't call any animator functions or states
-int QueueGeneric(short SpriteNum, short pic)   
+int QueueGeneric(short SpriteNum, short pic)
     {
     SPRITEp sp = &sprite[SpriteNum];
     SPRITEp osp;
@@ -21266,13 +21266,13 @@ int QueueGeneric(short SpriteNum, short pic)
     if (TEST(sector[sp->sectnum].extra, SECTFX_LIQUID_MASK) == SECTFX_LIQUID_WATER)
         {
         KillSprite(SpriteNum);
-        return(-1); 
+        return(-1);
         }
 
     if (TEST(sector[sp->sectnum].extra, SECTFX_LIQUID_MASK) == SECTFX_LIQUID_LAVA)
         {
         KillSprite(SpriteNum);
-        return(-1); 
+        return(-1);
         }
 
     if (TestDontStickSector(sp->sectnum))
@@ -21280,11 +21280,11 @@ int QueueGeneric(short SpriteNum, short pic)
         KillSprite(SpriteNum);
         return(-1);
         }
-    
+
     xrepeat = sp->xrepeat;
     yrepeat = sp->yrepeat;
-    
-    // can and should kill the user portion 
+
+    // can and should kill the user portion
     if (GenericQueue[GenericQueueHead] == -1)
         {
         if (User[SpriteNum])
@@ -21305,10 +21305,10 @@ int QueueGeneric(short SpriteNum, short pic)
         osp->z = sp->z;
         changespritesect(GenericQueue[GenericQueueHead], sp->sectnum);
         KillSprite(SpriteNum);
-        SpriteNum = GenericQueue[GenericQueueHead];        
+        SpriteNum = GenericQueue[GenericQueueHead];
         ASSERT(sprite[SpriteNum].statnum != MAXSTATUS);
-        }    
-    
+        }
+
     sp = &sprite[SpriteNum];
     ASSERT(sp);
     sp->picnum = pic;
@@ -21337,8 +21337,8 @@ int QueueGeneric(short SpriteNum, short pic)
             break;
         }
 
-    GenericQueueHead = (GenericQueueHead+1) & (MAX_GENERIC_QUEUE-1);    
-    
+    GenericQueueHead = (GenericQueueHead+1) & (MAX_GENERIC_QUEUE-1);
+
     return(SpriteNum);
     }
 
@@ -21496,21 +21496,21 @@ DoShrapVelocity(SHORT SpriteNum)
                             {
                             // hit a ceiling
                             ScaleSpriteVector(SpriteNum, 22000);
-                            }    
-                        }    
+                            }
+                        }
                     }
                 else
-                    {    
+                    {
                     // hit floor
-                    if (sp->z > DIV2(u->hiz + u->loz)) 
+                    if (sp->z > DIV2(u->hiz + u->loz))
                         {
                         sp->z = u->loz;
                         if (TEST(u->Flags, SPR_UNDERWATER))
                             SET(u->Flags, SPR_BOUNCE); // no bouncing underwater
-                            
+
                         if (u->lo_sectp && SectUser[sp->sectnum] && SectUser[sp->sectnum]->depth)
                             SET(u->Flags, SPR_BOUNCE); // no bouncing on shallow water
-                                
+
                         if (!TEST(u->Flags, SPR_BOUNCE))
                             {
                             SET(u->Flags, SPR_BOUNCE);
@@ -21542,15 +21542,15 @@ DoShrapVelocity(SHORT SpriteNum)
                         {
                         u->zchange = -u->zchange;
                         ScaleSpriteVector(SpriteNum, 22000);
-                        }        
+                        }
                     }
-                break;    
+                break;
                 }
-            }    
+            }
         }
-    
+
     // just outright kill it if its boucing around alot
-    if (u->bounce > 10)    
+    if (u->bounce > 10)
         {
         KillSprite(SpriteNum);
         return (TRUE);
@@ -21559,7 +21559,7 @@ DoShrapVelocity(SHORT SpriteNum)
     return (FALSE);
     }
 
-    
+
 int
 ShrapKillSprite(short SpriteNum)
 {
@@ -21568,59 +21568,59 @@ ShrapKillSprite(short SpriteNum)
     short rnd_num;
 
     rnd_num = RANDOM_RANGE(1024);
-        
+
     ASSERT(u);
 
-    switch(u->ID)    
-      {    
-      case UZI_SHELL:    
-            if(rnd_num > 854)    
+    switch(u->ID)
+      {
+      case UZI_SHELL:
+            if(rnd_num > 854)
                 {
-                QueueGeneric(SpriteNum,UZI_SHELL + 0);    
+                QueueGeneric(SpriteNum,UZI_SHELL + 0);
                 }
-            else        
-            if(rnd_num > 684)    
+            else
+            if(rnd_num > 684)
                 {
-                QueueGeneric(SpriteNum,UZI_SHELL + 1);    
+                QueueGeneric(SpriteNum,UZI_SHELL + 1);
                 }
-            else        
-            if(rnd_num > 514)    
+            else
+            if(rnd_num > 514)
                 {
-                QueueGeneric(SpriteNum,UZI_SHELL + 2);    
+                QueueGeneric(SpriteNum,UZI_SHELL + 2);
                 }
-            else        
-            if(rnd_num > 344)    
+            else
+            if(rnd_num > 344)
                 {
-                QueueGeneric(SpriteNum,UZI_SHELL + 3);    
+                QueueGeneric(SpriteNum,UZI_SHELL + 3);
                 }
-            else        
-            if(rnd_num > 174)    
+            else
+            if(rnd_num > 174)
                 {
-                QueueGeneric(SpriteNum,UZI_SHELL + 4);    
+                QueueGeneric(SpriteNum,UZI_SHELL + 4);
                 }
-            else 
-                {       
-                QueueGeneric(SpriteNum,UZI_SHELL + 5);    
+            else
+                {
+                QueueGeneric(SpriteNum,UZI_SHELL + 5);
                 }
 
             return(0);
-            break;    
-      case SHOT_SHELL:    
-            if(rnd_num > 683)    
+            break;
+      case SHOT_SHELL:
+            if(rnd_num > 683)
                 {
-                QueueGeneric(SpriteNum,SHOT_SHELL + 1);    
+                QueueGeneric(SpriteNum,SHOT_SHELL + 1);
                 }
-            else    
-            if(rnd_num > 342)    
+            else
+            if(rnd_num > 342)
                 {
-                QueueGeneric(SpriteNum,SHOT_SHELL + 3);    
+                QueueGeneric(SpriteNum,SHOT_SHELL + 3);
                 }
-            else 
-                {   
-                QueueGeneric(SpriteNum,SHOT_SHELL + 7);    
+            else
+                {
+                QueueGeneric(SpriteNum,SHOT_SHELL + 7);
                 }
-            return(0);    
-            break;    
+            return(0);
+            break;
       case GORE_Lung:
             if(RANDOM_RANGE(1000) > 500) break;
             sp->clipdist = SPRITEp_SIZE_X(sp);
@@ -21629,21 +21629,21 @@ ShrapKillSprite(short SpriteNum)
                 PlaySound(DIGI_GIBS1,&sp->x,&sp->y,&sp->z,v3df_none);
             else
                 PlaySound(DIGI_GIBS2,&sp->x,&sp->y,&sp->z,v3df_none);
-            if(rnd_num > 683)    
+            if(rnd_num > 683)
                 {
-                QueueGeneric(SpriteNum,900);    
+                QueueGeneric(SpriteNum,900);
                 }
-            else    
-            if(rnd_num > 342)    
+            else
+            if(rnd_num > 342)
                 {
-                QueueGeneric(SpriteNum,901);    
+                QueueGeneric(SpriteNum,901);
                 }
-            else 
-                {   
-                QueueGeneric(SpriteNum,902);    
+            else
+                {
+                QueueGeneric(SpriteNum,902);
                 }
-            return(0);    
-            break;    
+            return(0);
+            break;
       case GORE_Liver:
             if(RANDOM_RANGE(1000) > 500) break;
             sp->clipdist = SPRITEp_SIZE_X(sp);
@@ -21652,52 +21652,52 @@ ShrapKillSprite(short SpriteNum)
                 PlaySound(DIGI_GIBS1,&sp->x,&sp->y,&sp->z,v3df_none);
             else
                 PlaySound(DIGI_GIBS2,&sp->x,&sp->y,&sp->z,v3df_none);
-            if(rnd_num > 683)    
+            if(rnd_num > 683)
                 {
-                QueueGeneric(SpriteNum,915);    
+                QueueGeneric(SpriteNum,915);
                 }
-            else    
-            if(rnd_num > 342)    
+            else
+            if(rnd_num > 342)
                 {
-                QueueGeneric(SpriteNum,916);    
+                QueueGeneric(SpriteNum,916);
                 }
-            else 
-                {   
-                QueueGeneric(SpriteNum,917);    
+            else
+                {
+                QueueGeneric(SpriteNum,917);
                 }
-            return(0);    
-            break;    
+            return(0);
+            break;
       case GORE_SkullCap:
             if(RANDOM_RANGE(1000) > 500) break;
             sp->clipdist = SPRITEp_SIZE_X(sp);
             SpawnFloorSplash(SpriteNum);
-            if(rnd_num > 683)    
+            if(rnd_num > 683)
                 {
-                QueueGeneric(SpriteNum,930);    
+                QueueGeneric(SpriteNum,930);
                 }
-            else    
-            if(rnd_num > 342)    
+            else
+            if(rnd_num > 342)
                 {
-                QueueGeneric(SpriteNum,931);    
+                QueueGeneric(SpriteNum,931);
                 }
-            else 
-                {   
-                QueueGeneric(SpriteNum,932);    
+            else
+                {
+                QueueGeneric(SpriteNum,932);
                 }
-            return(0);    
-            break;    
+            return(0);
+            break;
       case GORE_Head:
             if(RANDOM_RANGE(1000) > 500) break;
             sp->clipdist = SPRITEp_SIZE_X(sp);
             QueueFloorBlood(SpriteNum);
-            QueueGeneric(SpriteNum,GORE_Head);    
-            return(0);    
-            break;    
-      }    
-        
+            QueueGeneric(SpriteNum,GORE_Head);
+            return(0);
+            break;
+      }
+
     // If it wasn't in the switch statement, kill it.
-    KillSprite(SpriteNum);    
-        
+    KillSprite(SpriteNum);
+
     return(0);
 }
 
@@ -21731,7 +21731,7 @@ BOOL CheckBreakToughness(BREAK_INFOp break_info, short ID)
             return(TRUE); // All the above stuff will break tough things
         }
         return (FALSE); // False means it won't break with current weapon
-    }   
+    }
 
     return (TRUE); // It wasn't tough, go ahead and break it
 }
@@ -21746,7 +21746,7 @@ DoItemFly(SHORT SpriteNum)
     if (TEST(u->Flags, SPR_UNDERWATER))
         {
         ScaleSpriteVector(SpriteNum, 50000);
-        
+
         u->Counter += 20*2;
         u->zchange += u->Counter;
         }
@@ -21754,13 +21754,13 @@ DoItemFly(SHORT SpriteNum)
         {
         u->Counter += 60*2;
         u->zchange += u->Counter;
-        }    
-    
-    u->ret = move_missile(SpriteNum, u->xchange, u->ychange, u->zchange, 
+        }
+
+    u->ret = move_missile(SpriteNum, u->xchange, u->ychange, u->zchange,
         u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS*2);
 
     MissileHitDiveArea(SpriteNum);
-        
+
     if (u->ret)
         {
         switch (TEST(u->ret, HIT_MASK))
@@ -21770,10 +21770,10 @@ DoItemFly(SHORT SpriteNum)
                 short wall_ang, dang;
                 short hitsprite = -2;
                 SPRITEp hsp;
-                
+
                 hitsprite = NORM_SPRITE(u->ret);
                 hsp = &sprite[hitsprite];
-               
+
                 if (TEST(hsp->cstat, CSTAT_SPRITE_WALL))
                     {
                     wall_ang = NORM_ANGLE(hsp->ang);
@@ -21784,11 +21784,11 @@ DoItemFly(SHORT SpriteNum)
                     {
                     u->xchange = -u->xchange;
                     u->ychange = -u->ychange;
-                    }    
-                    
+                    }
+
                 break;
                 }
-                
+
         case HIT_WALL:
                 {
                 short hitwall,nw,wall_ang,dang;
@@ -21796,20 +21796,20 @@ DoItemFly(SHORT SpriteNum)
 
                 hitwall = NORM_WALL(u->ret);
                 wph = &wall[hitwall];
-                
+
                 nw = wall[hitwall].point2;
                 wall_ang = NORM_ANGLE(getangle(wall[nw].x - wph->x, wall[nw].y - wph->y)+512);
-                
+
                 WallBounce(SpriteNum, wall_ang);
                 ScaleSpriteVector(SpriteNum, 32000);
                 break;
                 }
-                
+
             case HIT_SECTOR:
                 {
                 BOOL hitwall;
                 // hit floor
-                if (sp->z > DIV2(u->hiz + u->loz)) 
+                if (sp->z > DIV2(u->hiz + u->loz))
                     {
                     sp->z = u->loz;
                     u->Counter = 0;
@@ -21822,17 +21822,17 @@ DoItemFly(SHORT SpriteNum)
                     {
                     u->zchange = -u->zchange;
                     ScaleSpriteVector(SpriteNum, 22000);
-                    }        
-                break;    
+                    }
+                break;
                 }
-            }    
+            }
         }
 
     return (TRUE);
     }
-    
+
 // This is the FAST queue, it doesn't call any animator functions or states
-int QueueLoWangs(short SpriteNum)   
+int QueueLoWangs(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum],ps;
     USERp u;
@@ -21842,23 +21842,23 @@ int QueueLoWangs(short SpriteNum)
 
     if (TEST(sector[sp->sectnum].extra, SECTFX_LIQUID_MASK) == SECTFX_LIQUID_WATER)
         {
-        return(-1); 
+        return(-1);
         }
 
     if (TEST(sector[sp->sectnum].extra, SECTFX_LIQUID_MASK) == SECTFX_LIQUID_LAVA)
         {
-        return(-1); 
+        return(-1);
         }
 
     if (TestDontStickSector(sp->sectnum))
         {
         return(-1);
         }
-    
+
     if (LoWangsQueue[LoWangsQueueHead] == -1)
         {
         LoWangsQueue[LoWangsQueueHead] = NewSprite =
-            SpawnSprite(STAT_GENERIC_QUEUE, sp->picnum, s_DeadLoWang, sp->sectnum, 
+            SpawnSprite(STAT_GENERIC_QUEUE, sp->picnum, s_DeadLoWang, sp->sectnum,
                  sp->x, sp->y, sp->z, sp->ang, 0);
         }
     else
@@ -21866,10 +21866,10 @@ int QueueLoWangs(short SpriteNum)
         // move old sprite to new sprite's place
         osp = &sprite[LoWangsQueue[LoWangsQueueHead]];
         setsprite(LoWangsQueue[LoWangsQueueHead],sp->x,sp->y,sp->z);
-        NewSprite = LoWangsQueue[LoWangsQueueHead];        
+        NewSprite = LoWangsQueue[LoWangsQueueHead];
         ASSERT(sprite[NewSprite].statnum != MAXSTATUS);
-        }    
-    
+        }
+
     // Point passed in sprite to ps
     ps = sp;
     sp = &sprite[NewSprite];
@@ -21886,7 +21886,426 @@ int QueueLoWangs(short SpriteNum)
     SET(sp->extra, SPRX_BREAKABLE);
     SET(sp->cstat, CSTAT_SPRITE_BLOCK_HITSCAN);
 
-    LoWangsQueueHead = (LoWangsQueueHead+1) & (MAX_LOWANGS_QUEUE-1);    
-    
+    LoWangsQueueHead = (LoWangsQueueHead+1) & (MAX_LOWANGS_QUEUE-1);
+
     return(SpriteNum);
     }
+
+
+#include "saveable.h"
+
+static saveable_code saveable_weapon_code[] = {
+	SAVE_CODE(SpawnShrap),
+	SAVE_CODE(DoShrapMove),
+	SAVE_CODE(DoVomit),
+	SAVE_CODE(DoVomit),
+	SAVE_CODE(DoVomitSplash),
+	SAVE_CODE(DoFastShrapJumpFall),
+	SAVE_CODE(DoTracerShrap),
+	SAVE_CODE(DoShrapJumpFall),
+	SAVE_CODE(DoShrapDamage),
+	SAVE_CODE(SpawnBlood),
+	SAVE_CODE(VehicleMoveHit),
+	SAVE_CODE(WeaponMoveHit),
+	SAVE_CODE(DoUziSmoke),
+	SAVE_CODE(DoShotgunSmoke),
+	SAVE_CODE(DoMineSpark),
+	SAVE_CODE(DoFireballFlames),
+	SAVE_CODE(DoBreakFlames),
+	SAVE_CODE(SetSuicide),
+	SAVE_CODE(DoActorScale),
+	SAVE_CODE(DoRipperGrow),
+	SAVE_CODE(ActorChooseDeath),
+	SAVE_CODE(ActorHealth),
+	SAVE_CODE(SopDamage),
+	SAVE_CODE(SopCheckKill),
+	SAVE_CODE(ActorPain),
+	SAVE_CODE(ActorPainPlasma),
+	SAVE_CODE(ActorStdMissile),
+	SAVE_CODE(ActorDamageSlide),
+	SAVE_CODE(PlayerDamageSlide),
+	SAVE_CODE(GetDamage),
+	SAVE_CODE(RadiusGetDamage),
+	SAVE_CODE(PlayerCheckDeath),
+	SAVE_CODE(PlayerTakeDamage),
+	SAVE_CODE(StarBlood),
+	SAVE_CODE(DoDamage),
+	SAVE_CODE(DoDamageTest),
+	SAVE_CODE(DoHitscanDamage),
+	SAVE_CODE(DoFlamesDamageTest),
+	SAVE_CODE(DoStar),
+	SAVE_CODE(DoCrossBolt),
+	SAVE_CODE(DoPlasmaDone),
+	SAVE_CODE(MissileSeek),
+	SAVE_CODE(ComboMissileSeek),
+	SAVE_CODE(VectorMissileSeek),
+	SAVE_CODE(VectorWormSeek),
+	SAVE_CODE(DoBlurExtend),
+	SAVE_CODE(InitPlasmaFountain),
+	SAVE_CODE(DoPlasmaFountain),
+	SAVE_CODE(DoPlasma),
+	SAVE_CODE(DoCoolgFire),
+	SAVE_CODE(DoEelFire),
+	SAVE_CODE(DoGrenade),
+	SAVE_CODE(DoVulcanBoulder),
+	SAVE_CODE(OwnerIsPlayer),
+	SAVE_CODE(DoMineRangeTest),
+	SAVE_CODE(DoMineStuck),
+	SAVE_CODE(SetMineStuck),
+	SAVE_CODE(DoMine),
+	SAVE_CODE(DoPuff),
+	SAVE_CODE(DoRailPuff),
+	SAVE_CODE(DoBoltThinMan),
+	SAVE_CODE(DoTracer),
+	SAVE_CODE(DoEMP),
+	SAVE_CODE(DoEMPBurst),
+	SAVE_CODE(DoTankShell),
+	SAVE_CODE(DoTracerStart),
+	SAVE_CODE(DoLaser),
+	SAVE_CODE(DoLaserStart),
+	SAVE_CODE(DoRail),
+	SAVE_CODE(DoRailStart),
+	SAVE_CODE(DoRocket),
+	SAVE_CODE(DoMicroMini),
+	SAVE_CODE(SpawnExtraMicroMini),
+	SAVE_CODE(DoMicro),
+	SAVE_CODE(DoUziBullet),
+	SAVE_CODE(DoBoltSeeker),
+	SAVE_CODE(DoBoltShrapnel),
+	SAVE_CODE(DoBoltFatMan),
+	SAVE_CODE(DoElectro),
+	SAVE_CODE(DoLavaBoulder),
+	SAVE_CODE(DoSpear),
+	SAVE_CODE(SpawnBasicExp),
+	SAVE_CODE(SpawnFireballFlames),
+	SAVE_CODE(SpawnBreakFlames),
+	SAVE_CODE(SpawnBreakStaticFlames),
+	SAVE_CODE(SpawnFireballExp),
+	SAVE_CODE(SpawnGoroFireballExp),
+	SAVE_CODE(SpawnBoltExp),
+	SAVE_CODE(SpawnBunnyExp),
+	SAVE_CODE(SpawnTankShellExp),
+	SAVE_CODE(SpawnNuclearSecondaryExp),
+	SAVE_CODE(SpawnNuclearExp),
+	SAVE_CODE(SpawnTracerExp),
+	SAVE_CODE(SpawnMicroExp),
+	SAVE_CODE(AddSpriteToSectorObject),
+	SAVE_CODE(SpawnBigGunFlames),
+	SAVE_CODE(SpawnGrenadeSecondaryExp),
+	SAVE_CODE(SpawnGrenadeSmallExp),
+	SAVE_CODE(SpawnGrenadeExp),
+	SAVE_CODE(SpawnMineExp),
+	SAVE_CODE(InitMineShrap),
+	SAVE_CODE(DoSectorExp),
+	SAVE_CODE(SpawnSectorExp),
+	SAVE_CODE(SpawnLargeExp),
+	SAVE_CODE(SpawnMeteorExp),
+	SAVE_CODE(SpawnLittleExp),
+	SAVE_CODE(DoFireball),
+	SAVE_CODE(DoFindGround),
+	SAVE_CODE(DoFindGroundPoint),
+	SAVE_CODE(DoNapalm),
+	SAVE_CODE(DoBloodWorm),
+	SAVE_CODE(DoBloodWorm),
+	SAVE_CODE(DoMeteor),
+	SAVE_CODE(DoSerpMeteor),
+	SAVE_CODE(DoMirvMissile),
+	SAVE_CODE(DoMirv),
+	SAVE_CODE(MissileSetPos),
+	SAVE_CODE(TestMissileSetPos),
+	SAVE_CODE(DoRing),
+	SAVE_CODE(InitSpellRing),
+	SAVE_CODE(DoSerpRing),
+	SAVE_CODE(InitLavaFlame),
+	SAVE_CODE(InitLavaThrow),
+	SAVE_CODE(InitVulcanBoulder),
+	SAVE_CODE(InitSerpRing),
+	SAVE_CODE(InitSerpRing),
+	//SAVE_CODE(InitSerpRing2),
+	SAVE_CODE(InitSpellNapalm),
+	SAVE_CODE(InitEnemyNapalm),
+	SAVE_CODE(InitSpellMirv),
+	SAVE_CODE(InitEnemyMirv),
+	SAVE_CODE(InitSwordAttack),
+	SAVE_CODE(InitFistAttack),
+	SAVE_CODE(InitSumoNapalm),
+	SAVE_CODE(InitSumoSkull),
+	SAVE_CODE(InitSumoStompAttack),
+	SAVE_CODE(InitMiniSumoClap),
+	SAVE_CODE(WeaponAutoAim),
+	SAVE_CODE(WeaponAutoAimZvel),
+	SAVE_CODE(AimHitscanToTarget),
+	SAVE_CODE(WeaponAutoAimHitscan),
+	SAVE_CODE(WeaponHitscanShootFeet),
+	SAVE_CODE(InitStar),
+	SAVE_CODE(InitHeartAttack),
+	SAVE_CODE(InitHeartAttack),
+	SAVE_CODE(InitShotgun),
+	SAVE_CODE(InitLaser),
+	SAVE_CODE(InitRail),
+	SAVE_CODE(InitZillaRail),
+	SAVE_CODE(InitRocket),
+	SAVE_CODE(InitBunnyRocket),
+	SAVE_CODE(InitNuke),
+	SAVE_CODE(InitEnemyNuke),
+	SAVE_CODE(InitMicro),
+	SAVE_CODE(InitRipperSlash),
+	SAVE_CODE(InitBunnySlash),
+	SAVE_CODE(InitSerpSlash),
+	SAVE_CODE(WallSpriteInsideSprite),
+	SAVE_CODE(DoBladeDamage),
+	SAVE_CODE(DoStaticFlamesDamage),
+	SAVE_CODE(InitCoolgBash),
+	SAVE_CODE(InitSkelSlash),
+	SAVE_CODE(InitGoroChop),
+	SAVE_CODE(InitHornetSting),
+	SAVE_CODE(InitSerpSpell),
+	SAVE_CODE(SpawnDemonFist),
+	SAVE_CODE(InitSerpMonstSpell),
+	SAVE_CODE(DoTeleRipper),
+	SAVE_CODE(InitEnemyRocket),
+	SAVE_CODE(InitEnemyRail),
+	SAVE_CODE(InitZillaRocket),
+	SAVE_CODE(InitEnemyStar),
+	SAVE_CODE(InitEnemyCrossbow),
+	SAVE_CODE(InitSkelSpell),
+	SAVE_CODE(InitCoolgFire),
+	SAVE_CODE(InitCoolgDrip),
+	SAVE_CODE(GenerateDrips),
+	SAVE_CODE(InitEelFire),
+	SAVE_CODE(InitFireballTrap),
+	SAVE_CODE(InitBoltTrap),
+	SAVE_CODE(InitEnemyCrossbow),
+	SAVE_CODE(InitSpearTrap),
+	SAVE_CODE(DoSuicide),
+	SAVE_CODE(DoDefaultStat),
+	SAVE_CODE(InitTracerUzi),
+	SAVE_CODE(InitTracerTurret),
+	SAVE_CODE(InitTracerAutoTurret),
+	SAVE_CODE(BulletHitSprite),
+	SAVE_CODE(HitscanSpriteAdjust),
+	SAVE_CODE(InitUzi),
+	SAVE_CODE(InitEMP),
+	SAVE_CODE(InitTankShell),
+	SAVE_CODE(InitTurretMicro),
+	SAVE_CODE(InitTurretRocket),
+	SAVE_CODE(InitTurretFireball),
+	SAVE_CODE(InitTurretRail),
+	SAVE_CODE(InitTurretLaser),
+	SAVE_CODE(InitSobjMachineGun),
+	SAVE_CODE(InitSobjGun),
+	SAVE_CODE(SpawnBoatSparks),
+	SAVE_CODE(SpawnSwordSparks),
+	SAVE_CODE(SpawnTurretSparks),
+	SAVE_CODE(SpawnShotgunSparks),
+	SAVE_CODE(InitTurretMgun),
+	SAVE_CODE(InitEnemyUzi),
+	SAVE_CODE(InitGrenade),
+	SAVE_CODE(InitSpriteGrenade),
+	SAVE_CODE(InitMine),
+	SAVE_CODE(InitEnemyMine),
+	SAVE_CODE(HelpMissileLateral),
+	SAVE_CODE(InitFireball),
+	SAVE_CODE(InitEnemyFireball),
+	SAVE_CODE(WarpToUnderwater),
+	SAVE_CODE(WarpToSurface),
+	SAVE_CODE(SpriteWarpToUnderwater),
+	SAVE_CODE(SpriteWarpToSurface),
+	SAVE_CODE(SpawnSplash),
+	SAVE_CODE(SpawnSplashXY),
+	SAVE_CODE(SpawnUnderSplash),
+	SAVE_CODE(MissileHitDiveArea),
+	SAVE_CODE(SpawnBubble),
+	SAVE_CODE(DoVehicleSmoke),
+	SAVE_CODE(DoWaterSmoke),
+	SAVE_CODE(SpawnVehicleSmoke),
+	SAVE_CODE(SpawnSmokePuff),
+	SAVE_CODE(DoBubble),
+	SAVE_CODE(SpriteQueueDelete),
+	SAVE_CODE(DoFloorBlood),
+	SAVE_CODE(DoWallBlood),
+	//SAVE_CODE(DoShellShrap),
+	SAVE_CODE(SpawnShell),
+	SAVE_CODE(DoShrapVelocity),
+	SAVE_CODE(ShrapKillSprite),
+	SAVE_CODE(DoItemFly),
+};
+
+static saveable_data saveable_weapon_data[] = {
+	SAVE_DATA(s_NotRestored),
+	SAVE_DATA(s_Suicide),
+	SAVE_DATA(s_DeadLoWang),
+	SAVE_DATA(s_BreakLight),
+	SAVE_DATA(s_BreakBarrel),
+	SAVE_DATA(s_BreakPedistal),
+	SAVE_DATA(s_BreakBottle1),
+	SAVE_DATA(s_BreakBottle2),
+	SAVE_DATA(s_Puff),
+	SAVE_DATA(s_RailPuff),
+	SAVE_DATA(sg_RailPuff),
+	SAVE_DATA(s_LaserPuff),
+	SAVE_DATA(s_Tracer),
+	SAVE_DATA(s_EMP),
+	SAVE_DATA(s_EMPBurst),
+	SAVE_DATA(s_EMPShrap),
+	SAVE_DATA(s_TankShell),
+	SAVE_DATA(s_VehicleSmoke),
+	SAVE_DATA(s_WaterSmoke),
+	SAVE_DATA(s_UziSmoke),
+	SAVE_DATA(s_ShotgunSmoke),
+	SAVE_DATA(s_UziBullet),
+	SAVE_DATA(s_UziSpark),
+	SAVE_DATA(s_UziPowerSpark),
+	SAVE_DATA(s_Bubble),
+	SAVE_DATA(s_Splash),
+	SAVE_DATA(s_CrossBolt),
+	SAVE_DATA(sg_CrossBolt),
+	SAVE_DATA(s_Star),
+	SAVE_DATA(s_StarStuck),
+	SAVE_DATA(s_StarDown),
+	SAVE_DATA(s_StarDownStuck),
+	SAVE_DATA(s_LavaBoulder),
+	SAVE_DATA(s_LavaShard),
+	SAVE_DATA(s_VulcanBoulder),
+	SAVE_DATA(s_Grenade),
+	SAVE_DATA(s_Grenade),
+	SAVE_DATA(sg_Grenade),
+	SAVE_DATA(s_MineStuck),
+	SAVE_DATA(s_Mine),
+	SAVE_DATA(s_MineSpark),
+	SAVE_DATA(s_Meteor),
+	SAVE_DATA(sg_Meteor),
+	SAVE_DATA(s_MeteorExp),
+	SAVE_DATA(s_MirvMeteor),
+	SAVE_DATA(sg_MirvMeteor),
+	SAVE_DATA(s_MirvMeteorExp),
+	SAVE_DATA(s_SerpMeteor),
+	SAVE_DATA(sg_SerpMeteor),
+	SAVE_DATA(s_SerpMeteorExp),
+	SAVE_DATA(s_Spear),
+	SAVE_DATA(sg_Spear),
+	SAVE_DATA(s_Rocket),
+	SAVE_DATA(sg_Rocket),
+	SAVE_DATA(s_BunnyRocket),
+	SAVE_DATA(sg_BunnyRocket),
+	SAVE_DATA(s_Rail),
+	SAVE_DATA(sg_Rail),
+	SAVE_DATA(s_Laser),
+	//SAVE_DATA(s_MicroPuff),
+	SAVE_DATA(s_Micro),
+	SAVE_DATA(sg_Micro),
+	SAVE_DATA(s_MicroMini),
+	SAVE_DATA(sg_MicroMini),
+	SAVE_DATA(s_BoltThinMan),
+	SAVE_DATA(sg_BoltThinMan),
+	SAVE_DATA(s_BoltSeeker),
+	SAVE_DATA(sg_BoltSeeker),
+	SAVE_DATA(s_BoltFatMan),
+	SAVE_DATA(s_BoltShrapnel),
+	SAVE_DATA(s_CoolgFire),
+	SAVE_DATA(s_CoolgFireDone),
+	SAVE_DATA(s_CoolgDrip),
+	SAVE_DATA(s_GoreFloorSplash),
+	SAVE_DATA(s_GoreSplash),
+	SAVE_DATA(s_Plasma),
+	SAVE_DATA(s_PlasmaFountain),
+	SAVE_DATA(s_PlasmaDrip),
+	SAVE_DATA(s_PlasmaDone),
+	SAVE_DATA(s_TeleportEffect),
+	SAVE_DATA(s_TeleportEffect2),
+	SAVE_DATA(s_Electro),
+	SAVE_DATA(s_ElectroShrap),
+	SAVE_DATA(s_GrenadeExp),
+	SAVE_DATA(s_GrenadeSmallExp),
+	SAVE_DATA(s_GrenadeExp),
+	SAVE_DATA(s_MineExp),
+	SAVE_DATA(s_BasicExp),
+	SAVE_DATA(s_MicroExp),
+	SAVE_DATA(s_BigGunFlame),
+	SAVE_DATA(s_BoltExp),
+	SAVE_DATA(s_TankShellExp),
+	SAVE_DATA(s_TracerExp),
+	SAVE_DATA(s_SectorExp),
+	SAVE_DATA(s_FireballExp),
+	SAVE_DATA(s_NapExp),
+	SAVE_DATA(s_FireballFlames),
+	SAVE_DATA(s_BreakFlames),
+	SAVE_DATA(s_Fireball),
+	SAVE_DATA(s_Fireball),
+	//SAVE_DATA(sg_Fireball),
+	SAVE_DATA(s_Ring),
+	//SAVE_DATA(sg_Ring),
+	SAVE_DATA(s_Ring),
+	SAVE_DATA(s_Ring2),
+	SAVE_DATA(s_Napalm),
+	SAVE_DATA(s_BloodWorm),
+	SAVE_DATA(s_BloodWorm),
+	SAVE_DATA(s_PlasmaExp),
+	SAVE_DATA(s_PlasmaExp),
+	SAVE_DATA(s_Mirv),
+	SAVE_DATA(s_MirvMissile),
+	SAVE_DATA(s_Vomit1),
+	SAVE_DATA(s_Vomit2),
+	SAVE_DATA(s_VomitSplash),
+	SAVE_DATA(s_GoreHead),
+	SAVE_DATA(s_GoreLeg),
+	SAVE_DATA(s_GoreEye),
+	SAVE_DATA(s_GoreTorso),
+	SAVE_DATA(s_GoreArm),
+	SAVE_DATA(s_GoreLung),
+	SAVE_DATA(s_GoreLiver),
+	SAVE_DATA(s_GoreSkullCap),
+	SAVE_DATA(s_GoreChunkS),
+	SAVE_DATA(s_GoreDrip),
+	SAVE_DATA(s_FastGoreDrip),
+	SAVE_DATA(s_GoreFlame),
+	SAVE_DATA(s_TracerShrap),
+	SAVE_DATA(s_UziShellShrap),
+	SAVE_DATA(s_UziShellShrapStill1),
+	SAVE_DATA(s_UziShellShrapStill2),
+	SAVE_DATA(s_UziShellShrapStill3),
+	SAVE_DATA(s_UziShellShrapStill4),
+	SAVE_DATA(s_UziShellShrapStill5),
+	SAVE_DATA(s_UziShellShrapStill6),
+	SAVE_DATA(s_ShotgunShellShrap),
+	SAVE_DATA(s_ShotgunShellShrapStill1),
+	SAVE_DATA(s_ShotgunShellShrapStill2),
+	SAVE_DATA(s_ShotgunShellShrapStill3),
+	SAVE_DATA(s_GoreFlameChunkA),
+	SAVE_DATA(s_GoreFlameChunkB),
+	SAVE_DATA(s_CoinShrap),
+	SAVE_DATA(s_Marbel),
+	SAVE_DATA(s_GlassShrapA),
+	SAVE_DATA(s_GlassShrapB),
+	SAVE_DATA(s_GlassShrapC),
+	SAVE_DATA(s_WoodShrapA),
+	SAVE_DATA(s_WoodShrapB),
+	SAVE_DATA(s_WoodShrapC),
+	SAVE_DATA(s_StoneShrapA),
+	SAVE_DATA(s_StoneShrapB),
+	SAVE_DATA(s_StoneShrapC),
+	SAVE_DATA(s_MetalShrapA),
+	SAVE_DATA(s_MetalShrapB),
+	SAVE_DATA(s_MetalShrapC),
+	SAVE_DATA(s_PaperShrapA),
+	SAVE_DATA(s_PaperShrapB),
+	SAVE_DATA(s_PaperShrapC),
+	SAVE_DATA(s_FloorBlood1),
+	SAVE_DATA(s_FootPrint1),
+	SAVE_DATA(s_FootPrint2),
+	SAVE_DATA(s_FootPrint3),
+	SAVE_DATA(s_WallBlood1),
+	SAVE_DATA(s_WallBlood2),
+	SAVE_DATA(s_WallBlood3),
+	SAVE_DATA(s_WallBlood4),
+};
+
+saveable_module saveable_weapon = {
+	// code
+	saveable_weapon_code,
+	SIZ(saveable_weapon_code),
+
+	// data
+	saveable_weapon_data,
+	SIZ(saveable_weapon_data)
+};

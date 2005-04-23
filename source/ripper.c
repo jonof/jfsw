@@ -1333,3 +1333,89 @@ DoRipperMove(short SpriteNum)
     DoActorSectorDamage(SpriteNum);
     return(0);
     }
+
+
+#include "saveable.h"
+
+static saveable_code saveable_ripper_code[] = {
+	SAVE_CODE(SetupRipper),
+	SAVE_CODE(GetJumpHeight),
+	SAVE_CODE(PickJumpSpeed),
+	SAVE_CODE(PickJumpMaxSpeed),
+	
+	SAVE_CODE(InitRipperHang),
+	SAVE_CODE(DoRipperHang),
+	SAVE_CODE(DoRipperMoveHang),
+	SAVE_CODE(DoRipperHangJF),
+
+	SAVE_CODE(DoRipperBeginJumpAttack),
+	SAVE_CODE(DoRipperMoveJump),
+
+	SAVE_CODE(DoRipperQuickJump),
+	SAVE_CODE(NullRipper),
+	SAVE_CODE(DoRipperPain),
+	SAVE_CODE(DoRipperRipHeart),
+	SAVE_CODE(DoRipperStandHeart),
+	SAVE_CODE(RipperHatch),
+	SAVE_CODE(DoRipperMove),
+};
+
+static saveable_data saveable_ripper_data[] = {
+	SAVE_DATA(RipperBattle),
+	SAVE_DATA(RipperOffense),
+	SAVE_DATA(RipperBroadcast),
+	SAVE_DATA(RipperSurprised),
+	SAVE_DATA(RipperEvasive),
+	SAVE_DATA(RipperLostTarget),
+	SAVE_DATA(RipperCloseRange),
+
+	SAVE_DATA(RipperPersonality),
+
+	SAVE_DATA(RipperAttrib),
+
+	SAVE_DATA(s_RipperRun),
+	SAVE_DATA(sg_RipperRun),
+	SAVE_DATA(s_RipperStand),
+	SAVE_DATA(sg_RipperStand),
+	SAVE_DATA(s_RipperSwipe),
+	SAVE_DATA(sg_RipperSwipe),
+	SAVE_DATA(s_RipperSpew),
+	SAVE_DATA(sg_RipperSpew),
+	SAVE_DATA(s_RipperHeart),
+	SAVE_DATA(sg_RipperHeart),
+	SAVE_DATA(s_RipperHang),
+	SAVE_DATA(sg_RipperHang),
+	SAVE_DATA(s_RipperPain),
+	SAVE_DATA(sg_RipperPain),
+	SAVE_DATA(s_RipperJump),
+	SAVE_DATA(sg_RipperJump),
+	SAVE_DATA(s_RipperFall),
+	SAVE_DATA(sg_RipperFall),
+	SAVE_DATA(s_RipperJumpAttack),
+	SAVE_DATA(sg_RipperJumpAttack),
+	SAVE_DATA(s_RipperHangJump),
+	SAVE_DATA(sg_RipperHangJump),
+	SAVE_DATA(s_RipperHangFall),
+	SAVE_DATA(sg_RipperHangFall),
+	SAVE_DATA(s_RipperDie),
+	SAVE_DATA(s_RipperDead),
+	SAVE_DATA(sg_RipperDie),
+	SAVE_DATA(sg_RipperDead),
+	SAVE_DATA(s_RipperDeathJump),
+	SAVE_DATA(s_RipperDeathFall),
+	SAVE_DATA(sg_RipperDeathJump),
+	SAVE_DATA(sg_RipperDeathFall),
+
+	SAVE_DATA(RipperActionSet),
+	SAVE_DATA(RipperBrownActionSet),
+};
+
+saveable_module saveable_ripper = {
+	// code
+	saveable_ripper_code,
+	SIZ(saveable_ripper_code),
+
+	// data
+	saveable_ripper_data,
+	SIZ(saveable_ripper_data)
+};

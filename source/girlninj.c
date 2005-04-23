@@ -858,5 +858,68 @@ int DoGirlNinjaSpecial(short SpriteNum)
     }  
       
 
+#include "saveable.h"
 
-    
+static saveable_code saveable_girlninj_code[] = {
+	SAVE_CODE(SetupGirlNinja),
+	SAVE_CODE(DoGirlNinjaMove),
+	SAVE_CODE(GirlNinjaJumpActionFunc),
+	SAVE_CODE(NullGirlNinja),
+	SAVE_CODE(DoGirlNinjaPain),
+	SAVE_CODE(DoGirlNinjaSpecial),
+};
+
+static saveable_data saveable_girlninj_data[] = {
+	SAVE_DATA(GirlNinjaBattle),
+	SAVE_DATA(GirlNinjaOffense),
+	SAVE_DATA(GirlNinjaBroadcast),
+	SAVE_DATA(GirlNinjaSurprised),
+	SAVE_DATA(GirlNinjaEvasive),
+	SAVE_DATA(GirlNinjaLostTarget),
+	SAVE_DATA(GirlNinjaCloseRange),
+
+	SAVE_DATA(GirlNinjaPersonality),
+
+	SAVE_DATA(GirlNinjaAttrib),
+
+	SAVE_DATA(s_GirlNinjaRun),
+	SAVE_DATA(sg_GirlNinjaRun),
+	SAVE_DATA(s_GirlNinjaStand),
+	SAVE_DATA(sg_GirlNinjaStand),
+	SAVE_DATA(s_GirlNinjaRise),
+	SAVE_DATA(sg_GirlNinjaRise),
+	SAVE_DATA(s_GirlNinjaDuck),
+	SAVE_DATA(sg_GirlNinjaDuck),
+	SAVE_DATA(s_GirlNinjaSit),
+	SAVE_DATA(sg_GirlNinjaSit),
+	SAVE_DATA(s_GirlNinjaJump),
+	SAVE_DATA(sg_GirlNinjaJump),
+	SAVE_DATA(s_GirlNinjaFall),
+	SAVE_DATA(sg_GirlNinjaFall),
+	SAVE_DATA(s_GirlNinjaPain),
+	SAVE_DATA(sg_GirlNinjaPain),
+	SAVE_DATA(s_GirlNinjaSticky),
+	SAVE_DATA(sg_GirlNinjaSticky),
+	SAVE_DATA(s_GirlNinjaCrossbow),
+	SAVE_DATA(sg_GirlNinjaCrossbow),
+	SAVE_DATA(s_GirlNinjaDie),
+	SAVE_DATA(s_GirlNinjaDead),
+	SAVE_DATA(s_GirlNinjaDeathJump),
+	SAVE_DATA(s_GirlNinjaDeathFall),
+	SAVE_DATA(sg_GirlNinjaDie),
+	SAVE_DATA(sg_GirlNinjaDead),
+	SAVE_DATA(sg_GirlNinjaDeathJump),
+	SAVE_DATA(sg_GirlNinjaDeathFall),
+
+	SAVE_DATA(GirlNinjaActionSet),
+};
+
+saveable_module saveable_girlninj = {
+	// code
+	saveable_girlninj_code,
+	SIZ(saveable_girlninj_code),
+
+	// data
+	saveable_girlninj_data,
+	SIZ(saveable_girlninj_data)
+};

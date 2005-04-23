@@ -514,3 +514,50 @@ int DoLavaMove(short SpriteNum)
 }
 
 
+#include "saveable.h"
+
+static saveable_code saveable_lava_code[] = {
+	SAVE_CODE(SetupLava),
+	SAVE_CODE(NullLava),
+	SAVE_CODE(DoLavaMove),
+};
+
+static saveable_data saveable_lava_data[] = {
+	SAVE_DATA(LavaBattle),
+	SAVE_DATA(LavaOffense),
+	SAVE_DATA(LavaBroadcast),
+	SAVE_DATA(LavaSurprised),
+	SAVE_DATA(LavaEvasive),
+	SAVE_DATA(LavaLostTarget),
+	SAVE_DATA(LavaCloseRange),
+
+	SAVE_DATA(LavaPersonality),
+
+	SAVE_DATA(LavaAttrib),
+	SAVE_DATA(LavaPissedAttrib),
+
+	SAVE_DATA(s_LavaStand),
+	SAVE_DATA(sg_LavaStand),
+	SAVE_DATA(s_LavaRun),
+	SAVE_DATA(sg_LavaRun),
+	SAVE_DATA(s_LavaThrow),
+	SAVE_DATA(sg_LavaThrow),
+	SAVE_DATA(s_LavaFlame),
+	SAVE_DATA(sg_LavaFlame),
+	SAVE_DATA(s_LavaDie),
+	SAVE_DATA(s_LavaDead),
+	SAVE_DATA(sg_LavaDie),
+	SAVE_DATA(sg_LavaDead),
+
+	SAVE_DATA(LavaActionSet),
+};
+
+saveable_module saveable_lava = {
+	// code
+	saveable_lava_code,
+	SIZ(saveable_lava_code),
+
+	// data
+	saveable_lava_data,
+	SIZ(saveable_lava_data)
+};

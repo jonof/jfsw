@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -42,7 +42,7 @@ extern short BossSpriteNum[3];
 
 ANIMATOR InitZillaCharge;
 
-DECISION ZillaBattle[] = 
+DECISION ZillaBattle[] =
     {
     {100,   InitActorRunAway      },
     {690,   InitActorMoveCloser   },
@@ -50,7 +50,7 @@ DECISION ZillaBattle[] =
     {1024,  InitActorAttack       }
     };
 
-DECISION ZillaOffense[] = 
+DECISION ZillaOffense[] =
     {
     {100,   InitActorRunAway      },
     {690,   InitActorMoveCloser   },
@@ -58,49 +58,49 @@ DECISION ZillaOffense[] =
     {1024,  InitActorAttack       }
     };
 
-DECISION ZillaBroadcast[] = 
+DECISION ZillaBroadcast[] =
     {
     {2,     InitActorAlertNoise   },
     {4,     InitActorAmbientNoise  },
     {1024,  InitActorDecide       }
     };
 
-DECISION ZillaSurprised[] = 
+DECISION ZillaSurprised[] =
     {
     {700,   InitActorMoveCloser   },
     {703,   InitActorAlertNoise   },
     {1024,  InitActorDecide       }
     };
 
-DECISION ZillaEvasive[] = 
+DECISION ZillaEvasive[] =
     {
     {1024, InitActorWanderAround }
     };
 
-DECISION ZillaLostTarget[] = 
+DECISION ZillaLostTarget[] =
     {
     {900,   InitActorFindPlayer         },
     {1024,  InitActorWanderAround       }
     };
 
-DECISION ZillaCloseRange[] = 
+DECISION ZillaCloseRange[] =
     {
     {1024,  InitActorAttack         }
     };
 
-PERSONALITY ZillaPersonality = 
+PERSONALITY ZillaPersonality =
     {
-    ZillaBattle, 
-    ZillaOffense, 
-    ZillaBroadcast, 
-    ZillaSurprised, 
-    ZillaEvasive, 
-    ZillaLostTarget, 
+    ZillaBattle,
+    ZillaOffense,
+    ZillaBroadcast,
+    ZillaSurprised,
+    ZillaEvasive,
+    ZillaLostTarget,
     ZillaCloseRange,
     ZillaCloseRange
     };
 
-ATTRIBUTE ZillaAttrib = 
+ATTRIBUTE ZillaAttrib =
     {
     {100, 100, 100, 100},                 // Speeds
     {3, 0, 0, 0},                     // Tic Adjusts
@@ -109,8 +109,8 @@ ATTRIBUTE ZillaAttrib =
      DIGI_Z17052, DIGI_Z17025, 0,0,0,0,0}
     };
 
-    
-//////////////////////    
+
+//////////////////////
 //
 // ZILLA RUN
 //
@@ -118,7 +118,7 @@ ATTRIBUTE ZillaAttrib =
 
 #define ZILLA_RATE 48
 
-ANIMATOR DoZillaMove,NullZilla,DoStayOnFloor, 
+ANIMATOR DoZillaMove,NullZilla,DoStayOnFloor,
     DoActorDebris, SpawnZillaExp, DoZillaStomp,
     SpawnCoolg;
 
@@ -165,7 +165,7 @@ STATE s_ZillaRun[5][6] =
     {ZILLA_RUN_R4 + 3, ZILLA_RATE, DoZillaMove, &s_ZillaRun[4][0]}
     }
     };
-    
+
 STATEp sg_ZillaRun[] =
     {
     &s_ZillaRun[0][0],
@@ -176,7 +176,7 @@ STATEp sg_ZillaRun[] =
     };
 
 
-//////////////////////    
+//////////////////////
 //
 // ZILLA STAND
 //
@@ -197,10 +197,10 @@ STATE s_ZillaStand[5][1] =
     {ZILLA_RUN_R3 + 0, ZILLA_RATE, DoZillaMove, &s_ZillaStand[3][0]}
     },
     {
-    {ZILLA_RUN_R4 + 0, ZILLA_RATE, DoZillaMove, &s_ZillaStand[4][0]} 
+    {ZILLA_RUN_R4 + 0, ZILLA_RATE, DoZillaMove, &s_ZillaStand[4][0]}
     }
     };
-    
+
 STATEp sg_ZillaStand[] =
     {
     &s_ZillaStand[0][0],
@@ -210,12 +210,12 @@ STATEp sg_ZillaStand[] =
     &s_ZillaStand[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // ZILLA PAIN
 //
 //////////////////////
-    
+
 #define ZILLA_PAIN_RATE 30
 
 STATE s_ZillaPain[5][2] =
@@ -240,7 +240,7 @@ STATE s_ZillaPain[5][2] =
     {ZILLA_PAIN_R4 + 0, ZILLA_PAIN_RATE, NullZilla, &s_ZillaPain[4][1]},
     {ZILLA_PAIN_R4 + 0, 0|SF_QUICK_CALL, InitActorDecide, &s_ZillaPain[4][0]}
     }
-    };    
+    };
 
 STATEp sg_ZillaPain[] =
     {
@@ -251,14 +251,14 @@ STATEp sg_ZillaPain[] =
     &s_ZillaPain[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // ZILLA RAIL
 //
 //////////////////////
-    
+
 #define ZILLA_RAIL_RATE 12
-ANIMATOR InitZillaRail; 
+ANIMATOR InitZillaRail;
 
 STATE s_ZillaRail[5][14] =
     {
@@ -325,7 +325,7 @@ STATE s_ZillaRail[5][14] =
     {ZILLA_RAIL_R3 + 3, SF_QUICK_CALL, InitZillaRail, &s_ZillaRail[3][12]},
     {ZILLA_RAIL_R3 + 3, ZILLA_RAIL_RATE, NullZilla, &s_ZillaRail[3][13]},
     {ZILLA_RAIL_R3 + 3, SF_QUICK_CALL, InitActorDecide, &s_ZillaRail[3][0]}
-    },           
+    },
     {
     {ZILLA_RAIL_R4 + 0, ZILLA_RAIL_RATE, NullZilla, &s_ZillaRail[4][1]},
     {ZILLA_RAIL_R4 + 1, ZILLA_RAIL_RATE, NullZilla, &s_ZillaRail[4][2]},
@@ -342,7 +342,7 @@ STATE s_ZillaRail[5][14] =
     {ZILLA_RAIL_R4 + 3, ZILLA_RAIL_RATE, NullZilla, &s_ZillaRail[4][13]},
     {ZILLA_RAIL_R4 + 3, SF_QUICK_CALL, InitActorDecide, &s_ZillaRail[4][0]}
     }
-    };    
+    };
 
 STATEp sg_ZillaRail[] =
     {
@@ -353,14 +353,14 @@ STATEp sg_ZillaRail[] =
     &s_ZillaRail[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // ZILLA ROCKET
 //
 //////////////////////
-    
+
 #define ZILLA_ROCKET_RATE 12
-ANIMATOR InitZillaRocket; 
+ANIMATOR InitZillaRocket;
 
 STATE s_ZillaRocket[5][7] =
     {
@@ -408,8 +408,8 @@ STATE s_ZillaRocket[5][7] =
     {ZILLA_ROCKET_R4 + 2, ZILLA_ROCKET_RATE*4, NullZilla, &s_ZillaRocket[4][5]},
     {ZILLA_ROCKET_R4 + 3, SF_QUICK_CALL, InitActorDecide, &s_ZillaRocket[4][6]},
     {ZILLA_ROCKET_R4 + 3, ZILLA_ROCKET_RATE*10, NullZilla, &s_ZillaRocket[4][5]}
-    }               
-    };    
+    }
+    };
 
 STATEp sg_ZillaRocket[] =
     {
@@ -419,7 +419,7 @@ STATEp sg_ZillaRocket[] =
     &s_ZillaRocket[3][0],
     &s_ZillaRocket[4][0]
     };
-    
+
 //////////////////////
 //
 // ZILLA UZI
@@ -539,12 +539,12 @@ STATEp sg_ZillaUzi[] =
     };
 
 
-//////////////////////    
+//////////////////////
 //
 // ZILLA DIE
 //
 //////////////////////
-    
+
 #define ZILLA_DIE_RATE 30
 ANIMATOR DoZillaDeathMelt;
 
@@ -615,11 +615,11 @@ ACTOR_ACTION_SET ZillaActionSet =
   {
   sg_ZillaStand,
   sg_ZillaRun,
-  NULL, 
-  NULL, 
-  NULL, 
   NULL,
-  NULL, 
+  NULL,
+  NULL,
+  NULL,
+  NULL,
   NULL,
   NULL,
   NULL,
@@ -639,13 +639,13 @@ ACTOR_ACTION_SET ZillaActionSet =
   NULL
   };
 
-int 
-SetupZilla(short SpriteNum)    
+int
+SetupZilla(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -659,33 +659,33 @@ SetupZilla(short SpriteNum)
 
     if (Skill == 0) u->Health = 2000;
     if (Skill == 1) u->Health = 4000;
-        
-    ChangeState(SpriteNum,s_ZillaRun[0]);    
+
+    ChangeState(SpriteNum,s_ZillaRun[0]);
     u->Attrib = &ZillaAttrib;
     DoActorSetSpeed(SpriteNum, NORM_SPEED);
     u->StateEnd = s_ZillaDie;
     u->Rot = sg_ZillaRun;
-    
+
     EnemyDefaults(SpriteNum, &ZillaActionSet, &ZillaPersonality);
-   
+
     sp->clipdist = (512) >> 2;
     sp->xrepeat = 97;
     sp->yrepeat = 79;
-    
+
     //SET(u->Flags, SPR_XFLIP_TOGGLE);
-    
+
     return(0);
-}    
+}
 
 int NullZilla(short SpriteNum)
 {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     //if (TEST(u->Flags,SPR_SLIDING))
         //DoActorSlide(SpriteNum);
-        
-    #if 0    
+
+    #if 0
     if (u->State == s_ZillaDie)
         {
         getzsofslope(sp->sectnum, sp->x, sp->y, &u->hiz, &u->loz);
@@ -693,8 +693,8 @@ int NullZilla(short SpriteNum)
         u->hi_sectp = &sector[sp->sectnum];
         sp->z = u->loz;
         }
-    #endif    
-        
+    #endif
+
     //if (!TEST(u->Flags,SPR_CLIMBING))
     //    KeepActorOnFloor(SpriteNum);
     getzsofslope(sp->sectnum, sp->x, sp->y, &u->hiz, &u->loz);
@@ -703,9 +703,9 @@ int NullZilla(short SpriteNum)
     u->lo_sp = NULL;
     u->hi_sp = NULL;
     sp->z = u->loz;
-    
-    DoActorSectorDamage(SpriteNum);        
-    
+
+    DoActorSectorDamage(SpriteNum);
+
     return(0);
 }
 
@@ -715,47 +715,47 @@ int DoZillaMove(short SpriteNum)
     USERp u = User[SpriteNum];
     short choose;
     static int handle;
-    
+
     //if (TEST(u->Flags,SPR_SLIDING))
        //DoActorSlide(SpriteNum);
-    
-    // Random Zilla taunts   
+
+    // Random Zilla taunts
     if (!FX_SoundActive(handle))
         {
         choose = STD_RANDOM_RANGE(1000);
         if (choose > 990)
             handle = PlaySound(DIGI_Z16004,&sp->x,&sp->y,&sp->z,v3df_none);
-        else    
+        else
         if (choose > 985)
             handle = PlaySound(DIGI_Z16004,&sp->x,&sp->y,&sp->z,v3df_none);
-        else    
+        else
         if (choose > 980)
             handle = PlaySound(DIGI_Z16004,&sp->x,&sp->y,&sp->z,v3df_none);
-        else    
+        else
         if (choose > 975)
             handle = PlaySound(DIGI_Z16004,&sp->x,&sp->y,&sp->z,v3df_none);
-        }    
+        }
 
-        
+
     if (u->track >= 0)
         ActorFollowTrack(SpriteNum, ACTORMOVETICS);
     else
         (*u->ActorActionFunc)(SpriteNum);
-    
+
     KeepActorOnFloor(SpriteNum);
-    
+
     if (DoActorSectorDamage(SpriteNum))
         {
         return(0);
         }
-    
+
     return(0);
-}    
+}
 
 int DoZillaStomp(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
-    
+
     PlaySound(DIGI_ZILLASTOMP,&sp->x,&sp->y,&sp->z,v3df_follow);
     }
 
@@ -769,9 +769,9 @@ int DoZillaDeathMelt(short SpriteNum)
 
     if (RANDOM_RANGE(1000) > 800)
         SpawnGrenadeExp(SpriteNum);
-    
+
     u->ID = ZILLA_RUN_R0;
-    RESET(u->Flags, SPR_JUMPING|SPR_FALLING|SPR_MOVED);    
+    RESET(u->Flags, SPR_JUMPING|SPR_FALLING|SPR_MOVED);
 
     //DoMatchEverything(NULL, sp->lotag, ON);
     if (!SW_SHAREWARE) {
@@ -790,10 +790,62 @@ int DoZillaDeathMelt(short SpriteNum)
     u->lo_sp = NULL;
     u->hi_sp = NULL;
     sp->z = u->loz;
-    
+
     BossSpriteNum[2] = -2;
     return(0);
-}    
+}
 
 
+#include "saveable.h"
+
+static saveable_code saveable_zilla_code[] = {
+	SAVE_CODE(SetupZilla),
+	SAVE_CODE(NullZilla),
+	SAVE_CODE(DoZillaMove),
+	SAVE_CODE(DoZillaStomp),
+	SAVE_CODE(DoZillaDeathMelt),
+};
+
+static saveable_data saveable_zilla_data[] = {
+	SAVE_DATA(ZillaBattle),
+	SAVE_DATA(ZillaOffense),
+	SAVE_DATA(ZillaBroadcast),
+	SAVE_DATA(ZillaSurprised),
+	SAVE_DATA(ZillaEvasive),
+	SAVE_DATA(ZillaLostTarget),
+	SAVE_DATA(ZillaCloseRange),
+
+	SAVE_DATA(ZillaPersonality),
+
+	SAVE_DATA(ZillaAttrib),
+
+	SAVE_DATA(s_ZillaRun),
+	SAVE_DATA(sg_ZillaRun),
+	SAVE_DATA(s_ZillaStand),
+	SAVE_DATA(sg_ZillaStand),
+	SAVE_DATA(s_ZillaPain),
+	SAVE_DATA(sg_ZillaPain),
+	SAVE_DATA(s_ZillaRail),
+	SAVE_DATA(sg_ZillaRail),
+	SAVE_DATA(s_ZillaRocket),
+	SAVE_DATA(sg_ZillaRocket),
+	SAVE_DATA(s_ZillaUzi),
+	SAVE_DATA(sg_ZillaUzi),
+	SAVE_DATA(s_ZillaDie),
+	SAVE_DATA(sg_ZillaDie),
+	SAVE_DATA(s_ZillaDead),
+	SAVE_DATA(sg_ZillaDead),
+
+	SAVE_DATA(ZillaActionSet),
+};
+
+saveable_module saveable_zilla = {
+	// code
+	saveable_zilla_code,
+	SIZ(saveable_zilla_code),
+
+	// data
+	saveable_zilla_data,
+	SIZ(saveable_zilla_data)
+};
 

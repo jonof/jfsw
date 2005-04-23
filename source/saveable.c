@@ -1,7 +1,7 @@
 #include "saveable.h"
 #include "stdlib.h"
 
-#define maxModules 100
+#define maxModules 40
 
 static saveable_module *saveablemodules[maxModules];
 static int nummodules = 0;
@@ -19,21 +19,37 @@ void Saveable_Init(void)
 	module(actor);
 	module(ai);
 	module(build);
+	module(bunny);
 	module(coolg);
 	module(coolie);
 	module(eel);
+	module(girlninj);
+	module(goro);
+	module(hornet);
 	module(jweapon);
+	module(lava);
 	module(miscactr);
 	module(morph);
 	module(ninja);
 	module(panel);
 	module(player);
+	module(quake);
+	module(ripper);
+	module(ripper2);
 	module(rotator);
+	module(serp);
+	module(skel);
+	module(skull);
 	module(slidor);
 	module(spike);
 	module(sprite);
+	module(sumo);
 	module(track);
 	module(vator);
+	module(wallmove);
+	module(weapon);
+	module(zilla);
+	module(zombie);
 
 	inited=1;
 }

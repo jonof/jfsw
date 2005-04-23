@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -49,63 +49,63 @@ short BossSpriteNum[3] = {-1,-1,-1};
 
 ANIMATOR InitSumoCharge;
 
-DECISION SumoBattle[] = 
+DECISION SumoBattle[] =
     {
     {690,   InitActorMoveCloser   },
     {692,   InitActorAlertNoise   },
     {1024,  InitActorAttack       }
     };
 
-DECISION SumoOffense[] = 
+DECISION SumoOffense[] =
     {
     {690,   InitActorMoveCloser   },
     {692,   InitActorAlertNoise   },
     {1024,  InitActorAttack       }
     };
 
-DECISION SumoBroadcast[] = 
+DECISION SumoBroadcast[] =
     {
     {2,     InitActorAlertNoise   },
     {4,     InitActorAmbientNoise  },
     {1024,  InitActorDecide       }
     };
 
-DECISION SumoSurprised[] = 
+DECISION SumoSurprised[] =
     {
     {700,   InitActorMoveCloser   },
     {703,   InitActorAlertNoise   },
     {1024,  InitActorDecide       }
     };
 
-DECISION SumoEvasive[] = 
+DECISION SumoEvasive[] =
     {
     {1024, InitActorAttack }
     };
 
-DECISION SumoLostTarget[] = 
+DECISION SumoLostTarget[] =
     {
     {900,   InitActorFindPlayer         },
     {1024,  InitActorWanderAround       }
     };
 
-DECISION SumoCloseRange[] = 
+DECISION SumoCloseRange[] =
     {
     {1024,  InitActorAttack         }
     };
 
-PERSONALITY SumoPersonality = 
+PERSONALITY SumoPersonality =
     {
-    SumoBattle, 
-    SumoOffense, 
-    SumoBroadcast, 
-    SumoSurprised, 
-    SumoEvasive, 
-    SumoLostTarget, 
+    SumoBattle,
+    SumoOffense,
+    SumoBroadcast,
+    SumoSurprised,
+    SumoEvasive,
+    SumoLostTarget,
     SumoCloseRange,
     SumoCloseRange
     };
 
-ATTRIBUTE SumoAttrib = 
+ATTRIBUTE SumoAttrib =
     {
     {160, 180, 180, 180},             // Speeds
     {3, 0, 0, 0},                     // Tic Adjusts
@@ -114,8 +114,8 @@ ATTRIBUTE SumoAttrib =
      DIGI_SUMOPAIN, DIGI_SUMOSCREAM, 0,0,0,0,0}
     };
 
-    
-//////////////////////    
+
+//////////////////////
 //
 // SUMO RUN
 //
@@ -123,7 +123,7 @@ ATTRIBUTE SumoAttrib =
 
 #define SUMO_RATE 24
 
-ANIMATOR DoSumoMove,NullSumo,DoStayOnFloor, 
+ANIMATOR DoSumoMove,NullSumo,DoStayOnFloor,
     DoActorDebris, SpawnSumoExp,
     SpawnCoolg;
 
@@ -160,7 +160,7 @@ STATE s_SumoRun[5][4] =
     {SUMO_RUN_R4 + 3, SUMO_RATE, DoSumoMove, &s_SumoRun[4][0]},
     }
     };
-    
+
 STATEp sg_SumoRun[] =
     {
     &s_SumoRun[0][0],
@@ -171,7 +171,7 @@ STATEp sg_SumoRun[] =
     };
 
 
-//////////////////////    
+//////////////////////
 //
 // SUMO CHARGE
 //
@@ -180,7 +180,7 @@ STATEp sg_SumoRun[] =
 
 #define SUMO_RATE 12
 
-ANIMATOR DoSumoMove,NullSumo,DoStayOnFloor, 
+ANIMATOR DoSumoMove,NullSumo,DoStayOnFloor,
     DoActorDebris, DoSumoRumble;
 
 STATE s_SumoCharge[5][4] =
@@ -216,7 +216,7 @@ STATE s_SumoCharge[5][4] =
     {SUMO_RUN_R4 + 3, SUMO_RATE, DoSumoMove, &s_SumoCharge[4][0]},
     }
     };
-    
+
 STATEp sg_SumoCharge[] =
     {
     &s_SumoCharge[0][0],
@@ -227,7 +227,7 @@ STATEp sg_SumoCharge[] =
     };
 #endif
 
-//////////////////////    
+//////////////////////
 //
 // SUMO STAND
 //
@@ -248,10 +248,10 @@ STATE s_SumoStand[5][1] =
     {SUMO_RUN_R3 + 0, SUMO_RATE, DoSumoMove, &s_SumoStand[3][0]}
     },
     {
-    {SUMO_RUN_R4 + 0, SUMO_RATE, DoSumoMove, &s_SumoStand[4][0]} 
+    {SUMO_RUN_R4 + 0, SUMO_RATE, DoSumoMove, &s_SumoStand[4][0]}
     }
     };
-    
+
 STATEp sg_SumoStand[] =
     {
     &s_SumoStand[0][0],
@@ -261,12 +261,12 @@ STATEp sg_SumoStand[] =
     &s_SumoStand[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // SUMO PAIN
 //
 //////////////////////
-    
+
 #define SUMO_PAIN_RATE 30
 
 STATE s_SumoPain[5][2] =
@@ -291,7 +291,7 @@ STATE s_SumoPain[5][2] =
     {SUMO_PAIN_R4 + 0, SUMO_PAIN_RATE, NullSumo, &s_SumoPain[4][1]},
     {SUMO_PAIN_R4 + 0, 0|SF_QUICK_CALL, InitActorDecide, &s_SumoPain[4][0]}
     }
-    };    
+    };
 
 STATEp sg_SumoPain[] =
     {
@@ -302,14 +302,14 @@ STATEp sg_SumoPain[] =
     &s_SumoPain[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // SUMO FART
 //
 //////////////////////
-    
+
 #define SUMO_FART_RATE 12
-ANIMATOR InitSumoFart; 
+ANIMATOR InitSumoFart;
 
 STATE s_SumoFart[5][6] =
     {
@@ -353,7 +353,7 @@ STATE s_SumoFart[5][6] =
     {SUMO_FART_R4 + 3, SUMO_FART_RATE*10, NullSumo, &s_SumoFart[4][5]},
     {SUMO_FART_R4 + 0, SF_QUICK_CALL, InitActorDecide, &s_SumoFart[4][0]}
     }
-    };    
+    };
 
 STATEp sg_SumoFart[] =
     {
@@ -364,14 +364,14 @@ STATEp sg_SumoFart[] =
     &s_SumoFart[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // SUMO CLAP
 //
 //////////////////////
-    
+
 #define SUMO_CLAP_RATE 12
-ANIMATOR InitSumoClap; 
+ANIMATOR InitSumoClap;
 
 STATE s_SumoClap[5][6] =
     {
@@ -415,7 +415,7 @@ STATE s_SumoClap[5][6] =
     {SUMO_CLAP_R4 + 3, SUMO_CLAP_RATE*10, NullSumo, &s_SumoClap[4][5]},
     {SUMO_CLAP_R4 + 3, SF_QUICK_CALL, InitActorDecide, &s_SumoClap[4][5]}
     }
-    };    
+    };
 
 STATEp sg_SumoClap[] =
     {
@@ -425,15 +425,15 @@ STATEp sg_SumoClap[] =
     &s_SumoClap[3][0],
     &s_SumoClap[4][0]
     };
-    
-//////////////////////    
+
+//////////////////////
 //
 // SUMO STOMP
 //
 //////////////////////
-    
+
 #define SUMO_STOMP_RATE 30
-ANIMATOR InitSumoStomp; 
+ANIMATOR InitSumoStomp;
 
 STATE s_SumoStomp[5][6] =
     {
@@ -477,7 +477,7 @@ STATE s_SumoStomp[5][6] =
     {SUMO_STOMP_R4 + 2, 8, NullSumo, &s_SumoStomp[4][5]},
     {SUMO_STOMP_R4 + 2, 0|SF_QUICK_CALL, InitActorDecide, &s_SumoStomp[4][5]}
     }
-    };    
+    };
 
 STATEp sg_SumoStomp[] =
     {
@@ -489,12 +489,12 @@ STATEp sg_SumoStomp[] =
     };
 
 
-//////////////////////    
+//////////////////////
 //
 // SUMO DIE
 //
 //////////////////////
-    
+
 #define SUMO_DIE_RATE 30
 ANIMATOR DoSumoDeathMelt;
 
@@ -573,11 +573,11 @@ ACTOR_ACTION_SET SumoActionSet =
   {
   sg_SumoStand,
   sg_SumoRun,
-  NULL, 
-  NULL, 
-  NULL, 
   NULL,
-  NULL, 
+  NULL,
+  NULL,
+  NULL,
+  NULL,
   NULL,
   NULL,
   NULL,
@@ -601,11 +601,11 @@ ACTOR_ACTION_SET MiniSumoActionSet =
   {
   sg_SumoStand,
   sg_SumoRun,
-  NULL, 
-  NULL, 
-  NULL, 
   NULL,
-  NULL, 
+  NULL,
+  NULL,
+  NULL,
+  NULL,
   NULL,
   NULL,
   NULL,
@@ -625,14 +625,14 @@ ACTOR_ACTION_SET MiniSumoActionSet =
   NULL
   };
 
-  
-int 
-SetupSumo(short SpriteNum)    
+
+int
+SetupSumo(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -646,17 +646,17 @@ SetupSumo(short SpriteNum)
 
     if (Skill == 0) u->Health = 2000;
     if (Skill == 1) u->Health = 4000;
-        
-    ChangeState(SpriteNum,s_SumoRun[0]);    
+
+    ChangeState(SpriteNum,s_SumoRun[0]);
     u->Attrib = &SumoAttrib;
     DoActorSetSpeed(SpriteNum, NORM_SPEED);
     u->StateEnd = s_SumoDie;
     u->Rot = sg_SumoRun;
-    
+
     EnemyDefaults(SpriteNum, &SumoActionSet, &SumoPersonality);
-   
+
     sp->clipdist = (512) >> 2;
-    if (sp->pal == 16) 
+    if (sp->pal == 16)
         {
         // Mini Sumo
         sp->xrepeat = 43;
@@ -668,25 +668,25 @@ SetupSumo(short SpriteNum)
         sp->xrepeat = 115;
         sp->yrepeat = 75;
         }
-    
+
     //SET(u->Flags, SPR_XFLIP_TOGGLE);
-    
+
     return(0);
-}    
+}
 
 int NullSumo(short SpriteNum)
 {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     //if (TEST(u->Flags,SPR_SLIDING))
         //DoActorSlide(SpriteNum);
-        
+
     if (!TEST(u->Flags,SPR_CLIMBING))
         KeepActorOnFloor(SpriteNum);
-    
-    DoActorSectorDamage(SpriteNum);        
-    
+
+    DoActorSectorDamage(SpriteNum);
+
     return(0);
 }
 
@@ -694,7 +694,7 @@ int DoSumoMove(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     //if (TEST(u->Flags,SPR_SLIDING))
        //DoActorSlide(SpriteNum);
 
@@ -702,52 +702,52 @@ int DoSumoMove(short SpriteNum)
         ActorFollowTrack(SpriteNum, ACTORMOVETICS);
     else
         (*u->ActorActionFunc)(SpriteNum);
-    
+
     KeepActorOnFloor(SpriteNum);
-    
+
     if (DoActorSectorDamage(SpriteNum))
         {
         return(0);
         }
-    
+
     return(0);
-}    
+}
 
 #if 0
 int InitSumoCharge(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     if(RANDOM_P2(1024) > 950)
         PlaySound(DIGI_SUMOALERT, &sp->x, &sp->y, &sp->z, v3df_follow);
 
     DoActorSetSpeed(SpriteNum, FAST_SPEED);
-    
+
     InitActorMoveCloser(SpriteNum);
-    
+
     NewStateGroup(SpriteNum, sg_SumoCharge);
-    
+
     return(0);
-}    
+}
 #endif
 
 int DoSumoRumble(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     SetSumoQuake(SpriteNum);
 
     return(0);
-}    
+}
 
 int InitSumoFart(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     extern int InitSumoNapalm(short SpriteNum);
-    
+
     PlaySound(DIGI_SUMOFART, &sp->x, &sp->y, &sp->z, v3df_follow);
 
     InitChemBomb(SpriteNum);
@@ -756,20 +756,20 @@ int InitSumoFart(short SpriteNum)
     InitSumoNapalm(SpriteNum);
 
     return(0);
-}    
+}
 
 int InitSumoStomp(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     extern int InitSumoStompAttack(short SpriteNum);
-    
+
     PlaySound(DIGI_SUMOSTOMP, &sp->x, &sp->y, &sp->z, v3df_none);
     SetSumoQuake(SpriteNum);
     InitSumoStompAttack(SpriteNum);
 
     return(0);
-}    
+}
 
 int InitSumoClap(short SpriteNum)
 {
@@ -778,11 +778,11 @@ int InitSumoClap(short SpriteNum)
     extern int InitSumoSkull(short SpriteNum);
 
     if (sp->pal == 16 && RANDOM_RANGE(1000) <= 800)
-        InitMiniSumoClap(SpriteNum);    
+        InitMiniSumoClap(SpriteNum);
     else
         InitSumoSkull(SpriteNum);
     return(0);
-}    
+}
 
 int DoSumoDeathMelt(short SpriteNum)
 {
@@ -806,9 +806,9 @@ int DoSumoDeathMelt(short SpriteNum)
         }
     }
     BossSpriteNum[1] = -2; // Sprite is gone, set it back to keep it valid!
-    
+
     return(0);
-}    
+}
 
 
 VOID
@@ -826,14 +826,14 @@ BossHealthMeter(void)
     static BOOL triedplay = FALSE;
 
     if (NoMeters) return;
-    
+
     if (Level != 20 && Level != 4 && Level != 11 && Level != 5) return;
 
     // Don't draw bar for other players
-    if (pp != Player+myconnectindex) 
+    if (pp != Player+myconnectindex)
         return;
-    
-    // all enemys    
+
+    // all enemys
     if ((Level == 20 && (BossSpriteNum[0] == -1 || BossSpriteNum[1] == -1 || BossSpriteNum[2] == -1)) ||
         (Level == 4 && BossSpriteNum[0] == -1) ||
         (Level == 5 && BossSpriteNum[0] == -1) ||
@@ -843,28 +843,28 @@ BossHealthMeter(void)
             {
             sp = &sprite[i];
             u = User[i];
-            
+
             if ((u->ID == SERP_RUN_R0 || u->ID == SUMO_RUN_R0 || u->ID == ZILLA_RUN_R0) && sp->pal != 16)
                 {
                 if (u->ID == SERP_RUN_R0)
                     BossSpriteNum[0] = i;
-                else    
+                else
                 if (u->ID == SUMO_RUN_R0)
                     BossSpriteNum[1] = i;
-                else    
+                else
                 if (u->ID == ZILLA_RUN_R0)
                     BossSpriteNum[2] = i;
                 }
             }
-        }    
-    
-    if (BossSpriteNum[0] <= -1 && BossSpriteNum[1] <= -1 && BossSpriteNum[2] <= -1) 
+        }
+
+    if (BossSpriteNum[0] <= -1 && BossSpriteNum[1] <= -1 && BossSpriteNum[2] <= -1)
         return;
-    
+
     // Frank, good optimization for other levels, but it broke level 20. :(
-    // I kept this but had to add a fix.  
+    // I kept this but had to add a fix.
     bosswasseen = serpwasseen|sumowasseen|zillawasseen;
-    
+
     // Only show the meter when you can see the boss
     if ((Level == 20 && (!serpwasseen || !sumowasseen || !zillawasseen)) || !bosswasseen)
         {
@@ -874,7 +874,7 @@ BossHealthMeter(void)
                 {
                 sp = &sprite[BossSpriteNum[i]];
                 u = User[BossSpriteNum[i]];
-            
+
                 if (cansee(sp->x, sp->y, SPRITEp_TOS(sp), sp->sectnum, pp->posx, pp->posy, pp->posz - Z(40), pp->cursectnum))
                     {
                     if (i == 0 && !serpwasseen)
@@ -884,11 +884,11 @@ BossHealthMeter(void)
                         if(gs.MusicOn)
                             {
                             CDAudio_Stop();
-                            CDAudio_Play(13, TRUE); 
+                            CDAudio_Play(13, TRUE);
                             }
                         }
                         }
-                    else 
+                    else
                     if (i == 1 && !sumowasseen)
                         {
                         sumowasseen = TRUE;
@@ -896,11 +896,11 @@ BossHealthMeter(void)
                         if(gs.MusicOn)
                             {
                             CDAudio_Stop();
-                            CDAudio_Play(13, TRUE); 
+                            CDAudio_Play(13, TRUE);
                             }
                         }
                         }
-                    else    
+                    else
                     if (i == 2 && !zillawasseen)
                         {
                         zillawasseen = TRUE;
@@ -908,45 +908,45 @@ BossHealthMeter(void)
                         if(gs.MusicOn)
                             {
                             CDAudio_Stop();
-                            CDAudio_Play(13, TRUE); 
+                            CDAudio_Play(13, TRUE);
                             }
                         }
                     }
-                }    
+                }
             }
-        }    
-        }    
+        }
+        }
 
 
-    for (i=0; i<3; i++)    
+    for (i=0; i<3; i++)
         {
 
-        if (i == 0 && (!serpwasseen || BossSpriteNum[0] < 0)) 
+        if (i == 0 && (!serpwasseen || BossSpriteNum[0] < 0))
             continue;
-        if (i == 1 && (!sumowasseen || BossSpriteNum[1] < 0)) 
+        if (i == 1 && (!sumowasseen || BossSpriteNum[1] < 0))
             continue;
-        if (i == 2 && (!zillawasseen || BossSpriteNum[2] < 0)) 
+        if (i == 2 && (!zillawasseen || BossSpriteNum[2] < 0))
             continue;
-        
-        // This is needed because of possible saved game situation    
+
+        // This is needed because of possible saved game situation
         if (!SW_SHAREWARE) {
             if ((!CDAudio_Playing() || playTrack != 13) && !triedplay)
                 {
-                CDAudio_Play(13, TRUE); 
+                CDAudio_Play(13, TRUE);
                 triedplay = TRUE; // Only try once, then give up
                 }
 	}
-                
+
         sp = &sprite[BossSpriteNum[i]];
         u = User[BossSpriteNum[i]];
-        
+
         if (u->ID == SERP_RUN_R0 && serpwasseen)
             {
             if (Skill == 0) health = 1100;
             else
             if (Skill == 1) health = 2200;
             else
-            health = HEALTH_SERP_GOD;    
+            health = HEALTH_SERP_GOD;
             meterunit = health / 30;
             }
         else
@@ -956,67 +956,126 @@ BossHealthMeter(void)
             else
             if (Skill == 1) health = 4000;
             else
-            health = 6000;    
+            health = 6000;
             meterunit = health / 30;
             }
         else
-        if (u->ID == ZILLA_RUN_R0 && zillawasseen)    
+        if (u->ID == ZILLA_RUN_R0 && zillawasseen)
             {
             if (Skill == 0) health = 2000;
             else
             if (Skill == 1) health = 4000;
             else
-            health = 6000;    
+            health = 6000;
             meterunit = health / 30;
             }
-        else    
+        else
             continue;
-            
-        if (meterunit > 0) 
+
+        if (meterunit > 0)
             {
-            if (u->Health < meterunit && u->Health > 0)           
+            if (u->Health < meterunit && u->Health > 0)
                 metertics = 1;
-            else    
+            else
                 metertics = u->Health / meterunit;
             }
         else
-            continue;    
-    
+            continue;
+
         if (metertics <= 0)
             {
             SetRedrawScreen(pp);
             continue;
             }
-    
+
         if (numplayers < 2) y = 10;
         else
         if (numplayers >=2 && numplayers <= 4) y = 20;
         else
-            y = 30;    
-    
-        if (Level == 20 && numplayers >= 2)    
+            y = 30;
+
+        if (Level == 20 && numplayers >= 2)
             {
             if (u->ID == SUMO_RUN_R0 && sumowasseen) y += 10;
             else
             if (u->ID == ZILLA_RUN_R0 && zillawasseen) y += 20;
-            }    
-    
+            }
+
         if(metertics <= 12 && metertics > 6)
             color = 20;
         else
-        if (metertics <= 6)       
+        if (metertics <= 6)
             color = 25;
         else
             color = 22;
-    
+
         rotatesprite((73+12)<<16,y<<16,65536L,0,5407,1,1,
            (ROTATE_SPRITE_SCREEN_CLIP),0,0,xdim-1,ydim-1);
-    
+
         rotatesprite((100+47)<<16,y<<16,65536L,0,5406-metertics,1,color,
           (ROTATE_SPRITE_SCREEN_CLIP),0,0,xdim-1,ydim-1);
-        } 
-    
+        }
+
     }
 
 
 
+#include "saveable.h"
+
+static saveable_code saveable_sumo_code[] = {
+	SAVE_CODE(SetupSumo),
+	SAVE_CODE(NullSumo),
+	SAVE_CODE(DoSumoMove),
+	//SAVE_CODE(InitSumoCharge),
+	SAVE_CODE(DoSumoRumble),
+	SAVE_CODE(InitSumoFart),
+	SAVE_CODE(InitSumoStomp),
+	SAVE_CODE(InitSumoClap),
+	SAVE_CODE(DoSumoDeathMelt),
+};
+
+static saveable_data saveable_sumo_data[] = {
+	SAVE_DATA(SumoBattle),
+	SAVE_DATA(SumoOffense),
+	SAVE_DATA(SumoBroadcast),
+	SAVE_DATA(SumoSurprised),
+	SAVE_DATA(SumoEvasive),
+	SAVE_DATA(SumoLostTarget),
+	SAVE_DATA(SumoCloseRange),
+
+	SAVE_DATA(SumoPersonality),
+
+	SAVE_DATA(SumoAttrib),
+
+	SAVE_DATA(s_SumoRun),
+	SAVE_DATA(sg_SumoRun),
+	//SAVE_DATA(s_SumoCharge),
+	//SAVE_DATA(sg_SumoCharge),
+	SAVE_DATA(s_SumoStand),
+	SAVE_DATA(sg_SumoStand),
+	SAVE_DATA(s_SumoPain),
+	SAVE_DATA(sg_SumoPain),
+	SAVE_DATA(s_SumoFart),
+	SAVE_DATA(sg_SumoFart),
+	SAVE_DATA(s_SumoClap),
+	SAVE_DATA(sg_SumoClap),
+	SAVE_DATA(s_SumoStomp),
+	SAVE_DATA(sg_SumoStomp),
+	SAVE_DATA(s_SumoDie),
+	SAVE_DATA(sg_SumoDie),
+	SAVE_DATA(s_SumoDead),
+	SAVE_DATA(sg_SumoDead),
+
+	SAVE_DATA(SumoActionSet),
+	SAVE_DATA(MiniSumoActionSet),
+};
+
+saveable_module saveable_sumo = {
+	// code
+	saveable_sumo_code,
+	SIZ(saveable_sumo_code),
+
+	// data
+	saveable_sumo_data,
+	SIZ(saveable_sumo_data)
+};

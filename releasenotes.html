@@ -57,22 +57,19 @@
 
 	<body><div id="bodysect">
 		<h1>Release Notes for JFShadowWarrior</h1>
-		<p>Release date: 2 April 2005 (first release)<br />
+		<p>Release date: ? May 2005<br />
 		<a href="http://jonof.edgenetwork.org/?p=jfsw">Official website</a></p>
 
 		<h2>New Features</h2>
 		<ul>
-			<li>First release! OpenGL Polymost support is the most important new feature.</li>
+			<li>Loading and saving of games should now work quite robustly. See <a href="#savegames">this
+			section</a> for more information.</li>
+			<li>CD audio works again on Windows.</li>
 		</ul>
 			
 		<h2>Known Issues</h2>
 		<ul>
-			<li>Loading and saving of games is completely disabled for the moment while an alternative,
-			platform independent solution to Shadow Warrior's particular method of saving data structures is
-			written.</li>
 			<li>Multiplayer is completely untested. I don't know if it even works yet.</li>
-			<li>CD audio is disabled at the moment until I write a Windows replacement version of the playback
-			code.</li>
 			<li>There are two rendering bugs I am aware of that will be fixed in a subsequent release:
 			<ol>
 				<li>Level 1: the viewscreen to drive the silver key to the collection area malfunctions in
@@ -81,15 +78,109 @@
 				showing the next level, the sector-over-sector effect in the view beyond the portal
 				malfunctions giving a shimmering sky area in the view.</li>
 			</ol></li>
-			<li>Wider testing will reveal bugs and DOS legacies that have been overlooked at the present time,
-			so please report the locations of any crashes you may experience.</li>
 		</ul>
+
+		<h2><a name="savegames"></a>Save Help</h2>
+
+		<p>I have written a new compiler-independent framework for saving and restoring the pointer information
+		contained in Shadow Warrior's internal objects, and this has required a large amount of manual
+		processing of the source code to pick out the data and functions in the game that need to be saved to disk.
+		Because of this, I have quite likely missed some functions or data that are on a rare occasion required to
+		properly save a game. If this happens, you will see a message after the save operation that reads:</p>
+		<pre>There was a problem saving. See "Save Help" section of release notes.</pre>
+		<p>When this message is displayed, the game creates a file named <code>savegame symbols missing.txt</code>
+		in the game directory containing information I require to be able to add the missing symbols into the game
+		code for future saves. If you see the message, please send the file to me at <a
+		href="mailto:jonof@edgenetwork.org">jonof@edgenetwork.org</a> so I may update the game.</p>
+
+		<h2><a name="customfile"></a>Customisation File Format</h2>
+
+		<p>Historically, the modifications and total conversions for Shadow Warrior have been forced to resort to
+		hacking the game executable with a hex editor to replace the names of maps and the episode title
+		information. For this port I have introduced a customisation script file that is loaded on startup which
+		achieves the same purpose as the EXE hacks once did. Customisation of weapon ammunition counts and other
+		similar things will be added in the future as the need arises.</p>
+
+		<p>The customisation file should be named <code>SWCUSTOM.TXT</code> for the game to find it. The contents
+		of the file may consist of these directives. Comments can be used by prefixing the text with a double
+		forward-slash (C++ style), <code>//</code>, or surrounding the text with <code>/*</code> <em>(comment
+		here)</em> <code>*/</code> (C style).</p>
+
+		<dl>
+			<dt>map <em>number</em> { ... }<br />
+			level <em>number</em> { ... }</dt>
+			<dd>Selects the map to change the information of. <em>number</em> is a positive value in the range
+			of 1 to 29. Levels 1 to 4 are the shareware maps. <strong>level</strong> is a synonym for
+			<strong>map</strong>. The brace-enclosed block may contain these directives:
+			
+			<dl>
+				<dt>title <em>title</em><br />
+				name <em>title</em><br />
+				description <em>title</em></dt>
+				<dd>Sets the new title of the level to <em>title</em>. <strong>name</strong> and
+				<strong>description</strong> are synonyms for </strong>title</strong>.</dd>
+
+				<dt>filename <em>filename</em><br />
+				file <em>filename</em><br />
+				fn <em>filename</em><br />
+				levelname <em>filename</em></dt>
+				<dd>Sets the new map file name to <em>filename</em>. <strong>file</strong>,
+				<strong>fn</strong>, and <strong>levelname</strong> are synonyms for
+				<strong>filename</strong>.</dd>
+
+				<dt>song <em>filename</em><br />
+				music <em>filename</em><br />
+				songname <em>filename</em></dt>
+				<dd>Sets the new MIDI file name to <em>filename</em>. <strong>music</strong> and
+				<strong>songname</strong> are synonyms for <strong>song</strong>.</dd>
+
+				<dt>cdatrack <em>tracknum</em><br />
+				cdtrack <em>tracknum</em></dt>
+				<dd>Sets the Red-Book CD track number to <em>tracknum</em>. <strong>cdtrack</strong> is a
+				synonym for <strong>cdatrack</strong>.</dd>
+
+				<dt>besttime <em>seconds</em><br />
+				partime <em>seconds</em></dt>
+				<dd>Sets the "best" and "par" times of the level respectively. <em>seconds</em> is the new
+				par time given as a count of seconds.</dd>
+			</dl></dd>
+
+			<dt>episode <em>number</em> { ... }</dt>
+			<dd>Selects the episode to change the information of. <em>number</em> is a positive value in the
+			range of 1 to 2. The brace-enclosed block may contain these directives:
+
+			<dl>
+				<dt>title <em>title</em><br />
+				name <em>title</em><br />
+				description <em>title</em></dt>
+				<dd>Sets the new title of the episode to <em>title</em>. <strong>name</strong> and
+				<strong>description</strong> are synonyms for </strong>title</strong>.</dd>
+
+				<dt>subtitle <em>subtitle</em></dt>
+				<dd>Sets the new subtitle of the episode to <em>subtitle</em>.</dd>
+			</dl></dd>
+		</dl>
+
+		<p>Here is a fictitious example:</p>
+<pre>level 1 {
+    title    "My Neat Map"
+    filename "neatmap.map" 
+    song     "coolsong.mid"
+    cdatrack 4
+    besttime 1800    // an hour
+    partime  3600    // half an hour
+}
+
+episode 1 {
+    title    "My Neat Episode"
+    subtitle "One level of lameness"
+}</pre>
 
 		<h2><a name="deffile"></a>DEF-file Language</h2>
 
 		<p>These are the legal instructions that may be used in the SW.DEF file. Comments can be used by
 		prefixing the text with a double forward-slash (C++ style), <code>//</code>, or surrounding the text with
-		<code>/*</code> (comment here) <code>*/</code> (C style).</p>
+		<code>/*</code> <em>(comment here)</em> <code>*/</code> (C style).</p>
 
 		<dl>
 			<dt>include <em>filename</em><br />#include <em>filename</em></dt>

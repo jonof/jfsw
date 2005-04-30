@@ -388,6 +388,10 @@ void LoadPLockFromScript( char *filename )
 }
 
 
+/*
+ * Here begins JonoF's modding enhancement stuff
+ */
+
 #include "scriptfile.h"
 
 enum {

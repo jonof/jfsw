@@ -117,7 +117,6 @@ GAMEOBJS= \
 	$(OBJ)sprite.$o \
 	$(OBJ)sumo.$o \
 	$(OBJ)swconfig.$o \
-	$(OBJ)symutil.$o \
 	$(OBJ)sync.$o \
 	$(OBJ)text.$o \
 	$(OBJ)track.$o \
@@ -219,3 +218,5 @@ clean:
 	
 veryclean: clean
 	-rm -f $(EOBJ)*
+
+

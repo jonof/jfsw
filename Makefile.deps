@@ -42,14 +42,14 @@ $(OBJ)net.$o: $(SRC)net.c $(INC)keys.h $(names2_h) $(tags_h) $(game_h) $(INC)net
 $(OBJ)ninja.$o: $(SRC)ninja.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)ai.h $(INC)pal.h $(INC)player.h $(INC)net.h $(INC)weapon.h $(INC)track.h $(INC)actor.h $(INC)ninja.h $(INC)sprite.h $(INC)saveable.h
 $(OBJ)panel.$o: $(SRC)panel.c $(INC)keys.h $(names2_h) $(panel_h) $(INC)lists.h $(game_h) $(SRC)jmact/mathutil.h $(INC)net.h $(INC)pal.h $(INC)vis.h $(INC)weapon.h $(SRC)jaudiolib/fx_man.h $(INC)text.h $(INC)player.h $(INC)saveable.h
 $(OBJ)player.$o: $(SRC)player.c $(INC)mytypes.h $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)player.h $(INC)lists.h $(INC)warp.h $(INC)quake.h $(INC)text.h $(SRC)jmact/mathutil.h $(INC)function.h $(SRC)jmact/control.h $(INC)trigger.h $(INC)savedef.h $(INC)menus.h $(INC)net.h $(INC)pal.h $(INC)demo.h $(INC)mclip.h $(SRC)jaudiolib/fx_man.h $(INC)sprite.h $(INC)weapon.h $(INC)ninja.h $(INC)break.h $(INC)jsector.h $(INC)sector.h $(INC)actor.h $(INC)colormap.h $(SRC)jaudiolib/music.h $(INC)vis.h $(INC)track.h $(INC)interp.h $(INC)saveable.h
-$(OBJ)predict.$o: $(SRC)predict.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(INC)net.h $(INC)symutil.h
+$(OBJ)predict.$o: $(SRC)predict.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(INC)net.h
 $(OBJ)quake.$o: $(SRC)quake.c $(names2_h) $(game_h) $(tags_h) $(SRC)jmact/mathutil.h $(INC)break.h $(INC)quake.h $(INC)sprite.h $(INC)saveable.h
 $(OBJ)ripper.$o: $(SRC)ripper.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)ai.h $(INC)pal.h $(INC)actor.h $(INC)sprite.h $(INC)track.h $(INC)saveable.h
 $(OBJ)ripper2.$o: $(SRC)ripper2.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)ai.h $(INC)pal.h $(INC)actor.h $(INC)sprite.h $(INC)track.h $(SRC)jaudiolib/fx_man.h $(INC)saveable.h
 $(OBJ)rooms.$o: $(SRC)rooms.c $(names2_h) $(panel_h) $(game_h) $(INC)warp.h
 $(OBJ)rotator.$o: $(SRC)rotator.c $(names2_h) $(panel_h) $(game_h) $(INC)net.h $(tags_h) $(INC)sector.h $(INC)text.h $(INC)interp.h $(INC)sprite.h $(INC)saveable.h
 $(OBJ)rts.$o: $(SRC)rts.c $(INC)mytypes.h $(SRC)jmact/develop.h $(SRC)jmact/util_lib.h $(SRC)jmact/file_lib.h $(INC)_rts.h $(INC)rts.h $(INC)cache.h
-$(OBJ)save.$o: $(SRC)save.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)lists.h $(INC)interp.h $(INC)net.h $(INC)savedef.h $(INC)symutil.h $(INC)jsector.h $(INC)parent.h $(INC)reserve.h $(INC)mfile.h $(INC)weapon.h $(INC)cache.h $(INC)colormap.h $(INC)player.h $(SRC)jaudiolib/fx_man.h $(SRC)jaudiolib/music.h $(INC)saveable.h
+$(OBJ)save.$o: $(SRC)save.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)lists.h $(INC)interp.h $(INC)net.h $(INC)savedef.h $(INC)jsector.h $(INC)parent.h $(INC)reserve.h $(INC)mfile.h $(INC)weapon.h $(INC)cache.h $(INC)colormap.h $(INC)player.h $(SRC)jaudiolib/fx_man.h $(SRC)jaudiolib/music.h $(INC)saveable.h
 $(OBJ)scrip2.$o: $(SRC)scrip2.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(INC)parse.h $(INC)jsector.h $(INC)parent.h
 $(OBJ)sector.$o: $(SRC)sector.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)sector.h $(INC)player.h $(INC)quake.h $(INC)weapon.h $(INC)jtags.h $(INC)net.h $(INC)break.h $(INC)track.h $(INC)sprite.h $(SRC)jmact/mathutil.h $(INC)light.h $(INC)text.h
 $(OBJ)serp.$o: $(SRC)serp.c $(INC)keys.h $(names2_h) $(game_h) $(tags_h) $(INC)ai.h $(INC)actor.h $(INC)track.h $(INC)sector.h
@@ -62,7 +62,6 @@ $(OBJ)spike.$o: $(SRC)spike.c $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)s
 $(OBJ)sprite.$o: $(SRC)sprite.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)ai.h $(INC)warp.h $(INC)light.h $(INC)break.h $(INC)net.h $(INC)pal.h $(INC)sounds.h $(INC)interp.h $(INC)sprite.h $(INC)weapon.h $(INC)jsector.h $(INC)text.h $(INC)slidor.h $(INC)player.h $(INC)saveable.h
 $(OBJ)sumo.$o: $(SRC)sumo.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)ai.h $(INC)quake.h $(INC)actor.h $(INC)track.h $(INC)weapon.h $(INC)sector.h
 $(OBJ)swconfig.$o: $(SRC)swconfig.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(INC)mytypes.h $(SRC)jmact/develop.h $(SRC)jmact/scriplib.h $(SRC)jaudiolib/fx_man.h $(INC)gamedefs.h $(INC)common.h $(INC)config.h $(INC)function.h $(INC)rts.h
-$(OBJ)symutil.$o: $(SRC)symutil.c $(INC)symutil.h
 $(OBJ)sync.$o: $(SRC)sync.c $(INC)keys.h $(game_h) $(tags_h) $(names2_h) $(INC)net.h $(INC)menus.h
 $(OBJ)text.$o: $(SRC)text.c $(INC)keys.h $(names2_h) $(panel_h) $(INC)lists.h $(game_h) $(SRC)jmact/mathutil.h $(INC)pal.h $(INC)text.h $(INC)net.h
 $(OBJ)timer.$o: $(SRC)timer.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)sector.h $(INC)sprite.h $(INC)weapon.h $(SRC)jaudiolib/fx_man.h $(SRC)jaudiolib/music.h $(INC)audiofx.h
@@ -76,8 +75,6 @@ $(OBJ)weapon.$o: $(SRC)weapon.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(
 $(OBJ)zilla.$o: $(SRC)zilla.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)ai.h $(INC)quake.h $(INC)actor.h $(INC)track.h $(SRC)jaudiolib/fx_man.h
 $(OBJ)zombie.$o: $(SRC)zombie.c $(INC)keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)ai.h $(INC)pal.h $(INC)player.h $(INC)net.h $(INC)sprite.h $(INC)weapon.h $(INC)actor.h $(INC)track.h
 $(OBJ)saveable.$o: $(SRC)saveable.c $(INC)saveable.h
-
-$(OBJ)makesym.$o: $(SRC)makesym.c
 
 $(OBJ)jnstub.$o: $(SRC)jnstub.c $(INC)stag.h $(INC)keys.h $(names2_h) $(game_h) $(tags_h) $(INC)pal.h $(EINC)build.h $(EINC)pragmas.h $(EINC)compat.h $(EINC)editor.h $(EINC)cache1d.h
 $(OBJ)brooms.$o: $(SRC)brooms.c $(INC)keys.h $(names2_h) $(game_h) $(EINC)build.h $(EINC)compat.h $(EINC)editor.h

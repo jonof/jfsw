@@ -234,7 +234,7 @@ void CONFIG_SetDefaults( void )
    Bstrcpy(WangBangMacro[7], "Did I break your concentration?");
    Bstrcpy(WangBangMacro[8], "Hope you were paying attention.");
    Bstrcpy(WangBangMacro[9], "ITTAIIIUUU!!!");
-   
+  return; 
    // JBF 20031211
    memset(KeyboardKeys, 0, sizeof(KeyboardKeys));
    for (i=0; i < (int32)(sizeof(keydefaults)/sizeof(keydefaults[0]))/3; i++) {
@@ -590,8 +590,8 @@ void CONFIG_ReadSetup( void )
     
    CONFIG_ReadKeys(scripthandle);
 
-         CONFIG_SetupMouse(scripthandle);
-         CONFIG_SetupJoystick(scripthandle);
+ //        CONFIG_SetupMouse(scripthandle);
+    //     CONFIG_SetupJoystick(scripthandle);
    
     if (PlayerNameArg[0] != '\0')
         {

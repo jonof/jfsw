@@ -40,7 +40,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "net.h"
 //#include "save.h"
 #include "savedef.h"
-#include "symutil.h"
 #include "jsector.h"
 #include "parent.h"
 #include "reserve.h"
@@ -152,8 +151,7 @@ PanelNdxToSprite(PLAYERp pp, long ndx)
     return(NULL);    
     }    
 
-#define SaveSymDataInfo(fil,ptr) SaveSymDataInfo_(fil,ptr, #ptr)
-int SaveSymDataInfo_(MFILE fil, void *ptr, char *s)
+int SaveSymDataInfo(MFILE fil, void *ptr)
 {
 	saveddatasym sym;
 
@@ -162,7 +160,7 @@ int SaveSymDataInfo_(MFILE fil, void *ptr, char *s)
 
 		fp = fopen("savegame symbols missing.txt", "a");
 		if (fp) {
-			fprintf(fp,"data %p %s\n",ptr,s);
+			fprintf(fp,"data %p\n",ptr);
 			fclose(fp);
 		}
 		return 1;
@@ -172,8 +170,7 @@ int SaveSymDataInfo_(MFILE fil, void *ptr, char *s)
 
 	return 0;
 }
-#define SaveSymCodeInfo(fil,ptr) SaveSymCodeInfo_(fil,ptr, #ptr)
-int SaveSymCodeInfo_(MFILE fil, void *ptr, char *s)    
+int SaveSymCodeInfo(MFILE fil, void *ptr)    
 {
 	savedcodesym sym;
 
@@ -182,7 +179,7 @@ int SaveSymCodeInfo_(MFILE fil, void *ptr, char *s)
 
 		fp = fopen("savegame symbols missing.txt", "a");
 		if (fp) {
-			fprintf(fp,"code %p %s\n",ptr,s);
+			fprintf(fp,"code %p\n",ptr);
 			fclose(fp);
 		}
 		return 1;
@@ -210,110 +207,7 @@ int LoadSymCodeInfo(MFILE fil, void **ptr)
 	return Saveable_RestoreCodeSym(&sym, ptr);
 }
 
-/*
-void SaveSymDataInfo(MFILE fil, void *ptr)    
-    {
-    unsigned long unrelocated_offset, offset_from_symbol;
-    SYM_TABLEp st_ptr;
-    char sym_name[80];
-    
-    if (!ptr)
-        {
-        offset_from_symbol = -1;
-        strcpy(sym_name, "NULL");
-        }
-    else
-        {    
-        unrelocated_offset = SymDataPtrToOffset(ptr);
-        st_ptr = SearchSymTableByOffset(SymTableData, SymCountData, unrelocated_offset, &offset_from_symbol);
-        ASSERT(st_ptr);
-        strcpy(sym_name, st_ptr->Name);
-        }
-    
-    MWRITE(sym_name, sizeof(st_ptr->Name), 1, fil);
-    MWRITE(&offset_from_symbol, sizeof(offset_from_symbol), 1, fil);
-    }
 
-void SaveSymCodeInfo(MFILE fil, void *ptr)    
-    {
-    unsigned long unrelocated_offset, offset_from_symbol;
-    SYM_TABLEp st_ptr;
-    char sym_name[80];
-    unsigned long test;
-    
-    if (!ptr)
-        {
-        offset_from_symbol = -1;
-        strcpy(sym_name, "NULL");
-        }
-    else
-        {
-        #if 0
-        unrelocated_offset = SymCodePtrToOffset((void*)TimerFunc);
-
-        st_ptr = SearchSymTableByOffset(SymTableCode, SymCountCode, unrelocated_offset, &offset_from_symbol);
-        ASSERT(st_ptr);
-        strcpy(sym_name, st_ptr->Name);
-        #endif
-        
-        unrelocated_offset = SymCodePtrToOffset(ptr);
-
-        st_ptr = SearchSymTableByOffset(SymTableCode, SymCountCode, unrelocated_offset, &offset_from_symbol);
-        ASSERT(st_ptr);
-        strcpy(sym_name, st_ptr->Name);
-        }
-        
-    MWRITE(sym_name, sizeof(st_ptr->Name), 1, fil);
-    MWRITE(&offset_from_symbol, sizeof(offset_from_symbol), 1, fil);
-    }
-
-//#define LoadSymDataInfo(fil) _LoadSymDataInfo(__FILE__,__LINE__,fil)    
-//#define LoadSymCodeInfo(fil) _LoadSymCodeInfo(__FILE__,__LINE__,fil)    
-    
-//void *_LoadSymDataInfo(char *file, long line, MFILE fil)    
-void *LoadSymDataInfo(MFILE fil)    
-    {
-    unsigned long offset_from_symbol;
-    char sym_name[80];
-    SYM_TABLEp st_ptr;
-    void *data_ptr;
-
-    MREAD(&sym_name, sizeof(st_ptr->Name), 1, fil);
-    MREAD(&offset_from_symbol, sizeof(offset_from_symbol), 1, fil);
-    
-    if (offset_from_symbol == -1)
-        return(NULL);
-    
-    st_ptr = SearchSymTableByName(SymTableData, SymCountData, sym_name);
-    ASSERT(st_ptr);
-    data_ptr = SymOffsetToDataPtr(st_ptr->Offset + offset_from_symbol);
-    
-    return(data_ptr);
-    }
-
-//void *_LoadSymCodeInfo(char *file, long line, MFILE fil)    
-void *LoadSymCodeInfo(MFILE fil)    
-    {
-    unsigned long offset_from_symbol;
-    char sym_name[80];
-    SYM_TABLEp st_ptr;
-    void *code_ptr;
-
-    MREAD(&sym_name, sizeof(st_ptr->Name), 1, fil);
-    MREAD(&offset_from_symbol, sizeof(offset_from_symbol), 1, fil);
-
-    if (offset_from_symbol == -1)
-        return(NULL);
-        
-    st_ptr = SearchSymTableByName(SymTableCode, SymCountCode, sym_name);
-    ASSERT(st_ptr);
-    code_ptr = SymOffsetToCodePtr(st_ptr->Offset + offset_from_symbol);
-    
-    return(code_ptr);
-    }
-    */
-
-    
 int SaveGame(short save_num)
 {
     MFILE fil;
@@ -339,12 +233,6 @@ int SaveGame(short save_num)
     OrgTileP otp, next_otp;
 
     Saveable_Init();
-
-    //LoadSymTable("swdata.sym", &SymTableData, &SymCountData);
-    //LoadSymTable("swcode.sym", &SymTableCode, &SymCountCode);
-    
-    //if (SymCountData <= 0 || SymCountCode <= 0)
-    //    return(-1);
 
     sprintf(game_name,"game%d.sav",save_num);
     if ((fil = MOPEN_WRITE(game_name)) == MF_ERR)
@@ -785,11 +673,6 @@ int SaveGame(short save_num)
     
     MCLOSE(fil);
     
-    //FreeMem(SymTableData);
-    //SymTableData = NULL;
-    //FreeMem(SymTableCode);
-    //SymTableCode = NULL;
-    
     ////DSPRINTF(ds, "done saving");
     //MONO_PRINT(ds);
     
@@ -865,12 +748,6 @@ int LoadGame(short save_num)
 
     Saveable_Init();
 
-    //LoadSymTable("swdata.sym", &SymTableData, &SymCountData);
-    //LoadSymTable("swcode.sym", &SymTableCode, &SymCountCode);
-    
-    //if (SymCountData <= 0 || SymCountCode <= 0)
-    //    return(-1);
-        
     sprintf(game_name,"game%d.sav",save_num);
     if ((fil = MOPEN_READ(game_name)) == MF_ERR)
         return(-1);
@@ -1290,11 +1167,6 @@ int LoadGame(short save_num)
     //MREAD(&Zombies, sizeof(Zombies), 1, fil);
     
     MCLOSE(fil);
-    
-    //FreeMem(SymTableData);
-    //SymTableData = NULL;
-    //FreeMem(SymTableCode);
-    //SymTableCode = NULL;
     
     
     //!!IMPORTANT - this POST stuff will not work here now becaus it does actual reads

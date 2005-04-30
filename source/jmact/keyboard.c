@@ -199,7 +199,7 @@ static char sctoasc[2][256] = {
 void KB_KeyEvent( kb_scancode scancode, boolean keypressed )
 {
 	if (keypressed) KB_LastScan = scancode;
-	CONTROL_KeyEvent(scancode,keypressed);
+	//CONTROL_KeyEvent(scancode,keypressed);
 }
 
 boolean KB_KeyWaiting( void )

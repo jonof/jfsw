@@ -112,7 +112,6 @@ GAMEOBJS=$(OBJ)actor.$o &
 	$(OBJ)sprite.$o &
 	$(OBJ)sumo.$o &
 	$(OBJ)swconfig.$o &
-	$(OBJ)symutil.$o &
 	$(OBJ)sync.$o &
 	$(OBJ)text.$o &
 	$(OBJ)track.$o &
@@ -124,6 +123,7 @@ GAMEOBJS=$(OBJ)actor.$o &
 	$(OBJ)weapon.$o &
 	$(OBJ)zilla.$o &
 	$(OBJ)zombie.$o &
+	$(OBJ)saveable.$o &
 	$(OBJ)cda_win32.$o &
 	$(JMACTOBJ) &
 	$(JAUDIOLIBOBJ)

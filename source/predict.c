@@ -40,7 +40,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //#include "control.h"
 //#include "function.h"
 #include "net.h"
-#include "symutil.h"
+//#include "symutil.h"
 
 BOOL PredictionOn = TRUE;
 BOOL Prediction = FALSE;

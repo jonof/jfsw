@@ -26,7 +26,7 @@ static controlflags       CONTROL_Flags[CONTROL_NUM_FLAGS];
 static controlbuttontype  CONTROL_DeviceButtonMapping[MAXBUTTONS];
 static controlkeymaptype  CONTROL_KeyMapping[CONTROL_NUM_FLAGS];
 static controlaxismaptype CONTROL_AxesMap[MAXAXES];	// maps physical axes onto virtual ones
-static controlaxistype    CONTROL_Axes[MAXAXES];	// virtual axes (turning, moving, etc)
+static controlaxistype    CONTROL_Axes[MAXAXES];	// physical axes
 static controlaxistype    CONTROL_LastAxes[MAXAXES];
 static int32 CONTROL_AxesScale[MAXAXES];
 static int32 CONTROL_DeviceButtonState[MAXBUTTONS];
@@ -603,7 +603,7 @@ void CONTROL_ClearAssignments( void )
 void CONTROL_GetDeviceButtons(void)
 {
 	int32 t,i;
-	int32 b,bs;
+	int32 b=0,bs;
 
 	t = GetTime();
 
@@ -613,7 +613,7 @@ void CONTROL_GetDeviceButtons(void)
 	if (CONTROL_JoystickEnabled)
 		b = CONTROL_JoyButtons(0);
 
-	if (!CONTROL_NumButtons <= 0) return;
+	if (CONTROL_NumButtons <= 0) return;
 
 	for (i=0;i<CONTROL_NumButtons;i++) {
 		bs = (b >> i) & 1;
@@ -622,10 +622,10 @@ void CONTROL_GetDeviceButtons(void)
 		CONTROL_ButtonClickedState[i] = false;
 
 		if (bs) {
-			if (!CONTROL_ButtonClicked[i]) {
+			if (CONTROL_ButtonClicked[i] == false) {
 				CONTROL_ButtonClicked[i] = true;
 
-				if (!CONTROL_ButtonClickedCount[i]) {
+				if (CONTROL_ButtonClickedCount[i] == false) {
 					CONTROL_ButtonClickedTime[i] = t + CONTROL_DoubleClickSpeed;
 					CONTROL_ButtonClickedCount[i] = 1;
 				}
@@ -765,7 +765,7 @@ void CONTROL_GetUserInput( UserInput *info )
 
 	info->dir = dir_None;
 
-	// input repeating stuff
+	// checks if CONTROL_UserInputDelay is too far in the future?
 	if (GetTime() + ((ticrate * USERINPUTDELAY) / 1000) < CONTROL_UserInputDelay)
 		CONTROL_UserInputDelay = -1;
 
@@ -797,10 +797,18 @@ void CONTROL_GetUserInput( UserInput *info )
 	if (KB_KeyDown[BUTTON1_SCAN])
 		info->button1 = 1;
 
-	if (CONTROL_UserInputCleared[1] && !info->button0)
-		CONTROL_UserInputCleared[1] = false;
-	if (CONTROL_UserInputCleared[2] && !info->button1)
-		CONTROL_UserInputCleared[2] = false;
+	if (CONTROL_UserInputCleared[1]) {
+		if (!info->button0)
+			CONTROL_UserInputCleared[1] = false;
+		else
+			info->button0 = false;
+	}
+	if (CONTROL_UserInputCleared[2]) {
+		if (!info->button1)
+			CONTROL_UserInputCleared[2] = false;
+		else
+			info->button1 = false;
+	}
 }
 
 void CONTROL_ClearUserInput( UserInput *info )

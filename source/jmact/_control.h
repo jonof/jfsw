@@ -151,8 +151,8 @@ extern "C" {
 
 typedef enum
    {
-	motion_Left  = -1,
-	motion_Up    = -1,
+   motion_Left  = -1,
+   motion_Up    = -1,
    motion_None  = 0,
    motion_Right = 1,
    motion_Down  = 1

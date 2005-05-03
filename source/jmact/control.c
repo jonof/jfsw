@@ -1,3 +1,11 @@
+/*
+ * control.c
+ * MACT library controller handling
+ * 
+ * Derived from MACT386.LIB disassembly by Jonathon Fowler
+ *
+ */
+
 #include "types.h"
 #include "keyboard.h"
 #include "mouse.h"

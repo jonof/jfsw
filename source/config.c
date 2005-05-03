@@ -504,7 +504,7 @@ void CONFIG_ReadSetup( void )
    CONFIG_SetDefaults();
    
    if (SafeFileExists(setupfilename))
-   scripthandle = SCRIPT_Load(setupfilename);
+      scripthandle = SCRIPT_Load(setupfilename);
    
    if (scripthandle >= 0)
       {

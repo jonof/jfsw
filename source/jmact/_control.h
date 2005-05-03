@@ -90,11 +90,11 @@ extern "C" {
 
 // Number of JOY buttons
 
-#define MAXJOYBUTTONS 8
+#define MAXJOYBUTTONS 32
 
 // Number of JOY axes
 
-#define MAXJOYAXES 4
+#define MAXJOYAXES 6
 
 // Number of GamePad axes
 
@@ -275,7 +275,7 @@ void    CONTROL_ShutJoy( int32 joy );
 void    CONTROL_SetFlag( int32 which, boolean active );
 void    CONTROL_ButtonFunctionState( boolean * state );
 boolean CONTROL_KeyboardFunctionPressed( int32 whichfunction );
-void    CONTROL_CheckRange( int32 which );
+boolean CONTROL_CheckRange( int32 which );
 int32   CONTROL_GetTime( void );
 void CONTROL_AxisFunctionState
    (

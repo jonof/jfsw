@@ -2568,8 +2568,6 @@ drawscreen(PLAYERp pp)
     else
         SecretInfo(pp);
     
-void CONTROL_DebugState(void);
-	CONTROL_DebugState();
     nextpage();
 
     #if SYNC_TEST

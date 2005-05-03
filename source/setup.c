@@ -119,12 +119,21 @@ void InitSetup(void)
    CONFIG_ReadSetup();
    if (CONTROL_Startup( ControllerType, &GetTime, 120 )) exit(1);
    SetupGameButtons();
+   CONFIG_SetupMouse();
+   CONFIG_SetupJoystick();
    
    if (CONTROL_JoystickEnabled)
       {
       CONTROL_CenterJoystick(CenterCenter, UpperLeft, LowerRight, CenterThrottle,
          CenterRudder);
       }
+
+   /*{
+   int i;
+   CONTROL_PrintKeyMap();
+   for(i=0;i<NUMGAMEFUNCTIONS;i++) CONTROL_PrintControlFlag(i);
+   CONTROL_PrintAxes();
+   }*/
       
    RTS_Init(RTSName);
    }

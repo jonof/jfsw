@@ -109,6 +109,8 @@ void SetJoystickDefaults( void );
 void SetDefaultKeyDefinitions( void );
 
 void CONFIG_ReadSetup( void );
+void CONFIG_SetupMouse( void );
+void CONFIG_SetupJoystick( void );
 void CONFIG_WriteSetup( void );
 void WriteCommitFile( int32 gametype );
 void CONFIG_GetSetupFilename( void );

@@ -215,6 +215,9 @@ void CONTROL_SetAnalogAxisScale
    int32 axisscale,
    controldevice device
    );
+
+void CONTROL_PrintKeyMap(void);
+void CONTROL_PrintControlFlag(int32 which);
 void CONTROL_PrintAxes( void );
 
 #ifdef __cplusplus

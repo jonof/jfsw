@@ -64,7 +64,7 @@ extern "C" {
 
 // Number of JOY buttons
 
-#define MAXJOYBUTTONS 8
+#define MAXJOYBUTTONS 32
 
 // Number of EXTERNAL buttons
 
@@ -122,7 +122,7 @@ extern "C" {
 
 // Number of JOY axes
 
-#define MAXJOYAXES 4
+#define MAXJOYAXES 6
 
 // Number of GAMEPAD axes
 

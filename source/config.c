@@ -234,9 +234,8 @@ void CONFIG_SetDefaults( void )
    Bstrcpy(WangBangMacro[7], "Did I break your concentration?");
    Bstrcpy(WangBangMacro[8], "Hope you were paying attention.");
    Bstrcpy(WangBangMacro[9], "ITTAIIIUUU!!!");
-  return; 
-   // JBF 20031211
-   memset(KeyboardKeys, 0, sizeof(KeyboardKeys));
+
+   memset(KeyboardKeys, 0xff, sizeof(KeyboardKeys));
    for (i=0; i < (int32)(sizeof(keydefaults)/sizeof(keydefaults[0]))/3; i++) {
       f = CONFIG_FunctionNameToNum( keydefaults[3*i+0] );
       if (f == -1) continue;
@@ -245,78 +244,44 @@ void CONFIG_SetDefaults( void )
 
       KeyboardKeys[f][0] = k1;
       KeyboardKeys[f][1] = k2;
-      CONTROL_MapKey( f, k1, k2 );
    }
 
    memset(MouseFunctions, -1, sizeof(MouseFunctions));
-   for (i=0; i<MAXMOUSEBUTTONS; i++) {
-      f = CONFIG_FunctionNameToNum( mousedefaults[i] );
-      if (f != -1)
-         CONTROL_MapButton( f, i, FALSE, controldevice_mouse );
-      MouseFunctions[i][0] = f;
+   for (i=0; i < (int32)sizeof(mousedefaults)/sizeof(char*); i++) {
+      MouseFunctions[i][0] = CONFIG_FunctionNameToNum( mousedefaults[i] );
 
       if (i<4) continue;
 
-      f = CONFIG_FunctionNameToNum( mouseclickeddefaults[i] );
-      if (f != -1)
-         CONTROL_MapButton( f, i, TRUE, controldevice_mouse );
-      MouseFunctions[i][1] = f;
+      MouseFunctions[i][1] = CONFIG_FunctionNameToNum( mouseclickeddefaults[i] );
    }
 
    memset(MouseDigitalFunctions, -1, sizeof(MouseDigitalFunctions));
    for (i=0; i<MAXMOUSEAXES; i++) {
 	MouseAnalogueScale[i] = 65536;
 
-	f = CONFIG_FunctionNameToNum( mousedigitaldefaults[i*2] );
-	if (f != -1)
-		CONTROL_MapDigitalAxis( i, f, 0,controldevice_mouse );
-	MouseDigitalFunctions[i][0] = f;
-	
-	f = CONFIG_FunctionNameToNum( mousedigitaldefaults[i*2+1] );
-	if (f != -1)
-		CONTROL_MapDigitalAxis( i, f, 1,controldevice_mouse );
-	MouseDigitalFunctions[i][1] = f;
+	MouseDigitalFunctions[i][0] = CONFIG_FunctionNameToNum( mousedigitaldefaults[i*2] );
+	MouseDigitalFunctions[i][1] = CONFIG_FunctionNameToNum( mousedigitaldefaults[i*2+1] );
 
-	f = CONFIG_AnalogNameToNum( mouseanalogdefaults[i] );
-	if (f != -1)
-		CONTROL_MapAnalogAxis(i,f,controldevice_mouse);
-	MouseAnalogueAxes[i] = f;
+	MouseAnalogueAxes[i] = CONFIG_AnalogNameToNum( mouseanalogdefaults[i] );
    }
    CONTROL_SetMouseSensitivity(32768<<2);
 
    memset(JoystickFunctions, -1, sizeof(JoystickFunctions));
-   for (i=0; i<MAXJOYBUTTONS; i++) {
-      f = CONFIG_FunctionNameToNum( joystickdefaults[i] );
-      if (f != -1)
-         CONTROL_MapButton( f, i, FALSE, controldevice_joystick );
-      JoystickFunctions[i][0] = f;
-
-      f = CONFIG_FunctionNameToNum( joystickclickeddefaults[i] );
-      if (f != -1)
-         CONTROL_MapButton( f, i, TRUE, controldevice_joystick );
-      JoystickFunctions[i][1] = f;
+   for (i=0; i < (int32)sizeof(joystickdefaults)/sizeof(char*); i++) {
+      JoystickFunctions[i][0] = CONFIG_FunctionNameToNum( joystickdefaults[i] );
+      JoystickFunctions[i][1] = CONFIG_FunctionNameToNum( joystickclickeddefaults[i] );
    }
 
    memset(JoystickDigitalFunctions, -1, sizeof(JoystickDigitalFunctions));
-   for (i=0; i<MAXJOYAXES; i++) {
+   for (i=0; i < (int32)sizeof(joystickanalogdefaults)/sizeof(char*); i++) {
 	JoystickAnalogueScale[i] = 65536;
 	JoystickAnalogueDead[i] = 1000;
 	JoystickAnalogueSaturate[i] = 9500;
 
-	f = CONFIG_FunctionNameToNum( joystickdigitaldefaults[i*2] );
-	if (f != -1)
-		CONTROL_MapDigitalAxis( i, f, 0,controldevice_joystick );
-	JoystickDigitalFunctions[i][0] = f;
-	
-	f = CONFIG_FunctionNameToNum( joystickdigitaldefaults[i*2+1] );
-	if (f != -1)
-		CONTROL_MapDigitalAxis( i, f, 1,controldevice_joystick );
-	JoystickDigitalFunctions[i][1] = f;
+	JoystickDigitalFunctions[i][0] = CONFIG_FunctionNameToNum( joystickdigitaldefaults[i*2] );
+	JoystickDigitalFunctions[i][1] = CONFIG_FunctionNameToNum( joystickdigitaldefaults[i*2+1] );
 
-	f = CONFIG_AnalogNameToNum( joystickanalogdefaults[i] );
-	if (f != -1)
-		CONTROL_MapAnalogAxis(i,f,controldevice_joystick);
-	JoystickAnalogueAxes[i] = f;
+	JoystickAnalogueAxes[i] = CONFIG_AnalogNameToNum( joystickanalogdefaults[i] );
    }
 }
 
@@ -356,8 +321,8 @@ void CONFIG_ReadKeys( int32 scripthandle )
             keyname1,
             keyname2
             );
-         key1 = 0;
-         key2 = 0;
+         key1 = 0xff;
+         key2 = 0xff;
          if (keyname1[0])
             {
             key1 = (byte) KB_StringToScanCode( keyname1 );
@@ -366,10 +331,14 @@ void CONFIG_ReadKeys( int32 scripthandle )
             {
             key2 = (byte) KB_StringToScanCode( keyname2 );
             }
-         CONTROL_MapKey( function, key1, key2 );
          KeyboardKeys[function][0] = key1;
          KeyboardKeys[function][1] = key2;
          }
+      }
+
+   for (i=0; i<NUMGAMEFUNCTIONS; i++)
+      {
+         CONTROL_MapKey( i, KeyboardKeys[i][0], KeyboardKeys[i][1] );
       }
    }
 
@@ -381,7 +350,7 @@ void CONFIG_ReadKeys( int32 scripthandle )
 ===================
 */
 
-void CONFIG_SetupMouse( int32 scripthandle )
+void CONFIG_SetupMouse( void )
    {
    int32 i;
    char str[80],*p;
@@ -392,53 +361,33 @@ void CONFIG_SetupMouse( int32 scripthandle )
 
    for (i=0;i<MAXMOUSEBUTTONS;i++)
       {
-      Bsprintf(str,"MouseButton%ld",i);
-      p = CONFIG_FunctionNumToName(MouseFunctions[i][0]);
-      Bstrcpy(temp, p?p:"");
-      SCRIPT_GetString( scripthandle,"Controls", str,temp);
-      function = CONFIG_FunctionNameToNum(temp);
-      CONTROL_MapButton( function, i, FALSE, controldevice_mouse );
-      MouseFunctions[i][0] = function;
+      Bsprintf(str,"MouseButton%ld",i); temp[0] = 0;
+      if (!SCRIPT_GetString( scripthandle,"Controls", str,temp))
+         MouseFunctions[i][0] = CONFIG_FunctionNameToNum(temp);
 	  
-      Bsprintf(str,"MouseButtonClicked%ld",i);
-      p = CONFIG_FunctionNumToName(MouseFunctions[i][1]);
-      Bstrcpy(temp, p?p:"");
-      SCRIPT_GetString( scripthandle,"Controls", str,temp);
-      function = CONFIG_FunctionNameToNum(temp);
-      CONTROL_MapButton( function, i, TRUE, controldevice_mouse );
-      MouseFunctions[i][1] = function;
+      Bsprintf(str,"MouseButtonClicked%ld",i); temp[0] = 0;
+      if (!SCRIPT_GetString( scripthandle,"Controls", str,temp))
+         MouseFunctions[i][1] = CONFIG_FunctionNameToNum(temp);
       }
+
    // map over the axes
    for (i=0;i<MAXMOUSEAXES;i++)
       {
-      Bsprintf(str,"MouseAnalogAxes%ld",i);
-      p = CONFIG_AnalogNumToName(MouseAnalogueAxes[i]);
-      Bstrcpy(temp, p?p:"");
-      SCRIPT_GetString(scripthandle, "Controls", str,temp);
-      function = CONFIG_AnalogNameToNum(temp);
-      CONTROL_MapAnalogAxis(i,function,controldevice_mouse);
-      MouseAnalogueAxes[i] = function;
-	  
-      Bsprintf(str,"MouseDigitalAxes%ld_0",i);
-      p = CONFIG_FunctionNumToName(MouseDigitalFunctions[i][0]);
-      Bstrcpy(temp, p?p:"");
-      SCRIPT_GetString(scripthandle, "Controls", str,temp);
-      function = CONFIG_FunctionNameToNum(temp);
-      CONTROL_MapDigitalAxis( i, function, 0,controldevice_mouse );
-      MouseDigitalFunctions[i][0] = function;
-	  
-      Bsprintf(str,"MouseDigitalAxes%ld_1",i);
-      p = CONFIG_FunctionNumToName(MouseDigitalFunctions[i][1]);
-      Bstrcpy(temp, p?p:"");
-      SCRIPT_GetString(scripthandle, "Controls", str,temp);
-      function = CONFIG_FunctionNameToNum(temp);
-      CONTROL_MapDigitalAxis( i, function, 1,controldevice_mouse );
-      MouseDigitalFunctions[i][1] = function;
+      Bsprintf(str,"MouseAnalogAxes%ld",i); temp[0] = 0;
+      if (!SCRIPT_GetString(scripthandle, "Controls", str,temp))
+         MouseAnalogueAxes[i] = CONFIG_AnalogNameToNum(temp);
+
+      Bsprintf(str,"MouseDigitalAxes%ld_0",i); temp[0] = 0;
+      if (!SCRIPT_GetString(scripthandle, "Controls", str,temp))
+         MouseDigitalFunctions[i][0] = CONFIG_FunctionNameToNum(temp);
+
+      Bsprintf(str,"MouseDigitalAxes%ld_1",i); temp[0] = 0;
+      if (!SCRIPT_GetString(scripthandle, "Controls", str,temp))
+         MouseDigitalFunctions[i][1] = CONFIG_FunctionNameToNum(temp);
 
       Bsprintf(str,"MouseAnalogScale%ld",i);
       scale = MouseAnalogueScale[i];
       SCRIPT_GetNumber(scripthandle, "Controls", str,&scale);
-      CONTROL_SetAnalogAxisScale( i, scale, controldevice_mouse );
       MouseAnalogueScale[i] = scale;
       }
 
@@ -446,7 +395,21 @@ void CONFIG_SetupMouse( int32 scripthandle )
    function = 32768;
    SCRIPT_GetNumber( scripthandle, "Controls","MouseSensitivity",&function);
    gs.MouseSpeed = function;
-   CONTROL_SetMouseSensitivity(function<<2);
+
+   for (i=0; i<MAXMOUSEBUTTONS; i++)
+      {
+      CONTROL_MapButton( MouseFunctions[i][0], i, FALSE, controldevice_mouse );
+      CONTROL_MapButton( MouseFunctions[i][1], i, TRUE,  controldevice_mouse );
+      }
+   for (i=0; i<MAXMOUSEAXES; i++)
+      {
+      CONTROL_MapAnalogAxis( i, MouseAnalogueAxes[i], controldevice_mouse);
+      CONTROL_MapDigitalAxis( i, MouseDigitalFunctions[i][0], 0,controldevice_mouse );
+      CONTROL_MapDigitalAxis( i, MouseDigitalFunctions[i][1], 1,controldevice_mouse );
+      CONTROL_SetAnalogAxisScale( i, MouseAnalogueScale[i], controldevice_mouse );
+      }
+   
+   CONTROL_SetMouseSensitivity(gs.MouseSpeed<<2);
    }
 
 /*
@@ -457,7 +420,7 @@ void CONFIG_SetupMouse( int32 scripthandle )
 ===================
 */
 
-void CONFIG_SetupJoystick( int32 scripthandle )
+void CONFIG_SetupJoystick( void )
    {
    int32 i;
    char str[80],*p;
@@ -468,60 +431,33 @@ void CONFIG_SetupJoystick( int32 scripthandle )
 
    for (i=0;i<MAXJOYBUTTONS;i++)
       {
-      Bsprintf(str,"JoystickButton%ld",i);
-      p = CONFIG_FunctionNumToName(JoystickFunctions[i][0]);
-      Bstrcpy(temp, p?p:"");
-      SCRIPT_GetString( scripthandle,"Controls", str,temp);
-      function = CONFIG_FunctionNameToNum(temp);
-      if (function != -1)
-         CONTROL_MapButton( function, i, FALSE, controldevice_joystick );
-      JoystickFunctions[i][0] = function;
+      Bsprintf(str,"JoystickButton%ld",i); temp[0] = 0;
+      if (!SCRIPT_GetString( scripthandle,"Controls", str,temp))
+         JoystickFunctions[i][0] = CONFIG_FunctionNameToNum(temp);
 	  
-      Bsprintf(str,"JoystickButtonClicked%ld",i);
-      p = CONFIG_FunctionNumToName(JoystickFunctions[i][1]);
-      Bstrcpy(temp, p?p:"");
-      SCRIPT_GetString( scripthandle,"Controls", str,temp);
-      function = CONFIG_FunctionNameToNum(temp);
-      if (function != -1)
-         CONTROL_MapButton( function, i, TRUE, controldevice_joystick );
-      JoystickFunctions[i][1] = function;
+      Bsprintf(str,"JoystickButtonClicked%ld",i); temp[0] = 0;
+      if (!SCRIPT_GetString( scripthandle,"Controls", str,temp))
+         JoystickFunctions[i][1] = CONFIG_FunctionNameToNum(temp);
       }
+
    // map over the axes
    for (i=0;i<MAXJOYAXES;i++)
       {
-      Bsprintf(str,"JoystickAnalogAxes%ld",i);
-      p = CONFIG_AnalogNumToName(JoystickAnalogueAxes[i]);
-      Bstrcpy(temp, p?p:"");
-      SCRIPT_GetString(scripthandle, "Controls", str,temp);
-      function = CONFIG_AnalogNameToNum(temp);
-      if (function != -1)
-         {
-         CONTROL_MapAnalogAxis(i,function, controldevice_joystick);
-         }
-      JoystickAnalogueAxes[i] = function;
+      Bsprintf(str,"JoystickAnalogAxes%ld",i); temp[0] = 0;
+      if (!SCRIPT_GetString(scripthandle, "Controls", str,temp))
+         JoystickAnalogueAxes[i] = CONFIG_AnalogNameToNum(temp);
 	  
-      Bsprintf(str,"JoystickDigitalAxes%ld_0",i);
-      p = CONFIG_FunctionNumToName(JoystickDigitalFunctions[i][0]);
-      Bstrcpy(temp, p?p:"");
-      SCRIPT_GetString(scripthandle, "Controls", str,temp);
-      function = CONFIG_FunctionNameToNum(temp);
-      if (function != -1)
-         CONTROL_MapDigitalAxis( i, function, 0, controldevice_joystick );
-	  JoystickDigitalFunctions[i][0] = function;
+      Bsprintf(str,"JoystickDigitalAxes%ld_0",i); temp[0] = 0;
+      if (!SCRIPT_GetString(scripthandle, "Controls", str,temp))
+         JoystickDigitalFunctions[i][0] = CONFIG_FunctionNameToNum(temp);
 	  
-      Bsprintf(str,"JoystickDigitalAxes%ld_1",i);
-      p = CONFIG_FunctionNumToName(JoystickDigitalFunctions[i][1]);
-      Bstrcpy(temp, p?p:"");
-      SCRIPT_GetString(scripthandle, "Controls", str,temp);
-      function = CONFIG_FunctionNameToNum(temp);
-      if (function != -1)
-         CONTROL_MapDigitalAxis( i, function, 1, controldevice_joystick );
-	  JoystickDigitalFunctions[i][1] = function;
+      Bsprintf(str,"JoystickDigitalAxes%ld_1",i); temp[0] = 0;
+      if (!SCRIPT_GetString(scripthandle, "Controls", str,temp))
+	  JoystickDigitalFunctions[i][1] = CONFIG_FunctionNameToNum(temp);
 	  
       Bsprintf(str,"JoystickAnalogScale%ld",i);
       scale = JoystickAnalogueScale[i];
       SCRIPT_GetNumber(scripthandle, "Controls", str,&scale);
-      CONTROL_SetAnalogAxisScale( i, scale, controldevice_joystick );
       JoystickAnalogueScale[i] = scale;
 
       Bsprintf(str,"JoystickAnalogDead%ld",i);
@@ -533,6 +469,19 @@ void CONFIG_SetupJoystick( int32 scripthandle )
       scale = JoystickAnalogueSaturate[i];
       SCRIPT_GetNumber(scripthandle, "Controls", str,&scale);
       JoystickAnalogueSaturate[i] = scale;
+      }
+
+   for (i=0;i<MAXJOYBUTTONS;i++)
+      {
+         CONTROL_MapButton( JoystickFunctions[i][0], i, FALSE, controldevice_joystick );
+         CONTROL_MapButton( JoystickFunctions[i][1], i, TRUE,  controldevice_joystick );
+      }
+   for (i=0;i<MAXJOYAXES;i++)
+      {
+         CONTROL_MapAnalogAxis(i, JoystickAnalogueAxes[i], controldevice_joystick);
+         CONTROL_MapDigitalAxis( i, JoystickDigitalFunctions[i][0], 0, controldevice_joystick );
+         CONTROL_MapDigitalAxis( i, JoystickDigitalFunctions[i][1], 1, controldevice_joystick );
+         CONTROL_SetAnalogAxisScale( i, JoystickAnalogueScale[i], controldevice_joystick );
       }
    }
 
@@ -557,45 +506,45 @@ void CONFIG_ReadSetup( void )
    if (SafeFileExists(setupfilename))
    scripthandle = SCRIPT_Load(setupfilename);
    
-   if (scripthandle >= 0) {
+   if (scripthandle >= 0)
+      {
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenMode",&ScreenMode);
-   SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenWidth",&ScreenWidth);
-   SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenHeight",&ScreenHeight);
+      SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenWidth",&ScreenWidth);
+      SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenHeight",&ScreenHeight);
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenBPP", &ScreenBPP);
       if (ScreenBPP < 8) ScreenBPP = 8;
 
-   SCRIPT_GetNumber( scripthandle, "Sound Setup", "FXDevice",&FXDevice);
-   SCRIPT_GetNumber( scripthandle, "Sound Setup", "MusicDevice",&MusicDevice);
-   SCRIPT_GetNumber( scripthandle, "Sound Setup", "FXVolume",&FXVolume);
-   gs.SoundVolume = FXVolume;
-   SCRIPT_GetNumber( scripthandle, "Sound Setup", "MusicVolume",&MusicVolume);
-   gs.MusicVolume = MusicVolume;
+      SCRIPT_GetNumber( scripthandle, "Sound Setup", "FXDevice",&FXDevice);
+      SCRIPT_GetNumber( scripthandle, "Sound Setup", "MusicDevice",&MusicDevice);
+      SCRIPT_GetNumber( scripthandle, "Sound Setup", "FXVolume",&FXVolume);
+      gs.SoundVolume = FXVolume;
+      SCRIPT_GetNumber( scripthandle, "Sound Setup", "MusicVolume",&MusicVolume);
+      gs.MusicVolume = MusicVolume;
+ 
+      SCRIPT_GetNumber( scripthandle, "Sound Setup", "NumVoices",&NumVoices);
+      SCRIPT_GetNumber( scripthandle, "Sound Setup", "NumChannels",&NumChannels);
+      SCRIPT_GetNumber( scripthandle, "Sound Setup", "NumBits",&NumBits);
+      SCRIPT_GetNumber( scripthandle, "Sound Setup", "MixRate",&MixRate);
+      SCRIPT_GetNumber( scripthandle, "Sound Setup", "ReverseStereo",&dummy);
+      gs.FlipStereo = dummy;
+      if (gs.FlipStereo) gs.FlipStereo = 1;
 
-   SCRIPT_GetNumber( scripthandle, "Sound Setup", "NumVoices",&NumVoices);
-   SCRIPT_GetNumber( scripthandle, "Sound Setup", "NumChannels",&NumChannels);
-   SCRIPT_GetNumber( scripthandle, "Sound Setup", "NumBits",&NumBits);
-   SCRIPT_GetNumber( scripthandle, "Sound Setup", "MixRate",&MixRate);
-   SCRIPT_GetNumber( scripthandle, "Sound Setup", "ReverseStereo",&dummy);
-   gs.FlipStereo = dummy;
-   if (gs.FlipStereo)
-       gs.FlipStereo = 1;
-
-   SCRIPT_GetNumber( scripthandle, "Controls","ControllerType",&ControllerType);
-   SCRIPT_GetString( scripthandle, "Comm Setup", "RTSName",RTSName);
+      SCRIPT_GetNumber( scripthandle, "Controls","ControllerType",&ControllerType);
+      SCRIPT_GetString( scripthandle, "Comm Setup", "RTSName",RTSName);
    
-    SCRIPT_GetString( scripthandle, "Comm Setup","PlayerName",CommPlayerName);
-        }
+      SCRIPT_GetString( scripthandle, "Comm Setup","PlayerName",CommPlayerName);
+      }
     
-    ReadGameSetup(scripthandle);
+   ReadGameSetup(scripthandle);
     
    CONFIG_ReadKeys(scripthandle);
 
- //        CONFIG_SetupMouse(scripthandle);
-    //     CONFIG_SetupJoystick(scripthandle);
+   //CONFIG_SetupMouse(scripthandle);
+   //CONFIG_SetupJoystick(scripthandle);
    
-    if (PlayerNameArg[0] != '\0')
-        {
-        strcpy(CommPlayerName, PlayerNameArg);
+   if (PlayerNameArg[0] != '\0')
+      {
+      strcpy(CommPlayerName, PlayerNameArg);
       }
    }
 
@@ -625,6 +574,7 @@ void CONFIG_WriteSetup( void )
    dummy = gs.FlipStereo;
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "ReverseStereo",dummy,FALSE,FALSE);
    
+   SCRIPT_PutNumber( scripthandle, "Controls","ControllerType",ControllerType,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Controls","MouseSensitivity",gs.MouseSpeed,FALSE,FALSE);
    
    WriteGameSetup(scripthandle);
@@ -638,7 +588,7 @@ void CONFIG_WriteSetup( void )
        Bsprintf(buf,"MouseButton%ld",dummy);
        SCRIPT_PutString( scripthandle,"Controls", buf, CONFIG_FunctionNumToName( MouseFunctions[dummy][0] ));
 
-       if (dummy >= (MAXMOUSEBUTTONS-2)) continue;
+       if (dummy >= (MAXMOUSEBUTTONS-2)) continue;	// scroll wheel
 		
        Bsprintf(buf,"MouseButtonClicked%ld",dummy);
        SCRIPT_PutString( scripthandle,"Controls", buf, CONFIG_FunctionNumToName( MouseFunctions[dummy][1] ));

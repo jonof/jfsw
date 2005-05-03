@@ -968,11 +968,11 @@ InitGame(VOID)
     else if (initmultiplayersparms(_buildargc - firstnet, &_buildargv[firstnet])) {
 	initprintf("Waiting for players...\n");
 	while (initmultiplayerscycle()) {
-		handleevents();
-		if (quitevent) {
-			QuitFlag = TRUE;
-			return;
-        }
+            handleevents();
+	    if (quitevent) {
+		QuitFlag = TRUE;
+		return;
+            }
 	}
     }
     initsynccrc();
@@ -2041,6 +2041,7 @@ TitleLevel(VOID)
     while (TRUE)
         {
 	handleevents();
+	OSD_DispatchQueued();
 
         // taken from top of faketimerhandler
         // limits checks to max of 40 times a second
@@ -2222,6 +2223,7 @@ MenuLevel(VOID)
         {
 	handleevents();
 	AudioUpdate();
+	OSD_DispatchQueued();
 	
 	if (quitevent) QuitFlag = TRUE;
 
@@ -2980,6 +2982,7 @@ Control(VOID)
         {
 	handleevents();
 	AudioUpdate();
+	OSD_DispatchQueued();
 
 	if (quitevent) QuitFlag = TRUE;
 
@@ -3249,6 +3252,7 @@ RunLevel(VOID)
         {
 	handleevents();
 	AudioUpdate();
+	OSD_DispatchQueued();
 
 	if (quitevent) QuitFlag = TRUE;
 

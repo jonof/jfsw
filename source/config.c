@@ -46,6 +46,10 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "_functio.h"
 #include "_config.h"
 
+#include "build.h"
+#include "baselayer.h"
+#include "osd.h"
+
 extern void ReadGameSetup(int32 scripthandle);
 extern void WriteGameSetup(int32 scripthandle);
 
@@ -338,7 +342,10 @@ void CONFIG_ReadKeys( int32 scripthandle )
 
    for (i=0; i<NUMGAMEFUNCTIONS; i++)
       {
-         CONTROL_MapKey( i, KeyboardKeys[i][0], KeyboardKeys[i][1] );
+         if (i == gamefunc_Show_Console)
+            OSD_CaptureKey(KeyboardKeys[i][0]);
+         else
+            CONTROL_MapKey( i, KeyboardKeys[i][0], KeyboardKeys[i][1] );
       }
    }
 
@@ -514,6 +521,14 @@ void CONFIG_ReadSetup( void )
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenBPP", &ScreenBPP);
       if (ScreenBPP < 8) ScreenBPP = 8;
 
+#ifdef RENDERTYPEWIN
+      SCRIPT_GetNumber( scripthandle, "Screen Setup", "MaxRefreshFreq", (int32*)&maxrefreshfreq);
+#endif
+ 
+      SCRIPT_GetNumber( scripthandle, "Screen Setup", "GLTextureMode", &gltexfiltermode);
+      SCRIPT_GetNumber( scripthandle, "Screen Setup", "GLAnisotropy", &glanisotropy);
+      SCRIPT_GetNumber( scripthandle, "Screen Setup", "GLUseTextureCompr", &glusetexcompr);
+
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "FXDevice",&FXDevice);
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "MusicDevice",&MusicDevice);
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "FXVolume",&FXVolume);
@@ -568,6 +583,12 @@ void CONFIG_WriteSetup( void )
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenHeight",ScreenHeight,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenMode",ScreenMode,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenBPP",ScreenBPP,FALSE,FALSE);
+#ifdef RENDERTYPEWIN
+   SCRIPT_PutNumber( scripthandle, "Screen Setup", "MaxRefreshFreq",maxrefreshfreq,FALSE,FALSE);
+#endif
+   SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLTextureMode",gltexfiltermode,FALSE,FALSE);
+   SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLAnisotropy",glanisotropy,FALSE,FALSE);
+   SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLUseTextureCompr",glusetexcompr,FALSE,FALSE);
    
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "FXVolume",gs.SoundVolume,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "MusicVolume",gs.MusicVolume,FALSE,FALSE);

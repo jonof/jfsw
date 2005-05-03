@@ -85,9 +85,10 @@ char * gamefunctions[] =
    "Toggle_Crosshair",
    "Next_Weapon",
    "Previous_Weapon",
+   "Show_Console",
    };
 
-#define NUMKEYENTRIES 49
+#define NUMKEYENTRIES 50
 
 static char * keydefaults[] =
    {
@@ -140,6 +141,7 @@ static char * keydefaults[] =
    "Toggle_Crosshair", "I", "", 
    "Next_Weapon", "'", "", 
    "Previous_Weapon", ";", "", 
+   "Show_Console", "NumLck", "",
    };
 
 

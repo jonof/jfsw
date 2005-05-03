@@ -782,11 +782,14 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
     if (on_screen == OrderScreenSiz-1) {
 	// Jonathon's credits page hack :-)
 
-	static const char *jtitle = "^Port Credits";
-	static const char *jtext[] = {
-		"*GAME AND ENGINE PORT", " Jonathon \"JonoF\" Fowler",
+	static char *jtitle = "^Port Credits";
+	static char *jtext[] = {
+		"*GAME AND ENGINE PORT",
+		" Jonathon \"JonoF\" Fowler",
 		"-",
-		"*\"POLYMOST\" 3D RENDERER", "*NETWORKING, OTHER CODE", " Ken \"Awesoken\" Silverman",
+		"*\"POLYMOST\" 3D RENDERER",
+		"*NETWORKING, OTHER CODE",
+		" Ken \"Awesoken\" Silverman",
 		"-",
 		" Visit http://jonof.edgenetwork.org/jfsw/ for the",
 		" source code, latest news, and updates of this port."
@@ -816,6 +819,47 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
 				MNU_DrawSmallString(160-(dimx>>1), ycur, &jtext[ji][1], 0, 0);
 				ycur += dimy+1;
 				break;
+		}
+	}
+
+	{
+		static char *scroller[] = {
+			"This program is free software; you can redistribute it",
+			"and/or modify it under the terms of the GNU General",
+			"Public License as published by the Free Software",
+			"Foundation; either version 2 of the License, or (at your",
+			"option) any later version.",
+			"",
+			"This program is distributed in the hope that it will be",
+			"useful but WITHOUT ANY WARRANTY; without even the implied",
+			"warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR",
+			"PURPOSE. See the GNU General Public License (GPL.TXT) for",
+			"more details.",
+			"",
+			"",
+			"",
+			"",
+			"Thanks to these people for their input and contributions:",
+			"",
+			"Richard \"TerminX\" Gobeille",
+			"",
+			"and all those who submitted bug reports and ",
+			"supported the project financially!",
+			"",
+			"",
+			"--x--",
+			"",
+			"",
+			"",
+			""
+		};
+		const int numlines = SIZ(scroller);
+		int m,i;
+		for (m=0,i=(totalclock/104)%numlines; m<4; m++,i++) {
+			if (i==numlines) i=0;
+			dimx = dimy = 0;
+			MNU_MeasureSmallString(scroller[i], &dimx, &dimy);
+			MNU_DrawSmallString(160-(dimx>>1), 154+(m*7), scroller[i], 0, 8);
 		}
 	}
     }

@@ -84,216 +84,20 @@ boolean CONTROL_StartMouse(void)
 	return MOUSE_Init();
 }
 
-void CONTROL_GetJoyAbs( int32 joy )
+void CONTROL_GetJoyAbs( void )
 {
 }
 
-void CONTROL_FilterJoyDelta()
+void CONTROL_FilterJoyDelta(void)
 {
-/*
-012C                          CONTROL_FilterJoyDelta_:
-012C    51                        push        ecx
-012D    56                        push        esi
-012E    57                        push        edi
-012F    55                        push        ebp
-0130    89 D1                     mov         ecx,edx
-0132    89 DE                     mov         esi,ebx
-0134    89 C2                     mov         edx,eax
-0136    C1 E0 02                  shl         eax,0x00000002
-0139    29 D0                     sub         eax,edx
-013B    C1 E0 04                  shl         eax,0x00000004
-013E    05 00 00 00 00            add         eax,offset _JoyDefs
-0143    8B 11                     mov         edx,[ecx]
-0145    8B 78 08                  mov         edi,0x8[eax]
-0148    8B 1B                     mov         ebx,[ebx]
-014A    39 FA                     cmp         edx,edi
-014C    7D 1B                     jge         L$6
-014E    8B 28                     mov         ebp,[eax]
-0150    39 EA                     cmp         edx,ebp
-0152    7D 02                     jge         L$5
-0154    89 EA                     mov         edx,ebp
-0156                          L$5:
-0156    2B 50 08                  sub         edx,0x8[eax]
-0159    8B 68 20                  mov         ebp,0x20[eax]
-015C    F7 DA                     neg         edx
-015E    0F AF D5                  imul        edx,ebp
-0161    89 11                     mov         [ecx],edx
-0163    F7 DA                     neg         edx
-0165    89 11                     mov         [ecx],edx
-0167    EB 23                     jmp         L$9
-0169                          L$6:
-0169    3B 50 10                  cmp         edx,0x10[eax]
-016C    7E 18                     jle         L$8
-016E    8B 78 18                  mov         edi,0x18[eax]
-0171    39 FA                     cmp         edx,edi
-0173    7E 02                     jle         L$7
-0175    89 FA                     mov         edx,edi
-0177                          L$7:
-0177    8B 68 10                  mov         ebp,0x10[eax]
-017A    8B 78 28                  mov         edi,0x28[eax]
-017D    29 EA                     sub         edx,ebp
-017F    0F AF D7                  imul        edx,edi
-0182    89 11                     mov         [ecx],edx
-0184    EB 06                     jmp         L$9
-0186                          L$8:
-0186    C7 01 00 00 00 00         mov         dword ptr [ecx],0x00000000
-018C                          L$9:
-018C    3B 58 0C                  cmp         ebx,0xc[eax]
-018F    7D 1F                     jge         L$11
-0191    8B 78 04                  mov         edi,0x4[eax]
-0194    39 FB                     cmp         ebx,edi
-0196    7D 02                     jge         L$10
-0198    89 FB                     mov         ebx,edi
-019A                          L$10:
-019A    2B 58 0C                  sub         ebx,0xc[eax]
-019D    8B 50 24                  mov         edx,0x24[eax]
-01A0    F7 DB                     neg         ebx
-01A2    0F AF DA                  imul        ebx,edx
-01A5    89 1E                     mov         [esi],ebx
-01A7    F7 DB                     neg         ebx
-01A9    89 1E                     mov         [esi],ebx
-01AB    5D                        pop         ebp
-01AC    5F                        pop         edi
-01AD    5E                        pop         esi
-01AE    59                        pop         ecx
-01AF    C3                        ret         
-01B0                          L$11:
-01B0    3B 58 14                  cmp         ebx,0x14[eax]
-01B3    7E 1B                     jle         L$13
-01B5    8B 68 1C                  mov         ebp,0x1c[eax]
-01B8    39 EB                     cmp         ebx,ebp
-01BA    7E 02                     jle         L$12
-01BC    89 EB                     mov         ebx,ebp
-01BE                          L$12:
-01BE    8B 50 14                  mov         edx,0x14[eax]
-01C1    8B 48 2C                  mov         ecx,0x2c[eax]
-01C4    29 D3                     sub         ebx,edx
-01C6    0F AF D9                  imul        ebx,ecx
-01C9    89 1E                     mov         [esi],ebx
-01CB    5D                        pop         ebp
-01CC    5F                        pop         edi
-01CD    5E                        pop         esi
-01CE    59                        pop         ecx
-01CF    C3                        ret         
-01D0                          L$13:
-01D0    C7 06 00 00 00 00         mov         dword ptr [esi],0x00000000
-01D6    5D                        pop         ebp
-01D7    5F                        pop         edi
-01D8    5E                        pop         esi
-01D9    59                        pop         ecx
-01DA    C3                        ret         
-*/
 }
 
-void CONTROL_GetJoyDelta( int32 joy, int32 *dx, int32 *dy, int32 *rudder, int32 *throttle )
+void CONTROL_GetJoyDelta( void )
 {
-/*
-01DC                          CONTROL_GetJoyDelta_:
-01DC    56                        push        esi
-01DD    57                        push        edi
-01DE    8B 7C 24 0C               mov         edi,0xc[esp]
-01E2    89 C6                     mov         esi,eax
-01E4    E8 00 00 00 00            call        CONTROL_GetJoyAbs_
-01E9    A1 00 00 00 00            mov         eax,_CONTROL_JoyXAxis
-01EE    89 02                     mov         [edx],eax
-01F0    A1 00 00 00 00            mov         eax,_CONTROL_JoyYAxis
-01F5    89 03                     mov         [ebx],eax
-01F7    89 F0                     mov         eax,esi
-01F9    E8 00 00 00 00            call        CONTROL_FilterJoyDelta_
-01FE    85 F6                     test        esi,esi
-0200    75 2E                     jne         L$15
-0202    83 3D 00 00 00 00 00      cmp         dword ptr _CONTROL_RudderEnabled,0x00000000
-0209    75 09                     jne         L$14
-020B    83 3D 00 00 00 00 00      cmp         dword ptr _CONTROL_ThrottleEnabled,0x00000000
-0212    74 1C                     je          L$15
-0214                          L$14:
-0214    A1 00 00 00 00            mov         eax,_CONTROL_JoyXAxis2
-0219    89 FB                     mov         ebx,edi
-021B    89 01                     mov         [ecx],eax
-021D    A1 00 00 00 00            mov         eax,_CONTROL_JoyYAxis2
-0222    89 CA                     mov         edx,ecx
-0224    89 07                     mov         [edi],eax
-0226    B8 01 00 00 00            mov         eax,0x00000001
-022B    E8 00 00 00 00            call        CONTROL_FilterJoyDelta_
-0230                          L$15:
-0230    5F                        pop         edi
-0231    5E                        pop         esi
-0232    C2 04 00                  ret         0x00000004
-*/
 }
 
 
-void CONTROL_SetJoyScale( int32 joy )
-{
-/*
-02F8                          CONTROL_SetJoyScale_:
-02F8    53                        push        ebx
-02F9    51                        push        ecx
-02FA    52                        push        edx
-02FB    56                        push        esi
-02FC    57                        push        edi
-02FD    55                        push        ebp
-02FE    89 C6                     mov         esi,eax
-0300    8D 0C 85 00 00 00 00      lea         ecx,[eax*4]
-0307    29 C1                     sub         ecx,eax
-0309    BE 00 00 00 00            mov         esi,offset _JoyDefs
-030E    C1 E1 04                  shl         ecx,0x00000004
-0311    01 CE                     add         esi,ecx
-0313    8B 4E 08                  mov         ecx,0x8[esi]
-0316    8B 16                     mov         edx,[esi]
-0318    BB 00 0A 00 00            mov         ebx,0x00000a00
-031D    29 D1                     sub         ecx,edx
-031F    75 05                     jne         L$31
-0321    B9 01 00 00 00            mov         ecx,0x00000001
-0326                          L$31:
-0326    89 DA                     mov         edx,ebx
-0328    89 D8                     mov         eax,ebx
-032A    C1 FA 1F                  sar         edx,0x0000001f
-032D    F7 F9                     idiv        ecx
-032F    8B 7E 10                  mov         edi,0x10[esi]
-0332    8B 4E 18                  mov         ecx,0x18[esi]
-0335    89 46 20                  mov         0x20[esi],eax
-0338    29 F9                     sub         ecx,edi
-033A    75 05                     jne         L$32
-033C    B9 01 00 00 00            mov         ecx,0x00000001
-0341                          L$32:
-0341    89 DA                     mov         edx,ebx
-0343    89 D8                     mov         eax,ebx
-0345    C1 FA 1F                  sar         edx,0x0000001f
-0348    F7 F9                     idiv        ecx
-034A    8B 6E 04                  mov         ebp,0x4[esi]
-034D    8B 4E 0C                  mov         ecx,0xc[esi]
-0350    89 46 28                  mov         0x28[esi],eax
-0353    29 E9                     sub         ecx,ebp
-0355    75 05                     jne         L$33
-0357    B9 01 00 00 00            mov         ecx,0x00000001
-035C                          L$33:
-035C    89 DA                     mov         edx,ebx
-035E    89 D8                     mov         eax,ebx
-0360    C1 FA 1F                  sar         edx,0x0000001f
-0363    F7 F9                     idiv        ecx
-0365    89 46 24                  mov         0x24[esi],eax
-0368    8B 4E 1C                  mov         ecx,0x1c[esi]
-036B    2B 4E 14                  sub         ecx,0x14[esi]
-036E    75 05                     jne         L$34
-0370    B9 01 00 00 00            mov         ecx,0x00000001
-0375                          L$34:
-0375    89 DA                     mov         edx,ebx
-0377    89 D8                     mov         eax,ebx
-0379    C1 FA 1F                  sar         edx,0x0000001f
-037C    F7 F9                     idiv        ecx
-037E    89 46 2C                  mov         0x2c[esi],eax
-0381    5D                        pop         ebp
-0382    5F                        pop         edi
-0383    5E                        pop         esi
-0384    5A                        pop         edx
-0385    59                        pop         ecx
-0386    5B                        pop         ebx
-0387    C3                        ret         
-*/
-}
-
-void CONTROL_SetupJoy( int32 joy, int32 minx, int32 maxx, int32 miny, int32 maxy, int32 centerx, int32 centery )
+void CONTROL_SetJoyScale( void )
 {
 }
 
@@ -321,9 +125,7 @@ void CONTROL_ShutJoy(int32 joy)
 int32 CONTROL_GetTime(void)
 {
 	static int32 t = 0;
-
 	t += 5;
-
 	return t;
 }
 
@@ -812,12 +614,7 @@ void CONTROL_PollDevices(ControlInfo *info)
 		}
 	}
 	if (CONTROL_JoystickEnabled) {
-		CONTROL_GetJoyDelta(0,
-				&CONTROL_JoyAxes[0].analog,
-				&CONTROL_JoyAxes[1].analog,
-				&CONTROL_JoyAxes[2].analog,
-				&CONTROL_JoyAxes[3].analog
-				);
+		CONTROL_GetJoyDelta();
 
 		// Why?
 		//CONTROL_Axes[0].analog /= 2;
@@ -998,10 +795,8 @@ void CONTROL_GetInput( ControlInfo *info )
 	for (i=0; i<CONTROL_NUM_FLAGS; i++) {
 		CONTROL_SetFlag(i, CONTROL_KeyboardFunctionPressed(i) | periphs[i]);
 
-		if (CONTROL_Flags[i].cleared && !CONTROL_Flags[i].active)
-			CONTROL_Flags[i].cleared = 0;
-		else
-			BUTTONSET(i, CONTROL_Flags[i].active);
+		if (CONTROL_Flags[i].cleared == false) BUTTONSET(i, CONTROL_Flags[i].active);
+		else if (CONTROL_Flags[i].active == false) CONTROL_Flags[i].cleared = 0;
 	}
 }
 
@@ -1140,8 +935,8 @@ boolean CONTROL_Startup(controltype which, int32 ( *TimeFunction )( void ), int3
 
 	memset(CONTROL_UserInputCleared, 0, sizeof(CONTROL_UserInputCleared));
 
-	//for (i=0; i<CONTROL_NUM_FLAGS; i++)
-	//	CONTROL_Flags[i].used = false;
+	for (i=0; i<CONTROL_NUM_FLAGS; i++)
+		CONTROL_Flags[i].used = false;
 
 	CONTROL_Started = true;
 
@@ -1162,36 +957,3 @@ void CONTROL_Shutdown(void)
 	CONTROL_Started = false;
 }
 
-#include "build.h"
-#include <stdarg.h>
-static int dbgy;
-static void db(char *f,...)
-{
-	char t[256];
-	va_list va;
-	va_start(va,f);
-	vsprintf(t,f,va);
-	va_end(va);
-	printext256(4,dbgy,128,0,t,0);
-	dbgy+=7;
-}
-void CONTROL_DebugState(void)
-{
-	int i;
-	dbgy=4;
-	db("JoyPresent=%d JoyEnabled=%d MousePresent=%d MouseEnabled=%d",
-		CONTROL_JoyPresent, CONTROL_JoystickEnabled, CONTROL_MousePresent, CONTROL_MouseEnabled);
-	db("ButtonState1=%08x ButtonHeldState1=%08x ButtonState2=%08x ButtonHeldState2=%08x",
-		CONTROL_ButtonState1, CONTROL_ButtonHeldState1, CONTROL_ButtonState2, CONTROL_ButtonHeldState2);
-	dbgy+=7;
-	db("UserInputDelay=%d MouseSensitivity=%d NumMouseButtons=%d NumMouseAxes=%d NumJoyButtons=%d NumJoyAxes=%d",
-		CONTROL_UserInputDelay, CONTROL_MouseSensitivity,
-		CONTROL_NumMouseButtons, CONTROL_NumMouseAxes,
-		CONTROL_NumJoyButtons, CONTROL_NumJoyAxes);
-	for (i=0;i<CONTROL_NUM_FLAGS;i++) {
-		if (!CONTROL_Flags[i].used) continue;
-		db("Flag%2d active=%d toggle=%d buttonheld=%d cleared=%d",
-			i,CONTROL_Flags[i].active,CONTROL_Flags[i].toggle,
-			CONTROL_Flags[i].buttonheld,CONTROL_Flags[i].cleared);
-	}
-}

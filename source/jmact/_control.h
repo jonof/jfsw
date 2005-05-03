@@ -252,24 +252,9 @@ typedef struct
 void    CONTROL_GetMouseDelta( void );
 byte    CONTROL_GetMouseButtons( void );
 boolean CONTROL_StartMouse( void );
-void    CONTROL_GetJoyAbs( int32 joy );
-void CONTROL_GetJoyDelta
-   (
-   int32 joy,
-   int32 *dx,
-   int32 *dy,
-   int32 *rudder,
-   int32 *throttle
-   );
-byte    CONTROL_JoyButtons( int32 joy );
-void    CONTROL_SetJoyScale( int32 joy );
-void    CONTROL_SetupJoy
-   (
-   int32 joy, int32 minx,
-   int32 maxx, int32 miny,
-   int32 maxy, int32 centerx,
-   int32 centery
-   );
+void    CONTROL_GetJoyAbs( void );
+void    CONTROL_GetJoyDelta( void );
+void    CONTROL_SetJoyScale( void );
 boolean CONTROL_StartJoy( int32 joy );
 void    CONTROL_ShutJoy( int32 joy );
 void    CONTROL_SetFlag( int32 which, boolean active );
@@ -277,15 +262,8 @@ void    CONTROL_ButtonFunctionState( boolean * state );
 boolean CONTROL_KeyboardFunctionPressed( int32 whichfunction );
 boolean CONTROL_CheckRange( int32 which );
 int32   CONTROL_GetTime( void );
-void CONTROL_AxisFunctionState
-   (
-   boolean * state
-   );
-void CONTROL_GetJoyMovement
-   (
-   int32   joy,
-   ControlInfo * info
-   );
+void    CONTROL_AxisFunctionState( boolean * state );
+void    CONTROL_GetJoyMovement( ControlInfo * info );
 
 #ifdef __cplusplus
 };

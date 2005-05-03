@@ -249,7 +249,7 @@ typedef struct
 //
 //***************************************************************************
 
-void    CONTROL_GetMouseDelta( int32 *x, int32 *y );
+void    CONTROL_GetMouseDelta( void );
 byte    CONTROL_GetMouseButtons( void );
 boolean CONTROL_StartMouse( void );
 void    CONTROL_GetJoyAbs( int32 joy );

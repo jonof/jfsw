@@ -7,6 +7,7 @@
 
 #include "baselayer.h"
 #include "compat.h"
+#include "pragmas.h"
 
 
 boolean CONTROL_JoyPresent = false;
@@ -47,9 +48,11 @@ static int32 ticrate;
 static int32 CONTROL_DoubleClickSpeed;
 
 
-void CONTROL_GetMouseDelta(int32 *x, int32 *y)
+void CONTROL_GetMouseDelta(void)
 {
-	MOUSE_GetDelta(x,y);
+	int32 x,y;
+
+	MOUSE_GetDelta(&x, &y);
 
 	/* What in the name of all things sacred is this?
 	if (labs(*x) > labs(*y)) {
@@ -61,8 +64,8 @@ void CONTROL_GetMouseDelta(int32 *x, int32 *y)
 	*x = (*x * 32 * CONTROL_MouseSensitivity) >> 15;
 	*/
 
-	*x = ((*x) * 128 * CONTROL_MouseSensitivity) >> 15;
-	*y = ((*y) * 128 * CONTROL_MouseSensitivity) >> 15;
+	CONTROL_MouseAxes[0].analog = mulscale15(x, 128 * CONTROL_MouseSensitivity);
+	CONTROL_MouseAxes[1].analog = mulscale15(y, 128 * CONTROL_MouseSensitivity);
 }
 
 int32 CONTROL_GetMouseSensitivity(void)
@@ -643,7 +646,7 @@ static void DoGetDeviceButtons(
 			if (ButtonClicked[i] == false) {
 				ButtonClicked[i] = true;
 
-				if (ButtonClickedCount[i] == false) {
+				if (ButtonClickedCount[i] == 0 || tm > ButtonClickedTime[i]) {
 					ButtonClickedTime[i] = tm + CONTROL_DoubleClickSpeed;
 					ButtonClickedCount[i] = 1;
 				}
@@ -754,7 +757,7 @@ void CONTROL_ScaleAxis(int32 axis, controldevice device)
 		default: return;
 	}
 
-	set[axis].analog = (int32)(((int64)set[axis].analog * (int64)scale[axis]) >> 16);
+	set[axis].analog = mulscale16(set[axis].analog, scale[axis]);
 }
 
 void CONTROL_ApplyAxis(int32 axis, ControlInfo *info, controldevice device)
@@ -799,7 +802,7 @@ void CONTROL_PollDevices(ControlInfo *info)
 	memset(info, 0, sizeof(ControlInfo));
 
 	if (CONTROL_MouseEnabled) {
-		CONTROL_GetMouseDelta(&CONTROL_MouseAxes[0].analog, &CONTROL_MouseAxes[1].analog);
+		CONTROL_GetMouseDelta();
 
 		for (i=0; i<MAXMOUSEAXES; i++) {
 			CONTROL_DigitizeAxis(i, controldevice_mouse);
@@ -871,7 +874,7 @@ void CONTROL_ButtonFunctionState( int32 *p1 )
 
 		j = CONTROL_MouseButtonMapping[i].singleclicked;
 		if (j != KEYUNDEFINED)
-			p1[j] |= CONTROL_MouseButtonClickedState[i];
+			p1[j] |= CONTROL_MouseButtonState[i];
 	}
 
 	for (i=0; i<CONTROL_NumJoyButtons; i++) {
@@ -881,7 +884,7 @@ void CONTROL_ButtonFunctionState( int32 *p1 )
 
 		j = CONTROL_JoyButtonMapping[i].singleclicked;
 		if (j != KEYUNDEFINED)
-			p1[j] |= CONTROL_JoyButtonClickedState[i];
+			p1[j] |= CONTROL_JoyButtonState[i];
 	}
 }
 

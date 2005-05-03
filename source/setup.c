@@ -105,7 +105,8 @@ static int32 timert;
 
 int32 GetTime(void)
    {
-   return timert++;
+   return totalclock;
+   //return timert++;
    }
 
 void InitSetup(void)
@@ -117,7 +118,7 @@ void InitSetup(void)
    //CONFIG_GetSetupFilename();
    //InitializeKeyDefList();
    CONFIG_ReadSetup();
-   if (CONTROL_Startup( ControllerType, &GetTime, 120 )) exit(1);
+   if (CONTROL_Startup( ControllerType, &GetTime, /*120*/ 140 )) exit(1);
    SetupGameButtons();
    CONFIG_SetupMouse();
    CONFIG_SetupJoystick();

@@ -80,7 +80,7 @@
 			</ol></li>
 		</ul>
 
-		<h2><a name="savegames"></a>Save Help</h2>
+		<h2><a name="savegames">Save Help</a></h2>
 
 		<p>I have written a new compiler-independent framework for saving and restoring the pointer information
 		contained in Shadow Warrior's internal objects, and this has required a large amount of manual
@@ -93,7 +93,7 @@
 		code for future saves. If you see the message, please send the file to me at <a
 		href="mailto:jonof@edgenetwork.org">jonof@edgenetwork.org</a> so I may update the game.</p>
 
-		<h2><a name="customfile"></a>Customisation File Format</h2>
+		<h2><a name="customfile">Customisation File Format</a></h2>
 
 		<p>Historically, the modifications and total conversions for Shadow Warrior have been forced to resort to
 		hacking the game executable with a hex editor to replace the names of maps and the episode title
@@ -176,7 +176,7 @@ episode 1 {
     subtitle "One level of lameness"
 }</pre>
 
-		<h2><a name="deffile"></a>DEF-file Language</h2>
+		<h2><a name="deffile">DEF-file Language</a></h2>
 
 		<p>These are the legal instructions that may be used in the SW.DEF file. Comments can be used by
 		prefixing the text with a double forward-slash (C++ style), <code>//</code>, or surrounding the text with
@@ -458,7 +458,7 @@ model "models/spinnuke.md2"
 			</dl></dd>
 		</dl>
 		
-		<h3><a name="deffile-skybox"></a>A note about skyboxes</h3>
+		<h3><a name="deffile-skybox">A note about skyboxes</a></h3>
 
 		<p>Ken has some utilities on his website that can assist you in converting your favourite skybox format to
 		Polymost format. (<a href="http://advsys.net/ken/kube/kube.htm">http://advsys.net/ken/kube/kube.htm</a>)
@@ -469,7 +469,7 @@ model "models/spinnuke.md2"
 		The output files will be called SPLITCAP0.PNG, SPLITCAP1.PNG, ..., SPLITCAP5.PNG. After conversion, I
 		suggest you rename the files and compress them using PNGOUT or similar utility.</p>
 
-		<h2><a name="maphack"></a>Map Hack scripts</h2>
+		<h2><a name="maphack">Map Hack scripts</a></h2>
 
 		<p>"Map Hack" scripts are files that override certain aspects of a map file when it is rendered in OpenGL
 		Polymost mode. Currently they allow for angle adjustment on sprites, and the ability to prevent particular
@@ -512,7 +512,7 @@ sprite 517 notmd2
 // Toilet in restroom in club
 sprite 478 angoff -512</pre>
 
-		<h2><a name="hightile"></a>Hightile</h2>
+		<h2><a name="hightile">Hightile</a></h2>
 
 		<p>This release features the "Hightile" texturing improvements to Polymost. Hightile allows Polymost to use
 		true-colour textures instead of the artwork in the game's usual .ART file.</p>
@@ -529,14 +529,12 @@ sprite 478 angoff -512</pre>
 			<li>JFSW does not precache textures yet with a great level of sophistication, so be aware that you
 			will notice a small delay on occasion as a texture is loaded into memory when it is first seen.</li>
 		</ul>
-		<!--
-		<h2><a name="hightile-zip"></a>ZIP file support</h2>
+		<h2><a name="hightile-zip">Extra GRP and ZIP file support</a></h2>
 
-		<p>Duke (and Build games in general) can load game resources from a ZIP file.</p>
-		<p>ZIP files are used in Duke in the same manner as extra GRP files are specified. Use the "/g" command-line
-		switch to specify the ZIP to load. eg. <code>SW.EXE /gMYFILE.ZIP</code></p>
-		-->
-		<h2><a name="polymost"></a>Polymost</h2>
+		<p>JFShadowWarrior (and JFBuild games in general) can load extra game resources from a GRP or ZIP file.</p>
+		<p>Use the "/g" command-line switch to specify the ZIP or GRP to load. eg. <code>SW.EXE /gMYFILE.ZIP</code></p>
+
+		<h2><a name="polymost">Polymost</a></h2>
 
 		<p>Polymost is a full 3D implementation of the Build engine renderer, with hardware acceleration capability,
 		and perspective in six degrees of freedom. In Ken's own words (copied from POLYMOST.C in my Build engine

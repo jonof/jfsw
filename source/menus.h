@@ -175,13 +175,16 @@ typedef enum
     sldr_bordertile, sldr_gametype, sldr_netlevel, sldr_monsters, sldr_killlimit,
     sldr_timelimit, sldr_playercolor, sldr_max
     } SLDRType;
+
+
+#define MAX_SLDR_WIDTH	16	// maximum size of slider before x is compressed
     
 #define SLDR_MOUSESENSEMAX              20
 #define SLDR_SNDFXVOLMAX                16
 #define SLDR_MUSICVOLMAX                16
 #define SLDR_SCRSIZEMAX                 14
 #define SLDR_BRIGHTNESSMAX              8
-#define SLDR_BORDERTILEMAX              20 //(isShareware ? 21 : 40)	// counted from border.c
+#define SLDR_BORDERTILEMAX              (isShareware ? 21 : 38)	// counted from border.c
 #define SLDR_GAMETYPEMAX                3   
 
 #define SLDR_NETLEVELMAX_REG             28

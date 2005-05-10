@@ -2839,7 +2839,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     knobx = x;
 
     // Draw the in between sections
-    for (i = 0; i < barwidth; i++)
+    for (i = 0; i < min(barwidth,MAX_SLDR_WIDTH); i++)
         {
         rotatesprite(x << 16, y << 16, MZ, 0, pic_slidebar, shade, 0, MenuDrawFlags, 0, 0, xdim - 1, ydim - 1);
         x += tilesizx[pic_slidebar];
@@ -2848,8 +2848,15 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     // Draw the right end cap
     rotatesprite(x << 16, y << 16, MZ, 0, pic_sliderend, shade, 0, MenuDrawFlags, 0, 0, xdim - 1, ydim - 1);
 
-    // Draw the knob
-    knobx += tilesizx[pic_sliderknob] * offset;
+    // Draw the knob, compressing the X coordinate if the bar is too wide
+    if (barwidth > MAX_SLDR_WIDTH)
+        {
+	knobx += offset * (MAX_SLDR_WIDTH*tilesizx[pic_slidebar]-tilesizx[pic_sliderknob]) / (barwidth-1);
+        }
+    else
+        {
+        knobx += tilesizx[pic_slidebar] * offset;
+        }
     rotatesprite(knobx << 16, (y + 2) << 16, MZ, 0, pic_sliderknob, shade, 0, MenuDrawFlags, 0, 0, xdim - 1, ydim - 1);
     }
 

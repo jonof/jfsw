@@ -34,7 +34,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "music.h"
 #include "scriplib.h"
 #include "file_lib.h"
-#undef MAXPLAYERS
 #include "gamedefs.h"
 #include "keyboard.h"
 #include "util_lib.h"

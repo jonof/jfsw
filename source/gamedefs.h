@@ -52,11 +52,11 @@ extern "C" {
 
 // Max number of players
 
-#ifdef SHARE
-#define MAXPLAYERS 4
-#else
-#define MAXPLAYERS 8
-#endif
+//#ifdef SHARE
+//#define MAXPLAYERS 4
+//#else
+//#define MAXPLAYERS 8
+//#endif
 
 // Number of Mouse buttons
 

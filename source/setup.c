@@ -28,7 +28,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 #include "keys.h"
 #include "game.h"
-#undef MAXPLAYERS
 
 #include "mytypes.h"
 #include "develop.h"

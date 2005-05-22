@@ -1295,8 +1295,8 @@ CDAudio_Shutdown(void)
 #ifdef RENDERTYPEWIN
 #include "cda.h"
 static int loopmode=0, playmode = CDA_Stopped;
-extern long totalclock;
 #endif
+extern long totalclock;
 
 BOOL enabled = TRUE;
 BOOL cdvalid = FALSE;

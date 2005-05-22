@@ -7671,9 +7671,6 @@ PANEL_STATE ps_PanelKeyYellow[] = {
 
 #include "saveable.h"
 
-static saveable_code saveable_panel_code[] = {
-};
-
 static saveable_data saveable_panel_data[] = {
 	SAVE_DATA(ps_PresentSword),
 	SAVE_DATA(ps_SwordRest),
@@ -7814,8 +7811,8 @@ static saveable_data saveable_panel_data[] = {
 
 saveable_module saveable_panel = {
 	// code
-	saveable_panel_code,
-	SIZ(saveable_panel_code),
+	NULL,
+	0,
 
 	// data
 	saveable_panel_data,

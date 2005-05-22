@@ -1,57 +1,54 @@
 #include "saveable.h"
 #include "stdlib.h"
 
-#define maxModules 40
+#define maxModules 34
 
 static saveable_module *saveablemodules[maxModules];
 static int nummodules = 0;
 
 void Saveable_Init(void)
 {
-	static int inited = 0;
+	if (nummodules > 0) return;
 
-	if (inited) return;
-
-#define module(x) \
+#define MODULE(x) { \
 	extern saveable_module saveable_ ##x ; \
-	saveablemodules[nummodules++] = &saveable_ ##x
+	saveablemodules[nummodules++] = &saveable_ ##x ; \
+	}
 
-	module(actor);
-	module(ai);
-	module(build);
-	module(bunny);
-	module(coolg);
-	module(coolie);
-	module(eel);
-	module(girlninj);
-	module(goro);
-	module(hornet);
-	module(jweapon);
-	module(lava);
-	module(miscactr);
-	module(morph);
-	module(ninja);
-	module(panel);
-	module(player);
-	module(quake);
-	module(ripper);
-	module(ripper2);
-	module(rotator);
-	module(serp);
-	module(skel);
-	module(skull);
-	module(slidor);
-	module(spike);
-	module(sprite);
-	module(sumo);
-	module(track);
-	module(vator);
-	module(wallmove);
-	module(weapon);
-	module(zilla);
-	module(zombie);
-
-	inited=1;
+	MODULE(actor)
+	MODULE(ai)
+	MODULE(build)
+	MODULE(bunny)
+	MODULE(coolg)
+	MODULE(coolie)
+	MODULE(eel)
+	MODULE(girlninj)
+	MODULE(goro)
+	MODULE(hornet)
+	MODULE(jweapon)
+	MODULE(lava)
+	MODULE(miscactr)
+	MODULE(morph)
+	MODULE(ninja)
+	MODULE(panel)
+	MODULE(player)
+	MODULE(quake)
+	MODULE(ripper)
+	MODULE(ripper2)
+	MODULE(rotator)
+	MODULE(serp)
+	MODULE(skel)
+	MODULE(skull)
+	MODULE(slidor)
+	MODULE(spike)
+	MODULE(sprite)
+	MODULE(sumo)
+	MODULE(track)
+	MODULE(vator)
+	MODULE(wallmove)
+	MODULE(weapon)
+	MODULE(zilla)
+	MODULE(zombie)
 }
 
 int Saveable_FindCodeSym(void *ptr, savedcodesym *sym)
@@ -97,7 +94,7 @@ int Saveable_FindDataSym(void *ptr, saveddatasym *sym)
 
 			sym->module = 1+m;
 			sym->index  = i;
-			sym->offset = (unsigned long)(ptr - saveablemodules[m]->data[i].base);
+			sym->offset = (unsigned long)ptr - (unsigned long)saveablemodules[m]->data[i].base;
 
 			return 0;
 		}

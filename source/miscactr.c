@@ -2161,7 +2161,7 @@ static saveable_code saveable_miscactr_code[] = {
 	SAVE_CODE(PruneGirlPain),
 };
 
-static saveable_code saveable_miscactr_data[] = {
+static saveable_data saveable_miscactr_data[] = {
 	SAVE_DATA(ToiletGirlAttrib),
 	SAVE_DATA(WashGirlAttrib),
 	SAVE_DATA(TrashCanAttrib),

@@ -28,7 +28,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "compat.h"
 #include "cache1d.h"
 
-#undef MAXPLAYERS
 #include "keys.h"
 
 #include "names2.h"

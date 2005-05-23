@@ -860,6 +860,8 @@ faketimerhandler(void)
         }
     #endif    
 
+    handleevents();
+    
     if ((totalclock < ototalclock + synctics))
         return;
 

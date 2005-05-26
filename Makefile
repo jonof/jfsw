@@ -18,7 +18,7 @@ debug=-ggdb
 DXROOT=c:/sdks/msc/dx61
 #FMODROOT=c:/mingw32/fmodapi360win32/api
 
-# SWSETSPRITE is mandatory!
+# SETSPRITEZ is mandatory!
 ENGINEOPTS=-DSETSPRITEZ -DSUPERBUILD -DPOLYMOST -DUSE_OPENGL -DDYNAMIC_OPENGL
 
 CC=gcc

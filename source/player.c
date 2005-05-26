@@ -8516,7 +8516,37 @@ static saveable_code saveable_player_code[] = {
 };
 
 static saveable_data saveable_player_data[] = {
-	SAVE_DATA(Player)
+	SAVE_DATA(Player),
+	SAVE_DATA(s_PlayerNinjaRun),
+	SAVE_DATA(sg_PlayerNinjaRun),
+	SAVE_DATA(s_PlayerNinjaStand),
+	SAVE_DATA(sg_PlayerNinjaStand),
+	SAVE_DATA(s_PlayerNinjaThrow),
+	SAVE_DATA(sg_PlayerNinjaThrow),
+	SAVE_DATA(s_PlayerNinjaJump),
+	SAVE_DATA(sg_PlayerNinjaJump),
+	SAVE_DATA(s_PlayerNinjaFall),
+	SAVE_DATA(sg_PlayerNinjaFall),
+	SAVE_DATA(s_PlayerNinjaClimb),
+	SAVE_DATA(sg_PlayerNinjaClimb),
+	SAVE_DATA(s_PlayerNinjaCrawl),
+	SAVE_DATA(sg_PlayerNinjaCrawl),
+	SAVE_DATA(s_PlayerNinjaSwim),
+	SAVE_DATA(sg_PlayerNinjaSwim),
+	SAVE_DATA(s_PlayerHeadFly),
+	SAVE_DATA(sg_PlayerHeadFly),
+	SAVE_DATA(s_PlayerHead),
+	SAVE_DATA(sg_PlayerHead),
+	SAVE_DATA(s_PlayerHeadHurl),
+	SAVE_DATA(sg_PlayerHeadHurl),
+	SAVE_DATA(s_PlayerDeath),
+	SAVE_DATA(sg_PlayerDeath),
+	SAVE_DATA(s_PlayerNinjaSword),
+	SAVE_DATA(sg_PlayerNinjaSword),
+	SAVE_DATA(s_PlayerNinjaPunch),
+	SAVE_DATA(sg_PlayerNinjaPunch),
+	SAVE_DATA(s_PlayerNinjaFly),
+	SAVE_DATA(sg_PlayerNinjaFly),
 };
 
 saveable_module saveable_player = {

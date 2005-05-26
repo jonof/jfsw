@@ -940,6 +940,8 @@ InitGame(VOID)
         DSPRINTF(ds,"InitGame...");
     MONO_PRINT(ds);
 
+    if (initengine()) exit(1);
+
     //initgroupfile("sw.grp");	// JBF: moving this close to start of program to detect shareware
     InitSetup();
     
@@ -947,8 +949,6 @@ InitGame(VOID)
 	InitMusic();
     
     InitAutoNet();
-
-    if (initengine()) exit(1);
 
     inittimer(120);
 

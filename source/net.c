@@ -343,17 +343,17 @@ InitNetPlayerOptions(VOID)
     pp->SpriteP->pal = PALETTE_PLAYER0 + pp->TeamColor;
     User[pp->SpriteP - sprite]->spal = pp->SpriteP->pal;
     
-	//tenDbLprintf(gTenLog, 3, "sending net player color as %d", (int) gs.NetColor);
     if (CommEnabled)
         {
+        p.PacketType = PACKET_TYPE_PLAYER_OPTIONS;
+        p.AutoRun = gs.AutoRun;
+        p.Color = gs.NetColor;
+        strcpy(p.PlayerName, CommPlayerName);
+
         TRAVERSE_CONNECT(pnum)
             {
             if (pnum != myconnectindex)
                 {
-                p.PacketType = PACKET_TYPE_PLAYER_OPTIONS;
-                p.AutoRun = gs.AutoRun;
-                p.Color = gs.NetColor;
-                strcpy(p.PlayerName, CommPlayerName);
                 netsendpacket(pnum, (char *)(&p), sizeof(p));
                 }
             }
@@ -509,14 +509,11 @@ waitforeverybody(void)
     //KEY_PRESSED(KEYSC_ESC) = FALSE;
     Player[myconnectindex].playerreadyflag++;
 
-	//tenDbLprintf(gTenLog, 3, "in w4e, prf %d", (int) Player[myconnectindex].playerreadyflag);
-	//tenDbFlushLog(gTenLog);
-
     while (TRUE)
         {
         if (PlayerQuitMenuLevel >= 0)    
             {
-            //DSPRINTF(ds,"%d, Player Quit Menu Level $d", myconnectindex, PlayerQuitMenuLevel);
+            //DSPRINTF(ds,"%d, Player Quit Menu Level %d", myconnectindex, PlayerQuitMenuLevel);
             //DebugWriteString(ds);
             
             MenuCommPlayerQuit(PlayerQuitMenuLevel);
@@ -525,7 +522,7 @@ waitforeverybody(void)
 
         getpackets();
         
-        if (wfe_ExitCallback && wfe_ExitCallback())
+        if (quitevent || (wfe_ExitCallback && wfe_ExitCallback()))
             {
             // allow exit
             //if (KEY_PRESSED(KEYSC_ESC))
@@ -560,11 +557,9 @@ waitforeverybody(void)
             }
 
         if (i < 0)
-			{
-			//tenDbLprintf(gTenLog, 3, "out w4e");
-			//tenDbFlushLog(gTenLog);
+            {
             return;
-			}
+            }
         }
     }
     
@@ -719,7 +714,7 @@ VOID ErrorCorrectionQuit(VOID)
                 }
             
             tempbuf[0] = PACKET_TYPE_NULL_PACKET;
-			netbroadcastpacket(tempbuf, 1);
+            netbroadcastpacket(tempbuf, 1);
             }
         }
     }    
@@ -800,45 +795,6 @@ AddSyncInfoToPacket(long *j)
         syncvaltail++;
         }
     }
-
-
-// TENSW
-// helper routine to return the player fifo end value; can't get to this
-// directly from tensw.cpp without much pain
-long getPlayerFifoEnd(int pnum)
-{
-	return Player[pnum].movefifoend;
-}
-
-
-// TENSW
-// helper routine to update the frag bar (useful for network debug stats)
-// only called during debug mode
-void updateFragBar(void)
-{
-	int i;
-
-	// don't draw frag bar too early; see restrictions in SetFragBar
-	if (!Player[myconnectindex].SpriteP || numplayers < 2)    
-		return;
-
-	TRAVERSE_CONNECT(i)
-	{
-		DisplayFragNames(Player + i);
-	}
-}
-
-
-// TENSW
-// called when we are killed off due to excessive lag
-void showLagMessage(void)
-{
-	extern BOOL QuitFlag;
-
-	QuitFlag = TRUE;
-	ready2send = 0;
-}
-
 
 void
 faketimerhandler(void)
@@ -960,15 +916,6 @@ faketimerhandler(void)
             }
         }    
 
-	// TENSW: use a more conservative jitter value calculation on TEN
-	// CTW REMOVED
-	/*
-	if (gTenActivated)
-	{
-		tenCalculateJitter();
-	}
-    else */
-	// CTW REMOVED END
 	if (((Player[myconnectindex].movefifoend - 1) & (TIMERUPDATESIZ - 1)) == 0)
         {
         i = mymaxlag - bufferjitter;
@@ -1365,10 +1312,19 @@ getpackets(VOID)
             PLAYERp tp = Player + myconnectindex;
             
             pp = Player + otherconnectindex;
+
+	    // retransmit if master and the message is not addressed to us
+	    if (!NetBroadcastMode && myconnectindex == connecthead && packbuf[1] != myconnectindex)
+	        {
+		netsendpacket(packbuf[1], packbuf, packbufleng);
+		break;
+	        }
             
             PlaySound(DIGI_PMESSAGE,&tp->posx,&tp->posy,&tp->posz,v3df_dontpan);
             
-            sprintf(ds, "%s",&packbuf[1]);
+	    memcpy(ds,&packbuf[3],packbufleng-3);
+	    ds[packbufleng-3] = 0;
+            //sprintf(ds, "%s",&packbuf[3]);
             adduserquote(ds);
             break;
             }

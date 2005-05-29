@@ -933,6 +933,7 @@ int nextvoxid = 0;	// JBF
 VOID
 InitGame(VOID)
     {
+    void CONFIG_ReadSetup( void );
     extern long MovesPerPacket;
     //void *ReserveMem=NULL;
     int i;
@@ -940,8 +941,10 @@ InitGame(VOID)
         DSPRINTF(ds,"InitGame...");
     MONO_PRINT(ds);
 
-    if (initengine()) exit(1);
+    CONFIG_ReadSetup();
 
+    if (initengine()) exit(1);
+    
     //initgroupfile("sw.grp");	// JBF: moving this close to start of program to detect shareware
     InitSetup();
     
@@ -2920,11 +2923,15 @@ StatScreen(PLAYERp mpp)
     
     while (!KEY_PRESSED(KEYSC_SPACE))
         {
+	handleevents();
+	AudioUpdate();
+	
         ScreenCaptureKeys();
-        if (SW_SHAREWARE) {
+        if (SW_SHAREWARE)
+	    {
             if (handle >= 0 && !FX_SoundActive(handle))
                 handle = PlaySound(DIGI_ENDLEV, &pp->posx, &pp->posy, &pp->posz, v3df_none);
-        }    
+            }
         }    
 
     StopSound();

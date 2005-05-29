@@ -6485,12 +6485,6 @@ DoPlayerDeathMessage(PLAYERp pp, PLAYERp killer)
 
     killer->KilledPlayer[pp-Player]++;
 
-        // report killer/killee to TEN ranking system
-		// CTW REMOVED
-        //if (gTenActivated)
-        //        tenSwScore(killer - Player, pp - Player);
-		// CTW REMOVED END
-
     if (pp == killer && pp == Player + myconnectindex)
         {
         sprintf(ds,"%s %s",pp->PlayerName,SuicideNote[STD_RANDOM_RANGE(MAX_SUICIDE)]);

@@ -116,7 +116,7 @@ void InitSetup(void)
    //initkeys();
    //CONFIG_GetSetupFilename();
    //InitializeKeyDefList();
-   CONFIG_ReadSetup();
+   //CONFIG_ReadSetup();
    if (CONTROL_Startup( ControllerType, &GetTime, /*120*/ 140 )) exit(1);
    SetupGameButtons();
    CONFIG_SetupMouse();

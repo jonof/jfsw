@@ -422,7 +422,6 @@ DisplayFragNumbers(PLAYERp pp)
 VOID
 DisplayFragNames(PLAYERp pp)
     {
-    char buffer[32];
     char *ptr;
     short x, xs, ys, size;
     short frag_bar;
@@ -449,14 +448,7 @@ DisplayFragNames(PLAYERp pp)
         // erase old kill count
         pSpawnFullScreenSprite(my_pp, FRAG_ERASE_NAME, PRI_MID+1, xs-1, ys);
 
-        // TENSW use frag bar to display network debugging stats if
-		// special mode is set; otherwise print as normal
-		// CTW REMOVED
-		//if ( !gTenActivated || !tenPlayerDebugInfo(buffer, pnum))
-		//	sprintf(buffer, "%s", pp->PlayerName);
-		// CTW REMOVED END
-
-        DisplayFragString(pp, xs, ys, buffer);
+        DisplayFragString(pp, xs, ys, pp->PlayerName);
     }
 
 short GlobInfoStringTime = TEXT_INFO_TIME;

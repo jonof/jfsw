@@ -1,7 +1,7 @@
 README for JonoF's Shadow Warrior Port
 With contributions by Ken Silverman
 
-2 April 2005
+31 May 2005
 
 
 This is a work-in-progress release of my port of Shadow Warrior using my

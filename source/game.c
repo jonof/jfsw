@@ -107,7 +107,7 @@ BOOL Global_PLock = TRUE;
 BOOL Global_PLock = FALSE; 
 #endif
 
-long GameVersion = 12;
+long GameVersion = 13;	// 12 was original source release. For future releases increment by two.
 CHAR DemoText[3][64];
 int DemoTextYstart = 0;
 
@@ -3501,6 +3501,7 @@ long app_main(long argc, char *argv[])
 
 	// Zero out the maps that aren't in shareware version
 	memset(&LevelInfo[MAX_LEVELS_SW+1], 0, sizeof(LEVEL_INFO)*(MAX_LEVELS_REG-MAX_LEVELS_SW));
+	GameVersion++;
     } else {
 	wm_setapptitle("Shadow Warrior v1.999");
     }

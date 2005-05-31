@@ -81,6 +81,7 @@ extern BOOL NewGame;
 extern char CacheLastLevel[];
 extern short PlayingLevel;
 extern int GodMode;
+extern long GameVersion;
 //extern short Zombies;
 
 extern BOOL serpwasseen;
@@ -237,6 +238,8 @@ int SaveGame(short save_num)
     sprintf(game_name,"game%d.sav",save_num);
     if ((fil = MOPEN_WRITE(game_name)) == MF_ERR)
         return(-1);
+
+    MWRITE(&GameVersion,sizeof(GameVersion),1,fil);
 
     MWRITE(SaveGameDescr[save_num],sizeof(SaveGameDescr[save_num]),1,fil);
     
@@ -687,10 +690,17 @@ int LoadGameFullHeader(short save_num, char *descr, short *level, short *skill)
     MFILE fil;
     char game_name[80];
     short tile;
+    long ver;
 
     sprintf(game_name,"game%d.sav",save_num);
     if ((fil = MOPEN_READ(game_name)) == MF_ERR)
         return(-1);
+
+    MREAD(&ver,sizeof(ver),1,fil);
+    if (ver != GameVersion) {
+	MCLOSE(fil);
+	return -1;
+    }
     
     MREAD(descr, sizeof(SaveGameDescr[0]), 1,fil);
     
@@ -710,11 +720,18 @@ void LoadGameDescr(short save_num, char *descr)
     MFILE fil;
     char game_name[80];
     short tile;
+    long ver;
     
     sprintf(game_name,"game%d.sav",save_num);
     if ((fil = MOPEN_READ(game_name)) == MF_ERR)
         return;
-    
+
+    MREAD(&ver,sizeof(ver),1,fil);
+    if (ver != GameVersion) {
+	MCLOSE(fil);
+	return;
+    }
+
     MREAD(descr, sizeof(SaveGameDescr[0]),1,fil);
     
     MCLOSE(fil);
@@ -752,6 +769,11 @@ int LoadGame(short save_num)
     if ((fil = MOPEN_READ(game_name)) == MF_ERR)
         return(-1);
 
+    MREAD(&i,sizeof(i),1,fil);
+    if (i != GameVersion) {
+	MCLOSE(fil);
+	return -1;
+    }
     
     // Don't terminate until you've made sure conditions are valid for loading.
     if (InMenuLevel)

@@ -1789,9 +1789,10 @@ MNU_GetSaveCustom(void)
             
             LoadGameGroup.cursor = save_num;
             LastSaveNum = -1;
-            ResumeAction();
-            ExitMenus();
             }
+
+        ResumeAction();
+        ExitMenus();
 
         // toggle edit mode
         MenuInputMode = FALSE;

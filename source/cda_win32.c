@@ -48,12 +48,30 @@ int cda_opendevice(int devicenum)
 {
 	MCI_OPEN_PARMS mop;
 	MCI_SET_PARMS  msp;
-	CHAR drive[4] = "?:";
+	TCHAR drive[] = "?:\\";
+	int i, j;
 
-	if (devicenum >= 0 && devicenum < 26)
-		drive[0] = 'A'+devicenum;
-	else
+	if (devicenum >= 0) {
+		DWORD drives;
+		drives = GetLogicalDrives();
+		for (j=i=0; i<26; i++) {
+			if (!(drives & (1<<i))) continue;
+			drive[0] = 'A'+i;
+			if (GetDriveType(drive) == DRIVE_CDROM) {
+				if (j != devicenum) j++;
+				else {
+					drive[2] = 0;
+					j = -1;
+					break;
+				}
+			}
+		}
+
+		// couldn't find the devicenum requested, so use default drive
+		if (j != -1) devicenum = -1;
+	} else {
 		devicenum = -1;
+	}
 
 	pausepos = lastplayendtime = -1;
 

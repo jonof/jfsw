@@ -1,7 +1,7 @@
 #include "saveable.h"
 #include "stdlib.h"
 
-#define maxModules 34
+#define maxModules 35
 
 static saveable_module *saveablemodules[maxModules];
 static int nummodules = 0;
@@ -49,6 +49,8 @@ void Saveable_Init(void)
 	MODULE(weapon)
 	MODULE(zilla)
 	MODULE(zombie)
+
+	MODULE(sector)
 }
 
 int Saveable_FindCodeSym(void *ptr, savedcodesym *sym)

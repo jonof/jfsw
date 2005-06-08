@@ -433,7 +433,7 @@ VOID SetPaletteToVESA(char *pal)
      VBE_setPalette(0, 256, pal_buff);
 */
 	    setbrightness(0,pal,4|2);
-	    fprintf(stderr,"SetPaletteToVESA() called\n");
+	  //  fprintf(stderr,"SetPaletteToVESA() called\n");
     }
 
 VOID set_pal(char *pal)
@@ -462,5 +462,5 @@ VOID GetPaletteFromVESA(char *pal)
 		    pal[i*3+1] = curpalette[i].g>>2;
 		    pal[i*3+2] = curpalette[i].b>>2;
     }
-	    fprintf(stderr,"GetPaletteFromVESA() called\n");
+	//    fprintf(stderr,"GetPaletteFromVESA() called\n");
     }

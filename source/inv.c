@@ -995,7 +995,7 @@ short InventoryBoxX;
 short InventoryBoxY;
 short InventoryXoff;
 short InventoryYoff;
-VOID (*InventoryDisplayString)(PLAYERp, short, short, short, char *);
+VOID (*InventoryDisplayString)(PLAYERp, short, short, short, CHARp);
 
 #define INVENTORY_PIC_XOFF 1
 #define INVENTORY_PIC_YOFF 1

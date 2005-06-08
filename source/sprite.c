@@ -7600,6 +7600,27 @@ int push_check(short SpriteNum)
 
 #include "saveable.h"
 
+static saveable_code saveable_sprite_code[] = {
+	SAVE_CODE(DoActorZrange),
+	SAVE_CODE(DoActorGlobZ),
+	SAVE_CODE(DoStayOnFloor),
+	SAVE_CODE(DoGrating),
+	SAVE_CODE(SpearOnFloor),
+	SAVE_CODE(SpearOnCeiling),
+	SAVE_CODE(DoKey),
+	SAVE_CODE(DoCoin),
+	SAVE_CODE(KillGet),
+	SAVE_CODE(KillGetAmmo),
+	SAVE_CODE(KillGetWeapon),
+	SAVE_CODE(DoSpawnItemTeleporterEffect),
+	SAVE_CODE(DoGet),
+	SAVE_CODE(SetEnemyActive),
+	SAVE_CODE(SetEnemyInactive),
+	SAVE_CODE(ProcessActiveVars),
+	SAVE_CODE(StateControl),
+	SAVE_CODE(SpriteControl),
+};
+
 static saveable_data saveable_sprite_data[] = {
 	SAVE_DATA(Track),
 	SAVE_DATA(SectorObject),
@@ -7678,7 +7699,8 @@ static saveable_data saveable_sprite_data[] = {
 
 saveable_module saveable_sprite = {
 	// code
-	NULL,0,
+	saveable_sprite_code,
+	SIZ(saveable_sprite_code),
 
 	// data
 	saveable_sprite_data,

@@ -3489,7 +3489,7 @@ long app_main(long argc, char *argv[])
 		addsearchpath("/usr/share/games/jfsw");
 		addsearchpath("/usr/local/games/jfsw");
 #endif
-#if defined(PLATFORMWINDOWS)	// should Linux search the cwd?
+#if 1//defined(PLATFORMWINDOWS)	// should Linux search the cwd?
 		if (getcwd(cwd,MAX_PATH)) addsearchpath(cwd);
 #endif
 		if ((homedir = Bgethomedir())) {

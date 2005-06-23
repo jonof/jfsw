@@ -3481,7 +3481,7 @@ long app_main(long argc, char *argv[])
     char *grpfile = "sw.grp";
 
 	{
-		char cwd[MAX_PATH];
+		char cwd[BMAX_PATH];
 		char *homedir;
 		int asperr;
 
@@ -3490,7 +3490,7 @@ long app_main(long argc, char *argv[])
 		addsearchpath("/usr/local/games/jfsw");
 #endif
 #if 1//defined(PLATFORMWINDOWS)	// should Linux search the cwd?
-		if (getcwd(cwd,MAX_PATH)) addsearchpath(cwd);
+		if (getcwd(cwd,BMAX_PATH)) addsearchpath(cwd);
 #endif
 		if ((homedir = Bgethomedir())) {
 			Bsnprintf(cwd,sizeof(cwd),"%s/"
@@ -3502,7 +3502,7 @@ long app_main(long argc, char *argv[])
 			,homedir);
 			asperr = addsearchpath(cwd);
 			if (asperr == -2) {
-				if (mkdir(cwd) == 0) asperr = addsearchpath(cwd);
+				if (Bmkdir(cwd,S_IRWXU) == 0) asperr = addsearchpath(cwd);
 				else asperr = -1;
 			}
 			if (asperr == 0)

@@ -3479,6 +3479,37 @@ long app_main(long argc, char *argv[])
     int cnt;
     ULONG TotalMemory;
     char *grpfile = "sw.grp";
+
+	{
+		char cwd[MAX_PATH];
+		char *homedir;
+		int asperr;
+
+#if defined(PLATFORMLINUX)
+		addsearchpath("/usr/share/games/jfsw");
+		addsearchpath("/usr/local/games/jfsw");
+#endif
+#if defined(PLATFORMWINDOWS)	// should Linux search the cwd?
+		if (getcwd(cwd,MAX_PATH)) addsearchpath(cwd);
+#endif
+		if ((homedir = Bgethomedir())) {
+			Bsnprintf(cwd,sizeof(cwd),"%s/"
+#if defined(PLATFORMWINDOWS) || defined(PLATFORMDARWIN)
+				"JFShadowWarrior"
+#else
+				".jfsw"
+#endif
+			,homedir);
+			asperr = addsearchpath(cwd);
+			if (asperr == -2) {
+				if (mkdir(cwd) == 0) asperr = addsearchpath(cwd);
+				else asperr = -1;
+			}
+			if (asperr == 0)
+				chdir(cwd);
+			free(homedir);
+		}
+	}
     
     OSD_SetLogFile("sw.log");
     {	// JBF: moved to here for shareware detection

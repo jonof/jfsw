@@ -2736,8 +2736,10 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
         slidersettings[sldr_netlevel] = offset;
         
         // Show the currently selected level on next line
-        extra_text = MNU_LevelName[offset];
-        MNU_DrawString(OPT_XS, item->y+10, extra_text, 1, 16);
+        //extra_text = MNU_LevelName[offset];
+        //MNU_DrawString(OPT_XS, item->y+10, extra_text, 1, 16);
+	sprintf(tmp_text, "L%02: %s", offset+1, LevelInfo[offset+1].Description);
+        MNU_DrawString(OPT_XS, item->y+10, tmp_text, 1, 16);
         gs.NetLevel = offset;
         break;
 

@@ -694,7 +694,7 @@ ExtInit(void)
 	if (!access("user_profiles_enabled", F_OK))
 #endif
 	{
-		char cwd[MAX_PATH];
+		char cwd[BMAX_PATH];
 		char *homedir;
 		int asperr;
 
@@ -702,7 +702,7 @@ ExtInit(void)
 		addsearchpath("/usr/share/games/jfsw");
 		addsearchpath("/usr/local/games/jfsw");
 #endif
-		if (getcwd(cwd,MAX_PATH)) addsearchpath(cwd);
+		if (getcwd(cwd,BMAX_PATH)) addsearchpath(cwd);
 		if ((homedir = Bgethomedir())) {
 			Bsnprintf(cwd,sizeof(cwd),"%s/"
 #if defined(PLATFORMWINDOWS) || defined(PLATFORMDARWIN)
@@ -713,7 +713,7 @@ ExtInit(void)
 			,homedir);
 			asperr = addsearchpath(cwd);
 			if (asperr == -2) {
-				if (mkdir(cwd) == 0) asperr = addsearchpath(cwd);
+				if (Bmkdir(cwd,S_IRWXU) == 0) asperr = addsearchpath(cwd);
 				else asperr = -1;
 			}
 			if (asperr == 0)

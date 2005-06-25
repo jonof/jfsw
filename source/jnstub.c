@@ -690,6 +690,38 @@ ExtInit(void)
         //LogUserTime(TRUE);              // Send true because user is logging
                                         // in.
 
+#if defined(PLATFORMWINDOWS)
+	if (!access("user_profiles_enabled", F_OK))
+#endif
+	{
+		char cwd[MAX_PATH];
+		char *homedir;
+		int asperr;
+
+#if defined(PLATFORMLINUX)
+		addsearchpath("/usr/share/games/jfsw");
+		addsearchpath("/usr/local/games/jfsw");
+#endif
+		if (getcwd(cwd,MAX_PATH)) addsearchpath(cwd);
+		if ((homedir = Bgethomedir())) {
+			Bsnprintf(cwd,sizeof(cwd),"%s/"
+#if defined(PLATFORMWINDOWS) || defined(PLATFORMDARWIN)
+				"JFShadowWarrior"
+#else
+				".jfsw"
+#endif
+			,homedir);
+			asperr = addsearchpath(cwd);
+			if (asperr == -2) {
+				if (mkdir(cwd) == 0) asperr = addsearchpath(cwd);
+				else asperr = -1;
+			}
+			if (asperr == 0)
+				chdir(cwd);
+			free(homedir);
+		}
+	}
+	
         initgroupfile("sw.grp");
 	/*
         if ((fil = open("setup.dat", O_BINARY | O_RDWR, S_IREAD)) != -1)

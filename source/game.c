@@ -46,6 +46,9 @@ Things required to make savegames work:
 #include "compat.h"
 #include "cache1d.h"
 #include "osd.h"
+#ifdef RENDERTYPEWIN
+# include "winlayer.h"
+#endif
 
 #include "keys.h"
 #include "names2.h"
@@ -3480,6 +3483,17 @@ long app_main(long argc, char *argv[])
     ULONG TotalMemory;
     char *grpfile = "sw.grp";
 
+#ifdef RENDERTYPEWIN
+	if (win_checkinstance()) {
+		if (!wm_ynbox("Duke Nukem 3D","Another Build game is currently running. "
+					"Do you wish to continue starting this copy?"))
+			return 0;
+	}
+#endif
+    
+#if defined(PLATFORMWINDOWS)
+	if (!access("user_profiles_enabled", F_OK))
+#endif
 	{
 		char cwd[BMAX_PATH];
 		char *homedir;
@@ -3489,9 +3503,7 @@ long app_main(long argc, char *argv[])
 		addsearchpath("/usr/share/games/jfsw");
 		addsearchpath("/usr/local/games/jfsw");
 #endif
-#if 1//defined(PLATFORMWINDOWS)	// should Linux search the cwd?
 		if (getcwd(cwd,BMAX_PATH)) addsearchpath(cwd);
-#endif
 		if ((homedir = Bgethomedir())) {
 			Bsnprintf(cwd,sizeof(cwd),"%s/"
 #if defined(PLATFORMWINDOWS) || defined(PLATFORMDARWIN)

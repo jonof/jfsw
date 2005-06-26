@@ -1170,8 +1170,13 @@ char EpisodeSubtitles[2][MAX_EPISODE_SUBTITLE_LEN+1] = {
 	"Four levels (Shareware Version)",
 	"Eighteen levels (Full Version Only)"
 };
+char SkillNames[4][MAX_SKILL_NAME_LEN+2] = {
+	"^Tiny grasshopper",
+	"^I Have No Fear",
+	"^Who Wants Wang",
+	"^No Pain, No Gain"
+};
 
-VOID
 InitNewGame(VOID)
     {
     int i, ready_bak;

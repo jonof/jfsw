@@ -197,7 +197,7 @@ extern kb_scancode KB_LastScan;
 
 #define KB_KeyPressed( scan )  ( keystatus[ ( scan ) ] != 0 )
 
-#define KB_ClearKeyDown( scan ) { keystatus[ ( scan ) ] = false; }
+#define KB_ClearKeyDown( scan ) { keystatus[ ( scan ) ] = FALSE; }
 
 
 /*

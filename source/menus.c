@@ -254,10 +254,10 @@ MenuGroup optiongroup = {100, 5, "^Options", options_i, pic_optionstitl, 0, m_de
 
 MenuItem skill_i[] =
     {
-    {DefOption(KEYSC_E, "^Tiny grasshopper"), 30, 46, pic_easy, m_defshade, 0, MNU_StartGame, NULL, NULL},
-    {DefOption(KEYSC_N, "^I Have No Fear"),       30, 62, pic_normal, m_defshade, 0, MNU_StartGame, NULL, NULL},
-    {DefOption(KEYSC_H, "^Who Wants Wang"),     30, 78, pic_hard, m_defshade, 0, MNU_StartGame, NULL, NULL},
-    {DefOption(KEYSC_I, "^No Pain, No Gain"),     30, 94, pic_impossible, m_defshade, 0, MNU_StartGame, NULL, NULL},
+    {DefOption(KEYSC_E, &SkillNames[0][0]), 30, 46, pic_easy, m_defshade, 0, MNU_StartGame, NULL, NULL},
+    {DefOption(KEYSC_N, &SkillNames[1][0]), 30, 62, pic_normal, m_defshade, 0, MNU_StartGame, NULL, NULL},
+    {DefOption(KEYSC_H, &SkillNames[2][0]), 30, 78, pic_hard, m_defshade, 0, MNU_StartGame, NULL, NULL},
+    {DefOption(KEYSC_I, &SkillNames[3][0]), 30, 94, pic_impossible, m_defshade, 0, MNU_StartGame, NULL, NULL},
     {DefNone}
     };
 
@@ -1071,7 +1071,7 @@ MNU_QuitCustom(UserCall call, MenuItem_p item)
         ExitMenus();
         }
 
-    if (KB_KeyPressed(sc_Y))
+    if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter))
         {
         if (CommPlayers >= 2)
             MultiPlayQuitFlag = TRUE;
@@ -1607,7 +1607,7 @@ MNU_Dialog(void)
     CONTROL_ClearUserInput(&mnu_input);
     CONTROL_GetUserInput(&mnu_input);
 
-    if (KB_KeyPressed(sc_Y))
+    if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter))
         return (TRUE);
     else
         return (FALSE);
@@ -1892,7 +1892,7 @@ MNU_LoadSaveMove(UserCall call, MenuItem_p item)
         
         if (SavePrompt)
             {
-            if (KB_KeyPressed(sc_Y))
+            if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter))
                 {
                 SavePrompt = FALSE;
                 // use input
@@ -1926,6 +1926,7 @@ MNU_LoadSaveMove(UserCall call, MenuItem_p item)
                 {
                 GotInput = TRUE;
                 }
+	    KB_ClearKeyDown(sc_Enter);
             break;
         case TRUE:                      // Got input
             break;

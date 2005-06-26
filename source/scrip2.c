@@ -403,7 +403,14 @@ enum {
 	CM_CDATRACK,
 	CM_BESTTIME,
 	CM_PARTIME,
-	CM_SUBTITLE
+	CM_SUBTITLE,
+	CM_SKILL,
+	CM_TEXT,
+	CM_COOKIE,
+	CM_GOTKEY,
+	CM_NEEDKEY,
+	CM_SECRET,
+	CM_QUIT,
 };
 
 static const struct {
@@ -428,6 +435,14 @@ static const struct {
 	{ "cdatrack",    CM_CDATRACK },
 	{ "cdtrack",     CM_CDATRACK },
 	{ "subtitle",    CM_SUBTITLE },
+	{ "skill",       CM_SKILL    },
+	{ "text",        CM_TEXT     },
+	{ "cookie",      CM_COOKIE   },
+	{ "fortune",     CM_COOKIE   },
+	{ "gotkey",      CM_GOTKEY   },
+	{ "needkey",     CM_NEEDKEY  },
+	{ "secret",      CM_SECRET   },
+	{ "quit",        CM_QUIT     },
 };
 #define cm_numtokens (sizeof(cm_tokens)/sizeof(cm_tokens[0]))
 
@@ -454,10 +469,38 @@ static int cm_transtok(const char *tok)
 //   }
 //
 //   episode # {
-//      title "Episode Name"
+//      title    "Episode Name"
+//      subtitle "Caption text"
+//   }
+//
+//   skill # {
+//      name "Tiny grasshopper"
+//   }
+//
+//   text {
+//      fortune {
+//      	"You never going to score."
+//      	"26-31-43-82-16-29"
+//      	"Sorry, you no win this time, try again."
+//      }
+//      gotkey {
+//      	"Got the RED key!"
+//      	"Got the BLUE key!"
+//      	"Got the GREEN key!"
+//      }
+//      needkey {
+//      	"You need a RED key for this door."
+//      	"You need a BLUE key for this door."
+//      	"You need a GREEN key for this door."
+//      }
+//      secret  "You found a secret area!"
+//      quit    "PRESS (Y) TO QUIT, (N) TO FIGHT ON."
 //   }
 
 static LEVEL_INFO custommaps[MAX_LEVELS_REG];
+static char *customfortune[MAX_FORTUNES];
+static char *customkeymsg[MAX_KEYS];
+static CHARp customkeydoormsg[MAX_KEYS];
 
 // FIXME: yes, we are leaking memory here at the end of the program by not freeing anything
 void LoadCustomInfoFromScript(char *filename)
@@ -599,6 +642,119 @@ void LoadCustomInfoFromScript(char *filename)
 							EpisodeSubtitles[curmap][MAX_EPISODE_SUBTITLE_LEN+1] = 0;
 							break;
 						}
+						default:
+							initprintf("Error on line %s:%d\n",
+									script->filename,
+									scriptfile_getlinum(script,script->ltextptr));
+							break;
+					}
+				}
+				break;
+			}
+
+			case CM_SKILL:
+			{
+				char *epnumptr;
+				if (scriptfile_getnumber(script, &curmap)) break; epnumptr = script->ltextptr;
+				if (scriptfile_getbraces(script, &braceend)) break;
+
+				// first map file in LevelInfo[] is bogus, last map file is NULL
+				if (curmap < 1 || curmap > 4) {
+					initprintf("Error: skill number %d not in range 1-4 on line %s:%d\n",
+							curmap, script->filename,
+							scriptfile_getlinum(script,epnumptr));
+					script->textptr = braceend;
+					break;
+				}
+				curmap--;
+
+				while (script->textptr < braceend) {
+					if (!(token = scriptfile_gettoken(script))) break;
+					if (token == braceend) break;
+					switch (cm_transtok(token)) {
+						case CM_TITLE:
+						{
+							char *t;
+							if (scriptfile_getstring(script, &t)) break;
+
+							strncpy(&SkillNames[curmap][1], t, MAX_SKILL_NAME_LEN);
+							SkillNames[curmap][MAX_SKILL_NAME_LEN+1] = 0;
+							break;
+						}
+						default:
+							initprintf("Error on line %s:%d\n",
+									script->filename,
+									scriptfile_getlinum(script,script->ltextptr));
+							break;
+					}
+				}
+				break;
+			}
+
+			case CM_TEXT:
+			{
+				if (scriptfile_getbraces(script, &braceend)) break;
+
+				while (script->textptr < braceend) {
+					if (!(token = scriptfile_gettoken(script))) break;
+					if (token == braceend) break;
+					switch (cm_transtok(token)) {
+						case CM_COOKIE:
+						{
+							char *t,*fortuneend;
+							int fc = 0;
+
+							if (scriptfile_getbraces(script, &fortuneend)) break;
+
+							while (script->textptr < fortuneend) {
+								if (scriptfile_getstring(script, &t)) break;
+
+								if (fc == MAX_FORTUNES) continue;
+
+								customfortune[fc] = strdup(t);
+								if (customfortune[fc]) ReadFortune[fc] = customfortune[fc];
+								fc++;
+							}
+							break;
+						}
+						case CM_GOTKEY:
+						{
+							char *t,*keyend;
+							int fc = 0;
+
+							if (scriptfile_getbraces(script, &keyend)) break;
+
+							while (script->textptr < keyend) {
+								if (scriptfile_getstring(script, &t)) break;
+
+								if (fc == MAX_KEYS) continue;
+
+								customkeymsg[fc] = strdup(t);
+								if (customkeymsg[fc]) KeyMsg[fc] = customkeymsg[fc];
+								fc++;
+							}
+							break;
+						}
+						case CM_NEEDKEY:
+						{
+							char *t,*keyend;
+							int fc = 0;
+
+							if (scriptfile_getbraces(script, &keyend)) break;
+
+							while (script->textptr < keyend) {
+								if (scriptfile_getstring(script, &t)) break;
+
+								if (fc == MAX_KEYS) continue;
+
+								customkeydoormsg[fc] = strdup(t);
+								if (customkeydoormsg[fc]) KeyDoorMessage[fc] = customkeydoormsg[fc];
+								fc++;
+							}
+							break;
+						}
+						case CM_SECRET:
+						case CM_QUIT:
 						default:
 							initprintf("Error on line %s:%d\n",
 									script->filename,

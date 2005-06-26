@@ -1009,11 +1009,21 @@ char *ParTime;
 
 extern LEVEL_INFO LevelInfo[MAX_LEVELS_REG+2];
 
-#define MAX_EPISODE_NAME_LEN 18
+#define MAX_EPISODE_NAME_LEN 24
 extern char EpisodeNames[2][MAX_EPISODE_NAME_LEN+2];	// +2 = leading '^' and trailing NULL
 
 #define MAX_EPISODE_SUBTITLE_LEN 40
 extern char EpisodeSubtitles[2][MAX_EPISODE_SUBTITLE_LEN+1];
+
+#define MAX_SKILL_NAME_LEN 24
+extern char SkillNames[4][MAX_SKILL_NAME_LEN+2];
+
+#define MAX_FORTUNES 16
+extern char *ReadFortune[MAX_FORTUNES];
+
+#define MAX_KEYS 8
+extern char *KeyMsg[MAX_KEYS];
+extern CHARp KeyDoorMessage[MAX_KEYS];
 
 typedef struct 
     {

@@ -5472,7 +5472,7 @@ void ChoosePlayerGetSound(PLAYERp pp)
     PlayerSound(PlayerGetItemVocs[choose_snd],&pp->posx,&pp->posy,&pp->posz,v3df_follow|v3df_dontpan,pp);
 }
     
-#define MAX_FORTUNES 16
+//#define MAX_FORTUNES 16
 // With PLOCK on, max = 11
 char *ReadFortune[MAX_FORTUNES] = {
     "You never going to score.",
@@ -5529,7 +5529,7 @@ BOOL CanGetWeapon(PLAYERp pp, short SpriteNum, long WPN)
     return(TRUE);       
     }    
 
-char *KeyMsg[] = {    
+char *KeyMsg[MAX_KEYS] = {    
 "Got the RED key!",
 "Got the BLUE key!",
 "Got the GREEN key!",

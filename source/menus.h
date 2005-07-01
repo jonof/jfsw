@@ -173,7 +173,7 @@ typedef enum
     sldr_none,
     sldr_mouse, sldr_sndfxvolume, sldr_musicvolume, sldr_scrsize, sldr_brightness, 
     sldr_bordertile, sldr_gametype, sldr_netlevel, sldr_monsters, sldr_killlimit,
-    sldr_timelimit, sldr_playercolor, sldr_max
+    sldr_timelimit, sldr_playercolor, sldr_videores, sldr_videobpp, sldr_max
     } SLDRType;
 
 
@@ -210,6 +210,7 @@ typedef enum
     btn_res0, btn_res1, btn_res2, btn_res3, btn_res4, btn_res5, btn_res6,
     btn_markers, btn_teamplay, btn_friendlyfire,btn_parental,btn_nuke,
     btn_voxels, btn_stats, btn_playcd,
+    btn_videofs,
     btn_max
     } BTNType;
 

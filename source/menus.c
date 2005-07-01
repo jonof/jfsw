@@ -144,7 +144,8 @@ int slidersettings [sldr_max] =
     {
     0, SENSE_DEFAULT, FXVOL_DEFAULT, MUSIC_DEFAULT, SCRSIZE_DEFAULT,
         BRIGHTNESS_DEFAULT, BORDERTILE_DEFAULT, GAMETYPE_DEFAULT, NETLEVEL_DEFAULT,
-        MONSTERS_DEFAULT, KILLLIMIT_DEFAULT, TIMELIMIT_DEFAULT, PLAYERCOLOR_DEFAULT
+        MONSTERS_DEFAULT, KILLLIMIT_DEFAULT, TIMELIMIT_DEFAULT, PLAYERCOLOR_DEFAULT,
+	0,0,	// video mode
     };
     
 short buttonsettings[btn_max];
@@ -165,16 +166,53 @@ char playerbuflen = 0;                  // Current length of the string in
                                         // the buffer
 char maxtextlen;                        // max length allowed for current
 
-VMODE vmode[7] = 
+static struct { int xdim,ydim; } validresolutions[MAXVALIDMODES];
+static int numvalidresolutions = 0, validbpps[8], numvalidbpps = 0;
+
+static void UpdateValidModes(int bpp, int fs)
 {
-{300,200},
-{640,400},
-{640,480},
-{800,600},
-{1024,768},
-{1280,1024},
-{1600,1200},
-};
+	int i, j;
+
+	numvalidresolutions = numvalidbpps = 0;
+	for (i=0; i<validmodecnt; i++) {
+		if ((validmode[i].fs & 1) != fs) continue;
+		
+		for (j=0; j<numvalidbpps; j++)
+			if (validbpps[j] == validmode[i].bpp) break;
+		if (j==numvalidbpps) validbpps[numvalidbpps++] = validmode[i].bpp;
+
+		if (validmode[i].bpp != bpp) continue;
+
+		validresolutions[numvalidresolutions].xdim = validmode[i].xdim;
+		validresolutions[numvalidresolutions].ydim = validmode[i].ydim;
+		numvalidresolutions++;
+	}
+}
+static BOOL ApplyModeSettings(void)
+{
+	int lastx, lasty, lastbpp, lastfs;
+	int newx, newy, newbpp, newfs;
+
+	lastx = xdim; lasty = ydim; lastbpp = bpp; lastfs = fullscreen;
+	newx   = validresolutions[ slidersettings[sldr_videores] ].xdim;
+	newy   = validresolutions[ slidersettings[sldr_videores] ].ydim;
+	newbpp = validbpps[ slidersettings[sldr_videobpp] ];
+	newfs  = buttonsettings[btn_videofs];
+
+	if (lastx == newx && lasty == newy && lastbpp == newbpp && lastfs == newfs) return FALSE;
+
+	if (setgamemode(newfs, newx, newy, newbpp))
+		setgamemode(lastfs, lastx, lasty, lastbpp);
+	else {
+		extern int32 ScreenMode,ScreenWidth,ScreenHeight,ScreenBPP;	// Because I'm too lazy to include config.h
+		ScreenMode = newfs;
+		ScreenWidth = newx;
+		ScreenHeight = newy;
+		ScreenBPP = newbpp;
+	}
+	return FALSE;
+}
+
 
 MenuItem sound_i[] =
 {
@@ -212,8 +250,15 @@ MenuItem screen_i[] =
     {DefSlider(sldr_bordertile, 0, "Border Tile"), OPT_XS,       OPT_LINE(1), 1, m_defshade, 0, NULL, NULL, NULL},//, MNU_BorderCheck},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(1), 0, m_defshade, 0, NULL, NULL, NULL},
 
-    {DefSlider(sldr_brightness, KEYSC_B, "Brightness"), OPT_XS,     OPT_LINE(2), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefSlider(sldr_brightness, KEYSC_B, "Brightness"), OPT_XS,  OPT_LINE(2), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(2), 0, m_defshade, 0, NULL, NULL, NULL},
+
+    {DefButton(btn_videofs, 0, "Fullscreen"), OPT_XS,            OPT_LINE(4), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefSlider(sldr_videobpp, 0, "Colour"), OPT_XS,              OPT_LINE(5), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(5), 0, m_defshade, 0, NULL, NULL, NULL},
+    {DefSlider(sldr_videores, 0, "Resolution"), OPT_XS,          OPT_LINE(6), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(6), 0, m_defshade, 0, NULL, NULL, NULL},
+    {DefOption(0, "Apply Settings"), OPT_XSIDE,                  OPT_LINE(8), 1, m_defshade, 0, ApplyModeSettings, NULL, NULL},
     {DefNone}
     };
 
@@ -1190,6 +1235,23 @@ MNU_InitMenus(void)
     slidersettings[sldr_scrsize] = gs.BorderNum;
     slidersettings[sldr_brightness] = gs.Brightness;
     slidersettings[sldr_bordertile] = gs.BorderTile;
+
+    {
+	int i,newx=xdim,newy=ydim;
+
+	buttonsettings[btn_videofs] = fullscreen;
+
+	UpdateValidModes(bpp,fullscreen);
+	for (i=0; i<numvalidbpps; i++)
+		if (validbpps[i] == bpp)
+			slidersettings[sldr_videobpp] = i;
+	
+	i = checkvideomode(&newx, &newy, bpp, fullscreen);
+	if (i != 0x7fffffff && i >= 0)
+		for (i=0; i<numvalidresolutions; i++)
+			if (validresolutions[i].xdim == newx && validresolutions[i].ydim == newy)
+				slidersettings[sldr_videores] = i;
+    }
     
     buttonsettings[btn_auto_run] = gs.AutoRun;
     buttonsettings[btn_auto_aim] = gs.AutoAim;
@@ -2510,6 +2572,39 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
             }
             break;
 
+	case btn_videofs:
+	    {
+		int lastx, lasty, lastbpp, newoffset, i;
+
+		state = buttonsettings[btn_videofs];
+
+		lastx   = validresolutions[ slidersettings[sldr_videores] ].xdim;
+		lasty   = validresolutions[ slidersettings[sldr_videores] ].ydim;
+		lastbpp = validbpps[ slidersettings[sldr_videobpp] ];
+		UpdateValidModes(lastbpp, buttonsettings[btn_videofs]);
+
+		// check if the last bpp is still a valid choice
+		for (i=0; i<numvalidbpps; i++)
+			if (validbpps[i] == lastbpp) break;
+		if (i == numvalidbpps) {
+			// it wasn't
+			slidersettings[sldr_videobpp] = 0;
+			lastbpp = validbpps[0];
+			UpdateValidModes(lastbpp, buttonsettings[btn_videofs]);
+		} else {
+			slidersettings[sldr_videobpp] = i;
+		}
+
+		// find the nearest resolution to the one last selected
+		newoffset = 0;
+		for (i=0; i<numvalidresolutions; i++) {
+			if (abs(lastx * lasty - validresolutions[i].xdim         * validresolutions[i].ydim) <
+			    abs(lastx * lasty - validresolutions[newoffset].xdim * validresolutions[newoffset].ydim))
+				newoffset = i;
+		}
+		slidersettings[sldr_videores] = newoffset;
+	    } break;
+
         default:
             state = buttonsettings[item->button];
             break;
@@ -2739,7 +2834,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
         // Show the currently selected level on next line
         //extra_text = MNU_LevelName[offset];
         //MNU_DrawString(OPT_XS, item->y+10, extra_text, 1, 16);
-	sprintf(tmp_text, "L%02: %s", offset+1, LevelInfo[offset+1].Description);
+	sprintf(tmp_text, "L%02d: %s", offset+1, LevelInfo[offset+1].Description);
         MNU_DrawString(OPT_XS, item->y+10, tmp_text, 1, 16);
         gs.NetLevel = offset;
         break;
@@ -2823,6 +2918,50 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
         MNU_DrawString(OPT_XSIDE+78, item->y, extra_text, 1, PALETTE_PLAYER0+offset);
         gs.NetColor = offset;
         break;
+
+    case sldr_videores:
+	{
+		offset = max(0,min(slidersettings[sldr_videores] + dir, numvalidresolutions-1));
+		barwidth = numvalidresolutions;
+
+		if (TEST(item->flags, mf_disabled))
+			break;
+
+		slidersettings[sldr_videores] = offset;
+
+		sprintf(tmp_text, "%dx%d", validresolutions[offset].xdim, validresolutions[offset].ydim);
+		MNU_DrawString(OPT_XSIDE, item->y+OPT_YINC, tmp_text, 1, 16);
+	} break;
+
+    case sldr_videobpp:
+	{
+		offset = max(0,min(slidersettings[sldr_videobpp] + dir, numvalidbpps-1));
+		barwidth = numvalidbpps;
+
+		if (TEST(item->flags, mf_disabled))
+			break;
+
+		if (slidersettings[sldr_videobpp] != offset) {
+			int lastx, lasty, newoffset, i;
+			
+			slidersettings[sldr_videobpp] = offset;
+
+			// find the nearest resolution to the one last selected
+			lastx = validresolutions[ slidersettings[sldr_videores] ].xdim;
+			lasty = validresolutions[ slidersettings[sldr_videores] ].ydim;
+			UpdateValidModes(validbpps[offset], buttonsettings[btn_videofs]);
+			newoffset = 0;
+			for (i=0; i<numvalidresolutions; i++) {
+				if (abs(lastx * lasty - validresolutions[i].xdim         * validresolutions[i].ydim) <
+				    abs(lastx * lasty - validresolutions[newoffset].xdim * validresolutions[newoffset].ydim))
+					newoffset = i;
+			}
+			slidersettings[sldr_videores] = newoffset;
+		}
+
+		sprintf(tmp_text, "%d bpp", validbpps[offset]);
+		MNU_DrawString(OPT_XSIDE+tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(barwidth+1)*tilesizx[pic_slidebar], item->y, tmp_text, 1, 16);
+	} break;
 
     default:
         return;

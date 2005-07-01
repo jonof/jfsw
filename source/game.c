@@ -3490,7 +3490,7 @@ long app_main(long argc, char *argv[])
 
 #ifdef RENDERTYPEWIN
 	if (win_checkinstance()) {
-		if (!wm_ynbox("Duke Nukem 3D","Another Build game is currently running. "
+		if (!wm_ynbox("Shadow Warrior","Another Build game is currently running. "
 					"Do you wish to continue starting this copy?"))
 			return 0;
 	}

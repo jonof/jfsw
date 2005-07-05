@@ -282,7 +282,7 @@ long MultiClipMove(PLAYERp pp, long z, long floor_dist)
     USERp u = User[sp - sprite];
     SECTOR_OBJECTp sop = pp->sop;
     short ang;
-    short min_ndx;
+    short min_ndx = 0;
     long min_dist = 999999;
     long dist;
     

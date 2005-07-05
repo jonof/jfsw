@@ -119,7 +119,7 @@ WarpToArea(SPRITEp sp_from, LONGp x, LONGp y, LONGp z, SHORTp sectnum)
     short i, nexti;
     SPRITEp sp = sp_from;
     short match;
-    short to_tag;
+    short to_tag = 0;
     short match_rand[16];
     long z_adj = 0;
 

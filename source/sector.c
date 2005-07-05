@@ -1580,7 +1580,7 @@ VOID DoDeleteSpriteMatch(short match)
         STAT_FAF
         };
         
-    long del_x,del_y;    
+    long del_x = 0,del_y = 0;
     short i,nexti;  
     unsigned stat;
     short found;

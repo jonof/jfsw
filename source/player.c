@@ -4921,7 +4921,7 @@ DoPlayerWarpToUnderwater(PLAYERp pp)
     SPRITEp sp = &sprite[pp->PlayerSprite];
     short i, nexti;
     SECT_USERp sectu = SectUser[pp->cursectnum];
-    SPRITEp under_sp, over_sp;
+    SPRITEp under_sp = NULL, over_sp = NULL;
     char Found = FALSE;
     short over, under;
     
@@ -4999,7 +4999,7 @@ DoPlayerWarpToSurface(PLAYERp pp)
     SECT_USERp sectu = SectUser[pp->cursectnum];
     short over, under;
 
-    SPRITEp under_sp, over_sp;
+    SPRITEp under_sp = NULL, over_sp = NULL;
     char Found = FALSE;
     
     if (Prediction)
@@ -8285,7 +8285,7 @@ PlayerSpawnPosition(PLAYERp pp)
     {
     SPRITEp sp;
     short pnum = pp - Player;
-    short spawn_sprite, pos_num = pnum;
+    short spawn_sprite = 0, pos_num = pnum;
     long fz,cz;
     int i;
     

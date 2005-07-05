@@ -743,7 +743,7 @@ int LoadGame(short save_num)
     MFILE fil;
     long i,j,saveisshot=0;
     short ndx,SpriteNum,sectnum;
-    PLAYERp pp;
+    PLAYERp pp = NULL;
     SPRITEp sp;
     USERp u;
     SECTOR_OBJECTp sop;

@@ -1722,7 +1722,7 @@ pStarRestTest(PANEL_SPRITEp psp)
 VOID
 InitWeaponStar(PLAYERp pp)
     {
-    PANEL_SPRITEp psp;
+    PANEL_SPRITEp psp = NULL;
 
     if (Prediction)
         return;
@@ -2359,7 +2359,7 @@ VOID
 InitWeaponUzi(PLAYERp pp)
     {
     PANEL_SPRITEp InitWeaponUzi2(PANEL_SPRITEp);
-    PANEL_SPRITEp psp;
+    PANEL_SPRITEp psp = NULL;
 
     if (Prediction)
         return;
@@ -3085,7 +3085,7 @@ PANEL_STATE ps_RetractShotgun[] = {
 VOID
 InitWeaponShotgun(PLAYERp pp)
     {
-    PANEL_SPRITEp psp;
+    PANEL_SPRITEp psp = NULL;
     
     if (Prediction)
         return;
@@ -3582,7 +3582,7 @@ static int railvochandle=0;
 VOID
 InitWeaponRail(PLAYERp pp)
     {
-    PANEL_SPRITEp psp;
+    PANEL_SPRITEp psp = NULL;
     
     if (SW_SHAREWARE) return;
     
@@ -4013,7 +4013,7 @@ pHotHeadOverlays(PANEL_SPRITEp psp, short mode)
 VOID
 InitWeaponHothead(PLAYERp pp)
     {
-    PANEL_SPRITEp psp;
+    PANEL_SPRITEp psp = NULL;
     
     if (SW_SHAREWARE) return;
     
@@ -7095,7 +7095,7 @@ pDisplaySprites(PLAYERp pp)
     {
     USERp u = User[pp->PlayerSprite];
     PANEL_SPRITEp psp=NULL, next=NULL;
-    short shade, picnum, overlay_shade;
+    short shade, picnum, overlay_shade = 0;
     char KenFlags;
     long x, y;
     long smoothratio;

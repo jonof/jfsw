@@ -946,7 +946,7 @@ InitRipperHang(short SpriteNum)
     short hitsprite = -2, hitsect = -2;
     long hitx, hity, hitz;
 
-    BOOL Found;
+    BOOL Found = FALSE;
     short dang, tang;
 
     for (dang = 0; dang < 2048; dang += 128)

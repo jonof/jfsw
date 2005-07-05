@@ -155,7 +155,7 @@ FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
     {
     long loz, hiz;
     short newsectnum = sectnum;
-    long startclipmask;
+    long startclipmask = 0;
     BOOL plax_found = FALSE;
     long sx,sy,sz;
 
@@ -935,10 +935,10 @@ GetUpperLowerSector(short match, long x, long y, short *upper, short *lower)
 BOOL 
 FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     {
-    long xoff;
-    long yoff;
+    long xoff = 0;
+    long yoff = 0;
     short i, nexti;
-    SPRITEp sp;
+    SPRITEp sp = NULL;
     short top_sprite = -1;
     long pix_diff;
     long newz;
@@ -1023,10 +1023,10 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
 BOOL 
 FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     {
-    long xoff;
-    long yoff;
+    long xoff = 0;
+    long yoff = 0;
     short i, nexti;
-    SPRITEp sp;
+    SPRITEp sp = NULL;
     long newz;
     long pix_diff;
 

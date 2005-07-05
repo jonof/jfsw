@@ -466,9 +466,9 @@ DoMotionBlur(SPRITEp tsp)
     {
     SPRITEp new;
     USERp tu = User[tsp->owner];
-    long nx,ny,nz,dx,dy,dz;
+    long nx,ny,nz = 0,dx,dy,dz;
     short i, ang;
-    short xrepeat, yrepeat, repeat_adj;
+    short xrepeat, yrepeat, repeat_adj = 0;
     long z_amt_per_pixel;
 
     ang = NORM_ANGLE(tsp->ang + 1024);

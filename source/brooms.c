@@ -454,10 +454,10 @@ GetUpperLowerSector(short match, long x, long y, short *upper, short *lower)
 BOOL 
 FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     {
-    long xoff;
-    long yoff;
+    long xoff = 0;
+    long yoff = 0;
     short i, nexti;
-    SPRITEp sp;
+    SPRITEp sp = NULL;
     short top_sprite = -1;
     long pix_diff;
     long newz;
@@ -544,10 +544,10 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
 BOOL 
 FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     {
-    long xoff;
-    long yoff;
+    long xoff = 0;
+    long yoff = 0;
     short i, nexti;
-    SPRITEp sp;
+    SPRITEp sp = NULL;
     long newz;
     long pix_diff;
 

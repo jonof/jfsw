@@ -680,7 +680,7 @@ PlaySound(int num, long *x, long *y, long *z, Voc3D_Flags flags)
     {
     VOC_INFOp vp;
     VOC3D_INFOp v3p;
-    int pitch;
+    int pitch = 0;
     short angle, sound_dist;
     long tx, ty, tz;
     BYTE priority;

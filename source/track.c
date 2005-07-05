@@ -130,8 +130,8 @@ ActorFindTrack(short SpriteNum, CHAR player_dir, long track_type, short *track_p
     short i;
     short end_point[2] = {0,0};
 
-    TRACKp t, near_track;
-    TRACK_POINTp tp, near_tp;
+    TRACKp t, near_track = NULL;
+    TRACK_POINTp tp, near_tp = NULL;
 
 #define TOWARD_PLAYER 1
 #define AWAY_FROM_PLAYER -1
@@ -1465,7 +1465,7 @@ PlaceSectorObjectsOnTracks(VOID)
         {
         long low_dist = 999999, dist;
         SECTOR_OBJECTp sop = &SectorObject[i];
-        TRACK_POINTp tpoint;
+        TRACK_POINTp tpoint = NULL;
         short spnum, next_spnum;
 
         if (sop->xmid == MAXLONG)
@@ -1538,7 +1538,7 @@ PlaceActorsOnTracks(VOID)
     short i, nexti, j, tag, htag, new_ang;
     SPRITEp sp;
     USERp u;
-    TRACK_POINTp tpoint;
+    TRACK_POINTp tpoint = NULL;
 
     // place each actor on the track
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_ENEMY], i, nexti)

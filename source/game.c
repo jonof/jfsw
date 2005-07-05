@@ -2767,7 +2767,7 @@ StatScreen(PLAYERp mpp)
     long handle=0;
     
     short rows,cols,i,j;
-    PLAYERp pp;
+    PLAYERp pp = NULL;
     long x,y;
     short death_total[MAX_SW_PLAYERS_REG];
     short kills[MAX_SW_PLAYERS_REG];
@@ -3484,7 +3484,7 @@ long app_main(long argc, char *argv[])
     extern long MovesPerPacket;
     VOID DoSector(VOID);
     VOID gameinput(VOID);
-    int cnt;
+    int cnt = 0;
     ULONG TotalMemory;
     char *grpfile = "sw.grp";
 

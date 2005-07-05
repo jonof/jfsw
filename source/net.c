@@ -568,10 +568,10 @@ BOOL MyCommPlayerQuit(void)
 {
     PLAYERp pp;
     short i;
-    short prev_player;
+    short prev_player = 0;
     extern BOOL QuitFlag;
     short found = FALSE;
-    short quit_player_index;
+    short quit_player_index = 0;
     
     TRAVERSE_CONNECT(i)
         {
@@ -651,7 +651,7 @@ BOOL MenuCommPlayerQuit(short quit_player)
 {
     PLAYERp pp;
     short i;
-    short prev_player;
+    short prev_player = 0;
     short pnum;
     
     // tell everyone else you left the game

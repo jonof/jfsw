@@ -3181,7 +3181,7 @@ SpawnShrap(short ParentNum, short Secondary)
         };
 
     long hz[3];
-    short dang;
+    short dang = 0;
 
     //SHRAPp p = StdShrap;
     SHRAPp p = SmallGore;
@@ -3194,7 +3194,7 @@ SpawnShrap(short ParentNum, short Secondary)
     long shrap_z = 0;
     long nx,ny;
     short jump_grav = ACTOR_GRAVITY;
-    short start_ang;
+    short start_ang = 0;
     short shrap_owner = -1;
     long shrap_bounce = FALSE;
     short WaitTics = 64; // for FastShrap
@@ -4172,7 +4172,7 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
         };
 
     long hz;
-    short dang;
+    short dang = 0;
 
     SHRAPp p = UziBlood;
     short shrap_shade = -15;
@@ -4180,7 +4180,7 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
     short retval = TRUE;
     short shrap_pal = PALETTE_DEFAULT;
     long shrap_z = 0;
-    short start_ang;
+    short start_ang = 0;
 
     u = User[SpriteNum];
 
@@ -11380,7 +11380,7 @@ SpawnNuclearExp(SHORT Weapon)
     SPRITEp exp;
     USERp eu;
     short explosion,ang=0;
-    PLAYERp pp;
+    PLAYERp pp = NULL;
     short rnd_rng;
 
     ASSERT(u);
@@ -13909,7 +13909,7 @@ int
 InitSwordAttack(PLAYERp pp)
     {
     USERp u = User[pp->PlayerSprite],tu;
-    SPRITEp sp;
+    SPRITEp sp = NULL;
     short i, nexti;
     unsigned stat;
     long dist;
@@ -14088,7 +14088,7 @@ int
 InitFistAttack(PLAYERp pp)
     {
     USERp u = User[pp->PlayerSprite],tu;
-    SPRITEp sp;
+    SPRITEp sp = NULL;
     short i, nexti;
     unsigned stat;
     long dist;
@@ -17332,7 +17332,7 @@ GenerateDrips(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum], wp;
     USERp u = User[SpriteNum], wu;
     long nx, ny, nz, dist, nang;
-    short hitsprite, w;
+    short hitsprite, w = 0;
 
     if ((u->WaitTics-=ACTORMOVETICS) <= 0)
         {
@@ -19886,7 +19886,7 @@ InitFireball(PLAYERp pp)
 int
 InitEnemyFireball(short SpriteNum)
     {
-    SPRITEp sp = User[SpriteNum]->SpriteP, fp;
+    SPRITEp sp = User[SpriteNum]->SpriteP, fp = NULL;
     USERp u = User[SpriteNum], fu;
     SPRITEp wp;
     long nz, dist;
@@ -19984,7 +19984,7 @@ WarpToUnderwater(short *sectnum, long *x, long *y, long *z)
     {
     short i, nexti;
     SECT_USERp sectu = SectUser[*sectnum];
-    SPRITEp under_sp, over_sp;
+    SPRITEp under_sp = NULL, over_sp = NULL;
     char Found = FALSE;
     short over, under;
     long sx, sy;
@@ -20059,7 +20059,7 @@ WarpToSurface(short *sectnum, long *x, long *y, long *z)
     short over, under;
     long sx, sy;
 
-    SPRITEp under_sp, over_sp;
+    SPRITEp under_sp = NULL, over_sp = NULL;
     char Found = FALSE;
 
     // 0 not valid for water match tags
@@ -20129,7 +20129,7 @@ SpriteWarpToUnderwater(SPRITEp sp)
     USERp u = User[sp - sprite];
     short i, nexti;
     SECT_USERp sectu = SectUser[sp->sectnum];
-    SPRITEp under_sp, over_sp;
+    SPRITEp under_sp = NULL, over_sp = NULL;
     char Found = FALSE;
     short over, under;
     long sx, sy;
@@ -20210,7 +20210,7 @@ SpriteWarpToSurface(SPRITEp sp)
     short over, under;
     long sx, sy;
 
-    SPRITEp under_sp, over_sp;
+    SPRITEp under_sp = NULL, over_sp = NULL;
     char Found = FALSE;
 
     // 0 not valid for water match tags

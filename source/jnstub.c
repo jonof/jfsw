@@ -1048,7 +1048,7 @@ Keys3D(VOID)
     // Works for walls, sectors, or sprites.
     if (keystatus[KEYSC_QUOTE] && keystatus[KEYSC_C])   // ' C
         {
-        short searchpicnum;
+        short searchpicnum = 0;
         short w, start_wall, end_wall, currsector;
 
         keystatus[KEYSC_C] = 0;
@@ -3196,7 +3196,7 @@ AdjustShade(void)
     if (highlightsectorcnt > -1)
         {
         short startwall, endwall;
-        short i, j;
+        short i, j = 0;
 
         for (i = 0; i < highlightsectorcnt; i++)
             {

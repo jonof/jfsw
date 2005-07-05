@@ -663,7 +663,7 @@ SectorSetup(VOID)
 
                 // setup the sintable_ndx based on the actual number of
                 // sectors (swf_ndx)
-                for (swf = &SineWaveFloor[NextSineWave][0], cnt = 0; swf->sector >= 0 && swf < &SineWaveFloor[SIZ(SineWaveFloor)]; swf++, cnt++)
+                for (swf = &SineWaveFloor[NextSineWave][0], cnt = 0; swf->sector >= 0 && swf < (SINE_WAVE_FLOORp)&SineWaveFloor[SIZ(SineWaveFloor)]; swf++, cnt++)
                     {
                     if (peak_dist)
                         swf->sintable_ndx = cnt * (2048 / peak_dist);
@@ -773,7 +773,7 @@ DoSpringBoard(PLAYERp pp, short sectnum)
 VOID
 DoSpringBoardDown(VOID)
     {
-    int sb;
+    unsigned sb;
     SPRING_BOARD *sbp;
 
     for (sb = 0; sb < SIZ(SpringBoard); sb++)
@@ -1191,7 +1191,7 @@ DoExplodeSector(short match)
             continue;
             
         if (!User[cf])
-            u = SpawnUser(cf, NULL, NULL);
+            u = SpawnUser(cf, 0, NULL);
             
         sectp = &sector[esp->sectnum];
         
@@ -1521,7 +1521,7 @@ WeaponExplodeSectorInRange(short weapon)
             
         radius = (((long)sp->clipdist) << 2) * 8;
         
-        if (dist > (wu->Radius/2) + radius)
+        if ((unsigned long)dist > (wu->Radius/2) + radius)
             continue;
         
         if (!FAFcansee(wp->x,wp->y,wp->z,wp->sectnum,sp->x,sp->y,sp->z,sp->sectnum))    
@@ -1582,7 +1582,7 @@ VOID DoDeleteSpriteMatch(short match)
         
     long del_x,del_y;    
     short i,nexti;  
-    short stat;
+    unsigned stat;
     short found;
     
     while(TRUE)
@@ -2752,7 +2752,7 @@ PlayerOperateEnv(PLAYERp pp)
             if (!found)        
                 {
                 long z[3];
-                int i;
+                unsigned i;
                 NEAR_TAG_INFO nti[16];
                 short nt_ndx;
 

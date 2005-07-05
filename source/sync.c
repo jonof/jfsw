@@ -395,7 +395,7 @@ SyncStatMessage(void)
                 { 
                 sprintf(ds, "FIRST %s", sync_first[i]);
                 printext256(50L, 0L, 1, 31, ds, 0);
-                sprintf(ds, "MoveCount %d",MoveCount);
+                sprintf(ds, "MoveCount %lu",MoveCount);
                 printext256(50L, 10L, 1, 31, ds, 0);
                 }
             else
@@ -528,7 +528,7 @@ demosync_test(long cnt)
             {
             TerminateLevel();
             TerminateGame();
-            printf("Demo out of sync - Sync Byte Number %d - Iteration %d.", i, cnt);
+            printf("Demo out of sync - Sync Byte Number %ld - Iteration %ld.", i, cnt);
             exit(0);
             }
         }

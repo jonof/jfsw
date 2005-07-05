@@ -154,7 +154,7 @@ short netgetpacket(long *ind, char *buf)
 long EncodeBits(SW_PACKET *pak, SW_PACKET *old_pak, char *buf)
     {
     char *base_ptr = buf;
-    long i;
+    unsigned i;
     
     // skipping the bits field sync test fake byte (Ed. Ken)
     *buf = 0;
@@ -214,7 +214,7 @@ long EncodeBits(SW_PACKET *pak, SW_PACKET *old_pak, char *buf)
 long DecodeBits(SW_PACKET *pak, SW_PACKET *old_pak, char *buf)
     {
     char *base_ptr = buf;
-    long i;
+    unsigned i;
     
     // skipping the bits field sync test fake byte (Ed. Ken)
     buf++;
@@ -333,7 +333,7 @@ InitNetPlayerOptions(VOID)
 
     // if you don't have a name :(
     if (!CommPlayerName[0])
-        sprintf(CommPlayerName, "PLAYER %d", myconnectindex + 1);
+        sprintf(CommPlayerName, "PLAYER %ld", myconnectindex + 1);
 
     Bstrupr(CommPlayerName);
     strcpy(pp->PlayerName, CommPlayerName);

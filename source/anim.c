@@ -390,7 +390,7 @@ ENDOFANIMLOOP:
     clearview(0);
     nextpage();
     palookup[0] = palook_bak;
-    setbrightness(gs.Brightness, palette_data, 2);
+    setbrightness(gs.Brightness, (char*)palette_data, 2);
     
     KB_FlushKeyboardQueue();    
     KB_ClearKeysDown();    

@@ -45,7 +45,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "menus.h"
 
 
-DFILE DemoFileIn;
+DFILE DemoFileIn = DF_ERR;
 FILE *DemoFileOut;
 BOOL DemoPlaying = FALSE;
 BOOL DemoRecording = FALSE;
@@ -359,11 +359,11 @@ DemoTerm(VOID)
 
     if (DemoPlaying)
         {
-        if (DemoFileIn == NULL)
+        if (DemoFileIn == DF_ERR)
             return;
             
         DCLOSE(DemoFileIn);
-        DemoFileIn = NULL;
+        DemoFileIn = DF_ERR;
         }
 
     if (DemoSyncTest||DemoSyncRecord)

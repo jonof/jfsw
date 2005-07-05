@@ -108,7 +108,7 @@ VOID WeaponCheat(PLAYERp pp, char *cheat_string)
     {
     PLAYERp p;
     short pnum;
-    short i;
+    unsigned int i;
     USERp u;
 
     TRAVERSE_CONNECT(pnum)
@@ -117,11 +117,10 @@ VOID WeaponCheat(PLAYERp pp, char *cheat_string)
         u = User[p->PlayerSprite];
 
         // ALL WEAPONS
-        if (!SW_SHAREWARE) {
-        p->WpnFlags = 0xFFFFFFFF;
-	} else {
-        p->WpnFlags = 0x0000207F;  // Disallows high weapon cheat in shareware
-	}
+        if (!SW_SHAREWARE)
+            p->WpnFlags = 0xFFFFFFFF;
+	else
+            p->WpnFlags = 0x0000207F;  // Disallows high weapon cheat in shareware
 
         for (i = 0; i < SIZ(p->WpnAmmo); i++)
             {
@@ -267,7 +266,7 @@ int cheatcmp(char *str1, char *str2, long len)
         {
         if (*cp1 != *cp2)
             {
-            if (! (*cp1 == '#' && isdigit(*cp2) || *cp2 == '#' && isdigit(*cp1)) )
+            if (! ((*cp1 == '#' && isdigit(*cp2)) || (*cp2 == '#' && isdigit(*cp1))) )
                 return(-1);
             }
             
@@ -318,7 +317,7 @@ void CheatInput(void)
     static BOOL cur_show;
     int ret;
     BOOL match = FALSE;
-    short i;
+    unsigned int i;
 
     //if (CommEnabled)
     //    return;

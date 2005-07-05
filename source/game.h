@@ -59,7 +59,7 @@ extern char isShareware;
     void _Assert(char *, char *, unsigned);
     #define ASSERT(f) \
         if (f)        \
-        ;         \
+        do { } while(0);         \
         else          \
         _Assert(#f,ERR_STD_ARG);
         
@@ -82,13 +82,13 @@ extern char isShareware;
     
     #define RANDOM_DEBUG 1 // Set this to 1 for network testing.
 #else        
-    #define ASSERT(f)
+    #define ASSERT(f) do { } while(0)
     #define MONO_PRINT(str)
     
     void _Assert(char *, char *, unsigned);
     #define PRODUCTION_ASSERT(f) \
         if (f)        \
-        ;         \
+        do { } while(0);         \
         else          \
         _Assert(#f,ERR_STD_ARG);
     
@@ -1821,7 +1821,7 @@ typedef struct
     
 #define MAX_TARGET_SORT 16    
 extern TARGET_SORT TargetSort[MAX_TARGET_SORT];
-extern short TargetSortCount;
+extern unsigned TargetSortCount;
     
 enum DoorType
     {

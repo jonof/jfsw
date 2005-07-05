@@ -275,9 +275,9 @@ int SaveGame(short save_num)
         pp->InventorySelectionBox = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->InventorySelectionBox);
         pp->MiniBarHealthBox = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->MiniBarHealthBox);
         pp->MiniBarAmmo = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->MiniBarAmmo);
-        for (ndx = 0; ndx < SIZ(pp->MiniBarHealthBoxDigit); ndx++)
+        for (ndx = 0; ndx < (short)SIZ(pp->MiniBarHealthBoxDigit); ndx++)
             pp->MiniBarHealthBoxDigit[ndx] = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->MiniBarHealthBoxDigit[ndx]);
-        for (ndx = 0; ndx < SIZ(pp->MiniBarAmmoDigit); ndx++)
+        for (ndx = 0; ndx < (short)SIZ(pp->MiniBarAmmoDigit); ndx++)
             pp->MiniBarAmmoDigit[ndx] = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->MiniBarAmmoDigit[ndx]);
         #endif    
         
@@ -309,7 +309,7 @@ int SaveGame(short save_num)
     psp = &tpanel_sprite;
     for (i = 0; i < numplayers; i++)
         {
-        int j;
+        unsigned j;
         pp = &Player[i];
         ndx = 0;
         
@@ -449,7 +449,7 @@ int SaveGame(short save_num)
 
     MWRITE(SectorObject, sizeof(SectorObject),1,fil);
     
-    for (ndx = 0; ndx < SIZ(SectorObject); ndx++)
+    for (ndx = 0; ndx < (short)SIZ(SectorObject); ndx++)
         {
         sop = &SectorObject[ndx];
         
@@ -512,16 +512,16 @@ int SaveGame(short save_num)
                 {
                 BYTEp bp = (BYTEp)User[j];
                 
-                if (a->ptr >= bp && a->ptr < bp + sizeof(USER))
+                if ((BYTEp)a->ptr >= bp && (BYTEp)a->ptr < bp + sizeof(USER))
                     {
                     offset = (long)((BYTEp)a->ptr - bp); // offset from user data
-                    a->ptr = -2;
+                    a->ptr = (long*)-2;
                     break;
                     }
                 }    
             }
         
-        if (a->ptr != -2)
+        if ((long)a->ptr != -2)
             {
             for (j=0; j<numsectors; j++)
                 {
@@ -529,10 +529,10 @@ int SaveGame(short save_num)
                     {
                     BYTEp bp = (BYTEp)SectUser[j];
                     
-                    if (a->ptr >= bp && a->ptr < bp + sizeof(SECT_USER))
+                    if ((BYTEp)a->ptr >= bp && (BYTEp)a->ptr < bp + sizeof(SECT_USER))
                         {
                         offset = (long)((BYTEp)a->ptr - bp); // offset from user data
-                        a->ptr = -3;
+                        a->ptr = (long*)-3;
                         break;
                         }
                     }    
@@ -540,7 +540,7 @@ int SaveGame(short save_num)
             }    
         MWRITE(a,sizeof(ANIM),1,fil);
             
-        if (a->ptr == -2 || a->ptr == -3)
+        if ((long)a->ptr == -2 || (long)a->ptr == -3)
             {
             MWRITE(&j, sizeof(j),1,fil);
             MWRITE(&offset, sizeof(offset),1,fil);
@@ -612,7 +612,7 @@ int SaveGame(short save_num)
 
     
     // parental lock
-    for (i = 0; i < SIZ(otlist); i++)
+    for (i = 0; i < (long)SIZ(otlist); i++)
         {
         ndx = 0;
         TRAVERSE(otlist[i], otp, next_otp)
@@ -859,7 +859,7 @@ int LoadGame(short save_num)
             saveisshot |= LoadSymCodeInfo(fil, (void**)&psp->PanelSpriteFunc);
 	    if (saveisshot) { MCLOSE(fil); return -1; }
 
-            for (j = 0; j < SIZ(psp->over); j++)
+            for (j = 0; j < (long)SIZ(psp->over); j++)
                 {
                 saveisshot |= LoadSymDataInfo(fil, (void**)&psp->over[j].State);
 		if (saveisshot) { MCLOSE(fil); return -1; }
@@ -902,7 +902,7 @@ int LoadGame(short save_num)
     MREAD(nextspritestat,sizeof(nextspritestat),1,fil);
 
     //User information
-    memset(User, NULL, sizeof(User));
+    memset(User, 0, sizeof(User));
     
     MREAD(&SpriteNum, sizeof(SpriteNum),1,fil);
     while(SpriteNum != -1)
@@ -959,7 +959,7 @@ int LoadGame(short save_num)
         
     MREAD(SectorObject, sizeof(SectorObject),1,fil);
     
-    for (ndx = 0; ndx < SIZ(SectorObject); ndx++)
+    for (ndx = 0; ndx < (short)SIZ(SectorObject); ndx++)
         {
         sop = &SectorObject[ndx];
         
@@ -1017,7 +1017,7 @@ int LoadGame(short save_num)
         a = &Anim[i];
         MREAD(a,sizeof(ANIM),1,fil);
         
-        if (a->ptr == -2)
+        if ((long)a->ptr == -2)
             {
             // maintain compatibility with sinking boat which points to user data
             long offset;
@@ -1026,7 +1026,7 @@ int LoadGame(short save_num)
             a->ptr = (long*)(((char *)User[j]) + offset);
             }
         else
-        if (a->ptr == -3)
+        if ((long)a->ptr == -3)
             {
             // maintain compatibility with sinking boat which points to user data
             long offset;
@@ -1102,7 +1102,7 @@ int LoadGame(short save_num)
     if (saveisshot) { MCLOSE(fil); return -1; }
     
     // parental lock
-    for (i = 0; i < SIZ(otlist); i++)
+    for (i = 0; i < (long)SIZ(otlist); i++)
         {
         INITLIST(otlist[i]);
             
@@ -1248,10 +1248,10 @@ int LoadGame(short save_num)
         pp->MiniBarHealthBox = PanelNdxToSprite(pp, (long)pp->MiniBarHealthBox);
         pp->MiniBarAmmo = PanelNdxToSprite(pp, (long)pp->MiniBarAmmo);
 
-        for (ndx = 0; ndx < SIZ(pp->MiniBarHealthBoxDigit); ndx++)
+        for (ndx = 0; ndx < (short)SIZ(pp->MiniBarHealthBoxDigit); ndx++)
             pp->MiniBarHealthBoxDigit[ndx] = PanelNdxToSprite(pp, (long)pp->MiniBarHealthBoxDigit[ndx]);
 
-        for (ndx = 0; ndx < SIZ(pp->MiniBarAmmoDigit); ndx++)
+        for (ndx = 0; ndx < (short)SIZ(pp->MiniBarAmmoDigit); ndx++)
             pp->MiniBarAmmoDigit[ndx] = PanelNdxToSprite(pp, (long)pp->MiniBarAmmoDigit[ndx]);
 
         #endif

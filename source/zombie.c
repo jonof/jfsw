@@ -755,7 +755,7 @@ SetupZombie(short SpriteNum)
     short pic = sp->picnum;
 
     u->Health = 100;
-    u->StateEnd = s_ZombiePain;
+    u->StateEnd = &s_ZombiePain[0][0];
     u->Rot = sg_ZombieRun;
     sp->xrepeat = PLAYER_NINJA_XREPEAT;
     sp->yrepeat = PLAYER_NINJA_YREPEAT;

@@ -1596,7 +1596,8 @@ InitChemBomb(short SpriteNum)
 int
 PlayerInitFlashBomb(PLAYERp pp)
     {
-    short pnum, i, nexti, stat;
+    short pnum, i, nexti;
+    unsigned int stat;
     long dist, tx, ty, tmin;
     short damage;
     SPRITEp sp = pp->SpriteP, hp;
@@ -1665,7 +1666,8 @@ PlayerInitFlashBomb(PLAYERp pp)
 int
 InitFlashBomb(SHORT SpriteNum)
     {
-    short pnum, i, nexti, stat;
+    short pnum, i, nexti;
+    unsigned int stat;
     long dist, tx, ty, tmin;
     short damage;
     SPRITEp sp = &sprite[SpriteNum], hp;
@@ -2155,7 +2157,8 @@ DoFlagRangeTest(short Weapon, short range)
 
     USERp u;
     SPRITEp sp;
-    short i, nexti, stat;
+    short i, nexti;
+    unsigned int stat;
     long dist, tx, ty;
     long tmin;
 
@@ -2497,12 +2500,12 @@ InitShell(SHORT SpriteNum, SHORT ShellNum)
         case -2:
         case -3:
             id = UZI_SHELL;
-            p = &s_UziShellShrap;
+            p = s_UziShellShrap;
             velocity = 1500 + RANDOM_RANGE(1000);
             break;
         case -4:
             id = SHOT_SHELL;
-            p = &s_ShotgunShellShrap;
+            p = s_ShotgunShellShrap;
             velocity = 2000 + RANDOM_RANGE(1000);
             break;
         }

@@ -224,27 +224,29 @@ STATE s_GirlNinjaRise[5][3] =
     {
     {GIRLNINJA_KNEEL_R0 + 0, GIRLNINJA_RISE_RATE, NullGirlNinja, &s_GirlNinjaRise[0][1]},
     {GIRLNINJA_STAND_R0 + 0, GIRLNINJA_STAND_RATE, NullGirlNinja, &s_GirlNinjaRise[0][2]},
-    {0, 0, NULL, sg_GirlNinjaRun},	//JBF: what is actually intended here?
+    {0, 0, NULL, (STATEp)sg_GirlNinjaRun},	// JBF: sg_GirlNinjaRun really is supposed to be the
+    						// pointer to the state group. See StateControl() where
+						// it says "if (!u->State->Pic)".
     },
     {
     {GIRLNINJA_KNEEL_R1 + 0, GIRLNINJA_RISE_RATE, NullGirlNinja, &s_GirlNinjaRise[1][1]},
     {GIRLNINJA_STAND_R1 + 0, GIRLNINJA_STAND_RATE, NullGirlNinja, &s_GirlNinjaRise[1][2]},
-    {0, 0, NULL, sg_GirlNinjaRun},
+    {0, 0, NULL, (STATEp)sg_GirlNinjaRun},
     },
     {
     {GIRLNINJA_KNEEL_R2 + 0, GIRLNINJA_RISE_RATE, NullGirlNinja, &s_GirlNinjaRise[2][1]},
     {GIRLNINJA_STAND_R2 + 0, GIRLNINJA_STAND_RATE, NullGirlNinja, &s_GirlNinjaRise[2][2]},
-    {0, 0, NULL, sg_GirlNinjaRun},
+    {0, 0, NULL, (STATEp)sg_GirlNinjaRun},
     },
     {
     {GIRLNINJA_KNEEL_R3 + 0, GIRLNINJA_RISE_RATE, NullGirlNinja, &s_GirlNinjaRise[3][1]},
     {GIRLNINJA_STAND_R3 + 0, GIRLNINJA_STAND_RATE, NullGirlNinja, &s_GirlNinjaRise[3][2]},
-    {0, 0, NULL, sg_GirlNinjaRun},
+    {0, 0, NULL, (STATEp)sg_GirlNinjaRun},
     },
     {
     {GIRLNINJA_KNEEL_R4 + 0, GIRLNINJA_RISE_RATE, NullGirlNinja, &s_GirlNinjaRise[4][1]},
     {GIRLNINJA_STAND_R4 + 0, GIRLNINJA_STAND_RATE, NullGirlNinja, &s_GirlNinjaRise[4][2]},
-    {0, 0, NULL, sg_GirlNinjaRun},
+    {0, 0, NULL, (STATEp)sg_GirlNinjaRun},
     },
     };    
 

@@ -204,7 +204,7 @@ SetupBuildFAF(VOID)
                     {
                     if (sprite[i].hitag == sp->hitag && sprite[i].lotag == sp->lotag)
                         {
-                        sprintf(ds,"Two VIEW_THRU_ tags with same match found on level\n1: x %d, y %d \n2: x %d, y %d", sp->x, sp->y, sprite[i].x, sprite[i].y);
+                        sprintf(ds,"Two VIEW_THRU_ tags with same match found on level\n1: x %ld, y %ld \n2: x %ld, y %ld", sp->x, sp->y, sprite[i].x, sprite[i].y);
                         Message(ds,0);
                         }
                     }
@@ -235,7 +235,7 @@ SetupBuildFAF(VOID)
             sector[sp->sectnum].ceilingpicnum = FAF_MIRROR_PIC;
             if (sector[sp->sectnum].floorz == sector[sp->sectnum].ceilingz)
                 {
-                sprintf(ds, "Mirror used for non-connect area. Use tile 342. Sect %d, x %d, y %d\n", sp->sectnum, wall[sector[sp->sectnum].wallptr].x, wall[sector[sp->sectnum].wallptr].y);
+                sprintf(ds, "Mirror used for non-connect area. Use tile 342. Sect %d, x %ld, y %ld\n", sp->sectnum, wall[sector[sp->sectnum].wallptr].x, wall[sector[sp->sectnum].wallptr].y);
                 Message(ds,0);    
                 }
             }    
@@ -245,7 +245,7 @@ SetupBuildFAF(VOID)
             sector[sp->sectnum].floorpicnum = FAF_MIRROR_PIC;
             if (sector[sp->sectnum].floorz == sector[sp->sectnum].ceilingz)
                 {
-                sprintf(ds, "Mirror used for non-connect area. Use tile 342. Sect %d, x %d, y %d\n", sp->sectnum, wall[sector[sp->sectnum].wallptr].x, wall[sector[sp->sectnum].wallptr].y);
+                sprintf(ds, "Mirror used for non-connect area. Use tile 342. Sect %d, x %ld, y %ld\n", sp->sectnum, wall[sector[sp->sectnum].wallptr].x, wall[sector[sp->sectnum].wallptr].y);
                 Message(ds,0);    
                 }
             }    
@@ -695,7 +695,7 @@ DrawOverlapRoom(long tx, long ty, long tz, short tang, long thoriz, short tsectn
         
         if (tsectnum < 0)
             {
-            sprintf(ds,"COULD NOT FIND TAGGED LEVEL2 SECTOR FROM X %d, Y %d, SECTNUM %d.",posx,posy,cursectnum);
+            sprintf(ds,"COULD NOT FIND TAGGED LEVEL2 SECTOR FROM X %ld, Y %ld, SECTNUM %d.",posx,posy,cursectnum);
             Message(ds, 0);
             return;
             }
@@ -720,7 +720,7 @@ DrawOverlapRoom(long tx, long ty, long tz, short tang, long thoriz, short tsectn
 
         if (tsectnum < 0)
             {
-            sprintf(ds,"COULD NOT FIND TAGGED LEVEL1 SECTOR FROM X %d, Y %d, SECTNUM %d.",posx,posy,cursectnum);
+            sprintf(ds,"COULD NOT FIND TAGGED LEVEL1 SECTOR FROM X %ld, Y %ld, SECTNUM %d.",posx,posy,cursectnum);
             Message(ds, 0);
             return;
             }

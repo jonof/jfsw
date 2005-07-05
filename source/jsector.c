@@ -429,7 +429,7 @@ JS_InitMirrors(void)
                         if(!Found_Cam)
                             {
                             printf("Did not find drawtotile for camera number %d\n",mirrorcnt);
-                            printf("wall[%d].hitag == %d\n",i,wall[i].hitag);
+                            printf("wall[%ld].hitag == %d\n",i,wall[i].hitag);
                             printf("Map Coordinates: x = %ld, y = %ld\n",wall[i].x,wall[i].y);
                             exit(0);
                             }
@@ -800,7 +800,7 @@ JS_DrawMirrors(PLAYERp pp, long tx, long ty, long tz, short tpang, long tphoriz)
                         if(mirror[cnt].campic == -1)        
                             {        
                             TerminateGame();        
-                            printf("Missing campic for mirror %d\n",cnt);        
+                            printf("Missing campic for mirror %ld\n",cnt);        
                             printf("Map Coordinates: x = %ld, y = %ld\n",midx,midy);        
                             exit(0);        
                             }        
@@ -1241,10 +1241,10 @@ JS_PlockError(short wall_num, short t)
     switch(t)
         {
         case 1:
-        printf("wall %d, x %d, y %d, pic %d\n", wall_num, wall[wall_num].x, wall[wall_num].y, wall[wall_num].picnum);
+        printf("wall %d, x %ld, y %ld, pic %d\n", wall_num, wall[wall_num].x, wall[wall_num].y, wall[wall_num].picnum);
         break;
         case 2:
-        printf("wall %d, x %d, y %d, OVERpic %d\n", wall_num, wall[wall_num].x, wall[wall_num].y, wall[wall_num].overpicnum);
+        printf("wall %d, x %ld, y %ld, OVERpic %d\n", wall_num, wall[wall_num].x, wall[wall_num].y, wall[wall_num].overpicnum);
         break;
         case 3:
         printf("sector %d, ceiling %d\n", wall_num, sector[wall_num].ceilingpicnum);

@@ -90,7 +90,7 @@ struct PANEL_STATEstruct
 #define PANF_DRAW_BEFORE_VIEW (BIT(30)) // draw before drawrooms
 #define PANF_NOT_ALL_PAGES       (BIT(31)) // DONT use permanentwritesprite bit for rotatesprite
 
-typedef long (*PANEL_SPRITE_FUNCp)(PANEL_SPRITEp);
+typedef VOID (*PANEL_SPRITE_FUNCp)(PANEL_SPRITEp);
 
 typedef struct
     {

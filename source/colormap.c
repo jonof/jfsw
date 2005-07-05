@@ -258,7 +258,7 @@ InitPalette(VOID)
 
     static COLOR_MAP MenuHighlight = {16, 16, RED, FIRE};
 
-    short i;
+    unsigned int i;
     short play;
 
 #if 0

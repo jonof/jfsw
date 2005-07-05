@@ -116,7 +116,7 @@ void ReadGameSetup( int32 scripthandle )
 
     for(dummy = 0;dummy < 10;dummy++)
         {
-        sprintf(ds,"CommbatMacro#%d",dummy);
+        sprintf(ds,"CommbatMacro#%ld",dummy);
         SCRIPT_GetString( scripthandle, "Comm Setup",ds,WangBangMacro[dummy]);
         }
 

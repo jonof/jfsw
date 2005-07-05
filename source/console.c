@@ -471,7 +471,7 @@ void CON_ModXrepeat( void )
     short i;
 
 
-    if (sscanf(MessageInputString,"%s %d %d %d",base,&op1,&op2,&op3) < 4)
+    if (sscanf(MessageInputString,"%s %hd %hd %hd",base,&op1,&op2,&op3) < 4)
         {
         strcpy(MessageInputString,"help xrepeat");
         CON_GetHelp();
@@ -518,7 +518,7 @@ void CON_ModYrepeat( void )
     short i;
 
 
-    if (sscanf(MessageInputString,"%s %d %d %d",base,&op1,&op2,&op3) < 4)
+    if (sscanf(MessageInputString,"%s %hd %hd %hd",base,&op1,&op2,&op3) < 4)
         {
         strcpy(MessageInputString,"help yrepeat");
         CON_GetHelp();
@@ -566,7 +566,7 @@ void CON_ModTranslucent( void )
     USERp u;
 
     // Format: translucent [SpriteNum]
-    if (sscanf(MessageInputString,"%s %d",base,&op1) < 2)
+    if (sscanf(MessageInputString,"%s %hd",base,&op1) < 2)
         {
         strcpy(MessageInputString,"help translucent");
         CON_GetHelp();
@@ -597,7 +597,7 @@ void CON_SoundTest( void )
     SHORT op1=0;
 
     // Format: sound [number]
-    if (sscanf(MessageInputString,"%s %d",base,&op1) < 2)
+    if (sscanf(MessageInputString,"%s %hd",base,&op1) < 2)
         {
         strcpy(MessageInputString,"help sound");
         CON_GetHelp();
@@ -621,7 +621,7 @@ void CON_Reverb( void )
     PLAYERp pp = Player + screenpeek;
 
     // Format: reverb [number]
-    if (sscanf(MessageInputString,"%s %d",base,&op1) < 2)
+    if (sscanf(MessageInputString,"%s %hd",base,&op1) < 2)
         {
         strcpy(MessageInputString,"help reverb");
         CON_GetHelp();
@@ -1012,7 +1012,7 @@ void CON_KillSprite( void )
     USERp u;
 
     // Format: kill [SpriteNum]
-    if (sscanf(MessageInputString,"%s %d",base,&op1) < 2)
+    if (sscanf(MessageInputString,"%s %hd",base,&op1) < 2)
         {
         strcpy(MessageInputString,"help kill");
         CON_GetHelp();
@@ -1046,7 +1046,7 @@ void CON_SpriteDetail( void )
     short i;
 
     // Format: showsprite [SpriteNum]
-    if (sscanf(MessageInputString,"%s %d",base,&op1) < 2)
+    if (sscanf(MessageInputString,"%s %hd",base,&op1) < 2)
         {
         strcpy(MessageInputString,"help showsprite");
         CON_GetHelp();
@@ -1076,7 +1076,7 @@ void CON_UserDetail( void )
     USERp u;
 
     // Format: showuser [SpriteNum]
-    if (sscanf(MessageInputString,"%s %d",base,&op1) < 2)
+    if (sscanf(MessageInputString,"%s %hd",base,&op1) < 2)
         {
         strcpy(MessageInputString,"help showsprite");
         CON_GetHelp();
@@ -1192,13 +1192,12 @@ void CON_DamageData( void )
 
     char base[80],field[80];
     SHORT op1=0;
-    unsigned int op2;
+    unsigned int op2, i;
     SPRITEp sp;
-    short i;
     USERp u;
 
     // Format: damage [field] [item] [value]
-    if (sscanf(MessageInputString,"%s %s %d %u",base,field,&op1,&op2) < 3)
+    if (sscanf(MessageInputString,"%s %s %hd %u",base,field,&op1,&op2) < 3)
         {
         strcpy(MessageInputString,"help damage");
         CON_GetHelp();
@@ -1282,7 +1281,7 @@ void CON_Tweak( void )
     long op1=0;
 
     // Format: tweak [weapon] [number]
-    if (sscanf(MessageInputString,"%s %s %d",base,command,&op1) < 3)
+    if (sscanf(MessageInputString,"%s %s %ld",base,command,&op1) < 3)
         {
         strcpy(MessageInputString,"help tweak");
         CON_GetHelp();
@@ -1388,7 +1387,7 @@ void CON_ShowMirror( void )
     SHORT op1=0;
 
     // Format: showmirror [SpriteNum]
-    if (sscanf(MessageInputString,"%s %d",base,&op1) < 2)
+    if (sscanf(MessageInputString,"%s %hd",base,&op1) < 2)
         {
         strcpy(MessageInputString,"help showmirror");
         CON_GetHelp();

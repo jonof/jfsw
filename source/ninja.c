@@ -328,27 +328,27 @@ STATE s_NinjaRise[5][3] =
     {
     {NINJA_KNEEL_R0 + 0, NINJA_RISE_RATE, NullNinja, &s_NinjaRise[0][1]},
     {NINJA_STAND_R0 + 0, NINJA_STAND_RATE, NullNinja, &s_NinjaRise[0][2]},
-    {0, 0, NULL, sg_NinjaRun},
+    {0, 0, NULL, (STATEp)sg_NinjaRun},
     },
     {
     {NINJA_KNEEL_R1 + 0, NINJA_RISE_RATE, NullNinja, &s_NinjaRise[1][1]},
     {NINJA_STAND_R1 + 0, NINJA_STAND_RATE, NullNinja, &s_NinjaRise[1][2]},
-    {0, 0, NULL, sg_NinjaRun},
+    {0, 0, NULL, (STATEp)sg_NinjaRun},
     },
     {
     {NINJA_KNEEL_R2 + 0, NINJA_RISE_RATE, NullNinja, &s_NinjaRise[2][1]},
     {NINJA_STAND_R2 + 0, NINJA_STAND_RATE, NullNinja, &s_NinjaRise[2][2]},
-    {0, 0, NULL, sg_NinjaRun},
+    {0, 0, NULL, (STATEp)sg_NinjaRun},
     },
     {
     {NINJA_KNEEL_R3 + 0, NINJA_RISE_RATE, NullNinja, &s_NinjaRise[3][1]},
     {NINJA_STAND_R3 + 0, NINJA_STAND_RATE, NullNinja, &s_NinjaRise[3][2]},
-    {0, 0, NULL, sg_NinjaRun},
+    {0, 0, NULL, (STATEp)sg_NinjaRun},
     },
     {
     {NINJA_KNEEL_R4 + 0, NINJA_RISE_RATE, NullNinja, &s_NinjaRise[4][1]},
     {NINJA_STAND_R4 + 0, NINJA_STAND_RATE, NullNinja, &s_NinjaRise[4][2]},
-    {0, 0, NULL, sg_NinjaRun},
+    {0, 0, NULL, (STATEp)sg_NinjaRun},
     },
     };    
 

@@ -223,7 +223,7 @@ skipspace:
 		*token_p++ = *script_p++;
 		if (script_p == scriptend_p)
 			break;
-		ASSERT (token_p != &token[MAXTOKEN])
+		ASSERT (token_p != &token[MAXTOKEN]);
 //			Error ("Token too large on line %i\n",scriptline);
 	}
 

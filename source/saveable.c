@@ -4,7 +4,7 @@
 #define maxModules 35
 
 static saveable_module *saveablemodules[maxModules];
-static int nummodules = 0;
+static unsigned nummodules = 0;
 
 void Saveable_Init(void)
 {
@@ -55,7 +55,7 @@ void Saveable_Init(void)
 
 int Saveable_FindCodeSym(void *ptr, savedcodesym *sym)
 {
-	unsigned int m,i;
+	unsigned m,i;
 
 	if (!ptr) {
 		sym->module = 0;	// module 0 is the "null module" for null pointers
@@ -79,7 +79,7 @@ int Saveable_FindCodeSym(void *ptr, savedcodesym *sym)
 
 int Saveable_FindDataSym(void *ptr, saveddatasym *sym)
 {
-	unsigned int m,i;
+	unsigned m,i;
 
 	if (!ptr) {
 		sym->module = 0;

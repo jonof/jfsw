@@ -260,7 +260,7 @@ SoundCallBack(unsigned long num)
     VOC_INFOp vp = &voc[num];
     
     // RTS sounds are negative
-    if (num < 0)
+    if ((long)num < 0)
         {
         ASSERT(-num < 11);
         lumplockbyte[-num]--;
@@ -278,7 +278,7 @@ SoundCallBack(unsigned long num)
 void 
 ClearSoundLocks(void)
 {
-    long i;
+    unsigned i;
 
     for(i = 0; i < SIZ(voc); i++)
         {
@@ -358,7 +358,7 @@ ExternalSoundMod(VOID)
 
     while (TRUE)
         {
-        ret = fscanf(fin, "%s %s %d %d", name, new_name, &pitch_lo, &pitch_hi);
+        ret = fscanf(fin, "%s %s %ld %ld", name, new_name, &pitch_lo, &pitch_hi);
 
         if (ret == EOF)
             break;
@@ -368,7 +368,7 @@ ExternalSoundMod(VOID)
             if (!vp->name)
                 continue;
 
-            if (Bstrcasecmp(name, vp->name) == NULL)
+            if (!Bstrcasecmp(name, vp->name))
                 {
                 // vp->priority = pri;
                 strcpy(vp->name, new_name);
@@ -696,7 +696,7 @@ PlaySound(int num, long *x, long *y, long *z, Voc3D_Flags flags)
     // Weed out parental lock sounds if PLock is active
     if (gs.ParentalLock || Global_PLock)
         {
-        short i;
+        unsigned i;
         
         for (i=0; i<sizeof(PLocked_Sounds); i++)
             {
@@ -1842,7 +1842,7 @@ DoUpdateSounds3D(void)
                     enumber = p->num;
                     TerminateGame();
                     printf("Owner == -1 on looping sound with follow flag set!\n");
-                    printf("p->num = %ld\n",enumber);
+                    printf("p->num = %d\n",enumber);
                     exit(0);
                     }
 
@@ -1866,7 +1866,7 @@ DoUpdateSounds3D(void)
                     enumber = p->num;
                     TerminateGame();
                     printf("Owner == -1 on looping sound, no follow flag.\n");
-                    printf("p->num = %ld\n",enumber);
+                    printf("p->num = %d\n",enumber);
                     exit(0);
                     }
 

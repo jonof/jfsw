@@ -757,6 +757,8 @@ int DoZillaStomp(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
 
     PlaySound(DIGI_ZILLASTOMP,&sp->x,&sp->y,&sp->z,v3df_follow);
+
+    return 0;
     }
 
 extern int SpawnGrenadeExp(SHORT Weapon);

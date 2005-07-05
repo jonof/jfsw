@@ -874,7 +874,7 @@ SectorObjectSetupBounds(SECTOR_OBJECTp sop)
         exit(1);
         }
 
-    for (i = 0; i < SIZ(StatList); i++)
+    for (i = 0; i < (long)SIZ(StatList); i++)
         {
         TRAVERSE_SPRITE_STAT(headspritestat[StatList[i]], sp_num, next_sp_num)
             {
@@ -956,7 +956,7 @@ SectorObjectSetupBounds(SECTOR_OBJECTp sop)
                 // sector
 
                 // place all sprites on list
-                for (sn = 0; sn < SIZ(sop->sp_num); sn++)
+                for (sn = 0; sn < (long)SIZ(sop->sp_num); sn++)
                     {
                     if (sop->sp_num[sn] == -1)
                         break;
@@ -1114,7 +1114,7 @@ SetupSectorObject(short sectnum, short tag)
         sop->track = HIGH_TAG(sectnum);
         
         // spawn a sprite to make it easier to integrate with sprite routines
-        new = SpawnSprite(STAT_SO_SP_CHILD, NULL, NULL, sectnum,
+        new = SpawnSprite(STAT_SO_SP_CHILD, 0, NULL, sectnum,
                 sop->xmid, sop->ymid, sop->zmid, 0, 0);
         sop->sp_child = &sprite[new];        
         u = User[new];
@@ -1142,7 +1142,7 @@ SetupSectorObject(short sectnum, short tag)
                     
                         memset(sop->scale_point_dist,0,sizeof(sop->scale_point_dist));
                         sop->scale_point_base_speed = SP_TAG2(sp);
-                        for (j = 0; j < SIZ(sop->scale_point_speed); j++)
+                        for (j = 0; j < (long)SIZ(sop->scale_point_speed); j++)
                             {
                             sop->scale_point_speed[j] = SP_TAG2(sp);
                             }
@@ -1185,7 +1185,7 @@ SetupSectorObject(short sectnum, short tag)
                             {
                             USERp u;
                             change_sprite_stat(SpriteNum, STAT_NO_STATE);
-                            u = SpawnUser(SpriteNum, NULL, NULL);
+                            u = SpawnUser(SpriteNum, 0, NULL);
                             u->ActorActionFunc = NULL;
                             }
                         break;
@@ -1237,7 +1237,7 @@ SetupSectorObject(short sectnum, short tag)
                         
                         memset(sop->scale_point_dist,0,sizeof(sop->scale_point_dist));;
                         sop->scale_point_base_speed = SCALE_POINT_SPEED;
-                        for (j = 0; j < SIZ(sop->scale_point_speed); j++)
+                        for (j = 0; j < (long)SIZ(sop->scale_point_speed); j++)
                             sop->scale_point_speed[j] = SCALE_POINT_SPEED;
                             
                         sop->scale_point_dist_min = -256;
@@ -3392,7 +3392,7 @@ ActorTrackDecide(TRACK_POINTp tpoint, short SpriteNum)
             z[0] = sp->z - SPRITEp_SIZE_Z(sp) + Z(5);
             z[1] = sp->z - DIV2(SPRITEp_SIZE_Z(sp));
             
-            for (i = 0; i < SIZ(z); i++)
+            for (i = 0; i < (long)SIZ(z); i++)
                 {
                 neartag(sp->x, sp->y, z[i], sp->sectnum, sp->ang,
                     &nearsector, &nearwall, &nearsprite,

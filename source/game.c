@@ -1177,7 +1177,7 @@ char SkillNames[4][MAX_SKILL_NAME_LEN+2] = {
 	"^No Pain, No Gain"
 };
 
-InitNewGame(VOID)
+VOID InitNewGame(VOID)
     {
     int i, ready_bak;
     long ver_bak;
@@ -1818,7 +1818,7 @@ LogoLevel(VOID)
     clearview(0);
     nextpage();
     //SetPaletteToVESA(backup_pal);
-    setbrightness(gs.Brightness, palette_data, 2);
+    setbrightness(gs.Brightness, (char*)palette_data, 2);
 
     // put up a blank screen while loading
 
@@ -2375,7 +2375,7 @@ gNextState(STATEp *State)
 
     if (TEST((*State)->Tics, SF_QUICK_CALL))
         {
-        (*(*State)->Animator)(NULL);
+        (*(*State)->Animator)(0);
         *State = (*State)->NextState;
         }
     }
@@ -2396,7 +2396,7 @@ gStateControl(STATEp *State, long *tics)
 
     // Call the correct animator
     if ((*State)->Animator)
-        (*(*State)->Animator)(NULL);
+        (*(*State)->Animator)(0);
     }    
 
 int BonusPunchSound(short SpriteNum)
@@ -2657,7 +2657,7 @@ BonusScreen(PLAYERp pp)
         second_tics = (PlayClock/120);
         minutes = (second_tics/60);
         seconds = (second_tics%60);
-        sprintf(ds,"Your Time:  %2d : %02d", minutes, seconds);
+        sprintf(ds,"Your Time:  %2ld : %02ld", minutes, seconds);
         MNU_MeasureString(ds, &w, &h);
         MNU_DrawString(60, BONUS_LINE(line), ds,1,16);
 
@@ -3634,7 +3634,7 @@ long app_main(long argc, char *argv[])
             if (cnt <= argc-2)
                 {
                 cnt++;
-                sscanf(argv[cnt], "%d",&turn_scale);
+                sscanf(argv[cnt], "%ld",&turn_scale);
                 }
             }
         else    
@@ -3643,7 +3643,7 @@ long app_main(long argc, char *argv[])
             if (cnt <= argc-2)
                 {
                 cnt++;
-                sscanf(argv[cnt], "%d",&move_scale);
+                sscanf(argv[cnt], "%ld",&move_scale);
                 }
             }
         else    
@@ -3681,7 +3681,7 @@ long app_main(long argc, char *argv[])
 	    int strl;
 
 	    strl = 24 + 70;
-	    for (i=0;i < SIZ(cli_dbg_arg);i++)
+	    for (i=0;i < (int)SIZ(cli_dbg_arg);i++)
 		strl += strlen(cli_dbg_arg[i].arg_fmt) + 1 + strlen(cli_dbg_arg[i].arg_descr) + 1;
 
 	    str = (char*)malloc(strl);
@@ -3690,7 +3690,7 @@ long app_main(long argc, char *argv[])
 			"Usage: sw [options]\n"
 			"options:  ('/' may be used instead of '-', <> text is optional)\n\n"
 		      );
-		for (i=0; i < SIZ(cli_dbg_arg); i++) {
+		for (i=0; i < (int)SIZ(cli_dbg_arg); i++) {
 			strcat(str, cli_dbg_arg[i].arg_fmt);
 			strcat(str, "\t");
 			strcat(str, cli_dbg_arg[i].arg_descr);
@@ -3702,7 +3702,7 @@ long app_main(long argc, char *argv[])
 #else
             printf("Usage: %s [options]\n", argv[0]);
             printf("options:  ('/' may be used instead of '-', <> text is optional)\n\n");
-            for (i = 0; i < SIZ(cli_dbg_arg); i++)
+            for (i = 0; i < (int)SIZ(cli_dbg_arg); i++)
                 {
                 if (cli_dbg_arg[i].arg_fmt)
                     {
@@ -3722,7 +3722,7 @@ long app_main(long argc, char *argv[])
             HELP:
 
 	    strl = 30 + 70;
-	    for (i=0;i < SIZ(cli_arg);i++)
+	    for (i=0;i < (int)SIZ(cli_arg);i++)
 		if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
 		    strl += strlen(cli_arg[i].arg_fmt) + 1 + strlen(cli_arg[i].arg_descr) + 1;
 
@@ -3730,7 +3730,7 @@ long app_main(long argc, char *argv[])
 	    if (str) {
 		strcpy(str,"Usage: sw [options]\n");
 		strcat(str,"options:  ('/' may be used instead of '-', <> text is optional)\n\n");
-		for (i=0; i < SIZ(cli_arg); i++) {
+		for (i=0; i < (int)SIZ(cli_arg); i++) {
 			if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
 			{
 				strcat(str, cli_arg[i].arg_fmt);
@@ -3742,7 +3742,7 @@ long app_main(long argc, char *argv[])
 		wm_msgbox("Shadow Warrior Help",str);
 		free(str);
 	    }
-            #else
+#else
             HELP:
             if (SW_SHAREWARE)
             printf("Usage: %s [options]\n", argv[0]);
@@ -3750,7 +3750,7 @@ long app_main(long argc, char *argv[])
                 printf("Usage: %s [options] [map]\n", argv[0]);
             printf("options:  ('/' may be used instead of '-', <> text is optional)\n\n");
             
-            for (i = 0; i < SIZ(cli_arg); i++)
+            for (i = 0; i < (int)SIZ(cli_arg); i++)
                 {
 		if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
                     {
@@ -4073,7 +4073,7 @@ long app_main(long argc, char *argv[])
             {
             long fil;
 
-            strcpy(&UserMapName, argv[++cnt]);
+            strcpy(UserMapName, argv[++cnt]);
             if (strchr(UserMapName, '.') == 0)
                 strcat(UserMapName, ".map");
 
@@ -4128,7 +4128,7 @@ ManualPlayerInsert(PLAYERp pp)
         myconnectindex = numplayers;
         screenpeek = numplayers;
 
-        sprintf(Player[myconnectindex].PlayerName,"PLAYER %d",myconnectindex+1);
+        sprintf(Player[myconnectindex].PlayerName,"PLAYER %ld",myconnectindex+1);
 
         Player[numplayers].movefifoend = Player[0].movefifoend;
 
@@ -4160,7 +4160,7 @@ BotPlayerInsert(PLAYERp pp)
         //myconnectindex = numplayers;
         //screenpeek = numplayers;
 
-        sprintf(Player[numplayers].PlayerName,"BOT %d",numplayers+1);
+        sprintf(Player[numplayers].PlayerName,"BOT %ld",numplayers+1);
 
         Player[numplayers].movefifoend = Player[0].movefifoend;
 
@@ -5011,7 +5011,7 @@ VOID GetHelpInput(PLAYERp pp)
             KEY_PRESSED(sc_kpad_6) = 0;
             
             HelpPage++;
-            if (HelpPage >= SIZ(HelpPagePic))
+            if (HelpPage >= (int)SIZ(HelpPagePic))
 				// CTW MODIFICATION
 				// "Oops! I did it again..."
 				// HelpPage = SIZ(HelpPagePic) - 1;
@@ -5985,7 +5985,7 @@ RandomRange(int range)
     // shift values to give more precision
     value = (rand_num << 14) / ((65535UL << 14) / range);
     
-    if (value >= range)
+    if (value >= (ULONG)range)
         value = range - 1;
         
     return(value);
@@ -6009,7 +6009,7 @@ StdRandomRange(int range)
     // shift values to give more precision
     value = (rand_num << 14) / ((((long)RAND_MAX) << 14) / range);
     
-    if (value >= range)
+    if (value >= (ULONG)range)
         value = range - 1;
         
     return(value);

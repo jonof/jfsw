@@ -764,7 +764,7 @@ PlayerUpdateTimeLimit(PLAYERp pp)
     pSpawnFullScreenSprite(pp, KEYS_ERASE, PRI_MID, PANEL_KEYS_BOX_X, PANEL_BOX_Y);
     
     seconds = gNet.TimeLimitClock/120;
-    sprintf(ds,"%03d:%02d",seconds/60, seconds%60);
+    sprintf(ds,"%03ld:%02ld",seconds/60, seconds%60);
     DisplaySummaryString(pp, PANEL_KEYS_BOX_X+1, PANEL_BOX_Y+6, 0, 0, ds);
     }
     
@@ -998,7 +998,7 @@ WeaponOK(PLAYERp pp)
     USERp u = User[pp->PlayerSprite];
     short min_ammo, WeaponNum, FindWeaponNum;
     static char wpn_order[] = {2,3,4,5,6,7,8,9,1,0};
-    short wpn_ndx=0;
+    unsigned wpn_ndx=0;
     
     // sword
     if (DamageData[u->WeaponNum].max_ammo == -1)
@@ -3117,8 +3117,8 @@ InitWeaponShotgun(PLAYERp pp)
     // Set up the new Weapon variables
     psp = pp->CurWpn = pp->Wpn[pp->WeaponType];
     SET(psp->flags, PANF_WEAPON_SPRITE);
-    psp->ActionState = &ps_ShotgunFire;
-    //psp->ActionState = &ps_ShotgunAutoFire;
+    psp->ActionState = ps_ShotgunFire;
+    //psp->ActionState = ps_ShotgunAutoFire;
     psp->RetractState = ps_RetractShotgun;
     psp->PresentState = ps_PresentShotgun;
     psp->RestState = ps_ShotgunRest;
@@ -3616,7 +3616,7 @@ InitWeaponRail(PLAYERp pp)
     // Set up the new Weapon variables
     psp = pp->CurWpn = pp->Wpn[pp->WeaponType];
     SET(psp->flags, PANF_WEAPON_SPRITE);
-    psp->ActionState = &ps_RailFire;
+    psp->ActionState = ps_RailFire;
     psp->RetractState = ps_RetractRail;
     psp->PresentState = ps_PresentRail;
     psp->RestState = ps_RailRest;
@@ -4045,7 +4045,7 @@ InitWeaponHothead(PLAYERp pp)
     // Set up the new Weapon variables
     psp = pp->CurWpn = pp->Wpn[WPN_HOTHEAD];
     SET(psp->flags, PANF_WEAPON_SPRITE);
-    psp->ActionState = &ps_HotheadAttack;
+    psp->ActionState = ps_HotheadAttack;
     psp->PresentState = ps_PresentHothead;
     psp->RestState = HotheadRestStates[psp->PlayerP->WpnFlameType];
     psp->RetractState = ps_RetractHothead;
@@ -4969,7 +4969,7 @@ InitWeaponHeart(PLAYERp pp)
     // Set up the new Weapon variables
     psp = pp->CurWpn = pp->Wpn[WPN_HEART];
     SET(psp->flags, PANF_WEAPON_SPRITE);
-    psp->ActionState = &ps_HeartAttack;
+    psp->ActionState = ps_HeartAttack;
     psp->RetractState = ps_RetractHeart;
     psp->PresentState = ps_PresentHeart;
     psp->RestState = ps_HeartRest;
@@ -5448,7 +5448,7 @@ InitWeaponGrenade(PLAYERp pp)
     psp = pp->CurWpn = pp->Wpn[WPN_GRENADE];
     psp = pp->CurWpn = pp->Wpn[WPN_GRENADE];
     SET(psp->flags, PANF_WEAPON_SPRITE);
-    psp->ActionState = &ps_GrenadeFire;
+    psp->ActionState = ps_GrenadeFire;
     psp->RetractState = ps_RetractGrenade;
     psp->PresentState = ps_PresentGrenade;
     psp->RestState = ps_GrenadeRest;
@@ -5717,7 +5717,7 @@ InitWeaponMine(PLAYERp pp)
     // Set up the new Weapon variables
     psp = pp->CurWpn = pp->Wpn[WPN_MINE];
     SET(psp->flags, PANF_WEAPON_SPRITE);
-    psp->ActionState = &ps_MineThrow;
+    psp->ActionState = ps_MineThrow;
     psp->RetractState = ps_RetractMine;
     psp->PresentState = ps_PresentMine;
     psp->RestState = ps_MineRest;
@@ -6956,7 +6956,7 @@ InsertPanelSprite(PLAYERp pp, PANEL_SPRITEp psp)
 PANEL_SPRITEp
 pSpawnSprite(PLAYERp pp, PANEL_STATEp state, BYTE priority, long x, long y)
     {
-    int i;
+    unsigned i;
     PANEL_SPRITEp psp;
     
 
@@ -7099,7 +7099,7 @@ pDisplaySprites(PLAYERp pp)
     char KenFlags;
     long x, y;
     long smoothratio;
-    long i;
+    unsigned i;
     
     SECT_USERp sectu = SectUser[pp->cursectnum];
     BYTE pal = 0;
@@ -7479,7 +7479,7 @@ pStatePlusOne(PANEL_SPRITEp psp)
 VOID
 pStateControl(PANEL_SPRITEp psp)
     {
-    short i;
+    unsigned i;
     short tics = synctics;
     
     psp->tics += tics;

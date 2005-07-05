@@ -1097,7 +1097,7 @@ DoRipperBeginJumpAttack(short SpriteNum)
     int CanSeePlayer(short SpriteNum);
     short tang;
 
-#define RANDOM_NEG(x) (RANDOM_P2((x)<<1) - x)
+#define RANDOM_NEG(x) (RANDOM_P2((x)<<1) - (x))
 
     tang = getangle(psp->x - sp->x, psp->y - sp->y);
     

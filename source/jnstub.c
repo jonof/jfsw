@@ -214,7 +214,7 @@ VOID DrawClipBox(short spritenum);
 VOID
 ResetKeys(VOID)
     {
-    int i;
+    unsigned i;
 
     for (i = 0; i < SIZ(keystatus); i++)
         {
@@ -568,7 +568,7 @@ BKeyPressed(VOID)
     {
     BYTEp k;
 
-    for (k = (BYTEp) & KEY_PRESSED(0); k < &KEY_PRESSED(SIZ(keystatus)); k++)
+    for (k = (BYTEp) & KEY_PRESSED(0); k < (BYTEp) &KEY_PRESSED(SIZ(keystatus)); k++)
         {
         if (*k)
             return (k);
@@ -2619,7 +2619,7 @@ ExtGetSpriteCaption(short spritenum)
     switch (CaptionMode)
         {
     case CAPTION_NONE:
-        tempbuf[0] = NULL;
+        tempbuf[0] = 0;
         break;
 
     case CAPTION_DEFAULT:
@@ -2988,11 +2988,11 @@ ExtEditSpriteData(short spritenum)      // F8
 
     while ((key = BKeyPressed()) == NULL);
 
-    if (key == &KEY_PRESSED(KEYSC_1) || key == &KEY_PRESSED(KEYSC_F8))
+    if (key == (BYTEp)&KEY_PRESSED(KEYSC_1) || key == (BYTEp)&KEY_PRESSED(KEYSC_F8))
         {
         *key = FALSE;
 
-        sprintf(tempbuf, "Sprite (%ld) Skill Level (0-3) : ", spritenum);
+        sprintf(tempbuf, "Sprite (%d) Skill Level (0-3) : ", spritenum);
 
         data = TEST(sp->extra, SPRX_SKILL);
 
@@ -3004,13 +3004,13 @@ ExtEditSpriteData(short spritenum)      // F8
         RESET(sp->extra, SPRX_SKILL);
         SET(sp->extra, data);
         }
-    else if (key == &KEY_PRESSED(KEYSC_2) || key == &KEY_PRESSED(KEYSC_F9))
+    else if (key == (BYTEp)&KEY_PRESSED(KEYSC_2) || key == (BYTEp)&KEY_PRESSED(KEYSC_F9))
         {
         *key = FALSE;
 
         FLIP(sprite[spritenum].extra, SPRX_MULTI_ITEM);
         }
-    else if (key == &KEY_PRESSED(KEYSC_3) || key == &KEY_PRESSED(KEYSC_F10))
+    else if (key == (BYTEp)&KEY_PRESSED(KEYSC_3) || key == (BYTEp)&KEY_PRESSED(KEYSC_F10))
         {
         *key = FALSE;
 
@@ -3053,17 +3053,17 @@ ExtEditSpriteData(short spritenum)      // F8
 
             while ((key = BKeyPressed()) == NULL);
 
-            if (key == &KEY_PRESSED(KEYSC_1))
+            if (key == (BYTEp)&KEY_PRESSED(KEYSC_1))
                 {
                 *key = FALSE;
                 bFindPicNum = !bFindPicNum;
                 }
-            else if (key == &KEY_PRESSED(KEYSC_2))
+            else if (key == (BYTEp)&KEY_PRESSED(KEYSC_2))
                 {
                 *key = FALSE;
                 bFindHiTag = !bFindHiTag;
                 }
-            else if (key == &KEY_PRESSED(KEYSC_3))
+            else if (key == (BYTEp)&KEY_PRESSED(KEYSC_3))
                 {
                 *key = FALSE;
                 bFindLowTag = !bFindLowTag;
@@ -3076,7 +3076,7 @@ ExtEditSpriteData(short spritenum)      // F8
 
         FindSprite(sprite[spritenum].picnum, spritenum);
         }
-    else if (key == &KEY_PRESSED(KEYSC_4))
+    else if (key == (BYTEp)&KEY_PRESSED(KEYSC_4))
         {
         *key = FALSE;
         FLIP(sprite[spritenum].extra, SPRX_BLOCK);
@@ -3129,7 +3129,7 @@ PlaxSetShade(void)
 
     clearmidstatbar16();                // Clear middle of status bar
 
-    sprintf(tempbuf, "%d Plax Sky shades set.", count);
+    sprintf(tempbuf, "%ld Plax Sky shades set.", count);
     printext16(8, ydim16+32, 11, -1, tempbuf, 0);
     }
 
@@ -3167,7 +3167,7 @@ PlaxAdjustShade(void)
 
     clearmidstatbar16();                // Clear middle of status bar
 
-    sprintf(tempbuf, "%d Plax Sky shades adjusted.", count);
+    sprintf(tempbuf, "%ld Plax Sky shades adjusted.", count);
     printext16(8, ydim16+32, 11, -1, tempbuf, 0);
     }
 
@@ -3337,7 +3337,7 @@ AdjustVisibility(void)
 
     clearmidstatbar16();                // Clear middle of status bar
 
-    sprintf(tempbuf, "%d Vis adjusted.", count);
+    sprintf(tempbuf, "%ld Vis adjusted.", count);
     printext16(8, ydim16+32, 11, -1, tempbuf, 0);
     }
 
@@ -3478,7 +3478,7 @@ short tagcheck[] = {0, 1, 3, 5, 16, 23, 25, 27, 29, 30, 31, 32, 33, 34, 37, 38, 
 BOOL
 DoMatchCheck(SPRITEp sp)
     {
-    int i;
+    unsigned i;
 
     // Don't F up the next tag with weird tag 2 cases that aren't match tags!
     for (i = 0; i < sizeof(tagcheck); i++)
@@ -3558,22 +3558,22 @@ ShadeMenu(void)                         // F8
 
     while ((key = BKeyPressed()) == NULL);
 
-    if (key == &KEY_PRESSED(KEYSC_1))
+    if (key == (BYTEp)&KEY_PRESSED(KEYSC_1))
         {
         *key = FALSE;
         PlaxSetShade();
         }
-    else if (key == &KEY_PRESSED(KEYSC_2))
+    else if (key == (BYTEp)&KEY_PRESSED(KEYSC_2))
         {
         *key = FALSE;
         PlaxAdjustShade();
         }
-    else if (key == &KEY_PRESSED(KEYSC_3))
+    else if (key == (BYTEp)&KEY_PRESSED(KEYSC_3))
         {
         *key = FALSE;
         AdjustShade();
         }
-    else if (key == &KEY_PRESSED(KEYSC_4))
+    else if (key == (BYTEp)&KEY_PRESSED(KEYSC_4))
         {
         *key = FALSE;
         AdjustVisibility();

@@ -79,7 +79,7 @@ int32 RTS_AddFile (char *filename)
    {
    wadinfo_t  header;
    lumpinfo_t *lump_p;
-   uint32     i;
+   int32     i;
    int32      handle, length;
    int32      startlump;
    filelump_t *fileinfo, *fileinfoo;
@@ -291,7 +291,7 @@ void RTS_ReadLump (int32 lump, void *dest)
 void *RTS_GetSound (int32 lump)
 {
    lump++;
-   if ((uint32)lump >= numlumps)
+   if ((uint32)lump >= (uint32)numlumps)
       Error ("RTS_GetSound: %i >= %i\n",lump,numlumps);
 
    if (lumpcache[lump] == NULL)

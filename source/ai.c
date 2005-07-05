@@ -546,7 +546,7 @@ int DoActorOperate(short SpriteNum)
     short nearsector, nearwall, nearsprite;
     long nearhitdist;
     long z[2];
-    int i;
+    unsigned int i;
 
     if (u->ID == HORNET_RUN_R0 || u->ID == EEL_RUN_R0 || u->ID == BUNNY_RUN_R0)
         return(FALSE);
@@ -1265,7 +1265,7 @@ FindTrackAwayFromPlayer(USERp u)
     SPRITEp sp = u->SpriteP;
 
     short point, track_dir, track;
-    short i;
+    unsigned int i;
 
     static short RunAwayTracks[] =
         {
@@ -1312,7 +1312,7 @@ FindWanderTrack(USERp u)
     SPRITEp sp = u->SpriteP;
 
     short point, track_dir, track;
-    short i;
+    unsigned int i;
 
     static short WanderTracks[] =
         {
@@ -1522,8 +1522,7 @@ DoActorAttack(short SpriteNum)
     DISTANCE(sp->x, sp->y, u->tgt_sp->x, u->tgt_sp->y, dist, a, b, c);
     
     pu = User[GetPlayerSpriteNum(SpriteNum)];
-    if (u->ActorActionSet->CloseAttack[0] && 
-        dist < CloseRangeDist(sp, u->tgt_sp) ||
+    if ((u->ActorActionSet->CloseAttack[0] && dist < CloseRangeDist(sp, u->tgt_sp)) ||
         (pu && pu->WeaponNum == WPN_FIST))	// JBF: added null check
         {
         rand_num = ChooseActionNumber(u->ActorActionSet->CloseAttackPercent);

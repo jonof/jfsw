@@ -251,7 +251,7 @@ void CONFIG_SetDefaults( void )
    }
 
    memset(MouseFunctions, -1, sizeof(MouseFunctions));
-   for (i=0; i < (int32)sizeof(mousedefaults)/sizeof(char*); i++) {
+   for (i=0; i < (int32)(sizeof(mousedefaults)/sizeof(char*)); i++) {
       MouseFunctions[i][0] = CONFIG_FunctionNameToNum( mousedefaults[i] );
 
       if (i<4) continue;
@@ -271,13 +271,13 @@ void CONFIG_SetDefaults( void )
    CONTROL_SetMouseSensitivity(32768<<2);
 
    memset(JoystickFunctions, -1, sizeof(JoystickFunctions));
-   for (i=0; i < (int32)sizeof(joystickdefaults)/sizeof(char*); i++) {
+   for (i=0; i < (int32)(sizeof(joystickdefaults)/sizeof(char*)); i++) {
       JoystickFunctions[i][0] = CONFIG_FunctionNameToNum( joystickdefaults[i] );
       JoystickFunctions[i][1] = CONFIG_FunctionNameToNum( joystickclickeddefaults[i] );
    }
 
    memset(JoystickDigitalFunctions, -1, sizeof(JoystickDigitalFunctions));
-   for (i=0; i < (int32)sizeof(joystickanalogdefaults)/sizeof(char*); i++) {
+   for (i=0; i < (int32)(sizeof(joystickanalogdefaults)/sizeof(char*)); i++) {
 	JoystickAnalogueScale[i] = 65536;
 	JoystickAnalogueDead[i] = 1000;
 	JoystickAnalogueSaturate[i] = 9500;

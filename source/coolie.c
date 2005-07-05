@@ -406,7 +406,7 @@ VOID EnemyDefaults(short SpriteNum, ACTOR_ACTION_SETp action, PERSONALITYp perso
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = &sprite[SpriteNum];
-    short wpn;
+    unsigned int wpn;
     short wpn_cnt;
     short depth = 0;
     extern short TotalKillable;

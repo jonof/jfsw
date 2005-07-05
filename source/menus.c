@@ -840,7 +840,8 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
 		" source code, latest news, and updates of this port."
 	};
 	short dimx, dimy;
-	int ycur = 54, ji;
+	int ycur = 54;
+	unsigned ji;
 
 	dimy = 0; MNU_MeasureString(jtitle, &dimx, &dimy);
 	MNU_DrawString(160-(dimx>>1), ycur, jtitle, 0, 0);
@@ -1933,7 +1934,7 @@ MNU_LoadSaveMove(UserCall call, MenuItem_p item)
             &SaveGameLevel, &SaveGameSkill);
 
         sprintf(SaveGameInfo1, "Level %d, Skill %d", SaveGameLevel, SaveGameSkill+1);
-        SaveGameInfo2[0] = NULL;
+        SaveGameInfo2[0] = 0;
         }
 
     if (QuickSaveMode)
@@ -3283,7 +3284,7 @@ MNU_DrawItem(MenuItem * item)
 
     MNU_ItemPostProcess(currentmenu);  // Put this in so things can be drawn on item select
 
-    if (item->pic == NULL)
+    if (!item->pic)
         return;
     
     MNU_DrawItemIcon(item);
@@ -3495,7 +3496,7 @@ MNU_DoHotkey(void)
     index = 0;
     for (item = currentmenu->items; item->type != mt_none; item++)
         {
-        if (KEY_PRESSED(item->hotkey) && item->hotkey != NULL)
+        if (KEY_PRESSED(item->hotkey) && item->hotkey != 0)
             {
             MNU_SelectItem(currentmenu, index, FALSE);
             return (TRUE);

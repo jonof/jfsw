@@ -556,7 +556,7 @@ VOID FAFgetzrange(LONG x, LONG y, LONG z, SHORT sectnum,
         if (uppersect < 0)
             _ErrMsg(ERR_STD_ARG, "Did not find a sector at %d, %d, %d", x, y, newz);
         getzrange(x, y, newz, uppersect, hiz,  ceilhit, &foo1,  &foo2, clipdist, clipmask);
-        SectorZadjust(*ceilhit, hiz, -1, -1);
+        SectorZadjust(*ceilhit, hiz, -1, NULL);
         }
     else    
     if (FAF_ConnectFloor(sectnum) && !TEST(sector[sectnum].floorstat, FLOOR_STAT_FAF_BLOCK_HITSCAN))
@@ -580,7 +580,7 @@ VOID FAFgetzrange(LONG x, LONG y, LONG z, SHORT sectnum,
         if (lowersect < 0)
             _ErrMsg(ERR_STD_ARG, "Did not find a sector at %d, %d, %d", x, y, newz);
         getzrange(x, y, newz, lowersect, &foo1,  &foo2, loz,  florhit, clipdist, clipmask);
-        SectorZadjust(-1, -1, *florhit, loz);    
+        SectorZadjust(-1, NULL, *florhit, loz);    
         WaterAdjust(*florhit, loz);
         }           
     }
@@ -626,7 +626,7 @@ VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum,
         if (uppersect < 0)
             _ErrMsg(ERR_STD_ARG, "Did not find a sector at %d, %d, %d, sectnum %d", x, y, newz, sectnum);
         getzrangepoint(x, y, newz, uppersect, hiz,  ceilhit, &foo1,  &foo2);
-        SectorZadjust(*ceilhit, hiz, -1, -1);
+        SectorZadjust(*ceilhit, hiz, -1, NULL);
         }
     else
     if (FAF_ConnectFloor(sectnum) && !TEST(sector[sectnum].floorstat, FLOOR_STAT_FAF_BLOCK_HITSCAN))
@@ -643,7 +643,7 @@ VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum,
         if (lowersect < 0)
             _ErrMsg(ERR_STD_ARG, "Did not find a sector at %d, %d, %d, sectnum %d", x, y, newz, sectnum);
         getzrangepoint(x, y, newz, lowersect, &foo1,  &foo2, loz,  florhit);
-        SectorZadjust(-1, -1, *florhit, loz);    
+        SectorZadjust(-1, NULL, *florhit, loz);    
         WaterAdjust(*florhit, loz);    
         }           
     }
@@ -829,14 +829,14 @@ GetUpperLowerSector(short match, long x, long y, short *upper, short *lower)
     {
     long i, j;
     short sectorlist[16];
-    short sln = 0;
+    long sln = 0;
     short SpriteNum, Next;
     SPRITEp sp;
     
     // keep a list of the last stacked sectors the view was in and
     // check those fisrt
     sln = 0;
-    for (i = 0; i < SIZ(GlobStackSect); i++)
+    for (i = 0; i < (long)SIZ(GlobStackSect); i++)
         {
         // will not hurt if GlobStackSect is invalid - inside checks for this
         if (inside(x, y, GlobStackSect[i]) == 1)
@@ -889,7 +889,7 @@ GetUpperLowerSector(short match, long x, long y, short *upper, short *lower)
                     continue;
 
                 sectorlist[sln] = i;
-                if (sln < SIZ(GlobStackSect))
+                if (sln < (long)SIZ(GlobStackSect))
                     GlobStackSect[sln] = i;
                 sln++;
                 }

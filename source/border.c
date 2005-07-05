@@ -504,7 +504,7 @@ VOID SetBorder(PLAYERp pp, int value)
         //return;
         }
 
-    if (gs.BorderNum > SIZ(BorderInfoValues) - 1)
+    if (gs.BorderNum > (int)SIZ(BorderInfoValues) - 1)
         {
         gs.BorderNum = SIZ(BorderInfoValues) - 1;
         return;

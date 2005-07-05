@@ -590,7 +590,7 @@ KillSprite(SHORT SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     short i,nexti;
-    short stat;
+    unsigned stat;
     short statnum,sectnum;
     //extern short Zombies;
 
@@ -1737,7 +1737,7 @@ SpriteSetupPost(VOID)
             if (labs(ds->z - fz) > Z(4))    
                 continue;
                 
-            u = SpawnUser(i, NULL, NULL);
+            u = SpawnUser(i, 0, NULL);
             change_sprite_stat(i, STAT_NO_STATE);
             u->ceiling_dist = Z(4);
             u->floor_dist = -Z(2);
@@ -1934,7 +1934,7 @@ SpriteSetup(VOID)
         SET(sp->cstat, CSTAT_SPRITE_INVISIBLE);
         
         // for bounding sector objects
-        if (tag >= 500 && tag < 600 || tag == SECT_SO_CENTER)
+        if ((tag >= 500 && tag < 600) || tag == SECT_SO_CENTER)
             {
             // NOTE: These will get deleted by the sector object
             // setup code
@@ -2570,7 +2570,7 @@ SpriteSetup(VOID)
                         }
                     }
                 
-                User[SpriteNum] = u = SpawnUser(SpriteNum, NULL, NULL);
+                User[SpriteNum] = u = SpawnUser(SpriteNum, 0, NULL);
                 u->WallCount = wallcount;    
                 wall_shade = u->WallShade = CallocMem(u->WallCount * sizeof(*u->WallShade), 1);
                 
@@ -2626,7 +2626,7 @@ SpriteSetup(VOID)
                 
                 // !LIGHT
                 // make an wall_shade array and put it in User
-                User[SpriteNum] = u = SpawnUser(SpriteNum, NULL, NULL);
+                User[SpriteNum] = u = SpawnUser(SpriteNum, 0, NULL);
                 u->WallCount = wallcount;    
                 wall_shade = u->WallShade = CallocMem(u->WallCount * sizeof(*u->WallShade), 1);
                 
@@ -2838,7 +2838,7 @@ SpriteSetup(VOID)
                 if (!User[SpriteNum])
                     u = SpawnUser(SpriteNum, ST1, NULL);
                 
-                if (SP_TAG14(sp) == (64<<8)|64)    
+                if (SP_TAG14(sp) == ((64<<8)|64))    
                     SP_TAG14(sp) = 0;
                     
                 change_sprite_stat(SpriteNum, STAT_SPAWN_SPOT);
@@ -2854,7 +2854,7 @@ SpriteSetup(VOID)
                     if (sprite[i].hitag == sp->hitag && sprite[i].lotag == sp->lotag)
                         {
                         TerminateGame();
-                        printf("Two VIEW_THRU_ tags with same match found on level\n1: x %d, y %d \n2: x %d, y %d", sp->x, sp->y, sprite[i].x, sprite[i].y);
+                        printf("Two VIEW_THRU_ tags with same match found on level\n1: x %ld, y %ld \n2: x %ld, y %ld", sp->x, sp->y, sprite[i].x, sprite[i].y);
                         exit(0);
                         }
                     }
@@ -4639,7 +4639,7 @@ SpriteOverlap(SHORT spritenum_a, SHORT spritenum_b)
 
     long spa_tos, spa_bos, spb_tos, spb_bos, overlap_z;
 
-    if (Distance(spa->x, spa->y, spb->x, spb->y) > ua->Radius + ub->Radius)
+    if ((unsigned)Distance(spa->x, spa->y, spb->x, spb->y) > ua->Radius + ub->Radius)
     {
     return (FALSE);
     }
@@ -5447,7 +5447,7 @@ DoSpawnItemTeleporterEffect(SPRITEp sp)
     USERp eu;
     SPRITEp ep;
     
-    effect = SpawnSprite(STAT_MISSILE, NULL, s_TeleportEffect, sp->sectnum,
+    effect = SpawnSprite(STAT_MISSILE, 0, s_TeleportEffect, sp->sectnum,
         sp->x, sp->y, sp->z - Z(12), 
         sp->ang, 0);
 
@@ -5596,7 +5596,7 @@ DoGet(short SpriteNum)
             continue;
 
         DISTANCE(pp->posx, pp->posy, sp->x, sp->y, dist, a,b,c);
-        if (dist > (pu->Radius + u->Radius))
+        if ((unsigned)dist > (pu->Radius + u->Radius))
             {
             continue;
             }

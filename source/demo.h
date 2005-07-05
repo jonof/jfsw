@@ -63,7 +63,7 @@ typedef FILE *DFILE;
 #define DOPEN_WRITE(name) fopen(name,"wb")
 #define DOPEN_READ(name) fopen(name,"rb")
 #define DCLOSE(handle) fclose(handle)
-#define DF_ERR 0
+#define DF_ERR NULL
 #endif
 
 void DemoTerm(void );

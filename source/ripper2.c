@@ -661,7 +661,6 @@ STATEp sg_Ripper2JumpAttack[] =
 //////////////////////
 
 #define RIPPER2_HANG_JUMP_RATE 20
-DoRipper2HangJump(short SpriteNum);
 
 STATE s_Ripper2HangJump[5][6] =
     {
@@ -1104,7 +1103,7 @@ DoRipper2BeginJumpAttack(short SpriteNum)
     int CanSeePlayer(short SpriteNum);
     short tang;
 
-#define RANDOM_NEG(x) (RANDOM_P2((x)<<1) - x)
+#define RANDOM_NEG(x) (RANDOM_P2((x)<<1) - (x))
 
     tang = getangle(psp->x - sp->x, psp->y - sp->y);
 
@@ -1372,6 +1371,8 @@ int ChestRipper2(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
 
     PlaySound(DIGI_RIPPER2CHEST,&sp->x,&sp->y,&sp->z,v3df_follow);
+
+    return 0;
     }
 
 

@@ -1164,7 +1164,7 @@ GetDeltaAngle(short ang1, short ang2)
     }
 
 TARGET_SORT TargetSort[MAX_TARGET_SORT];
-short TargetSortCount;
+unsigned TargetSortCount;
 
 int CompareTarget(TARGET_SORTp tgt1, TARGET_SORTp tgt2)
     {
@@ -1188,7 +1188,7 @@ DoPickTarget(SPRITEp sp, WORD max_delta_ang, BOOL skip_targets)
     SHORTp shp;
     USERp u = User[sp - sprite];
     long ezh, ezhl, ezhm;
-    short ndx;
+    unsigned ndx;
     TARGET_SORTp ts;
     long ang_weight, dist_weight;
 
@@ -1240,7 +1240,7 @@ DoPickTarget(SPRITEp sp, WORD max_delta_ang, BOOL skip_targets)
             delta_ang = labs(GetDeltaAngle(sp->ang, angle2));
 
             // If delta_ang not in the range skip this one
-            if (delta_ang > max_delta_ang)
+            if (delta_ang > (int)max_delta_ang)
                 continue;
 
             if (u && u->PlayerP)
@@ -1294,7 +1294,7 @@ DoPickTarget(SPRITEp sp, WORD max_delta_ang, BOOL skip_targets)
         }
 
     if (TargetSortCount > 1)
-        qsort(&TargetSort,TargetSortCount,sizeof(TARGET_SORT),CompareTarget);
+        qsort(&TargetSort,TargetSortCount,sizeof(TARGET_SORT),(int(*)(const void*,const void*))CompareTarget);
 
     return(TargetSort[0].sprite_num);
 }
@@ -1383,7 +1383,7 @@ DoSpawnTeleporterEffect(SPRITEp sp)
     nx += sp->x;
     ny += sp->y;
     
-    effect = SpawnSprite(STAT_MISSILE, NULL, s_TeleportEffect, sp->sectnum,
+    effect = SpawnSprite(STAT_MISSILE, 0, s_TeleportEffect, sp->sectnum,
         nx, ny, SPRITEp_TOS(sp) + Z(16), 
         sp->ang, 0);
 
@@ -1410,7 +1410,7 @@ DoSpawnTeleporterEffectPlace(SPRITEp sp)
     long nx, ny;
     SPRITEp ep;
 
-    effect = SpawnSprite(STAT_MISSILE, NULL, s_TeleportEffect, sp->sectnum,
+    effect = SpawnSprite(STAT_MISSILE, 0, s_TeleportEffect, sp->sectnum,
         sp->x, sp->y, SPRITEp_TOS(sp) + Z(16), 
         sp->ang, 0);
 
@@ -4113,7 +4113,7 @@ DoPlayerWadeSuperJump(PLAYERp pp)
     long hitx, hity, hitz;
     short hitsect, hitwall, hitsprite;
     USERp u = User[pp->PlayerSprite];
-    short i;
+    unsigned i;
     //short angs[3];
     static short angs[3] = {0, 0, 0};
     long zh = sector[pp->cursectnum].floorz - Z(pp->WadeDepth) - Z(2);
@@ -4553,7 +4553,8 @@ BOOL
 PlayerOnLadder(PLAYERp pp)
     {
     short sec, wal, spr;
-    long dist, i, nx, ny;
+    long dist, nx, ny;
+    unsigned i;
     USERp u = User[pp->PlayerSprite];
     SPRITEp lsp;
     long hitx,hity,hitz;
@@ -4791,11 +4792,11 @@ GetOverlapSector(long x, long y, short *over, short *under)
     if (!found)
         {
         TerminateGame();
-        printf("GetOverlapSector x = %d, y = %d, over %d, under %d", x, y, *over, *under);
+        printf("GetOverlapSector x = %ld, y = %ld, over %d, under %d", x, y, *over, *under);
         exit(0);
         }
     
-    PRODUCTION_ASSERT(found != NULL);
+    PRODUCTION_ASSERT(found != 0);
     PRODUCTION_ASSERT(found <= 2);
 
     // the are overlaping - check the z coord
@@ -4828,7 +4829,7 @@ GetOverlapSector2(long x, long y, short *over, short *under)
     int i, nexti, found = 0;
     short sf[2]={0,0};                        // sectors found
     
-    short stat;
+    unsigned stat;
     static short UnderStatList[] = {STAT_UNDERWATER, STAT_UNDERWATER2};
     
     // NOTE: For certain heavily overlapped areas in $seabase this is a better
@@ -4881,11 +4882,11 @@ GetOverlapSector2(long x, long y, short *over, short *under)
     if (!found)
         {
         TerminateGame();
-        printf("GetOverlapSector x = %d, y = %d, over %d, under %d", x, y, *over, *under);
+        printf("GetOverlapSector x = %ld, y = %ld, over %d, under %d", x, y, *over, *under);
         exit(0);
         }
     
-    PRODUCTION_ASSERT(found != NULL);
+    PRODUCTION_ASSERT(found != 0);
     PRODUCTION_ASSERT(found <= 2);
 
     // the are overlaping - check the z coord
@@ -5476,7 +5477,7 @@ DoPlayerDive(PLAYERp pp)
    // if((RANDOM_RANGE(1000<<5)>>5) < 100)
    //     PlaySound(DIGI_BUBBLES, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_follow);
     
-    if (!Prediction && pp->z_speed && ((RANDOM_P2(1024<<5)>>5) < 64) ||
+    if ((!Prediction && pp->z_speed && ((RANDOM_P2(1024<<5)>>5) < 64)) ||
         (PLAYER_MOVING(pp) && (RANDOM_P2(1024<<5)>>5) < 64))
         {
         short bubble;
@@ -6664,7 +6665,7 @@ DoPlayerBeginDie(PLAYERp pp)
     pp->slide_xvect = pp->slide_yvect = 0;
     pp->floor_dist = PLAYER_WADE_FLOOR_DIST;
     pp->ceiling_dist = PLAYER_WADE_CEILING_DIST;
-    ASSERT(pp->DeathType < SIZ(PlayerDeathFunc))
+    ASSERT(pp->DeathType < SIZ(PlayerDeathFunc));
     pp->DoPlayerAction = PlayerDeathFunc[pp->DeathType];
     pp->sop_control = NULL;
     pp->sop_remote = NULL;
@@ -7003,8 +7004,9 @@ SPRITEp DoPlayerDeathCheckKick(PLAYERp pp)
     {
     SPRITEp sp = pp->SpriteP, hp;
     USERp u = User[pp->PlayerSprite], hu;
-    short stat,i,nexti;
-    long a,b,c,dist;
+    short i,nexti;
+    unsigned stat,dist;
+    long a,b,c;
         
     for (stat = 0; stat < SIZ(StatDamageList); stat++)
         {
@@ -7069,7 +7071,7 @@ void DoPlayerDeathMoveHead(PLAYERp pp)
     dax = MOVEx(u->slide_vel, u->slide_ang);
     day = MOVEy(u->slide_vel, u->slide_ang);
     
-    if (u->ret = move_sprite(pp->PlayerSprite, dax, day, 0, Z(16), Z(16), 1, synctics))
+    if ((u->ret = move_sprite(pp->PlayerSprite, dax, day, 0, Z(16), Z(16), 1, synctics)))
         {
         switch (TEST(u->ret, HIT_MASK))
             {
@@ -8359,7 +8361,8 @@ InitMultiPlayerInfo(VOID)
     {
     PLAYERp pp;
     SPRITEp sp;
-    short pnum, start0, stat;
+    short pnum, start0;
+    unsigned stat;
     short SpriteNum, NextSprite, tag;
     static short MultiStatList[] = 
         {

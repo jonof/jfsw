@@ -21,9 +21,9 @@ DXROOT=c:/sdks/msc/dx61
 # SETSPRITEZ is mandatory!
 ENGINEOPTS=-DSETSPRITEZ -DSUPERBUILD -DPOLYMOST -DUSE_OPENGL -DDYNAMIC_OPENGL
 
-CC=gcc
+CC?=gcc
 # -Werror-implicit-function-declaration
-CFLAGS=$(debug) -W -Wall -Wimplicit -O1 \
+CFLAGS=$(debug) -W -Wall -Wimplicit \
 	-Wno-char-subscripts -Wno-unused \
 	-funsigned-char -march=pentium -DNO_GCC_BUILTINS \
 	-I$(INC) -I$(EINC) -I$(SRC)jmact -I$(SRC)jaudiolib -I../jfaud/inc \

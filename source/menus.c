@@ -209,6 +209,9 @@ static BOOL ApplyModeSettings(void)
 		ScreenWidth = newx;
 		ScreenHeight = newy;
 		ScreenBPP = newbpp;
+
+		SetupAspectRatio();
+		SetRedrawScreen(Player + myconnectindex);
 	}
 	return FALSE;
 }

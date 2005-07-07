@@ -10,9 +10,9 @@ INC=$(SRC)
 o=o
 
 # debugging enabled
-debug=-ggdb
+debug=-ggdb -O0
 # debugging disabled
-#debug=-ggdb -fomit-frame-pointer
+#debug=-fomit-frame-pointer -O1
 
 
 DXROOT=c:/sdks/msc/dx61
@@ -21,12 +21,8 @@ DXROOT=c:/sdks/msc/dx61
 # SETSPRITEZ is mandatory!
 ENGINEOPTS=-DSETSPRITEZ -DSUPERBUILD -DPOLYMOST -DUSE_OPENGL -DDYNAMIC_OPENGL
 
-# This is the list of flags -O1 enables, but actually enabling -O1 causes breakage
-OPTIMISE=-fdefer-pop -fmerge-constants -fthread-jumps -floop-optimize -fcrossjumping \
-	-fif-conversion -fif-conversion2 -fguess-branch-probability -fcprop-registers
-
 CC=gcc
-CFLAGS=$(debug) -W -Wall -Wimplicit $(OPTIMISE) \
+CFLAGS=$(debug) -W -Wall -Wimplicit \
 	-Wno-char-subscripts -Wno-unused \
 	-funsigned-char -fno-strict-aliasing -march=pentium -DNO_GCC_BUILTINS \
 	-I$(INC) -I$(EINC) -I$(SRC)jmact -I$(SRC)jaudiolib -I../jfaud/inc \

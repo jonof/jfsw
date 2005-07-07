@@ -3504,7 +3504,7 @@ long app_main(long argc, char *argv[])
 		char *homedir;
 		int asperr;
 
-#if defined(PLATFORMLINUX)
+#if defined(PLATFORMLINUX) || defined(PLATFORMBSD)
 		addsearchpath("/usr/share/games/jfsw");
 		addsearchpath("/usr/local/games/jfsw");
 #endif

@@ -3476,6 +3476,8 @@ int DetectShareware(void)
     return 1;	// heavens knows what this is...
 }
 
+char *startwin_labeltext = "Starting Shadow Warrior...";
+
 long app_main(long argc, char *argv[])
     {
     int i;

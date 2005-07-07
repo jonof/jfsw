@@ -651,6 +651,8 @@ ExtInit(void)
 
 #endif
 
+char *startwin_labeltext = "Starting Build Editor for Shadow Warrior...";
+
 int 
 ExtInit(void)
     {

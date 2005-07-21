@@ -5539,6 +5539,20 @@ char *KeyMsg[MAX_KEYS] = {
 "Got the BRONZE master key!",
 "Got the RED master key!"
 };
+
+struct InventoryDecl_t InventoryDecls[InvDecl_TOTAL] = {
+	{ "Armor Vest +50",           50  },
+	{ "Kevlar Armor Vest +100",   100 },
+	{ "MedKit +20",               20  },
+	{ "Fortune Cookie +50 BOOST", 50  },
+	{ "Portable MedKit",          100 },
+	{ "Gas Bomb",                 1   },
+	{ "Flash Bomb",               2   },
+	{ "Caltrops",                 3   },
+	{ "Night Vision Goggles",     100 },
+	{ "Repair Kit",               100 },
+	{ "Smoke Bomb",               100 },
+};
     
 #define ITEMFLASHAMT  -8
 #define ITEMFLASHCLR  144
@@ -5654,8 +5668,7 @@ DoGet(short SpriteNum)
             if (pp->HasKey[key_num])
                 break;
             
-            sprintf(ds,"%s",KeyMsg[key_num]);
-            PutStringInfo(Player+pnum, ds);
+            PutStringInfo(Player+pnum, KeyMsg[key_num]);
             
             pp->HasKey[key_num] = TRUE;
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
@@ -5671,20 +5684,18 @@ DoGet(short SpriteNum)
             break;
             
         case ICON_ARMOR:
-            if (pp->Armor < 100)
+            if (pp->Armor < InventoryDecls[InvDecl_Kevlar].amount)
                 {
                 if(u->spal == PALETTE_PLAYER3)
                     {
-                    PlayerUpdateArmor(pp, 1100);
-                    sprintf(ds,"Kevlar Armor Vest +100");
-                    PutStringInfo(Player+pnum, ds);
+                    PlayerUpdateArmor(pp, 1000+InventoryDecls[InvDecl_Kevlar].amount);
+                    PutStringInfo(Player+pnum, InventoryDecls[InvDecl_Kevlar].name);
                     }
                 else {
-                if(pp->Armor < 50)
+                if(pp->Armor < InventoryDecls[InvDecl_Armor].amount)
                     {
-                    PlayerUpdateArmor(pp, 1050);
-                    sprintf(ds,"Armor Vest +50");
-                    PutStringInfo(Player+pnum, ds);
+                    PlayerUpdateArmor(pp, 1000+InventoryDecls[InvDecl_Armor].amount);
+                    PutStringInfo(Player+pnum, InventoryDecls[InvDecl_Armor].name);
                     }
                 else
                     break;
@@ -5713,15 +5724,14 @@ DoGet(short SpriteNum)
                 {
                 BOOL putbackmax=FALSE;
 
-                sprintf(ds,"MedKit +20");
-                PutStringInfo(Player+pnum, ds);
+                PutStringInfo(Player+pnum, InventoryDecls[InvDecl_SmMedkit].name);
 
                 if(pp->MaxHealth == 200)
                     {
                     pp->MaxHealth = 100;
                     putbackmax = TRUE;
                     }
-                PlayerUpdateHealth(pp, 20);
+                PlayerUpdateHealth(pp, InventoryDecls[InvDecl_SmMedkit].amount);
 
                 if(putbackmax) pp->MaxHealth = 200;
 
@@ -5744,9 +5754,8 @@ DoGet(short SpriteNum)
             pp->MaxHealth = 200;
             if (pu->Health < 200)
                 {
-                sprintf(ds,"Fortune Cookie +50 BOOST");
-                PutStringInfo(Player+pnum, ds);
-                PlayerUpdateHealth(pp, 50);       // This is for health
+                PutStringInfo(Player+pnum, InventoryDecls[InvDecl_Booster].name);
+                PlayerUpdateHealth(pp, InventoryDecls[InvDecl_Booster].amount);       // This is for health
                                                   // over 100%
                 // Say something witty
                 if(pp == Player+myconnectindex && gs.Messages)
@@ -5778,11 +5787,10 @@ DoGet(short SpriteNum)
         //
         case ICON_MEDKIT:
         
-            if (!pp->InventoryAmount[INVENTORY_MEDKIT] || pp->InventoryPercent[INVENTORY_MEDKIT] < 100)
+            if (!pp->InventoryAmount[INVENTORY_MEDKIT] || pp->InventoryPercent[INVENTORY_MEDKIT] < InventoryDecls[InvDecl_Medkit].amount)
                 {
-                sprintf(ds,"Portable MedKit");
-                PutStringInfo(Player+pnum, ds);
-                pp->InventoryPercent[INVENTORY_MEDKIT] = 100;
+                PutStringInfo(Player+pnum, InventoryDecls[InvDecl_Medkit].name);
+                pp->InventoryPercent[INVENTORY_MEDKIT] = InventoryDecls[InvDecl_Medkit].amount;
                 pp->InventoryAmount[INVENTORY_MEDKIT] = 1;
                 PlayerUpdateInventory(pp, INVENTORY_MEDKIT);
                 SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
@@ -5802,10 +5810,9 @@ DoGet(short SpriteNum)
 
         case ICON_CHEMBOMB:
         
-            if (pp->InventoryAmount[INVENTORY_CHEMBOMB] < 1)
+            if (pp->InventoryAmount[INVENTORY_CHEMBOMB] < InventoryDecls[InvDecl_ChemBomb].amount)
                 {
-                sprintf(ds,"Gas Bomb");
-                PutStringInfo(Player+pnum, ds);
+                PutStringInfo(Player+pnum, InventoryDecls[InvDecl_ChemBomb].name);
                 pp->InventoryPercent[INVENTORY_CHEMBOMB] = 0;
                 pp->InventoryAmount[INVENTORY_CHEMBOMB]++;
                 PlayerUpdateInventory(pp, INVENTORY_CHEMBOMB);
@@ -5818,10 +5825,9 @@ DoGet(short SpriteNum)
             
         case ICON_FLASHBOMB:
         
-            if (pp->InventoryAmount[INVENTORY_FLASHBOMB] < 2)
+            if (pp->InventoryAmount[INVENTORY_FLASHBOMB] < InventoryDecls[InvDecl_FlashBomb].amount)
                 {
-                sprintf(ds,"Flash Bomb");
-                PutStringInfo(Player+pnum, ds);
+                PutStringInfo(Player+pnum, InventoryDecls[InvDecl_FlashBomb].name);
                 pp->InventoryPercent[INVENTORY_FLASHBOMB] = 0;
                 pp->InventoryAmount[INVENTORY_FLASHBOMB]++;
                 PlayerUpdateInventory(pp, INVENTORY_FLASHBOMB);
@@ -5834,14 +5840,13 @@ DoGet(short SpriteNum)
 
         case ICON_CALTROPS:
         
-            if (pp->InventoryAmount[INVENTORY_CALTROPS] < 3)
+            if (pp->InventoryAmount[INVENTORY_CALTROPS] < InventoryDecls[InvDecl_Caltrops].amount)
                 {
-                sprintf(ds,"Caltrops");
-                PutStringInfo(Player+pnum, ds);
+                PutStringInfo(Player+pnum, InventoryDecls[InvDecl_Caltrops].name);
                 pp->InventoryPercent[INVENTORY_CALTROPS] = 0;
                 pp->InventoryAmount[INVENTORY_CALTROPS]+=3;
-                if(pp->InventoryAmount[INVENTORY_CALTROPS] > 3)
-                    pp->InventoryAmount[INVENTORY_CALTROPS] = 3;
+                if(pp->InventoryAmount[INVENTORY_CALTROPS] > InventoryDecls[InvDecl_Caltrops].amount)
+                    pp->InventoryAmount[INVENTORY_CALTROPS] = InventoryDecls[InvDecl_Caltrops].amount;
                 PlayerUpdateInventory(pp, INVENTORY_CALTROPS);
                 SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
                 if (pp == Player+myconnectindex)
@@ -5851,11 +5856,10 @@ DoGet(short SpriteNum)
             break;
 
         case ICON_NIGHT_VISION:
-            if (!pp->InventoryAmount[INVENTORY_NIGHT_VISION] || pp->InventoryPercent[INVENTORY_NIGHT_VISION] < 100)
+            if (!pp->InventoryAmount[INVENTORY_NIGHT_VISION] || pp->InventoryPercent[INVENTORY_NIGHT_VISION] < InventoryDecls[InvDecl_NightVision].amount)
                 {
-                sprintf(ds,"Night Vision Goggles");
-                PutStringInfo(Player+pnum, ds);
-                pp->InventoryPercent[INVENTORY_NIGHT_VISION] = 100;
+                PutStringInfo(Player+pnum, InventoryDecls[InvDecl_NightVision].name);
+                pp->InventoryPercent[INVENTORY_NIGHT_VISION] = InventoryDecls[InvDecl_NightVision].amount;
                 pp->InventoryAmount[INVENTORY_NIGHT_VISION] = 1;
                 PlayerUpdateInventory(pp, INVENTORY_NIGHT_VISION);
                 SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
@@ -5865,11 +5869,10 @@ DoGet(short SpriteNum)
                 }
             break;
         case ICON_REPAIR_KIT:
-            if (!pp->InventoryAmount[INVENTORY_REPAIR_KIT] || pp->InventoryPercent[INVENTORY_REPAIR_KIT] < 100)
+            if (!pp->InventoryAmount[INVENTORY_REPAIR_KIT] || pp->InventoryPercent[INVENTORY_REPAIR_KIT] < InventoryDecls[InvDecl_RepairKit].amount)
                 {
-                sprintf(ds,"Repair Kit");
-                PutStringInfo(Player+pnum, ds);
-                pp->InventoryPercent[INVENTORY_REPAIR_KIT] = 100;
+                PutStringInfo(Player+pnum, InventoryDecls[InvDecl_RepairKit].name);
+                pp->InventoryPercent[INVENTORY_REPAIR_KIT] = InventoryDecls[InvDecl_RepairKit].amount;
                 pp->InventoryAmount[INVENTORY_REPAIR_KIT] = 1;
                 PlayerUpdateInventory(pp, INVENTORY_REPAIR_KIT);
                 SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
@@ -5897,11 +5900,10 @@ DoGet(short SpriteNum)
             break;
 #endif
         case ICON_CLOAK:
-            if (!pp->InventoryAmount[INVENTORY_CLOAK] || pp->InventoryPercent[INVENTORY_CLOAK] < 100)
+            if (!pp->InventoryAmount[INVENTORY_CLOAK] || pp->InventoryPercent[INVENTORY_CLOAK] < InventoryDecls[InvDecl_Cloak].amount)
                 {
-                sprintf(ds,"Smoke Bomb");
-                PutStringInfo(Player+pnum, ds);
-                pp->InventoryPercent[INVENTORY_CLOAK] = 100;
+                PutStringInfo(Player+pnum, InventoryDecls[InvDecl_Cloak].name);
+                pp->InventoryPercent[INVENTORY_CLOAK] = InventoryDecls[InvDecl_Cloak].amount;
                 pp->InventoryAmount[INVENTORY_CLOAK] = 1;
                 PlayerUpdateInventory(pp, INVENTORY_CLOAK);
                 SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    

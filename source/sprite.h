@@ -57,5 +57,25 @@ void PicAnimOff(short picnum);
 int MissileWaterAdjust(short SpriteNum);
 BOOL SpriteOverlapZ(SHORT spritenum_a,SHORT spritenum_b,long z_overlap);
 
+enum {
+	InvDecl_Armor,		// ie. +50 armour
+	InvDecl_Kevlar,		// ie. +100 armour
+	InvDecl_SmMedkit,
+	InvDecl_Booster,	// ie. fortune cookie
+	InvDecl_Medkit,
+	InvDecl_ChemBomb,	// ie. gas bomb
+	InvDecl_FlashBomb,
+	InvDecl_Caltrops,
+	InvDecl_NightVision,
+	InvDecl_RepairKit,
+	InvDecl_Cloak,
+	InvDecl_TOTAL
+};
+
+struct InventoryDecl_t {
+	char *name;
+	int  amount;
+} InventoryDecls[InvDecl_TOTAL];
+
 #endif
 

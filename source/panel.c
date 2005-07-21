@@ -633,11 +633,8 @@ PlayerUpdateArmor(PLAYERp pp, short value)
     if (Prediction)
         return;
         
-    if(value == 1050)   // Got 50 armor
-        pp->Armor = 50;
-    else
-    if(value == 1100)   // Got 100 armor
-        pp->Armor = 100;
+    if(value >= 1000)
+        pp->Armor = value-1000;
     else
         pp->Armor += value;
 

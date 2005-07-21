@@ -35,6 +35,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "game.h"
 
 #include "parse.h"
+#include "sprite.h"
 #include "jsector.h"
 #include "parent.h"
 
@@ -409,49 +410,91 @@ enum {
 	CM_COOKIE,
 	CM_GOTKEY,
 	CM_NEEDKEY,
+	CM_INVENTORY,
+	CM_AMOUNT,
+	CM_AMMONAME,
+	CM_MAXAMMO,
+	CM_DAMAGEMIN,
+	CM_DAMAGEMAX,
 	CM_SECRET,
 	CM_QUIT,
 };
 
-static const struct {
+static const struct _tokset {
 	char *str;
 	int tokn;
 } cm_tokens[] = {
-	{ "map",         CM_MAP      },
-	{ "level",       CM_MAP      },
-	{ "episode",     CM_EPISODE  },
-	{ "filename",    CM_FILENAME },
-	{ "file",        CM_FILENAME },
-	{ "fn",          CM_FILENAME },
-	{ "levelname",   CM_FILENAME },
-	{ "song",        CM_SONG     },
-	{ "music",       CM_SONG     },
-	{ "songname",    CM_SONG     },
-	{ "title",       CM_TITLE    },
-	{ "name",        CM_TITLE    },
-	{ "description", CM_TITLE    },
-	{ "besttime",    CM_BESTTIME },
-	{ "partime",     CM_PARTIME  },
-	{ "cdatrack",    CM_CDATRACK },
-	{ "cdtrack",     CM_CDATRACK },
-	{ "subtitle",    CM_SUBTITLE },
-	{ "skill",       CM_SKILL    },
-	{ "cookie",      CM_COOKIE   },
-	{ "fortune",     CM_COOKIE   },
-	{ "gotkey",      CM_GOTKEY   },
-	{ "needkey",     CM_NEEDKEY  },
-	{ "secret",      CM_SECRET   },
-	{ "quit",        CM_QUIT     },
-};
-#define cm_numtokens (sizeof(cm_tokens)/sizeof(cm_tokens[0]))
+	{ "map",         CM_MAP       },
+	{ "level",       CM_MAP       },
+	{ "episode",     CM_EPISODE   },
+	{ "skill",       CM_SKILL     },
+	{ "cookie",      CM_COOKIE    },
+	{ "fortune",     CM_COOKIE    },
+	{ "gotkey",      CM_GOTKEY    },
+	{ "inventory",   CM_INVENTORY },
+	{ "needkey",     CM_NEEDKEY   },
+	{ "secret",      CM_SECRET    },
+	{ "quit",        CM_QUIT      },
+},
+cm_map_tokens[] = {
+	{ "title",       CM_TITLE     },
+	{ "name",        CM_TITLE     },
+	{ "description", CM_TITLE     },
+	{ "filename",    CM_FILENAME  },
+	{ "file",        CM_FILENAME  },
+	{ "fn",          CM_FILENAME  },
+	{ "levelname",   CM_FILENAME  },
+	{ "song",        CM_SONG      },
+	{ "music",       CM_SONG      },
+	{ "songname",    CM_SONG      },
+	{ "cdatrack",    CM_CDATRACK  },
+	{ "cdtrack",     CM_CDATRACK  },
+	{ "besttime",    CM_BESTTIME  },
+	{ "partime",     CM_PARTIME   },
+},
+cm_episode_tokens[] = {
+	{ "title",       CM_TITLE     },
+	{ "name",        CM_TITLE     },
+	{ "description", CM_TITLE     },
+	{ "subtitle",    CM_SUBTITLE  },
+},
+cm_skill_tokens[] = {
+	{ "title",       CM_TITLE     },
+	{ "name",        CM_TITLE     },
+	{ "description", CM_TITLE     },
+},
+cm_inventory_tokens[] = {
+	{ "title",       CM_TITLE     },
+	{ "name",        CM_TITLE     },
+	{ "description", CM_TITLE     },
+	{ "amount",      CM_AMOUNT    },
+},
+cm_weapons_tokens[] = {
+	{ "title",       CM_TITLE     },
+	{ "name",        CM_TITLE     },
+	{ "description", CM_TITLE     },
+	{ "ammoname",    CM_AMMONAME  },
+	{ "maxammo",     CM_MAXAMMO   },
+	{ "mindamage",   CM_DAMAGEMIN },
+	{ "maxdamage",   CM_DAMAGEMAX },
+	{ "pickup",      CM_AMOUNT    },
+}
+;
+#define cm_numtokens           (sizeof(cm_tokens)/sizeof(cm_tokens[0]))
+#define cm_map_numtokens       (sizeof(cm_map_tokens)/sizeof(cm_map_tokens[0]))
+#define cm_episode_numtokens   (sizeof(cm_episode_tokens)/sizeof(cm_episode_tokens[0]))
+#define cm_skill_numtokens     (sizeof(cm_skill_tokens)/sizeof(cm_skill_tokens[0]))
+#define cm_inventory_numtokens (sizeof(cm_inventory_tokens)/sizeof(cm_inventory_tokens[0]))
+#define cm_weapons_numtokens   (sizeof(cm_weapons_tokens)/sizeof(cm_weapons_tokens[0]))
 
-static int cm_transtok(const char *tok)
+
+static int cm_transtok(const char *tok, const struct _tokset *set, const unsigned num)
 {
 	unsigned i;
 
-	for (i=0; i<cm_numtokens; i++) {
-		if (!Bstrcasecmp(tok, cm_tokens[i].str))
-			return cm_tokens[i].tokn;
+	for (i=0; i<num; i++) {
+		if (!Bstrcasecmp(tok, set[i].str))
+			return set[i].tokn;
 	}
 
 	return -1;
@@ -485,12 +528,15 @@ static int cm_transtok(const char *tok)
 //      "Got the RED key!"
 //      "Got the BLUE key!"
 //      "Got the GREEN key!"
+//      ...
 //   }
 //   needkey {
 //     	"You need a RED key for this door."
 //      "You need a BLUE key for this door."
 //      "You need a GREEN key for this door."
+//      ...
 //   }
+//   inventory # { name "Armour" amount 50 }
 //   secret  "You found a secret area!"
 //   quit    "PRESS (Y) TO QUIT, (N) TO FIGHT ON."
 
@@ -498,6 +544,7 @@ static LEVEL_INFO custommaps[MAX_LEVELS_REG];
 static char *customfortune[MAX_FORTUNES];
 static char *customkeymsg[MAX_KEYS];
 static CHARp customkeydoormsg[MAX_KEYS];
+static char *custominventoryname[InvDecl_TOTAL];
 
 // FIXME: yes, we are leaking memory here at the end of the program by not freeing anything
 void LoadCustomInfoFromScript(char *filename)
@@ -510,8 +557,21 @@ void LoadCustomInfoFromScript(char *filename)
 	script = scriptfile_fromfile(filename);
 	if (!script) return;
 
+	// predefine constants for some stuff to give convenience and eliminate the need for a 'define' directive
+	scriptfile_addsymbolvalue("INV_ARMOR",      InvDecl_Armor);
+	scriptfile_addsymbolvalue("INV_KEVLAR",     InvDecl_Kevlar);
+	scriptfile_addsymbolvalue("INV_SM_MEDKIT",  InvDecl_SmMedkit);
+	scriptfile_addsymbolvalue("INV_FORTUNE",    InvDecl_Booster);
+	scriptfile_addsymbolvalue("INV_MEDKIT",     InvDecl_Medkit);
+	scriptfile_addsymbolvalue("INV_GAS_BOMB",   InvDecl_ChemBomb);
+	scriptfile_addsymbolvalue("INV_FLASH_BOMB", InvDecl_FlashBomb);
+	scriptfile_addsymbolvalue("INV_CALTROPS",   InvDecl_Caltrops);
+	scriptfile_addsymbolvalue("INV_NIGHT_VIS",  InvDecl_NightVision);
+	scriptfile_addsymbolvalue("INV_REPAIR_KIT", InvDecl_RepairKit);
+	scriptfile_addsymbolvalue("INV_SMOKE_BOMB", InvDecl_Cloak);
+
 	while ((token = scriptfile_gettoken(script))) {
-		switch (cm_transtok(token)) {
+		switch (cm_transtok(token, cm_tokens, cm_numtokens)) {
 			case CM_MAP:
 			{
 				char *mapnumptr;
@@ -530,7 +590,7 @@ void LoadCustomInfoFromScript(char *filename)
 				while (script->textptr < braceend) {
 					if (!(token = scriptfile_gettoken(script))) break;
 					if (token == braceend) break;
-					switch (cm_transtok(token)) {
+					switch (cm_transtok(token, cm_map_tokens, cm_map_numtokens)) {
 						case CM_FILENAME:
 						{
 							char *t;
@@ -592,7 +652,7 @@ void LoadCustomInfoFromScript(char *filename)
 							break;
 						}
 						default:
-							initprintf("A Error on line %s:%d\n",
+							initprintf("Error on line %s:%d\n",
 									script->filename,
 									scriptfile_getlinum(script,script->ltextptr));
 							break;
@@ -620,7 +680,7 @@ void LoadCustomInfoFromScript(char *filename)
 				while (script->textptr < braceend) {
 					if (!(token = scriptfile_gettoken(script))) break;
 					if (token == braceend) break;
-					switch (cm_transtok(token)) {
+					switch (cm_transtok(token, cm_episode_tokens, cm_episode_numtokens)) {
 						case CM_TITLE:
 						{
 							char *t;
@@ -668,7 +728,7 @@ void LoadCustomInfoFromScript(char *filename)
 				while (script->textptr < braceend) {
 					if (!(token = scriptfile_gettoken(script))) break;
 					if (token == braceend) break;
-					switch (cm_transtok(token)) {
+					switch (cm_transtok(token, cm_skill_tokens, cm_skill_numtokens)) {
 						case CM_TITLE:
 						{
 							char *t;
@@ -690,12 +750,12 @@ void LoadCustomInfoFromScript(char *filename)
 
 			case CM_COOKIE:
 			{
-				char *t,*fortuneend;
+				char *t;
 				int fc = 0;
 
-				if (scriptfile_getbraces(script, &fortuneend)) break;
+				if (scriptfile_getbraces(script, &braceend)) break;
 
-				while (script->textptr < fortuneend) {
+				while (script->textptr < braceend) {
 					if (scriptfile_getstring(script, &t)) break;
 
 					if (fc == MAX_FORTUNES) continue;
@@ -708,12 +768,12 @@ void LoadCustomInfoFromScript(char *filename)
 			}
 			case CM_GOTKEY:
 			{
-				char *t,*keyend;
+				char *t;
 				int fc = 0;
 
-				if (scriptfile_getbraces(script, &keyend)) break;
+				if (scriptfile_getbraces(script, &braceend)) break;
 
-				while (script->textptr < keyend) {
+				while (script->textptr < braceend) {
 					if (scriptfile_getstring(script, &t)) break;
 
 					if (fc == MAX_KEYS) continue;
@@ -726,12 +786,12 @@ void LoadCustomInfoFromScript(char *filename)
 			}
 			case CM_NEEDKEY:
 			{
-				char *t,*keyend;
+				char *t;
 				int fc = 0;
 
-				if (scriptfile_getbraces(script, &keyend)) break;
+				if (scriptfile_getbraces(script, &braceend)) break;
 
-				while (script->textptr < keyend) {
+				while (script->textptr < braceend) {
 					if (scriptfile_getstring(script, &t)) break;
 
 					if (fc == MAX_KEYS) continue;
@@ -740,6 +800,55 @@ void LoadCustomInfoFromScript(char *filename)
 					if (customkeydoormsg[fc]) KeyDoorMessage[fc] = customkeydoormsg[fc];
 					fc++;
 				}
+				break;
+			}
+			case CM_INVENTORY:
+			{
+				char *invtokptr = script->ltextptr, *invnumptr;
+				int in;
+				char *name = NULL;
+				int amt = -1;
+
+				if (scriptfile_getsymbol(script, &in)) break; invnumptr = script->ltextptr;
+				if (scriptfile_getbraces(script, &braceend)) break;
+
+				if ((unsigned)in >= (unsigned)InvDecl_TOTAL) {
+					initprintf("Error: inventory item number not in range 0-%d on line %s:%d\n",
+							InvDecl_TOTAL-1, script->filename,
+							scriptfile_getlinum(script,invnumptr));
+					script->textptr = braceend;
+					break;
+				}
+
+				while (script->textptr < braceend) {
+					if (!(token = scriptfile_gettoken(script))) break;
+					if (token == braceend) break;
+					switch (cm_transtok(token, cm_inventory_tokens, cm_inventory_numtokens)) {
+						case CM_TITLE:
+							if (scriptfile_getstring(script, &name)) break;
+							break;
+						case CM_AMOUNT:
+							if (scriptfile_getnumber(script, &amt)) break;
+							break;
+						default:
+							initprintf("Error on line %s:%d\n",
+									script->filename,
+									scriptfile_getlinum(script,script->ltextptr));
+							break;
+					}
+				}
+
+				if (!name || amt < 0) {
+					initprintf("Warning: missing or invalid 'name' and/or 'amount' value in "
+						"inventory item %d on line %s:%d\n", in, script->filename,
+							scriptfile_getlinum(script,invtokptr));
+					break;
+				}
+
+				if (custominventoryname[in]) free(custominventoryname[in]);
+				custominventoryname[in] = strdup(name);
+				InventoryDecls[in].name   = custominventoryname[in];
+				InventoryDecls[in].amount = amt;
 				break;
 			}
 			case CM_SECRET:
@@ -753,5 +862,6 @@ void LoadCustomInfoFromScript(char *filename)
 	}
 
 	scriptfile_close(script);
+	scriptfile_clearsymbols();
 }
 

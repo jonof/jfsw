@@ -25,6 +25,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //-------------------------------------------------------------------------
 #include "build.h"
 #include "compat.h"
+#include "osd.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -73,6 +74,7 @@ BOOL MNU_StatCheck(MenuItem *item);
 BOOL MNU_LoadGameCheck(MenuItem *item);
 BOOL MNU_TenCheck(MenuItem *item);
 static BOOL MNU_TryMusicInit(void);
+static void MNU_UpLevel(void);
 
 BOOL MNU_LoadSaveDraw(UserCall call, MenuItem * item);
 BOOL MNU_LoadSaveMove(UserCall call, MenuItem * item);
@@ -279,22 +281,37 @@ MenuItem mouse_i[] =
 
 MenuGroup mousegroup = {65, 5, "^Mouse", mouse_i, pic_newgametitl, 0, m_defshade, NULL,NULL, 0};
 
+BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item);
+MenuGroup keysetupgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_KeySetupCustom, NULL, 0};
+
+MenuItem inputsetup_i[] =
+    {
+    {DefLayer(0, "Keys Setup", &keysetupgroup),OPT_XS,           OPT_LINE(0),1,m_defshade,0,NULL,NULL,NULL},
+    {DefDisabled(0, "Mouse Setup", &keysetupgroup),OPT_XS,           OPT_LINE(1),1,m_defshade,0,NULL,NULL,NULL},
+    {DefDisabled(0, "Joystick Setup", &keysetupgroup),OPT_XS,           OPT_LINE(2),1,m_defshade,0,NULL,NULL,NULL},
+    {DefDisabled(0, "Advanced Mouse Setup", &keysetupgroup),OPT_XS,           OPT_LINE(4),1,m_defshade,0,NULL,NULL,NULL},
+    {DefDisabled(0, "Advanced Joystick Setup", &keysetupgroup),OPT_XS,           OPT_LINE(5),1,m_defshade,0,NULL,NULL,NULL},
+    {DefNone}
+    };
+MenuGroup inputsetupgroup = {65, 5, "^Input Setup", inputsetup_i, pic_newgametitl, 0, m_defshade, NULL,NULL, 0};
+
 MenuItem options_i[] =
     {
     {DefLayer(0, "Screen Menu", &screengroup),OPT_XS,            OPT_LINE(0), 1, m_defshade,0,NULL, NULL, NULL},
     {DefLayer(0, "Mouse Menu", &mousegroup),OPT_XS,              OPT_LINE(1), 1, m_defshade,0,NULL, MNU_MouseCheck, NULL},
     {DefLayer(0, "Sound Menu", &soundgroup),OPT_XS,              OPT_LINE(2), 1, m_defshade,0,MNU_TryMusicInit, MNU_MusicFxCheck, NULL},
+    {DefLayer(0, "Input Setup", &inputsetupgroup),OPT_XS,        OPT_LINE(3), 1,m_defshade,0,NULL,NULL,NULL},
     #ifndef PLOCK_VERSION // No need for this in weener version
-    {DefLayer(0, "Kid Mode", &parentalgroup),OPT_XS,        OPT_LINE(3), 1, m_defshade,0,NULL, NULL, NULL},
+    {DefLayer(0, "Kid Mode", &parentalgroup),OPT_XS,             OPT_LINE(4), 1, m_defshade,0,NULL, NULL, NULL},
     #endif
-    {DefButton(btn_messages, 0, "Messages"), OPT_XS,             OPT_LINE(4), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefButton(btn_messages, 0, "Messages"), OPT_XS,             OPT_LINE(5), 1, m_defshade, 0, NULL, NULL, NULL},
 //    {DefButton(btn_bobbing, 0, "View Bobbing"), OPT_XS,          OPT_LINE(7), 1, m_defshade, 0, NULL, NULL, NULL},
-    {DefButton(btn_shadows, 0, "Shadows"), OPT_XS,               OPT_LINE(5), 1, m_defshade, 0, NULL, NULL, NULL},
-    {DefButton(btn_auto_run, 0, "Auto Run"), OPT_XS,             OPT_LINE(6), 1, m_defshade, 0, NULL, NULL, NULL},
-    {DefButton(btn_crosshair, 0, "Crosshair"), OPT_XS,           OPT_LINE(7), 1, m_defshade, 0, NULL, NULL, NULL},
-    {DefButton(btn_auto_aim, 0, "Auto-Aiming"), OPT_XS,          OPT_LINE(8), 1, m_defshade, 0, NULL, NULL, NULL},
-    {DefButton(btn_voxels, 0, "Voxel Sprites"), OPT_XS,          OPT_LINE(9), 1, m_defshade, 0, NULL, NULL, NULL},
-    {DefButton(btn_stats, 0, "Level Stats"), OPT_XS,          OPT_LINE(10), 1, m_defshade, 0, NULL, MNU_StatCheck, NULL},
+    {DefButton(btn_shadows, 0, "Shadows"), OPT_XS,               OPT_LINE(6), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefButton(btn_auto_run, 0, "Auto Run"), OPT_XS,             OPT_LINE(7), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefButton(btn_crosshair, 0, "Crosshair"), OPT_XS,           OPT_LINE(8), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefButton(btn_auto_aim, 0, "Auto-Aiming"), OPT_XS,          OPT_LINE(9), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefButton(btn_voxels, 0, "Voxel Sprites"), OPT_XS,          OPT_LINE(10), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefButton(btn_stats, 0, "Level Stats"), OPT_XS,             OPT_LINE(11), 1, m_defshade, 0, NULL, MNU_StatCheck, NULL},
     {DefNone}
     };
 
@@ -653,6 +670,163 @@ MNU_ParentalCustom(void)
     return (TRUE);
     }
 
+BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
+{
+	static int currentkey = 0, currentcol = 0;
+	static int currentmode = 0;
+	extern byte KeyboardKeys[NUMGAMEFUNCTIONS][2];
+
+	if (call == uc_touchup)
+        	return (TRUE);
+
+	if (cust_callback == NULL) {
+		if (call != uc_setup)
+			return (FALSE);
+		currentkey = 0;
+		currentcol = 0;
+		currentmode = 0;
+	}
+
+	cust_callback = MNU_KeySetupCustom;
+	cust_callback_call = call;
+	cust_callback_item = item;
+
+	{
+		short w, h = 0;
+		static char *s = "Keys Setup";
+		rotatesprite(10 << 16, (5-3) << 16, MZ, 0, 2427,
+		    m_defshade, 0, MenuDrawFlags|ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
+		MNU_MeasureStringLarge(s, &w, &h);
+		MNU_DrawStringLarge(TEXT_XCENTER(w), 5, s);
+	}
+
+	if (currentmode) {
+		// customising a key
+		static char *strs[] = { "Press the key to assign to", "\"%s\" %s", "or ESCAPE to cancel." };
+		static char *col[2] = { "(primary)", "(secondary)" };
+		short w, h = 8;
+		int i, j, y;
+
+		if (KEY_PRESSED(KEYSC_ESC)) {
+			KB_ClearKeyDown(sc_Escape);
+			currentmode = 0;
+		} else if (KB_GetLastScanCode() > 0) {
+			KB_ClearKeyDown( KB_GetLastScanCode() );
+
+			KeyboardKeys[currentkey][currentcol] = KB_GetLastScanCode();
+			if (currentkey != gamefunc_Show_Console) {
+				CONTROL_MapKey(currentkey,
+					KeyboardKeys[currentkey][0],
+					KeyboardKeys[currentkey][1]);
+			} else {
+				OSD_CaptureKey(KB_GetLastScanCode());
+			}
+			
+			currentmode = 0;
+		}
+
+		MNU_MeasureString(strs[0], &w, &h);
+
+		y = (YDIM - (h+3) * SIZ(strs)) / 2;
+
+		for (i=0; i<(int)SIZ(strs); i++) {
+			w = 0;
+			sprintf(ds,strs[i],gamefunctions[currentkey],col[currentcol]);
+			for (j=0; ds[j]; j++) if (ds[j] == '_') ds[j] = ' ';
+			MNU_MeasureString(ds, &w, &h);
+			MNU_DrawString((XDIM - w)/2, y, ds, 0, 16);
+			y += h+3;
+		}
+		
+	} else {
+		// key list
+#define PGSIZ 14
+		int topitem = 0, botitem = NUMGAMEFUNCTIONS;
+		int i,j;
+		static char *morestr = "More...";
+		const char *p;
+
+		UserInput inpt = {FALSE,FALSE,dir_None};
+		CONTROL_GetUserInput(&inpt);
+
+		if (KEY_PRESSED(KEYSC_ESC) || inpt.button1) {
+			KEY_PRESSED(KEYSC_ESC) = FALSE;
+			cust_callback = NULL;
+			return TRUE;
+		}
+		else if (KB_KeyPressed(sc_Delete)) {
+			if (currentkey != gamefunc_Show_Console) {
+				KeyboardKeys[currentkey][currentcol] = 0xff;
+				CONTROL_MapKey(currentkey,
+					KeyboardKeys[currentkey][0],
+					KeyboardKeys[currentkey][1]);
+			}
+		}
+		else if (inpt.button0) {
+			currentmode = 1;
+			KB_ClearLastScanCode();
+			KB_ClearKeysDown();
+		}
+		else if (inpt.dir == dir_North) currentkey = max(0,currentkey-1);
+		else if (inpt.dir == dir_South) currentkey = min(NUMGAMEFUNCTIONS-1,currentkey+1);
+		else if (inpt.dir == dir_East)  currentcol = 1;
+		else if (inpt.dir == dir_West)  currentcol = 0;
+
+		if (currentkey == gamefunc_Show_Console) currentcol = 0;
+
+		CONTROL_ClearUserInput(&inpt);
+
+		if (NUMGAMEFUNCTIONS > PGSIZ) {
+			topitem = currentkey - PGSIZ/2;
+			botitem = topitem + PGSIZ;
+
+			if (topitem < 0) {
+				botitem += -topitem;
+				topitem = 0;
+			} else if (botitem >= NUMGAMEFUNCTIONS) {
+				botitem = NUMGAMEFUNCTIONS-1;
+				topitem = botitem - PGSIZ;
+			}
+		}
+
+		for (i = topitem; i <= botitem; i++) {
+			for (j = 0; gamefunctions[i][j]; j++) {
+				if (gamefunctions[i][j] == '_') ds[j] = ' ';
+				else ds[j] = gamefunctions[i][j];
+			}
+			ds[j] = 0;
+
+			j = OPT_LINE(0)+(i-topitem)*8;
+			MNU_DrawSmallString(OPT_XS, j, ds, (i==currentkey)?0:12, 16);
+
+			p = getkeyname(KeyboardKeys[i][0]);
+			if (!p || KeyboardKeys[i][0]==0xff) p = "  -";
+			MNU_DrawSmallString(OPT_XSIDE, j, (char*)p, (i==currentkey)?-5:12,
+					(i==currentkey && currentcol==0) ? 14:16);
+
+			if (i == gamefunc_Show_Console) continue;
+
+			p = getkeyname(KeyboardKeys[i][1]);
+			if (!p || KeyboardKeys[i][1]==0xff) p = "  -";
+			MNU_DrawSmallString(OPT_XSIDE + 4*14, j, (char*)p, (i==currentkey)?-5:12,
+					(i==currentkey && currentcol==1) ? 14:16);
+		}
+
+		{
+			short dx,dy;
+			dx = 0, dy = 8;
+			MNU_MeasureSmallString(morestr,&dx,&dy);
+			if (topitem > 0)
+				MNU_DrawSmallString(XDIM - OPT_XS - dx, OPT_LINE(0), morestr, 8,16);
+			if (botitem < NUMGAMEFUNCTIONS-1)
+				MNU_DrawSmallString(XDIM - OPT_XS - dx, OPT_LINE(0)+PGSIZ*8, morestr, 8,16);
+		}
+#undef PGSIZ
+	}
+
+	return (TRUE);
+}
+
 BOOL 
 MNU_OrderCustom(UserCall call, MenuItem * item)
     {
@@ -973,7 +1147,7 @@ MNU_StartGame(void)
 
     if (handle > FX_Ok)
         while(FX_SoundActive(handle))
-            ;
+	    handleevents();
     
     return (TRUE);
     }
@@ -2034,11 +2208,12 @@ MNU_LoadSaveDraw(UserCall call, MenuItem_p item)
             static BOOL cur_show;
             char tmp[sizeof(SaveGameDescr[0])];
 
-            cur_show ^= 1;
+            //cur_show ^= 1;
+	    cur_show = (totalclock & 32);
             if (cur_show)
                 {
                 // add a cursor to the end
-                sprintf(tmp, "%s%s", SaveGameDescr[i], "_");
+                sprintf(tmp, "%s_", SaveGameDescr[i]);
                 }
             else
                 strcpy(tmp, SaveGameDescr[i]);

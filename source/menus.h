@@ -53,8 +53,12 @@ void MNU_DrawMenu( void );  // This is used in drawscreen to refresh menus in
                             // multiplay situations.
 void MNU_CheckForMenus( void );
 void MNU_CheckForMenusAnyKey(void );
+void MNU_MeasureString(char *string, short *w, short *h);
 void MNU_DrawString(short x, short y, char *string, short shade, short pal);
+void MNU_MeasureSmallString(char *string,short *w,short *h);
 void MNU_DrawSmallString(short x,short y,char *string,short shade,short pal);
+void MNU_MeasureStringLarge(char *string, short *w, short *h);
+void MNU_DrawStringLarge(short x, short y, char *string);
 
 // Functions from my other engine
 //void Get_Palette (unsigned char *pal);
@@ -64,7 +68,6 @@ void FadeIn( unsigned char targetcolor, unsigned int clicks );
 void FadeOut( unsigned char targetcolor, unsigned int clicks );
 VOID ResetPalette(PLAYERp pp);
 
-void MNU_MeasureSmallString(char *string,short *w,short *h);
 void ExitMenus(void );
 VOID ResetMenuInput(VOID);
 
@@ -320,7 +323,7 @@ BOOL MNU_ParentalCustom(void);
 #define OPT_YS 30   
 #define OPT_XSIDE (OPT_XS + 120)
 #define OPT_YINC 10
-#define OPT_LINE(line) (OPT_YS + (OPT_YINC * line))
+#define OPT_LINE(line) (OPT_YS + (OPT_YINC * (line)))
 
 typedef struct
 {

@@ -932,6 +932,7 @@ setbrightness(bright, pal, 0);
 
 static int firstnet = 0;	// JBF
 int nextvoxid = 0;	// JBF
+static char *deffile = "sw.def";
 
 VOID
 InitGame(VOID)
@@ -1066,7 +1067,7 @@ InitGame(VOID)
     if (!SW_SHAREWARE)
 	LoadCustomInfoFromScript( "swcustom.txt" );	// Load user customisation information
     
-    if (!loaddefinitionsfile("sw.def")) initprintf("Definitions file loaded.\n");
+    if (!loaddefinitionsfile(deffile)) initprintf("Definitions file loaded.\n");
 
     DemoModeMenuInit = TRUE;
     // precache as much stuff as you can
@@ -3419,6 +3420,7 @@ CLI_ARG cli_arg[] =
 {0, "/turnscale #",        9,      "-turnscale",           "Adjust turning scale: 256 = 1 unit"},
 {0, "/extcompat",          9,      "-extcompat",           "Controller compatibility mode (with Duke 3D)"},
 {1, "/g#",                 2,      "-g[filename.grp]",     "Load an extra GRP or ZIP file"},
+{1, "/h#",                 2,      "-h[filename.def]",     "Use filename.def instead of SW.DEF"},
 #if DEBUG
 {0, "/coop",               5,      "-coop#",               "Single Player Cooperative Mode"        },
 {0, "/commbat",            8,      "-commbat#",            "Single Player Commbat Mode"            },
@@ -4101,6 +4103,15 @@ long app_main(long argc, char *argv[])
 		{
 		if (initgroupfile(arg+1) >= 0)
 		    initprintf("Added %s\n", arg+1);
+		}
+	    }
+	else
+	if (Bstrncasecmp(arg, "h", 1) == 0 && !SW_SHAREWARE)
+	    {
+	    if (strlen(arg) > 1)
+		{
+		deffile = (arg+1);
+		initprintf("Using DEF file %s.\n", arg+1);
 		}
 	    }
         }

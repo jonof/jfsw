@@ -755,12 +755,31 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 			return TRUE;
 		}
 		else if (KB_KeyPressed(sc_Delete)) {
+			KB_ClearKeyDown(sc_Delete);
 			if (currentkey != gamefunc_Show_Console) {
 				KeyboardKeys[currentkey][currentcol] = 0xff;
 				CONTROL_MapKey(currentkey,
 					KeyboardKeys[currentkey][0],
 					KeyboardKeys[currentkey][1]);
 			}
+		}
+		else if (KB_KeyPressed(sc_Home)) {
+			currentkey = 0;
+			KB_ClearKeyDown(sc_Home);
+		}
+		else if (KB_KeyPressed(sc_End)) {
+			currentkey = NUMGAMEFUNCTIONS-1;
+			KB_ClearKeyDown(sc_End);
+		}
+		else if (KB_KeyPressed(sc_PgDn)) {
+			currentkey += PGSIZ;
+			if (currentkey >= NUMGAMEFUNCTIONS) currentkey = NUMGAMEFUNCTIONS-1;
+			KB_ClearKeyDown(sc_PgDn);
+		}
+		else if (KB_KeyPressed(sc_PgUp)) {
+			currentkey -= PGSIZ;
+			if (currentkey < 0) currentkey = 0;
+			KB_ClearKeyDown(sc_PgUp);
 		}
 		else if (inpt.button0) {
 			currentmode = 1;

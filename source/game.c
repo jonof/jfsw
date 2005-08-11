@@ -170,7 +170,6 @@ int GodMode = FALSE;
 int BotMode = FALSE;
 short Skill = 2;
 short BetaVersion = 900;
-char moustat;
 short TotalKillable;
 
 AUTO_NET Auto;    

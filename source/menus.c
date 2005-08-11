@@ -3407,6 +3407,7 @@ MNU_DoItem(void)
     MenuItem *item;
 
     item = &currentmenu->items[currentmenu->cursor];
+    if (!item) return;
     
     if (TEST(item->flags, mf_disabled))
         {
@@ -4281,7 +4282,7 @@ SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
 	if (getrendermode() < 3)
         set_pal(pp->temp_pal);
 	else
-	    setpalettefade(color.red, color.green, color.blue, (2*pp->FadeAmt+4)*2);
+	    setpalettefade(color.red, color.green, color.blue, 2*pp->FadeAmt);
         if (damage < -1000)
             pp->FadeAmt = 1000;  // Don't call DoPaletteFlash for underwater stuff
         }
@@ -4387,7 +4388,7 @@ DoPaletteFlash(PLAYERp pp)
 			palette_data[pp->StartColor][0],
 			palette_data[pp->StartColor][1],
 			palette_data[pp->StartColor][2],
-			(2*pp->FadeAmt+4)*2
+			2*pp->FadeAmt
 			      );
             }
 

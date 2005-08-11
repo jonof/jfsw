@@ -7145,7 +7145,7 @@ DoDamage(short SpriteNum, short Weapon)
         damage = GetDamage(SpriteNum, Weapon, DMG_NAPALM_EXP);
 
         // Sumo Nap does less
-        if (User[wp->owner]->ID == SUMO_RUN_R0)
+        if (wp->owner >= 0 && User[wp->owner] && User[wp->owner]->ID == SUMO_RUN_R0)
             damage /= 4;
 
         if (u->sop_parent)

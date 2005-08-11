@@ -2313,7 +2313,6 @@ extern BOOL MoveSkip4, MoveSkip2, MoveSkip8;
 
 extern char option[];
 extern char keys[];
-extern char moustat;
 
 extern short screenpeek;
 

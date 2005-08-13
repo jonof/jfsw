@@ -25,7 +25,7 @@ CC=gcc
 CFLAGS=$(debug) -W -Wall -Wimplicit \
 	-Wno-char-subscripts -Wno-unused \
 	-funsigned-char -fno-strict-aliasing -march=pentium -DNO_GCC_BUILTINS \
-	-I$(INC) -I$(EINC) -I$(SRC)jmact -I$(SRC)jaudiolib -I../jfaud/inc \
+	-I$(INC:/=) -I$(EINC:/=) -I$(SRC)jmact -I$(SRC)jaudiolib -I../jfaud/inc \
 	$(ENGINEOPTS) \
 	-DUSE_GCC_PRAGMAS
 LIBS=-lm #../jfaud/jfaud.a # -L../jfaud -ljfaud

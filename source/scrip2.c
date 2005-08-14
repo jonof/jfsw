@@ -558,17 +558,17 @@ void LoadCustomInfoFromScript(char *filename)
 	if (!script) return;
 
 	// predefine constants for some stuff to give convenience and eliminate the need for a 'define' directive
-	scriptfile_addsymbolvalue("INV_ARMOR",      InvDecl_Armor);
-	scriptfile_addsymbolvalue("INV_KEVLAR",     InvDecl_Kevlar);
-	scriptfile_addsymbolvalue("INV_SM_MEDKIT",  InvDecl_SmMedkit);
-	scriptfile_addsymbolvalue("INV_FORTUNE",    InvDecl_Booster);
-	scriptfile_addsymbolvalue("INV_MEDKIT",     InvDecl_Medkit);
-	scriptfile_addsymbolvalue("INV_GAS_BOMB",   InvDecl_ChemBomb);
-	scriptfile_addsymbolvalue("INV_FLASH_BOMB", InvDecl_FlashBomb);
-	scriptfile_addsymbolvalue("INV_CALTROPS",   InvDecl_Caltrops);
-	scriptfile_addsymbolvalue("INV_NIGHT_VIS",  InvDecl_NightVision);
-	scriptfile_addsymbolvalue("INV_REPAIR_KIT", InvDecl_RepairKit);
-	scriptfile_addsymbolvalue("INV_SMOKE_BOMB", InvDecl_Cloak);
+	scriptfile_addsymbolvalue("INV_ARMOR",      1+InvDecl_Armor);
+	scriptfile_addsymbolvalue("INV_KEVLAR",     1+InvDecl_Kevlar);
+	scriptfile_addsymbolvalue("INV_SM_MEDKIT",  1+InvDecl_SmMedkit);
+	scriptfile_addsymbolvalue("INV_FORTUNE",    1+InvDecl_Booster);
+	scriptfile_addsymbolvalue("INV_MEDKIT",     1+InvDecl_Medkit);
+	scriptfile_addsymbolvalue("INV_GAS_BOMB",   1+InvDecl_ChemBomb);
+	scriptfile_addsymbolvalue("INV_FLASH_BOMB", 1+InvDecl_FlashBomb);
+	scriptfile_addsymbolvalue("INV_CALTROPS",   1+InvDecl_Caltrops);
+	scriptfile_addsymbolvalue("INV_NIGHT_VIS",  1+InvDecl_NightVision);
+	scriptfile_addsymbolvalue("INV_REPAIR_KIT", 1+InvDecl_RepairKit);
+	scriptfile_addsymbolvalue("INV_SMOKE_BOMB", 1+InvDecl_Cloak);
 
 	while ((token = scriptfile_gettoken(script))) {
 		switch (cm_transtok(token, cm_tokens, cm_numtokens)) {
@@ -668,14 +668,13 @@ void LoadCustomInfoFromScript(char *filename)
 				if (scriptfile_getbraces(script, &braceend)) break;
 
 				// first map file in LevelInfo[] is bogus, last map file is NULL
-				if (curmap < 1 || curmap > 2) {
+				if ((unsigned)--curmap >= 2u) {
 					initprintf("Error: episode number %d not in range 1-2 on line %s:%d\n",
 							curmap, script->filename,
 							scriptfile_getlinum(script,epnumptr));
 					script->textptr = braceend;
 					break;
 				}
-				curmap--;
 
 				while (script->textptr < braceend) {
 					if (!(token = scriptfile_gettoken(script))) break;
@@ -716,14 +715,13 @@ void LoadCustomInfoFromScript(char *filename)
 				if (scriptfile_getbraces(script, &braceend)) break;
 
 				// first map file in LevelInfo[] is bogus, last map file is NULL
-				if (curmap < 1 || curmap > 4) {
+				if ((unsigned)--curmap >= 4u) {
 					initprintf("Error: skill number %d not in range 1-4 on line %s:%d\n",
 							curmap, script->filename,
 							scriptfile_getlinum(script,epnumptr));
 					script->textptr = braceend;
 					break;
 				}
-				curmap--;
 
 				while (script->textptr < braceend) {
 					if (!(token = scriptfile_gettoken(script))) break;
@@ -812,9 +810,9 @@ void LoadCustomInfoFromScript(char *filename)
 				if (scriptfile_getsymbol(script, &in)) break; invnumptr = script->ltextptr;
 				if (scriptfile_getbraces(script, &braceend)) break;
 
-				if ((unsigned)in >= (unsigned)InvDecl_TOTAL) {
-					initprintf("Error: inventory item number not in range 0-%d on line %s:%d\n",
-							InvDecl_TOTAL-1, script->filename,
+				if ((unsigned)--in >= (unsigned)InvDecl_TOTAL) {
+					initprintf("Error: inventory item number not in range 1-%d on line %s:%d\n",
+							InvDecl_TOTAL, script->filename,
 							scriptfile_getlinum(script,invnumptr));
 					script->textptr = braceend;
 					break;
@@ -838,17 +836,14 @@ void LoadCustomInfoFromScript(char *filename)
 					}
 				}
 
-				if (!name || amt < 0) {
-					initprintf("Warning: missing or invalid 'name' and/or 'amount' value in "
-						"inventory item %d on line %s:%d\n", in, script->filename,
-							scriptfile_getlinum(script,invtokptr));
-					break;
+				if (name) {
+					if (custominventoryname[in]) free(custominventoryname[in]);
+					custominventoryname[in] = strdup(name);
+					InventoryDecls[in].name = custominventoryname[in];
 				}
-
-				if (custominventoryname[in]) free(custominventoryname[in]);
-				custominventoryname[in] = strdup(name);
-				InventoryDecls[in].name   = custominventoryname[in];
-				InventoryDecls[in].amount = amt;
+				if (amt >= 0) {
+					InventoryDecls[in].amount = amt;
+				}
 				break;
 			}
 			case CM_SECRET:

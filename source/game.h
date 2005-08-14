@@ -944,6 +944,10 @@ typedef struct
     SHORT max_ammo;
     SHORT min_ammo;
     SHORT with_weapon;
+    char *weapon_name;
+    char *ammo_name;
+    SHORT weapon_pickup;
+    SHORT ammo_pickup;
     } DAMAGE_DATA, *DAMAGE_DATAp;
 
 extern DAMAGE_DATA DamageData[];

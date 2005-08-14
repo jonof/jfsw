@@ -5928,10 +5928,10 @@ DoGet(short SpriteNum)
             #ifdef UK_VERSION    
             sprintf(ds,"Darts");
             #else
-            sprintf(ds,"Shurikens");
+            //sprintf(ds,"Shurikens");
             #endif
-            PutStringInfo(Player+pnum, ds);
-            PlayerUpdateAmmo(pp, WPN_STAR, 9);
+            PutStringInfo(Player+pnum, DamageData[WPN_STAR].weapon_name);
+            PlayerUpdateAmmo(pp, WPN_STAR, DamageData[WPN_STAR].weapon_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -5953,9 +5953,9 @@ DoGet(short SpriteNum)
         
             if (pp->WpnAmmo[WPN_MINE] >= DamageData[WPN_MINE].max_ammo)
                 break;            
-            sprintf(ds,"Sticky Bombs");
-            PutStringInfo(Player+pnum, ds);
-            PlayerUpdateAmmo(pp, WPN_MINE, 5);
+            //sprintf(ds,"Sticky Bombs");
+            PutStringInfo(Player+pnum, DamageData[WPN_MINE].weapon_name);
+            PlayerUpdateAmmo(pp, WPN_MINE, DamageData[WPN_MINE].weapon_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -5979,10 +5979,10 @@ DoGet(short SpriteNum)
         
             if (TEST(pp->Flags, PF_TWO_UZI) && pp->WpnAmmo[WPN_UZI] >= DamageData[WPN_UZI].max_ammo)
                 break;            
-            sprintf(ds,"UZI Submachine Gun");
-            PutStringInfo(Player+pnum, ds);
+            //sprintf(ds,"UZI Submachine Gun");
+            PutStringInfo(Player+pnum, DamageData[WPN_UZI].weapon_name);
 //            pp->WpnAmmo[WPN_UZI] += 50;
-            PlayerUpdateAmmo(pp, WPN_UZI, 50);
+            PlayerUpdateAmmo(pp, WPN_UZI, DamageData[WPN_UZI].weapon_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6014,9 +6014,9 @@ DoGet(short SpriteNum)
         case ICON_LG_UZI_AMMO:
             if (pp->WpnAmmo[WPN_UZI] >= DamageData[WPN_UZI].max_ammo)
                 break;            
-            sprintf(ds,"UZI Clip");
-            PutStringInfo(Player+pnum, ds);
-            PlayerUpdateAmmo(pp, WPN_UZI, 50);
+            //sprintf(ds,"UZI Clip");
+            PutStringInfo(Player+pnum, DamageData[WPN_UZI].ammo_name);
+            PlayerUpdateAmmo(pp, WPN_UZI, DamageData[WPN_UZI].ammo_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6032,10 +6032,10 @@ DoGet(short SpriteNum)
         
             if (TEST(pp->WpnFlags, BIT(WPN_MICRO)) && pp->WpnAmmo[WPN_MICRO] >= DamageData[WPN_MICRO].max_ammo)
                 break;            
-            sprintf(ds,"Missile Launcher");
-            PutStringInfo(Player+pnum, ds);
+            //sprintf(ds,"Missile Launcher");
+            PutStringInfo(Player+pnum, DamageData[WPN_MICRO].weapon_name);
 //            pp->WpnAmmo[WPN_MICRO] += 5;
-            PlayerUpdateAmmo(pp, WPN_MICRO, 5);
+            PlayerUpdateAmmo(pp, WPN_MICRO, DamageData[WPN_MICRO].weapon_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6052,9 +6052,9 @@ DoGet(short SpriteNum)
         case ICON_MICRO_BATTERY:
             if (pp->WpnAmmo[WPN_MICRO] >= DamageData[WPN_MICRO].max_ammo)
                 break;            
-            sprintf(ds,"Missiles");
-            PutStringInfo(Player+pnum, ds);
-            PlayerUpdateAmmo(pp, WPN_MICRO, 5);
+            //sprintf(ds,"Missiles");
+            PutStringInfo(Player+pnum, DamageData[WPN_MICRO].ammo_name);
+            PlayerUpdateAmmo(pp, WPN_MICRO, DamageData[WPN_MICRO].ammo_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6064,9 +6064,9 @@ DoGet(short SpriteNum)
         case ICON_NUKE:
             if (pp->WpnRocketNuke != 1)
                 {
-                sprintf(ds,"Nuclear Warhead");
-                PutStringInfo(Player+pnum, ds);
-                pp->WpnRocketNuke = 1;
+                //sprintf(ds,"Nuclear Warhead");
+                PutStringInfo(Player+pnum, DamageData[DMG_NUCLEAR_EXP].weapon_name);
+                pp->WpnRocketNuke = DamageData[DMG_NUCLEAR_EXP].weapon_pickup;
                 SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6097,10 +6097,10 @@ DoGet(short SpriteNum)
             
             if (TEST(pp->WpnFlags, BIT(WPN_GRENADE)) && pp->WpnAmmo[WPN_GRENADE] >= DamageData[WPN_GRENADE].max_ammo)
                 break;            
-            sprintf(ds,"Grenade Launcher");
-            PutStringInfo(Player+pnum, ds);
+            //sprintf(ds,"Grenade Launcher");
+            PutStringInfo(Player+pnum, DamageData[WPN_GRENADE].weapon_name);
 //            pp->WpnAmmo[WPN_GRENADE] += 6;
-            PlayerUpdateAmmo(pp, WPN_GRENADE, 6);
+            PlayerUpdateAmmo(pp, WPN_GRENADE, DamageData[WPN_GRENADE].weapon_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6120,9 +6120,9 @@ DoGet(short SpriteNum)
         case ICON_LG_GRENADE:
             if (pp->WpnAmmo[WPN_GRENADE] >= DamageData[WPN_GRENADE].max_ammo)
                 break;            
-            sprintf(ds,"Grenade Shells");
-            PutStringInfo(Player+pnum, ds);
-            PlayerUpdateAmmo(pp, WPN_GRENADE, 8);
+            //sprintf(ds,"Grenade Shells");
+            PutStringInfo(Player+pnum, DamageData[WPN_GRENADE].ammo_name);
+            PlayerUpdateAmmo(pp, WPN_GRENADE, DamageData[WPN_GRENADE].ammo_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6162,9 +6162,9 @@ DoGet(short SpriteNum)
         
             if (TEST(pp->WpnFlags, BIT(WPN_RAIL)) && pp->WpnAmmo[WPN_RAIL] >= DamageData[WPN_RAIL].max_ammo)
                 break;            
-            sprintf(ds,"Rail Gun");
-            PutStringInfo(Player+pnum, ds);
-            PlayerUpdateAmmo(pp, WPN_RAIL, 10);
+            //sprintf(ds,"Rail Gun");
+            PutStringInfo(Player+pnum, DamageData[WPN_RAIL].weapon_name);
+            PlayerUpdateAmmo(pp, WPN_RAIL, DamageData[WPN_RAIL].weapon_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6192,9 +6192,9 @@ DoGet(short SpriteNum)
 
             if (pp->WpnAmmo[WPN_RAIL] >= DamageData[WPN_RAIL].max_ammo)
                 break;            
-            sprintf(ds,"Rail Gun Rods");
-            PutStringInfo(Player+pnum, ds);
-            PlayerUpdateAmmo(pp, WPN_RAIL, 10);
+            //sprintf(ds,"Rail Gun Rods");
+            PutStringInfo(Player+pnum, DamageData[WPN_RAIL].ammo_name);
+            PlayerUpdateAmmo(pp, WPN_RAIL, DamageData[WPN_RAIL].ammo_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6209,10 +6209,10 @@ DoGet(short SpriteNum)
         
             if (TEST(pp->WpnFlags, BIT(WPN_SHOTGUN)) && pp->WpnAmmo[WPN_SHOTGUN] >= DamageData[WPN_SHOTGUN].max_ammo)
                 break;            
-            sprintf(ds,"Riot Gun");
-            PutStringInfo(Player+pnum, ds);
+            //sprintf(ds,"Riot Gun");
+            PutStringInfo(Player+pnum, DamageData[WPN_SHOTGUN].weapon_name);
 //            pp->WpnAmmo[WPN_SHOTGUN] += 10;
-            PlayerUpdateAmmo(pp, WPN_SHOTGUN, 8);
+            PlayerUpdateAmmo(pp, WPN_SHOTGUN, DamageData[WPN_SHOTGUN].weapon_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6229,9 +6229,9 @@ DoGet(short SpriteNum)
         case ICON_LG_SHOTSHELL:
             if (pp->WpnAmmo[WPN_SHOTGUN] >= DamageData[WPN_SHOTGUN].max_ammo)
                 break;            
-            sprintf(ds,"Shotshells");
-            PutStringInfo(Player+pnum, ds);
-            PlayerUpdateAmmo(pp, WPN_SHOTGUN, 24);
+            //sprintf(ds,"Shotshells");
+            PutStringInfo(Player+pnum, DamageData[WPN_SHOTGUN].ammo_name);
+            PlayerUpdateAmmo(pp, WPN_SHOTGUN, DamageData[WPN_SHOTGUN].ammo_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6273,9 +6273,9 @@ DoGet(short SpriteNum)
         
             if (TEST(pp->WpnFlags, BIT(WPN_HOTHEAD)) && pp->WpnAmmo[WPN_HOTHEAD] >= DamageData[WPN_HOTHEAD].max_ammo)
                 break;            
-            sprintf(ds,"Guardian Head");
-            PutStringInfo(Player+pnum, ds);
-            PlayerUpdateAmmo(pp, WPN_HOTHEAD, 30);
+            //sprintf(ds,"Guardian Head");
+            PutStringInfo(Player+pnum, DamageData[WPN_HOTHEAD].weapon_name);
+            PlayerUpdateAmmo(pp, WPN_HOTHEAD, DamageData[WPN_HOTHEAD].weapon_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6297,9 +6297,9 @@ DoGet(short SpriteNum)
 
             if (pp->WpnAmmo[WPN_HOTHEAD] >= DamageData[WPN_HOTHEAD].max_ammo)
                 break;            
-            sprintf(ds,"Firebursts");
-            PutStringInfo(Player+pnum, ds);
-            PlayerUpdateAmmo(pp, WPN_HOTHEAD, 60);
+            //sprintf(ds,"Firebursts");
+            PutStringInfo(Player+pnum, DamageData[WPN_HOTHEAD].ammo_name);
+            PlayerUpdateAmmo(pp, WPN_HOTHEAD, DamageData[WPN_HOTHEAD].ammo_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6316,9 +6316,9 @@ DoGet(short SpriteNum)
         
             if (TEST(pp->WpnFlags, BIT(WPN_HEART)) && pp->WpnAmmo[WPN_HEART] >= DamageData[WPN_HEART].max_ammo)
                 break;            
-            sprintf(ds,"Ripper Heart");
-            PutStringInfo(Player+pnum, ds);
-            PlayerUpdateAmmo(pp, WPN_HEART, 1);
+            //sprintf(ds,"Ripper Heart");
+            PutStringInfo(Player+pnum, DamageData[WPN_HEART].weapon_name);
+            PlayerUpdateAmmo(pp, WPN_HEART, DamageData[WPN_HEART].weapon_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6342,9 +6342,9 @@ DoGet(short SpriteNum)
 
             if (pp->WpnAmmo[WPN_HEART] >= DamageData[WPN_HEART].max_ammo)
                 break;            
-            sprintf(ds,"Deathcoils");
-            PutStringInfo(Player+pnum, ds);
-            PlayerUpdateAmmo(pp, WPN_HEART, 6);
+            //sprintf(ds,"Deathcoils");
+            PutStringInfo(Player+pnum, DamageData[WPN_HEART].ammo_name);
+            PlayerUpdateAmmo(pp, WPN_HEART, DamageData[WPN_HEART].ammo_pickup);
             SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
@@ -6383,9 +6383,9 @@ DoGet(short SpriteNum)
         case ICON_HEAT_CARD:
             if (pp->WpnRocketHeat != 5)
                 {
-                sprintf(ds,"Heat Seeker Card");
-                PutStringInfo(Player+pnum, ds);
-                pp->WpnRocketHeat = 5;
+                //sprintf(ds,"Heat Seeker Card");
+                PutStringInfo(Player+pnum, DamageData[DMG_NUCLEAR_EXP].ammo_name);
+                pp->WpnRocketHeat = DamageData[DMG_NUCLEAR_EXP].ammo_pickup;
                 SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);

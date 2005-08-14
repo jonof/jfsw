@@ -412,6 +412,7 @@ enum {
 	CM_NEEDKEY,
 	CM_INVENTORY,
 	CM_AMOUNT,
+	CM_WEAPON,
 	CM_AMMONAME,
 	CM_MAXAMMO,
 	CM_DAMAGEMIN,
@@ -432,6 +433,7 @@ static const struct _tokset {
 	{ "fortune",     CM_COOKIE    },
 	{ "gotkey",      CM_GOTKEY    },
 	{ "inventory",   CM_INVENTORY },
+	{ "weapon",      CM_WEAPON    },
 	{ "needkey",     CM_NEEDKEY   },
 	{ "secret",      CM_SECRET    },
 	{ "quit",        CM_QUIT      },
@@ -478,6 +480,7 @@ cm_weapons_tokens[] = {
 	{ "mindamage",   CM_DAMAGEMIN },
 	{ "maxdamage",   CM_DAMAGEMAX },
 	{ "pickup",      CM_AMOUNT    },
+	{ "weaponpickup",CM_WEAPON    },
 }
 ;
 #define cm_numtokens           (sizeof(cm_tokens)/sizeof(cm_tokens[0]))
@@ -537,6 +540,7 @@ static int cm_transtok(const char *tok, const struct _tokset *set, const unsigne
 //      ...
 //   }
 //   inventory # { name "Armour" amount 50 }
+//   weapon # { name "Uzi Submachine Gun" ammoname "Uzi Clip" maxammo 200 mindamage 5 maxdamage 7 pickup 50 }
 //   secret  "You found a secret area!"
 //   quit    "PRESS (Y) TO QUIT, (N) TO FIGHT ON."
 
@@ -545,6 +549,27 @@ static char *customfortune[MAX_FORTUNES];
 static char *customkeymsg[MAX_KEYS];
 static CHARp customkeydoormsg[MAX_KEYS];
 static char *custominventoryname[InvDecl_TOTAL];
+static char *customweaponname[2][MAX_WEAPONS];	// weapon, ammo
+
+static struct {
+	char *sym;
+	int dmgid;
+} weaponmap[] = {
+	{ "WPN_FIST",       WPN_FIST        },
+	{ "WPN_SWORD",      WPN_SWORD       },
+	{ "WPN_SHURIKEN",   WPN_STAR        },
+	{ "WPN_STICKYBOMB", WPN_MINE        },
+	{ "WPN_UZI",        WPN_UZI         },
+	{ "WPN_MISSILE",    WPN_MICRO       },
+	{ "WPN_NUKE",       DMG_NUCLEAR_EXP },	// as a special case, the heat seeker details are stored as the ammo for this
+	{ "WPN_GRENADE",    WPN_GRENADE     },
+	{ "WPN_RAILGUN",    WPN_RAIL        },
+	{ "WPN_SHOTGUN",    WPN_SHOTGUN     },
+	{ "WPN_HOTHEAD",    WPN_HOTHEAD     },
+	{ "WPN_HEART",      WPN_HEART       },
+	{ "WPN_HOTHEAD_NAPALM", WPN_NAPALM  },
+	{ "WPN_HOTHEAD_RING",   WPN_RING    },
+};
 
 // FIXME: yes, we are leaking memory here at the end of the program by not freeing anything
 void LoadCustomInfoFromScript(char *filename)
@@ -569,6 +594,12 @@ void LoadCustomInfoFromScript(char *filename)
 	scriptfile_addsymbolvalue("INV_NIGHT_VIS",  1+InvDecl_NightVision);
 	scriptfile_addsymbolvalue("INV_REPAIR_KIT", 1+InvDecl_RepairKit);
 	scriptfile_addsymbolvalue("INV_SMOKE_BOMB", 1+InvDecl_Cloak);
+
+	{
+		unsigned i;
+		for (i=0; i<SIZ(weaponmap); i++)
+			scriptfile_addsymbolvalue(weaponmap[i].sym, 1+i);
+	}
 
 	while ((token = scriptfile_gettoken(script))) {
 		switch (cm_transtok(token, cm_tokens, cm_numtokens)) {
@@ -844,6 +875,74 @@ void LoadCustomInfoFromScript(char *filename)
 				if (amt >= 0) {
 					InventoryDecls[in].amount = amt;
 				}
+				break;
+			}
+			case CM_WEAPON:
+			{
+				char *wpntokptr = script->ltextptr, *wpnnumptr;
+				char *name = NULL, *ammo = NULL;
+				int maxammo = -1, damagemin = -1, damagemax = -1, pickup = -1, wpickup = -1;
+				int in;
+
+				if (scriptfile_getsymbol(script, &in)) break; wpnnumptr = script->ltextptr;
+				if (scriptfile_getbraces(script, &braceend)) break;
+
+				if ((unsigned)--in >= (unsigned)SIZ(weaponmap)) {
+					initprintf("Error: weapon number not in range 1-%d on line %s:%d\n",
+							SIZ(weaponmap), script->filename,
+							scriptfile_getlinum(script,wpnnumptr));
+					script->textptr = braceend;
+					break;
+				}
+
+				while (script->textptr < braceend) {
+					if (!(token = scriptfile_gettoken(script))) break;
+					if (token == braceend) break;
+					switch (cm_transtok(token, cm_weapons_tokens, cm_weapons_numtokens)) {
+						case CM_TITLE:
+							if (scriptfile_getstring(script, &name)) break;
+							break;
+						case CM_AMMONAME:
+							if (scriptfile_getstring(script, &ammo)) break;
+							break;
+						case CM_MAXAMMO:
+							if (scriptfile_getnumber(script, &maxammo)) break;
+							break;
+						case CM_DAMAGEMIN:
+							if (scriptfile_getnumber(script, &damagemin)) break;
+							break;
+						case CM_DAMAGEMAX:
+							if (scriptfile_getnumber(script, &damagemax)) break;
+							break;
+						case CM_AMOUNT:
+							if (scriptfile_getnumber(script, &pickup)) break;
+							break;
+						case CM_WEAPON:
+							if (scriptfile_getnumber(script, &wpickup)) break;
+							break;
+						default:
+							initprintf("Error on line %s:%d\n",
+									script->filename,
+									scriptfile_getlinum(script,script->ltextptr));
+							break;
+					}
+				}
+				in = weaponmap[in].dmgid;
+				if (damagemin >= 0) DamageData[in].damage_lo = damagemin;
+				if (damagemax >= 0) DamageData[in].damage_hi = damagemax;
+				if (maxammo >= 0)   DamageData[in].max_ammo = maxammo;
+				if (name) {
+					if (customweaponname[0][in]) free(customweaponname[0][in]);
+					customweaponname[0][in] = strdup(name);
+					DamageData[in].weapon_name = customweaponname[0][in];
+				}
+				if (ammo) {
+					if (customweaponname[1][in]) free(customweaponname[1][in]);
+					customweaponname[1][in] = strdup(ammo);
+					DamageData[in].ammo_name = customweaponname[1][in];
+				}
+				if (pickup >= 0)    DamageData[in].ammo_pickup = pickup;
+				if (wpickup >= 0)   DamageData[in].weapon_pickup = wpickup;
 				break;
 			}
 			case CM_SECRET:

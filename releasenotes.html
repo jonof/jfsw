@@ -112,7 +112,7 @@
 		<dl>
 			<dt>map <em>number</em> { ... }<br />
 			level <em>number</em> { ... }</dt>
-			<dd>Selects the map to change the information of. <em>number</em> is a positive value in the range
+			<dd>Selects the map to change the information of. <em>number</em> is a value in the range
 			of 1 to 29. Levels 1 to 4 are the shareware maps. <strong>level</strong> is a synonym for
 			<strong>map</strong>. The brace-enclosed block may contain these directives:
 			
@@ -149,7 +149,7 @@
 			</dl></dd>
 
 			<dt>episode <em>number</em> { ... }</dt>
-			<dd>Selects the episode to change the information of. <em>number</em> is a positive value in the
+			<dd>Selects the episode to change the information of. <em>number</em> is a value in the
 			range of 1 to 2. The brace-enclosed block may contain these directives:
 
 			<dl>
@@ -157,10 +157,116 @@
 				name <em>title</em><br />
 				description <em>title</em></dt>
 				<dd>Sets the new title of the episode to <em>title</em>. <strong>name</strong> and
-				<strong>description</strong> are synonyms for </strong>title</strong>.</dd>
+				<strong>description</strong> are synonyms for <strong>title</strong>.</dd>
 
 				<dt>subtitle <em>subtitle</em></dt>
 				<dd>Sets the new subtitle of the episode to <em>subtitle</em>.</dd>
+			</dl></dd>
+
+			<dt>skill <em>number</em> { ... }</dt>
+			<dd>Selects the skill level to change the information of. <em>number</em> is a value in the
+			range of 1 to 4. The brace-enclosed block may contain this directive:
+			
+			<dl>
+				<dt>title <em>title</em><br />
+				name <em>title</em><br />
+				description <em>title</em></dt>
+				<dd>Sets the new title of the skill level to <em>title</em>. <strong>name</strong> and
+				<strong>description</strong> are synonyms for <strong>title</strong>.</dd>
+			</dl></dd>
+
+			<dt>inventory <em>number</em> { ... }</dt>
+			<dd>Selects the inventory item to change the information of. <em>number</em> is either a symbol
+			or number from this table. It is recommended that the symbolic names be used rather than the
+			numeric codes.
+
+			<table rules="groups" border="1" cellpadding="2">
+				<thead><tr><th>Symbol</th><th>Number</th><th>Inventory item</th></tr></thead>
+				<tbody>
+				<tr><td>INV_ARMOR</td><td>1</td><td>Conventional armour vest</td></tr>
+				<tr><td>INV_KEVLAR</td><td>2</td><td>Kevlar armour vest</td></tr>
+				<tr><td>INV_SM_MEDKIT</td><td>3</td><td>Pickup medkit</td></tr>
+				<tr><td>INV_FORTUNE</td><td>4</td><td>Fortune cookie</td></tr>
+				<tr><td>INV_MEDKIT</td><td>5</td><td>Portable medkit</td></tr>
+				<tr><td>INV_GAS_BOMB</td><td>6</td><td>Gas bomb</td></tr>
+				<tr><td>INV_FLASH_BOMB</td><td>7</td><td>Flash bomb</td></tr>
+				<tr><td>INV_CALTROPS</td><td>8</td><td>Caltrops</td></tr>
+				<tr><td>INV_NIGHT_VIS</td><td>9</td><td>Night vision goggles</td></tr>
+				<tr><td>INV_REPAIR_KIT</td><td>10</td><td>Repair kit</td></tr>
+				<tr><td>INV_SMOKE_BOMB</td><td>11</td><td>Smoke bomb</td></tr>
+				</tbody>
+			</table>
+
+			The brace-enclosed block may contain these directives:
+
+			<dl>
+				<dt>title <em>title</em><br />
+				name <em>title</em><br />
+				description <em>title</em></dt>
+				<dd>Sets the new name of the inventory item to <em>title</em>. <strong>name</strong> and
+				<strong>description</strong> are synonyms for <strong>title</strong>.</dd>
+
+				<dt>amount <em>amount</em></dt>
+				<dd>Sets the quantity of the item that will be added to the player's inventory.</dd>
+			</dl></dd>
+
+			<dt>weapon <em>number</em> { ... }</dt>
+			<dd>Selects the weapon to change the information of. <em>number</em> is either a symbol or number
+			from this table. It is recommended that the symbolic names be used rather than the numeric codes.
+
+			<table rules="groups" border="1" cellpadding="2">
+				<thead><tr><th>Symbol</th><th>Number</th><th>Weapon name</th><th>Customisable properties (see note 1)</th></tr></thead>
+				<tbody>
+				<tr><td>WPN_FIST</td><td>1</td><td>Fists</td><td>damage</td></tr>
+				<tr><td>WPN_SWORD</td><td>2</td><td>Sword</td><td>damage</td></tr>
+				<tr><td>WPN_SHURIKEN</td><td>3</td><td>Shurikens</td><td>weapon name and pickup, damage</td></tr>
+				<tr><td>WPN_STICKYBOMB</td><td>4</td><td>Sticky bombs</td><td>weapon name and pickup, damage</td></tr>
+				<tr><td>WPN_UZI</td><td>5</td><td>Uzi submachine gun</td><td>weapon/ammo name and pickup, damage</td></tr>
+				<tr><td>WPN_MISSILE</td><td>6</td><td>Rocket launcher</td><td>weapon/ammo name and pickup, damage</td></tr>
+				<tr><td>WPN_NUKE</td><td>7</td><td>Nuclear warhead, heat seeker card (see note 2)</td><td>weapon/ammo name and pickup, damage</td></tr>
+				<tr><td>WPN_GRENADE</td><td>8</td><td>Grenade launcher</td><td>weapon/ammo name and pickup, damage</td></tr>
+				<tr><td>WPN_RAILGUN</td><td>9</td><td>Rail gun</td><td>weapon/ammo name and pickup, damage</td></tr>
+				<tr><td>WPN_SHOTGUN</td><td>10</td><td>Riot gun</td><td>weapon/ammo name and pickup, damage</td></tr>
+				<tr><td>WPN_HOTHEAD</td><td>11</td><td>Guardian head</td><td>weapon name and pickup, damage</td></tr>
+				<tr><td>WPN_HEART</td><td>12</td><td>Ripper heart</td><td>weapon name and pickup, damage</td></tr>
+				<tr><td>WPN_HOTHEAD_NAPALM</td><td>13</td><td>Guardian head napalm (secondary attack)</td><td>damage</td></tr>
+				<tr><td>WPN_HOTHEAD_RING</td><td>14</td><td>Guardian head ring (tertiary attack)</td><td>damage</td></tr>
+				</tbody>
+			</table>
+
+			<p><strong>Note 1:</strong> Only some properties of particular weapons can be changed. Changing
+			other properties not mentioned in the table will have no effect.</p>
+			<p><strong>Note 2:</strong> The heat seeker card name and pickup amount is stored as the ammunition
+			information of the nuclear warhead.</p>
+
+			The brace-enclosed block may contain these directives:
+
+			<dl>
+				<dt>title <em>title</em><br />
+				name <em>title</em><br />
+				description <em>title</em></dt>
+				<dd>Sets the new name of the weapon to <em>title</em>. <strong>name</strong> and
+				<strong>description</strong> are synonyms for <strong>title</strong>.</dd>
+
+				<dt>ammoname <em>name</em></dt>
+				<dd>Sets the new name of the ammunition for the weapon to <em>name</em>.</dd>
+
+				<dt>maxammo <em>amount</em></dt>
+				<dd>Sets the maximum amount of ammunition that can be carried for the weapon to
+				<em>amount</em>.</dd>
+
+				<dt>mindamage <em>min</em><br />
+				maxdamage <em>max</em></dt>
+				<dd>Sets the minimum and/or maximum damage factors for the weapon to <em>min</em> and
+				<em>max</em> respectively.</dd>
+
+				<dt>pickup <em>amount</em></dt>
+				<dd>Sets the amount of ammunition to be added when picking up ammunition for the weapon to
+				<em>amount</em>.</dd>
+
+				<dt>weaponpickup <em>amount</em></dt>
+				<dd>Sets the amount of ammunition to be added when picking up the weapon to
+				<em>amount</em>.</dd>
 			</dl></dd>
 		</dl>
 
@@ -177,6 +283,25 @@
 episode 1 {
     title    "My Neat Episode"
     subtitle "One level of lameness"
+}
+
+skill 1 {
+    title  "Don't hurt me"
+}
+
+inventory INV_ARMOR {
+    name   "Chain mail"
+    amount 25
+}
+
+weapon WPN_UZI {
+    name      "Pea shooter"
+    ammoname  "Pebbles"
+    maxammo   500
+    mindamage 1
+    maxdamage 2
+    pickup    100
+    weaponpickup 25
 }</pre>
 
 		<h2><a name="deffile">DEF-file Language</a></h2>

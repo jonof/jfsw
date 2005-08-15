@@ -57,7 +57,7 @@ size_t dfwrite( void *, size_t, size_t, FILE * );
 typedef long MFILE; 
 #define MREAD(ptr, size, num,handle) read((handle),(ptr),(size)*(num))
 #define MWRITE(ptr, size, num,handle) write((handle),(ptr),(size)*(num))
-#define MOPEN_WRITE(name) open(name,O_BINARY|O_TRUNC|O_CREAT|O_WRONLY,S_IWRITE)
+#define MOPEN_WRITE(name) open(name,O_BINARY|O_TRUNC|O_CREAT|O_WRONLY,S_IREAD|S_IWRITE)
 #define MOPEN_READ(name) open(name,O_BINARY|O_RDWR,S_IREAD)
 #define MCLOSE(handle) close(handle)
 #define MF_ERR -1

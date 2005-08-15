@@ -551,24 +551,28 @@ static CHARp customkeydoormsg[MAX_KEYS];
 static char *custominventoryname[InvDecl_TOTAL];
 static char *customweaponname[2][MAX_WEAPONS];	// weapon, ammo
 
+#define WM_DAMAGE  1
+#define WM_WEAP   2
+#define WM_AMMO   4
 static struct {
 	char *sym;
 	int dmgid;
+	int editable;
 } weaponmap[] = {
-	{ "WPN_FIST",       WPN_FIST        },
-	{ "WPN_SWORD",      WPN_SWORD       },
-	{ "WPN_SHURIKEN",   WPN_STAR        },
-	{ "WPN_STICKYBOMB", WPN_MINE        },
-	{ "WPN_UZI",        WPN_UZI         },
-	{ "WPN_MISSILE",    WPN_MICRO       },
-	{ "WPN_NUKE",       DMG_NUCLEAR_EXP },	// as a special case, the heat seeker details are stored as the ammo for this
-	{ "WPN_GRENADE",    WPN_GRENADE     },
-	{ "WPN_RAILGUN",    WPN_RAIL        },
-	{ "WPN_SHOTGUN",    WPN_SHOTGUN     },
-	{ "WPN_HOTHEAD",    WPN_HOTHEAD     },
-	{ "WPN_HEART",      WPN_HEART       },
-	{ "WPN_HOTHEAD_NAPALM", WPN_NAPALM  },
-	{ "WPN_HOTHEAD_RING",   WPN_RING    },
+	{ "WPN_FIST",       WPN_FIST,        WM_DAMAGE },
+	{ "WPN_SWORD",      WPN_SWORD,       WM_DAMAGE },
+	{ "WPN_SHURIKEN",   WPN_STAR,        WM_DAMAGE|WM_WEAP },
+	{ "WPN_STICKYBOMB", WPN_MINE,        WM_DAMAGE|WM_WEAP },
+	{ "WPN_UZI",        WPN_UZI,         WM_DAMAGE|WM_WEAP|WM_AMMO },
+	{ "WPN_MISSILE",    WPN_MICRO,       WM_DAMAGE|WM_WEAP|WM_AMMO },
+	{ "WPN_NUKE",       DMG_NUCLEAR_EXP, WM_DAMAGE|WM_WEAP|WM_AMMO },
+	{ "WPN_GRENADE",    WPN_GRENADE,     WM_DAMAGE|WM_WEAP|WM_AMMO },
+	{ "WPN_RAILGUN",    WPN_RAIL,        WM_DAMAGE|WM_WEAP|WM_AMMO },
+	{ "WPN_SHOTGUN",    WPN_SHOTGUN,     WM_DAMAGE|WM_WEAP|WM_AMMO },
+	{ "WPN_HOTHEAD",    WPN_HOTHEAD,     WM_DAMAGE|WM_WEAP },
+	{ "WPN_HEART",      WPN_HEART,       WM_DAMAGE|WM_WEAP },
+	{ "WPN_HOTHEAD_NAPALM", WPN_NAPALM,  WM_DAMAGE },
+	{ "WPN_HOTHEAD_RING",   WPN_RING,    WM_DAMAGE },
 };
 
 // FIXME: yes, we are leaking memory here at the end of the program by not freeing anything
@@ -882,7 +886,7 @@ void LoadCustomInfoFromScript(char *filename)
 				char *wpntokptr = script->ltextptr, *wpnnumptr;
 				char *name = NULL, *ammo = NULL;
 				int maxammo = -1, damagemin = -1, damagemax = -1, pickup = -1, wpickup = -1;
-				int in;
+				int in,id;
 
 				if (scriptfile_getsymbol(script, &in)) break; wpnnumptr = script->ltextptr;
 				if (scriptfile_getbraces(script, &braceend)) break;
@@ -927,22 +931,28 @@ void LoadCustomInfoFromScript(char *filename)
 							break;
 					}
 				}
-				in = weaponmap[in].dmgid;
-				if (damagemin >= 0) DamageData[in].damage_lo = damagemin;
-				if (damagemax >= 0) DamageData[in].damage_hi = damagemax;
-				if (maxammo >= 0)   DamageData[in].max_ammo = maxammo;
-				if (name) {
-					if (customweaponname[0][in]) free(customweaponname[0][in]);
-					customweaponname[0][in] = strdup(name);
-					DamageData[in].weapon_name = customweaponname[0][in];
+				id = weaponmap[in].dmgid;
+				if (weaponmap[in].editable & WM_DAMAGE) {
+					if (damagemin >= 0) DamageData[id].damage_lo = damagemin;
+					if (damagemax >= 0) DamageData[id].damage_hi = damagemax;
 				}
-				if (ammo) {
-					if (customweaponname[1][in]) free(customweaponname[1][in]);
-					customweaponname[1][in] = strdup(ammo);
-					DamageData[in].ammo_name = customweaponname[1][in];
+				if (weaponmap[in].editable & WM_WEAP) {
+					if (maxammo >= 0) DamageData[id].max_ammo = maxammo;
+					if (name) {
+						if (customweaponname[0][id]) free(customweaponname[0][id]);
+						customweaponname[0][id] = strdup(name);
+						DamageData[id].weapon_name = customweaponname[0][id];
+					}
+					if (wpickup >= 0) DamageData[id].weapon_pickup = wpickup;
 				}
-				if (pickup >= 0)    DamageData[in].ammo_pickup = pickup;
-				if (wpickup >= 0)   DamageData[in].weapon_pickup = wpickup;
+				if (weaponmap[in].editable & WM_AMMO) {
+					if (ammo) {
+						if (customweaponname[1][id]) free(customweaponname[1][id]);
+						customweaponname[1][id] = strdup(ammo);
+						DamageData[id].ammo_name = customweaponname[1][id];
+					}
+					if (pickup >= 0) DamageData[id].ammo_pickup = pickup;
+				}
 				break;
 			}
 			case CM_SECRET:

@@ -134,7 +134,6 @@ EDITOROBJS=$(OBJ)jnstub.$o &
 	$(OBJ)jbhlp.$o &
 	$(OBJ)colormap.$o
 
-PLATFORM=WINDOWS
 CFLAGS+= -i=$(DXROOT)\include
 LIBS+= winmm.lib wsock32.lib
 !ifndef RENDERTYPE
@@ -146,7 +145,7 @@ RENDERTYPE=WIN
 		
 LIBS+= dxguid.lib
 
-CFLAGS+= -dPLATFORM$(PLATFORM)=1 -dRENDERTYPE$(RENDERTYPE)=1
+CFLAGS+= -dRENDERTYPE$(RENDERTYPE)=1
 
 # RULES
 .EXTENSIONS: .wasm .res .rc

@@ -3499,7 +3499,7 @@ long app_main(long argc, char *argv[])
 	}
 #endif
     
-#if defined(PLATFORMWINDOWS)
+#ifdef _WIN32
 	if (!access("user_profiles_enabled", F_OK))
 #endif
 	{
@@ -3507,14 +3507,14 @@ long app_main(long argc, char *argv[])
 		char *homedir;
 		int asperr;
 
-#if defined(PLATFORMLINUX) || defined(PLATFORMBSD)
+#if defined(__linux) || defined(__FreeBSD__)
 		addsearchpath("/usr/share/games/jfsw");
 		addsearchpath("/usr/local/games/jfsw");
 #endif
 		if (getcwd(cwd,BMAX_PATH)) addsearchpath(cwd);
 		if ((homedir = Bgethomedir())) {
 			Bsnprintf(cwd,sizeof(cwd),"%s/"
-#if defined(PLATFORMWINDOWS) || defined(PLATFORMDARWIN)
+#if defined(_WIN32) || defined(__APPLE__)
 				"JFShadowWarrior"
 #else
 				".jfsw"

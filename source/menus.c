@@ -1083,7 +1083,7 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
 			"",
 			"Thanks to these people for their input and contributions:",
 			"",
-			"Richard \"TerminX\" Gobeille",
+			"Richard \"TerminX\" Gobeille, Ben \"ProAsm\" Smit",
 			"",
 			"and all those who submitted bug reports and ",
 			"supported the project financially!",

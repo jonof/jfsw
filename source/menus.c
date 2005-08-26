@@ -44,6 +44,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "pal.h"
 
 #include "function.h"
+#include "gamedefs.h"
 #include "net.h"
 #include "fx_man.h"
 #include "music.h"
@@ -93,42 +94,7 @@ BOOL passwordvalid = FALSE;
 
 BOOL MNU_HurtTeammateCheck(MenuItem *item);
 BOOL MNU_TeamPlayChange(void);
-// CTW REMOVED
-//BOOL MNU_Ten(void);
-// CTW REMOVED END
 
-char *MNU_LevelName[30] = {
-    "L01: Seppuku Station",
-    "L02: Zilla Construction", 
-    "L03: Master Leep's Temple",
-    "L04: Dark Woods of the Serpent",
-    "L05: Rising Son", 
-    "L06: Killing Fields",
-    "L07: Hara-Kiri Harbor",
-    "L08: Zilla's Villa", 
-    "L09: Monastery", 
-    "L10: Raider of the Lost Wang",
-    "L11: Sumo Sky Palace", 
-    "L12: Bath House",
-    "L13: Unfriendly Skies",
-    "L14: Crude Oil",
-    "L15: Coolie Mines",
-    "L16: Subpen 7",
-    "L17: The Great Escape",
-    "L18: Floating Fortress",
-    "L19: Water Torture", 
-    "L20: Stone Rain",  
-    "L21: Shanghai Shipwreck",
-    "L22: Auto Maul", 
-    "L23: Heavy Metal (DM only)", 
-    "L24: Ripper Valley (DM only)",
-    "L25: House of Wang (DM only)",
-    "L26: Lo Wang Rally (DM only)",
-    "L27: Ruins of the Ronin (CTF)",
-    "L28: Killing Fields (CTF)",
-    " "
-    };  
-    
 // Font pic table
 unsigned short xlatfont[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // 32
@@ -284,10 +250,13 @@ MenuGroup mousegroup = {65, 5, "^Mouse", mouse_i, pic_newgametitl, 0, m_defshade
 BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item);
 MenuGroup keysetupgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_KeySetupCustom, NULL, 0};
 
+BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item);
+MenuGroup mousesetupgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_MouseSetupCustom, NULL, 0};
+
 MenuItem inputsetup_i[] =
     {
     {DefLayer(0, "Keys Setup", &keysetupgroup),OPT_XS,           OPT_LINE(0),1,m_defshade,0,NULL,NULL,NULL},
-    {DefDisabled(0, "Mouse Setup", &keysetupgroup),OPT_XS,           OPT_LINE(1),1,m_defshade,0,NULL,NULL,NULL},
+    {DefLayer(0, "Mouse Setup", &mousesetupgroup),OPT_XS,           OPT_LINE(1),1,m_defshade,0,NULL,NULL,NULL},
     {DefDisabled(0, "Joystick Setup", &keysetupgroup),OPT_XS,           OPT_LINE(2),1,m_defshade,0,NULL,NULL,NULL},
     {DefDisabled(0, "Advanced Mouse Setup", &keysetupgroup),OPT_XS,           OPT_LINE(4),1,m_defshade,0,NULL,NULL,NULL},
     {DefDisabled(0, "Advanced Joystick Setup", &keysetupgroup),OPT_XS,           OPT_LINE(5),1,m_defshade,0,NULL,NULL,NULL},
@@ -693,7 +662,7 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 
 	{
 		short w, h = 0;
-		static char *s = "Keys Setup";
+		char *s = "Keys Setup";
 		rotatesprite(10 << 16, (5-3) << 16, MZ, 0, 2427,
 		    m_defshade, 0, MenuDrawFlags|ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
 		MNU_MeasureStringLarge(s, &w, &h);
@@ -702,8 +671,8 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 
 	if (currentmode) {
 		// customising a key
-		static char *strs[] = { "Press the key to assign to", "\"%s\" %s", "or ESCAPE to cancel." };
-		static char *col[2] = { "(primary)", "(secondary)" };
+		char *strs[] = { "Press the key to assign to", "\"%s\" %s", "or ESCAPE to cancel." };
+		char *col[2] = { "(primary)", "(secondary)" };
 		short w, h = 8;
 		int i, j, y;
 
@@ -743,7 +712,7 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 #define PGSIZ 14
 		int topitem = 0, botitem = NUMGAMEFUNCTIONS;
 		int i,j;
-		static char *morestr = "More...";
+		char *morestr = "More...";
 		const char *p;
 
 		UserInput inpt = {FALSE,FALSE,dir_None};
@@ -843,6 +812,195 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 #undef PGSIZ
 	}
 
+	return (TRUE);
+}
+
+BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item)
+{
+	static int currentbut = 0, currentmode = 0, currentfunc = 0;
+	extern int32 MouseFunctions[MAXMOUSEBUTTONS][2];
+	const char *colnames[2] = { "", "Double " };
+	const char *butnames[6] = { "Left", "Right", "Middle", "Thumb", "Wheel Down", "Wheel Up" };
+#define FIRSTWHEEL 8
+#define NUMBUTS (FIRSTWHEEL+2)
+
+	if (call == uc_touchup)
+        	return (TRUE);
+
+	if (cust_callback == NULL) {
+		if (call != uc_setup)
+			return (FALSE);
+		currentbut = 0;
+		currentmode = 0;
+		currentfunc = 0;
+	}
+
+	cust_callback = MNU_MouseSetupCustom;
+	cust_callback_call = call;
+	cust_callback_item = item;
+
+	{
+		short w, h = 0;
+		char *s = "Mouse Setup";
+		rotatesprite(10 << 16, (5-3) << 16, MZ, 0, 2427,
+		    m_defshade, 0, MenuDrawFlags|ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
+		MNU_MeasureStringLarge(s, &w, &h);
+		MNU_DrawStringLarge(TEXT_XCENTER(w), 5, s);
+	}
+
+	if (currentmode) {
+		// customising a button
+#define PGSIZ 9
+		char *strs[] = { "Select the function to assign to", "%s%s", "or ESCAPE to cancel." };
+		int topitem = 0, botitem = NUMGAMEFUNCTIONS-1;
+		int i,j,y;
+		short w,h=0;
+		char *morestr = "More...";
+
+		UserInput inpt = {FALSE,FALSE,dir_None};
+		CONTROL_GetUserInput(&inpt);
+
+		if (KEY_PRESSED(KEYSC_ESC) || inpt.button1) {
+			KB_ClearKeyDown(sc_Escape);
+			currentmode = 0;
+		}
+		else if (KB_KeyPressed(sc_Home)) {
+			currentfunc = 0;
+			KB_ClearKeyDown(sc_Home);
+		}
+		else if (KB_KeyPressed(sc_End)) {
+			currentfunc = NUMGAMEFUNCTIONS-2;	// -2 because the last one is the console
+			KB_ClearKeyDown(sc_End);
+		}
+		else if (KB_KeyPressed(sc_PgDn)) {
+			currentfunc += PGSIZ;
+			if (currentfunc >= NUMGAMEFUNCTIONS-1) currentfunc = NUMGAMEFUNCTIONS-2;
+			KB_ClearKeyDown(sc_PgDn);
+		}
+		else if (KB_KeyPressed(sc_PgUp)) {
+			currentfunc -= PGSIZ;
+			if (currentfunc < 0) currentfunc = 0;
+			KB_ClearKeyDown(sc_PgUp);
+		}
+		else if (inpt.button0) {
+			MouseFunctions[ currentbut<FIRSTWHEEL ? currentbut/2 : currentbut-FIRSTWHEEL/2 ]
+				[ currentbut<FIRSTWHEEL ? currentbut%2 : 0 ] = currentfunc;
+			CONTROL_MapButton( currentfunc, currentbut<FIRSTWHEEL ? currentbut/2 : currentbut-FIRSTWHEEL/2,
+					currentbut<FIRSTWHEEL ? currentbut%2 : 0, controldevice_mouse);
+			currentmode = 0;
+			KB_ClearLastScanCode();
+			KB_ClearKeysDown();
+		}
+		else if (inpt.dir == dir_North) currentfunc = max(0,currentfunc-1);
+		else if (inpt.dir == dir_South) currentfunc = min(NUMGAMEFUNCTIONS-2,currentfunc+1);
+
+		CONTROL_ClearUserInput(&inpt);
+
+		if (NUMGAMEFUNCTIONS-1 > PGSIZ) {
+			topitem = currentfunc - PGSIZ/2;
+			botitem = topitem + PGSIZ;
+
+			if (topitem < 0) {
+				botitem += -topitem;
+				topitem = 0;
+			} else if (botitem >= NUMGAMEFUNCTIONS-1) {
+				botitem = NUMGAMEFUNCTIONS-2;
+				topitem = botitem - PGSIZ;
+			}
+		}
+
+		y = OPT_LINE(0);
+		for (i=0; i<(int)SIZ(strs); i++) {
+			w = 0;
+			sprintf(ds,strs[i],colnames[currentbut<FIRSTWHEEL ? currentbut%2 : 0],
+				butnames[currentbut<FIRSTWHEEL ? currentbut/2 : currentbut-FIRSTWHEEL/2]);
+			for (j=0; ds[j]; j++) if (ds[j] == '_') ds[j] = ' ';
+			MNU_MeasureString(ds, &w, &h);
+			MNU_DrawString((XDIM - w)/2, y, ds, 0, 16);
+			y += h;
+		}
+
+		for (i = topitem; i <= botitem; i++) {
+			for (j = 0; gamefunctions[i][j]; j++) {
+				if (gamefunctions[i][j] == '_') ds[j] = ' ';
+				else ds[j] = gamefunctions[i][j];
+			}
+			ds[j] = 0;
+
+			j = OPT_LINE(4)+(i-topitem)*8;
+			MNU_DrawSmallString(130, j, ds, (i==currentfunc)?0:12, 16);
+		}
+
+		{
+			short dx,dy;
+			dx = 0, dy = 8;
+			MNU_MeasureSmallString(morestr,&dx,&dy);
+			if (topitem > 0)
+				MNU_DrawSmallString(XDIM - OPT_XS - dx, OPT_LINE(4), morestr, 8,16);
+			if (botitem < NUMGAMEFUNCTIONS-2)
+				MNU_DrawSmallString(XDIM - OPT_XS - dx, OPT_LINE(4)+PGSIZ*8, morestr, 8,16);
+		}
+#undef PGSIZ
+	} else {
+		// button list
+		int i,j;
+		const char *morestr = "More...";
+		const char *p;
+
+		UserInput inpt = {FALSE,FALSE,dir_None};
+		CONTROL_GetUserInput(&inpt);
+
+		if (KEY_PRESSED(KEYSC_ESC) || inpt.button1) {
+			KEY_PRESSED(KEYSC_ESC) = FALSE;
+			cust_callback = NULL;
+			return TRUE;
+		}
+		else if (KB_KeyPressed(sc_Delete)) {
+			KB_ClearKeyDown(sc_Delete);
+			MouseFunctions[ currentbut<FIRSTWHEEL ? currentbut/2 : currentbut-FIRSTWHEEL/2 ]
+				[ currentbut<FIRSTWHEEL ? currentbut%2 : 0 ] = -1;
+			CONTROL_MapButton( -1, currentbut<FIRSTWHEEL ? currentbut/2 : currentbut-FIRSTWHEEL/2,
+					currentbut<FIRSTWHEEL ? currentbut%2 : 0, controldevice_mouse);
+		}
+		else if (KB_KeyPressed(sc_Home) || KB_KeyPressed(sc_PgUp)) {
+			currentbut = 0;
+			KB_ClearKeyDown(sc_Home);
+			KB_ClearKeyDown(sc_PgUp);
+		}
+		else if (KB_KeyPressed(sc_End) || KB_KeyPressed(sc_PgDn)) {
+			currentbut = NUMBUTS-1;
+			KB_ClearKeyDown(sc_End);
+			KB_ClearKeyDown(sc_PgDn);
+		}
+		else if (inpt.button0) {
+			currentmode = 1;
+			currentfunc = MouseFunctions[ currentbut<FIRSTWHEEL ? currentbut/2 : currentbut-FIRSTWHEEL/2 ]
+				[ currentbut<FIRSTWHEEL ? currentbut%2 : 0 ];
+			KB_ClearLastScanCode();
+			KB_ClearKeysDown();
+		}
+		else if (inpt.dir == dir_North) currentbut = max(0,currentbut-1);
+		else if (inpt.dir == dir_South) currentbut = min(NUMBUTS-1,currentbut+1);
+
+		CONTROL_ClearUserInput(&inpt);
+
+		for (i = 0; i < NUMBUTS; i++) {
+			int x = i<FIRSTWHEEL ? i%2 : 0, y = i<FIRSTWHEEL ? i/2 : i-FIRSTWHEEL/2;
+			sprintf(ds, "%s%s", colnames[x], butnames[y]);
+
+			j = OPT_LINE(0)+i*8;
+			MNU_DrawSmallString(OPT_XS*2, j, ds, (i==currentbut)?0:12, 16);
+
+			p = MouseFunctions[y][x] < 0 ? "  -" : gamefunctions[MouseFunctions[y][x]];
+			for (x=0; p[x]; x++) ds[x] = (p[x] == '_' ? ' ' : p[x]);
+			ds[x] = 0;
+			MNU_DrawSmallString(OPT_XSIDE, j, ds, (i==currentbut)?-5:12,
+					(i==currentbut) ? 14:16);
+		}
+	}
+
+#undef FIRSTWHEEL
+#undef NUMBUTS
 	return (TRUE);
 }
 

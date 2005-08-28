@@ -1,5 +1,20 @@
 # Shadow Warrior Makefile for GNU Make
 
+# SDK locations - adjust to match your setup
+DXROOT=c:/sdks/msc/dx61
+
+# Engine options
+SUPERBUILD = 1
+POLYMOST = 1
+USE_OPENGL = 1
+DYNAMIC_OPENGL = 1
+USE_A_C = 0
+NOASM = 0
+
+# Debugging options
+RELEASE?=0
+
+# build locations
 SRC=source/
 RSRC=rsrc/
 OBJ=obj/
@@ -9,25 +24,19 @@ EOBJ=eobj/
 INC=$(SRC)
 o=o
 
-# debugging enabled
-debug=-ggdb -O0
-# debugging disabled
-#debug=-fomit-frame-pointer -O1
-
-
-DXROOT=c:/sdks/msc/dx61
-#FMODROOT=c:/mingw32/fmodapi360win32/api
-
-# SETSPRITEZ is mandatory!
-ENGINEOPTS=-DSETSPRITEZ -DSUPERBUILD -DPOLYMOST -DUSE_OPENGL -DDYNAMIC_OPENGL
+ifneq (0,$(RELEASE))
+  # debugging disabled
+  debug=-fomit-frame-pointer -O1
+else
+  # debugging enabled
+  debug=-ggdb -O0
+endif
 
 CC=gcc
-CFLAGS=$(debug) -W -Wall -Wimplicit \
-	-Wno-char-subscripts -Wno-unused \
-	-funsigned-char -fno-strict-aliasing -march=pentium -DNO_GCC_BUILTINS \
-	-I$(INC:/=) -I$(EINC:/=) -I$(SRC)jmact -I$(SRC)jaudiolib -I../jfaud/inc \
-	$(ENGINEOPTS) \
-	-DUSE_GCC_PRAGMAS
+CFLAGS=-march=pentium $(debug)
+override CFLAGS+= -W -Wall -Wimplicit -Wno-char-subscripts -Wno-unused \
+	-funsigned-char -fno-strict-aliasing -DNO_GCC_BUILTINS \
+	-I$(INC:/=) -I$(EINC:/=) -I$(SRC)jmact -I$(SRC)jaudiolib #-I../jfaud/inc
 LIBS=-lm #../jfaud/jfaud.a # -L../jfaud -ljfaud
 NASMFLAGS=-s #-g
 EXESUFFIX=
@@ -174,25 +183,22 @@ all: sw$(EXESUFFIX) build$(EXESUFFIX)
 
 sw$(EXESUFFIX): $(GAMEOBJS) $(EOBJ)$(ENGINELIB)
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) -Wl,-Map=$@.map
-#	-rm sw.sym$(EXESUFFIX)
-#	cp sw$(EXESUFFIX) sw.sym$(EXESUFFIX)
-#	strip sw$(EXESUFFIX)
 	
 build$(EXESUFFIX): $(EDITOROBJS) $(EOBJ)$(EDITORLIB) $(EOBJ)$(ENGINELIB)
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) -Wl,-Map=$@.map
-#	-rm build.sym$(EXESUFFIX)
-#	cp build$(EXESUFFIX) build.sym$(EXESUFFIX)
-#	strip build$(EXESUFFIX)
 
 include Makefile.deps
 
-$(EOBJ)$(ENGINELIB):
+.PHONY: enginelib editorlib
+enginelib editorlib:
 	-mkdir $(EOBJ)
-	$(MAKE) -C $(EROOT) "OBJ=$(CURDIR)/$(EOBJ)" "CFLAGS=$(ENGINEOPTS)" enginelib
+	$(MAKE) -C $(EROOT) "OBJ=$(CURDIR)/$(EOBJ)" SETSPRITEZ=1 \
+		SUPERBUILD=$(SUPERBUILD) POLYMOST=$(POLYMOST) \
+		USE_OPENGL=$(USE_OPENGL) DYNAMIC_OPENGL=$(DYNAMIC_OPENGL) \
+		USE_A_C=$(USE_A_C) NOASM=$(NOASM) RELEASE=$(RELEASE) $@
 
-$(EOBJ)$(EDITORLIB):
-	-mkdir $(EOBJ)
-	$(MAKE) -C $(EROOT) "OBJ=$(CURDIR)/$(EOBJ)" "CFLAGS=$(ENGINEOPTS)" editorlib
+$(EOBJ)$(ENGINELIB): enginelib
+$(EOBJ)$(EDITORLIB): editorlib
 
 # RULES
 $(OBJ)%.$o: $(SRC)%.nasm
@@ -227,7 +233,7 @@ $(RSRC)editor_banner.c: $(RSRC)build.bmp
 
 # PHONIES	
 clean:
-	-rm -f $(OBJ)* sw$(EXESUFFIX) sw.sym$(EXESUFFIX) build$(EXESUFFIX) build.sym$(EXESUFFIX) core*
+	-rm -f $(OBJ)* sw$(EXESUFFIX) build$(EXESUFFIX) core*
 	
 veryclean: clean
 	-rm -f $(EOBJ)*

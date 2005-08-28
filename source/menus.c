@@ -2868,7 +2868,7 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
 
                     if (handle > FX_Ok)
                         while(FX_SoundActive(handle))
-                            ;
+                            handleevents();
                     }
                 }    
                 }    

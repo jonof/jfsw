@@ -2311,6 +2311,8 @@ MNU_LoadSaveMove(UserCall call, MenuItem_p item)
             {
             if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter))
                 {
+		KB_ClearKeyDown(sc_Y);
+		KB_ClearKeyDown(sc_Enter);
                 SavePrompt = FALSE;
                 // use input
                 item->custom();
@@ -2318,6 +2320,7 @@ MNU_LoadSaveMove(UserCall call, MenuItem_p item)
             else    
             if (KB_KeyPressed(sc_N))
                 {
+		KB_ClearKeyDown(sc_N);
                 strcpy(SaveGameDescr[game_num], BackupSaveGameDescr);
                 SavePrompt = FALSE;
                 MenuInputMode = FALSE;
@@ -4310,8 +4313,25 @@ FadeOut(unsigned char targetcolor, unsigned int clicks)
     }
 
 //////////////////////////////////////////////////////////////////////////////
-
 #define FADE_DAMAGE_FACTOR  3   // 100 health / 32 shade cycles = 3.125
+
+// Fades from 100% to 62.5% somewhat quickly,
+//  then from 62.5% to 37.5% slowly,
+//  then from 37.5% to 0% quickly.
+// This seems to capture the pain caused by enemy shots, plus the extreme
+//  fade caused by being blinded or intense pain.
+// Perhaps the next step would be to apply a gentle smoothing to the
+//  intersections of these lines.
+static int faderamp[32] = {
+	64,60,56,52,48,44,	// y=64-4x
+	
+	40,39,38,38,37,		// y=44.8-(16/20)x
+	36,35,34,34,33,
+	32,31,30,30,29,
+	28,27,26,26,25,
+
+	24,20,16,12,8, 4	// y=128-4x
+};
 
 unsigned char ppalette[MAX_SW_PLAYERS_REG][768];
 
@@ -4433,14 +4453,12 @@ SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
         if (++usereg > 2)
             usereg = 0;
         }
-
+initprintf("fade=%d\n",pp->FadeAmt);
     // Do initial palette set
     if(pp == Player + screenpeek)
         {
-	if (getrendermode() < 3)
-        set_pal(pp->temp_pal);
-	else
-	    setpalettefade(color.red, color.green, color.blue, 2*pp->FadeAmt);
+	if (getrendermode() < 3) set_pal(pp->temp_pal);
+	else setpalettefade(color.red, color.green, color.blue, faderamp[ min(31,max(0,32-abs(pp->FadeAmt))) ] );
         if (damage < -1000)
             pp->FadeAmt = 1000;  // Don't call DoPaletteFlash for underwater stuff
         }
@@ -4502,10 +4520,8 @@ DoPaletteFlash(PLAYERp pp)
         pp->StartColor = 0;   
         if(pp == Player + screenpeek)
             {
-            if (getrendermode() < 3)
-            COVERsetbrightness(gs.Brightness,(char *)palette_data);
-	    else
-		setpalettefade(0,0,0,0);
+            if (getrendermode() < 3) COVERsetbrightness(gs.Brightness,(char *)palette_data);
+	    else setpalettefade(0,0,0,0);
             memcpy(pp->temp_pal, palette_data, sizeof(palette_data)); 
             DoPlayerDivePalette(pp);  // Check Dive again
             DoPlayerNightVisionPalette(pp);  // Check Night Vision again
@@ -4539,15 +4555,15 @@ DoPaletteFlash(PLAYERp pp)
         // Only hard set the palette if this is currently the player's view
         if(pp == Player + screenpeek)
             {
-	    if (getrendermode() < 3)
-            set_pal(pp->temp_pal);
-	    else
-		setpalettefade(
+	    if (getrendermode() < 3) set_pal(pp->temp_pal);
+	    else {
+		    setpalettefade(
 			palette_data[pp->StartColor][0],
 			palette_data[pp->StartColor][1],
 			palette_data[pp->StartColor][2],
-			2*pp->FadeAmt
+			faderamp[ min(31,max(0,32-abs(pp->FadeAmt))) ]
 			      );
+		}
             }
 
         }

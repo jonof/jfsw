@@ -4453,7 +4453,7 @@ SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
         if (++usereg > 2)
             usereg = 0;
         }
-initprintf("fade=%d\n",pp->FadeAmt);
+
     // Do initial palette set
     if(pp == Player + screenpeek)
         {

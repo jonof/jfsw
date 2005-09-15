@@ -730,7 +730,7 @@ void LoadCustomInfoFromScript(char *filename)
 							if (scriptfile_getstring(script, &t)) break;
 
 							strncpy(EpisodeSubtitles[curmap], t, MAX_EPISODE_SUBTITLE_LEN);
-							EpisodeSubtitles[curmap][MAX_EPISODE_SUBTITLE_LEN+1] = 0;
+							EpisodeSubtitles[curmap][MAX_EPISODE_SUBTITLE_LEN] = 0;
 							break;
 						}
 						default:

@@ -2597,7 +2597,7 @@ BonusScreen(PLAYERp pp)
 		}
 	}
              
-        if (KEY_PRESSED(KEYSC_SPACE))
+        if (KEY_PRESSED(KEYSC_SPACE) || KEY_PRESSED(KEYSC_ENTER))
             {
             if (State >= s_BonusRest && State < &s_BonusRest[SIZ(s_BonusRest)])
                 {
@@ -2918,6 +2918,7 @@ StatScreen(PLAYERp mpp)
         }
     
     KEY_PRESSED(KEYSC_SPACE) = 0;
+    KEY_PRESSED(KEYSC_ENTER) = 0;
     
     if (!SW_SHAREWARE) {
         if (gs.MusicOn)
@@ -2929,7 +2930,7 @@ StatScreen(PLAYERp mpp)
         handle = PlaySound(DIGI_ENDLEV, &pp->posx, &pp->posy, &pp->posz, v3df_none);
     }
     
-    while (!KEY_PRESSED(KEYSC_SPACE))
+    while (!KEY_PRESSED(KEYSC_SPACE) && !KEY_PRESSED(KEYSC_ENTER))
         {
 	handleevents();
 	AudioUpdate();

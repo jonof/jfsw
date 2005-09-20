@@ -131,23 +131,117 @@ BOOL NetModeOverride = FALSE;
 
 void netsendpacket(int ind, char *buf, int len)
 {
+	char bbuf[ sizeof(packbuf) + sizeof(PACKET_PROXY) ];
+	PACKET_PROXYp prx = (PACKET_PROXYp)bbuf;
+
+	// send via master if in M/S mode and we are not the master, and the recipient is not the master and not ourselves
+	if (!NetBroadcastMode && myconnectindex != connecthead && ind != myconnectindex && ind != connecthead) {
+		initprintf("netsendpacket() sends proxy\n");
+		if ((unsigned)len > sizeof(packbuf)) {
+			initprintf("netsendpacket(): packet length > %d!\n",sizeof(packbuf));
+			len = sizeof(packbuf);
+		}
+		prx->PacketType = PACKET_TYPE_PROXY;
+		prx->PlayerIndex = (BYTE)ind;
+		memcpy(prx->Data, buf, len);
+		len += sizeof(PACKET_PROXY);
+
+		sendpacket(connecthead, bbuf, len);
+		return;
+	}
+
 	sendpacket(ind, buf, len);
 }
 
 void netbroadcastpacket(char *buf, int len)
 {
 	int i;
+	char bbuf[ sizeof(packbuf) + sizeof(PACKET_PROXY) ];
+	PACKET_PROXYp prx = (PACKET_PROXYp)bbuf;
+
+	// broadcast via master if in M/S mode and we are not the master
+	if (!NetBroadcastMode && myconnectindex != connecthead) {
+		initprintf("netbroadcastpacket() sends proxy\n");
+		if ((unsigned)len > sizeof(packbuf)) {
+			initprintf("netbroadcastpacket(): packet length > %d!\n",sizeof(packbuf));
+			len = sizeof(packbuf);
+		}
+		prx->PacketType = PACKET_TYPE_PROXY;
+		prx->PlayerIndex = (BYTE)(-1);
+		memcpy(prx->Data, buf, len);
+		len += sizeof(PACKET_PROXY);
+
+		sendpacket(connecthead, bbuf, len);
+		return;
+	}
 
 	for (i = connecthead; i >= 0; i = connectpoint2[i])
 	{
 		if (i != myconnectindex)
-			netsendpacket(i, buf, len);
+			sendpacket(i, buf, len);
 	}
 }
 
 short netgetpacket(long *ind, char *buf)
 {
-	return getpacket(ind, buf);
+	int i;
+	short len;
+	PACKET_PROXYp prx;
+
+	len = getpacket(ind, buf);
+	if ((unsigned)len < sizeof(PACKET_PROXY) || buf[0] != PACKET_TYPE_PROXY)
+		return len;
+
+	initprintf("netgetpacket() got proxy from %d\n",*ind);
+
+	prx = (PACKET_PROXYp)buf;
+	if (myconnectindex == connecthead) {
+		// I am the master
+
+		if (prx->PlayerIndex == (BYTE)(-1)) {
+			// broadcast
+
+			// Rewrite the player index to be the sender's connection number
+			prx->PlayerIndex = (BYTE)*ind;
+
+			// Transmit to all the other players except ourselves and the sender
+			for (i = connecthead; i >= 0; i = connectpoint2[i]) {
+				if (i == myconnectindex || i == *ind) continue;
+				sendpacket(i, buf, len);
+			}
+			
+			// Return the packet payload to the caller
+			len -= sizeof(PACKET_PROXY);
+			memmove(buf, prx->Data, len);
+			return len;
+		} else {
+			// proxy send to a specific player
+
+			i = prx->PlayerIndex;
+
+			// Rewrite the player index to be the sender's connection number
+			prx->PlayerIndex = (BYTE)*ind;
+
+			// Transmit to the intended recipient
+			if (i == myconnectindex) {
+				len -= sizeof(PACKET_PROXY);
+				memmove(buf, prx->Data, len);
+				return len;
+			}
+
+			sendpacket(i, buf, len);
+			return 0;	// nothing for us to do
+		}
+	} else if (*ind == connecthead) {
+		// I am a slave, and the proxy message came from the master
+		*ind = prx->PlayerIndex;
+		len -= sizeof(PACKET_PROXY);
+		memmove(buf, prx->Data, len);
+		return len;
+	} else {
+		initprintf("netgetpacket(): Got a proxy message from %d instead of %d\n",*ind,connecthead);
+	}
+	return 0;
 }
 
 
@@ -350,11 +444,12 @@ InitNetPlayerOptions(VOID)
         p.Color = gs.NetColor;
         strcpy(p.PlayerName, CommPlayerName);
 
-        TRAVERSE_CONNECT(pnum)
+        //TRAVERSE_CONNECT(pnum)
             {
-            if (pnum != myconnectindex)
+            //if (pnum != myconnectindex)
                 {
-                netsendpacket(pnum, (char *)(&p), sizeof(p));
+                //netsendpacket(pnum, (char *)(&p), sizeof(p));
+                netbroadcastpacket((char *)(&p), sizeof(p));
                 }
             }
         }
@@ -375,13 +470,14 @@ SendMulitNameChange(char *new_name)
     strcpy(CommPlayerName, new_name);
     SetRedrawScreen(pp);
     
-    TRAVERSE_CONNECT(pnum)
+    //TRAVERSE_CONNECT(pnum)
         {
-        if (pnum != myconnectindex)
+        //if (pnum != myconnectindex)
             {
             p.PacketType = PACKET_TYPE_NAME_CHANGE;
             strcpy(p.PlayerName, pp->PlayerName);
-            netsendpacket(pnum, (char *)(&p), sizeof(p));
+            //netsendpacket(pnum, (char *)(&p), sizeof(p));
+            netbroadcastpacket((char *)(&p), sizeof(p));
             }
         }
     }
@@ -398,13 +494,14 @@ SendVersion(long version)
     
     pp->PlayerVersion = version;
     
-    TRAVERSE_CONNECT(pnum)
+    //TRAVERSE_CONNECT(pnum)
         {
-        if (pnum != myconnectindex)
+        //if (pnum != myconnectindex)
             {
             p.PacketType = PACKET_TYPE_VERSION;
             p.Version = version;
-            netsendpacket(pnum, (char *)(&p), sizeof(p));
+            //netsendpacket(pnum, (char *)(&p), sizeof(p));
+            netbroadcastpacket((char *)(&p), sizeof(p));
             }
         }
     }
@@ -418,13 +515,16 @@ CheckVersion(long GameVersion)
     
     if (!CommEnabled)
         return;
-        
+
     TRAVERSE_CONNECT(pnum)
         {
         if (pnum != myconnectindex)
             {
             if (GameVersion != Player[pnum].PlayerVersion)
                 {
+		initprintf("CheckVersion(): player %d has version %d, expecting %d\n",
+				pnum, Player[pnum].PlayerVersion, GameVersion);
+
                 adduserquote(VERSION_MSG);
                 adduserquote(VERSION_MSG);
                 adduserquote(VERSION_MSG);
@@ -485,7 +585,9 @@ waitforeverybody(void)
 
     if (!CommEnabled)
         return; 
-    
+
+    initprintf("waitforeverybody() #%d\n", Player[myconnectindex].playerreadyflag + 1);
+
 	//tenDbLprintf(gTenLog, 3, "in w4e");
 	//tenDbFlushLog(gTenLog);
     tempbuf[0] = PACKET_TYPE_PLAYER_READY;
@@ -493,6 +595,9 @@ waitforeverybody(void)
 	tempbuf[1] = Player[myconnectindex].playerreadyflag + 1;
 	size++;
 #endif
+    if (!NetBroadcastMode && myconnectindex != connecthead)
+	netsendpacket(connecthead, tempbuf, size);
+    else
 	netbroadcastpacket(tempbuf, size);
     
     #if 0
@@ -511,6 +616,8 @@ waitforeverybody(void)
 
     while (TRUE)
         {
+	handleevents();
+	
         if (PlayerQuitMenuLevel >= 0)    
             {
             //DSPRINTF(ds,"%d, Player Quit Menu Level %d", myconnectindex, PlayerQuitMenuLevel);
@@ -528,12 +635,13 @@ waitforeverybody(void)
             //if (KEY_PRESSED(KEYSC_ESC))
                 {
                 short pnum;
-                TRAVERSE_CONNECT(pnum)
+                //TRAVERSE_CONNECT(pnum)
                     {
-                    if (pnum != myconnectindex)
+                    //if (pnum != myconnectindex)
                         {
                         tempbuf[0] = PACKET_TYPE_MENU_LEVEL_QUIT;
-                        sendpacket(pnum, tempbuf, 1);
+                        //netsendpacket(pnum, tempbuf, 1);
+                        netbroadcastpacket(tempbuf, 1);
                         }
                     }
 
@@ -554,6 +662,7 @@ waitforeverybody(void)
             {
             if (Player[i].playerreadyflag < Player[myconnectindex].playerreadyflag)
                 break;
+	    if ((!NetBroadcastMode) && (myconnectindex != connecthead)) { i = -1; break; } //slaves in M/S mode only wait for master
             }
 
         if (i < 0)
@@ -710,6 +819,7 @@ VOID ErrorCorrectionQuit(VOID)
             oldtotalclock = totalclock;
             while (totalclock < oldtotalclock + synctics)
                 {
+		handleevents();
                 getpackets();
                 }
             
@@ -988,7 +1098,6 @@ faketimerhandler(void)
         return;
         } // NetBroadcastMode
 
-    #ifdef NET_MODE_MASTER_SLAVE    
     // SLAVE CODE
     if (myconnectindex != connecthead)  // I am the Slave
         {
@@ -1112,7 +1221,6 @@ faketimerhandler(void)
 
         movefifosendplc += MovesPerPacket;
         }
-    #endif    
     }
 
 VOID
@@ -1195,7 +1303,6 @@ getpackets(VOID)
 
             break;
             
-#ifdef NET_MODE_MASTER_SLAVE    
         case PACKET_TYPE_MASTER_TO_SLAVE:
             // Here slave is receiving
             j = 1;
@@ -1306,7 +1413,7 @@ getpackets(VOID)
                 }
 
             break;
-#endif
+
         case PACKET_TYPE_MESSAGE:
             {
             PLAYERp tp = Player + myconnectindex;
@@ -1484,8 +1591,12 @@ getpackets(VOID)
         case PACKET_TYPE_NULL_PACKET:
             break;
 
+	case PACKET_TYPE_PROXY:
+	    initprintf("getpackets(): nested proxy packets!?\n");
+	    break;
+
         default:
-            //DSPRINTF(ds,"Packet type unknown %d",packbuf[0]);
+            DSPRINTF(ds,"Packet type unknown %d",packbuf[0]);
             MONO_PRINT(ds);
             }
         }

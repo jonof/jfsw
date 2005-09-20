@@ -30,7 +30,8 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define PACKET_TYPE_MESSAGE                         4
 //#define PACKET_TYPE_GAME_INFO                       8
 #define PACKET_TYPE_BROADCAST                       17
-#define SERVER_GENERATED_BROADCAST					18
+#define SERVER_GENERATED_BROADCAST                  18
+#define PACKET_TYPE_PROXY                           19
 
 #define PACKET_TYPE_NEW_GAME                        30    
 //#define PACKET_TYPE_NEW_LEVEL                       31
@@ -49,7 +50,28 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define SYNC_TEST TRUE
 #define MAXSYNCBYTES 16
 
-typedef struct
+#ifdef __GNUC__
+# define PACKED __attribute__ ((packed))
+#else
+# define PACKED
+# ifdef _MSC_VER
+#  pragma pack(1)
+# endif
+# ifdef __WATCOMC__
+#  pragma pack(push,1);
+# endif
+#endif
+
+// Slave->Master: PlayerIndex = who to send the packet to (-1 = all)
+// Master->Slave: PlayerIndex = who sent the packet originally
+typedef struct PACKED
+    {
+    BYTE PacketType;  // first byte is always packet type
+    BYTE PlayerIndex;
+    BYTE Data[0];
+    } PACKET_PROXY,*PACKET_PROXYp;
+
+typedef struct PACKED
     {
     BYTE PacketType;  // first byte is always packet type
     BYTE FirstPlayerIndex;
@@ -66,7 +88,7 @@ typedef struct
     BOOL Nuke;
     }PACKET_NEW_GAME,*PACKET_NEW_GAMEp;
 
-typedef struct
+typedef struct PACKED
     {
     BYTE PacketType;  // first byte is always packet type
     BOOL AutoRun;
@@ -74,24 +96,32 @@ typedef struct
     char PlayerName[32];
     }PACKET_OPTIONS,*PACKET_OPTIONSp;
 
-typedef struct
+typedef struct PACKED
     {
     BYTE PacketType;  // first byte is always packet type
     char PlayerName[32];
     }PACKET_NAME_CHANGE,*PACKET_NAME_CHANGEp;
     
-typedef struct
+typedef struct PACKED
     {
     BYTE PacketType;  // first byte is always packet type
     BYTE RTSnum;
     }PACKET_RTS,*PACKET_RTSp;
 
-typedef struct
+typedef struct PACKED
     {
     BYTE PacketType;  // first byte is always packet type
     long Version;
     }PACKET_VERSION,*PACKET_VERSIONp;
-    
+
+#undef PACKED
+#ifdef _MSC_VER
+# pragma pack()
+#endif
+#ifdef __WATCOMC__
+# pragma pack(pop);
+#endif
+
 extern BYTE syncstat[MAXSYNCBYTES];
 extern BOOL PredictionOn;
 extern PLAYER PredictPlayer;

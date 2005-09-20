@@ -39,7 +39,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "sounds.h"
 #include "settings.h"
 
-#define NET_MODE_MASTER_SLAVE 1
 //#define SW_SHAREWARE 1     // This determines whether game is shareware compile or not!
 //#define UK_VERSION 1
 extern char isShareware;

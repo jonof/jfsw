@@ -763,27 +763,27 @@ analyzesprites(long viewx, long viewy, long viewz, BOOL mirror)
             
             //#define DART_REPEAT 6
             //#define DART_PIC 2233
-            #ifdef UK_VERSION
+            if (useDarts)
             if (tu->ID == 1793 || tsp->picnum == 1793)
                 {
                 tsp->picnum = 2519;
                 tsp->xrepeat = 27;
                 tsp->yrepeat = 29;
                 }
-            #endif    
                 
             #define DART_PIC 2526
             #define DART_REPEAT 16
             if (tu->ID == STAR1)
                 {
-                #ifdef UK_VERSION
-                tsp->picnum = DART_PIC;
-                tsp->ang = NORM_ANGLE(tsp->ang - 512 - 24);
-                tsp->xrepeat = tsp->yrepeat = DART_REPEAT;
-                SET(tsp->cstat, CSTAT_SPRITE_WALL);
-                #else
-                DoStarView(tsp, tu, viewz);
-                #endif    
+		if (useDarts)
+		    {
+                    tsp->picnum = DART_PIC;
+                    tsp->ang = NORM_ANGLE(tsp->ang - 512 - 24);
+                    tsp->xrepeat = tsp->yrepeat = DART_REPEAT;
+                    SET(tsp->cstat, CSTAT_SPRITE_WALL);
+                    }
+		else
+                    DoStarView(tsp, tu, viewz);
                 }
             
             // rotation
@@ -839,7 +839,7 @@ analyzesprites(long viewx, long viewy, long viewz, BOOL mirror)
                 }
             }
         
-        #ifdef UK_VERSION
+	if (useDarts)
         if (tsp->statnum == STAT_STAR_QUEUE)
             {
             tsp->picnum = DART_PIC;
@@ -847,7 +847,6 @@ analyzesprites(long viewx, long viewy, long viewz, BOOL mirror)
             tsp->xrepeat = tsp->yrepeat = DART_REPEAT;
             SET(tsp->cstat, CSTAT_SPRITE_WALL);
             }
-        #endif    
           
         // Call my sprite handler
         // Does autosizing and voxel handling

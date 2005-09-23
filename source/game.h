@@ -40,8 +40,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "settings.h"
 
 //#define SW_SHAREWARE 1     // This determines whether game is shareware compile or not!
-//#define UK_VERSION 1
-extern char isShareware;
+extern char isShareware, useDarts;
 #define SW_SHAREWARE (isShareware)
 
 // Turn warning off for unreferenced variables.

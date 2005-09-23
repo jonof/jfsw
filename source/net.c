@@ -114,7 +114,6 @@ SW_AVERAGE_PACKET AveragePacket;
 BYTE syncstat[MAXSYNCBYTES];
 //long syncvalhead[MAX_SW_PLAYERS];
 long syncvaltail, syncvaltottail;
-short sb;
 void GetSyncInfoFromPacket(char *packbuf, long packbufleng, long *j, long otherconnectindex);
 
 // when you set totalclock to 0 also set this one
@@ -133,14 +132,20 @@ void netsendpacket(int ind, char *buf, int len)
 {
 	char bbuf[ sizeof(packbuf) + sizeof(PACKET_PROXY) ];
 	PACKET_PROXYp prx = (PACKET_PROXYp)bbuf;
+	int i;
 
 	// send via master if in M/S mode and we are not the master, and the recipient is not the master and not ourselves
 	if (!NetBroadcastMode && myconnectindex != connecthead && ind != myconnectindex && ind != connecthead) {
-		initprintf("netsendpacket() sends proxy\n");
 		if ((unsigned)len > sizeof(packbuf)) {
 			initprintf("netsendpacket(): packet length > %d!\n",sizeof(packbuf));
 			len = sizeof(packbuf);
 		}
+
+		initprintf("netsendpacket() sends proxy to %d\nPlayerIndex=%d Contents:",connecthead,ind);
+		for (i=0; i<len; i++)
+			initprintf(" %02x", buf[i]);
+		initprintf("\n");
+		
 		prx->PacketType = PACKET_TYPE_PROXY;
 		prx->PlayerIndex = (BYTE)ind;
 		memcpy(prx->Data, buf, len);
@@ -151,6 +156,11 @@ void netsendpacket(int ind, char *buf, int len)
 	}
 
 	sendpacket(ind, buf, len);
+
+	initprintf("netsendpacket() sends normal to %d\nContents:",ind);
+	for (i=0; i<len; i++)
+		initprintf(" %02x", buf[i]);
+	initprintf("\n");
 }
 
 void netbroadcastpacket(char *buf, int len)
@@ -161,11 +171,16 @@ void netbroadcastpacket(char *buf, int len)
 
 	// broadcast via master if in M/S mode and we are not the master
 	if (!NetBroadcastMode && myconnectindex != connecthead) {
-		initprintf("netbroadcastpacket() sends proxy\n");
 		if ((unsigned)len > sizeof(packbuf)) {
 			initprintf("netbroadcastpacket(): packet length > %d!\n",sizeof(packbuf));
 			len = sizeof(packbuf);
 		}
+
+		initprintf("netbroadcastpacket() sends proxy to %d\nPlayerIndex=255 Contents:",connecthead);
+		for (i=0; i<len; i++)
+			initprintf(" %02x", buf[i]);
+		initprintf("\n");
+
 		prx->PacketType = PACKET_TYPE_PROXY;
 		prx->PlayerIndex = (BYTE)(-1);
 		memcpy(prx->Data, buf, len);
@@ -177,24 +192,40 @@ void netbroadcastpacket(char *buf, int len)
 
 	for (i = connecthead; i >= 0; i = connectpoint2[i])
 	{
-		if (i != myconnectindex)
-			sendpacket(i, buf, len);
+		if (i == myconnectindex) continue;
+		sendpacket(i, buf, len);
+		initprintf("netsendpacket() sends normal to %d\n",i);
 	}
+	initprintf("Contents:");
+	for (i=0; i<len; i++)
+		initprintf(" %02x", buf[i]);
+	initprintf("\n");
 }
 
-short netgetpacket(long *ind, char *buf)
+long netgetpacket(long *ind, char *buf)
 {
 	int i;
-	short len;
+	long len;
 	PACKET_PROXYp prx;
 
 	len = getpacket(ind, buf);
-	if ((unsigned)len < sizeof(PACKET_PROXY) || buf[0] != PACKET_TYPE_PROXY)
+	if ((unsigned)len < sizeof(PACKET_PROXY) || buf[0] != PACKET_TYPE_PROXY) {
+		if (len > 0) {
+			initprintf("netgetpacket() gets normal from %d\nContents:",*ind);
+			for (i=0; i<len; i++)
+				initprintf(" %02x", buf[i]);
+			initprintf("\n");
+		}
 		return len;
-
-	initprintf("netgetpacket() got proxy from %d\n",*ind);
+	}
 
 	prx = (PACKET_PROXYp)buf;
+
+	initprintf("netgetpacket() got proxy from %d\nPlayerIndex=%d Contents:",*ind,prx->PlayerIndex);
+	for (i=0; i<len-sizeof(PACKET_PROXY); i++)
+		initprintf(" %02x", prx->Data[i]);
+	initprintf("\n");
+
 	if (myconnectindex == connecthead) {
 		// I am the master
 
@@ -207,6 +238,7 @@ short netgetpacket(long *ind, char *buf)
 			// Transmit to all the other players except ourselves and the sender
 			for (i = connecthead; i >= 0; i = connectpoint2[i]) {
 				if (i == myconnectindex || i == *ind) continue;
+				initprintf("netgetpacket(): distributing to %d\n", i);
 				sendpacket(i, buf, len);
 			}
 			
@@ -229,6 +261,7 @@ short netgetpacket(long *ind, char *buf)
 				return len;
 			}
 
+			initprintf("netgetpacket(): forwarding to %d\n", i);
 			sendpacket(i, buf, len);
 			return 0;	// nothing for us to do
 		}
@@ -616,8 +649,6 @@ waitforeverybody(void)
 
     while (TRUE)
         {
-	handleevents();
-	
         if (PlayerQuitMenuLevel >= 0)    
             {
             //DSPRINTF(ds,"%d, Player Quit Menu Level %d", myconnectindex, PlayerQuitMenuLevel);
@@ -1201,7 +1232,7 @@ faketimerhandler(void)
                        &pp->inputfifo[(movefifosendplc - 1) & (MOVEFIFOSIZ - 1)],
                        &packbuf[j]);
             #endif    
-            pp->movefifoend++;
+            //pp->movefifoend++;
             }
 
         #if SYNC_TEST
@@ -1232,7 +1263,7 @@ VOID
 getpackets(VOID)
     {
     long otherconnectindex, packbufleng;
-    long i, j, k, l, fifoCheck;
+    long i, j, k, l, fifoCheck, sb;
     PLAYERp pp;
     SW_PACKET tempinput;
 

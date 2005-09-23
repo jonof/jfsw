@@ -7561,13 +7561,9 @@ char *DeathString(short SpriteNum)
         case BLADE3:
         case 5011:
             return("blade");
-        #ifdef UK_VERSION
         case STAR1:
-            return("dart");
-        #else
-        case STAR1:
-            return("shuriken");
-        #endif
+	    if (useDarts) return("dart");
+	    else return("shuriken");
         case CROSSBOLT:
             return("crossbow bolt");
         case SPEAR_R0:

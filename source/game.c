@@ -3327,7 +3327,7 @@ VOID DosScreen(VOID)
 #endif
     }
 
-#if PLOCK_VERSION
+#if 0 //PLOCK_VERSION
 VOID AlphaMessage(VOID)
     {
     Global_PLock = TRUE; // Set the hardwired parental lock mode!
@@ -3344,7 +3344,7 @@ VOID AlphaMessage(VOID)
     }
 #endif    
 
-#if UK_VERSION
+#if 0 //UK_VERSION
 VOID AlphaMessage(VOID)
     {
     initprintf(""
@@ -3359,7 +3359,7 @@ VOID AlphaMessage(VOID)
     }
 #endif    
 
-#if !UK_VERSION && !PLOCK_VERSION
+#if 1 //!UK_VERSION && !PLOCK_VERSION
 VOID AlphaMessage(VOID)
     {
 	if (SW_SHAREWARE) {
@@ -3452,7 +3452,7 @@ sw -map testmap.map -autonet 0,0,1,1,1,0,3,2,1,1 -f4 -name 1234567890 -net 12345
 commit -map grenade -autonet 0,0,1,1,1,0,3,2,1,1 -name frank
 #endif
 
-char isShareware = FALSE;
+char isShareware = FALSE, useDarts = FALSE;
 
 int DetectShareware(void)
     {

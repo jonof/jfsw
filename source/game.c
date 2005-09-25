@@ -3515,8 +3515,10 @@ long app_main(long argc, char *argv[])
 		if (getcwd(cwd,BMAX_PATH)) addsearchpath(cwd);
 		if ((homedir = Bgethomedir())) {
 			Bsnprintf(cwd,sizeof(cwd),"%s/"
-#if defined(_WIN32) || defined(__APPLE__)
+#if defined(_WIN32)
 				"JFShadowWarrior"
+#elif defined(__APPLE__)
+				"Library/Preferences/JFShadowWarrior"
 #else
 				".jfsw"
 #endif

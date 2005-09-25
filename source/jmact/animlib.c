@@ -149,7 +149,7 @@ run:
 
    goto nextOp;
 longOp:
-   wordCnt = *((uint16 *)srcP);
+   wordCnt = B_LITTLE16(*((uint16 *)srcP));
    srcP += sizeof(uint16);
    if ((int16)wordCnt <= 0)
       goto notLongSkip;       /* Do SIGNED test. */
@@ -213,7 +213,7 @@ void renderframe (uint16 framenumber, uint16 *pagepointer)
    ppointer+=anim->curlp.nRecords*2+offset;
    if(ppointer[1])
       {
-      ppointer += (4 + (((uint16 *)ppointer)[1] + (((uint16 *)ppointer)[1] & 1)));
+      ppointer += (4 + B_LITTLE16((((uint16 *)ppointer)[1]) + (B_LITTLE16(((uint16 *)ppointer)[1]) & 1)));
       }
    else
       {
@@ -260,6 +260,19 @@ void ANIM_LoadAnim (char * buffer)
    anim->currentframe = -1;
    size = sizeof(lpfileheader);
    Bmemcpy(&anim->lpheader, buffer, size );
+   
+   anim->lpheader.id              = B_LITTLE32(anim->lpheader.id);
+   anim->lpheader.maxLps          = B_LITTLE16(anim->lpheader.maxLps);
+   anim->lpheader.nLps            = B_LITTLE16(anim->lpheader.nLps);
+   anim->lpheader.nRecords        = B_LITTLE32(anim->lpheader.nRecords);
+   anim->lpheader.maxRecsPerLp    = B_LITTLE16(anim->lpheader.maxRecsPerLp);
+   anim->lpheader.lpfTableOffset  = B_LITTLE16(anim->lpheader.lpfTableOffset);
+   anim->lpheader.contentType     = B_LITTLE32(anim->lpheader.contentType);
+   anim->lpheader.width           = B_LITTLE16(anim->lpheader.width);
+   anim->lpheader.height          = B_LITTLE16(anim->lpheader.height);
+   anim->lpheader.nFrames         = B_LITTLE32(anim->lpheader.nFrames);
+   anim->lpheader.framesPerSecond = B_LITTLE32(anim->lpheader.framesPerSecond);
+   
    buffer += size+128;
    // load the color palette
    for (i = 0; i < 768; i += 3)
@@ -272,6 +285,12 @@ void ANIM_LoadAnim (char * buffer)
         // read in large page descriptors
    size = sizeof(anim->LpArray);
    Bmemcpy(&anim->LpArray,buffer,size);
+   for (i=0; i<size/sizeof(lp_descriptor); i++)
+      {
+	  anim->LpArray[i].baseRecord = B_LITTLE16(anim->LpArray[i].baseRecord);
+	  anim->LpArray[i].nRecords   = B_LITTLE16(anim->LpArray[i].nRecords);
+	  anim->LpArray[i].nBytes     = B_LITTLE16(anim->LpArray[i].nBytes);
+      }
    }
 
 //****************************************************************************

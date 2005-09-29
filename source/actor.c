@@ -536,7 +536,7 @@ KeepActorOnFloor(short SpriteNum)
 
     if (TEST(sectp->extra, SECTFX_SINK) &&
         depth > 35 &&
-        u->ActorActionSet->Swim)
+        u->ActorActionSet && u->ActorActionSet->Swim)
         {
         if (TEST(u->Flags, SPR_SWIMMING))
             {

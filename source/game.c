@@ -3612,6 +3612,13 @@ long app_main(long argc, char *argv[])
 				if (arg[1] == '0') {
 					NetBroadcastMode = FALSE;
 					initprintf("Network mode: master/slave\n");
+					wm_msgbox("Multiplayer Option Error",
+						"This release unfortunately does not support a master-slave networking "
+						"mode because of certain bugs we have not been able to locate and fix "
+						"at this time. However, peer-to-peer networking has been found to be "
+						"playable, so we suggest attempting to use that for now. Details can be "
+						"found in the release notes. Sorry for the inconvenience.");
+					return 0;
 				} else if (arg[1] == '1') {
 					NetBroadcastMode = TRUE;
 					initprintf("Network mode: peer-to-peer\n");

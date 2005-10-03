@@ -4639,6 +4639,7 @@ SpriteOverlap(SHORT spritenum_a, SHORT spritenum_b)
 
     long spa_tos, spa_bos, spb_tos, spb_bos, overlap_z;
 
+    if (!ua || !ub) return FALSE;
     if ((unsigned)Distance(spa->x, spa->y, spb->x, spb->y) > ua->Radius + ub->Radius)
     {
     return (FALSE);

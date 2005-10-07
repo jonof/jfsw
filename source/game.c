@@ -3508,7 +3508,7 @@ long app_main(long argc, char *argv[])
 		char *homedir;
 		int asperr;
 
-#if defined(__linux) || defined(__FreeBSD__)
+#if defined(__linux) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
 		addsearchpath("/usr/share/games/jfsw");
 		addsearchpath("/usr/local/games/jfsw");
 #endif

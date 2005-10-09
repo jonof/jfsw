@@ -57,30 +57,35 @@
 
 	<body><div id="bodysect">
 		<h1>Release Notes for JFShadowWarrior</h1>
-		<p>Release date: 31 May 2005<br />
+		<p>Release date: 9 October 2005<br />
 		<a href="http://jonof.edgenetwork.org/?p=jfsw">Official website</a></p>
 
 		<h2>New Features and Improvements</h2>
 		<ul>
-			<li>Loading and saving of games should now work quite robustly. See <a href="#savegames">this
-			section</a> for more information.</li>
-			<li>CD audio works again on Windows.</li>
+			<li>A number of crash bugs have been fixed. Also, missing save game symbols from the previous
+			release should be fixed in this release. Still, if the game reports <a href="#savegames">missing
+			symbols</a>, please let me know.</li>
+			<li>OpenGL voxels. You'll know them when you see them.</li>
+			<li>Keys, mouse buttons, and video mode settings are configurable via in-game menus now. There are
+			still the more advanced configuration features to be added yet, but they can still be adjusted via
+			the external setup program for now.</li>
+			<li>Improvements to the <a href="#customfile">customisation facility</a> to allow more options to
+			be altered.</li>
 		</ul>
 
 		<h2>Known Issues</h2>
 		<ul>
-			<li>Multiplayer is not fully functional yet. An update to this release will be made in the near
-			future to address this.</li>
+			<li>Multiplayer is not fully functional yet. Peer-to-peer mode appears to work fine, but
+			master-slave mode is broken and has been disabled for this release.</li>
 			<li>There are two rendering bugs I am aware of that will be fixed in a subsequent release:
 			<ol>
-				<li>Level 1: the viewscreen to drive the silver key to the collection area malfunctions in
-				GL Polymost giving a hall-of-mirrors effect.</li>
+				<li>Level 1: the viewscreen to drive the silver key to the collection area is not working
+				properly in GL Polymost mode, giving just a static texture. Switch to 8-bit mode
+				temporarily to complete this section of the level.</li>
 				<li>Level 2: in the pool of water at the end of the map which opens up a magic portal
 				showing the next level, the sector-over-sector effect in the view beyond the portal
 				malfunctions giving a shimmering sky area in the view.</li>
 			</ol></li>
-			<li>Pain sound effects are playing instead of roam sound effects. This is a side-effect of the
-			game being compiled with Visual C, and I haven't found the reason for it happening yet.</li>
 		</ul>
 
 		<h2><a name="savegames">Save Help</a></h2>
@@ -372,13 +377,11 @@ sprite 478 angoff -512</pre>
 		<p>Hightile textures are defined in the SW.DEF file. See the <a href="#deffile">DEF-file language</a>
 		reference for information on how to specify Hightile textures.</p>
 		
-		<h3>Limitations to Hightile in this release</h3>
+		<h3>Limitations to Hightile</h3>
 		<ul>
 			<li>Hightile will squash or stretch the replacement to fit in the dimensions of the original tile
 			it replaces. Artists should keep their replacements in the same ratio as the original tile for the
 			art to not look distorted.</li>
-			<li>JFSW does not precache textures yet with a great level of sophistication, so be aware that you
-			will notice a small delay on occasion as a texture is loaded into memory when it is first seen.</li>
 		</ul>
 		<h2><a name="hightile-zip">Extra GRP and ZIP file support</a></h2>
 
@@ -448,6 +451,14 @@ as the original Build - but one that worked with vectors instead of already rast
 			<dt>glinfo</dt>
 			<dd>Displays some information about the OpenGL driver.</dd>
 
+			<dt>glredbluemode &lt;0 or 1&gt;</dt>
+			<dd>Enables or disables the red-blue stereovision mode in OpenGL. This mode is experimental
+			at this time. We know the flicker is nasty and the menu background will mix into the screen.
+			To avoid the menu bug, run the game in fullscreen mode and type "glredbluemode 1" AFTER
+			beginning the game. Sorry, there is no way to change parallax or separation. Do not contact
+			us about bugs with this mode... if you do, we'll think twice about documenting hidden features
+			in future releases. :P</dd>
+
 			<dt>gltextureanisotropy &lt;level&gt;</dt>
 			<dd>Sets the OpenGL anisotropic filtering level.</dd>
 
@@ -462,18 +473,15 @@ as the original Build - but one that worked with vectors instead of already rast
 				<tr><td>5</td><td>GL_LINEAR_MIPMAP_LINEAR (trilinear)</td></tr>
 			</table></dd>
 
+			<dt>glusetexcompr &lt;0 or 1&gt;</dt>
+			<dd>Enables or disables the use of OpenGL texture compression for hightile textures. You need
+			to use 'restartvid' to apply any changes to this value.</dd>
+
 			<dt>help &lt;name&gt;</dt>
 			<dd>Displays a help message for a particular console variable or command.</dd>
 
 			<dt>listsymbols</dt>
 			<dd>Displays the names of all commands and variables available in the console.</dd>
-
-			<dt>setrendermode &lt;mode&gt;</dt>
-			<dd>Sets the current Polymost render mode.</dd>
-
-			<dt>glusetexcompr &lt;0 or 1&gt;</dt>
-			<dd>Enables or disables the use of OpenGL texture compression for hightile textures. You need
-			to use 'restartvid' to apply any changes to this value.</dd>
 
 			<dt>novoxmips &lt;0 or 1&gt;</dt>
 			<dd>Disables or enables the use of voxel mipmaps to improve voxel visual quality.</dd>
@@ -484,14 +492,8 @@ as the original Build - but one that worked with vectors instead of already rast
 			<dt>screencaptureformat &lt;0 or 1&gt;</dt>
 			<dd>0 = Targa, 1 = PCX</dd>
 
-			<dt>usemodels &lt;0 or 1&gt;</dt>
-			<dd>Disables or enables the use of 3D models in GL Polymost mode if any are defined.</dd>
-
-			<dt>usevoxels &lt;0 or 1&gt;</dt>
-			<dd>Disables or enables the use of voxels in the classic renderer if any are defined.</dd>
-
-			<dt>usehightile &lt;0 or 1&gt;</dt>
-			<dd>Disables or enables the use of Hightile textures in GL Polymost mode if any are defined.</dd>
+			<dt>setrendermode &lt;mode&gt;</dt>
+			<dd>Sets the current Polymost render mode.</dd>
 
 			<dt>usegoodalpha &lt;0 or 1&gt;</dt>
 			<dd>If 1, a lower alpha cutoff value is used when rendering textures with transparency, which
@@ -499,13 +501,14 @@ as the original Build - but one that worked with vectors instead of already rast
 			item potentially being invisible in certain circumstances. 0 is a more compatible value (and is
 			the default) for this option but slight visual degradation will result.</dd>
 
-			<dt>glredbluemode &lt;0 or 1&gt;</dt>
-			<dd>Enables or disables the red-blue stereovision mode in OpenGL. This mode is experimental
-			at this time. We know the flicker is nasty and the menu background will mix into the screen.
-			To avoid the menu bug, run the game in fullscreen mode and type "glredbluemode 1" AFTER
-			beginning the game. Sorry, there is no way to change parallax or separation. Do not contact
-			us about bugs with this mode... if you do, we'll think twice about documenting hidden features
-			in future releases. :P</dd>
+			<dt>usehightile &lt;0 or 1&gt;</dt>
+			<dd>Disables or enables the use of Hightile textures in GL Polymost mode if any are defined.</dd>
+
+			<dt>usemodels &lt;0 or 1&gt;</dt>
+			<dd>Disables or enables the use of 3D models in GL Polymost mode if any are defined.</dd>
+
+			<dt>usevoxels &lt;0 or 1&gt;</dt>
+			<dd>Disables or enables the use of voxels in the classic renderer if any are defined.</dd>
 		</dl>
 
 		<address>Have fun!<br />

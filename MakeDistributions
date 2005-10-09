@@ -23,12 +23,13 @@ source:
 	mkdir $(sourcedir) $(sourcedir)/eobj $(sourcedir)/obj
 	touch $(sourcedir)/eobj/keep.me $(sourcedir)/obj/keep.me
 	cp $(SOURCEFILES) $(sourcedir)
-	cp -R source rsrc $(sourcedir)
+	cp -R source rsrc osx $(sourcedir)
 	rm -Rf $(sourcedir)/source/tmp
 	kzip -r $(sourcedir).zip $(sourcedir)
 
 binary: $(BINARYCHECKS)
-	nmake /f Makefile.msvc
+	#nmake /f Makefile.msvc
+	make RELEASE=1
 	upx --best build.exe sw.exe
 	mkdir $(binarydir)
 	cp $(BINARYFILES) $(binarydir)

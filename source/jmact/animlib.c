@@ -101,6 +101,12 @@ void loadpage (uint16 pagenumber, uint16 *pagepointer)
       buffer += 0xb00 + (pagenumber*0x10000);
       size = sizeof(lp_descriptor);
       Bmemcpy(&anim->curlp,buffer,size);
+
+      // JBF: why didn't this get read from the LpArray[] table?
+      anim->curlp.baseRecord = B_LITTLE16(anim->curlp.baseRecord);
+      anim->curlp.nRecords   = B_LITTLE16(anim->curlp.nRecords);
+      anim->curlp.nBytes     = B_LITTLE16(anim->curlp.nBytes);
+
       buffer += size + sizeof(uint16);
       Bmemcpy(pagepointer,buffer,anim->curlp.nBytes+(anim->curlp.nRecords*2));
       }
@@ -206,14 +212,14 @@ void renderframe (uint16 framenumber, uint16 *pagepointer)
 
    for(i = 0; i < destframe; i++)
       {
-      offset += pagepointer[i];
+      offset += B_LITTLE16(pagepointer[i]);
       }
    ppointer = (byte *)pagepointer;
 
    ppointer+=anim->curlp.nRecords*2+offset;
    if(ppointer[1])
       {
-      ppointer += (4 + B_LITTLE16((((uint16 *)ppointer)[1]) + (B_LITTLE16(((uint16 *)ppointer)[1]) & 1)));
+      ppointer += (4 + B_LITTLE16(((uint16 *)ppointer)[1]) + (B_LITTLE16(((uint16 *)ppointer)[1]) & 1));
       }
    else
       {
@@ -260,7 +266,7 @@ void ANIM_LoadAnim (char * buffer)
    anim->currentframe = -1;
    size = sizeof(lpfileheader);
    Bmemcpy(&anim->lpheader, buffer, size );
-   
+
    anim->lpheader.id              = B_LITTLE32(anim->lpheader.id);
    anim->lpheader.maxLps          = B_LITTLE16(anim->lpheader.maxLps);
    anim->lpheader.nLps            = B_LITTLE16(anim->lpheader.nLps);
@@ -271,7 +277,7 @@ void ANIM_LoadAnim (char * buffer)
    anim->lpheader.width           = B_LITTLE16(anim->lpheader.width);
    anim->lpheader.height          = B_LITTLE16(anim->lpheader.height);
    anim->lpheader.nFrames         = B_LITTLE32(anim->lpheader.nFrames);
-   anim->lpheader.framesPerSecond = B_LITTLE32(anim->lpheader.framesPerSecond);
+   anim->lpheader.framesPerSecond = B_LITTLE16(anim->lpheader.framesPerSecond);
    
    buffer += size+128;
    // load the color palette
@@ -285,11 +291,12 @@ void ANIM_LoadAnim (char * buffer)
         // read in large page descriptors
    size = sizeof(anim->LpArray);
    Bmemcpy(&anim->LpArray,buffer,size);
-   for (i=0; i<size/sizeof(lp_descriptor); i++)
+
+   for (i = 0; i < size/sizeof(lp_descriptor); i++)
       {
-	  anim->LpArray[i].baseRecord = B_LITTLE16(anim->LpArray[i].baseRecord);
-	  anim->LpArray[i].nRecords   = B_LITTLE16(anim->LpArray[i].nRecords);
-	  anim->LpArray[i].nBytes     = B_LITTLE16(anim->LpArray[i].nBytes);
+      anim->LpArray[i].baseRecord = B_LITTLE16(anim->LpArray[i].baseRecord);
+      anim->LpArray[i].nRecords   = B_LITTLE16(anim->LpArray[i].nRecords);
+      anim->LpArray[i].nBytes     = B_LITTLE16(anim->LpArray[i].nBytes);
       }
    }
 

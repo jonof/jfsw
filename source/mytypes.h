@@ -45,7 +45,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 	typedef int32                   boolean;
 	typedef float                   float32;
 	typedef double                  float64;
-	typedef long double             float128;
+	//typedef long double             float128;
 	typedef float64                 appfloat;
 
 	#define MAXINT32                0x7fffffff

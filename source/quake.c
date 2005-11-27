@@ -145,11 +145,13 @@ void ProcessQuakeSpot(void)
             continue;
 
         // spawn a quake if time is up
-        QUAKE_WaitTics(sp) -= 4*synctics;
+        //QUAKE_WaitTics(sp) -= 4*synctics;
+		SET_SP_TAG13(sp, (QUAKE_WaitTics(sp)-4*synctics));
         if (QUAKE_WaitTics(sp) < 0)
             {
             // reset timer - add in Duration of quake
-            QUAKE_WaitTics(sp) = ((QUAKE_WaitSecs(sp)*10L) + QUAKE_Duration(sp)) * 120L;
+            //QUAKE_WaitTics(sp) = ((QUAKE_WaitSecs(sp)*10L) + QUAKE_Duration(sp)) * 120L;
+			SET_SP_TAG13(sp, (((QUAKE_WaitSecs(sp)*10L) + QUAKE_Duration(sp)) * 120L));
 
             // spawn a quake if condition is met
             rand_test = QUAKE_RandomTest(sp);

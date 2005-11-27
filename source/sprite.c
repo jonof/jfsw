@@ -2191,7 +2191,8 @@ SpriteSetup(VOID)
             case QUAKE_SPOT:
                 {
                 change_sprite_stat(SpriteNum, STAT_QUAKE_SPOT);
-                SP_TAG13(sp) = (SP_TAG6(sp)*10L) * 120L;
+                //SP_TAG13(sp) = (SP_TAG6(sp)*10L) * 120L;
+				SET_SP_TAG13(sp, ((SP_TAG6(sp)*10L) * 120L));
                 break;
                 }
 
@@ -2826,7 +2827,8 @@ SpriteSetup(VOID)
                 }
             
             case SOUND_SPOT:
-                SP_TAG13(sp) = SP_TAG4(sp);
+                //SP_TAG13(sp) = SP_TAG4(sp);
+				SET_SP_TAG13(sp, SP_TAG4(sp));
                 change_sprite_stat(SpriteNum, STAT_SOUND_SPOT);
                 break;
                 
@@ -2839,7 +2841,8 @@ SpriteSetup(VOID)
                     u = SpawnUser(SpriteNum, ST1, NULL);
                 
                 if (SP_TAG14(sp) == ((64<<8)|64))    
-                    SP_TAG14(sp) = 0;
+                    //SP_TAG14(sp) = 0;
+					SET_SP_TAG14(sp, 0);
                     
                 change_sprite_stat(SpriteNum, STAT_SPAWN_SPOT);
                 break;

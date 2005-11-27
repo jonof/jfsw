@@ -306,11 +306,19 @@ extern char MessageOutputString[256];
 #define MK_FIXED(msw,lsw) (((LONG)(msw)<<16)|(lsw))
 #define FIXED(msw,lsw) MK_FIXED(msw,lsw)
 
-#define MSW_VAR(fixed) (*(((USHORTp)&(fixed)) + 1))
-#define LSW_VAR(fixed) (*((USHORTp)&(fixed)))
+#if B_LITTLE_ENDIAN != 0
+# define MSW_VAR(fixed) (*(((USHORTp)&(fixed)) + 1))
+# define LSW_VAR(fixed) (*((USHORTp)&(fixed)))
 
-#define MSB_VAR(fixed) (*(((BYTEp)&(fixed)) + 1))
-#define LSB_VAR(fixed) (*((BYTEp)&(fixed)))
+# define MSB_VAR(fixed) (*(((BYTEp)&(fixed)) + 1))
+# define LSB_VAR(fixed) (*((BYTEp)&(fixed)))
+#else
+# define LSW_VAR(fixed) (*(((USHORTp)&(fixed)) + 1))
+# define MSW_VAR(fixed) (*((USHORTp)&(fixed)))
+
+# define LSB_VAR(fixed) (*(((BYTEp)&(fixed)) + 1))
+# define MSB_VAR(fixed) (*((BYTEp)&(fixed)))
+#endif
 
 #define MSW(fixed) ((fixed)>>16)
 #define LSW(fixed) (((SHORT)(fixed)))
@@ -328,9 +336,11 @@ extern char MessageOutputString[256];
 #define SP_TAG10(sp) (LSB_VAR((sp)->owner))
 #define SP_TAG11(sp) ((sp)->shade)
 #define SP_TAG12(sp) ((sp)->pal)
-#define SP_TAG13(sp) (*((short*)&(sp)->xoffset))
-#define SP_TAG14(sp) (*((short*)&(sp)->xrepeat))
+#define SP_TAG13(sp) B_LITTLE16(*((short*)&(sp)->xoffset))
+#define SP_TAG14(sp) B_LITTLE16(*((short*)&(sp)->xrepeat))
 #define SP_TAG15(sp) ((sp)->z)
+#define SET_SP_TAG13(sp,val) (*((short*)&(sp)->xoffset)) = B_LITTLE16(val)
+#define SET_SP_TAG14(sp,val) (*((short*)&(sp)->xrepeat)) = B_LITTLE16(val)
 
 #define SPRITE_TAG1(sp) (sprite[sp].hitag)
 #define SPRITE_TAG2(sp) (sprite[sp].lotag)
@@ -344,9 +354,11 @@ extern char MessageOutputString[256];
 #define SPRITE_TAG10(sp) (LSB_VAR(sprite[sp].owner))
 #define SPRITE_TAG11(sp) (sprite[sp].shade)
 #define SPRITE_TAG12(sp) (sprite[sp].pal)
-#define SPRITE_TAG13(sp) (*((short*)&sprite[sp].xoffset))
-#define SPRITE_TAG14(sp) (*((short*)&sprite[sp].xrepeat))
+#define SPRITE_TAG13(sp) B_LITTLE16(*((short*)&sprite[sp].xoffset))
+#define SPRITE_TAG14(sp) B_LITTLE16(*((short*)&sprite[sp].xrepeat))
 #define SPRITE_TAG15(sp) (sprite[sp].z)
+#define SET_SPRITE_TAG13(sp,val) (*((short*)&sprite[sp].xoffset)) = B_LITTLE16(val)
+#define SET_SPRITE_TAG14(sp,val) (*((short*)&sprite[sp].xrepeat)) = B_LITTLE16(val)
 
 // this will get you the other wall moved by dragpoint
 #define DRAG_WALL(w) (wall[wall[(w)].nextwall].point2)

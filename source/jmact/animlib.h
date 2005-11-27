@@ -36,10 +36,21 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 extern "C" {
 #endif
 
+#ifdef __GNUC__
+# define PACKED __attribute__ ((packed))
+#else
+# define PACKED
+# ifdef _MSC_VER
+#  pragma pack(1)
+# endif
+# ifdef __WATCOMC__
+#  pragma pack(push,1);
+# endif
+#endif
 
 // structure declarations for deluxe animate large page files */
 
-typedef struct
+typedef struct PACKED
    {
    uint32 id;                 // 4 character ID == "LPF " */
    uint16 maxLps;                  // max # largePages allowed. 256 FOR NOW.   */
@@ -75,7 +86,7 @@ typedef struct
    } lpfileheader;
 
 // this is the format of a large page structure
-typedef struct
+typedef struct PACKED
    {
    uint16 baseRecord;   // Number of first record in this large page.
    uint16 nRecords;        // Number of records in lp.
@@ -83,6 +94,14 @@ typedef struct
                                               // bit 14 of "nRecords" == "final record continues on next lp".
    uint16 nBytes;                  // Total number of bytes of contents, excluding header.
    } lp_descriptor;
+
+#undef PACKED
+#ifdef _MSC_VER
+# pragma pack()
+#endif
+#ifdef __WATCOMC__
+# pragma pack(pop);
+#endif
 
 typedef struct
    {

@@ -100,12 +100,15 @@ void loadpage (uint16 pagenumber, uint16 *pagepointer)
       anim->curlpnum = pagenumber;
       buffer += 0xb00 + (pagenumber*0x10000);
       size = sizeof(lp_descriptor);
+	  /*
       Bmemcpy(&anim->curlp,buffer,size);
 
       // JBF: why didn't this get read from the LpArray[] table?
       anim->curlp.baseRecord = B_LITTLE16(anim->curlp.baseRecord);
       anim->curlp.nRecords   = B_LITTLE16(anim->curlp.nRecords);
       anim->curlp.nBytes     = B_LITTLE16(anim->curlp.nBytes);
+	   */
+	  Bmemcpy(&anim->curlp, &anim->LpArray[pagenumber], size);
 
       buffer += size + sizeof(uint16);
       Bmemcpy(pagepointer,buffer,anim->curlp.nBytes+(anim->curlp.nRecords*2));

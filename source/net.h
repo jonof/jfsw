@@ -68,7 +68,6 @@ typedef struct PACKED
     {
     BYTE PacketType;  // first byte is always packet type
     BYTE PlayerIndex;
-    BYTE Data[0];
     } PACKET_PROXY,*PACKET_PROXYp;
 
 typedef struct PACKED

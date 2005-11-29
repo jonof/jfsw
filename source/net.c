@@ -148,7 +148,7 @@ void netsendpacket(int ind, char *buf, int len)
 		
 		prx->PacketType = PACKET_TYPE_PROXY;
 		prx->PlayerIndex = (BYTE)ind;
-		memcpy(prx->Data, buf, len);
+		memcpy(&prx[1], buf, len);	// &prx[1] == (char*)prx + sizeof(PACKET_PROXY)
 		len += sizeof(PACKET_PROXY);
 
 		sendpacket(connecthead, bbuf, len);
@@ -183,7 +183,7 @@ void netbroadcastpacket(char *buf, int len)
 
 		prx->PacketType = PACKET_TYPE_PROXY;
 		prx->PlayerIndex = (BYTE)(-1);
-		memcpy(prx->Data, buf, len);
+		memcpy(&prx[1], buf, len);
 		len += sizeof(PACKET_PROXY);
 
 		sendpacket(connecthead, bbuf, len);
@@ -223,7 +223,7 @@ long netgetpacket(long *ind, char *buf)
 
 	initprintf("netgetpacket() got proxy from %d\nPlayerIndex=%d Contents:",*ind,prx->PlayerIndex);
 	for (i=0; i<len-sizeof(PACKET_PROXY); i++)
-		initprintf(" %02x", prx->Data[i]);
+		initprintf(" %02x", *(((char*)&prx[1])+i));
 	initprintf("\n");
 
 	if (myconnectindex == connecthead) {
@@ -244,7 +244,7 @@ long netgetpacket(long *ind, char *buf)
 			
 			// Return the packet payload to the caller
 			len -= sizeof(PACKET_PROXY);
-			memmove(buf, prx->Data, len);
+			memmove(buf, &prx[1], len);
 			return len;
 		} else {
 			// proxy send to a specific player
@@ -257,7 +257,7 @@ long netgetpacket(long *ind, char *buf)
 			// Transmit to the intended recipient
 			if (i == myconnectindex) {
 				len -= sizeof(PACKET_PROXY);
-				memmove(buf, prx->Data, len);
+				memmove(buf, &prx[1], len);
 				return len;
 			}
 
@@ -269,7 +269,7 @@ long netgetpacket(long *ind, char *buf)
 		// I am a slave, and the proxy message came from the master
 		*ind = prx->PlayerIndex;
 		len -= sizeof(PACKET_PROXY);
-		memmove(buf, prx->Data, len);
+		memmove(buf, &prx[1], len);
 		return len;
 	} else {
 		initprintf("netgetpacket(): Got a proxy message from %d instead of %d\n",*ind,connecthead);

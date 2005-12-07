@@ -4,8 +4,12 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
+	<key>CFBundleDocumentTypes</key>
+	<array/>
 	<key>CFBundleExecutable</key>
-	<string>sw</string>
+	<string>JFShadowWarrior</string>
+	<key>CFBundleIconFile</key>
+	<string>game_icon.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>au.id.jonof.sw</string>
 	<key>CFBundleInfoDictionaryVersion</key>

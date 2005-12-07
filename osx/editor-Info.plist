@@ -5,7 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>build</string>
+	<string>Build Editor for JFShadowWarrior</string>
+	<key>CFBundleIconFile</key>
+	<string>build_icon.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>au.id.jonof.build.sw</string>
 	<key>CFBundleInfoDictionaryVersion</key>

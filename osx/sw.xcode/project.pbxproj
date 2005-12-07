@@ -7,6 +7,7 @@
 	objects = {
 		AB2B5C4A08E695A800899067 = {
 			children = (
+				AB4AE4C1094701CB007C45A7,
 				AB8F5E5C0946A65600C29D38,
 				AB2B5D2808E69A5200899067,
 				AB2B5C9C08E6980700899067,
@@ -115,6 +116,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB2B5D7808E6A65C00899067,
+				AB4AE4C2094701CB007C45A7,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -127,7 +129,6 @@
 				AB2B5CAD08E6989300899067,
 				AB2B5CAE08E6989300899067,
 				AB2B5CAF08E6989300899067,
-				AB2B5CB108E698D900899067,
 				AB2B5CB308E698E800899067,
 			);
 			isa = PBXSourcesBuildPhase;
@@ -165,7 +166,7 @@
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = build;
+				PRODUCT_NAME = "Build Editor for JFShadowWarrior";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wno-four-char-constants -Wno-unknown-pragmas";
 			};
@@ -208,7 +209,7 @@
 			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			path = build.app;
+			path = "Build Editor for JFShadowWarrior.app";
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -271,7 +272,6 @@
 		AB2B5C9F08E6982500899067 = {
 			children = (
 				AB2B5CB208E698E800899067,
-				AB2B5CB008E698D900899067,
 				AB2B5CA608E6989300899067,
 				AB2B5CA708E6989300899067,
 				AB2B5CA908E6989300899067,
@@ -296,7 +296,6 @@
 		AB2B5CA108E6984400899067 = {
 			children = (
 				AB2B5E5C08E6B13C00899067,
-				AB2B5E5A08E6B11000899067,
 				AB2B5E3008E6B01600899067,
 				AB2B5E1E08E6AFB000899067,
 				AB2B5D9208E6AF9300899067,
@@ -458,21 +457,6 @@
 		};
 		AB2B5CAF08E6989300899067 = {
 			fileRef = AB2B5CAA08E6989300899067;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		AB2B5CB008E698D900899067 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = build_icon.c;
-			path = ../rsrc/build_icon.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		AB2B5CB108E698D900899067 = {
-			fileRef = AB2B5CB008E698D900899067;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -677,7 +661,6 @@
 				AB2B5E2F08E6B00400899067,
 				AB2B5E3308E6B03400899067,
 				AB2B5E3408E6B03400899067,
-				AB2B5E5B08E6B11000899067,
 				AB2B5E5D08E6B13C00899067,
 			);
 			isa = PBXSourcesBuildPhase;
@@ -2066,21 +2049,6 @@
 			settings = {
 			};
 		};
-		AB2B5E5A08E6B11000899067 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = game_icon.c;
-			path = ../rsrc/game_icon.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		AB2B5E5B08E6B11000899067 = {
-			fileRef = AB2B5E5A08E6B11000899067;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		AB2B5E5C08E6B13C00899067 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2097,6 +2065,20 @@
 		};
 		AB2B5E5F08E6B16500899067 = {
 			fileRef = AB2B5D7708E6A65200899067;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB4AE4C1094701CB007C45A7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			name = build_icon.icns;
+			path = ../rsrc/build_icon.icns;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB4AE4C2094701CB007C45A7 = {
+			fileRef = AB4AE4C1094701CB007C45A7;
 			isa = PBXBuildFile;
 			settings = {
 			};

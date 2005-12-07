@@ -1485,8 +1485,8 @@ MoreKeys(short searchstat, short searchwall, short searchsector, short pointhigh
                     {
                 case 3:
                     strcpy(tempbuf, "Sprite tag 13 (xoffset/yoffset): ");
-                    SPRITE_TAG13(searchwall) =
-                        getnumber(tempbuf, SPRITE_TAG13(searchwall), 65536L, 0);
+					i = getnumber(tempbuf, SPRITE_TAG13(searchwall), 65536L, 0);
+                    SET_SPRITE_TAG13(searchwall, i);
                     break;
                     }
 
@@ -1501,8 +1501,8 @@ MoreKeys(short searchstat, short searchwall, short searchsector, short pointhigh
                     {
                 case 3:
                     strcpy(tempbuf, "Sprite tag 14 (xrepeat/yrepeat): ");
-                    SPRITE_TAG14(searchwall) =
-                        getnumber(tempbuf, SPRITE_TAG14(searchwall), 65536L, 0);
+					i = getnumber(tempbuf, SPRITE_TAG14(searchwall), 65536L, 0);
+					SET_SPRITE_TAG14(searchwall, i);
                     break;
                     }
 

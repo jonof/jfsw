@@ -88,6 +88,100 @@
 			</ol></li>
 		</ul>
 
+		<h3><a name="profiles">Individual User Profiles</a></h3>
+
+		<p>With Windows 2000 and XP, having multiple user accounts for different people on the one computer has
+		been very easy, with XP especially so. Linux, BSD, and other *nix-like OS users have had this ability
+		forever and now JFDuke3D properly supports installations where each user can have his/her own set of
+		configuration and savegame files without interfering with other players on the same PC. On Windows the
+		default mode of behaviour is the same as in previous versions: everything is shared, but it is now possible
+		to enable "user profile mode". Linux/BSD users will run in "user profile mode" permanently; your personal
+		files will be located in <code>~/.jfduke3d</code> so if you used previous versions of the port, you will
+		have to move your config and savegames there. Windows users can turn on "user profile mode" by creating an
+		empty file in the JFDuke3D directory named 'user_profiles_enabled'. Here is how:</p>
+		<ol>
+			<li>In Windows Explorer, navigate to the JFDuke3D directory.</li>
+			<li>Open the File menu, move to the "New" option, and select "Text Document".</li>
+			<li>Type <code>user_profiles_enabled</code> and press Enter.</li>
+			<li>If a dialog box appears asking to confirm changing the filename extension to one that may
+			make the file unusable, choose "Yes".</li>
+		</ol>
+		<p>When you next run JFDuke3D, a JFDuke3D directory will be created in <code>C:\Documents and
+		Settings\<em>your username</em>\Application Data</code> along with a new configuration file. You will
+		then have to move your existing DUKE3D.CFG file to this location if you have used the game previously.</p>
+		
+		<h3><a name="multiplayer">Multiplayer games</a></h3>
+
+		<p>Multiplayer games are started via command-line parameters passed to SW.EXE. This is a short guide
+		to getting a multiplayer game running between these three hypothetical computers:</p>
+		<table class="center" border="1" rules="groups" cellpadding="2">
+			<colgroup><col /></colgroup>
+			<thead>
+				<tr><th>Host name</th><th>IP address</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>faye</td><td>192.168.1.2</td></tr>
+				<tr><td>asuka</td><td>192.168.1.5</td></tr>
+				<tr><td>kaoru</td><td>192.168.1.6</td></tr>
+			</tbody>
+		</table>
+		<p><span class="warning">PLEASE NOTE: Master-slave mode is currently disabled in JFShadowWarrior until it is
+		fixed. Peer-to-peer mode however should be fine.</span> The basic syntax of the network command
+		line is like so: <code>SW <em>(normal game parameters)</em> /net <em>(network parameters)</em></code></p>
+		<table border="1" rules="cols" cellpadding="2" class="center">
+			<caption>Network parameters</caption>
+			<colgroup>
+				<col valign="top" />
+			</colgroup>
+			<tr>
+				<td>/nx:y</td>
+				<td>Game comm type. <em>x</em> = 0 for master/slave or 1 for peer-to-peer.<br />
+					If unspecified, <em>y</em> defaults to 2. For more than two players in a
+					master-slave game, you have to indicate the number on the <em>master</em>.
+					eg: /n0 or /n0:4</td>
+			</tr>
+			<tr>
+				<td>/px</td>
+				<td>Overrides the default port (23513) with <em>x</em> being the new port value.</td>
+			</tr>
+			<tr>
+				<td>address:port</td>
+				<td>An address of a machine. See the items below for more information.</td>
+			</tr>
+		</table>
+
+		<h4>Master/Slave mode (disabled at present)</h4>
+		<p>This mode is the easiest mode for use with Internet play since it requires only the address of the master
+		of the game (the person hosting the game) be specified by each slave who joins. Here are example command
+		lines each machine must run to join the game hosted by the machine named 'asuka':
+		</p>
+		<table border="1" rules="cols" cellpadding="2">
+			<tr><td>asuka</td><td><code>SW.EXE /net /n0:3</code></td></tr>
+			<tr><td>faye</td><td><code>SW.EXE /net /n0 192.168.1.5</code></td></tr>
+			<tr><td>kaoru</td><td><code>SW.EXE /net /n0 192.168.1.5</code></td></tr>
+		</table>
+
+		<h4>Peer-to-peer mode</h4>
+		<p>This mode is often useful for playing on a LAN where it is easier to coordinate and organise the order of
+		peers in the game. This mode will become simpler to set up in the future but for now this is how to do
+		it. Peer-to-peer mode requires each machine specify the addresses of each other machine in the game in the
+		same order, but indicating its own position in the sequence with the <code>/n1</code> option.</p>
+		<table border="1" rules="cols" cellpadding="2">
+			<tr><td>asuka</td><td><code>SW.EXE /net /n1 192.168.1.2 192.168.1.6</code></td></tr>
+			<tr><td>faye</td><td><code>SW.EXE /net 192.168.1.5 /n1 192.168.1.6</code></td></tr>
+			<tr><td>kaoru</td><td><code>SW.EXE /net 192.168.1.5 192.168.1.2 /n1</code></td></tr>
+		</table>
+
+		<h4>Addresses and ports</h4>
+		<p>The networking code is capable of resolving WINS host names (on Windows) and DNS names to their
+		corresponding addresses, so if your network is configured with such services, instead of having to specify
+		raw IP addresses, you can give the computer's WINS host name or a DNS host name.</p>
+		<p>The default port the game communicates on is 23513. Some users may find it necessary to set up a
+		forward through their Internet firewall in order to get games working when playing across the Internet.
+		You can override the default port via the <code>/p<em>???</em></code> switch where <em>???</em> is the new
+		port number. If a master is running a game on a port other than the default, the slaves will have to
+		specify the alternative port with <code>address:port</code> notation, eg. 192.168.1.5:20000</p>
+
 		<h2><a name="savegames">Save Help</a></h2>
 
 		<p>I have written a new compiler and system-independent framework for saving and restoring the pointer

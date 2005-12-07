@@ -214,7 +214,7 @@ $(OBJ)%.$o: $(SRC)jaudiolib/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ 2>&1
 
 $(OBJ)%.$o: $(SRC)misc/%.rc
-	windres -i $^ -o $@
+	windres -i $< -o $@
 
 $(OBJ)%.$o: $(SRC)util/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ 2>&1

@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>NSMainNibFile</key>
-	<string>osxmain</string>
+	<string>build.osxmain</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

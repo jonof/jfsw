@@ -115,8 +115,8 @@
 		AB2B5C5C08E695EA00899067 = {
 			buildActionMask = 2147483647;
 			files = (
-				AB2B5D7808E6A65C00899067,
 				AB4AE4C2094701CB007C45A7,
+				AB3F18E8094F076E00D98E15,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -160,7 +160,7 @@
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = "SUPERBUILD POLYMOST USE_OPENGL DYNAMIC_OPENGL NOASM USE_A_C RENDERTYPESDL=1";
 				HEADER_SEARCH_PATHS = "../../build/include ../source ../source/jmact /Library/Frameworks/SDL.framework/Headers";
-				INFOPLIST_FILE = "editor-Info.plist";
+				INFOPLIST_FILE = "build-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = ../../build/osx/engine/build;
 				OTHER_CFLAGS = "";
@@ -226,7 +226,7 @@
 		AB2B5C6308E695EA00899067 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			path = "editor-Info.plist";
+			path = "build-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -261,6 +261,7 @@
 		};
 		AB2B5C9E08E6981800899067 = {
 			children = (
+				AB3F18E7094F076E00D98E15,
 				AB2B5C9F08E6982500899067,
 				AB2B5C6308E695EA00899067,
 			);
@@ -558,15 +559,9 @@
 		AB2B5D7708E6A65200899067 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			path = osxmain.nib;
+			path = game.osxmain.nib;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		AB2B5D7808E6A65C00899067 = {
-			fileRef = AB2B5D7708E6A65200899067;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		AB2B5D8408E6AE1D00899067 = {
 			buildActionMask = 2147483647;
@@ -2065,6 +2060,19 @@
 		};
 		AB2B5E5F08E6B16500899067 = {
 			fileRef = AB2B5D7708E6A65200899067;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB3F18E7094F076E00D98E15 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			path = build.osxmain.nib;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3F18E8094F076E00D98E15 = {
+			fileRef = AB3F18E7094F076E00D98E15;
 			isa = PBXBuildFile;
 			settings = {
 			};

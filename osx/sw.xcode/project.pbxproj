@@ -42,7 +42,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_OPTIMIZATION_LEVEL = s;
 			};
 			isa = PBXBuildStyle;
 			name = Deployment;
@@ -180,6 +180,7 @@
 			};
 			dependencies = (
 				AB03598209512A0900797EC4,
+				ABBC36D709515E73008A4DE2,
 			);
 			isa = PBXNativeTarget;
 			name = editor;
@@ -2067,6 +2068,18 @@
 			isa = PBXTargetDependency;
 			name = "enginez (from engine.xcode)";
 			targetProxy = ABA7E4DA095127C90011A64D;
+		};
+		ABBC36D609515E73008A4DE2 = {
+			containerPortal = AB2B5C5408E695C700899067;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = AB2B5C7308E6979600899067;
+			remoteInfo = enginez;
+		};
+		ABBC36D709515E73008A4DE2 = {
+			isa = PBXTargetDependency;
+			name = "enginez (from engine.xcode)";
+			targetProxy = ABBC36D609515E73008A4DE2;
 		};
 		ABD1DE2B0951293A002E3C5F = {
 			isa = PBXFileReference;

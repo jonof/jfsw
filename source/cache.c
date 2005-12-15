@@ -636,6 +636,7 @@ void DoTheCache(void)
             if (!(cnt&7)) 
                 {
                 AnimateCacheCursor();
+				handleevents();
                 getpackets();
                 }
             }

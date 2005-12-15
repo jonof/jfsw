@@ -420,6 +420,8 @@ DemoPlayBack(VOID)
         // makes code run at the same rate
         while (totalclock > totalsynctics)
             {
+			handleevents();
+
             TRAVERSE_CONNECT(pnum)
                 {
                 pp = Player + pnum;

@@ -343,14 +343,15 @@ playanm(short anim_num)
         {
         while (totalclock < ototalclock)
             {
+			handleevents();
             switch (ANIMnum)
                 {
                 case 0:
-                    if (KB_KeyWaiting())
+                    if (KB_KeyWaiting() || quitevent)
                         goto ENDOFANIMLOOP;
                     break;
                 case 1:
-                    if (KEY_PRESSED(KEYSC_ESC))
+                    if (KEY_PRESSED(KEYSC_ESC) || quitevent)
                         goto ENDOFANIMLOOP;
                     break;
                 }    
@@ -382,8 +383,10 @@ playanm(short anim_num)
         }
 
     // pause on final frame    
-    while (totalclock < ototalclock)
+    while (totalclock < ototalclock) {
+		handleevents();
         getpackets();
+	}
         
 ENDOFANIMLOOP:
 

@@ -972,14 +972,14 @@ InitGame(VOID)
     if (!firstnet)
     	initmultiplayers(0, NULL, 0, 0, 0);
     else if (initmultiplayersparms(_buildargc - firstnet, &_buildargv[firstnet])) {
-	initprintf("Waiting for players...\n");
-	while (initmultiplayerscycle()) {
+		initprintf("Waiting for players...\n");
+		while (initmultiplayerscycle()) {
             handleevents();
-	    if (quitevent) {
-		QuitFlag = TRUE;
-		return;
+			if (quitevent) {
+				QuitFlag = TRUE;
+				return;
             }
-	}
+		}
     }
     initsynccrc();
     
@@ -1658,13 +1658,16 @@ NewLevel(VOID)
     
     InGame = FALSE;
     
-    if (SW_SHAREWARE) {
-	if (FinishAnim)
-		MenuLevel();
-    } else {
-	if (FinishAnim == ANIM_ZILLA || FinishAnim == ANIM_SERP)
-		MenuLevel();
-    }
+	if (SW_SHAREWARE)
+		{
+		if (FinishAnim)
+			MenuLevel();
+		}
+	else
+		{
+		if (FinishAnim == ANIM_ZILLA || FinishAnim == ANIM_SERP)
+			MenuLevel();
+		}
     FinishAnim = 0;
     }
 
@@ -1791,10 +1794,10 @@ LogoLevel(VOID)
     ResetKeys();
     while (TRUE)
         {
-	handleevents();
-	AudioUpdate();
+		handleevents();
+		AudioUpdate();
 
-	if (quitevent) { QuitFlag = TRUE; break; }
+		if (quitevent) { QuitFlag = TRUE; break; }
 	
         // taken from top of faketimerhandler
         // limits checks to max of 40 times a second
@@ -2051,8 +2054,8 @@ TitleLevel(VOID)
     ResetKeys();
     while (TRUE)
         {
-	handleevents();
-	OSD_DispatchQueued();
+		handleevents();
+		OSD_DispatchQueued();
 
         // taken from top of faketimerhandler
         // limits checks to max of 40 times a second
@@ -2232,11 +2235,11 @@ MenuLevel(VOID)
     
     while (TRUE)
         {
-	handleevents();
-	AudioUpdate();
-	OSD_DispatchQueued();
+		handleevents();
+		AudioUpdate();
+		OSD_DispatchQueued();
 	
-	if (quitevent) QuitFlag = TRUE;
+		if (quitevent) QuitFlag = TRUE;
 
         // taken from top of faketimerhandler
         // limits checks to max of 40 times a second
@@ -2571,7 +2574,7 @@ BonusScreen(PLAYERp pp)
     BonusDone = FALSE;
     while (!BonusDone)
         {
-	handleevents();
+		handleevents();
 
         CDAudio_Update();  // Update CD or song will stop
         
@@ -2932,8 +2935,8 @@ StatScreen(PLAYERp mpp)
     
     while (!KEY_PRESSED(KEYSC_SPACE) && !KEY_PRESSED(KEYSC_ENTER))
         {
-	handleevents();
-	AudioUpdate();
+		handleevents();
+		AudioUpdate();
 	
         ScreenCaptureKeys();
         if (SW_SHAREWARE)
@@ -2996,11 +2999,11 @@ Control(VOID)
 
     while (!QuitFlag)
         {
-	handleevents();
-	AudioUpdate();
-	OSD_DispatchQueued();
+		handleevents();
+		AudioUpdate();
+		OSD_DispatchQueued();
 
-	if (quitevent) QuitFlag = TRUE;
+		if (quitevent) QuitFlag = TRUE;
 
         NewLevel();
         }
@@ -3016,7 +3019,7 @@ _Assert(char *expr, char *strFile, unsigned uLine)
     sprintf(ds, "Assertion failed: %s %s, line %u", expr, strFile, uLine);
     MONO_PRINT(ds);
     TerminateGame();
-#ifdef RENDERTYPEWIN
+#if 1 //def RENDERTYPEWIN
     wm_msgbox(apptitle, ds);
 #else
     printf("Assertion failed: %s\n %s, line %u\n", expr, strFile, uLine);
@@ -3034,7 +3037,7 @@ _ErrMsg(char *strFile, unsigned uLine, char *format, ...)
     //MONO_PRINT(ds);
     TerminateGame();
     
-#ifdef RENDERTYPEWIN
+#if 1 //def RENDERTYPEWIN
     {
 	    char msg[256], *p;
 	    Bsnprintf(msg, sizeof(msg), "Error: %s, line %u\n", strFile, uLine);
@@ -3266,11 +3269,11 @@ RunLevel(VOID)
     
     while (TRUE)
         {
-	handleevents();
-	AudioUpdate();
-	OSD_DispatchQueued();
+		handleevents();
+		AudioUpdate();
+		OSD_DispatchQueued();
 
-	if (quitevent) QuitFlag = TRUE;
+		if (quitevent) QuitFlag = TRUE;
 
           //MONO_PRINT("Before MoveLoop");
         MoveLoop();
@@ -3551,13 +3554,13 @@ long app_main(long argc, char *argv[])
     }
     
     if (SW_SHAREWARE) {
-	wm_setapptitle("Shadow Warrior v1.999 Shareware");
+	wm_setapptitle("Shadow Warrior Shareware");
 
 	// Zero out the maps that aren't in shareware version
 	memset(&LevelInfo[MAX_LEVELS_SW+1], 0, sizeof(LEVEL_INFO)*(MAX_LEVELS_REG-MAX_LEVELS_SW));
 	GameVersion++;
     } else {
-	wm_setapptitle("Shadow Warrior v1.999");
+	wm_setapptitle("Shadow Warrior");
     }
     
     for (i = 0; i < MAX_SW_PLAYERS; i++)

@@ -423,7 +423,7 @@ JS_InitMirrors(void)
                                 mirror[mirrorcnt].camsprite = SpriteNum;
 				
 				// JBF: commenting out this line results in the screen in $BULLET being visible
-                                //tilesizx[mirror[mirrorcnt].campic] = tilesizy[mirror[mirrorcnt].campic] = 0;
+                                tilesizx[mirror[mirrorcnt].campic] = tilesizy[mirror[mirrorcnt].campic] = 0;
 
                                 Found_Cam = TRUE;
                                 }

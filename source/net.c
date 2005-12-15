@@ -658,6 +658,7 @@ waitforeverybody(void)
             PlayerQuitMenuLevel = -1;
             }
 
+		handleevents();
         getpackets();
         
         if (quitevent || (wfe_ExitCallback && wfe_ExitCallback()))
@@ -850,7 +851,7 @@ VOID ErrorCorrectionQuit(VOID)
             oldtotalclock = totalclock;
             while (totalclock < oldtotalclock + synctics)
                 {
-		handleevents();
+				handleevents();
                 getpackets();
                 }
             
@@ -957,8 +958,7 @@ faketimerhandler(void)
         }
     #endif    
 
-    handleevents();
-    
+	sampletimer();
     if ((totalclock < ototalclock + synctics))
         return;
 
@@ -1267,7 +1267,7 @@ getpackets(VOID)
     PLAYERp pp;
     SW_PACKET tempinput;
 
-    handleevents();
+	sampletimer();
     AudioUpdate();
     
     if (!CommEnabled)

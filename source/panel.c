@@ -1368,15 +1368,20 @@ pSwordSlide(PANEL_SPRITEp psp)
     long nx, ny;
     short vel_adj;
 
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    nx = FIXED(psp->x, psp->xfract);
+    ny = FIXED(psp->y, psp->yfract);
 
     SpawnSwordBlur(psp);
     vel_adj = 24;
 
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+    nx += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
+    ny += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
 
+	psp->xfract = LSW(nx);
+	psp->x = MSW(nx);
+	psp->yfract = LSW(ny);
+	psp->y = MSW(ny);
+	
     psp->vel += vel_adj * synctics;
     }
 
@@ -1386,16 +1391,21 @@ pSwordSlideDown(PANEL_SPRITEp psp)
     long nx, ny;
     short vel, vel_adj;
 
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    nx = FIXED(psp->x, psp->xfract);
+    ny = FIXED(psp->y, psp->yfract);
 
     SpawnSwordBlur(psp);
     vel_adj = 20;
     vel = 2500;
 
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(SwordAng + psp->ang + psp->PlayerP->SwordAng + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[NORM_ANGLE(SwordAng + psp->ang + psp->PlayerP->SwordAng)] >> 6;
-
+    nx += psp->vel * synctics * (long) sintable[NORM_ANGLE(SwordAng + psp->ang + psp->PlayerP->SwordAng + 512)] >> 6;
+    ny += psp->vel * synctics * (long) -sintable[NORM_ANGLE(SwordAng + psp->ang + psp->PlayerP->SwordAng)] >> 6;
+	
+	psp->xfract = LSW(nx);
+	psp->x = MSW(nx);
+	psp->yfract = LSW(ny);
+	psp->y = MSW(ny);
+	
     psp->vel += vel_adj * synctics;
 
     if (psp->x < -40)
@@ -1438,15 +1448,20 @@ pSwordSlideR(PANEL_SPRITEp psp)
     long nx, ny;
     short vel_adj;
 
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    nx = FIXED(psp->x, psp->xfract);
+    ny = FIXED(psp->y, psp->yfract);
 
     SpawnSwordBlur(psp);
     vel_adj = 24;
 
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 1024 + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[NORM_ANGLE(psp->ang + 1024)] >> 6;
+    nx += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 1024 + 512)] >> 6;
+    ny += psp->vel * synctics * (long) -sintable[NORM_ANGLE(psp->ang + 1024)] >> 6;
 
+	psp->xfract = LSW(nx);
+	psp->x = MSW(nx);
+	psp->yfract = LSW(ny);
+	psp->y = MSW(ny);
+	
     psp->vel += vel_adj * synctics;
     }
 
@@ -1456,16 +1471,21 @@ pSwordSlideDownR(PANEL_SPRITEp psp)
     long nx, ny;
     short vel, vel_adj;
 
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    nx = FIXED(psp->x, psp->xfract);
+    ny = FIXED(psp->y, psp->yfract);
 
     SpawnSwordBlur(psp);
     vel_adj = 24;
     vel = 2500;
 
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(SwordAng + psp->ang - psp->PlayerP->SwordAng + 1024 + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[NORM_ANGLE(SwordAng + psp->ang - psp->PlayerP->SwordAng + 1024)] >> 6;
-
+    nx += psp->vel * synctics * (long) sintable[NORM_ANGLE(SwordAng + psp->ang - psp->PlayerP->SwordAng + 1024 + 512)] >> 6;
+    ny += psp->vel * synctics * (long) -sintable[NORM_ANGLE(SwordAng + psp->ang - psp->PlayerP->SwordAng + 1024)] >> 6;
+	
+	psp->xfract = LSW(nx);
+	psp->x = MSW(nx);
+	psp->yfract = LSW(ny);
+	psp->y = MSW(ny);
+	
     psp->vel += vel_adj * synctics;
 
     if (psp->x > 350)
@@ -2176,26 +2196,36 @@ pUziReload(PANEL_SPRITEp nclip)
     {
     long nx, ny;
 
-    long *x = (long *) &nclip->xfract;
-    long *y = (long *) &nclip->yfract;
+    long x = FIXED(nclip->x, nclip->xfract);
+    long y = FIXED(nclip->y, nclip->yfract);
 
     PANEL_SPRITEp gun = nclip->sibling;
-    long *xgun = (long *) &nclip->sibling->xfract;
-    long *ygun = (long *) &nclip->sibling->yfract;
+    long xgun = FIXED(gun->x, gun->xfract);
+    long ygun = FIXED(gun->y, gun->yfract);
 
     nx = nclip->vel * synctics * (long) sintable[NORM_ANGLE(nclip->ang + 512)] >> 6;
     ny = nclip->vel * synctics * (long) -sintable[nclip->ang] >> 6;
 
     nclip->vel += 14 * synctics;
 
-    *x += nx;
-    *y += ny;
+    x += nx;
+    y += ny;
+	
+	nclip->xfract = LSW(x);
+	nclip->x = MSW(x);
+	nclip->yfract = LSW(y);
+	nclip->y = MSW(y);
 
     nx = gun->vel * synctics * (long) sintable[NORM_ANGLE(gun->ang + 512)] >> 6;
     ny = gun->vel * synctics * (long) -sintable[gun->ang] >> 6;
 
-    *xgun -= nx;
-    *ygun -= ny;
+    xgun -= nx;
+    ygun -= ny;
+	
+	gun->xfract = LSW(xgun);
+	gun->x = MSW(xgun);
+	gun->yfract = LSW(ygun);
+	gun->y = MSW(ygun);
 
     if (TEST(nclip->flags, PANF_XFLIP))     
         {
@@ -2234,23 +2264,33 @@ pUziReloadRetract(PANEL_SPRITEp nclip)
     {
     long nx, ny;
 
-    long *x = (long *) &nclip->xfract;
-    long *y = (long *) &nclip->yfract;
+    long x = FIXED(nclip->x, nclip->xfract);
+    long y = FIXED(nclip->y, nclip->yfract);
 
     PANEL_SPRITEp gun = nclip->sibling;
-    long *xgun = (long *) &nclip->sibling->xfract;
-    long *ygun = (long *) &nclip->sibling->yfract;
+    long xgun = FIXED(gun->x, gun->xfract);
+    long ygun = FIXED(gun->y, gun->yfract);
 
     nx = nclip->vel * synctics * (long) sintable[NORM_ANGLE(nclip->ang + 512)] >> 6;
     ny = nclip->vel * synctics * (long) -sintable[nclip->ang] >> 6;
 
     nclip->vel += 18 * synctics;
 
-    *x -= nx;
-    *y -= ny;
+    x -= nx;
+    y -= ny;
+	
+	nclip->xfract = LSW(x);
+	nclip->x = MSW(x);
+	nclip->yfract = LSW(y);
+	nclip->y = MSW(y);
 
-    *xgun -= nx;
-    *ygun -= ny;
+    xgun -= nx;
+    ygun -= ny;
+	
+	gun->xfract = LSW(xgun);
+	gun->x = MSW(xgun);
+	gun->yfract = LSW(ygun);
+	gun->y = MSW(ygun);
 
     if (gun->y > UZI_RELOAD_YOFF + tilesizy[gun->picndx])
         {
@@ -2309,19 +2349,24 @@ VOID
 pUziClip(PANEL_SPRITEp oclip)
     {
     long nx, ny, ox, oy;
-    long *x = (long *) &oclip->xfract;
-    long *y = (long *) &oclip->yfract;
+    long x = FIXED(oclip->x, oclip->xfract);
+    long y = FIXED(oclip->y, oclip->yfract);
 
-    ox = *x;
-    oy = *y;
+    ox = x;
+    oy = y;
 
     nx = oclip->vel * synctics * (long) sintable[NORM_ANGLE(oclip->ang + 512)] >> 6;
     ny = oclip->vel * synctics * (long) -sintable[oclip->ang] >> 6;
 
     oclip->vel += 16 * synctics;
 
-    *x += nx;
-    *y += ny;
+    x += nx;
+    y += ny;
+	
+	oclip->xfract = LSW(x);
+	oclip->x = MSW(x);
+	oclip->yfract = LSW(y);
+	oclip->y = MSW(y);
 
     if (oclip->y > UZI_RELOAD_YOFF)
         {
@@ -2330,12 +2375,17 @@ pUziClip(PANEL_SPRITEp oclip)
         // as synctics gets bigger, oclip->x can be way off
         // when clip goes off the screen - recalc oclip->x from scratch
         // so it will end up the same for all synctic values
-        for (*x = ox, *y = oy; oclip->y < UZI_RELOAD_YOFF;)
+        for (x = ox, y = oy; oclip->y < UZI_RELOAD_YOFF;)
             {
-            *x += oclip->vel * (long) sintable[NORM_ANGLE(oclip->ang + 512)] >> 6;
-            *y += oclip->vel * (long) -sintable[oclip->ang] >> 6;
+            x += oclip->vel * (long) sintable[NORM_ANGLE(oclip->ang + 512)] >> 6;
+            y += oclip->vel * (long) -sintable[oclip->ang] >> 6;
             }
 
+		oclip->xfract = LSW(x);
+		oclip->x = MSW(x);
+		oclip->yfract = LSW(y);
+		oclip->y = MSW(y);
+		
         oclip->y = UZI_RELOAD_YOFF;
 
         gun->vel = 800;
@@ -2951,7 +3001,7 @@ SpawnShotgunShell(PANEL_SPRITEp psp)
 void
 pShotgunShell(PANEL_SPRITEp psp)
     {
-    long *x = (long *)&psp->xfract;
+    long x = FIXED(psp->x, psp->xfract);
     
     if (TEST(psp->flags, PANF_JUMPING))
         {
@@ -2963,7 +3013,10 @@ pShotgunShell(PANEL_SPRITEp psp)
         DoPanelFall(psp);
         }
     
-    *x += psp->xspeed;    
+    x += psp->xspeed;    
+	
+	psp->xfract = LSW(x);
+	psp->x = MSW(x);
     
     if (psp->x > 320 || psp->x < 0 || psp->y > 200)
         {
@@ -3139,16 +3192,21 @@ pShotgunRecoilDown(PANEL_SPRITEp psp)
     short picnum = psp->picndx;
     long targetvel;
 
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    long x = FIXED(psp->x, psp->xfract);
+    long y = FIXED(psp->y, psp->yfract);
 
     if (psp->PlayerP->WpnShotgunType == 1) 
         targetvel = 890;
     else
         targetvel = 780;    
         
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+    x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
+    y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+	
+	psp->xfract = LSW(x);
+	psp->x = MSW(x);
+	psp->yfract = LSW(y);
+	psp->y = MSW(y);
 
     psp->vel -= 24 * synctics;
 
@@ -3164,12 +3222,17 @@ pShotgunRecoilDown(PANEL_SPRITEp psp)
 void
 pShotgunRecoilUp(PANEL_SPRITEp psp)
     {
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    long x = FIXED(psp->x, psp->xfract);
+    long y = FIXED(psp->y, psp->yfract);
 
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+    x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
+    y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
 
+	psp->xfract = LSW(x);
+	psp->x = MSW(x);
+	psp->yfract = LSW(y);
+	psp->y = MSW(y);
+	
     psp->vel += 15 * synctics;
     
     if (psp->y < SHOTGUN_YOFF)
@@ -3638,13 +3701,18 @@ pRailRecoilDown(PANEL_SPRITEp psp)
     {
     short picnum = psp->picndx;
 
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    long x = FIXED(psp->x, psp->xfract);
+    long y = FIXED(psp->y, psp->yfract);
 
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+    x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
+    y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
 
-    psp->vel -= 24 * synctics;
+	psp->xfract = LSW(x);
+	psp->x = MSW(x);
+	psp->yfract = LSW(y);
+	psp->y = MSW(y);
+	
+	psp->vel -= 24 * synctics;
 
     if (psp->vel < 800)
         {
@@ -3658,13 +3726,18 @@ pRailRecoilDown(PANEL_SPRITEp psp)
 void
 pRailRecoilUp(PANEL_SPRITEp psp)
     {
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    long x = FIXED(psp->x, psp->xfract);
+    long y = FIXED(psp->y, psp->yfract);
 
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+    x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
+    y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
 
-    psp->vel += 15 * synctics;
+	psp->xfract = LSW(x);
+	psp->x = MSW(x);
+	psp->yfract = LSW(y);
+	psp->y = MSW(y);
+	
+	psp->vel += 15 * synctics;
 
     if (psp->y < RAIL_YOFF)
         {
@@ -4501,13 +4574,18 @@ pMicroRecoilDown(PANEL_SPRITEp psp)
     {
     short picnum = psp->picndx;
 
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    long x = FIXED(psp->x, psp->xfract);
+    long y = FIXED(psp->y, psp->yfract);
 
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+    x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
+    y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
 
-    psp->vel -= 24 * synctics;
+	psp->xfract = LSW(x);
+	psp->x = MSW(x);
+	psp->yfract = LSW(y);
+	psp->y = MSW(y);
+	
+	psp->vel -= 24 * synctics;
 
     if (psp->vel < 550)
         {
@@ -4521,13 +4599,18 @@ pMicroRecoilDown(PANEL_SPRITEp psp)
 void
 pMicroRecoilUp(PANEL_SPRITEp psp)
     {
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    long x = FIXED(psp->x, psp->xfract);
+    long y = FIXED(psp->y, psp->yfract);
 
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+    x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
+    y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
 
-    psp->vel += 15 * synctics;
+	psp->xfract = LSW(x);
+	psp->x = MSW(x);
+	psp->yfract = LSW(y);
+	psp->y = MSW(y);
+	
+	psp->vel += 15 * synctics;
 
     if (psp->y < MICRO_YOFF)
         {
@@ -5242,7 +5325,7 @@ SpawnSmallHeartBlood(PANEL_SPRITEp psp)
 void
 pHeartBlood(PANEL_SPRITEp psp)
     {
-    long *x = (long *)&psp->xfract;
+    long x = FIXED(psp->x, psp->xfract);
     
     if (TEST(psp->flags, PANF_JUMPING))
         {
@@ -5254,7 +5337,10 @@ pHeartBlood(PANEL_SPRITEp psp)
         DoPanelFall(psp);
         }
     
-    *x += psp->xspeed;    
+    x += psp->xspeed;    
+	
+	psp->xfract = LSW(x);
+	psp->x = MSW(x);
     
     if (psp->x > 320 || psp->x < 0 || psp->y > 200)
         {
@@ -5284,7 +5370,7 @@ DoPanelJump(PANEL_SPRITEp psp)
     {
     int jump_adj;
     
-    long *y = (long *) &psp->yfract;
+    long y = FIXED(psp->y, psp->yfract);
 
     // precalculate jump value to adjust jump speed by
     jump_adj = psp->jump_grav;
@@ -5299,7 +5385,10 @@ DoPanelJump(PANEL_SPRITEp psp)
         }
 
     // adjust height by jump speed
-    *y += psp->jump_speed * synctics;
+    y += psp->jump_speed * synctics;
+	
+	psp->yfract = LSW(y);
+	psp->y = MSW(y);
 
     return (0);
     }
@@ -5322,13 +5411,16 @@ DoBeginPanelFall(PANEL_SPRITEp psp)
 int 
 DoPanelFall(PANEL_SPRITEp psp)
     {
-    long *y = (long *) &psp->yfract;
+    long y = FIXED(psp->y, psp->yfract);
     
     // adjust jump speed by gravity
     psp->jump_speed += psp->jump_grav;
 
     // adjust player height by jump speed
-    *y += psp->jump_speed * synctics;
+    y += psp->jump_speed * synctics;
+	
+	psp->yfract = LSW(y);
+	psp->y = MSW(y);
 
     return (0);
     }
@@ -5463,13 +5555,18 @@ pGrenadeRecoilDown(PANEL_SPRITEp psp)
     {
     short picnum = psp->picndx;
 
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    long x = FIXED(psp->x, psp->xfract);
+    long y = FIXED(psp->y, psp->yfract);
 
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+    x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
+    y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
 
-    psp->vel -= 24 * synctics;
+	psp->xfract = LSW(x);
+	psp->x = MSW(x);
+	psp->yfract = LSW(y);
+	psp->y = MSW(y);
+	
+	psp->vel -= 24 * synctics;
 
     // if (psp->y >= GRENADE_YOFF + tilesizy[picnum])
     if (psp->vel < 400)
@@ -5486,13 +5583,18 @@ pGrenadeRecoilDown(PANEL_SPRITEp psp)
 void
 pGrenadeRecoilUp(PANEL_SPRITEp psp)
     {
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    long x = FIXED(psp->x, psp->xfract);
+    long y = FIXED(psp->y, psp->yfract);
 
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+    x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
+    y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
 
-    psp->vel += 15 * synctics;
+	psp->xfract = LSW(x);
+	psp->x = MSW(x);
+	psp->yfract = LSW(y);
+	psp->y = MSW(y);
+	
+	psp->vel += 15 * synctics;
 
     if (psp->y < GRENADE_YOFF)
         {
@@ -5509,16 +5611,21 @@ pGrenadeRecoilUp(PANEL_SPRITEp psp)
 void
 pGrenadePresent(PANEL_SPRITEp psp)
     {
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    long x = FIXED(psp->x, psp->xfract);
+    long y = FIXED(psp->y, psp->yfract);
 
     if (TEST(psp->PlayerP->Flags, PF_WEAPON_RETRACT))
         return;
 
-    *x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+    x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang + 512)] >> 6;
+    y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
 
-    psp->rotate_ang = NORM_ANGLE(psp->rotate_ang + (6 * synctics));
+	psp->xfract = LSW(x);
+	psp->x = MSW(x);
+	psp->yfract = LSW(y);
+	psp->y = MSW(y);
+	
+	psp->rotate_ang = NORM_ANGLE(psp->rotate_ang + (6 * synctics));
 
     if (psp->rotate_ang < 1024)
         psp->rotate_ang = 0;
@@ -6426,14 +6533,19 @@ pFistSlide(PANEL_SPRITEp psp)
     long nx, ny;
     short vel_adj;
 
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    //nx = FIXED(psp->x, psp->xfract);
+    ny = FIXED(psp->y, psp->yfract);
 
     SpawnFistBlur(psp);
     vel_adj = 68;
 
-    //*x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+    //nx += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang)] >> 6;
+    ny += psp->vel * synctics * (long) -sintable[psp->ang] >> 6;
+
+	//psp->xfract = LSW(nx);
+	//psp->x = MSW(nx);
+	psp->yfract = LSW(ny);
+	psp->y = MSW(ny);
 
     psp->vel += vel_adj * synctics;
     }
@@ -6444,22 +6556,27 @@ pFistSlideDown(PANEL_SPRITEp psp)
     long nx, ny;
     short vel, vel_adj;
 
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    nx = FIXED(psp->x, psp->xfract);
+    ny = FIXED(psp->y, psp->yfract);
 
     SpawnFistBlur(psp);
     vel_adj = 48;
     vel = 3500;
 
     if(psp->ActionState == ps_Kick || psp->PlayerP->WpnKungFuMove == 3)
-        *y += (psp->vel * synctics * (long) -sintable[NORM_ANGLE(FistAng + psp->ang + psp->PlayerP->FistAng)] >> 6);
+        ny += (psp->vel * synctics * (long) -sintable[NORM_ANGLE(FistAng + psp->ang + psp->PlayerP->FistAng)] >> 6);
     else    
         {    
-        *x -= psp->vel * synctics * (long) sintable[NORM_ANGLE(FistAng + psp->ang + psp->PlayerP->FistAng)] >> 6;
-        *y += 3*(psp->vel * synctics * (long) -sintable[NORM_ANGLE(FistAng + psp->ang + psp->PlayerP->FistAng)] >> 6);
+        nx -= psp->vel * synctics * (long) sintable[NORM_ANGLE(FistAng + psp->ang + psp->PlayerP->FistAng)] >> 6;
+        ny += 3*(psp->vel * synctics * (long) -sintable[NORM_ANGLE(FistAng + psp->ang + psp->PlayerP->FistAng)] >> 6);
         }
 
-    psp->vel += vel_adj * synctics;
+	psp->xfract = LSW(nx);
+	psp->x = MSW(nx);
+	psp->yfract = LSW(ny);
+	psp->y = MSW(ny);
+	
+	psp->vel += vel_adj * synctics;
 
     if (psp->y > 440)
         {
@@ -6545,16 +6662,21 @@ pFistSlideR(PANEL_SPRITEp psp)
     long nx, ny;
     short vel_adj;
 
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    //nx = FIXED(psp->x, psp->xfract);
+    ny = FIXED(psp->y, psp->yfract);
 
     SpawnFistBlur(psp);
     vel_adj = 68;
 
-    //*x += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang)] >> 6;
-    *y += psp->vel * synctics * (long) -sintable[NORM_ANGLE(psp->ang + 1024)] >> 6;
+    //nx += psp->vel * synctics * (long) sintable[NORM_ANGLE(psp->ang)] >> 6;
+    ny += psp->vel * synctics * (long) -sintable[NORM_ANGLE(psp->ang + 1024)] >> 6;
 
-    psp->vel += vel_adj * synctics;
+	//psp->xfract = LSW(nx);
+	//psp->x = MSW(nx);
+	psp->yfract = LSW(ny);
+	psp->y = MSW(ny);
+	
+	psp->vel += vel_adj * synctics;
     }
 
 void
@@ -6563,22 +6685,27 @@ pFistSlideDownR(PANEL_SPRITEp psp)
     long nx, ny;
     short vel, vel_adj;
 
-    long *x = (long *) &psp->xfract;
-    long *y = (long *) &psp->yfract;
+    nx = FIXED(psp->x, psp->xfract);
+    ny = FIXED(psp->y, psp->yfract);
 
     SpawnFistBlur(psp);
     vel_adj = 48;
     vel = 3500;
 
     if(psp->ActionState == ps_Kick || psp->PlayerP->WpnKungFuMove == 3)
-        *y += (psp->vel * synctics * (long) -sintable[NORM_ANGLE(FistAng + psp->ang + psp->PlayerP->FistAng)] >> 6);
+        ny += (psp->vel * synctics * (long) -sintable[NORM_ANGLE(FistAng + psp->ang + psp->PlayerP->FistAng)] >> 6);
     else    
         {    
-        *x -= psp->vel * synctics * (long) sintable[NORM_ANGLE(FistAng + psp->ang + psp->PlayerP->FistAng)] >> 6;
-        *y += 3*(psp->vel * synctics * (long) -sintable[NORM_ANGLE(FistAng + psp->ang + psp->PlayerP->FistAng)] >> 6);
+        nx -= psp->vel * synctics * (long) sintable[NORM_ANGLE(FistAng + psp->ang + psp->PlayerP->FistAng)] >> 6;
+        ny += 3*(psp->vel * synctics * (long) -sintable[NORM_ANGLE(FistAng + psp->ang + psp->PlayerP->FistAng)] >> 6);
         }
 
-    psp->vel += vel_adj * synctics;
+	psp->xfract = LSW(nx);
+	psp->x = MSW(nx);
+	psp->yfract = LSW(ny);
+	psp->y = MSW(ny);
+	
+	psp->vel += vel_adj * synctics;
 
     if (psp->y > 440)
         {

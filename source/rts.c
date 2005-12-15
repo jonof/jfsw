@@ -51,9 +51,9 @@ char lumplockbyte[11];
 // STATICS
 //=============
 
-static int32 numlumps;
-static void  **lumpcache;
-static lumpinfo_t *lumpinfo;              // location of each lump on disk
+static int32 numlumps = 0;
+static void  **lumpcache = NULL;
+static lumpinfo_t *lumpinfo = NULL;              // location of each lump on disk
 
 /*
 ============================================================================
@@ -190,6 +190,8 @@ void RTS_Shutdown ( void )
    {
    int32 i;
 
+   if (lumpcache)
+      {
    #if 0
    for (i=0;i<numlumps;i++)
       {
@@ -199,8 +201,9 @@ void RTS_Shutdown ( void )
          }
       }
    #endif
-   SafeFree(lumpcache);
-   SafeFree(lumpinfo);
+      SafeFree(lumpcache);
+	  }
+   if (lumpinfo) SafeFree(lumpinfo);
 
    numlumps = 0;
    lumpinfo = NULL;

@@ -5,13 +5,22 @@
 	};
 	objectVersion = 39;
 	objects = {
+		AB03598109512A0900797EC4 = {
+			containerPortal = AB2B5C5408E695C700899067;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = AB3AF9DD08DEE2CF00C0AA42;
+			remoteInfo = editor;
+		};
+		AB03598209512A0900797EC4 = {
+			isa = PBXTargetDependency;
+			name = "editor (from engine.xcode)";
+			targetProxy = AB03598109512A0900797EC4;
+		};
 		AB2B5C4A08E695A800899067 = {
 			children = (
-				AB4AE4C1094701CB007C45A7,
-				AB8F5E5C0946A65600C29D38,
-				AB2B5D2808E69A5200899067,
-				AB2B5C9C08E6980700899067,
 				AB2B5C5408E695C700899067,
+				ABD1DE3B095129AE002E3C5F,
 				AB2B5C9E08E6981800899067,
 				AB2B5CA008E6983A00899067,
 				AB2B5CA208E6984E00899067,
@@ -43,7 +52,6 @@
 			};
 			buildStyles = (
 				AB2B5C4C08E695A800899067,
-				ABB47F12093B0E0E005B3150,
 				AB2B5C4D08E695A800899067,
 			);
 			hasScannedForEncodings = 0;
@@ -137,11 +145,11 @@
 		AB2B5C5E08E695EA00899067 = {
 			buildActionMask = 2147483647;
 			files = (
-				AB2B5C9D08E6980700899067,
 				AB2B5CDA08E6997500899067,
 				AB2B5CDC08E6997700899067,
 				AB2B5CDD08E6997800899067,
-				AB2B5D2908E69A5200899067,
+				ABD1DE2C0951293A002E3C5F,
+				ABD1DE3D095129C7002E3C5F,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,7 +170,7 @@
 				HEADER_SEARCH_PATHS = "../../build/include ../source ../source/jmact /Library/Frameworks/SDL.framework/Headers";
 				INFOPLIST_FILE = "build-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = ../../build/osx/engine/build;
+				LIBRARY_SEARCH_PATHS = "../../build/osx/engine/build /Users/jonof/ports/build/osx/engine/build";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -171,8 +179,7 @@
 				WARNING_CFLAGS = "-Wno-four-char-constants -Wno-unknown-pragmas";
 			};
 			dependencies = (
-				AB2B5CE108E69A1300899067,
-				AB2B5CE308E69A1300899067,
+				AB03598209512A0900797EC4,
 			);
 			isa = PBXNativeTarget;
 			name = editor;
@@ -245,22 +252,9 @@
 			remoteGlobalIDString = AB2B5C9708E6979600899067;
 			remoteInfo = "engine copy";
 		};
-		AB2B5C9C08E6980700899067 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = libenginez.a;
-			path = ../../build/osx/engine/build/libenginez.a;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		AB2B5C9D08E6980700899067 = {
-			fileRef = AB2B5C9C08E6980700899067;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		AB2B5C9E08E6981800899067 = {
 			children = (
+				AB4AE4C1094701CB007C45A7,
 				AB3F18E7094F076E00D98E15,
 				AB2B5C9F08E6982500899067,
 				AB2B5C6308E695EA00899067,
@@ -285,6 +279,7 @@
 		};
 		AB2B5CA008E6983A00899067 = {
 			children = (
+				AB8F5E5C0946A65600C29D38,
 				AB2B5D7708E6A65200899067,
 				AB2B5CA108E6984400899067,
 				AB2B5D8A08E6AE1D00899067,
@@ -480,25 +475,25 @@
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = AppKit.framework;
-			path = ../../../../../System/Library/Frameworks/AppKit.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			path = /System/Library/Frameworks/AppKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		AB2B5CBA08E6995400899067 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = OpenGL.framework;
-			path = ../../../../../System/Library/Frameworks/OpenGL.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			path = /System/Library/Frameworks/OpenGL.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		AB2B5CBB08E6996F00899067 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = SDL.framework;
-			path = ../../../../../Library/Frameworks/SDL.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			path = /Library/Frameworks/SDL.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		AB2B5CDA08E6997500899067 = {
 			fileRef = AB2B5CB908E6995400899067;
@@ -514,44 +509,6 @@
 		};
 		AB2B5CDD08E6997800899067 = {
 			fileRef = AB2B5CBA08E6995400899067;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		AB2B5CE008E69A1300899067 = {
-			containerPortal = AB2B5C5408E695C700899067;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = AB3AF9DD08DEE2CF00C0AA42;
-			remoteInfo = editor;
-		};
-		AB2B5CE108E69A1300899067 = {
-			isa = PBXTargetDependency;
-			name = "editor (from engine.xcode)";
-			targetProxy = AB2B5CE008E69A1300899067;
-		};
-		AB2B5CE208E69A1300899067 = {
-			containerPortal = AB2B5C5408E695C700899067;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = AB2B5C7308E6979600899067;
-			remoteInfo = enginez;
-		};
-		AB2B5CE308E69A1300899067 = {
-			isa = PBXTargetDependency;
-			name = "enginez (from engine.xcode)";
-			targetProxy = AB2B5CE208E69A1300899067;
-		};
-		AB2B5D2808E69A5200899067 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = libeditor.a;
-			path = ../../build/osx/engine/build/libeditor.a;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		AB2B5D2908E69A5200899067 = {
-			fileRef = AB2B5D2808E69A5200899067;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -664,10 +621,10 @@
 		AB2B5D8608E6AE1D00899067 = {
 			buildActionMask = 2147483647;
 			files = (
-				AB2B5D9108E6AED800899067,
 				AB2B5E5708E6B0F800899067,
 				AB2B5E5808E6B0F800899067,
 				AB2B5E5908E6B0F900899067,
+				ABD1DE2D0951293A002E3C5F,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -688,7 +645,7 @@
 				HEADER_SEARCH_PATHS = "../../build/include ../source ../source/jaudiolib ../source/jmact /Library/Frameworks/SDL.framework/Headers";
 				INFOPLIST_FILE = "game-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = ../../build/osx/engine/build;
+				LIBRARY_SEARCH_PATHS = "../../build/osx/engine/build /Users/jonof/ports/build/osx/engine/build";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -697,7 +654,7 @@
 				WARNING_CFLAGS = "-Wno-four-char-constants -Wno-unknown-pragmas";
 			};
 			dependencies = (
-				ABCD472608E6BBC5002DC42F,
+				ABA7E4DB095127C90011A64D,
 			);
 			isa = PBXNativeTarget;
 			name = game;
@@ -787,12 +744,6 @@
 			isa = PBXTargetDependency;
 			target = AB2B5D8708E6AE1D00899067;
 			targetProxy = AB2B5D8E08E6AEBB00899067;
-		};
-		AB2B5D9108E6AED800899067 = {
-			fileRef = AB2B5C9C08E6980700899067;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		AB2B5D9208E6AF9300899067 = {
 			fileEncoding = 30;
@@ -2081,9 +2032,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
 			name = build_icon.icns;
-			path = ../rsrc/build_icon.icns;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			path = /Users/jonof/ports/sw/rsrc/build_icon.icns;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		AB4AE4C2094701CB007C45A7 = {
 			fileRef = AB4AE4C1094701CB007C45A7;
@@ -2095,9 +2046,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
 			name = game_icon.icns;
-			path = ../rsrc/game_icon.icns;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			path = /Users/jonof/ports/sw/rsrc/game_icon.icns;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		AB8F5E5D0946A65600C29D38 = {
 			fileRef = AB8F5E5C0946A65600C29D38;
@@ -2105,26 +2056,61 @@
 			settings = {
 			};
 		};
-		ABB47F12093B0E0E005B3150 = {
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GENERATE_PROFILING_CODE = YES;
-			};
-			isa = PBXBuildStyle;
-			name = Profiling;
-		};
-		ABCD472508E6BBC5002DC42F = {
+		ABA7E4DA095127C90011A64D = {
 			containerPortal = AB2B5C5408E695C700899067;
 			isa = PBXContainerItemProxy;
 			proxyType = 1;
 			remoteGlobalIDString = AB2B5C7308E6979600899067;
 			remoteInfo = enginez;
 		};
-		ABCD472608E6BBC5002DC42F = {
+		ABA7E4DB095127C90011A64D = {
 			isa = PBXTargetDependency;
 			name = "enginez (from engine.xcode)";
-			targetProxy = ABCD472508E6BBC5002DC42F;
+			targetProxy = ABA7E4DA095127C90011A64D;
+		};
+		ABD1DE2B0951293A002E3C5F = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = libenginez.a;
+			path = /Users/jonof/ports/build/osx/engine/build/libenginez.a;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		ABD1DE2C0951293A002E3C5F = {
+			fileRef = ABD1DE2B0951293A002E3C5F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		ABD1DE2D0951293A002E3C5F = {
+			fileRef = ABD1DE2B0951293A002E3C5F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		ABD1DE3B095129AE002E3C5F = {
+			children = (
+				ABD1DE3C095129C7002E3C5F,
+				ABD1DE2B0951293A002E3C5F,
+			);
+			isa = PBXGroup;
+			name = "Products from engine";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		ABD1DE3C095129C7002E3C5F = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = libeditor.a;
+			path = ../../build/osx/engine/build/libeditor.a;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		ABD1DE3D095129C7002E3C5F = {
+			fileRef = ABD1DE3C095129C7002E3C5F;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = AB2B5C4E08E695A800899067;

@@ -167,10 +167,10 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = "SUPERBUILD POLYMOST USE_OPENGL DYNAMIC_OPENGL NOASM USE_A_C RENDERTYPESDL=1";
-				HEADER_SEARCH_PATHS = "../../build/include ../source ../source/jmact /Library/Frameworks/SDL.framework/Headers";
+				HEADER_SEARCH_PATHS = "../../build/include ../source ../source/jmact";
 				INFOPLIST_FILE = "build-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = "../../build/osx/engine/build /Users/jonof/ports/build/osx/engine/build";
+				LIBRARY_SEARCH_PATHS = ../../build/osx/engine/build;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -643,10 +643,10 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = "SUPERBUILD POLYMOST USE_OPENGL DYNAMIC_OPENGL NOASM USE_A_C RENDERTYPESDL=1";
-				HEADER_SEARCH_PATHS = "../../build/include ../source ../source/jaudiolib ../source/jmact /Library/Frameworks/SDL.framework/Headers";
+				HEADER_SEARCH_PATHS = "../../build/include ../source ../source/jaudiolib ../source/jmact";
 				INFOPLIST_FILE = "game-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = "../../build/osx/engine/build /Users/jonof/ports/build/osx/engine/build";
+				LIBRARY_SEARCH_PATHS = ../../build/osx/engine/build;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -707,12 +707,7 @@
 			buildPhases = (
 			);
 			buildSettings = {
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = All;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 			};
 			dependencies = (
 				AB2B5D8D08E6AEBB00899067,
@@ -2085,9 +2080,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.ar;
 			name = libenginez.a;
-			path = /Users/jonof/ports/build/osx/engine/build/libenginez.a;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = build/libenginez.a;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		ABD1DE2C0951293A002E3C5F = {
 			fileRef = ABD1DE2B0951293A002E3C5F;
@@ -2107,17 +2102,18 @@
 				ABD1DE2B0951293A002E3C5F,
 			);
 			isa = PBXGroup;
-			name = "Products from engine";
-			refType = 4;
-			sourceTree = "<group>";
+			name = engine;
+			path = ../../build/osx/engine;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		ABD1DE3C095129C7002E3C5F = {
 			isa = PBXFileReference;
 			lastKnownFileType = archive.ar;
 			name = libeditor.a;
-			path = ../../build/osx/engine/build/libeditor.a;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			path = build/libeditor.a;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		ABD1DE3D095129C7002E3C5F = {
 			fileRef = ABD1DE3C095129C7002E3C5F;

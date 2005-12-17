@@ -179,6 +179,19 @@ GAMEOBJS+= $(AUDIOLIBOBJ)
 .PHONY: clean all engine $(EOBJ)$(ENGINELIB) $(EOBJ)$(EDITORLIB)
 
 # TARGETS
+
+# Invoking Make from the terminal in OSX just chains the build on to xcode
+ifeq ($(PLATFORM),DARWIN)
+ifeq ($(RELEASE),0)
+style=Development
+else
+style=Deployment
+endif
+.PHONY: alldarwin
+alldarwin:
+	cd osx && xcodebuild -target All -buildstyle $(style)
+endif
+
 all: sw$(EXESUFFIX) build$(EXESUFFIX)
 
 sw$(EXESUFFIX): $(GAMEOBJS) $(EOBJ)$(ENGINELIB)
@@ -233,9 +246,15 @@ $(RSRC)editor_banner.c: $(RSRC)build.bmp
 
 # PHONIES	
 clean:
-	-rm -f $(OBJ)* sw$(EXESUFFIX) build$(EXESUFFIX) core*
+ifeq ($(PLATFORM),DARWIN)
+	cd osx && xcodebuild -target All clean
+else
+	-rm -f $(OBJ)*
+endif
 	
 veryclean: clean
-	-rm -f $(EOBJ)*
-
+ifeq ($(PLATFORM),DARWIN)
+else
+	-rm -f $(EOBJ)* sw$(EXESUFFIX) build$(EXESUFFIX) core*
+endif
 

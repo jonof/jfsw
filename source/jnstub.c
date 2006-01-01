@@ -704,7 +704,7 @@ ExtInit(void)
 		addsearchpath("/usr/share/games/jfsw");
 		addsearchpath("/usr/local/games/jfsw");
 #elif defined(__APPLE__)
-		addsearchpath("/Library/Application Support/JFDuke3D");
+		addsearchpath("/Library/Application Support/JFShadowWarrior");
 #endif
 		if (getcwd(cwd,BMAX_PATH)) addsearchpath(cwd);
 		if ((homedir = Bgethomedir())) {

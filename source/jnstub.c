@@ -703,6 +703,8 @@ ExtInit(void)
 #if defined(__linux) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
 		addsearchpath("/usr/share/games/jfsw");
 		addsearchpath("/usr/local/games/jfsw");
+#elif defined(__APPLE__)
+		addsearchpath("/Library/Application Support/JFDuke3D");
 #endif
 		if (getcwd(cwd,BMAX_PATH)) addsearchpath(cwd);
 		if ((homedir = Bgethomedir())) {
@@ -710,7 +712,7 @@ ExtInit(void)
 #if defined(_WIN32)
 				"JFShadowWarrior"
 #elif defined(__APPLE__)
-				"Library/Preferences/JFShadowWarrior"
+				"Library/Application Support/JFShadowWarrior"
 #else
 				".jfsw"
 #endif

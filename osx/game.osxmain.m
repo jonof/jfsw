@@ -25,6 +25,9 @@ static BOOL   gFinderLaunch;
     SDL_Event event;
     event.type = SDL_QUIT;
     SDL_PushEvent(&event);
+	
+	// NOTE: once this is called the game is murdered on return, so really
+	// the SQL_QUIT event never gets read!
 }
 @end
 

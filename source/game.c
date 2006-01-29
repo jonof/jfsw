@@ -3513,7 +3513,7 @@ long app_main(long argc, char *argv[])
 
 #if defined(__linux) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
 		addsearchpath("/usr/share/games/jfsw");
-		addsearchpath("/usr/local/games/jfsw");
+		addsearchpath("/usr/local/share/games/jfsw");
 #elif defined(__APPLE__)
 		addsearchpath("/Library/Application Support/JFShadowWarrior");
 #endif

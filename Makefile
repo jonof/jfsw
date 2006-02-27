@@ -26,17 +26,18 @@ o=o
 
 ifneq (0,$(RELEASE))
   # debugging disabled
-  debug=-fomit-frame-pointer -O1
+  debug=-fomit-frame-pointer -O2
 else
   # debugging enabled
   debug=-ggdb -O0
 endif
 
 CC=gcc
-CFLAGS=-march=pentium $(debug)
-override CFLAGS+= -W -Wall -Wimplicit -Wno-char-subscripts -Wno-unused \
+CXX=gcc
+OURCFLAGS=$(debug) -W -Wall -Wimplicit -Wno-char-subscripts -Wno-unused \
 	-funsigned-char -fno-strict-aliasing -DNO_GCC_BUILTINS \
 	-I$(INC:/=) -I$(EINC:/=) -I$(SRC)jmact -I$(SRC)jaudiolib #-I../jfaud/inc
+OURCXXFLAGS=-fno-exceptions -fno-rtti
 LIBS=-lm #../jfaud/jfaud.a # -L../jfaud -ljfaud
 NASMFLAGS=-s #-g
 EXESUFFIX=
@@ -151,18 +152,18 @@ ifeq ($(PLATFORM),LINUX)
 	NASMFLAGS+= -f elf
 endif
 ifeq ($(PLATFORM),WINDOWS)
-	override CFLAGS+= -DUNDERSCORES -I$(DXROOT)/include
+	OURCFLAGS+= -DUNDERSCORES -I$(DXROOT)/include
 	NASMFLAGS+= -DUNDERSCORES -f win32
 	GAMEOBJS+= $(OBJ)cda_win32.$o $(OBJ)gameres.$o #$(OBJ)winbits.$o
 	EDITOROBJS+= $(OBJ)buildres.$o
 endif
 
 ifeq ($(RENDERTYPE),SDL)
-	override CFLAGS+= $(subst -Dmain=SDL_main,,$(shell sdl-config --cflags))
+	OURCFLAGS+= $(subst -Dmain=SDL_main,,$(shell sdl-config --cflags))
 	AUDIOLIBOBJ=$(AUDIOLIB_MUSIC_STUB) $(AUDIOLIB_FX_STUB)
 
 	ifeq (1,$(HAVE_GTK2))
-		override CFLAGS+= -DHAVE_GTK2 $(shell pkg-config --cflags gtk+-2.0)
+		OURCFLAGS+= -DHAVE_GTK2 $(shell pkg-config --cflags gtk+-2.0)
 		GAMEOBJS+= $(OBJ)game_banner.$o
 		EDITOROBJS+= $(OBJ)editor_banner.$o
 	endif
@@ -175,6 +176,7 @@ ifeq ($(RENDERTYPE),WIN)
 endif
 
 GAMEOBJS+= $(AUDIOLIBOBJ)
+OURCFLAGS+= $(BUILDCFLAGS)
 
 .PHONY: clean all engine $(EOBJ)$(ENGINELIB) $(EOBJ)$(EDITORLIB)
 
@@ -195,10 +197,10 @@ endif
 all: sw$(EXESUFFIX) build$(EXESUFFIX)
 
 sw$(EXESUFFIX): $(GAMEOBJS) $(EOBJ)$(ENGINELIB)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) -Wl,-Map=$@.map
+	$(CC) $(CFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) -Wl,-Map=$@.map
 	
 build$(EXESUFFIX): $(EDITOROBJS) $(EOBJ)$(EDITORLIB) $(EOBJ)$(ENGINELIB)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) -Wl,-Map=$@.map
+	$(CC) $(CFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) -Wl,-Map=$@.map
 
 include Makefile.deps
 
@@ -220,20 +222,20 @@ $(OBJ)%.$o: $(SRC)jaudiolib/%.nasm
 	nasm $(NASMFLAGS) $< -o $@
 
 $(OBJ)%.$o: $(SRC)%.c
-	$(CC) $(CFLAGS) -c $< -o $@ 2>&1
+	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 $(OBJ)%.$o: $(SRC)jmact/%.c
-	$(CC) $(CFLAGS) -c $< -o $@ 2>&1
+	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 $(OBJ)%.$o: $(SRC)jaudiolib/%.c
-	$(CC) $(CFLAGS) -c $< -o $@ 2>&1
+	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 
 $(OBJ)%.$o: $(SRC)misc/%.rc
 	windres -i $< -o $@
 
 $(OBJ)%.$o: $(SRC)util/%.c
-	$(CC) $(CFLAGS) -c $< -o $@ 2>&1
+	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 
 $(OBJ)%.$o: $(RSRC)%.c
-	$(CC) $(CFLAGS) -c $< -o $@ 2>&1
+	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 
 $(OBJ)game_banner.$o: $(RSRC)game_banner.c
 $(OBJ)editor_banner.$o: $(RSRC)editor_banner.c

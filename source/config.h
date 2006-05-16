@@ -78,7 +78,7 @@ extern char  RTSPath[MAXRTSPATHLENGTH];
 extern char  UserPath[MAXUSERLEVELPATHLENGTH];
 
 // controller externs
-extern int32 ControllerType;
+extern int32 UseMouse, UseJoystick;
 extern int32 JoystickPort;
 extern int32 MouseSensitivity;
 extern int32 MouseAiming;
@@ -94,6 +94,8 @@ extern char  MouseAnalogAxes[MAXMOUSEAXES][MAXFUNCTIONLENGTH];
 extern char  JoystickAnalogAxes[MAXJOYAXES][MAXFUNCTIONLENGTH];
 extern int32 MouseAnalogScales[MAXMOUSEAXES];
 extern int32 JoystickAnalogScales[MAXJOYAXES];
+extern int32 JoystickAnalogueDead[MAXJOYAXES];
+extern int32 JoystickAnalogueSaturate[MAXJOYAXES];
 
 extern int32 EnableRudder;
 

@@ -5094,7 +5094,6 @@ getinput(SW_PACKET *loc)
     int32 keymove;
     int32 momx, momy;
     long aimvel;
-    extern long ControllerType;
 
     extern BOOL MenuButtonAutoRun;
     extern BOOL MenuButtonAutoAim;
@@ -5189,11 +5188,6 @@ getinput(SW_PACKET *loc)
     
     svel -= info.dx;
 
-    switch (ControllerType)
-        {
-        case controltype_keyboard:
-            break;
-        default:
             if (gs.MouseAimingType == 1) // while held
                 {
                 if (BUTTON(gamefunc_Mouse_Aiming))
@@ -5265,9 +5259,6 @@ getinput(SW_PACKET *loc)
                     }
                 }
 
-            break;
-
-        }
     
     if (running)
         {

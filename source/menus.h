@@ -79,7 +79,7 @@ VOID ResetMenuInput(VOID);
     )
 
 extern BOOL BorderAdjust;    
-extern long FXDevice,MusicDevice,ControllerType;
+extern long FXDevice,MusicDevice;
 extern BOOL MultiPlayQuitFlag;
 
 // Make memcpy an intrinsic function for an easy frame rate boost

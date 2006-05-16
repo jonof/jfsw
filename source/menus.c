@@ -1241,7 +1241,9 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
 			"",
 			"Thanks to these people for their input and contributions:",
 			"",
-			"Richard \"TerminX\" Gobeille, Ben \"ProAsm\" Smit",
+			"Richard \"TerminX\" Gobeille,",
+			"Par \"Parkar\" Karlsson", // "Pär \"Parkar\" Karlsson",
+			"Ben \"ProAsm\" Smit",
 			"",
 			"and all those who submitted bug reports and ",
 			"supported the project financially!",
@@ -2626,7 +2628,7 @@ MNU_TeamPlayChange(void)
 BOOL
 MNU_MouseCheck(MenuItem *item)
     {
-    if (ControllerType != controltype_keyboardandmouse)
+    if (!CONTROL_MousePresent)
         {
         SET(item->flags, mf_disabled);
         }
@@ -4583,4 +4585,6 @@ VOID ResetPalette(PLAYERp pp)
     pp->StartColor = 0;
     pp->FadeTics = 0;
     }
-    
+
+// vim:enc=utf-8:
+

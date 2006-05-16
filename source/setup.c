@@ -110,6 +110,7 @@ int32 GetTime(void)
 
 void InitSetup(void)
    {
+   int i;
    //RegisterShutdownFunction( ShutDown );
 
    //StartWindows();
@@ -117,17 +118,16 @@ void InitSetup(void)
    //CONFIG_GetSetupFilename();
    //InitializeKeyDefList();
    //CONFIG_ReadSetup();
-   if (CONTROL_Startup( ControllerType, &GetTime, /*120*/ 140 )) exit(1);
+   if (CONTROL_Startup( 1, &GetTime, /*120*/ 140 )) exit(1);
    SetupGameButtons();
    CONFIG_SetupMouse();
    CONFIG_SetupJoystick();
    
-   if (CONTROL_JoystickEnabled)
-      {
-      CONTROL_CenterJoystick(CenterCenter, UpperLeft, LowerRight, CenterThrottle,
-         CenterRudder);
-      }
+   CONTROL_JoystickEnabled = (UseJoystick && CONTROL_JoyPresent);
+   CONTROL_MouseEnabled = (UseMouse && CONTROL_MousePresent);
 
+   for (i=0;i<joynumaxes;i++)
+      setjoydeadzone(i,JoystickAnalogueDead[i],JoystickAnalogueSaturate[i]);
    /*{
    int i;
    CONTROL_PrintKeyMap();
@@ -334,12 +334,8 @@ void main()
    timerhandle = TIME_AddTimer( 40, &timer );
    //CONFIG_GetSetupFilename();
    CONFIG_ReadSetup();
-   CONTROL_Startup( ControllerType, &GetTime, 1500 );
+   CONTROL_Startup( 1, &GetTime, 1500 );
    SetupGameButtons();
-   if (CONTROL_JoystickEnabled)
-      {
-      CONTROL_CenterJoystick(CenterCenter, UpperLeft, LowerRight, CenterThrottle, CenterRudder );
-      }
       
    MusicStartup();
    SoundStartup();

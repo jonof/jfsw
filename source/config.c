@@ -72,7 +72,7 @@ int32 NumChannels = 2;
 int32 NumBits     = 8;
 int32 MixRate     = 11025;
 
-int32 ControllerType = 0;
+int32 UseMouse = 1, UseJoystick = 0;
 
 byte KeyboardKeys[NUMGAMEFUNCTIONS][2];
 int32 MouseFunctions[MAXMOUSEBUTTONS][2];
@@ -544,7 +544,8 @@ void CONFIG_ReadSetup( void )
       gs.FlipStereo = dummy;
       if (gs.FlipStereo) gs.FlipStereo = 1;
 
-      SCRIPT_GetNumber( scripthandle, "Controls","ControllerType",&ControllerType);
+      SCRIPT_GetNumber( scripthandle, "Controls","UseMouse",&UseMouse);
+      SCRIPT_GetNumber( scripthandle, "Controls","UseJoystick",&UseJoystick);
       SCRIPT_GetString( scripthandle, "Comm Setup", "RTSName",RTSName);
    
       SCRIPT_GetString( scripthandle, "Comm Setup","PlayerName",CommPlayerName);
@@ -595,7 +596,8 @@ void CONFIG_WriteSetup( void )
    dummy = gs.FlipStereo;
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "ReverseStereo",dummy,FALSE,FALSE);
    
-   SCRIPT_PutNumber( scripthandle, "Controls","ControllerType",ControllerType,FALSE,FALSE);
+   SCRIPT_PutNumber( scripthandle, "Controls","UseMouse",UseMouse,FALSE,FALSE);
+   SCRIPT_PutNumber( scripthandle, "Controls","UseJoystick",UseJoystick,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Controls","MouseSensitivity",gs.MouseSpeed,FALSE,FALSE);
    
    WriteGameSetup(scripthandle);

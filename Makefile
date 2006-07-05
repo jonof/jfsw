@@ -154,7 +154,7 @@ endif
 ifeq ($(PLATFORM),WINDOWS)
 	OURCFLAGS+= -DUNDERSCORES -I$(DXROOT)/include
 	NASMFLAGS+= -DUNDERSCORES -f win32
-	GAMEOBJS+= $(OBJ)cda_win32.$o $(OBJ)gameres.$o #$(OBJ)winbits.$o
+	GAMEOBJS+= $(OBJ)cda_win32.$o $(OBJ)gameres.$o $(OBJ)startwin.game.$o
 	EDITOROBJS+= $(OBJ)buildres.$o
 endif
 
@@ -164,7 +164,7 @@ ifeq ($(RENDERTYPE),SDL)
 
 	ifeq (1,$(HAVE_GTK2))
 		OURCFLAGS+= -DHAVE_GTK2 $(shell pkg-config --cflags gtk+-2.0)
-		GAMEOBJS+= $(OBJ)game_banner.$o
+		GAMEOBJS+= $(OBJ)game_banner.$o $(OBJ)startgtk.game.$o
 		EDITOROBJS+= $(OBJ)editor_banner.$o
 	endif
 
@@ -229,7 +229,7 @@ $(OBJ)%.$o: $(SRC)jaudiolib/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 
 $(OBJ)%.$o: $(SRC)misc/%.rc
-	windres -i $< -o $@
+	windres -i $< -o $@ --include-dir=$(EINC) --include-dir=$(SRC)
 
 $(OBJ)%.$o: $(SRC)util/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1

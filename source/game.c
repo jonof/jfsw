@@ -266,6 +266,8 @@ long score;
 BOOL QuitFlag = FALSE; 
 BOOL InGame = FALSE;
 
+BOOL CommandSetup = FALSE;
+
 char UserMapName[80]="", buffer[80], ch;
 char LevelName[20];
 
@@ -933,10 +935,13 @@ static int firstnet = 0;	// JBF
 int nextvoxid = 0;	// JBF
 static char *deffile = "sw.def";
 
+extern int startwin_run(void);
+
 VOID
 InitGame(VOID)
     {
-    void CONFIG_ReadSetup( void );
+    int32 CONFIG_ReadSetup( void );
+    extern int32 ForceSetup;	// config.c
     extern long MovesPerPacket;
     //void *ReserveMem=NULL;
     int i;
@@ -944,10 +949,23 @@ InitGame(VOID)
         DSPRINTF(ds,"InitGame...");
     MONO_PRINT(ds);
 
-    CONFIG_ReadSetup();
+    i = CONFIG_ReadSetup();
 
-    if (initengine()) exit(1);
-    
+	if (initengine()) {
+	   wm_msgbox("Build Engine Initialisation Error",
+			   "There was a problem initialising the Build engine: %s", engineerrstr);
+	   exit(1);
+	}
+
+#if defined RENDERTYPEWIN || (defined RENDERTYPESDL && !defined __APPLE__ && defined HAVE_GTK2)
+	if (i < 0 || ForceSetup || CommandSetup) {
+		if (quitevent || !startwin_run()) {
+			uninitengine();
+			exit(0);
+		}
+	}
+#endif
+    	
     //initgroupfile("sw.grp");	// JBF: moving this close to start of program to detect shareware
     InitSetup();
     
@@ -3424,6 +3442,7 @@ CLI_ARG cli_arg[] =
 {0, "/extcompat",          9,      "-extcompat",           "Controller compatibility mode (with Duke 3D)"},
 {1, "/g#",                 2,      "-g[filename.grp]",     "Load an extra GRP or ZIP file"},
 {1, "/h#",                 2,      "-h[filename.def]",     "Use filename.def instead of SW.DEF"},
+{0, "/setup",              5,      "-setup",               "Displays the configuration dialogue box"},
 #if DEBUG
 {0, "/coop",               5,      "-coop#",               "Single Player Cooperative Mode"        },
 {0, "/commbat",            8,      "-commbat#",            "Single Player Commbat Mode"            },
@@ -3480,8 +3499,6 @@ int DetectShareware(void)
 
     return 1;	// heavens knows what this is...
 }
-
-char *startwin_labeltext = "Starting Shadow Warrior...";
 
 long app_main(long argc, char *argv[])
     {
@@ -3639,6 +3656,11 @@ long app_main(long argc, char *argv[])
         CON_StoreArg(arg);
 	arg++;
 
+	if (Bstrncasecmp(arg, "setup",5) == 0)
+	    {
+	    CommandSetup = TRUE;
+	    }
+	else
         if (Bstrncasecmp(arg, "autonet",7) == 0)
             {   
             AutoNet = TRUE;

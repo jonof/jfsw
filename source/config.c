@@ -94,6 +94,7 @@ int32 ScreenMode = 1;
 int32 ScreenWidth = 640;
 int32 ScreenHeight = 480;
 int32 ScreenBPP = 8;
+int32 ForceSetup = 1;
 
 extern char WangBangMacro[10][64];
 char  RTSName[MAXRTSNAMELENGTH];
@@ -500,7 +501,7 @@ void CONFIG_SetupJoystick( void )
 ===================
 */
 
-void CONFIG_ReadSetup( void )
+int32 CONFIG_ReadSetup( void )
    {
    int32 dummy;
    char ret;
@@ -513,8 +514,8 @@ void CONFIG_ReadSetup( void )
    if (SafeFileExists(setupfilename))
       scripthandle = SCRIPT_Load(setupfilename);
    
-   if (scripthandle >= 0)
-      {
+   if (scripthandle < 0) return -1;
+
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenMode",&ScreenMode);
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenWidth",&ScreenWidth);
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenHeight",&ScreenHeight);
@@ -544,12 +545,12 @@ void CONFIG_ReadSetup( void )
       gs.FlipStereo = dummy;
       if (gs.FlipStereo) gs.FlipStereo = 1;
 
+      SCRIPT_GetNumber( scripthandle, "Setup", "ForceSetup",&ForceSetup);
       SCRIPT_GetNumber( scripthandle, "Controls","UseMouse",&UseMouse);
       SCRIPT_GetNumber( scripthandle, "Controls","UseJoystick",&UseJoystick);
       SCRIPT_GetString( scripthandle, "Comm Setup", "RTSName",RTSName);
    
       SCRIPT_GetString( scripthandle, "Comm Setup","PlayerName",CommPlayerName);
-      }
     
    ReadGameSetup(scripthandle);
     
@@ -562,6 +563,7 @@ void CONFIG_ReadSetup( void )
       {
       strcpy(CommPlayerName, PlayerNameArg);
       }
+   return 0;
    }
 
 /*
@@ -596,6 +598,7 @@ void CONFIG_WriteSetup( void )
    dummy = gs.FlipStereo;
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "ReverseStereo",dummy,FALSE,FALSE);
    
+   SCRIPT_PutNumber( scripthandle, "Setup", "ForceSetup",ForceSetup,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Controls","UseMouse",UseMouse,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Controls","UseJoystick",UseJoystick,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Controls","MouseSensitivity",gs.MouseSpeed,FALSE,FALSE);

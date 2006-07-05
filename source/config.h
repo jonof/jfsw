@@ -39,6 +39,7 @@ extern int32 ScreenHeight;
 extern int32 ScreenBPP;
 extern int32 ScreenBufferMode;
 extern int32 VesaBufferMode;
+extern int32 ForceSetup;
 
 // sound externs
 extern int32 FXDevice; // Sound FX Card number
@@ -110,7 +111,7 @@ void SetMouseDefaults( void );
 void SetJoystickDefaults( void );
 void SetDefaultKeyDefinitions( void );
 
-void CONFIG_ReadSetup( void );
+int32 CONFIG_ReadSetup( void );
 void CONFIG_SetupMouse( void );
 void CONFIG_SetupJoystick( void );
 void CONFIG_WriteSetup( void );

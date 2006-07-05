@@ -1603,7 +1603,7 @@ MNU_InitMenus(void)
 		if (validbpps[i] == bpp)
 			slidersettings[sldr_videobpp] = i;
 	
-	i = checkvideomode(&newx, &newy, bpp, fullscreen);
+	i = checkvideomode(&newx, &newy, bpp, fullscreen, 1);
 	if (i != 0x7fffffff && i >= 0)
 		for (i=0; i<numvalidresolutions; i++)
 			if (validresolutions[i].xdim == newx && validresolutions[i].ydim == newy)

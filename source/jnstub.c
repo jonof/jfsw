@@ -657,6 +657,7 @@ int
 ExtInit(void)
     {
 	int rv = 0;
+	char *swgrp = "sw.grp";
 
 #ifndef BUILD_DEV_VER
     char ch;
@@ -728,7 +729,11 @@ ExtInit(void)
 		}
 	}
 	
-        initgroupfile("sw.grp");
+    if (getenv("SWGRP")) {
+	    swgrp = getenv("SWGRP");
+	    initprintf("Using %s as main GRP file\n", swgrp);
+    }
+        initgroupfile(swgrp);
 	/*
         if ((fil = open("setup.dat", O_BINARY | O_RDWR, S_IREAD)) != -1)
             {

@@ -1,7 +1,7 @@
 # Shadow Warrior Makefile for GNU Make
 
 # SDK locations - adjust to match your setup
-DXROOT=c:/sdks/msc/dx61
+DXROOT=c:/sdks/directx/dx61
 
 # Engine options
 SUPERBUILD = 1

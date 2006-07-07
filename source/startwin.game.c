@@ -101,7 +101,7 @@ static INT_PTR CALLBACK ConfigPageProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			switch (LOWORD(wParam)) {
 				case IDCFULLSCREEN:
 					settings.fullscreen = !settings.fullscreen;
-					PopulateForm(0);
+					PopulateForm(1<<TAB_CONFIG);
 					return TRUE;
 				case IDCVMODE:
 					if (HIWORD(wParam) == CBN_SELCHANGE) {

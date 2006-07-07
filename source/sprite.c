@@ -1022,10 +1022,29 @@ ActorTestSpawn(SPRITEp sp)
         return(FALSE);
         }
     #endif    
-        
+
     // Skill ranges from -1 (No Monsters) to 3
-    if (TEST(sp->extra, SPRX_SKILL) > Skill)
+    if (TEST(sp->extra, SPRX_SKILL) > Skill) {
+
+	// JBF: hack to fix Wanton Destruction's missing Sumos, Serpents, and Zilla on Skill < 2
+	extern char withWantonHack;
+	if (withWantonHack && (
+	    ((sp->picnum == SERP_RUN_R0 || sp->picnum == SUMO_RUN_R0) && sp->lotag > 3) ||
+	    sp->picnum == ZILLA_RUN_R0)) {
+		const char *c;
+		switch (sp->picnum) {
+			case SERP_RUN_R0: c = "serpent"; break;
+			case SUMO_RUN_R0: c = "sumo"; break;
+			case ZILLA_RUN_R0: c = "zilla"; break;
+			default: c = "?"; break;
+		}
+		initprintf("WARNING: skill-masked %s at %d,%d,%d not being killed because it "
+				"activates something\n", c,sp->x,sp->y,sp->z);
+		return TRUE;
+	}
+        
         return(FALSE);
+    }
     
     return(TRUE);    
     }

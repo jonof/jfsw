@@ -940,8 +940,6 @@ extern int startwin_run(void);
 VOID
 InitGame(VOID)
     {
-    int32 CONFIG_ReadSetup( void );
-    extern int32 ForceSetup;	// config.c
     extern long MovesPerPacket;
     //void *ReserveMem=NULL;
     int i;
@@ -949,7 +947,6 @@ InitGame(VOID)
         DSPRINTF(ds,"InitGame...");
     MONO_PRINT(ds);
 
-    i = CONFIG_ReadSetup();
 
 	if (initengine()) {
 	   wm_msgbox("Build Engine Initialisation Error",
@@ -957,15 +954,6 @@ InitGame(VOID)
 	   exit(1);
 	}
 
-#if defined RENDERTYPEWIN || (defined RENDERTYPESDL && !defined __APPLE__ && defined HAVE_GTK2)
-	if (i < 0 || ForceSetup || CommandSetup) {
-		if (quitevent || !startwin_run()) {
-			uninitengine();
-			exit(0);
-		}
-	}
-#endif
-    	
     //initgroupfile("sw.grp");	// JBF: moving this close to start of program to detect shareware
     InitSetup();
     
@@ -3500,6 +3488,53 @@ int DetectShareware(void)
     return 1;	// heavens knows what this is...
 }
 
+
+void CommandLineHelp(void)
+{
+	int i;
+#ifdef RENDERTYPEWIN
+	char *str;
+	int strl;
+
+	strl = 30 + 70;
+	for (i=0;i < (int)SIZ(cli_arg);i++)
+		if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
+			strl += strlen(cli_arg[i].arg_fmt) + 1 + strlen(cli_arg[i].arg_descr) + 1;
+
+	str = (char*)malloc(strl);
+	if (str) {
+		strcpy(str,"Usage: sw [options]\n");
+		strcat(str,"options:  ('/' may be used instead of '-', <> text is optional)\n\n");
+		for (i=0; i < (int)SIZ(cli_arg); i++) {
+			if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
+			{
+				strcat(str, cli_arg[i].arg_fmt);
+				strcat(str, "\t");
+				strcat(str, cli_arg[i].arg_descr);
+				strcat(str, "\n");
+			}
+		}
+		wm_msgbox("Shadow Warrior Help",str);
+		free(str);
+	}
+#else
+	if (SW_SHAREWARE)
+		printf("Usage: %s [options]\n", argv[0]);
+	else
+        	printf("Usage: %s [options] [map]\n", argv[0]);
+	printf("options:  ('/' may be used instead of '-', <> text is optional)\n\n");
+
+	for (i = 0; i < (int)SIZ(cli_arg); i++)
+	{
+		if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
+                {
+			printf(" %-20s   %-30s\n",cli_arg[i].arg_fmt, cli_arg[i].arg_descr);
+		}
+	}
+#endif
+}
+
+char *grpfile = "sw.grp";
 long app_main(long argc, char *argv[])
     {
     int i;
@@ -3510,7 +3545,8 @@ long app_main(long argc, char *argv[])
     VOID gameinput(VOID);
     int cnt = 0;
     ULONG TotalMemory;
-    char *grpfile = "sw.grp";
+    extern int32 ForceSetup;	// config.c
+    int32 CONFIG_ReadSetup(void);
 
 #ifdef RENDERTYPEWIN
 	if (win_checkinstance()) {
@@ -3557,16 +3593,42 @@ long app_main(long argc, char *argv[])
 	}
     
     OSD_SetLogFile("sw.log");
-    {	// JBF: moved to here for shareware detection
+    {
 	char *newgrp;
 	newgrp = getenv("SWGRP");
 	if (newgrp) {
 		grpfile = newgrp;
 		initprintf("Using alternative GRP file: %s\n", newgrp);
 	}
-	initgroupfile(grpfile);
     }
 
+    for (i=1;i<argc;i++) {
+	if (argv[i][0] != '-' && argv[i][0] != '/') continue;
+	if (!Bstrcasecmp(argv[i]+1, "setup")) CommandSetup = TRUE;
+	else if (!Bstrcasecmp(argv[i]+1, "?")) {
+		CommandLineHelp();
+		swexit(0);
+	}
+    }
+	wm_setapptitle("Shadow Warrior");
+	if (preinitengine()) {
+	   wm_msgbox("Build Engine Initialisation Error",
+			   "There was a problem initialising the Build engine: %s", engineerrstr);
+	   exit(1);
+	}
+
+    i = CONFIG_ReadSetup();
+
+#if defined RENDERTYPEWIN || (defined RENDERTYPESDL && !defined __APPLE__ && defined HAVE_GTK2)
+	if (i < 0 || ForceSetup || CommandSetup) {
+		if (quitevent || !startwin_run()) {
+			uninitengine();
+			exit(0);
+		}
+	}
+#endif
+
+    initgroupfile(grpfile);
     if (!DetectShareware()) {
 	if (SW_SHAREWARE) initprintf("Detected shareware GRP\n");
 	else initprintf("Detected registered GRP\n");
@@ -3617,9 +3679,6 @@ long app_main(long argc, char *argv[])
     }    
     #endif
     
-    if ((argc > 1) && (!Bstrcasecmp(argv[1], "help") || !strcmp(argv[1], "?")))
-        goto HELP;
-    
     for (cnt = 1; cnt < argc; cnt++)
         {
 	char *arg = argv[cnt];
@@ -3656,11 +3715,6 @@ long app_main(long argc, char *argv[])
         CON_StoreArg(arg);
 	arg++;
 
-	if (Bstrncasecmp(arg, "setup",5) == 0)
-	    {
-	    CommandSetup = TRUE;
-	    }
-	else
         if (Bstrncasecmp(arg, "autonet",7) == 0)
             {   
             AutoNet = TRUE;
@@ -3753,53 +3807,6 @@ long app_main(long argc, char *argv[])
             swexit(0);    
             }
         #endif    
-        else    
-        if (Bstrncasecmp(arg, "?",1) == 0)
-            {
-#ifdef RENDERTYPEWIN
-	    char *str;
-	    int strl;
-            HELP:
-
-	    strl = 30 + 70;
-	    for (i=0;i < (int)SIZ(cli_arg);i++)
-		if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
-		    strl += strlen(cli_arg[i].arg_fmt) + 1 + strlen(cli_arg[i].arg_descr) + 1;
-
-	    str = (char*)malloc(strl);
-	    if (str) {
-		strcpy(str,"Usage: sw [options]\n");
-		strcat(str,"options:  ('/' may be used instead of '-', <> text is optional)\n\n");
-		for (i=0; i < (int)SIZ(cli_arg); i++) {
-			if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
-			{
-				strcat(str, cli_arg[i].arg_fmt);
-				strcat(str, "\t");
-				strcat(str, cli_arg[i].arg_descr);
-				strcat(str, "\n");
-			}
-		}
-		wm_msgbox("Shadow Warrior Help",str);
-		free(str);
-	    }
-#else
-            HELP:
-            if (SW_SHAREWARE)
-            printf("Usage: %s [options]\n", argv[0]);
-	    else
-                printf("Usage: %s [options] [map]\n", argv[0]);
-            printf("options:  ('/' may be used instead of '-', <> text is optional)\n\n");
-            
-            for (i = 0; i < (int)SIZ(cli_arg); i++)
-                {
-		if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
-                    {
-                    printf(" %-20s   %-30s\n",cli_arg[i].arg_fmt, cli_arg[i].arg_descr);
-                    }
-                }
-#endif
-            swexit(0);    
-            }
         else
         if (Bstrncasecmp(arg, "short",5) == 0)
             {

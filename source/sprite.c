@@ -1027,11 +1027,13 @@ ActorTestSpawn(SPRITEp sp)
     if (TEST(sp->extra, SPRX_SKILL) > Skill) {
 
 	// JBF: hack to fix Wanton Destruction's missing Sumos, Serpents, and Zilla on Skill < 2
-	extern char withWantonHack;
-	if (withWantonHack && (
-	    ((sp->picnum == SERP_RUN_R0 || sp->picnum == SUMO_RUN_R0) && sp->lotag > 3) ||
-	    sp->picnum == ZILLA_RUN_R0)) {
+	if (((sp->picnum == SERP_RUN_R0 || sp->picnum == SUMO_RUN_R0) && sp->lotag > 0 &&
+	     sp->lotag != TAG_SPAWN_ACTOR && sp->extra > 0) || sp->picnum == ZILLA_RUN_R0) {
 		const char *c;
+
+		// NOTE: Wanton's $boat.map has two sumos, neither of which actually activate
+		// anything but are spawned in, and one of them has a skill level 2 mask. This
+		// hack however forces both sumos to appear on the easy levels. Bummer.
 		switch (sp->picnum) {
 			case SERP_RUN_R0: c = "serpent"; break;
 			case SUMO_RUN_R0: c = "sumo"; break;

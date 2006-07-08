@@ -3464,7 +3464,7 @@ sw -map testmap.map -autonet 0,0,1,1,1,0,3,2,1,1 -f4 -name 1234567890 -net 12345
 commit -map grenade -autonet 0,0,1,1,1,0,3,2,1,1 -name frank
 #endif
 
-char isShareware = FALSE, withWantonHack = FALSE, useDarts = FALSE;
+char isShareware = FALSE, useDarts = FALSE;
 
 int DetectShareware(void)
     {
@@ -3484,29 +3484,6 @@ int DetectShareware(void)
     if (h >= 0) {
 	isShareware = FALSE;
 	kclose(h);
-
-	// Hack for Wanton Destruction's missing minibosses.
-	// Checksum the a file unique to WD.
-	h = kopen4load("WDDM03.MAP", 1);
-	if (h >= 0) {
-		char tmp[10240];
-		unsigned long c;
-		int b;
-
-		crc32init(&c);
-		do {
-			b = kread(h, tmp, sizeof(tmp));
-			if (b>0) crc32block(&c, tmp, b);
-		} while (b == sizeof(tmp));
-		crc32finish(&c);
-		kclose(h);
-
-		if (c == 0xFB28A289) {
-			withWantonHack = TRUE;
-			initprintf("Wanton Destruction hack enabled\n");
-		}
-	}
-	
 	return 0;
     }
 

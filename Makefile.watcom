@@ -1,10 +1,15 @@
-# Duke3D Makefile for Watcom Make
+# Shadow Warrior Makefile for Watcom Make
 
-SRC=source\
-OBJ=obj\
-EROOT=..\build\
-EINC=$(EROOT)include\
-EOBJ=eobj\
+# OpenWatcom 1.2 or older users should uncomment this line
+# to enable some compatibility files that work around some
+# missing header files in those versions
+#WATCOMHAX=-i=watcomhax
+
+SRC=source
+OBJ=obj
+EROOT=..\build
+EINC=$(EROOT)\include
+EOBJ=eobj
 INC=$(SRC)
 o=obj
 
@@ -15,166 +20,166 @@ EDITORLIB=build.lib
 ! loaddll wcc386 wccd386
 !endif
 
-DXROOT=c:\sdks\msc\dx7
+DXROOT=c:\sdks\directx\dx7
 
 ENGINEOPTS=-dSETSPRITEZ -dSUPERBUILD -dPOLYMOST -dUSE_OPENGL -dDYNAMIC_OPENGL
 
 CC=wcc386
 CFLAGS= -5r -s -orb -fp5 -d2 -db &
-	-i=$(INC) -i=$(EINC) -i=$(SRC)jmact -i=$(SRC)jaudiolib -i=$(DXROOT)\include &
+	-i=$(INC) -i=$(EINC) -i=$(SRC)\jmact -i=$(SRC)\jaudiolib -i=$(DXROOT)\include &
 	-dRENDERTYPEWIN=1 $(ENGINEOPTS)
 LIBS=winmm.lib wsock32.lib dxguid.lib #opengl32.lib
 WASMFLAGS=-d1
 EXESUFFIX=.exe
 
-JMACTOBJ=$(OBJ)util_lib.$o &
-	$(OBJ)file_lib.$o &
-	$(OBJ)control.$o &
-	$(OBJ)keyboard.$o &
-	$(OBJ)mouse.$o &
-	$(OBJ)mathutil.$o &
-	$(OBJ)scriplib.$o &
-	$(OBJ)animlib.$o
+JMACTOBJ=$(OBJ)\util_lib.$o &
+	$(OBJ)\file_lib.$o &
+	$(OBJ)\control.$o &
+	$(OBJ)\keyboard.$o &
+	$(OBJ)\mouse.$o &
+	$(OBJ)\mathutil.$o &
+	$(OBJ)\scriplib.$o &
+	$(OBJ)\animlib.$o
 
-#JAUDIOLIB_FX=$(OBJ)jaudiolib_fxstub.$o
-#JAUDIOLIB_MUSIC=$(OBJ)jaudiolib_musicstub.$o
-#JAUDIOLIB_FX=$(OBJ)jaudiolib_fx_fmod.$o
-JAUDIOLIB_FX=$(OBJ)mv_mix.$o &
-	  $(OBJ)mv_mix16.$o &
-	  $(OBJ)mvreverb.$o &
-	  $(OBJ)pitch.$o &
-	  $(OBJ)multivoc.$o &
-	  $(OBJ)ll_man.$o &
-	  $(OBJ)fx_man.$o &
-	  $(OBJ)dsoundout.$o
-JAUDIOLIB_MUSIC=$(OBJ)midi.$o &
-	  $(OBJ)mpu401.$o &
-	  $(OBJ)music.$o
+#JAUDIOLIB_FX=$(OBJ)\jaudiolib_fxstub.$o
+#JAUDIOLIB_MUSIC=$(OBJ)\jaudiolib_musicstub.$o
+#JAUDIOLIB_FX=$(OBJ)\jaudiolib_fx_fmod.$o
+JAUDIOLIB_FX=$(OBJ)\mv_mix.$o &
+	  $(OBJ)\mv_mix16.$o &
+	  $(OBJ)\mvreverb.$o &
+	  $(OBJ)\pitch.$o &
+	  $(OBJ)\multivoc.$o &
+	  $(OBJ)\ll_man.$o &
+	  $(OBJ)\fx_man.$o &
+	  $(OBJ)\dsoundout.$o
+JAUDIOLIB_MUSIC=$(OBJ)\midi.$o &
+	  $(OBJ)\mpu401.$o &
+	  $(OBJ)\music.$o
 JAUDIOLIBOBJ=$(JAUDIOLIB_MUSIC) $(JAUDIOLIB_FX)
 
-GAMEOBJS=$(OBJ)actor.$o &
-	$(OBJ)ai.$o &
-	$(OBJ)anim.$o &
-	$(OBJ)border.$o &
-	$(OBJ)break.$o &
-	$(OBJ)bunny.$o &
-	$(OBJ)cache.$o &
-	$(OBJ)cd.$o &
-	$(OBJ)cheats.$o &
-	$(OBJ)colormap.$o &
-	$(OBJ)config.$o &
-	$(OBJ)console.$o &
-	$(OBJ)coolg.$o &
-	$(OBJ)coolie.$o &
-	$(OBJ)copysect.$o &
-	$(OBJ)demo.$o &
-	$(OBJ)draw.$o &
-	$(OBJ)eel.$o &
-	$(OBJ)game.$o &
-	$(OBJ)girlninj.$o &
-	$(OBJ)goro.$o &
-	$(OBJ)hornet.$o &
-	$(OBJ)interp.$o &
-	$(OBJ)interpsh.$o &
-	$(OBJ)inv.$o &
-	$(OBJ)jplayer.$o &
-	$(OBJ)jsector.$o &
-	$(OBJ)jweapon.$o &
-	$(OBJ)lava.$o &
-	$(OBJ)light.$o &
-	$(OBJ)mclip.$o &
-	$(OBJ)mdastr.$o &
-	$(OBJ)menus.$o &
-	$(OBJ)miscactr.$o &
-	$(OBJ)morph.$o &
-	$(OBJ)net.$o &
-	$(OBJ)ninja.$o &
-	$(OBJ)panel.$o &
-	$(OBJ)player.$o &
-	$(OBJ)predict.$o &
-	$(OBJ)quake.$o &
-	$(OBJ)ripper.$o &
-	$(OBJ)ripper2.$o &
-	$(OBJ)rooms.$o &
-	$(OBJ)rotator.$o &
-	$(OBJ)rts.$o &
-	$(OBJ)save.$o &
-	$(OBJ)scrip2.$o &
-	$(OBJ)sector.$o &
-	$(OBJ)serp.$o &
-	$(OBJ)setup.$o &
-	$(OBJ)skel.$o &
-	$(OBJ)skull.$o &
-	$(OBJ)slidor.$o &
-	$(OBJ)sounds.$o &
-	$(OBJ)spike.$o &
-	$(OBJ)sprite.$o &
-	$(OBJ)sumo.$o &
-	$(OBJ)swconfig.$o &
-	$(OBJ)sync.$o &
-	$(OBJ)text.$o &
-	$(OBJ)track.$o &
-	$(OBJ)usrhooks.$o &
-	$(OBJ)vator.$o &
-	$(OBJ)vis.$o &
-	$(OBJ)wallmove.$o &
-	$(OBJ)warp.$o &
-	$(OBJ)weapon.$o &
-	$(OBJ)zilla.$o &
-	$(OBJ)zombie.$o &
-	$(OBJ)saveable.$o &
-	$(OBJ)cda_win32.$o &
+GAMEOBJS=$(OBJ)\actor.$o &
+	$(OBJ)\ai.$o &
+	$(OBJ)\anim.$o &
+	$(OBJ)\border.$o &
+	$(OBJ)\break.$o &
+	$(OBJ)\bunny.$o &
+	$(OBJ)\cache.$o &
+	$(OBJ)\cd.$o &
+	$(OBJ)\cheats.$o &
+	$(OBJ)\colormap.$o &
+	$(OBJ)\config.$o &
+	$(OBJ)\console.$o &
+	$(OBJ)\coolg.$o &
+	$(OBJ)\coolie.$o &
+	$(OBJ)\copysect.$o &
+	$(OBJ)\demo.$o &
+	$(OBJ)\draw.$o &
+	$(OBJ)\eel.$o &
+	$(OBJ)\game.$o &
+	$(OBJ)\girlninj.$o &
+	$(OBJ)\goro.$o &
+	$(OBJ)\hornet.$o &
+	$(OBJ)\interp.$o &
+	$(OBJ)\interpsh.$o &
+	$(OBJ)\inv.$o &
+	$(OBJ)\jplayer.$o &
+	$(OBJ)\jsector.$o &
+	$(OBJ)\jweapon.$o &
+	$(OBJ)\lava.$o &
+	$(OBJ)\light.$o &
+	$(OBJ)\mclip.$o &
+	$(OBJ)\mdastr.$o &
+	$(OBJ)\menus.$o &
+	$(OBJ)\miscactr.$o &
+	$(OBJ)\morph.$o &
+	$(OBJ)\net.$o &
+	$(OBJ)\ninja.$o &
+	$(OBJ)\panel.$o &
+	$(OBJ)\player.$o &
+	$(OBJ)\predict.$o &
+	$(OBJ)\quake.$o &
+	$(OBJ)\ripper.$o &
+	$(OBJ)\ripper2.$o &
+	$(OBJ)\rooms.$o &
+	$(OBJ)\rotator.$o &
+	$(OBJ)\rts.$o &
+	$(OBJ)\save.$o &
+	$(OBJ)\scrip2.$o &
+	$(OBJ)\sector.$o &
+	$(OBJ)\serp.$o &
+	$(OBJ)\setup.$o &
+	$(OBJ)\skel.$o &
+	$(OBJ)\skull.$o &
+	$(OBJ)\slidor.$o &
+	$(OBJ)\sounds.$o &
+	$(OBJ)\spike.$o &
+	$(OBJ)\sprite.$o &
+	$(OBJ)\sumo.$o &
+	$(OBJ)\swconfig.$o &
+	$(OBJ)\sync.$o &
+	$(OBJ)\text.$o &
+	$(OBJ)\track.$o &
+	$(OBJ)\usrhooks.$o &
+	$(OBJ)\vator.$o &
+	$(OBJ)\vis.$o &
+	$(OBJ)\wallmove.$o &
+	$(OBJ)\warp.$o &
+	$(OBJ)\weapon.$o &
+	$(OBJ)\zilla.$o &
+	$(OBJ)\zombie.$o &
+	$(OBJ)\saveable.$o &
+	$(OBJ)\cda_win32.$o &
 	$(JMACTOBJ) &
 	$(JAUDIOLIBOBJ)
 
-EDITOROBJS=$(OBJ)jnstub.$o &
-	$(OBJ)brooms.$o &
-	$(OBJ)bldscript.$o &
-	$(OBJ)jbhlp.$o &
-	$(OBJ)colormap.$o
+EDITOROBJS=$(OBJ)\jnstub.$o &
+	$(OBJ)\brooms.$o &
+	$(OBJ)\bldscript.$o &
+	$(OBJ)\jbhlp.$o &
+	$(OBJ)\colormap.$o
 
 # RULES
 .EXTENSIONS: .wasm .res .rc
 
 .wasm:	$(SRC)
-.wasm:	$(SRC)jaudiolib/
+.wasm:	$(SRC)\jaudiolib
 .c:	$(SRC)
-.c:	$(SRC)jmact/
-.c:	$(SRC)jaudiolib/
-.c:	$(SRC)util/
-.rc:	$(SRC)misc/
+.c:	$(SRC)\jmact
+.c:	$(SRC)\jaudiolib
+.c:	$(SRC)\util
+.rc:	$(SRC)\misc
 
 .wasm.$o:
-	wasm $(WASMFLAGS) -fo=$(OBJ).$o $[@
+	wasm $(WASMFLAGS) -fo=$(OBJ)\.$o $[@
 
 .c.$o:
-	$(CC) $(CFLAGS) -fo=$(OBJ).$o $[@
+	$(CC) $(CFLAGS) -fo=$(OBJ)\.$o $[@
 
 .rc.res:
-	wrc -fo=$^*.res -r $[@
+	wrc -i=$(EINC) -i=$(SRC) -fo=$^*.res -r $[@
 	
 
 # TARGETS
 all: sw$(EXESUFFIX) build$(EXESUFFIX) .SYMBOLIC
 	%null
 
-sw$(EXESUFFIX): $(GAMEOBJS) $(OBJ)gameres.res $(EOBJ)$(ENGINELIB)
+sw$(EXESUFFIX): $(GAMEOBJS) $(OBJ)\gameres.res $(EOBJ)\$(ENGINELIB)
 	wlink	NAME     $@ &
 		SYSTEM   WIN95 &
 		DEBUG    ALL &
 		OPTION   MAP &
 		FILE     { $(GAMEOBJS) $(ENGINEOBJS) } &
-		RESOURCE $(OBJ)gameres.res &
+		RESOURCE $(OBJ)\gameres.res &
 		LIBPATH  $(DXROOT)\lib &
 		LIBPATH  $(EOBJ) &
 		LIBRARY  { $(ENGINELIB) $(LIBS) }
 	
-build$(EXESUFFIX): $(EDITOROBJS) $(OBJ)buildres.res $(EOBJ)$(ENGINELIB) $(EOBJ)$(EDITORLIB)
+build$(EXESUFFIX): $(EDITOROBJS) $(OBJ)\buildres.res $(EOBJ)\$(ENGINELIB) $(EOBJ)\$(EDITORLIB)
 	wlink	NAME     $@ &
 		SYSTEM   WIN95 &
 		DEBUG    ALL &
 		FILE     { $(EDITOROBJS) } &
-		RESOURCE $(OBJ)buildres.res &
+		RESOURCE $(OBJ)\buildres.res &
 		LIBPATH  $(DXROOT)\lib &
 		LIBPATH  $(EOBJ) &
 		LIBRARY  { $(ENGINELIB) $(EDITORLIB) $(LIBS) }
@@ -184,18 +189,18 @@ build$(EXESUFFIX): $(EDITOROBJS) $(OBJ)buildres.res $(EOBJ)$(ENGINELIB) $(EOBJ)$
 cwd=$+ $(%cwd) $-
 enginelib editorlib: .SYMBOLIC
 	-mkdir $(EOBJ)
-	%write $(EOBJ)overrides.mak OBJ=$(cwd)\$(EOBJ)
-	%write $(EOBJ)overrides.mak CFLAGS=$(ENGINEOPTS)
+	%write $(EOBJ)\overrides.mak OBJ=$(cwd)\$(EOBJ)
+	%write $(EOBJ)\overrides.mak CFLAGS=$(ENGINEOPTS)
 	cd $(EROOT)
-	wmake -f Makefile.watcom OVERRIDES=$(cwd)\$(EOBJ)overrides.mak $@
+	wmake -f Makefile.watcom OVERRIDES=$(cwd)\$(EOBJ)\overrides.mak $@
 	cd $(cwd)
 
-$(EOBJ)$(EDITORLIB): editorlib .SYMBOLIC
-$(EOBJ)$(ENGINELIB): enginelib .SYMBOLIC
+$(EOBJ)\$(EDITORLIB): editorlib .SYMBOLIC
+$(EOBJ)\$(ENGINELIB): enginelib .SYMBOLIC
 
 # PHONIES	
 clean: .SYMBOLIC
-	-del $(OBJ)* sw$(EXESUFFIX) build$(EXESUFFIX)
+	-del /q $(OBJ)\* sw$(EXESUFFIX) build$(EXESUFFIX)
 	
 veryclean: clean .SYMBOLIC
-	-del $(EOBJ)*
+	-del /q $(EOBJ)\*

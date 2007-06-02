@@ -1281,7 +1281,7 @@ Keys3D(VOID)
         bSpinBobVoxels = !bSpinBobVoxels;
         }
 
-    // 'A - Toggles voxel rotation on/off
+    // 'A - Toggles sprite autosizing on/off
     if (keystatus[KEYSC_QUOTE] && keystatus[KEYSC_A])   // ' A
         {
         keystatus[KEYSC_A] = 0;

@@ -9475,7 +9475,7 @@ OwnerIsPlayer(short Weapon)
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon],uo;
 
-    if (!u) return(FALSE);
+    if (!u || !sp || (unsigned)sp->owner >= (unsigned)MAXSPRITES) return(FALSE);
     uo = User[sp->owner];
     if (uo && uo->PlayerP) return(TRUE);
 

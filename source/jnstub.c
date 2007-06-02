@@ -2992,12 +2992,13 @@ ExtEditSpriteData(short spritenum)      // F8
     printext16(8, ydim16+32 + 8, 11, -1, "(2)  Multi-Player Item Toggle", 0);
     printext16(8, ydim16+32 + 16, 11, -1, "(3)  Find Sprite", 0);
     printext16(8, ydim16+32 + 24, 11, -1, "(4)  Dbug Toggle (* Programming use only *) ", 0);
+    showframe(1);
 
-    while (KEY_PRESSED(KEYSC_F8));
+    while (KEY_PRESSED(KEYSC_F8)) handleevents();
 
     ResetKeys();
 
-    while ((key = BKeyPressed()) == NULL);
+    while ((key = BKeyPressed()) == NULL) handleevents();
 
     if (key == (BYTEp)&KEY_PRESSED(KEYSC_1) || key == (BYTEp)&KEY_PRESSED(KEYSC_F8))
         {
@@ -3048,7 +3049,7 @@ ExtEditSpriteData(short spritenum)      // F8
                 printext16(8 + 240, ydim16+32 + 32, 11, -1, "TRUE", 0);
             else
                 printext16(8 + 240, ydim16+32 + 32, 11, -1, "FALSE", 0);
-
+	    showframe(1);
 
             // Disallow invalid settings
             if (!bFindPicNum && !bFindHiTag && !bFindLowTag)
@@ -3058,11 +3059,11 @@ ExtEditSpriteData(short spritenum)      // F8
                 }
 
             while (KEY_PRESSED(KEYSC_1) || KEY_PRESSED(KEYSC_2) || KEY_PRESSED(KEYSC_3)
-                || KEY_PRESSED(KEYSC_4));
+                || KEY_PRESSED(KEYSC_4)) handleevents();
 
             ResetKeys();
 
-            while ((key = BKeyPressed()) == NULL);
+            while ((key = BKeyPressed()) == NULL) handleevents();
 
             if (key == (BYTEp)&KEY_PRESSED(KEYSC_1))
                 {
@@ -3081,7 +3082,7 @@ ExtEditSpriteData(short spritenum)      // F8
                 }
 
             }
-        while ((KEY_PRESSED(0x1c) != 2) && (KEY_PRESSED(0x1) == 0));    // Enter, ESC
+        while ((KEY_PRESSED(0x1c) == 0) && (KEY_PRESSED(0x1) == 0));    // Enter, ESC
         KEY_PRESSED(0x1c) = 0;
         KEY_PRESSED(0x1) = 0;
 

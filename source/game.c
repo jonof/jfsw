@@ -4628,7 +4628,6 @@ FunctionKeys(PLAYERp pp)
         // F6 option menu
         if (KEY_PRESSED(KEYSC_F6))
             {
-		    // JBF: Until we fix the symbol table dilemma, saving is off limits
             extern BOOL QuickSaveMode;
             KEY_PRESSED(KEYSC_F6) = 0;
             if (!TEST(pp->Flags, PF_DEAD))
@@ -4642,7 +4641,6 @@ FunctionKeys(PLAYERp pp)
         // F9 quick load    
         if (KEY_PRESSED(KEYSC_F9))
             {
-		    // JBF: Until we fix the symbol table dilemma, loading is off limits
             KEY_PRESSED(KEYSC_F9) = 0;
             
             if (!TEST(pp->Flags, PF_DEAD))

@@ -631,16 +631,14 @@ TrackSetup(VOID)
                 }
             }
         
-        // didn't find the 
-        #if DEBUG
+        // didn't find the start point of the track
         if (t->NumPoints == 0)
             {
             SPRITEp sp = &sprite[headspritestat[STAT_TRACK+ndx]];
-            printf("Did not find first point of Track Number %d, x %d, y %d", ndx, sp->x, sp->y);
-            TerminateGame();
-            exit(0);
+            initprintf("WARNING: Did not find first point of Track Number %d, x %d, y %d", ndx, sp->x, sp->y);
+	    headspritestat[STAT_TRACK+ndx] = -1;	// neuter the track's sprite list
+	    continue;
             }
-        #endif    
 
         // set up flags for track types
         if (tp->tag_low == TRACK_START && tp->tag_high)

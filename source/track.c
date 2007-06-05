@@ -634,9 +634,14 @@ TrackSetup(VOID)
         // didn't find the start point of the track
         if (t->NumPoints == 0)
             {
+	    int i, nexti;
             SPRITEp sp = &sprite[headspritestat[STAT_TRACK+ndx]];
             initprintf("WARNING: Did not find first point of Track Number %d, x %d, y %d", ndx, sp->x, sp->y);
-	    headspritestat[STAT_TRACK+ndx] = -1;	// neuter the track's sprite list
+	    for (i=headspritestat[STAT_TRACK+ndx]; i>=0; i=nexti)
+	        {	// neuter the track's sprite list
+		nexti = nextspritestat[i];
+		deletesprite(i);
+	        }
 	    continue;
             }
 

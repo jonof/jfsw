@@ -3521,9 +3521,9 @@ void CommandLineHelp(void)
 	}
 #else
 	if (SW_SHAREWARE)
-		printf("Usage: %s [options]\n", argv[0]);
+		printf("Usage: %s [options]\n", _buildargv[0]);
 	else
-        	printf("Usage: %s [options] [map]\n", argv[0]);
+        	printf("Usage: %s [options] [map]\n", _buildargv[0]);
 	printf("options:  ('/' may be used instead of '-', <> text is optional)\n\n");
 
 	for (i = 0; i < (int)SIZ(cli_arg); i++)
@@ -3621,7 +3621,7 @@ long app_main(long argc, char *argv[])
 
     i = CONFIG_ReadSetup();
 
-#if defined RENDERTYPEWIN || (defined RENDERTYPESDL && !defined __APPLE__ && defined HAVE_GTK2)
+#if defined RENDERTYPEWIN || (defined RENDERTYPESDL && (defined __APPLE__ || defined HAVE_GTK2))
 	if (i < 0 || ForceSetup || CommandSetup) {
 		if (quitevent || !startwin_run()) {
 			uninitengine();

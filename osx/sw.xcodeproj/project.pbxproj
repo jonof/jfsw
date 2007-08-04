@@ -1,0 +1,808 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		ABB4ABC40C64C51300F28920 /* all */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = ABB4ABD10C64C52A00F28920 /* Build configuration list for PBXAggregateTarget "all" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = all;
+			productName = all;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		ABB4ABDA0C64C69900F28920 /* game.osxmain.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4ABB80C64C4EF00F28920 /* game.osxmain.nib */; };
+		ABB4ABDB0C64C69900F28920 /* startwin.game.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */; };
+		ABB4ABDC0C64C69900F28920 /* game_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = ABB4ABC20C64C50100F28920 /* game_icon.icns */; };
+		ABB4ABDD0C64C69900F28920 /* game.bmp in Resources */ = {isa = PBXBuildFile; fileRef = ABB4ABC30C64C50100F28920 /* game.bmp */; };
+		ABB4ABE90C64C6F100F28920 /* animlib.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE10C64C6F100F28920 /* animlib.c */; };
+		ABB4ABEA0C64C6F100F28920 /* control.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE20C64C6F100F28920 /* control.c */; };
+		ABB4ABEB0C64C6F100F28920 /* file_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE30C64C6F100F28920 /* file_lib.c */; };
+		ABB4ABEC0C64C6F100F28920 /* keyboard.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE40C64C6F100F28920 /* keyboard.c */; };
+		ABB4ABED0C64C6F100F28920 /* mathutil.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE50C64C6F100F28920 /* mathutil.c */; };
+		ABB4ABEE0C64C6F100F28920 /* mouse.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE60C64C6F100F28920 /* mouse.c */; };
+		ABB4ABEF0C64C6F100F28920 /* scriplib.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE70C64C6F100F28920 /* scriplib.c */; };
+		ABB4ABF00C64C6F100F28920 /* util_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE80C64C6F100F28920 /* util_lib.c */; };
+		ABB4ABF10C64C6FE00F28920 /* actor.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB6C0C64C4D000F28920 /* actor.c */; };
+		ABB4ABF20C64C6FE00F28920 /* ai.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB6D0C64C4D000F28920 /* ai.c */; };
+		ABB4ABF30C64C6FE00F28920 /* anim.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB6E0C64C4D000F28920 /* anim.c */; };
+		ABB4ABF50C64C6FE00F28920 /* border.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB700C64C4D000F28920 /* border.c */; };
+		ABB4ABF60C64C6FE00F28920 /* break.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB710C64C4D000F28920 /* break.c */; };
+		ABB4ABF80C64C6FE00F28920 /* bunny.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB730C64C4D000F28920 /* bunny.c */; };
+		ABB4ABF90C64C6FE00F28920 /* cache.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB740C64C4D000F28920 /* cache.c */; };
+		ABB4ABFA0C64C6FE00F28920 /* cd.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB750C64C4D000F28920 /* cd.c */; };
+		ABB4ABFB0C64C6FE00F28920 /* cheats.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB760C64C4D000F28920 /* cheats.c */; };
+		ABB4ABFC0C64C6FE00F28920 /* colormap.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB770C64C4D000F28920 /* colormap.c */; };
+		ABB4ABFD0C64C6FE00F28920 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB780C64C4D000F28920 /* config.c */; };
+		ABB4ABFE0C64C6FE00F28920 /* console.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB790C64C4D000F28920 /* console.c */; };
+		ABB4ABFF0C64C6FE00F28920 /* coolg.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB7A0C64C4D000F28920 /* coolg.c */; };
+		ABB4AC000C64C6FE00F28920 /* coolie.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB7B0C64C4D000F28920 /* coolie.c */; };
+		ABB4AC010C64C6FE00F28920 /* copysect.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB7C0C64C4D000F28920 /* copysect.c */; };
+		ABB4AC020C64C6FE00F28920 /* demo.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB7D0C64C4D000F28920 /* demo.c */; };
+		ABB4AC030C64C6FE00F28920 /* draw.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB7E0C64C4D000F28920 /* draw.c */; };
+		ABB4AC040C64C6FE00F28920 /* eel.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB7F0C64C4D000F28920 /* eel.c */; };
+		ABB4AC050C64C6FE00F28920 /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB800C64C4D000F28920 /* game.c */; };
+		ABB4AC060C64C6FE00F28920 /* girlninj.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB810C64C4D000F28920 /* girlninj.c */; };
+		ABB4AC070C64C6FE00F28920 /* goro.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB820C64C4D000F28920 /* goro.c */; };
+		ABB4AC080C64C6FE00F28920 /* hornet.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB830C64C4D000F28920 /* hornet.c */; };
+		ABB4AC090C64C6FE00F28920 /* interp.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB840C64C4D000F28920 /* interp.c */; };
+		ABB4AC0A0C64C6FE00F28920 /* interpsh.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB850C64C4D000F28920 /* interpsh.c */; };
+		ABB4AC0B0C64C6FE00F28920 /* inv.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB860C64C4D000F28920 /* inv.c */; };
+		ABB4AC0D0C64C6FE00F28920 /* jplayer.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB880C64C4D000F28920 /* jplayer.c */; };
+		ABB4AC0E0C64C6FE00F28920 /* jsector.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB890C64C4D000F28920 /* jsector.c */; };
+		ABB4AC0F0C64C6FE00F28920 /* jweapon.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB8A0C64C4D000F28920 /* jweapon.c */; };
+		ABB4AC100C64C6FE00F28920 /* lava.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB8B0C64C4D000F28920 /* lava.c */; };
+		ABB4AC110C64C6FE00F28920 /* light.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB8C0C64C4D000F28920 /* light.c */; };
+		ABB4AC120C64C6FE00F28920 /* mclip.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB8D0C64C4D000F28920 /* mclip.c */; };
+		ABB4AC130C64C6FE00F28920 /* mdastr.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB8E0C64C4D000F28920 /* mdastr.c */; };
+		ABB4AC140C64C6FE00F28920 /* menus.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB8F0C64C4D000F28920 /* menus.c */; };
+		ABB4AC150C64C6FE00F28920 /* miscactr.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB900C64C4D000F28920 /* miscactr.c */; };
+		ABB4AC160C64C6FE00F28920 /* morph.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB910C64C4D000F28920 /* morph.c */; };
+		ABB4AC170C64C6FE00F28920 /* net.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB920C64C4D000F28920 /* net.c */; };
+		ABB4AC180C64C6FE00F28920 /* ninja.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB930C64C4D000F28920 /* ninja.c */; };
+		ABB4AC190C64C6FE00F28920 /* panel.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB940C64C4D000F28920 /* panel.c */; };
+		ABB4AC1A0C64C6FE00F28920 /* player.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB950C64C4D000F28920 /* player.c */; };
+		ABB4AC1B0C64C6FE00F28920 /* predict.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB960C64C4D000F28920 /* predict.c */; };
+		ABB4AC1C0C64C6FE00F28920 /* quake.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB970C64C4D000F28920 /* quake.c */; };
+		ABB4AC1D0C64C6FE00F28920 /* ripper.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB980C64C4D000F28920 /* ripper.c */; };
+		ABB4AC1E0C64C6FE00F28920 /* ripper2.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB990C64C4D000F28920 /* ripper2.c */; };
+		ABB4AC1F0C64C6FE00F28920 /* rooms.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB9A0C64C4D000F28920 /* rooms.c */; };
+		ABB4AC200C64C6FE00F28920 /* rotator.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB9B0C64C4D000F28920 /* rotator.c */; };
+		ABB4AC210C64C6FE00F28920 /* rts.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB9C0C64C4D000F28920 /* rts.c */; };
+		ABB4AC220C64C6FE00F28920 /* save.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB9D0C64C4D000F28920 /* save.c */; };
+		ABB4AC230C64C6FE00F28920 /* saveable.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB9E0C64C4D000F28920 /* saveable.c */; };
+		ABB4AC240C64C6FE00F28920 /* scrip2.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB9F0C64C4D000F28920 /* scrip2.c */; };
+		ABB4AC250C64C6FE00F28920 /* sector.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA00C64C4D000F28920 /* sector.c */; };
+		ABB4AC260C64C6FE00F28920 /* serp.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA10C64C4D000F28920 /* serp.c */; };
+		ABB4AC270C64C6FE00F28920 /* setup.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA20C64C4D000F28920 /* setup.c */; };
+		ABB4AC280C64C6FE00F28920 /* skel.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA30C64C4D000F28920 /* skel.c */; };
+		ABB4AC290C64C6FE00F28920 /* skull.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA40C64C4D000F28920 /* skull.c */; };
+		ABB4AC2A0C64C6FE00F28920 /* slidor.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA50C64C4D000F28920 /* slidor.c */; };
+		ABB4AC2B0C64C6FE00F28920 /* sounds.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA60C64C4D000F28920 /* sounds.c */; };
+		ABB4AC2C0C64C6FE00F28920 /* spike.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA70C64C4D000F28920 /* spike.c */; };
+		ABB4AC2D0C64C6FE00F28920 /* sprite.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA80C64C4D000F28920 /* sprite.c */; };
+		ABB4AC2E0C64C6FE00F28920 /* StartupWinController.game.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA90C64C4D000F28920 /* StartupWinController.game.m */; };
+		ABB4AC2F0C64C6FE00F28920 /* sumo.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABAA0C64C4D000F28920 /* sumo.c */; };
+		ABB4AC300C64C6FE00F28920 /* swconfig.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABAB0C64C4D000F28920 /* swconfig.c */; };
+		ABB4AC310C64C6FE00F28920 /* sync.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABAC0C64C4D000F28920 /* sync.c */; };
+		ABB4AC320C64C6FE00F28920 /* text.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABAD0C64C4D000F28920 /* text.c */; };
+		ABB4AC330C64C6FE00F28920 /* track.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABAE0C64C4D000F28920 /* track.c */; };
+		ABB4AC340C64C6FE00F28920 /* usrhooks.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABAF0C64C4D000F28920 /* usrhooks.c */; };
+		ABB4AC350C64C6FE00F28920 /* vator.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB00C64C4D000F28920 /* vator.c */; };
+		ABB4AC360C64C6FE00F28920 /* vis.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB10C64C4D000F28920 /* vis.c */; };
+		ABB4AC370C64C6FE00F28920 /* wallmove.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB20C64C4D000F28920 /* wallmove.c */; };
+		ABB4AC380C64C6FE00F28920 /* warp.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB30C64C4D000F28920 /* warp.c */; };
+		ABB4AC390C64C6FE00F28920 /* weapon.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB40C64C4D000F28920 /* weapon.c */; };
+		ABB4AC3A0C64C6FE00F28920 /* zilla.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB50C64C4D000F28920 /* zilla.c */; };
+		ABB4AC3B0C64C6FE00F28920 /* zombie.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB60C64C4D000F28920 /* zombie.c */; };
+		ABB4AC3E0C64C72C00F28920 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
+		ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
+		ABB4AD0C0C64C7B100F28920 /* libenginez.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AB550C64C38500F28920 /* libenginez.a */; };
+		ABB4AD190C64C8AC00F28920 /* audiolib_fxstub.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AD170C64C8AC00F28920 /* audiolib_fxstub.c */; };
+		ABB4AD1A0C64C8AC00F28920 /* audiolib_musicstub.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AD180C64C8AC00F28920 /* audiolib_musicstub.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		ABB4AB500C64C38500F28920 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB735F490A29A2DC003261DC /* libengine.a */;
+			remoteInfo = engine;
+		};
+		ABB4AB520C64C38500F28920 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB735FCC0A29A916003261DC /* libeditor.a */;
+			remoteInfo = editor;
+		};
+		ABB4AB540C64C38500F28920 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB7360030A29A9B3003261DC /* libenginez.a */;
+			remoteInfo = enginez;
+		};
+		ABB4AB560C64C38500F28920 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB3FE4550C04336F00D5DBDC /* libeditorsupp.a */;
+			remoteInfo = editorsupp;
+		};
+		ABB4AD0D0C64C7B900F28920 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB735FD40A29A9B3003261DC /* enginez */;
+			remoteInfo = enginez;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		ABB4AB490C64C38500F28920 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../../build/osx/engine.xcodeproj; sourceTree = SOURCE_ROOT; };
+		ABB4AB5C0C64C3EB00F28920 /* jnstub.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jnstub.c; sourceTree = "<group>"; };
+		ABB4AB5D0C64C40200F28920 /* build-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "build-Info.plist"; sourceTree = "<group>"; };
+		ABB4AB5E0C64C40200F28920 /* build.osxmain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = build.osxmain.nib; sourceTree = "<group>"; };
+		ABB4AB5F0C64C42000F28920 /* startwin.editor.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = startwin.editor.nib; sourceTree = "<group>"; };
+		ABB4AB680C64C43F00F28920 /* build_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = build_icon.icns; path = ../rsrc/build_icon.icns; sourceTree = SOURCE_ROOT; };
+		ABB4AB690C64C43F00F28920 /* build.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = build.bmp; path = ../rsrc/build.bmp; sourceTree = SOURCE_ROOT; };
+		ABB4AB6C0C64C4D000F28920 /* actor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = actor.c; sourceTree = "<group>"; };
+		ABB4AB6D0C64C4D000F28920 /* ai.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ai.c; sourceTree = "<group>"; };
+		ABB4AB6E0C64C4D000F28920 /* anim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = anim.c; sourceTree = "<group>"; };
+		ABB4AB6F0C64C4D000F28920 /* bldscript.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bldscript.c; sourceTree = "<group>"; };
+		ABB4AB700C64C4D000F28920 /* border.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = border.c; sourceTree = "<group>"; };
+		ABB4AB710C64C4D000F28920 /* break.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = break.c; sourceTree = "<group>"; };
+		ABB4AB720C64C4D000F28920 /* brooms.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = brooms.c; sourceTree = "<group>"; };
+		ABB4AB730C64C4D000F28920 /* bunny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bunny.c; sourceTree = "<group>"; };
+		ABB4AB740C64C4D000F28920 /* cache.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cache.c; sourceTree = "<group>"; };
+		ABB4AB750C64C4D000F28920 /* cd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cd.c; sourceTree = "<group>"; };
+		ABB4AB760C64C4D000F28920 /* cheats.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cheats.c; sourceTree = "<group>"; };
+		ABB4AB770C64C4D000F28920 /* colormap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = colormap.c; sourceTree = "<group>"; };
+		ABB4AB780C64C4D000F28920 /* config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = config.c; sourceTree = "<group>"; };
+		ABB4AB790C64C4D000F28920 /* console.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = console.c; sourceTree = "<group>"; };
+		ABB4AB7A0C64C4D000F28920 /* coolg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = coolg.c; sourceTree = "<group>"; };
+		ABB4AB7B0C64C4D000F28920 /* coolie.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = coolie.c; sourceTree = "<group>"; };
+		ABB4AB7C0C64C4D000F28920 /* copysect.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = copysect.c; sourceTree = "<group>"; };
+		ABB4AB7D0C64C4D000F28920 /* demo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = demo.c; sourceTree = "<group>"; };
+		ABB4AB7E0C64C4D000F28920 /* draw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = draw.c; sourceTree = "<group>"; };
+		ABB4AB7F0C64C4D000F28920 /* eel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eel.c; sourceTree = "<group>"; };
+		ABB4AB800C64C4D000F28920 /* game.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
+		ABB4AB810C64C4D000F28920 /* girlninj.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = girlninj.c; sourceTree = "<group>"; };
+		ABB4AB820C64C4D000F28920 /* goro.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = goro.c; sourceTree = "<group>"; };
+		ABB4AB830C64C4D000F28920 /* hornet.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hornet.c; sourceTree = "<group>"; };
+		ABB4AB840C64C4D000F28920 /* interp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = interp.c; sourceTree = "<group>"; };
+		ABB4AB850C64C4D000F28920 /* interpsh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = interpsh.c; sourceTree = "<group>"; };
+		ABB4AB860C64C4D000F28920 /* inv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inv.c; sourceTree = "<group>"; };
+		ABB4AB870C64C4D000F28920 /* jbhlp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jbhlp.c; sourceTree = "<group>"; };
+		ABB4AB880C64C4D000F28920 /* jplayer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jplayer.c; sourceTree = "<group>"; };
+		ABB4AB890C64C4D000F28920 /* jsector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jsector.c; sourceTree = "<group>"; };
+		ABB4AB8A0C64C4D000F28920 /* jweapon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jweapon.c; sourceTree = "<group>"; };
+		ABB4AB8B0C64C4D000F28920 /* lava.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lava.c; sourceTree = "<group>"; };
+		ABB4AB8C0C64C4D000F28920 /* light.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = light.c; sourceTree = "<group>"; };
+		ABB4AB8D0C64C4D000F28920 /* mclip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mclip.c; sourceTree = "<group>"; };
+		ABB4AB8E0C64C4D000F28920 /* mdastr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mdastr.c; sourceTree = "<group>"; };
+		ABB4AB8F0C64C4D000F28920 /* menus.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = menus.c; sourceTree = "<group>"; };
+		ABB4AB900C64C4D000F28920 /* miscactr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = miscactr.c; sourceTree = "<group>"; };
+		ABB4AB910C64C4D000F28920 /* morph.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = morph.c; sourceTree = "<group>"; };
+		ABB4AB920C64C4D000F28920 /* net.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net.c; sourceTree = "<group>"; };
+		ABB4AB930C64C4D000F28920 /* ninja.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ninja.c; sourceTree = "<group>"; };
+		ABB4AB940C64C4D000F28920 /* panel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = panel.c; sourceTree = "<group>"; };
+		ABB4AB950C64C4D000F28920 /* player.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = player.c; sourceTree = "<group>"; };
+		ABB4AB960C64C4D000F28920 /* predict.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = predict.c; sourceTree = "<group>"; };
+		ABB4AB970C64C4D000F28920 /* quake.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = quake.c; sourceTree = "<group>"; };
+		ABB4AB980C64C4D000F28920 /* ripper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ripper.c; sourceTree = "<group>"; };
+		ABB4AB990C64C4D000F28920 /* ripper2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ripper2.c; sourceTree = "<group>"; };
+		ABB4AB9A0C64C4D000F28920 /* rooms.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rooms.c; sourceTree = "<group>"; };
+		ABB4AB9B0C64C4D000F28920 /* rotator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rotator.c; sourceTree = "<group>"; };
+		ABB4AB9C0C64C4D000F28920 /* rts.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rts.c; sourceTree = "<group>"; };
+		ABB4AB9D0C64C4D000F28920 /* save.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = save.c; sourceTree = "<group>"; };
+		ABB4AB9E0C64C4D000F28920 /* saveable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = saveable.c; sourceTree = "<group>"; };
+		ABB4AB9F0C64C4D000F28920 /* scrip2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scrip2.c; sourceTree = "<group>"; };
+		ABB4ABA00C64C4D000F28920 /* sector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sector.c; sourceTree = "<group>"; };
+		ABB4ABA10C64C4D000F28920 /* serp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = serp.c; sourceTree = "<group>"; };
+		ABB4ABA20C64C4D000F28920 /* setup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = setup.c; sourceTree = "<group>"; };
+		ABB4ABA30C64C4D000F28920 /* skel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = skel.c; sourceTree = "<group>"; };
+		ABB4ABA40C64C4D000F28920 /* skull.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = skull.c; sourceTree = "<group>"; };
+		ABB4ABA50C64C4D000F28920 /* slidor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = slidor.c; sourceTree = "<group>"; };
+		ABB4ABA60C64C4D000F28920 /* sounds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sounds.c; sourceTree = "<group>"; };
+		ABB4ABA70C64C4D000F28920 /* spike.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = spike.c; sourceTree = "<group>"; };
+		ABB4ABA80C64C4D000F28920 /* sprite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sprite.c; sourceTree = "<group>"; };
+		ABB4ABA90C64C4D000F28920 /* StartupWinController.game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartupWinController.game.m; sourceTree = "<group>"; };
+		ABB4ABAA0C64C4D000F28920 /* sumo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sumo.c; sourceTree = "<group>"; };
+		ABB4ABAB0C64C4D000F28920 /* swconfig.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = swconfig.c; sourceTree = "<group>"; };
+		ABB4ABAC0C64C4D000F28920 /* sync.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sync.c; sourceTree = "<group>"; };
+		ABB4ABAD0C64C4D000F28920 /* text.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = text.c; sourceTree = "<group>"; };
+		ABB4ABAE0C64C4D000F28920 /* track.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = track.c; sourceTree = "<group>"; };
+		ABB4ABAF0C64C4D000F28920 /* usrhooks.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = usrhooks.c; sourceTree = "<group>"; };
+		ABB4ABB00C64C4D000F28920 /* vator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vator.c; sourceTree = "<group>"; };
+		ABB4ABB10C64C4D000F28920 /* vis.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vis.c; sourceTree = "<group>"; };
+		ABB4ABB20C64C4D000F28920 /* wallmove.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wallmove.c; sourceTree = "<group>"; };
+		ABB4ABB30C64C4D000F28920 /* warp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = warp.c; sourceTree = "<group>"; };
+		ABB4ABB40C64C4D000F28920 /* weapon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = weapon.c; sourceTree = "<group>"; };
+		ABB4ABB50C64C4D000F28920 /* zilla.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zilla.c; sourceTree = "<group>"; };
+		ABB4ABB60C64C4D000F28920 /* zombie.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zombie.c; sourceTree = "<group>"; };
+		ABB4ABB70C64C4EF00F28920 /* JFShadowWarrior-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "JFShadowWarrior-Info.plist"; sourceTree = "<group>"; };
+		ABB4ABB80C64C4EF00F28920 /* game.osxmain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = game.osxmain.nib; sourceTree = "<group>"; };
+		ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = startwin.game.nib; sourceTree = "<group>"; };
+		ABB4ABC20C64C50100F28920 /* game_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = game_icon.icns; path = ../rsrc/game_icon.icns; sourceTree = SOURCE_ROOT; };
+		ABB4ABC30C64C50100F28920 /* game.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = game.bmp; path = ../rsrc/game.bmp; sourceTree = SOURCE_ROOT; };
+		ABB4ABCD0C64C52900F28920 /* JFShadowWarrior.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JFShadowWarrior.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABB4ABE10C64C6F100F28920 /* animlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = animlib.c; sourceTree = "<group>"; };
+		ABB4ABE20C64C6F100F28920 /* control.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = control.c; sourceTree = "<group>"; };
+		ABB4ABE30C64C6F100F28920 /* file_lib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = file_lib.c; sourceTree = "<group>"; };
+		ABB4ABE40C64C6F100F28920 /* keyboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = keyboard.c; sourceTree = "<group>"; };
+		ABB4ABE50C64C6F100F28920 /* mathutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mathutil.c; sourceTree = "<group>"; };
+		ABB4ABE60C64C6F100F28920 /* mouse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mouse.c; sourceTree = "<group>"; };
+		ABB4ABE70C64C6F100F28920 /* scriplib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scriplib.c; sourceTree = "<group>"; };
+		ABB4ABE80C64C6F100F28920 /* util_lib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util_lib.c; sourceTree = "<group>"; };
+		ABB4AC3D0C64C72C00F28920 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
+		ABB4AC3F0C64C73A00F28920 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		ABB4AD170C64C8AC00F28920 /* audiolib_fxstub.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = audiolib_fxstub.c; sourceTree = "<group>"; };
+		ABB4AD180C64C8AC00F28920 /* audiolib_musicstub.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = audiolib_musicstub.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		ABB4ABCB0C64C52900F28920 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABB4AC3E0C64C72C00F28920 /* SDL.framework in Frameworks */,
+				ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */,
+				ABB4AD0C0C64C7B100F28920 /* libenginez.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		ABB4AB250C64C36100F28920 = {
+			isa = PBXGroup;
+			children = (
+				ABB4AB490C64C38500F28920 /* engine.xcodeproj */,
+				ABB4AB580C64C38C00F28920 /* Editor */,
+				ABB4AB590C64C39400F28920 /* Game */,
+				ABB4ABCE0C64C52900F28920 /* Products */,
+				ABB4AC410C64C74600F28920 /* Linked Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		ABB4AB4A0C64C38500F28920 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABB4AB510C64C38500F28920 /* libengine.a */,
+				ABB4AB530C64C38500F28920 /* libeditor.a */,
+				ABB4AB550C64C38500F28920 /* libenginez.a */,
+				ABB4AB570C64C38500F28920 /* libeditorsupp.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ABB4AB580C64C38C00F28920 /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				ABB4AB5A0C64C39B00F28920 /* source */,
+				ABB4AB5B0C64C3A800F28920 /* osx */,
+				ABB4AB680C64C43F00F28920 /* build_icon.icns */,
+				ABB4AB690C64C43F00F28920 /* build.bmp */,
+			);
+			name = Editor;
+			sourceTree = "<group>";
+		};
+		ABB4AB590C64C39400F28920 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				ABB4AB6A0C64C44C00F28920 /* source */,
+				ABB4AB6B0C64C45500F28920 /* osx */,
+				ABB4ABC20C64C50100F28920 /* game_icon.icns */,
+				ABB4ABC30C64C50100F28920 /* game.bmp */,
+			);
+			name = Game;
+			sourceTree = "<group>";
+		};
+		ABB4AB5A0C64C39B00F28920 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				ABB4AB6F0C64C4D000F28920 /* bldscript.c */,
+				ABB4AB720C64C4D000F28920 /* brooms.c */,
+				ABB4AB870C64C4D000F28920 /* jbhlp.c */,
+				ABB4AB5C0C64C3EB00F28920 /* jnstub.c */,
+			);
+			name = source;
+			path = ../source;
+			sourceTree = "<group>";
+		};
+		ABB4AB5B0C64C3A800F28920 /* osx */ = {
+			isa = PBXGroup;
+			children = (
+				ABB4AB5D0C64C40200F28920 /* build-Info.plist */,
+				ABB4AB5E0C64C40200F28920 /* build.osxmain.nib */,
+				ABB4AB5F0C64C42000F28920 /* startwin.editor.nib */,
+			);
+			name = osx;
+			sourceTree = "<group>";
+		};
+		ABB4AB6A0C64C44C00F28920 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				ABB4AD160C64C88600F28920 /* jaudiolib */,
+				ABB4ABDE0C64C6AB00F28920 /* jmact */,
+				ABB4AB6C0C64C4D000F28920 /* actor.c */,
+				ABB4AB6D0C64C4D000F28920 /* ai.c */,
+				ABB4AB6E0C64C4D000F28920 /* anim.c */,
+				ABB4AB700C64C4D000F28920 /* border.c */,
+				ABB4AB710C64C4D000F28920 /* break.c */,
+				ABB4AB730C64C4D000F28920 /* bunny.c */,
+				ABB4AB740C64C4D000F28920 /* cache.c */,
+				ABB4AB750C64C4D000F28920 /* cd.c */,
+				ABB4AB760C64C4D000F28920 /* cheats.c */,
+				ABB4AB770C64C4D000F28920 /* colormap.c */,
+				ABB4AB780C64C4D000F28920 /* config.c */,
+				ABB4AB790C64C4D000F28920 /* console.c */,
+				ABB4AB7A0C64C4D000F28920 /* coolg.c */,
+				ABB4AB7B0C64C4D000F28920 /* coolie.c */,
+				ABB4AB7C0C64C4D000F28920 /* copysect.c */,
+				ABB4AB7D0C64C4D000F28920 /* demo.c */,
+				ABB4AB7E0C64C4D000F28920 /* draw.c */,
+				ABB4AB7F0C64C4D000F28920 /* eel.c */,
+				ABB4AB800C64C4D000F28920 /* game.c */,
+				ABB4AB810C64C4D000F28920 /* girlninj.c */,
+				ABB4AB820C64C4D000F28920 /* goro.c */,
+				ABB4AB830C64C4D000F28920 /* hornet.c */,
+				ABB4AB840C64C4D000F28920 /* interp.c */,
+				ABB4AB850C64C4D000F28920 /* interpsh.c */,
+				ABB4AB860C64C4D000F28920 /* inv.c */,
+				ABB4AB880C64C4D000F28920 /* jplayer.c */,
+				ABB4AB890C64C4D000F28920 /* jsector.c */,
+				ABB4AB8A0C64C4D000F28920 /* jweapon.c */,
+				ABB4AB8B0C64C4D000F28920 /* lava.c */,
+				ABB4AB8C0C64C4D000F28920 /* light.c */,
+				ABB4AB8D0C64C4D000F28920 /* mclip.c */,
+				ABB4AB8E0C64C4D000F28920 /* mdastr.c */,
+				ABB4AB8F0C64C4D000F28920 /* menus.c */,
+				ABB4AB900C64C4D000F28920 /* miscactr.c */,
+				ABB4AB910C64C4D000F28920 /* morph.c */,
+				ABB4AB920C64C4D000F28920 /* net.c */,
+				ABB4AB930C64C4D000F28920 /* ninja.c */,
+				ABB4AB940C64C4D000F28920 /* panel.c */,
+				ABB4AB950C64C4D000F28920 /* player.c */,
+				ABB4AB960C64C4D000F28920 /* predict.c */,
+				ABB4AB970C64C4D000F28920 /* quake.c */,
+				ABB4AB980C64C4D000F28920 /* ripper.c */,
+				ABB4AB990C64C4D000F28920 /* ripper2.c */,
+				ABB4AB9A0C64C4D000F28920 /* rooms.c */,
+				ABB4AB9B0C64C4D000F28920 /* rotator.c */,
+				ABB4AB9C0C64C4D000F28920 /* rts.c */,
+				ABB4AB9D0C64C4D000F28920 /* save.c */,
+				ABB4AB9E0C64C4D000F28920 /* saveable.c */,
+				ABB4AB9F0C64C4D000F28920 /* scrip2.c */,
+				ABB4ABA00C64C4D000F28920 /* sector.c */,
+				ABB4ABA10C64C4D000F28920 /* serp.c */,
+				ABB4ABA20C64C4D000F28920 /* setup.c */,
+				ABB4ABA30C64C4D000F28920 /* skel.c */,
+				ABB4ABA40C64C4D000F28920 /* skull.c */,
+				ABB4ABA50C64C4D000F28920 /* slidor.c */,
+				ABB4ABA60C64C4D000F28920 /* sounds.c */,
+				ABB4ABA70C64C4D000F28920 /* spike.c */,
+				ABB4ABA80C64C4D000F28920 /* sprite.c */,
+				ABB4ABA90C64C4D000F28920 /* StartupWinController.game.m */,
+				ABB4ABAA0C64C4D000F28920 /* sumo.c */,
+				ABB4ABAB0C64C4D000F28920 /* swconfig.c */,
+				ABB4ABAC0C64C4D000F28920 /* sync.c */,
+				ABB4ABAD0C64C4D000F28920 /* text.c */,
+				ABB4ABAE0C64C4D000F28920 /* track.c */,
+				ABB4ABAF0C64C4D000F28920 /* usrhooks.c */,
+				ABB4ABB00C64C4D000F28920 /* vator.c */,
+				ABB4ABB10C64C4D000F28920 /* vis.c */,
+				ABB4ABB20C64C4D000F28920 /* wallmove.c */,
+				ABB4ABB30C64C4D000F28920 /* warp.c */,
+				ABB4ABB40C64C4D000F28920 /* weapon.c */,
+				ABB4ABB50C64C4D000F28920 /* zilla.c */,
+				ABB4ABB60C64C4D000F28920 /* zombie.c */,
+			);
+			name = source;
+			path = ../source;
+			sourceTree = "<group>";
+		};
+		ABB4AB6B0C64C45500F28920 /* osx */ = {
+			isa = PBXGroup;
+			children = (
+				ABB4ABB70C64C4EF00F28920 /* JFShadowWarrior-Info.plist */,
+				ABB4ABB80C64C4EF00F28920 /* game.osxmain.nib */,
+				ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */,
+			);
+			name = osx;
+			sourceTree = "<group>";
+		};
+		ABB4ABCE0C64C52900F28920 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABB4ABCD0C64C52900F28920 /* JFShadowWarrior.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ABB4ABDE0C64C6AB00F28920 /* jmact */ = {
+			isa = PBXGroup;
+			children = (
+				ABB4ABE10C64C6F100F28920 /* animlib.c */,
+				ABB4ABE20C64C6F100F28920 /* control.c */,
+				ABB4ABE30C64C6F100F28920 /* file_lib.c */,
+				ABB4ABE40C64C6F100F28920 /* keyboard.c */,
+				ABB4ABE50C64C6F100F28920 /* mathutil.c */,
+				ABB4ABE60C64C6F100F28920 /* mouse.c */,
+				ABB4ABE70C64C6F100F28920 /* scriplib.c */,
+				ABB4ABE80C64C6F100F28920 /* util_lib.c */,
+			);
+			path = jmact;
+			sourceTree = "<group>";
+		};
+		ABB4AC410C64C74600F28920 /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ABB4AC3F0C64C73A00F28920 /* AppKit.framework */,
+				ABB4AC3D0C64C72C00F28920 /* SDL.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		ABB4AD160C64C88600F28920 /* jaudiolib */ = {
+			isa = PBXGroup;
+			children = (
+				ABB4AD170C64C8AC00F28920 /* audiolib_fxstub.c */,
+				ABB4AD180C64C8AC00F28920 /* audiolib_musicstub.c */,
+			);
+			path = jaudiolib;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		ABB4ABCC0C64C52900F28920 /* JFShadowWarrior */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ABB4ABD40C64C52A00F28920 /* Build configuration list for PBXNativeTarget "JFShadowWarrior" */;
+			buildPhases = (
+				ABB4ABC90C64C52900F28920 /* Resources */,
+				ABB4ABCA0C64C52900F28920 /* Sources */,
+				ABB4ABCB0C64C52900F28920 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ABB4AD0E0C64C7B900F28920 /* PBXTargetDependency */,
+			);
+			name = JFShadowWarrior;
+			productName = JFShadowWarrior;
+			productReference = ABB4ABCD0C64C52900F28920 /* JFShadowWarrior.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ABB4AB270C64C36100F28920 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = ABB4AB280C64C36100F28920 /* Build configuration list for PBXProject "sw" */;
+			hasScannedForEncodings = 0;
+			mainGroup = ABB4AB250C64C36100F28920;
+			productRefGroup = ABB4ABCE0C64C52900F28920 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = ABB4AB4A0C64C38500F28920 /* Products */;
+					ProjectRef = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
+				},
+			);
+			targets = (
+				ABB4ABC40C64C51300F28920 /* all */,
+				ABB4ABCC0C64C52900F28920 /* JFShadowWarrior */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		ABB4AB510C64C38500F28920 /* libengine.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libengine.a;
+			remoteRef = ABB4AB500C64C38500F28920 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABB4AB530C64C38500F28920 /* libeditor.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libeditor.a;
+			remoteRef = ABB4AB520C64C38500F28920 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABB4AB550C64C38500F28920 /* libenginez.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libenginez.a;
+			remoteRef = ABB4AB540C64C38500F28920 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABB4AB570C64C38500F28920 /* libeditorsupp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libeditorsupp.a;
+			remoteRef = ABB4AB560C64C38500F28920 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ABB4ABC90C64C52900F28920 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABB4ABDA0C64C69900F28920 /* game.osxmain.nib in Resources */,
+				ABB4ABDB0C64C69900F28920 /* startwin.game.nib in Resources */,
+				ABB4ABDC0C64C69900F28920 /* game_icon.icns in Resources */,
+				ABB4ABDD0C64C69900F28920 /* game.bmp in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		ABB4ABCA0C64C52900F28920 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABB4ABF10C64C6FE00F28920 /* actor.c in Sources */,
+				ABB4ABF20C64C6FE00F28920 /* ai.c in Sources */,
+				ABB4ABF30C64C6FE00F28920 /* anim.c in Sources */,
+				ABB4ABF50C64C6FE00F28920 /* border.c in Sources */,
+				ABB4ABF60C64C6FE00F28920 /* break.c in Sources */,
+				ABB4ABF80C64C6FE00F28920 /* bunny.c in Sources */,
+				ABB4ABF90C64C6FE00F28920 /* cache.c in Sources */,
+				ABB4ABFA0C64C6FE00F28920 /* cd.c in Sources */,
+				ABB4ABFB0C64C6FE00F28920 /* cheats.c in Sources */,
+				ABB4ABFC0C64C6FE00F28920 /* colormap.c in Sources */,
+				ABB4ABFD0C64C6FE00F28920 /* config.c in Sources */,
+				ABB4ABFE0C64C6FE00F28920 /* console.c in Sources */,
+				ABB4ABFF0C64C6FE00F28920 /* coolg.c in Sources */,
+				ABB4AC000C64C6FE00F28920 /* coolie.c in Sources */,
+				ABB4AC010C64C6FE00F28920 /* copysect.c in Sources */,
+				ABB4AC020C64C6FE00F28920 /* demo.c in Sources */,
+				ABB4AC030C64C6FE00F28920 /* draw.c in Sources */,
+				ABB4AC040C64C6FE00F28920 /* eel.c in Sources */,
+				ABB4AC050C64C6FE00F28920 /* game.c in Sources */,
+				ABB4AC060C64C6FE00F28920 /* girlninj.c in Sources */,
+				ABB4AC070C64C6FE00F28920 /* goro.c in Sources */,
+				ABB4AC080C64C6FE00F28920 /* hornet.c in Sources */,
+				ABB4AC090C64C6FE00F28920 /* interp.c in Sources */,
+				ABB4AC0A0C64C6FE00F28920 /* interpsh.c in Sources */,
+				ABB4AC0B0C64C6FE00F28920 /* inv.c in Sources */,
+				ABB4AC0D0C64C6FE00F28920 /* jplayer.c in Sources */,
+				ABB4AC0E0C64C6FE00F28920 /* jsector.c in Sources */,
+				ABB4AC0F0C64C6FE00F28920 /* jweapon.c in Sources */,
+				ABB4AC100C64C6FE00F28920 /* lava.c in Sources */,
+				ABB4AC110C64C6FE00F28920 /* light.c in Sources */,
+				ABB4AC120C64C6FE00F28920 /* mclip.c in Sources */,
+				ABB4AC130C64C6FE00F28920 /* mdastr.c in Sources */,
+				ABB4AC140C64C6FE00F28920 /* menus.c in Sources */,
+				ABB4AC150C64C6FE00F28920 /* miscactr.c in Sources */,
+				ABB4AC160C64C6FE00F28920 /* morph.c in Sources */,
+				ABB4AC170C64C6FE00F28920 /* net.c in Sources */,
+				ABB4AC180C64C6FE00F28920 /* ninja.c in Sources */,
+				ABB4AC190C64C6FE00F28920 /* panel.c in Sources */,
+				ABB4AC1A0C64C6FE00F28920 /* player.c in Sources */,
+				ABB4AC1B0C64C6FE00F28920 /* predict.c in Sources */,
+				ABB4AC1C0C64C6FE00F28920 /* quake.c in Sources */,
+				ABB4AC1D0C64C6FE00F28920 /* ripper.c in Sources */,
+				ABB4AC1E0C64C6FE00F28920 /* ripper2.c in Sources */,
+				ABB4AC1F0C64C6FE00F28920 /* rooms.c in Sources */,
+				ABB4AC200C64C6FE00F28920 /* rotator.c in Sources */,
+				ABB4AC210C64C6FE00F28920 /* rts.c in Sources */,
+				ABB4AC220C64C6FE00F28920 /* save.c in Sources */,
+				ABB4AC230C64C6FE00F28920 /* saveable.c in Sources */,
+				ABB4AC240C64C6FE00F28920 /* scrip2.c in Sources */,
+				ABB4AC250C64C6FE00F28920 /* sector.c in Sources */,
+				ABB4AC260C64C6FE00F28920 /* serp.c in Sources */,
+				ABB4AC270C64C6FE00F28920 /* setup.c in Sources */,
+				ABB4AC280C64C6FE00F28920 /* skel.c in Sources */,
+				ABB4AC290C64C6FE00F28920 /* skull.c in Sources */,
+				ABB4AC2A0C64C6FE00F28920 /* slidor.c in Sources */,
+				ABB4AC2B0C64C6FE00F28920 /* sounds.c in Sources */,
+				ABB4AC2C0C64C6FE00F28920 /* spike.c in Sources */,
+				ABB4AC2D0C64C6FE00F28920 /* sprite.c in Sources */,
+				ABB4AC2E0C64C6FE00F28920 /* StartupWinController.game.m in Sources */,
+				ABB4AC2F0C64C6FE00F28920 /* sumo.c in Sources */,
+				ABB4AC300C64C6FE00F28920 /* swconfig.c in Sources */,
+				ABB4AC310C64C6FE00F28920 /* sync.c in Sources */,
+				ABB4AC320C64C6FE00F28920 /* text.c in Sources */,
+				ABB4AC330C64C6FE00F28920 /* track.c in Sources */,
+				ABB4AC340C64C6FE00F28920 /* usrhooks.c in Sources */,
+				ABB4AC350C64C6FE00F28920 /* vator.c in Sources */,
+				ABB4AC360C64C6FE00F28920 /* vis.c in Sources */,
+				ABB4AC370C64C6FE00F28920 /* wallmove.c in Sources */,
+				ABB4AC380C64C6FE00F28920 /* warp.c in Sources */,
+				ABB4AC390C64C6FE00F28920 /* weapon.c in Sources */,
+				ABB4AC3A0C64C6FE00F28920 /* zilla.c in Sources */,
+				ABB4AC3B0C64C6FE00F28920 /* zombie.c in Sources */,
+				ABB4ABE90C64C6F100F28920 /* animlib.c in Sources */,
+				ABB4ABEA0C64C6F100F28920 /* control.c in Sources */,
+				ABB4ABEB0C64C6F100F28920 /* file_lib.c in Sources */,
+				ABB4ABEC0C64C6F100F28920 /* keyboard.c in Sources */,
+				ABB4ABED0C64C6F100F28920 /* mathutil.c in Sources */,
+				ABB4ABEE0C64C6F100F28920 /* mouse.c in Sources */,
+				ABB4ABEF0C64C6F100F28920 /* scriplib.c in Sources */,
+				ABB4ABF00C64C6F100F28920 /* util_lib.c in Sources */,
+				ABB4AD190C64C8AC00F28920 /* audiolib_fxstub.c in Sources */,
+				ABB4AD1A0C64C8AC00F28920 /* audiolib_musicstub.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		ABB4AD0E0C64C7B900F28920 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = enginez;
+			targetProxy = ABB4AD0D0C64C7B900F28920 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		ABB4AB290C64C36100F28920 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"~/Library/Frameworks",
+					/Library/Frameworks,
+				);
+				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					SUPERBUILD,
+					POLYMOST,
+					USE_OPENGL,
+					DYNAMIC_OPENGL,
+					USE_A_C,
+					NOASM,
+					RENDERTYPESDL,
+				);
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				HEADER_SEARCH_PATHS = (
+					../source,
+					../../build/include,
+				);
+				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.2;
+				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_ppc = /Developer/SDKs/MacOSX10.2.8.sdk;
+			};
+			name = Debug;
+		};
+		ABB4AB2A0C64C36100F28920 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"~/Library/Frameworks",
+					/Library/Frameworks,
+				);
+				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					SUPERBUILD,
+					POLYMOST,
+					USE_OPENGL,
+					DYNAMIC_OPENGL,
+					USE_A_C,
+					NOASM,
+					RENDERTYPESDL,
+				);
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				HEADER_SEARCH_PATHS = (
+					../source,
+					../../build/include,
+				);
+				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.2;
+				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_ppc = /Developer/SDKs/MacOSX10.2.8.sdk;
+			};
+			name = Release;
+		};
+		ABB4ABD20C64C52A00F28920 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = all;
+			};
+			name = Debug;
+		};
+		ABB4ABD30C64C52A00F28920 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = all;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		ABB4ABD50C64C52A00F28920 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "JFShadowWarrior-Info.plist";
+				PREBINDING = NO;
+				PRODUCT_NAME = JFShadowWarrior;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		ABB4ABD60C64C52A00F28920 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "JFShadowWarrior-Info.plist";
+				PREBINDING = NO;
+				PRODUCT_NAME = JFShadowWarrior;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ABB4AB280C64C36100F28920 /* Build configuration list for PBXProject "sw" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABB4AB290C64C36100F28920 /* Debug */,
+				ABB4AB2A0C64C36100F28920 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ABB4ABD10C64C52A00F28920 /* Build configuration list for PBXAggregateTarget "all" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABB4ABD20C64C52A00F28920 /* Debug */,
+				ABB4ABD30C64C52A00F28920 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ABB4ABD40C64C52A00F28920 /* Build configuration list for PBXNativeTarget "JFShadowWarrior" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABB4ABD50C64C52A00F28920 /* Debug */,
+				ABB4ABD60C64C52A00F28920 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ABB4AB270C64C36100F28920 /* Project object */;
+}

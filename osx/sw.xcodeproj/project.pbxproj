@@ -13,6 +13,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				AB01B6CD0C64CCE7008F444E /* PBXTargetDependency */,
 			);
 			name = all;
 			productName = all;
@@ -20,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		AB8F60750C658D3400202E11 /* startdlg.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8F60740C658D3400202E11 /* startdlg.c */; };
 		ABB4ABDA0C64C69900F28920 /* game.osxmain.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4ABB80C64C4EF00F28920 /* game.osxmain.nib */; };
 		ABB4ABDB0C64C69900F28920 /* startwin.game.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */; };
 		ABB4ABDC0C64C69900F28920 /* game_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = ABB4ABC20C64C50100F28920 /* game_icon.icns */; };
@@ -112,44 +114,52 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AB01B6CC0C64CCE7008F444E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABB4AB270C64C36100F28920 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ABB4ABCC0C64C52900F28920;
+			remoteInfo = JFShadowWarrior;
+		};
 		ABB4AB500C64C38500F28920 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = AB735F490A29A2DC003261DC /* libengine.a */;
+			remoteGlobalIDString = AB735F490A29A2DC003261DC;
 			remoteInfo = engine;
 		};
 		ABB4AB520C64C38500F28920 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = AB735FCC0A29A916003261DC /* libeditor.a */;
+			remoteGlobalIDString = AB735FCC0A29A916003261DC;
 			remoteInfo = editor;
 		};
 		ABB4AB540C64C38500F28920 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = AB7360030A29A9B3003261DC /* libenginez.a */;
+			remoteGlobalIDString = AB7360030A29A9B3003261DC;
 			remoteInfo = enginez;
 		};
 		ABB4AB560C64C38500F28920 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = AB3FE4550C04336F00D5DBDC /* libeditorsupp.a */;
+			remoteGlobalIDString = AB3FE4550C04336F00D5DBDC;
 			remoteInfo = editorsupp;
 		};
 		ABB4AD0D0C64C7B900F28920 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB735FD40A29A9B3003261DC /* enginez */;
+			remoteGlobalIDString = AB735FD40A29A9B3003261DC;
 			remoteInfo = enginez;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AB8F60740C658D3400202E11 /* startdlg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = startdlg.c; sourceTree = "<group>"; };
 		ABB4AB490C64C38500F28920 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../../build/osx/engine.xcodeproj; sourceTree = SOURCE_ROOT; };
 		ABB4AB5C0C64C3EB00F28920 /* jnstub.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jnstub.c; sourceTree = "<group>"; };
 		ABB4AB5D0C64C40200F28920 /* build-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "build-Info.plist"; sourceTree = "<group>"; };
@@ -283,7 +293,7 @@
 				ABB4AB510C64C38500F28920 /* libengine.a */,
 				ABB4AB530C64C38500F28920 /* libeditor.a */,
 				ABB4AB550C64C38500F28920 /* libenginez.a */,
-				ABB4AB570C64C38500F28920 /* libeditorsupp.a */,
+				ABB4AB570C64C38500F28920 /* libeditor.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -335,6 +345,7 @@
 		ABB4AB6A0C64C44C00F28920 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AB8F60740C658D3400202E11 /* startdlg.c */,
 				ABB4AD160C64C88600F28920 /* jaudiolib */,
 				ABB4ABDE0C64C6AB00F28920 /* jmact */,
 				ABB4AB6C0C64C4D000F28920 /* actor.c */,
@@ -531,10 +542,10 @@
 			remoteRef = ABB4AB540C64C38500F28920 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		ABB4AB570C64C38500F28920 /* libeditorsupp.a */ = {
+		ABB4AB570C64C38500F28920 /* libeditor.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libeditorsupp.a;
+			path = libeditor.a;
 			remoteRef = ABB4AB560C64C38500F28920 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -641,12 +652,18 @@
 				ABB4ABF00C64C6F100F28920 /* util_lib.c in Sources */,
 				ABB4AD190C64C8AC00F28920 /* audiolib_fxstub.c in Sources */,
 				ABB4AD1A0C64C8AC00F28920 /* audiolib_musicstub.c in Sources */,
+				AB8F60750C658D3400202E11 /* startdlg.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AB01B6CD0C64CCE7008F444E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ABB4ABCC0C64C52900F28920 /* JFShadowWarrior */;
+			targetProxy = AB01B6CC0C64CCE7008F444E /* PBXContainerItemProxy */;
+		};
 		ABB4AD0E0C64C7B900F28920 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = enginez;

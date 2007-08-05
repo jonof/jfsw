@@ -9,6 +9,7 @@
                 alwaysShowButton = NSButton; 
                 cancelButton = NSButton; 
                 fullscreenButton = NSButton; 
+                gameList = NSScrollView; 
                 messagesView = NSTextView; 
                 startButton = NSButton; 
                 tabView = NSTabView; 

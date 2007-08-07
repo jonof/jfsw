@@ -200,6 +200,11 @@ static GtkWidget *create_window(void)
   GtkWidget *vmode3dcombo;
   GtkWidget *alwaysshowcheck;
   GtkWidget *configtab;
+  GtkWidget *gamevlayout;
+  GtkWidget *gamelabel;
+  GtkWidget *gamescroll;
+  GtkWidget *gamelist;
+  GtkWidget *gametab;
   GtkWidget *messagesscroll;
   GtkWidget *messagestext;
   GtkWidget *messagestab;
@@ -357,6 +362,40 @@ static GtkWidget *create_window(void)
   gtk_widget_show (configtab);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (tabs), gtk_notebook_get_nth_page (GTK_NOTEBOOK (tabs), 0), configtab);
 
+  // Game data layout
+  gamevlayout = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (gamevlayout);
+  gtk_container_add (GTK_CONTAINER (tabs), gamevlayout);
+  gtk_container_set_border_width (GTK_CONTAINER (gamevlayout), 4);
+
+  // Game data field label
+  gamelabel = gtk_label_new_with_mnemonic ("_Game or addon:");
+  gtk_widget_show (gamelabel);
+  gtk_box_pack_start (GTK_BOX (gamevlayout), gamelabel, FALSE, FALSE, 0);
+  gtk_misc_set_alignment (GTK_MISC (gamelabel), 0, 0.5);
+
+  // Game data scrollable area
+  gamescroll = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_show (gamescroll);
+  gtk_box_pack_start (GTK_BOX (gamevlayout), gamescroll, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (gamescroll), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (gamescroll), GTK_SHADOW_IN);
+
+  // Game data list
+  gamelist = gtk_tree_view_new ();
+  gtk_widget_show (gamelist);
+  gtk_container_add (GTK_CONTAINER (gamescroll), gamelist);
+  gtk_widget_add_accelerator (gamelist, "grab_focus", accel_group,
+                              GDK_G, GDK_MOD1_MASK,
+                              GTK_ACCEL_VISIBLE);
+  gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (gamelist), FALSE);
+  gtk_tree_view_set_enable_search (GTK_TREE_VIEW (gamelist), FALSE);
+
+  // Game tab
+  gametab = gtk_label_new ("Game");
+  gtk_widget_show (gametab);
+  gtk_notebook_set_tab_label (GTK_NOTEBOOK (tabs), gtk_notebook_get_nth_page (GTK_NOTEBOOK (tabs), 1), gametab);
+
   // Messages scrollable area
   messagesscroll = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (messagesscroll);
@@ -376,7 +415,7 @@ static GtkWidget *create_window(void)
   // Messages tab
   messagestab = gtk_label_new ("Messages");
   gtk_widget_show (messagestab);
-  gtk_notebook_set_tab_label (GTK_NOTEBOOK (tabs), gtk_notebook_get_nth_page (GTK_NOTEBOOK (tabs), 1), messagestab);
+  gtk_notebook_set_tab_label (GTK_NOTEBOOK (tabs), gtk_notebook_get_nth_page (GTK_NOTEBOOK (tabs), 2), messagestab);
 
   // Dialogue box buttons layout
   buttons = gtk_hbutton_box_new ();
@@ -477,6 +516,7 @@ static GtkWidget *create_window(void)
   gtk_label_set_mnemonic_widget (GTK_LABEL (vmode3dlabel), vmode3dcombo);
   gtk_label_set_mnemonic_widget (GTK_LABEL (sounddrvlabel), sounddrvcombo);
   gtk_label_set_mnemonic_widget (GTK_LABEL (cddrvlabel), cddrvcombo);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (gamelabel), gamelist);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (startwin, startwin, "startwin");
@@ -498,6 +538,11 @@ static GtkWidget *create_window(void)
   GLADE_HOOKUP_OBJECT (startwin, vmode3dcombo, "vmode3dcombo");
   GLADE_HOOKUP_OBJECT (startwin, alwaysshowcheck, "alwaysshowcheck");
   GLADE_HOOKUP_OBJECT (startwin, configtab, "configtab");
+  GLADE_HOOKUP_OBJECT (startwin, gamevlayout, "gamevlayout");
+  GLADE_HOOKUP_OBJECT (startwin, gamelabel, "gamelabel");
+  GLADE_HOOKUP_OBJECT (startwin, gamescroll, "gamescroll");
+  GLADE_HOOKUP_OBJECT (startwin, gamelist, "gamelist");
+  GLADE_HOOKUP_OBJECT (startwin, gametab, "gametab");
   GLADE_HOOKUP_OBJECT (startwin, messagesscroll, "messagesscroll");
   GLADE_HOOKUP_OBJECT (startwin, messagestext, "messagestext");
   GLADE_HOOKUP_OBJECT (startwin, messagestab, "messagestab");

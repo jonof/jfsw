@@ -3550,6 +3550,15 @@ long app_main(long argc, char *argv[])
     extern int32 ForceSetup;	// config.c
     int32 CONFIG_ReadSetup(void);
 
+    for (i=1;i<argc;i++) {
+	if (argv[i][0] != '-' && argv[i][0] != '/') continue;
+	if (!Bstrcasecmp(argv[i]+1, "setup")) CommandSetup = TRUE;
+	else if (!Bstrcasecmp(argv[i]+1, "?")) {
+		CommandLineHelp();
+		return(0);
+	}
+    }
+
 #ifdef RENDERTYPEWIN
 	if (win_checkinstance()) {
 		if (!wm_ynbox("Shadow Warrior","Another Build game is currently running. "
@@ -3604,14 +3613,6 @@ long app_main(long argc, char *argv[])
 	}
     }
 
-    for (i=1;i<argc;i++) {
-	if (argv[i][0] != '-' && argv[i][0] != '/') continue;
-	if (!Bstrcasecmp(argv[i]+1, "setup")) CommandSetup = TRUE;
-	else if (!Bstrcasecmp(argv[i]+1, "?")) {
-		CommandLineHelp();
-		swexit(0);
-	}
-    }
 	wm_setapptitle("Shadow Warrior");
 	if (preinitengine()) {
 	   wm_msgbox("Build Engine Initialisation Error",

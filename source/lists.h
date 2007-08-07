@@ -57,7 +57,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
                                      ((LIST) nodep)->Next->Prev = ((LIST) nodep)->Prev)
 
 
-      #define TRAVERSE(l, o, n)    ASSERT(((LIST)l)->Next && ((LIST)l)->Prev); for ((LIST) o = ((LIST)l)->Next;      \
+      #define TRAVERSE(l, o, n)    ASSERT(((LIST)l)->Next && ((LIST)l)->Prev); for (o = (void*)(((LIST)l)->Next);      \
                                       n = o->Next, (LIST) o != (LIST) l; \
                                       o = n)
 

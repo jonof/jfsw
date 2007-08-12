@@ -357,6 +357,7 @@ JS_InitMirrors(void)
             if ((sector[s].floorstat & 1) == 0)
                 {
                 wall[i].overpicnum = MIRRORLABEL + mirrorcnt;
+		wall[i].picnum = MIRRORLABEL + mirrorcnt;
                 sector[s].ceilingpicnum = MIRRORLABEL + mirrorcnt;
                 sector[s].floorpicnum = MIRRORLABEL + mirrorcnt;
                 sector[s].floorstat |= 1;
@@ -671,6 +672,7 @@ JS_DrawMirrors(PLAYERp pp, long tx, long ty, long tz, short tpang, long tphoriz)
 
     // WARNING!  Assuming (MIRRORLABEL&31) = 0 and MAXMIRRORS = 64 <-- JBF: wrong
     longptr = (long *) FP_OFF(&gotpic[MIRRORLABEL >> 3]);
+    initprintf("longptr[0] = %d longptr[1] = %d\n",longptr[0],longptr[1]);
     if (longptr && (longptr[0] || longptr[1]))
         {
         for (cnt = MAXMIRRORS - 1; cnt >= 0; cnt--)

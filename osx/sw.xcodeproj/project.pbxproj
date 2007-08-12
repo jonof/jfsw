@@ -36,7 +36,7 @@
 		AB8F610B0C65928C00202E11 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
 		AB8F61B00C6592A600202E11 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
 		AB8F61B10C6592B400202E11 /* libeditor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AB530C64C38500F28920 /* libeditor.a */; };
-		AB8F61B20C6592B500202E11 /* libeditor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AB570C64C38500F28920 /* libeditor.a */; };
+		AB8F61B20C6592B500202E11 /* libeditorsupp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AB570C64C38500F28920 /* libeditorsupp.a */; };
 		AB8F61B30C6592B600202E11 /* libengine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AB510C64C38500F28920 /* libengine.a */; };
 		AB8F61B50C65932600202E11 /* keyboard.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE40C64C6F100F28920 /* keyboard.c */; };
 		AB8F61B70C65936000202E11 /* colormap.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB770C64C4D000F28920 /* colormap.c */; };
@@ -126,7 +126,6 @@
 		ABB4AC3B0C64C6FE00F28920 /* zombie.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB60C64C4D000F28920 /* zombie.c */; };
 		ABB4AC3E0C64C72C00F28920 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
 		ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
-		ABB4AD0C0C64C7B100F28920 /* libenginez.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AB550C64C38500F28920 /* libenginez.a */; };
 		ABB4AD190C64C8AC00F28920 /* audiolib_fxstub.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AD170C64C8AC00F28920 /* audiolib_fxstub.c */; };
 		ABB4AD1A0C64C8AC00F28920 /* audiolib_musicstub.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AD180C64C8AC00F28920 /* audiolib_musicstub.c */; };
 /* End PBXBuildFile section */
@@ -143,28 +142,28 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB735F480A29A2DC003261DC /* engine */;
+			remoteGlobalIDString = AB735F480A29A2DC003261DC;
 			remoteInfo = engine;
 		};
 		AB8F60D30C65922700202E11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB735FCB0A29A916003261DC /* editor */;
+			remoteGlobalIDString = AB735FCB0A29A916003261DC;
 			remoteInfo = editor;
 		};
 		AB8F60D50C65922700202E11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB3FE44A0C04336F00D5DBDC /* editorsupp */;
+			remoteGlobalIDString = AB3FE44A0C04336F00D5DBDC;
 			remoteInfo = editorsupp;
 		};
 		AB8F61C60C6593F900202E11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB270C64C36100F28920 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AB8F60C90C6591F300202E11 /* Build Editor for JFShadowWarrior */;
+			remoteGlobalIDString = AB8F60C90C6591F300202E11;
 			remoteInfo = "Build Editor for JFShadowWarrior";
 		};
 		ABB4AB500C64C38500F28920 /* PBXContainerItemProxy */ = {
@@ -181,13 +180,6 @@
 			remoteGlobalIDString = AB735FCC0A29A916003261DC;
 			remoteInfo = editor;
 		};
-		ABB4AB540C64C38500F28920 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AB7360030A29A9B3003261DC;
-			remoteInfo = enginez;
-		};
 		ABB4AB560C64C38500F28920 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
@@ -195,12 +187,12 @@
 			remoteGlobalIDString = AB3FE4550C04336F00D5DBDC;
 			remoteInfo = editorsupp;
 		};
-		ABB4AD0D0C64C7B900F28920 /* PBXContainerItemProxy */ = {
+		ABCAA9180C6F3272000C5694 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB735FD40A29A9B3003261DC;
-			remoteInfo = enginez;
+			remoteGlobalIDString = AB735F480A29A2DC003261DC /* engine */;
+			remoteInfo = engine;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -339,7 +331,7 @@
 				AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */,
 				AB8F60D80C65924000202E11 /* SDL.framework in Frameworks */,
 				AB8F61B10C6592B400202E11 /* libeditor.a in Frameworks */,
-				AB8F61B20C6592B500202E11 /* libeditor.a in Frameworks */,
+				AB8F61B20C6592B500202E11 /* libeditorsupp.a in Frameworks */,
 				AB8F61B30C6592B600202E11 /* libengine.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,7 +342,6 @@
 			files = (
 				ABB4AC3E0C64C72C00F28920 /* SDL.framework in Frameworks */,
 				ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */,
-				ABB4AD0C0C64C7B100F28920 /* libenginez.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,8 +364,7 @@
 			children = (
 				ABB4AB510C64C38500F28920 /* libengine.a */,
 				ABB4AB530C64C38500F28920 /* libeditor.a */,
-				ABB4AB550C64C38500F28920 /* libenginez.a */,
-				ABB4AB570C64C38500F28920 /* libeditor.a */,
+				ABB4AB570C64C38500F28920 /* libeditorsupp.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -593,7 +583,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				ABB4AD0E0C64C7B900F28920 /* PBXTargetDependency */,
+				ABCAA9190C6F3272000C5694 /* PBXTargetDependency */,
 			);
 			name = JFShadowWarrior;
 			productName = JFShadowWarrior;
@@ -639,17 +629,10 @@
 			remoteRef = ABB4AB520C64C38500F28920 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		ABB4AB550C64C38500F28920 /* libenginez.a */ = {
+		ABB4AB570C64C38500F28920 /* libeditorsupp.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libenginez.a;
-			remoteRef = ABB4AB540C64C38500F28920 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ABB4AB570C64C38500F28920 /* libeditor.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libeditor.a;
+			path = libeditorsupp.a;
 			remoteRef = ABB4AB560C64C38500F28920 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -812,10 +795,10 @@
 			target = AB8F60C90C6591F300202E11 /* Build Editor for JFShadowWarrior */;
 			targetProxy = AB8F61C60C6593F900202E11 /* PBXContainerItemProxy */;
 		};
-		ABB4AD0E0C64C7B900F28920 /* PBXTargetDependency */ = {
+		ABCAA9190C6F3272000C5694 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = enginez;
-			targetProxy = ABB4AD0D0C64C7B900F28920 /* PBXContainerItemProxy */;
+			name = engine;
+			targetProxy = ABCAA9180C6F3272000C5694 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

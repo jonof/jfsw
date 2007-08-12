@@ -4342,7 +4342,7 @@ SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, lo
             nu->jump_speed += RANDOM_RANGE(p->max_jspeed - p->min_jspeed);
             nu->jump_speed = -nu->jump_speed;
 
-            //setsprite(new, np->x, np->y, np->z);
+            //setspritez(new, np->x, np->y, np->z);
             nu->xchange = MOVEx(np->xvel, np->ang);
             nu->ychange = MOVEy(np->xvel, np->ang);
 
@@ -8784,7 +8784,7 @@ DoPlasmaFountain(SHORT Weapon)
         ap = &sprite[u->Attach];
 
         // move with sprite
-        setsprite(Weapon, ap->x, ap->y, ap->z);
+        setspritez(Weapon, ap->x, ap->y, ap->z);
         sp->ang = ap->ang;
 
         u->Counter++;
@@ -9562,7 +9562,7 @@ DoMineStuck(SHORT Weapon)
             u->WaitTics = SEC(1)/2;
         }
 
-        setsprite(Weapon, ap->x, ap->y, ap->z - u->sz);
+        setspritez(Weapon, ap->x, ap->y, ap->z - u->sz);
         sp->z = ap->z - DIV2(SPRITEp_SIZE_Z(ap));
         }
 
@@ -10041,7 +10041,7 @@ DoEMPBurst(SHORT Weapon)
 
         ASSERT(au);
 
-        setsprite(Weapon, ap->x, ap->y, ap->z - u->sz);
+        setspritez(Weapon, ap->x, ap->y, ap->z - u->sz);
         sp->ang = NORM_ANGLE(ap->ang+1024);
         }
 
@@ -10555,7 +10555,7 @@ DoMicro(SHORT Weapon)
         // last smoke
         if ((u->WaitTics -= MISSILEMOVETICS) <= 0)
             {
-            setsprite(new,np->x,np->y,np->z);
+            setspritez(new,np->x,np->y,np->z);
             NewStateGroup(Weapon, &sg_MicroMini[0]);
             sp->xrepeat = sp->yrepeat = 10;
             RESET(sp->cstat, CSTAT_SPRITE_INVISIBLE);
@@ -13058,7 +13058,7 @@ DoRing(SHORT Weapon)
     //sp->ang = NORM_ANGLE(sp->ang + 512);
     //updatesector(sp->x, sp->y);
 
-    OLDsetsprite(Weapon, sp->x, sp->y, sp->z);
+    setsprite(Weapon, sp->x, sp->y, sp->z);
     sect = sp->sectnum;
 
     ASSERT(sp->sectnum >= 0);
@@ -13202,7 +13202,7 @@ DoSerpRing(SHORT Weapon)
     sp->x += ((long) u->Dist * (long) sintable[NORM_ANGLE(u->slide_ang + 512)]) >> 14;
     sp->y += ((long) u->Dist * (long) sintable[u->slide_ang]) >> 14;
 
-    OLDsetsprite(Weapon, sp->x, sp->y, sp->z);
+    setsprite(Weapon, sp->x, sp->y, sp->z);
     sect = sp->sectnum;
 
     ASSERT(sp->sectnum >= 0);
@@ -17855,7 +17855,7 @@ BulletHitSprite(SPRITEp sp, short hitsprite, short hitsect, short hitwall, long 
         SetOwner(sp - sprite, new);
         wp->ang = sp->ang;
 
-        setsprite(new, hitx, hity, hitz);
+        setspritez(new, hitx, hity, hitz);
         SET(wp->cstat, CSTAT_SPRITE_YCENTER);
         RESET(wp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
 
@@ -19307,7 +19307,7 @@ InitEnemyUzi(short SpriteNum)
     // Make sprite shade brighter
     u->Vis = 128;
 
-    setsprite(SpriteNum, sp->x, sp->y, sp->z);
+    setspritez(SpriteNum, sp->x, sp->y, sp->z);
 
     if (u->ID == ZILLA_RUN_R0)
         {
@@ -21313,7 +21313,7 @@ int QueueGeneric(short SpriteNum, short pic)
         {
         // move old sprite to new sprite's place
         osp = &sprite[GenericQueue[GenericQueueHead]];
-        //setsprite(GenericQueue[GenericQueueHead],sp->x,sp->y,sp->z);
+        //setspritez(GenericQueue[GenericQueueHead],sp->x,sp->y,sp->z);
         osp->x = sp->x;
         osp->y = sp->y;
         osp->z = sp->z;
@@ -21879,7 +21879,7 @@ int QueueLoWangs(short SpriteNum)
         {
         // move old sprite to new sprite's place
         osp = &sprite[LoWangsQueue[LoWangsQueueHead]];
-        setsprite(LoWangsQueue[LoWangsQueueHead],sp->x,sp->y,sp->z);
+        setspritez(LoWangsQueue[LoWangsQueueHead],sp->x,sp->y,sp->z);
         NewSprite = LoWangsQueue[LoWangsQueueHead];
         ASSERT(sprite[NewSprite].statnum != MAXSTATUS);
         }

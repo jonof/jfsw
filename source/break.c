@@ -609,7 +609,7 @@ int AutoBreakWall(WALLp wallp, long hitx, long hity, long hitz, short ang, short
         bsp->ang = ang;
         bsp->picnum = ST1;
         bsp->xrepeat = bsp->yrepeat = 64;
-        setsprite(BreakSprite, hitx, hity, hitz);
+        setspritez(BreakSprite, hitx, hity, hitz);
         
         // pass Break Info Globally
         GlobBreakInfo = break_info;

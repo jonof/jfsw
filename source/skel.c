@@ -567,7 +567,7 @@ int DoSkelTeleport(short SpriteNum)
         else
             sp->y -= 512 + RANDOM_P2(1024);
 
-        setsprite(SpriteNum, sp->x, sp->y, sp->z);
+        setspritez(SpriteNum, sp->x, sp->y, sp->z);
         //COVERupdatesector(sp->x, sp->y, &sp->sectnum);
 
         if (sp->sectnum != -1)

@@ -1876,7 +1876,7 @@ MovePoints(SECTOR_OBJECTp sop, short delta_ang, long nx, long ny)
             // Does not necessarily move with the sector so must accout for
             // moving across sectors
             if (sop->xmid < (long)MAXSO) // special case for operating SO's
-                setsprite(sop->sp_num[i], sp->x, sp->y, sp->z);
+                setspritez(sop->sp_num[i], sp->x, sp->y, sp->z);
             }
         
         if (TEST(sp->extra, SPRX_BLADE))    
@@ -2054,7 +2054,7 @@ VOID UpdateSectorObjectSprites(SECTOR_OBJECTp sop)
         sp = &sprite[sop->sp_num[i]];
         u = User[sop->sp_num[i]];
       
-        setsprite(sop->sp_num[i], sp->x, sp->y, sp->z);
+        setspritez(sop->sp_num[i], sp->x, sp->y, sp->z);
         }
     }    
     

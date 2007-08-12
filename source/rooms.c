@@ -648,53 +648,6 @@ VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum,
         }           
     }
     
-long OLDsetsprite(short spritenum, long newx, long newy, long newz)
-    {
-    short bad, j, tempsectnum;
-
-    sprite[spritenum].x = newx;
-    sprite[spritenum].y = newy;
-    sprite[spritenum].z = newz;
-
-    tempsectnum = sprite[spritenum].sectnum;
-    updatesector(newx, newy, &tempsectnum);
-    if (tempsectnum < 0)
-        return (-1);
-    if (tempsectnum != sprite[spritenum].sectnum)
-        {
-        changespritesect(spritenum, tempsectnum);
-        }
-
-    return (0);
-    }
-
-    
-// take over the setsprite function and call updatesectorz    
-#if 0
-// JBF: Compiling the engine with SETSPRITEZ defined enables this functionality in the engine
-long setsprite(short spritenum, long newx, long newy, long newz)
-    {
-    short bad, j, tempsectnum;
-
-    sprite[spritenum].x = newx;
-    sprite[spritenum].y = newy;
-    sprite[spritenum].z = newz;
-
-    tempsectnum = sprite[spritenum].sectnum;
-    updatesectorz(newx, newy, newz, &tempsectnum);
-    if (tempsectnum < 0)
-        return (-1);
-    if (tempsectnum != sprite[spritenum].sectnum)
-        {
-        ////DSPRINTF(ds,"Changed Sector");
-        //MONO_PRINT(ds);
-        changespritesect(spritenum, tempsectnum);
-        }
-
-    return (0);
-    }
-#endif
-
 #if 0
 BOOL 
 FAF_ConnectCeiling(short sectnum)

@@ -2402,7 +2402,6 @@ void DrawOverlapRoom(long tx,long ty,long tz,short tang,long thoriz,short tsectn
 void SetupMirrorTiles(void );	// rooms.c
 BOOL FAF_Sector(short sectnum);	// rooms.c
 long GetZadjustment(short sectnum,short hitag);	// rooms.c
-long OLDsetsprite(short spritenum, long newx, long newy, long newz);
 
 void TermSetup(void);	// swconfig.c
 

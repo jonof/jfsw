@@ -99,7 +99,7 @@ SpawnWallSound(short sndnum, short i)
     midx = (wall[i].x + wall[wall[i].point2].x) / 2;
     midy = (wall[i].y + wall[wall[i].point2].y) / 2;
     midz = (sector[wall[i].nextsector].ceilingz + sector[wall[i].nextsector].floorz) / 2;
-    setsprite(SpriteNum, midx, midy, midz);
+    setspritez(SpriteNum, midx, midy, midz);
     sp = &sprite[SpriteNum];
 
     handle = PlaySound(sndnum, &sp->x, &sp->y, &sp->z, v3df_dontpan | v3df_doppler);

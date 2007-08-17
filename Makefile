@@ -10,6 +10,7 @@ USE_OPENGL = 1
 DYNAMIC_OPENGL = 1
 USE_A_C = 0
 NOASM = 0
+LINKED_GTK = 0
 
 # Debugging options
 RELEASE?=1

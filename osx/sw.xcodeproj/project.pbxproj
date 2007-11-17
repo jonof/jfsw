@@ -318,7 +318,7 @@
 		ABB4ABE60C64C6F100F28920 /* mouse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mouse.c; sourceTree = "<group>"; };
 		ABB4ABE70C64C6F100F28920 /* scriplib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scriplib.c; sourceTree = "<group>"; };
 		ABB4ABE80C64C6F100F28920 /* util_lib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util_lib.c; sourceTree = "<group>"; };
-		ABB4AC3D0C64C72C00F28920 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
+		ABB4AC3D0C64C72C00F28920 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Users/jonof/Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		ABB4AC3F0C64C73A00F28920 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		ABB4AD170C64C8AC00F28920 /* audiolib_fxstub.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = audiolib_fxstub.c; sourceTree = "<group>"; };
 		ABB4AD180C64C8AC00F28920 /* audiolib_musicstub.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = audiolib_musicstub.c; sourceTree = "<group>"; };
@@ -598,6 +598,7 @@
 		ABB4AB270C64C36100F28920 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = ABB4AB280C64C36100F28920 /* Build configuration list for PBXProject "sw" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 0;
 			mainGroup = ABB4AB250C64C36100F28920;
 			productRefGroup = ABB4ABCE0C64C52900F28920 /* Products */;
@@ -608,6 +609,7 @@
 					ProjectRef = ABB4AB490C64C38500F28920 /* engine.xcodeproj */;
 				},
 			);
+			projectRoot = "";
 			targets = (
 				ABB4ABC40C64C51300F28920 /* all */,
 				ABB4ABCC0C64C52900F28920 /* JFShadowWarrior */,

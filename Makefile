@@ -19,9 +19,9 @@ RELEASE?=1
 SRC=source
 RSRC=rsrc
 OBJ=obj
-EROOT=../build
+EROOT=engine
 EINC=$(EROOT)/include
-EOBJ=eobj
+ELIB=$(EROOT)/obj.gnu
 INC=$(SRC)
 o=o
 
@@ -179,7 +179,7 @@ endif
 GAMEOBJS+= $(AUDIOLIBOBJ)
 OURCFLAGS+= $(BUILDCFLAGS)
 
-.PHONY: clean all engine $(EOBJ)/$(ENGINELIB) $(EOBJ)/$(EDITORLIB)
+.PHONY: clean all engine $(ELIB)/$(ENGINELIB) $(ELIB)/$(EDITORLIB)
 
 # TARGETS
 
@@ -197,24 +197,23 @@ endif
 
 all: sw$(EXESUFFIX) build$(EXESUFFIX)
 
-sw$(EXESUFFIX): $(GAMEOBJS) $(EOBJ)/$(ENGINELIB)
+sw$(EXESUFFIX): $(GAMEOBJS) $(ELIB)/$(ENGINELIB)
 	$(CC) $(CFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) -Wl,-Map=$@.map
 	
-build$(EXESUFFIX): $(EDITOROBJS) $(EOBJ)/$(EDITORLIB) $(EOBJ)/$(ENGINELIB)
+build$(EXESUFFIX): $(EDITOROBJS) $(ELIB)/$(EDITORLIB) $(ELIB)/$(ENGINELIB)
 	$(CC) $(CFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) -Wl,-Map=$@.map
 
 include Makefile.deps
 
 .PHONY: enginelib editorlib
 enginelib editorlib:
-	-mkdir $(EOBJ)
-	$(MAKE) -C $(EROOT) "OBJ=$(CURDIR)/$(EOBJ)" \
+	$(MAKE) -C $(EROOT) \
 		SUPERBUILD=$(SUPERBUILD) POLYMOST=$(POLYMOST) \
 		USE_OPENGL=$(USE_OPENGL) DYNAMIC_OPENGL=$(DYNAMIC_OPENGL) \
 		USE_A_C=$(USE_A_C) NOASM=$(NOASM) RELEASE=$(RELEASE) $@
 
-$(EOBJ)/$(ENGINELIB): enginelib
-$(EOBJ)/$(EDITORLIB): editorlib
+$(ELIB)/$(ENGINELIB): enginelib
+$(ELIB)/$(EDITORLIB): editorlib
 
 # RULES
 $(OBJ)/%.$o: $(SRC)/%.nasm
@@ -258,6 +257,6 @@ endif
 veryclean: clean
 ifeq ($(PLATFORM),DARWIN)
 else
-	-rm -f $(EOBJ)/* sw$(EXESUFFIX) build$(EXESUFFIX) core*
+	-rm -f sw$(EXESUFFIX) build$(EXESUFFIX) core*
 endif
 

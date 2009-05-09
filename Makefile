@@ -260,3 +260,8 @@ else
 	-rm -f sw$(EXESUFFIX) build$(EXESUFFIX) core*
 endif
 
+ifeq ($(PLATFORM),WINDOWS)
+.PHONY: datainst
+datainst:
+	cd datainst && $(MAKE) GAME=SW
+endif

@@ -1,0 +1,1 @@
+@start sw.exe -setup

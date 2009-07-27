@@ -135,6 +135,7 @@ struct VOCstruct
     {
     char name[14];                      // name of voc file on disk
     BYTEp data;                         // pointer to voc data
+    int datalen;                        // length of voc data
     SHORT pitch_lo;                     // lo pitch value
     SHORT pitch_hi;                     // hi pitch value
     BYTE priority;                      // priority at which vocs are played 

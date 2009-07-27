@@ -216,14 +216,14 @@ void CONFIG_SetDefaults( void )
    ScreenWidth = 640;
    ScreenHeight = 480;
    ScreenBPP = 8;
-   FXDevice = -1;
+   FXDevice = 0;
    MusicDevice = -1;
    FXVolume = 192;
    MusicVolume = 128;
-   NumVoices = 4;
+   NumVoices = 32;
    NumChannels = 2;
-   NumBits = 8;
-   MixRate = 11025;
+   NumBits = 16;
+   MixRate = 44100;
    gs.FlipStereo = 0;
 
    Bstrcpy(RTSName, DEFAULTRTSFILE);

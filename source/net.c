@@ -1268,7 +1268,6 @@ getpackets(VOID)
     SW_PACKET tempinput;
 
 	sampletimer();
-    AudioUpdate();
     
     if (!CommEnabled)
         return;

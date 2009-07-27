@@ -1803,7 +1803,6 @@ LogoLevel(VOID)
     while (TRUE)
         {
 		handleevents();
-		AudioUpdate();
 
 		if (quitevent) { QuitFlag = TRUE; break; }
 	
@@ -2244,7 +2243,6 @@ MenuLevel(VOID)
     while (TRUE)
         {
 		handleevents();
-		AudioUpdate();
 		OSD_DispatchQueued();
 	
 		if (quitevent) QuitFlag = TRUE;
@@ -2944,7 +2942,6 @@ StatScreen(PLAYERp mpp)
     while (!KEY_PRESSED(KEYSC_SPACE) && !KEY_PRESSED(KEYSC_ENTER))
         {
 		handleevents();
-		AudioUpdate();
 	
         ScreenCaptureKeys();
         if (SW_SHAREWARE)
@@ -3008,7 +3005,6 @@ Control(VOID)
     while (!QuitFlag)
         {
 		handleevents();
-		AudioUpdate();
 		OSD_DispatchQueued();
 
 		if (quitevent) QuitFlag = TRUE;
@@ -3278,7 +3274,6 @@ RunLevel(VOID)
     while (TRUE)
         {
 		handleevents();
-		AudioUpdate();
 		OSD_DispatchQueued();
 
 		if (quitevent) QuitFlag = TRUE;

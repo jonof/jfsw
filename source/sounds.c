@@ -70,7 +70,7 @@ SHORT SoundSpriteNum = -1;  // Always set this back to -1 for proper validity ch
 BOOL MusicInitialized = FALSE;
 BOOL FxInitialized = FALSE;
 
-void SoundCallBack(unsigned long num);
+void SoundCallBack(unsigned int num);
 char *LoadMidi(char *);
 
 #define NUM_SAMPLES 10
@@ -247,15 +247,8 @@ void CheckSndData( char *file, int line )
 // Routine called when a sound is finished playing
 //
 
-// CTW MODIFICATION
-//#if 0
-#if 1
-// CTW MODIFICATION END
 void
-// CTW MODIFICATION
-// SoundCallBack(long num)
-SoundCallBack(unsigned long num)
-// CTW MODIFICATION END
+SoundCallBack(unsigned int num)
     {
     VOC_INFOp vp = &voc[num];
     
@@ -271,7 +264,6 @@ SoundCallBack(unsigned long num)
     //vp->playing--;
     vp->lock--;
     }
-#endif    
 
 // 
     
@@ -882,16 +874,14 @@ PlaySound(int num, long *x, long *y, long *z, Voc3D_Flags flags)
     // Request playback and play it as a looping sound if flag is set.    
     if (vp->voc_flags & vf_loop)    
         {    
-        unsigned short start;    
         short loopvol=0;    
 
-        start = *(unsigned short *) (vp->data + 0x14);    
         if((loopvol = 255-sound_dist) <= 0)    
             loopvol = 0;    
 
         if(sound_dist < 255 || (flags & v3df_init))
             {
-            voice = FX_PlayLoopedVOC(vp->data, start, 65536,    
+            voice = FX_PlayLoopedAuto(vp->data, vp->datalen, 0, 65536,    
                 pitch, loopvol, loopvol, loopvol, priority, num);    
             } 
         else
@@ -902,13 +892,13 @@ PlaySound(int num, long *x, long *y, long *z, Voc3D_Flags flags)
     //if(!flags & v3df_init)  // If not initing sound, play it    
         if(tx==0 && ty==0 && tz==0) // It's a non-inlevel sound    
             {
-            voice = FX_PlayVOC( vp->data, pitch, 255, 255, 255, priority, num);    
+            voice = FX_PlayAuto( vp->data, vp->datalen, pitch, 255, 255, 255, priority, num);    
             }
         else // It's a 3d sound    
             {
             if (sound_dist < 255)
                 {
-                voice = FX_PlayVOC3D(vp->data, pitch, angle, sound_dist, priority, num);    
+                voice = FX_PlayAuto3D(vp->data, vp->datalen, pitch, angle, sound_dist, priority, num);    
                 }
             else
                 voice = -1;    
@@ -947,10 +937,7 @@ VOID PlaySoundRTS(long rts_num)
     
     ASSERT(rtsptr);
     
-    if(*rtsptr == 'C')
-        voice = FX_PlayVOC3D(rtsptr, 0, 0, 0, 255, -rts_num);
-    else 
-        voice = FX_PlayWAV3D(rtsptr, 0, 0, 0, 255, -rts_num);
+    voice = FX_PlayAuto3D(rtsptr, RTS_SoundLength(rts_num - 1), 0, 0, 0, 255, -rts_num);
     
     if (voice <= FX_Ok)    
         {
@@ -985,6 +972,8 @@ ReadSound(long handle, VOC_INFOp vp, long length)
         printf("Error reading file '%s'.\n", vp->name);
         exit(0);
         }
+    
+    vp->datalen = length;
 
     kclose(handle);
     return(0);
@@ -1039,6 +1028,7 @@ void
 SoundStartup(void)
     {
     int32 status;
+    void * initdata = 0;
 
     // if they chose None lets return
     if (FXDevice < 0)
@@ -1046,10 +1036,14 @@ SoundStartup(void)
         gs.FxOn = FALSE;
         return;
         }
+        
+#ifdef WIN32
+    initdata = (void *) win_gethwnd();
+#endif
 
     //gs.FxOn = TRUE;
 
-        status = FX_Init(FXDevice, NumVoices, NumChannels, NumBits, MixRate);
+        status = FX_Init(ASS_AutoDetect, NumVoices, NumChannels, NumBits, MixRate, initdata);
         if (status == FX_Ok)
             {
             FxInitialized = TRUE;

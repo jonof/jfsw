@@ -63,14 +63,14 @@ int32 NumberPlayers,CommPort,PortSpeed,IrqNumber,UartAddress;
 //
 // Sound variables
 //
-int32 FXDevice    = -1;
-int32 MusicDevice = -1;
+int32 FXDevice    = 0;
+int32 MusicDevice = 0;
 int32 FXVolume    = 192;
 int32 MusicVolume = 128;
-int32 NumVoices   = 4;
+int32 NumVoices   = 32;
 int32 NumChannels = 2;
-int32 NumBits     = 8;
-int32 MixRate     = 11025;
+int32 NumBits     = 16;
+int32 MixRate     = 44100;
 
 int32 UseMouse = 1, UseJoystick = 0;
 
@@ -217,7 +217,7 @@ void CONFIG_SetDefaults( void )
    ScreenHeight = 480;
    ScreenBPP = 8;
    FXDevice = 0;
-   MusicDevice = -1;
+   MusicDevice = 0;
    FXVolume = 192;
    MusicVolume = 128;
    NumVoices = 32;
@@ -593,6 +593,12 @@ void CONFIG_WriteSetup( void )
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLAnisotropy",glanisotropy,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLUseTextureCompr",glusetexcompr,FALSE,FALSE);
    
+   SCRIPT_PutNumber( scripthandle, "Sound Setup", "FXDevice", FXDevice, FALSE, FALSE);
+   SCRIPT_PutNumber( scripthandle, "Sound Setup", "MusicDevice", MusicDevice, FALSE, FALSE);
+   SCRIPT_PutNumber( scripthandle, "Sound Setup", "NumVoices", NumVoices, FALSE, FALSE);
+   SCRIPT_PutNumber( scripthandle, "Sound Setup", "NumChannels", NumChannels, FALSE, FALSE);
+   SCRIPT_PutNumber( scripthandle, "Sound Setup", "NumBits", NumBits, FALSE, FALSE);
+   SCRIPT_PutNumber( scripthandle, "Sound Setup", "MixRate", MixRate, FALSE, FALSE);
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "FXVolume",gs.SoundVolume,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "MusicVolume",gs.MusicVolume,FALSE,FALSE);
    dummy = gs.FlipStereo;

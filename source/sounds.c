@@ -881,7 +881,7 @@ PlaySound(int num, long *x, long *y, long *z, Voc3D_Flags flags)
 
         if(sound_dist < 255 || (flags & v3df_init))
             {
-            voice = FX_PlayLoopedAuto(vp->data, vp->datalen, 0, 65536,    
+            voice = FX_PlayLoopedAuto(vp->data, vp->datalen, 0, 0,    
                 pitch, loopvol, loopvol, loopvol, priority, num);    
             } 
         else
@@ -1029,13 +1029,17 @@ SoundStartup(void)
     {
     int32 status;
     void * initdata = 0;
+    int fxdevicetype;
 
     // if they chose None lets return
-    if (FXDevice < 0)
-        {
+    if (FXDevice < 0) {
         gs.FxOn = FALSE;
         return;
-        }
+    } else if (FXDevice == 0) {
+        fxdevicetype = ASS_AutoDetect;
+    } else {
+        fxdevicetype = FXDevice - 1;
+    }
         
 #ifdef WIN32
     initdata = (void *) win_gethwnd();
@@ -1043,7 +1047,7 @@ SoundStartup(void)
 
     //gs.FxOn = TRUE;
 
-        status = FX_Init(ASS_AutoDetect, NumVoices, NumChannels, NumBits, MixRate, initdata);
+        status = FX_Init(fxdevicetype, NumVoices, NumChannels, NumBits, MixRate, initdata);
         if (status == FX_Ok)
             {
             FxInitialized = TRUE;
@@ -1789,7 +1793,7 @@ DoUpdateSounds3D(void)
                 //if (FX_SoundsPlaying() < NumVoices && dist <= 255)
                 if (dist <= 255)
                     {
-                        for(i=0; i<NumVoices; i++)
+                        for(i=0; i<min(SIZ(TmpVocArray), NumVoices); i++)
                         {
                             if(p->priority >= TmpVocArray[i].priority)
                             {                   
@@ -1817,7 +1821,7 @@ DoUpdateSounds3D(void)
     // Only update these sounds 5x per second!  Woo hoo!, aren't we optimized now?
     //if(MoveSkip8==0)  
     //    {
-        for(i=0; i<NumVoices; i++)
+        for(i=0; i<min(SIZ(TmpVocArray), NumVoices); i++)
             {
             int handle;
 

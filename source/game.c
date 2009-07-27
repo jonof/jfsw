@@ -6050,7 +6050,11 @@ StdRandomRange(int range)
         rand_num--;
     
     // shift values to give more precision
+#if (RAND_MAX > 0x7fff)
+    value = rand_num / (((long)RAND_MAX) / range);
+#else
     value = (rand_num << 14) / ((((long)RAND_MAX) << 14) / range);
+#endif
     
     if (value >= (ULONG)range)
         value = range - 1;

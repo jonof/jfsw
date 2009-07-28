@@ -71,7 +71,9 @@ BOOL MusicInitialized = FALSE;
 BOOL FxInitialized = FALSE;
 
 void SoundCallBack(unsigned int num);
-char *LoadMidi(char *);
+BOOL LoadSong(const char *track);
+
+#define MUSIC_ID -65536
 
 #define NUM_SAMPLES 10
 
@@ -103,7 +105,10 @@ int voice;
 int loopflag;
 
 char *SongPtr = NULL;
+int SongLength = 0;
 char *SongName = NULL;
+BOOL SongIsWaveform = FALSE;
+int SongVoice = -1;
 extern BOOL DemoMode;
 
 //
@@ -250,8 +255,13 @@ void CheckSndData( char *file, int line )
 void
 SoundCallBack(unsigned int num)
     {
-    VOC_INFOp vp = &voc[num];
-    
+    VOC_INFOp vp;
+        
+    if ((int) num == MUSIC_ID)
+        {
+        return;
+        }
+        
     // RTS sounds are negative
     if ((long)num < 0)
         {
@@ -260,6 +270,8 @@ SoundCallBack(unsigned int num)
         return;
         }
 
+    vp = &voc[num];
+        
     // Update counter
     //vp->playing--;
     vp->lock--;
@@ -375,37 +387,50 @@ ExternalSoundMod(VOID)
 
 extern short Level;
 
-int
-PlaySong(char *song_file_name)
-    {
-    if (!gs.MusicOn)
-        return(MUSIC_Error);
-    
-    if (DemoMode)    
-        return(MUSIC_Error);
-    
-    if (SongPtr)    
-        StopSong();
-    
-    //DSPRINTF(ds,"Song %s",song_file_name);
-    //MONO_PRINT(ds);
-    
-    SongPtr = LoadMidi(song_file_name);
-
-    //DSPRINTF(ds,"Song Ptr %d",SongPtr);
-    //MONO_PRINT(ds);
-    
-    if (!SongPtr)
-        return(MUSIC_Error);
-
-    // Set loop to continually play song
-    loopflag = MUSIC_LoopSong;
-
-    //DSPRINTF(ds,"Playing song");
-    //MONO_PRINT(ds);
-
-    return((int)MUSIC_PlaySong(SongPtr, loopflag));
+void
+PlaySong(char *song_file_name, int cdaudio_track)
+{
+    if (!gs.MusicOn) {
+        return;
     }
+        
+    if (DemoMode)    
+        return;
+    
+    StopSong();
+        
+    if (!SW_SHAREWARE) {
+        char oggtrack[] = "track??.ogg";
+            
+        if (cdaudio_track >= 0) {
+            oggtrack[5] = '0' + (cdaudio_track / 10) % 10;
+            oggtrack[6] = '0' + cdaudio_track % 10;
+        }
+            
+        //CD_Play(cdaudio_track);
+
+        if (! LoadSong(oggtrack)) {
+            return;
+        }
+
+        SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
+                                      255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
+        SongIsWaveform = TRUE;
+        
+        if (SongVoice > FX_Ok) {
+            return;
+        }
+    }
+    
+    if (!song_file_name || !LoadSong(song_file_name)) {
+        return;
+    }
+        
+    if (!memcmp(SongPtr, "MThd", 4)) {
+        MUSIC_PlaySong(SongPtr, MUSIC_LoopSong);
+        SongIsWaveform = FALSE;
+    }
+}
 
 VOID
 StopFX(VOID)
@@ -413,24 +438,31 @@ StopFX(VOID)
     FX_StopAllSounds();
     }
 
-int
+void
 StopSong(VOID)
-    {
-    int status;
-    
+{
     if (DemoMode)    
-        return(MUSIC_Error);
-    
-    if (!SongPtr)    
-        return(MUSIC_Error);
-
-    // Stop the music
-    status = MUSIC_StopSong();
-    FreeMem(SongPtr);
-    SongPtr = NULL;
-    
-    return(status);
+        return;
+        
+    if (SongIsWaveform && SongVoice >= 0) {
+        FX_StopSound(SongVoice);
+        SongIsWaveform = -1;
+    } else {
+        MUSIC_StopSong();
     }
+    
+    if (SongPtr) {
+        free(SongPtr);
+        SongPtr = 0;
+        SongLength = 0;
+    }
+}
+
+VOID
+PauseSong(BOOL pauseon)
+{
+    if (!gs.MusicOn) return;
+}
 
 VOID
 StopSound(VOID)
@@ -979,43 +1011,40 @@ ReadSound(long handle, VOC_INFOp vp, long length)
     return(0);
     }
 
-char *
-LoadMidi(char *filename)
+BOOL
+LoadSong(const char *filename)
     {
-    long handle;
-    long size;
-    char *MidiPtr;
+    int handle;
+    int size;
+    char *ptr;
 
     if ((handle = kopen4load(filename, 0)) == -1)
         {
-        return(NULL);
-        //TerminateGame();
-        //printf("Cannot open '%s' for read.\n", filename);
-        //exit(1);
+        return(FALSE);
         }
 
     size = kfilelength(handle);
 
-    MidiPtr = (char *) AllocMem(size);
-    if (MidiPtr == NULL)
+    ptr = (char *) AllocMem(size);
+    if (ptr == NULL)
         {
-        return(NULL);
-        //TerminateGame();
-        //printf("Out of memory while reading '%s'.\n", filename);
-        //exit(1);
+        kclose(handle);
+        return(FALSE);
         }
 
-    if (kread(handle, MidiPtr, size) != size)
+    if (kread(handle, ptr, size) != size)
         {
-        return(NULL);
-        //TerminateGame();
-        //printf("Unexpected end of file while reading '%s'.\n", filename);
-        //exit(1);
+        FreeMem(ptr);
+        kclose(handle);
+        return(FALSE);
         }
 
     kclose(handle);
+    
+    SongPtr = ptr;
+    SongLength = size;
 
-    return (MidiPtr);
+    return (TRUE);
     }
 
 
@@ -1098,60 +1127,6 @@ SoundShutdown(void)
         printf("%s\n",FX_ErrorString(FX_Error));
         }
     }
-
-#if 0    
-void TestMusic( void )
-   {
-   int32 status;
-
-   // if they chose None lets return
-   if (MusicDevice == NumSoundCards)
-      return;
-
-   BlasterConfig.Midi = MidiPort;
-
-   status = MUSIC_Init( MusicDevice, MidiPort );
-   
-   if ( status == MUSIC_Ok )
-      {
-      MUSIC_SetVolume( MusicVolume );
-      //status = MUSIC_PlaySong( &theme, MUSIC_PlayOnce );
-      status = PlaySong("theme.mid");
-
-      if ( status == MUSIC_Ok )
-         {
-         char temp[200];
-         
-         sprintf(temp,"You should hear the %s\n"
-                      "     Press any key to end testing","song");
-                      
-         MONO_PRINT(temp);
-                      
-         while (1)
-            {
-            if (KB_KeyWaiting() == true)
-               {
-               KB_Getch();
-               break;
-               }
-            if (!MUSIC_SongPlaying())
-               {
-               break;
-               }
-            }
-            
-         //status = MUSIC_StopSong();
-         status = StopSong();
-         }
-         
-      status = MUSIC_Shutdown();
-      }
-   if ( status != MUSIC_Ok )
-      {
-      Error( MUSIC_ErrorString( MUSIC_ErrorCode ));
-      }
-   }
-#endif   
     
 
 /*

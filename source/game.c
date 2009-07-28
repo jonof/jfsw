@@ -1752,19 +1752,9 @@ LogoLevel(VOID)
     DSPRINTF(ds,"Created palookup...");
     MONO_PRINT(ds);
 
-
-    if (SW_SHAREWARE) {
-	// start music at logo
-	strcpy(LevelSong,"theme.mid");
-	PlaySong(LevelSong);
-    } else {
-	// Redbook audio theme song
-	if (gs.MusicOn) {
-		CDAudio_Play(RedBookSong[0], TRUE);  // track, loop - Level songs are looped
-		DSPRINTF(ds,"Tried to play redbook audio?...");
-		MONO_PRINT(ds);
-	}
-    }
+    // start music at logo
+    strcpy(LevelSong,"theme.mid");
+    PlaySong(LevelSong, RedBookSong[0]);
 
     DSPRINTF(ds,"After music stuff...");
     MONO_PRINT(ds);    
@@ -3180,7 +3170,7 @@ VOID InitRunLevel(VOID)
         if (gs.Ambient)    
             StartAmbientSound();
         SetCrosshair();
-        PlaySong(LevelSong);
+        PlaySong(LevelSong, -1);
         SetRedrawScreen(Player + myconnectindex);
         // crappy little hack to prevent play clock from being overwritten
         // for load games
@@ -3219,16 +3209,14 @@ VOID InitRunLevel(VOID)
     // Initialize Game part of network code (When ready2send != 0)
     InitNetVars();
     
-    if (!SW_SHAREWARE) {
-        if (gs.MusicOn)
-            {
-            if (Level == 0) // For user maps
-                CDAudio_Play(RedBookSong[4+RANDOM_RANGE(10)], TRUE);  // track, loop - Level songs are looped
-            else
-                CDAudio_Play(RedBookSong[Level], TRUE);  // track, loop - Level songs are looped
-            }
-    } else {
-        PlaySong(LevelSong);
+    {
+        int track;
+        if (Level == 0) {
+            track = RedBookSong[4+RANDOM_RANGE(10)];
+        } else {
+            track = RedBookSong[Level];
+        }
+        PlaySong(LevelSong, track);
     }
 
     InitPrediction(&Player[myconnectindex]);

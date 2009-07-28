@@ -84,11 +84,12 @@ void InitFX(void );
 VOID InitMusic(VOID);
 VOID StopFX(VOID);
 void FlipStereo(void );
-int StopSong(void );
+void StopSong(void );
+void PauseSong(BOOL pauseon);
 void StopSound(void );
 void StartAmbientSound(void );
 void StopAmbientSound(void );
-int PlaySong(char *song_file_name);
+void PlaySong(char *song_file_name, int cdaudio_track);
 VOID PlaySoundRTS(long rts_num);
 
 //

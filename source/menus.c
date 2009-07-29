@@ -2838,7 +2838,7 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
                     {
                     if (SW_SHAREWARE) {
                     bak = DemoMode;
-                    PlaySong(LevelSong, RedBookSong[Level]);    
+                    PlaySong(LevelSong, RedBookSong[Level], TRUE, TRUE);    
                     DemoMode = bak;
 		    } else {
                     if (!cdvalid)

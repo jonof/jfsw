@@ -959,16 +959,12 @@ InitGame(VOID)
     //initgroupfile("sw.grp");	// JBF: moving this close to start of program to detect shareware
     InitSetup();
     
-    if (SW_SHAREWARE)
-	InitMusic();
-    
     InitAutoNet();
 
     inittimer(120);
 
     CON_InitConsole();  // Init console command list
 
-    CDAudio_Init();         // Init Red Book Audio
     ////DSPRINTF(ds,"%s, %d",__FILE__,__LINE__);   MONO_PRINT(ds);
 
     //InitFX();
@@ -1102,6 +1098,8 @@ InitGame(VOID)
     COVERsetbrightness(gs.Brightness,(char *)palette_data);
 
     InitFX();	// JBF: do it down here so we get a hold of the window handle
+    InitMusic();
+        
     }
 
 
@@ -1754,7 +1752,7 @@ LogoLevel(VOID)
 
     // start music at logo
     strcpy(LevelSong,"theme.mid");
-    PlaySong(LevelSong, RedBookSong[0]);
+    PlaySong(LevelSong, RedBookSong[0], TRUE, TRUE);
 
     DSPRINTF(ds,"After music stuff...");
     MONO_PRINT(ds);    
@@ -3170,7 +3168,7 @@ VOID InitRunLevel(VOID)
         if (gs.Ambient)    
             StartAmbientSound();
         SetCrosshair();
-        PlaySong(LevelSong, -1);
+        PlaySong(LevelSong, -1, TRUE, TRUE);
         SetRedrawScreen(Player + myconnectindex);
         // crappy little hack to prevent play clock from being overwritten
         // for load games
@@ -3216,7 +3214,7 @@ VOID InitRunLevel(VOID)
         } else {
             track = RedBookSong[Level];
         }
-        PlaySong(LevelSong, track);
+        PlaySong(LevelSong, track, TRUE, TRUE);
     }
 
     InitPrediction(&Player[myconnectindex]);

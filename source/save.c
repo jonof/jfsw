@@ -1272,7 +1272,7 @@ int LoadGame(short save_num)
     screenpeek = myconnectindex;
     PlayingLevel = Level;
 
-    PlaySong(LevelSong, RedBookSong[Level]);
+    PlaySong(LevelSong, RedBookSong[Level], TRUE, TRUE);
     if (gs.Ambient)    
         StartAmbientSound();
     FX_SetVolume(gs.SoundVolume);

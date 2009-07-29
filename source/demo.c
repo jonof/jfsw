@@ -391,7 +391,7 @@ DemoPlayBack(VOID)
 
     if (SW_SHAREWARE) {
     // code here needs to be similar to RunLevel startup code
-    PlaySong(LevelSong, -1);
+    PlaySong(LevelSong, -1, TRUE, TRUE);
     }
     
     
@@ -591,7 +591,7 @@ ScenePlayBack(VOID)
     if (SW_SHAREWARE) {
     // code here needs to be similar to RunLevel startup code
     strcpy(LevelSong,"yokoha03.mid");
-    PlaySong(LevelSong, -1);
+    PlaySong(LevelSong, -1, TRUE, TRUE);
     }
 
     // IMPORTANT - MUST be right before game loop

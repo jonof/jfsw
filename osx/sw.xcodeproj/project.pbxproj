@@ -64,7 +64,6 @@
 		ABB4ABF60C64C6FE00F28920 /* break.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB710C64C4D000F28920 /* break.c */; };
 		ABB4ABF80C64C6FE00F28920 /* bunny.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB730C64C4D000F28920 /* bunny.c */; };
 		ABB4ABF90C64C6FE00F28920 /* cache.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB740C64C4D000F28920 /* cache.c */; };
-		ABB4ABFA0C64C6FE00F28920 /* cd.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB750C64C4D000F28920 /* cd.c */; };
 		ABB4ABFB0C64C6FE00F28920 /* cheats.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB760C64C4D000F28920 /* cheats.c */; };
 		ABB4ABFC0C64C6FE00F28920 /* colormap.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB770C64C4D000F28920 /* colormap.c */; };
 		ABB4ABFD0C64C6FE00F28920 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB780C64C4D000F28920 /* config.c */; };
@@ -130,6 +129,7 @@
 		ABB4AC3B0C64C6FE00F28920 /* zombie.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB60C64C4D000F28920 /* zombie.c */; };
 		ABB4AC3E0C64C72C00F28920 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
 		ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
+		ABBD3FB010205ACF00F32F37 /* cd.c in Sources */ = {isa = PBXBuildFile; fileRef = ABBD3FAD10205ACF00F32F37 /* cd.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -253,7 +253,6 @@
 		AB21435E101EEFB200E844AE /* bots.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bots.h; sourceTree = "<group>"; };
 		AB21435F101EEFB200E844AE /* break.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = break.h; sourceTree = "<group>"; };
 		AB214360101EEFB200E844AE /* cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cache.h; sourceTree = "<group>"; };
-		AB214361101EEFB200E844AE /* cda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cda.h; sourceTree = "<group>"; };
 		AB214362101EEFB200E844AE /* colormap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormap.h; sourceTree = "<group>"; };
 		AB214363101EEFB200E844AE /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		AB214364101EEFB200E844AE /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
@@ -321,7 +320,6 @@
 		ABB4AB720C64C4D000F28920 /* brooms.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = brooms.c; sourceTree = "<group>"; };
 		ABB4AB730C64C4D000F28920 /* bunny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bunny.c; sourceTree = "<group>"; };
 		ABB4AB740C64C4D000F28920 /* cache.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cache.c; sourceTree = "<group>"; };
-		ABB4AB750C64C4D000F28920 /* cd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cd.c; sourceTree = "<group>"; };
 		ABB4AB760C64C4D000F28920 /* cheats.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cheats.c; sourceTree = "<group>"; };
 		ABB4AB770C64C4D000F28920 /* colormap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = colormap.c; sourceTree = "<group>"; };
 		ABB4AB780C64C4D000F28920 /* config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = config.c; sourceTree = "<group>"; };
@@ -402,6 +400,9 @@
 		ABB4ABE80C64C6F100F28920 /* util_lib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util_lib.c; sourceTree = "<group>"; };
 		ABB4AC3D0C64C72C00F28920 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Users/jonof/Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		ABB4AC3F0C64C73A00F28920 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		ABBD3FAD10205ACF00F32F37 /* cd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cd.c; sourceTree = "<group>"; };
+		ABBD3FAE10205ACF00F32F37 /* cda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cda.h; sourceTree = "<group>"; };
+		ABBD3FAF10205ACF00F32F37 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -529,8 +530,8 @@
 				ABB4AB730C64C4D000F28920 /* bunny.c */,
 				ABB4AB740C64C4D000F28920 /* cache.c */,
 				AB214360101EEFB200E844AE /* cache.h */,
-				ABB4AB750C64C4D000F28920 /* cd.c */,
-				AB214361101EEFB200E844AE /* cda.h */,
+				ABBD3FAD10205ACF00F32F37 /* cd.c */,
+				ABBD3FAE10205ACF00F32F37 /* cda.h */,
 				ABB4AB760C64C4D000F28920 /* cheats.c */,
 				ABB4AB770C64C4D000F28920 /* colormap.c */,
 				AB214362101EEFB200E844AE /* colormap.h */,
@@ -550,6 +551,7 @@
 				ABB4AB7F0C64C4D000F28920 /* eel.c */,
 				AB214369101EEFB200E844AE /* function.h */,
 				ABB4AB800C64C4D000F28920 /* game.c */,
+				ABBD3FAF10205ACF00F32F37 /* game.h */,
 				AB21436B101EF04C00E844AE /* gamedefs.h */,
 				ABB4AB810C64C4D000F28920 /* girlninj.c */,
 				ABB4AB820C64C4D000F28920 /* goro.c */,
@@ -869,7 +871,6 @@
 				ABB4ABF60C64C6FE00F28920 /* break.c in Sources */,
 				ABB4ABF80C64C6FE00F28920 /* bunny.c in Sources */,
 				ABB4ABF90C64C6FE00F28920 /* cache.c in Sources */,
-				ABB4ABFA0C64C6FE00F28920 /* cd.c in Sources */,
 				ABB4ABFB0C64C6FE00F28920 /* cheats.c in Sources */,
 				ABB4ABFC0C64C6FE00F28920 /* colormap.c in Sources */,
 				ABB4ABFD0C64C6FE00F28920 /* config.c in Sources */,
@@ -943,6 +944,7 @@
 				ABB4ABF00C64C6F100F28920 /* util_lib.c in Sources */,
 				AB8F60750C658D3400202E11 /* startdlg.c in Sources */,
 				AB214119101D5B6800E844AE /* audiolib_musicstub.c in Sources */,
+				ABBD3FB010205ACF00F32F37 /* cd.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

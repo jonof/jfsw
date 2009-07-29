@@ -34,6 +34,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "mytypes.h"
 #include "fx_man.h"
 #include "music.h"
+#include "cd.h"
 #include "util_lib.h"
 #include "gamedefs.h"
 #include "config.h"
@@ -104,10 +105,17 @@ int voice;
 
 int loopflag;
 
+typedef enum {
+    SongTypeNone,
+    SongTypeMIDI,
+    SongTypeVoc,
+    SongTypeCDA
+} SongType_t;
+
 char *SongPtr = NULL;
 int SongLength = 0;
 char *SongName = NULL;
-BOOL SongIsWaveform = FALSE;
+SongType_t SongType = SongTypeNone;
 int SongVoice = -1;
 extern BOOL DemoMode;
 
@@ -387,49 +395,55 @@ ExternalSoundMod(VOID)
 
 extern short Level;
 
-void
-PlaySong(char *song_file_name, int cdaudio_track)
+BOOL
+PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
 {
     if (!gs.MusicOn) {
-        return;
+        return FALSE;
     }
         
     if (DemoMode)    
-        return;
+        return FALSE;
     
+    /*if (last song == this song && restart) {
+        return TRUE;
+    }*/
     StopSong();
         
     if (!SW_SHAREWARE) {
         char oggtrack[] = "track??.ogg";
+            
+        if (CD_Play(cdaudio_track, TRUE) == CD_Ok) {
+            SongType = SongTypeCDA;
+            return TRUE;
+        }
             
         if (cdaudio_track >= 0) {
             oggtrack[5] = '0' + (cdaudio_track / 10) % 10;
             oggtrack[6] = '0' + cdaudio_track % 10;
         }
             
-        //CD_Play(cdaudio_track);
-
-        if (! LoadSong(oggtrack)) {
-            return;
-        }
-
-        SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
-                                      255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
-        SongIsWaveform = TRUE;
-        
-        if (SongVoice > FX_Ok) {
-            return;
+        if (LoadSong(oggtrack)) {
+            SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
+                                          255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
+            if (SongVoice > FX_Ok) {
+                SongType = SongTypeVoc;
+                return TRUE;
+            }
         }
     }
     
     if (!song_file_name || !LoadSong(song_file_name)) {
-        return;
+        return FALSE;
     }
-        
+    
     if (!memcmp(SongPtr, "MThd", 4)) {
         MUSIC_PlaySong(SongPtr, MUSIC_LoopSong);
-        SongIsWaveform = FALSE;
+        SongType = SongTypeMIDI;
+        return TRUE;
     }
+    
+    return FALSE;
 }
 
 VOID
@@ -444,12 +458,14 @@ StopSong(VOID)
     if (DemoMode)    
         return;
         
-    if (SongIsWaveform && SongVoice >= 0) {
+    if (SongType == SongTypeVoc && SongVoice >= 0) {
         FX_StopSound(SongVoice);
-        SongIsWaveform = -1;
-    } else {
+    } else if (SongType == SongTypeMIDI) {
         MUSIC_StopSong();
+    } else if (SongType == SongTypeCDA) {
+        CD_Stop();
     }
+    SongType = SongTypeNone;
     
     if (SongPtr) {
         free(SongPtr);
@@ -469,7 +485,6 @@ StopSound(VOID)
     {
     StopFX();
     StopSong();
-    CDAudio_Stop(); 
     }
 
 //
@@ -1155,7 +1170,9 @@ void loadtmb(void)
 void MusicStartup( void )
    {
    int32 status;
-
+       
+       CD_Init();
+       
    // if they chose None lets return
    if (MusicDevice < 0)
         {
@@ -1197,6 +1214,8 @@ void
 MusicShutdown(void)
     {
     int32 status;
+        
+        CD_Shutdown();
 
     // if they chose None lets return
     if (MusicDevice < 0)

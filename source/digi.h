@@ -25,7 +25,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //-------------------------------------------------------------------------
 
 #ifdef DIGI_TABLE
-#define DIGI_ENTRY(name, id, id_num, pri, pitch_lo, pitch_hi, voc_num, voc_dist, voc_flags) { name, NULL, pitch_lo, pitch_hi, pri, voc_num, voc_dist, voc_flags, 0,0},
+#define DIGI_ENTRY(name, id, id_num, pri, pitch_lo, pitch_hi, voc_num, voc_dist, voc_flags) { name, NULL, 0, pitch_lo, pitch_hi, pri, voc_num, voc_dist, voc_flags, 0,0},
 #endif
 
 #ifdef DIGI_ENUM

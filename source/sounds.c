@@ -529,6 +529,12 @@ VOID
 PauseSong(BOOL pauseon)
 {
     if (!gs.MusicOn) return;
+
+    if (SongType == SongTypeVoc && SongVoice >= 0) {
+        FX_PauseSound(SongVoice, pauseon);
+    } else if (SongType == SongTypeCDA) {
+        CD_Pause(pauseon);
+    }
 }
 
 void

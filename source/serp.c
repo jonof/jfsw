@@ -811,14 +811,11 @@ int DoDeathSpecial(short SpriteNum)
 
     DoMatchEverything(NULL, sp->lotag, ON);
 
-    if (!SW_SHAREWARE) {
-    if(gs.MusicOn && !alreadydid)
+    if (!SW_SHAREWARE && gs.MusicOn && !alreadydid)
         {
-        CDAudio_Stop();
-        CDAudio_Play(RedBookSong[Level], TRUE);
+        PlaySong(0, RedBookSong[Level], TRUE, TRUE);
         alreadydid = TRUE;
         }
-    }
 
     BossSpriteNum[0] = -2;
     return(0);

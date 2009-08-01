@@ -90,6 +90,8 @@ void StopSound(void );
 void StartAmbientSound(void );
 void StopAmbientSound(void );
 BOOL PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart);
+void SetSongVolume(int volume);
+BOOL SongIsPlaying(void);
 VOID PlaySoundRTS(long rts_num);
 
 //

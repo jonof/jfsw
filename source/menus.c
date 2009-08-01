@@ -54,7 +54,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 //#define PLOCK_VERSION TRUE
 
-extern BOOL cdvalid, enabled;
 
 short TimeLimitTable[9] = {0,3,5,10,15,20,30,45,60}; 
 
@@ -2644,16 +2643,10 @@ MNU_MouseCheck(MenuItem *item)
 static BOOL
 MNU_TryMusicInit(void)
     {
-    if (!cdvalid)
+    if (PlaySong(0, RedBookSong[Level], TRUE, FALSE))
         {
-        enabled = TRUE; // Let it in to try and reset
-        CDAudio_Init();
-        if (cdvalid)
-            {
-            if (currentmenu->cursor == 0)
-                MNU_MusicCheck(&currentmenu->items[currentmenu->cursor+1]);
-            CDAudio_Play(RedBookSong[Level], TRUE);
-            }
+        if (currentmenu->cursor == 0)
+            MNU_MusicCheck(&currentmenu->items[currentmenu->cursor+1]);
         }
 
     return (TRUE);
@@ -2673,21 +2666,12 @@ MNU_MusicCheck(MenuItem *item)
         }    
     } else {
     // Redbook audio stuff
-    if (!cdvalid)
-        {
-        //enabled = TRUE; // Let it in to try and reset
-        //CDAudio_Init();
-        //if (cdvalid)
-        //    {
-        //    if (currentmenu->cursor == 0)
-        //        MNU_MusicCheck(&currentmenu->items[currentmenu->cursor+1]);
-        //    CDAudio_Play(RedBookSong[Level], TRUE);
-        //    RESET(item->flags, mf_disabled);
-        //    }
-        //else    
-        SET(item->flags, mf_disabled); // Just don't let CD Redbook ever be invalid!
-        }
-    else
+    //JBF
+	//if (!cdvalid)
+    //    {
+    //    SET(item->flags, mf_disabled); // Just don't let CD Redbook ever be invalid!
+    //    }
+    //else
         {
         RESET(item->flags, mf_disabled);
         }    
@@ -2823,11 +2807,6 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
                 }    
             break;
         case btn_music:
-            if (SW_SHAREWARE) {
-            if (!MusicInitialized)
-                 break;
-	    }
-
             last_value = gs.MusicOn;
             gs.MusicOn = state = buttonsettings[item->button];
             if (gs.MusicOn != last_value)
@@ -2836,46 +2815,25 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
                 
                 if (gs.MusicOn)
                     {
-                    if (SW_SHAREWARE) {
                     bak = DemoMode;
                     PlaySong(LevelSong, RedBookSong[Level], TRUE, TRUE);    
                     DemoMode = bak;
-		    } else {
-                    if (!cdvalid)
-                        {
-                        enabled = TRUE;
-                        CDAudio_Init();
-                        if (cdvalid)             
-                            {
-                            MNU_MusicCheck(item);
-                            MNU_MusicCheck(&currentmenu->items[currentmenu->cursor+1]);
-                            CDAudio_Play(RedBookSong[Level], TRUE);
-                            }    
-                        } else
-                        {
-                        CDAudio_Stop();
-                        CDAudio_Play(RedBookSong[Level], TRUE);
-                        }
-                    }
                     }
                 else
                     {
-                    if (SW_SHAREWARE) {
                     bak = DemoMode;
                     StopSong();
                     DemoMode = bak;
-                    } else {
-                    CDAudio_Stop();
-		    }
 
-                    if (SW_SHAREWARE) {
-                    handle = PlaySound(DIGI_NOLIKEMUSIC,&zero,&zero,&zero,v3df_none);
+                    if (SW_SHAREWARE)
+					    {
+                        handle = PlaySound(DIGI_NOLIKEMUSIC,&zero,&zero,&zero,v3df_none);
 
-                    if (handle > FX_Ok)
-                        while(FX_SoundActive(handle))
-                            handleevents();
-                    }
-                }    
+                        if (handle > FX_Ok)
+                            while(FX_SoundActive(handle))
+                                handleevents();
+                        }
+					}
                 }    
             break;
         case btn_talking:
@@ -3088,11 +3046,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
         
         slidersettings[sldr_musicvolume] = offset;
         gs.MusicVolume = MUSIC_MIN + (offset * VOL_MUL);
-        if (!SW_SHAREWARE) {
-        CDAudio_SetVolume(gs.MusicVolume);
-	} else {
-        MUSIC_SetVolume(gs.MusicVolume);
-	}
+		SetSongVolume(gs.MusicVolume);
         break;
         
     case sldr_scrsize:
@@ -4586,5 +4540,5 @@ VOID ResetPalette(PLAYERp pp)
     pp->FadeTics = 0;
     }
 
-// vim:enc=utf-8:
+// vim:ts=4:sw=4:enc=utf-8:
 

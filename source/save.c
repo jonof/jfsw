@@ -1276,11 +1276,7 @@ int LoadGame(short save_num)
     if (gs.Ambient)    
         StartAmbientSound();
     FX_SetVolume(gs.SoundVolume);
-    if (!SW_SHAREWARE) {
-        CDAudio_SetVolume(gs.MusicVolume);
-    } else {
-        MUSIC_SetVolume(gs.MusicVolume);
-    }
+    SetSongVolume(gs.MusicVolume);
 
     TRAVERSE_CONNECT(i)
         {

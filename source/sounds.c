@@ -63,6 +63,14 @@ int PLocked_Sounds[] = {
     558,557
 };
 
+BYTE RedBookSong[40] =
+    {
+    2,4,9,12,10, // Title and ShareWare levels
+    5,6,8,11,12,5,10,4,6,9,7,10,8,7,9,10,11,5, // Registered levels
+    11,8,7,13,5,6,  // Deathmatch levels    
+    13 // Fight boss
+    };
+
 // Global vars used by ambient sounds to set spritenum of ambient sounds for later lookups in
 // the sprite array so FAFcansee can know the sound sprite's current sector location
 BOOL Use_SoundSpriteNum = FALSE;
@@ -115,6 +123,7 @@ typedef enum {
 char *SongPtr = NULL;
 int SongLength = 0;
 char *SongName = NULL;
+int SongTrack = 0;
 SongType_t SongType = SongTypeNone;
 int SongVoice = -1;
 extern BOOL DemoMode;
@@ -404,10 +413,34 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
         
     if (DemoMode)    
         return FALSE;
-    
-    /*if (last song == this song && restart) {
-        return TRUE;
-    }*/
+
+    if (!restart)
+        {    
+        if (SongType == SongTypeCDA && cdaudio_track == SongTrack)
+            {
+            return TRUE;
+            }
+        else if (SongType == SongTypeVoc)
+            {
+            if (SongTrack > 0 && SongTrack == cdaudio_track)
+                {
+                // ogg replacement for a CD track
+                return TRUE;
+                }
+            else if (SongName && !strcmp(SongName, song_file_name))
+                {
+                return TRUE;
+                }
+            }
+        else if (SongType == SongTypeMIDI)
+            {
+            if (SongName && !strcmp(SongName, song_file_name))
+                {
+                return TRUE;
+                }
+            }
+        }
+
     StopSong();
         
     if (!SW_SHAREWARE) {
@@ -415,6 +448,7 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
             
         if (CD_Play(cdaudio_track, TRUE) == CD_Ok) {
             SongType = SongTypeCDA;
+            SongTrack = cdaudio_track;
             return TRUE;
         }
             
@@ -428,6 +462,8 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
                                           255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
             if (SongVoice > FX_Ok) {
                 SongType = SongTypeVoc;
+                SongTrack = cdaudio_track;
+                SongName = strdup(oggtrack);
                 return TRUE;
             }
         }
@@ -440,7 +476,16 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
     if (!memcmp(SongPtr, "MThd", 4)) {
         MUSIC_PlaySong(SongPtr, MUSIC_LoopSong);
         SongType = SongTypeMIDI;
+        SongName = strdup(song_file_name);
         return TRUE;
+    } else {
+        SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
+                                      255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
+        if (SongVoice > FX_Ok) {
+            SongType = SongTypeVoc;
+            SongName = strdup(song_file_name);
+            return TRUE;
+        }
     }
     
     return FALSE;
@@ -466,6 +511,12 @@ StopSong(VOID)
         CD_Stop();
     }
     SongType = SongTypeNone;
+
+    if (SongName) {
+        free(SongName);
+    }
+    SongName = 0;
+    SongTrack = 0;
     
     if (SongPtr) {
         free(SongPtr);
@@ -478,6 +529,17 @@ VOID
 PauseSong(BOOL pauseon)
 {
     if (!gs.MusicOn) return;
+}
+
+void
+SetSongVolume(int volume)
+{
+}
+
+BOOL
+SongIsPlaying(void)
+{
+    return FALSE;
 }
 
 VOID
@@ -1170,8 +1232,13 @@ void loadtmb(void)
 void MusicStartup( void )
    {
    int32 status;
+   int fxdevicetype;
        
-       CD_Init();
+    if (FXDevice == 0) {
+        CD_Init(ASS_AutoDetect);
+    } else if (FXDevice > 0) {
+        CD_Init(FXDevice - 1);
+    }
        
    // if they chose None lets return
    if (MusicDevice < 0)
@@ -1971,3 +2038,4 @@ PlaySpriteSound(short spritenum, int attrib_ndx, Voc3D_Flags flags)
     PlaySound(u->Attrib->Sounds[attrib_ndx], &sp->x, &sp->y, &sp->z, flags);
     }
 
+// vim:ts=4:sw=4:expandtab:

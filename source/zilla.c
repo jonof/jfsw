@@ -776,14 +776,11 @@ int DoZillaDeathMelt(short SpriteNum)
     RESET(u->Flags, SPR_JUMPING|SPR_FALLING|SPR_MOVED);
 
     //DoMatchEverything(NULL, sp->lotag, ON);
-    if (!SW_SHAREWARE) {
-    if(gs.MusicOn && !alreadydid)
+    if (!SW_SHAREWARE && gs.MusicOn && !alreadydid)
         {
-        CDAudio_Stop();
-        CDAudio_Play(RedBookSong[Level], TRUE);
+        PlaySong(0, RedBookSong[Level], TRUE, TRUE);
         alreadydid = TRUE;
         }
-    }
 
     //KeepActorOnFloor(SpriteNum);
     getzsofslope(sp->sectnum, sp->x, sp->y, &u->hiz, &u->loz);

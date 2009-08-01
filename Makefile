@@ -64,7 +64,6 @@ GAMEOBJS= \
 	$(OBJ)/break.$o \
 	$(OBJ)/bunny.$o \
 	$(OBJ)/cache.$o \
-	$(OBJ)/cd.$o \
 	$(OBJ)/cheats.$o \
 	$(OBJ)/colormap.$o \
 	$(OBJ)/config.$o \
@@ -145,7 +144,7 @@ endif
 ifeq ($(PLATFORM),WINDOWS)
 	OURCFLAGS+= -DUNDERSCORES -I$(DXROOT)/include
 	NASMFLAGS+= -DUNDERSCORES -f win32
-	GAMEOBJS+= $(OBJ)/cda_win32.$o $(OBJ)/gameres.$o $(OBJ)/startdlg.$o $(OBJ)/startwin.game.$o
+	GAMEOBJS+= $(OBJ)/gameres.$o $(OBJ)/startdlg.$o $(OBJ)/startwin.game.$o
 	EDITOROBJS+= $(OBJ)/buildres.$o
 	GAMELIBS+= -ldsound \
 	       $(JAUDIOLIBDIR)/third-party/mingw32/lib/libvorbisfile.a \

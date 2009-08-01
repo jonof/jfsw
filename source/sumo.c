@@ -797,14 +797,12 @@ int DoSumoDeathMelt(short SpriteNum)
     u->ID = 0;
 
     DoMatchEverything(NULL, sp->lotag, ON);
-    if (!SW_SHAREWARE) {
-    if(gs.MusicOn && !alreadydid)
+    if (!SW_SHAREWARE && gs.MusicOn && !alreadydid)
         {
-        CDAudio_Stop();
-        CDAudio_Play(RedBookSong[Level], TRUE);
+        PlaySong(0, RedBookSong[Level], TRUE, TRUE);
         alreadydid = TRUE;
         }
-    }
+
     BossSpriteNum[1] = -2; // Sprite is gone, set it back to keep it valid!
 
     return(0);
@@ -880,41 +878,32 @@ BossHealthMeter(void)
                     if (i == 0 && !serpwasseen)
                         {
                         serpwasseen = TRUE;
-                        if (!SW_SHAREWARE) {
-                        if(gs.MusicOn)
+                        if (!SW_SHAREWARE && gs.MusicOn)
                             {
-                            CDAudio_Stop();
-                            CDAudio_Play(13, TRUE);
+                            PlaySong(0, 13, TRUE, TRUE);
                             }
-                        }
                         }
                     else
                     if (i == 1 && !sumowasseen)
                         {
                         sumowasseen = TRUE;
-                        if (!SW_SHAREWARE) {
-                        if(gs.MusicOn)
+                        if (!SW_SHAREWARE && gs.MusicOn)
                             {
-                            CDAudio_Stop();
-                            CDAudio_Play(13, TRUE);
+                            PlaySong(0, 13, TRUE, TRUE);
                             }
-                        }
                         }
                     else
                     if (i == 2 && !zillawasseen)
                         {
                         zillawasseen = TRUE;
-                        if (!SW_SHAREWARE) {
-                        if(gs.MusicOn)
+                        if (!SW_SHAREWARE && gs.MusicOn)
                             {
-                            CDAudio_Stop();
-                            CDAudio_Play(13, TRUE);
+                            PlaySong(0, 13, TRUE, TRUE);
                             }
                         }
                     }
                 }
             }
-        }
         }
 
 
@@ -929,13 +918,11 @@ BossHealthMeter(void)
             continue;
 
         // This is needed because of possible saved game situation
-        if (!SW_SHAREWARE) {
-            if ((!CDAudio_Playing() || playTrack != 13) && !triedplay)
-                {
-                CDAudio_Play(13, TRUE);
-                triedplay = TRUE; // Only try once, then give up
-                }
-	}
+        if (!SW_SHAREWARE && !triedplay)
+            {
+            PlaySong(0, 13, TRUE, FALSE);
+            triedplay = TRUE; // Only try once, then give up
+            }
 
         sp = &sprite[BossSpriteNum[i]];
         u = User[BossSpriteNum[i]];

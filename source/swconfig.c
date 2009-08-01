@@ -112,7 +112,6 @@ void ReadGameSetup( int32 scripthandle )
     long dummy;
     long ret;
     extern char WangBangMacro[10][64];
-    extern int cddevice;
 
     for(dummy = 0;dummy < 10;dummy++)
         {
@@ -247,7 +246,6 @@ void ReadGameSetup( int32 scripthandle )
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "CDDevice",&dummy);
     if (dummy < 0) dummy = -1;
-    cddevice = dummy;
    
     if (SW_SHAREWARE) {
    dummy = -1;
@@ -276,7 +274,6 @@ void ReadGameSetup( int32 scripthandle )
 void WriteGameSetup( int32 scripthandle)
    {
    long dummy;
-   extern int cddevice;
    
    dummy = gs.BorderNum;
    SCRIPT_PutNumber( scripthandle, "Options", "BorderNum",dummy,FALSE,FALSE);
@@ -346,7 +343,7 @@ void WriteGameSetup( int32 scripthandle)
 
    dummy = gs.PlayCD;
    SCRIPT_PutNumber( scripthandle, "Options", "PlayCD",dummy,FALSE,FALSE);
-   SCRIPT_PutNumber( scripthandle, "Options", "CDDevice",cddevice,FALSE,FALSE);
+   SCRIPT_PutNumber( scripthandle, "Options", "CDDevice",0,FALSE,FALSE);
    
    if (SW_SHAREWARE) {
    dummy = GamePlays;

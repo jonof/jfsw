@@ -126,7 +126,6 @@ GAMEOBJS= \
 	$(OBJ)/zilla.$o \
 	$(OBJ)/zombie.$o \
 	$(OBJ)/saveable.$o \
-	$(OBJ)/audiolib_musicstub.$o \
 	$(JMACTOBJ)
 
 EDITOROBJS=$(OBJ)/jnstub.$o \

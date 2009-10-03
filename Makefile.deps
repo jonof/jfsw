@@ -99,7 +99,3 @@ $(OBJ)/mathutil.$o: $(SRC)/jmact/mathutil.c $(SRC)/jmact/types.h
 $(OBJ)/scriplib.$o: $(SRC)/jmact/scriplib.c $(SRC)/jmact/scriplib.h $(SRC)/jmact/util_lib.h $(SRC)/jmact/_scrplib.h $(SRC)/jmact/types.h $(EINC)/compat.h
 $(OBJ)/animlib.$o: $(SRC)/jmact/animlib.c $(SRC)/jmact/types.h $(SRC)/jmact/develop.h $(SRC)/jmact/util_lib.h $(SRC)/jmact/animlib.h
 
-# jAudioLib objects
-$(OBJ)/audiolib_musicstub.$o: $(SRC)/audiolib_musicstub.c $(JAUDIOLIBDIR)/include/music.h
-
-$(OBJ)/cda_win32.$o: $(SRC)/cda_win32.c $(INC)/cda.h

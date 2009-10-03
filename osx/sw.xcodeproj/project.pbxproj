@@ -28,7 +28,6 @@
 		AB2140BF101D56CC00E844AE /* ogg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB2140B0101D56BC00E844AE /* ogg.framework */; };
 		AB2140C0101D56CC00E844AE /* vorbis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB2140B1101D56BC00E844AE /* vorbis.framework */; };
 		AB2140FC101D57CB00E844AE /* libengine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21409A101D559900E844AE /* libengine.a */; };
-		AB214119101D5B6800E844AE /* audiolib_musicstub.c in Sources */ = {isa = PBXBuildFile; fileRef = AB214118101D5B6800E844AE /* audiolib_musicstub.c */; };
 		AB21411C101D5B8F00E844AE /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21411B101D5B8F00E844AE /* AudioUnit.framework */; };
 		AB8F60750C658D3400202E11 /* startdlg.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8F60740C658D3400202E11 /* startdlg.c */; };
 		AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
@@ -129,7 +128,6 @@
 		ABB4AC3B0C64C6FE00F28920 /* zombie.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB60C64C4D000F28920 /* zombie.c */; };
 		ABB4AC3E0C64C72C00F28920 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
 		ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
-		ABBD3FB010205ACF00F32F37 /* cd.c in Sources */ = {isa = PBXBuildFile; fileRef = ABBD3FAD10205ACF00F32F37 /* cd.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -203,6 +201,13 @@
 			remoteGlobalIDString = AB735F480A29A2DC003261DC;
 			remoteInfo = engine;
 		};
+		AB32FB8710777A4C00A9BAFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB32FA7F1077102D00A9BAFF /* test */;
+			remoteInfo = test;
+		};
 		AB8F61C60C6593F900202E11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB270C64C36100F28920 /* Project object */;
@@ -241,7 +246,6 @@
 		AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = jfaudiolib.xcodeproj; path = ../source/jaudiolib/jfaudiolib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		AB2140B0101D56BC00E844AE /* ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ogg.framework; path = "../source/jaudiolib/third-party/ogg.framework"; sourceTree = SOURCE_ROOT; };
 		AB2140B1101D56BC00E844AE /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = "../source/jaudiolib/third-party/vorbis.framework"; sourceTree = SOURCE_ROOT; };
-		AB214118101D5B6800E844AE /* audiolib_musicstub.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = audiolib_musicstub.c; sourceTree = "<group>"; };
 		AB21411B101D5B8F00E844AE /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
 		AB214357101EEFB200E844AE /* _config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _config.h; sourceTree = "<group>"; };
 		AB214358101EEFB200E844AE /* _functio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _functio.h; sourceTree = "<group>"; };
@@ -384,7 +388,7 @@
 		ABB4ABB40C64C4D000F28920 /* weapon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = weapon.c; sourceTree = "<group>"; };
 		ABB4ABB50C64C4D000F28920 /* zilla.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zilla.c; sourceTree = "<group>"; };
 		ABB4ABB60C64C4D000F28920 /* zombie.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zombie.c; sourceTree = "<group>"; };
-		ABB4ABB70C64C4EF00F28920 /* JFShadowWarrior-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JFShadowWarrior-Info.plist"; sourceTree = "<group>"; };
+		ABB4ABB70C64C4EF00F28920 /* JFShadowWarrior-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "JFShadowWarrior-Info.plist"; sourceTree = "<group>"; };
 		ABB4ABB80C64C4EF00F28920 /* game.osxmain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = game.osxmain.nib; sourceTree = "<group>"; };
 		ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = startwin.game.nib; sourceTree = "<group>"; };
 		ABB4ABC20C64C50100F28920 /* game_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = game_icon.icns; path = ../rsrc/game_icon.icns; sourceTree = SOURCE_ROOT; };
@@ -400,8 +404,6 @@
 		ABB4ABE80C64C6F100F28920 /* util_lib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util_lib.c; sourceTree = "<group>"; };
 		ABB4AC3D0C64C72C00F28920 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Users/jonof/Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		ABB4AC3F0C64C73A00F28920 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		ABBD3FAD10205ACF00F32F37 /* cd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cd.c; sourceTree = "<group>"; };
-		ABBD3FAE10205ACF00F32F37 /* cda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cda.h; sourceTree = "<group>"; };
 		ABBD3FAF10205ACF00F32F37 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -449,6 +451,7 @@
 			isa = PBXGroup;
 			children = (
 				AB2140AE101D567A00E844AE /* libjfaudiolib.a */,
+				AB32FB8810777A4C00A9BAFF /* test */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -522,7 +525,6 @@
 				AB21435C101EEFB200E844AE /* ambient.h */,
 				ABB4AB6E0C64C4D000F28920 /* anim.c */,
 				AB21435D101EEFB200E844AE /* anim.h */,
-				AB214118101D5B6800E844AE /* audiolib_musicstub.c */,
 				ABB4AB700C64C4D000F28920 /* border.c */,
 				AB21435E101EEFB200E844AE /* bots.h */,
 				ABB4AB710C64C4D000F28920 /* break.c */,
@@ -530,8 +532,6 @@
 				ABB4AB730C64C4D000F28920 /* bunny.c */,
 				ABB4AB740C64C4D000F28920 /* cache.c */,
 				AB214360101EEFB200E844AE /* cache.h */,
-				ABBD3FAD10205ACF00F32F37 /* cd.c */,
-				ABBD3FAE10205ACF00F32F37 /* cda.h */,
 				ABB4AB760C64C4D000F28920 /* cheats.c */,
 				ABB4AB770C64C4D000F28920 /* colormap.c */,
 				AB214362101EEFB200E844AE /* colormap.h */,
@@ -819,6 +819,13 @@
 			remoteRef = AB2140AD101D567A00E844AE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AB32FB8810777A4C00A9BAFF /* test */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = test;
+			remoteRef = AB32FB8710777A4C00A9BAFF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -943,8 +950,6 @@
 				ABB4ABEF0C64C6F100F28920 /* scriplib.c in Sources */,
 				ABB4ABF00C64C6F100F28920 /* util_lib.c in Sources */,
 				AB8F60750C658D3400202E11 /* startdlg.c in Sources */,
-				AB214119101D5B6800E844AE /* audiolib_musicstub.c in Sources */,
-				ABBD3FB010205ACF00F32F37 /* cd.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1019,16 +1024,16 @@
 					RENDERTYPESDL,
 				);
 				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
+				GCC_VERSION_ppc = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../source/jaudiolib/include,
 					../source,
 					../engine/include,
 				);
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.2;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.2.8.sdk;
+				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
 			};
 			name = Debug;
 		};
@@ -1058,16 +1063,16 @@
 					RENDERTYPESDL,
 				);
 				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
+				GCC_VERSION_ppc = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../source/jaudiolib/include,
 					../source,
 					../engine/include,
 				);
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.2;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.2.8.sdk;
+				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
 			};
 			name = Release;
 		};

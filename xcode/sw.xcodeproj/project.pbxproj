@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -205,7 +205,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = AB32FA7F1077102D00A9BAFF /* test */;
+			remoteGlobalIDString = AB32FA7F1077102D00A9BAFF;
 			remoteInfo = test;
 		};
 		AB8F61C60C6593F900202E11 /* PBXContainerItemProxy */ = {
@@ -388,7 +388,7 @@
 		ABB4ABB40C64C4D000F28920 /* weapon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = weapon.c; sourceTree = "<group>"; };
 		ABB4ABB50C64C4D000F28920 /* zilla.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zilla.c; sourceTree = "<group>"; };
 		ABB4ABB60C64C4D000F28920 /* zombie.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zombie.c; sourceTree = "<group>"; };
-		ABB4ABB70C64C4EF00F28920 /* JFShadowWarrior-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "JFShadowWarrior-Info.plist"; sourceTree = "<group>"; };
+		ABB4ABB70C64C4EF00F28920 /* JFShadowWarrior-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JFShadowWarrior-Info.plist"; sourceTree = "<group>"; };
 		ABB4ABB80C64C4EF00F28920 /* game.osxmain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = game.osxmain.nib; sourceTree = "<group>"; };
 		ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = startwin.game.nib; sourceTree = "<group>"; };
 		ABB4ABC20C64C50100F28920 /* game_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = game_icon.icns; path = ../rsrc/game_icon.icns; sourceTree = SOURCE_ROOT; };
@@ -745,7 +745,7 @@
 		ABB4AB270C64C36100F28920 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = ABB4AB280C64C36100F28920 /* Build configuration list for PBXProject "sw" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 0;
 			mainGroup = ABB4AB250C64C36100F28920;
 			productRefGroup = ABB4ABCE0C64C52900F28920 /* Products */;
@@ -1023,8 +1023,7 @@
 					NOASM,
 					RENDERTYPESDL,
 				);
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 4.0;
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../source/jaudiolib/include,
 					../source,
@@ -1032,8 +1031,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 			};
 			name = Debug;
 		};
@@ -1062,8 +1060,7 @@
 					NOASM,
 					RENDERTYPESDL,
 				);
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 4.0;
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../source/jaudiolib/include,
 					../source,
@@ -1071,8 +1068,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 			};
 			name = Release;
 		};

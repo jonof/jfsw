@@ -1,7 +1,7 @@
 # Shadow Warrior Makefile for GNU Make
 
 # SDK locations - adjust to match your setup
-DXROOT=c:/sdks/directx/dx61
+DXROOT=/z/sdks/directx/dx7
 
 # Engine options
 SUPERBUILD = 1
@@ -21,7 +21,7 @@ RSRC=rsrc
 OBJ=obj
 EROOT=engine
 EINC=$(EROOT)/include
-ELIB=$(EROOT)/obj.gnu
+ELIB=$(EROOT)
 INC=$(SRC)
 o=o
 
@@ -33,13 +33,17 @@ else
   debug=-ggdb -O0
 endif
 
+JAUDIOLIBDIR=$(SRC)/jaudiolib
+JAUDIOLIB=libjfaudiolib.a
+
 CC=gcc
-CXX=gcc
+CXX=g++
 OURCFLAGS=$(debug) -W -Wall -Wimplicit -Wno-char-subscripts -Wno-unused \
 	-funsigned-char -fno-strict-aliasing -DNO_GCC_BUILTINS \
-	-I$(INC) -I$(EINC) -I$(SRC)/jmact -I$(SRC)/jaudiolib #-I../jfaud/inc
+	-I$(INC) -I$(EINC) -I$(SRC)/jmact -I$(JAUDIOLIBDIR)/include
 OURCXXFLAGS=-fno-exceptions -fno-rtti
-LIBS=-lm #../jfaud/jfaud.a # -L../jfaud -ljfaud
+LIBS=-lm
+GAMELIBS=
 NASMFLAGS=-s #-g
 EXESUFFIX=
 
@@ -52,21 +56,6 @@ JMACTOBJ=$(OBJ)/util_lib.$o \
 	$(OBJ)/scriplib.$o \
 	$(OBJ)/animlib.$o
 
-AUDIOLIB_FX_STUB=$(OBJ)/audiolib_fxstub.$o
-AUDIOLIB_MUSIC_STUB=$(OBJ)/audiolib_musicstub.$o
-#AUDIOLIB_FX=$(OBJ)/audiolib_fx_fmod.$o
-AUDIOLIB_FX=$(OBJ)/mv_mix.$o \
-	  $(OBJ)/mv_mix16.$o \
-	  $(OBJ)/mvreverb.$o \
-	  $(OBJ)/pitch.$o \
-	  $(OBJ)/multivoc.$o \
-	  $(OBJ)/ll_man.$o \
-	  $(OBJ)/fx_man.$o \
-	  $(OBJ)/dsoundout.$o
-AUDIOLIB_MUSIC=$(OBJ)/midi.$o \
-	  $(OBJ)/mpu401.$o \
-	  $(OBJ)/music.$o
-
 GAMEOBJS= \
 	$(OBJ)/actor.$o \
 	$(OBJ)/ai.$o \
@@ -75,7 +64,6 @@ GAMEOBJS= \
 	$(OBJ)/break.$o \
 	$(OBJ)/bunny.$o \
 	$(OBJ)/cache.$o \
-	$(OBJ)/cd.$o \
 	$(OBJ)/cheats.$o \
 	$(OBJ)/colormap.$o \
 	$(OBJ)/config.$o \
@@ -130,7 +118,6 @@ GAMEOBJS= \
 	$(OBJ)/sync.$o \
 	$(OBJ)/text.$o \
 	$(OBJ)/track.$o \
-	$(OBJ)/usrhooks.$o \
 	$(OBJ)/vator.$o \
 	$(OBJ)/vis.$o \
 	$(OBJ)/wallmove.$o \
@@ -151,12 +138,17 @@ include $(EROOT)/Makefile.shared
 
 ifeq ($(PLATFORM),LINUX)
 	NASMFLAGS+= -f elf
+	GAMELIBS+= -lvorbisfile -lvorbis -logg
 endif
 ifeq ($(PLATFORM),WINDOWS)
 	OURCFLAGS+= -DUNDERSCORES -I$(DXROOT)/include
 	NASMFLAGS+= -DUNDERSCORES -f win32
-	GAMEOBJS+= $(OBJ)/cda_win32.$o $(OBJ)/gameres.$o $(OBJ)/startdlg.$o $(OBJ)/startwin.game.$o
+	GAMEOBJS+= $(OBJ)/gameres.$o $(OBJ)/startdlg.$o $(OBJ)/startwin.game.$o
 	EDITOROBJS+= $(OBJ)/buildres.$o
+	GAMELIBS+= -ldsound \
+	       $(JAUDIOLIBDIR)/third-party/mingw32/lib/libvorbisfile.a \
+	       $(JAUDIOLIBDIR)/third-party/mingw32/lib/libvorbis.a \
+	       $(JAUDIOLIBDIR)/third-party/mingw32/lib/libogg.a
 endif
 
 ifeq ($(RENDERTYPE),SDL)
@@ -172,14 +164,10 @@ ifeq ($(RENDERTYPE),SDL)
 	GAMEOBJS+= $(OBJ)/game_icon.$o
 	EDITOROBJS+= $(OBJ)/build_icon.$o
 endif
-ifeq ($(RENDERTYPE),WIN)
-	AUDIOLIBOBJ=$(AUDIOLIB_MUSIC) $(AUDIOLIB_FX)
-endif
 
-GAMEOBJS+= $(AUDIOLIBOBJ)
 OURCFLAGS+= $(BUILDCFLAGS)
 
-.PHONY: clean all engine $(ELIB)/$(ENGINELIB) $(ELIB)/$(EDITORLIB)
+.PHONY: clean all engine $(ELIB)/$(ENGINELIB) $(ELIB)/$(EDITORLIB) $(JAUDIOLIBDIR)/$(JAUDIOLIB)
 
 # TARGETS
 
@@ -197,11 +185,11 @@ endif
 
 all: sw$(EXESUFFIX) build$(EXESUFFIX)
 
-sw$(EXESUFFIX): $(GAMEOBJS) $(ELIB)/$(ENGINELIB)
-	$(CC) $(CFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) -Wl,-Map=$@.map
+sw$(EXESUFFIX): $(GAMEOBJS) $(ELIB)/$(ENGINELIB) $(JAUDIOLIBDIR)/$(JAUDIOLIB)
+	$(CXX) $(CXXFLAGS) $(OURCXXFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) $(GAMELIBS) -Wl,-Map=$@.map
 	
 build$(EXESUFFIX): $(EDITOROBJS) $(ELIB)/$(EDITORLIB) $(ELIB)/$(ENGINELIB)
-	$(CC) $(CFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) -Wl,-Map=$@.map
+	$(CXX) $(CXXFLAGS) $(OURCXXFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) -Wl,-Map=$@.map
 
 include Makefile.deps
 
@@ -214,6 +202,8 @@ enginelib editorlib:
 
 $(ELIB)/$(ENGINELIB): enginelib
 $(ELIB)/$(EDITORLIB): editorlib
+$(JAUDIOLIBDIR)/$(JAUDIOLIB):
+	$(MAKE) -C $(JAUDIOLIBDIR)
 
 # RULES
 $(OBJ)/%.$o: $(SRC)/%.nasm
@@ -252,6 +242,8 @@ ifeq ($(PLATFORM),DARWIN)
 	cd osx && xcodebuild -target All clean
 else
 	-rm -f $(OBJ)/*
+	$(MAKE) -C $(EROOT) clean
+	$(MAKE) -C $(JAUDIOLIBDIR) clean
 endif
 	
 veryclean: clean

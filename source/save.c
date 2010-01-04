@@ -1272,21 +1272,11 @@ int LoadGame(short save_num)
     screenpeek = myconnectindex;
     PlayingLevel = Level;
 
-    if (SW_SHAREWARE) {
-        if (gs.MusicOn)
-            PlaySong(LevelSong);
-    } else {
-        if (gs.MusicOn)
-            CDAudio_Play(RedBookSong[Level], TRUE);  // track, loop - Level songs are looped
-    }
+    PlaySong(LevelSong, RedBookSong[Level], TRUE, TRUE);
     if (gs.Ambient)    
         StartAmbientSound();
     FX_SetVolume(gs.SoundVolume);
-    if (!SW_SHAREWARE) {
-        CDAudio_SetVolume(gs.MusicVolume);
-    } else {
-        MUSIC_SetVolume(gs.MusicVolume);
-    }
+    SetSongVolume(gs.MusicVolume);
 
     TRAVERSE_CONNECT(i)
         {

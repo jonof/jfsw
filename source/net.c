@@ -898,12 +898,11 @@ InitNetVars(VOID)
 VOID
 InitTimingVars(VOID)
     {
-    extern long lastUpdate; // CD tic counter
     PlayClock = 0;
     
     // resettiming();
     totalsynctics = 0;
-    totalclock = lastUpdate = 0;
+    totalclock = 0;
     ototalclock = 0;
     randomseed = 17L;
 
@@ -1268,7 +1267,6 @@ getpackets(VOID)
     SW_PACKET tempinput;
 
 	sampletimer();
-    AudioUpdate();
     
     if (!CommEnabled)
         return;

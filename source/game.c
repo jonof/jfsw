@@ -102,7 +102,6 @@ Things required to make savegames work:
 
 char DemoName[15][16];
 
-extern long lastUpdate; // CD tic counter
 // Stupid WallMart version!
 //#define PLOCK_VERSION TRUE
 
@@ -215,7 +214,7 @@ FALSE, // TeamPlay
 0, // Parental Lock
 "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", // Password
 TRUE, // nuke
-FALSE, // voxels
+TRUE, // voxels
 FALSE, // stats
 FALSE, // mouse aiming on
 FALSE, // play cd
@@ -719,8 +718,6 @@ TerminateGame(VOID)
 
     //Terminate3DSounds();                // Kill the sounds linked list
     UnInitSound();
-    if (!SW_SHAREWARE)
-	CDAudio_Stop();
 
     uninittimer();
 
@@ -959,16 +956,12 @@ InitGame(VOID)
     //initgroupfile("sw.grp");	// JBF: moving this close to start of program to detect shareware
     InitSetup();
     
-    if (SW_SHAREWARE)
-	InitMusic();
-    
     InitAutoNet();
 
     inittimer(120);
 
     CON_InitConsole();  // Init console command list
 
-    CDAudio_Init();         // Init Red Book Audio
     ////DSPRINTF(ds,"%s, %d",__FILE__,__LINE__);   MONO_PRINT(ds);
 
     //InitFX();
@@ -1102,6 +1095,8 @@ InitGame(VOID)
     COVERsetbrightness(gs.Brightness,(char *)palette_data);
 
     InitFX();	// JBF: do it down here so we get a hold of the window handle
+    InitMusic();
+        
     }
 
 
@@ -1752,19 +1747,9 @@ LogoLevel(VOID)
     DSPRINTF(ds,"Created palookup...");
     MONO_PRINT(ds);
 
-
-    if (SW_SHAREWARE) {
-	// start music at logo
-	strcpy(LevelSong,"theme.mid");
-	PlaySong(LevelSong);
-    } else {
-	// Redbook audio theme song
-	if (gs.MusicOn) {
-		CDAudio_Play(RedBookSong[0], TRUE);  // track, loop - Level songs are looped
-		DSPRINTF(ds,"Tried to play redbook audio?...");
-		MONO_PRINT(ds);
-	}
-    }
+    // start music at logo
+    strcpy(LevelSong,"theme.mid");
+    PlaySong(LevelSong, RedBookSong[0], TRUE, TRUE);
 
     DSPRINTF(ds,"After music stuff...");
     MONO_PRINT(ds);    
@@ -1789,7 +1774,7 @@ LogoLevel(VOID)
 
     //FadeOut(0, 0);
     ready2send = 0;
-    totalclock = lastUpdate = 0;
+    totalclock = 0;
     ototalclock = 0;
 
     DSPRINTF(ds,"About to display 3drealms pic...");
@@ -1803,7 +1788,6 @@ LogoLevel(VOID)
     while (TRUE)
         {
 		handleevents();
-		AudioUpdate();
 
 		if (quitevent) { QuitFlag = TRUE; break; }
 	
@@ -1870,23 +1854,17 @@ CreditsLevel(VOID)
         while(FX_SoundActive(handle));
     
     // try 14 then 2 then quit
-    CDAudio_Stop();
-    CDAudio_Play(14, FALSE);
-    if (!CDAudio_Playing())
-        {
-        CDAudio_Play(2, FALSE);
-        if (!CDAudio_Playing())
-            {
+    if (!PlaySong(NULL, 14, FALSE, TRUE)) {
+	    if (!PlaySong(NULL, 2, FALSE, TRUE)) {
             handle = PlaySound(DIGI_NOLIKEMUSIC,&zero,&zero,&zero,v3df_none);
             if (handle > 0)
-                while(FX_SoundActive(handle));
-                
+                while(FX_SoundActive(handle)) handleevents();
             return;
-            }
         }
+    }
 
     ready2send = 0;
-    totalclock = lastUpdate = 0;
+    totalclock = 0;
     ototalclock = 0;
 
     ResetKeys();
@@ -1902,7 +1880,6 @@ CreditsLevel(VOID)
             timer += synctics;
             }
 
-        CDAudio_Update();
         rotatesprite(0, 0, RS_SCALE, 0, curpic, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
 
         nextpage();
@@ -1919,7 +1896,7 @@ CreditsLevel(VOID)
             }
         
 
-        if (!CDAudio_Playing())
+        if (!SongIsPlaying())
             break;
             
         if (KEY_PRESSED(KEYSC_ESC))
@@ -1930,7 +1907,7 @@ CreditsLevel(VOID)
     clearview(0);
     nextpage();
     ResetKeys();
-    CDAudio_Stop();
+    StopSong();
     }
 
 
@@ -2052,7 +2029,7 @@ TitleLevel(VOID)
 
     //FadeOut(0, 0);
     ready2send = 0;
-    totalclock = lastUpdate = 0;
+    totalclock = 0;
     ototalclock = 0;
 
     rotatesprite(0, 0, RS_SCALE, 0, TITLE_PIC, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
@@ -2143,13 +2120,10 @@ MenuLevel(VOID)
     DSPRINTF(ds,"MenuLevel...");
     MONO_PRINT(ds);
 
-    if (SW_SHAREWARE) {
 	if (gs.MusicOn)
         {
-	    if (!CDAudio_Playing())
-		CDAudio_Play(2,TRUE);
+        PlaySong(NULL, RedBookSong[0], TRUE, FALSE);
         }    
-    }
     
     if (AutoNet)
         {
@@ -2201,7 +2175,7 @@ MenuLevel(VOID)
 
     //FadeOut(0, 0);
     ready2send = 0;
-    totalclock = lastUpdate = 0;
+    totalclock = 0;
     ototalclock = 0;
     ExitLevel = FALSE;
     InMenuLevel = TRUE;
@@ -2244,7 +2218,6 @@ MenuLevel(VOID)
     while (TRUE)
         {
 		handleevents();
-		AudioUpdate();
 		OSD_DispatchQueued();
 	
 		if (quitevent) QuitFlag = TRUE;
@@ -2553,21 +2526,13 @@ BonusScreen(PLAYERp pp)
     
     KB_ClearKeysDown();
     
-    totalclock = ototalclock = lastUpdate = 0;
+    totalclock = ototalclock = 0;
     limit = synctics;
 
-    if (SW_SHAREWARE) {
 	if (gs.MusicOn)
 	    {
-	    CDAudio_Stop();
-	    CDAudio_Play(3, TRUE); 
+	    PlaySong(voc[DIGI_ENDLEV].name, 3, TRUE, TRUE);
 	    }    
-    } else {
-	if (gs.MusicOn)
-	    {
-	    handle = PlaySound(DIGI_ENDLEV, &pp->posx, &pp->posy, &pp->posz, v3df_none);
-	    }
-    }
         
     // special case code because I don't care any more!
     if (FinishAnim)
@@ -2584,30 +2549,13 @@ BonusScreen(PLAYERp pp)
         {
 		handleevents();
 
-        CDAudio_Update();  // Update CD or song will stop
-        
         // taken from top of faketimerhandler
         if (totalclock < ototalclock + limit)
             {
-            if (SW_SHAREWARE) {
-		if (gs.MusicOn)
-		    {
-		    if (handle >= 0 && !FX_SoundActive(handle))
-			handle = PlaySound(DIGI_ENDLEV, &pp->posx, &pp->posy, &pp->posz, v3df_none);
-		    }
-	    }
             continue;
             }
         ototalclock += limit;
         
-        if (SW_SHAREWARE) {
-	    if (gs.MusicOn)
-		{
-		if (handle >= 0 && !FX_SoundActive(handle))
-		    handle = PlaySound(DIGI_ENDLEV, &pp->posx, &pp->posy, &pp->posz, v3df_none);
-		}
-	}
-             
         if (KEY_PRESSED(KEYSC_SPACE) || KEY_PRESSED(KEYSC_ENTER))
             {
             if (State >= s_BonusRest && State < &s_BonusRest[SIZ(s_BonusRest)])
@@ -2619,13 +2567,6 @@ BonusScreen(PLAYERp pp)
         
         gStateControl(&State, &Tics);
         rotatesprite(0, 0, RS_SCALE, 0, 5120, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
-        if (gs.MusicOn)
-            {
-            if (SW_SHAREWARE) {
-		if (handle >= 0 && !FX_SoundActive(handle))
-		    handle = PlaySound(DIGI_ENDLEV, &pp->posx, &pp->posy, &pp->posz, v3df_none);
-            }
-            }    
         
         if (UserMapName[0])
             {
@@ -2646,21 +2587,7 @@ BonusScreen(PLAYERp pp)
         MNU_MeasureString(ds, &w, &h);
         MNU_DrawString(TEXT_TEST_COL(w), 30, ds,1,19);
 
-        if (SW_SHAREWARE) {
-	    if (gs.MusicOn)
-                {
-                if (handle >= 0 && !FX_SoundActive(handle))
-                    handle = PlaySound(DIGI_ENDLEV, &pp->posx, &pp->posy, &pp->posz, v3df_none);
-                }    
-	}
         rotatesprite(158<<16, 86<<16, RS_SCALE, 0, State->Pic, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
-	if (SW_SHAREWARE) {
-            if (gs.MusicOn)
-                {
-                if (handle >= 0 && !FX_SoundActive(handle))
-                    handle = PlaySound(DIGI_ENDLEV, &pp->posx, &pp->posy, &pp->posz, v3df_none);
-                }    
-	}
         
         #define BONUS_LINE(i) (50 + ((i)*20))
         
@@ -2702,22 +2629,8 @@ BonusScreen(PLAYERp pp)
         MNU_MeasureString(ds, &w, &h);
         MNU_DrawString(TEXT_TEST_COL(w), 185, ds,1,19);
 
-	if (SW_SHAREWARE) {
-            if (gs.MusicOn)
-                {
-                if (handle >= 0 && !FX_SoundActive(handle))
-                    handle = PlaySound(DIGI_ENDLEV, &pp->posx, &pp->posy, &pp->posz, v3df_none);
-                }    
-	}
         nextpage();
         ScreenCaptureKeys();
-	if (SW_SHAREWARE) {
-            if (gs.MusicOn)
-                {
-                if (handle >= 0 && !FX_SoundActive(handle))
-                    handle = PlaySound(DIGI_ENDLEV, &pp->posx, &pp->posy, &pp->posz, v3df_none);
-                }    
-	}
         
         if (State == State->NextState)
             BonusDone = TRUE;
@@ -2931,32 +2844,19 @@ StatScreen(PLAYERp mpp)
     KEY_PRESSED(KEYSC_SPACE) = 0;
     KEY_PRESSED(KEYSC_ENTER) = 0;
     
-    if (!SW_SHAREWARE) {
-        if (gs.MusicOn)
-            {
-            CDAudio_Stop();
-            CDAudio_Play(3, TRUE); 
-            }    
-    } else {
-        handle = PlaySound(DIGI_ENDLEV, &pp->posx, &pp->posy, &pp->posz, v3df_none);
-    }
+    if (gs.MusicOn)
+        {
+        PlaySong(voc[DIGI_ENDLEV].name, 3, TRUE, TRUE);
+        }
     
     while (!KEY_PRESSED(KEYSC_SPACE) && !KEY_PRESSED(KEYSC_ENTER))
         {
 		handleevents();
-		AudioUpdate();
 	
         ScreenCaptureKeys();
-        if (SW_SHAREWARE)
-	    {
-            if (handle >= 0 && !FX_SoundActive(handle))
-                handle = PlaySound(DIGI_ENDLEV, &pp->posx, &pp->posy, &pp->posz, v3df_none);
-            }
         }    
 
     StopSound();
-    if (!SW_SHAREWARE)
-        CDAudio_Stop();
     Terminate3DSounds();
     }
     
@@ -3008,7 +2908,6 @@ Control(VOID)
     while (!QuitFlag)
         {
 		handleevents();
-		AudioUpdate();
 		OSD_DispatchQueued();
 
 		if (quitevent) QuitFlag = TRUE;
@@ -3184,7 +3083,7 @@ VOID InitRunLevel(VOID)
         if (gs.Ambient)    
             StartAmbientSound();
         SetCrosshair();
-        PlaySong(LevelSong);
+        PlaySong(LevelSong, -1, TRUE, TRUE);
         SetRedrawScreen(Player + myconnectindex);
         // crappy little hack to prevent play clock from being overwritten
         // for load games
@@ -3223,16 +3122,14 @@ VOID InitRunLevel(VOID)
     // Initialize Game part of network code (When ready2send != 0)
     InitNetVars();
     
-    if (!SW_SHAREWARE) {
-        if (gs.MusicOn)
-            {
-            if (Level == 0) // For user maps
-                CDAudio_Play(RedBookSong[4+RANDOM_RANGE(10)], TRUE);  // track, loop - Level songs are looped
-            else
-                CDAudio_Play(RedBookSong[Level], TRUE);  // track, loop - Level songs are looped
-            }
-    } else {
-        PlaySong(LevelSong);
+    {
+        int track;
+        if (Level == 0) {
+            track = RedBookSong[4+RANDOM_RANGE(10)];
+        } else {
+            track = RedBookSong[Level];
+        }
+        PlaySong(LevelSong, track, TRUE, TRUE);
     }
 
     InitPrediction(&Player[myconnectindex]);
@@ -3265,10 +3162,7 @@ RunLevel(VOID)
     InitRunLevel();
     
     FX_SetVolume(gs.SoundVolume);
-    if (!SW_SHAREWARE)
-        CDAudio_SetVolume(gs.MusicVolume);
-    else
-        MUSIC_SetVolume(gs.MusicVolume);
+    SetSongVolume(gs.MusicVolume);
 
 #if 0    
     waitforeverybody(); 
@@ -3278,7 +3172,6 @@ RunLevel(VOID)
     while (TRUE)
         {
 		handleevents();
-		AudioUpdate();
 		OSD_DispatchQueued();
 
 		if (quitevent) QuitFlag = TRUE;
@@ -3286,9 +3179,6 @@ RunLevel(VOID)
           //MONO_PRINT("Before MoveLoop");
         MoveLoop();
         //MONO_PRINT("After MoveLoop");
-        //MONO_PRINT("Before CDAudio Update");
-        CDAudio_Update();               // Keep checking to make sure the CD is ok, looping song, etc.
-        //MONO_PRINT("After CDAudio Update");
         //MONO_PRINT("Before DrawScreen");
         drawscreen(Player + screenpeek);
         //MONO_PRINT("After DrawScreen");
@@ -4762,23 +4652,12 @@ VOID PauseKey(PLAYERp pp)
             #define MSG_GAME_PAUSED "Game Paused"
             MNU_MeasureString(MSG_GAME_PAUSED, &w, &h);
             PutStringTimer(pp, TEXT_TEST_COL(w), 100, MSG_GAME_PAUSED, 999);
-            MUSIC_Pause();
-            // Pause Music
-            if (gs.MusicOn)
-                {
-                CDAudio_Stop();
-                enabled = FALSE;
-                }
+            PauseSong(TRUE);
             }
         else
             {
-            MUSIC_Continue();
             pClearTextLine(pp, 100);
-            if (gs.MusicOn)
-                {
-                enabled = TRUE;
-                CDAudio_Resume();
-                }
+            PauseSong(FALSE);
             }    
         }
     
@@ -6055,7 +5934,11 @@ StdRandomRange(int range)
         rand_num--;
     
     // shift values to give more precision
+#if (RAND_MAX > 0x7fff)
+    value = rand_num / (((long)RAND_MAX) / range);
+#else
     value = (rand_num << 14) / ((((long)RAND_MAX) << 14) / range);
+#endif
     
     if (value >= (ULONG)range)
         value = range - 1;
@@ -6081,3 +5964,4 @@ saveable_module saveable_build = {
 	NUM_SAVEABLE_ITEMS(saveable_build_data)
 };
 
+// vim:ts=4:sw=4:expandtab:

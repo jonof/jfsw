@@ -51,7 +51,6 @@ extern int32 NumChannels; // Number of channels
 extern int32 NumBits; // Number of bits
 extern int32 MixRate; // Mixing rate
 extern int32 MidiPort; // Midi Port
-extern fx_blaster_config BlasterConfig; // Blaster settings
 extern int32 ReverseStereo; // Reverse Stereo Channels
 
 // comm externs

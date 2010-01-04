@@ -84,11 +84,14 @@ void InitFX(void );
 VOID InitMusic(VOID);
 VOID StopFX(VOID);
 void FlipStereo(void );
-int StopSong(void );
+void StopSong(void );
+void PauseSong(BOOL pauseon);
 void StopSound(void );
 void StartAmbientSound(void );
 void StopAmbientSound(void );
-int PlaySong(char *song_file_name);
+BOOL PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart);
+void SetSongVolume(int volume);
+BOOL SongIsPlaying(void);
 VOID PlaySoundRTS(long rts_num);
 
 //
@@ -135,6 +138,7 @@ struct VOCstruct
     {
     char name[14];                      // name of voc file on disk
     BYTEp data;                         // pointer to voc data
+    int datalen;                        // length of voc data
     SHORT pitch_lo;                     // lo pitch value
     SHORT pitch_hi;                     // hi pitch value
     BYTE priority;                      // priority at which vocs are played 

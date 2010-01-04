@@ -34,6 +34,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "mytypes.h"
 #include "fx_man.h"
 #include "music.h"
+#include "cd.h"
 #include "util_lib.h"
 #include "gamedefs.h"
 #include "config.h"
@@ -62,6 +63,14 @@ int PLocked_Sounds[] = {
     558,557
 };
 
+BYTE RedBookSong[40] =
+    {
+    2,4,9,12,10, // Title and ShareWare levels
+    5,6,8,11,12,5,10,4,6,9,7,10,8,7,9,10,11,5, // Registered levels
+    11,8,7,13,5,6,  // Deathmatch levels    
+    13 // Fight boss
+    };
+
 // Global vars used by ambient sounds to set spritenum of ambient sounds for later lookups in
 // the sprite array so FAFcansee can know the sound sprite's current sector location
 BOOL Use_SoundSpriteNum = FALSE;
@@ -70,8 +79,10 @@ SHORT SoundSpriteNum = -1;  // Always set this back to -1 for proper validity ch
 BOOL MusicInitialized = FALSE;
 BOOL FxInitialized = FALSE;
 
-void SoundCallBack(unsigned long num);
-char *LoadMidi(char *);
+void SoundCallBack(unsigned int num);
+BOOL LoadSong(const char *track);
+
+#define MUSIC_ID -65536
 
 #define NUM_SAMPLES 10
 
@@ -102,8 +113,19 @@ int voice;
 
 int loopflag;
 
+typedef enum {
+    SongTypeNone,
+    SongTypeMIDI,
+    SongTypeVoc,
+    SongTypeCDA
+} SongType_t;
+
 char *SongPtr = NULL;
+int SongLength = 0;
 char *SongName = NULL;
+int SongTrack = 0;
+SongType_t SongType = SongTypeNone;
+int SongVoice = -1;
 extern BOOL DemoMode;
 
 //
@@ -247,18 +269,16 @@ void CheckSndData( char *file, int line )
 // Routine called when a sound is finished playing
 //
 
-// CTW MODIFICATION
-//#if 0
-#if 1
-// CTW MODIFICATION END
 void
-// CTW MODIFICATION
-// SoundCallBack(long num)
-SoundCallBack(unsigned long num)
-// CTW MODIFICATION END
+SoundCallBack(unsigned int num)
     {
-    VOC_INFOp vp = &voc[num];
-    
+    VOC_INFOp vp;
+        
+    if ((int) num == MUSIC_ID)
+        {
+        return;
+        }
+        
     // RTS sounds are negative
     if ((long)num < 0)
         {
@@ -267,11 +287,12 @@ SoundCallBack(unsigned long num)
         return;
         }
 
+    vp = &voc[num];
+        
     // Update counter
     //vp->playing--;
     vp->lock--;
     }
-#endif    
 
 // 
     
@@ -383,37 +404,92 @@ ExternalSoundMod(VOID)
 
 extern short Level;
 
-int
-PlaySong(char *song_file_name)
-    {
-    if (!gs.MusicOn)
-        return(MUSIC_Error);
-    
-    if (DemoMode)    
-        return(MUSIC_Error);
-    
-    if (SongPtr)    
-        StopSong();
-    
-    //DSPRINTF(ds,"Song %s",song_file_name);
-    //MONO_PRINT(ds);
-    
-    SongPtr = LoadMidi(song_file_name);
-
-    //DSPRINTF(ds,"Song Ptr %d",SongPtr);
-    //MONO_PRINT(ds);
-    
-    if (!SongPtr)
-        return(MUSIC_Error);
-
-    // Set loop to continually play song
-    loopflag = MUSIC_LoopSong;
-
-    //DSPRINTF(ds,"Playing song");
-    //MONO_PRINT(ds);
-
-    return((int)MUSIC_PlaySong(SongPtr, loopflag));
+BOOL
+PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
+{
+    if (!gs.MusicOn) {
+        return FALSE;
     }
+        
+    if (DemoMode)    
+        return FALSE;
+
+    if (!restart)
+        {    
+        if (SongType == SongTypeCDA && cdaudio_track == SongTrack)
+            {
+            return TRUE;
+            }
+        else if (SongType == SongTypeVoc)
+            {
+            if (SongTrack > 0 && SongTrack == cdaudio_track)
+                {
+                // ogg replacement for a CD track
+                return TRUE;
+                }
+            else if (SongName && !strcmp(SongName, song_file_name))
+                {
+                return TRUE;
+                }
+            }
+        else if (SongType == SongTypeMIDI)
+            {
+            if (SongName && !strcmp(SongName, song_file_name))
+                {
+                return TRUE;
+                }
+            }
+        }
+
+    StopSong();
+        
+    if (!SW_SHAREWARE) {
+        char oggtrack[] = "track??.ogg";
+            
+        if (CD_Play(cdaudio_track, TRUE) == CD_Ok) {
+            SongType = SongTypeCDA;
+            SongTrack = cdaudio_track;
+            return TRUE;
+        }
+            
+        if (cdaudio_track >= 0) {
+            oggtrack[5] = '0' + (cdaudio_track / 10) % 10;
+            oggtrack[6] = '0' + cdaudio_track % 10;
+        }
+            
+        if (LoadSong(oggtrack)) {
+            SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
+                                          255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
+            if (SongVoice > FX_Ok) {
+                SongType = SongTypeVoc;
+                SongTrack = cdaudio_track;
+                SongName = strdup(oggtrack);
+                return TRUE;
+            }
+        }
+    }
+    
+    if (!song_file_name || !LoadSong(song_file_name)) {
+        return FALSE;
+    }
+    
+    if (!memcmp(SongPtr, "MThd", 4)) {
+        MUSIC_PlaySong(SongPtr, SongLength, MUSIC_LoopSong);
+        SongType = SongTypeMIDI;
+        SongName = strdup(song_file_name);
+        return TRUE;
+    } else {
+        SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
+                                      255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
+        if (SongVoice > FX_Ok) {
+            SongType = SongTypeVoc;
+            SongName = strdup(song_file_name);
+            return TRUE;
+        }
+    }
+    
+    return FALSE;
+}
 
 VOID
 StopFX(VOID)
@@ -421,31 +497,62 @@ StopFX(VOID)
     FX_StopAllSounds();
     }
 
-int
+void
 StopSong(VOID)
-    {
-    int status;
-    
+{
     if (DemoMode)    
-        return(MUSIC_Error);
-    
-    if (!SongPtr)    
-        return(MUSIC_Error);
-
-    // Stop the music
-    status = MUSIC_StopSong();
-    FreeMem(SongPtr);
-    SongPtr = NULL;
-    
-    return(status);
+        return;
+        
+    if (SongType == SongTypeVoc && SongVoice >= 0) {
+        FX_StopSound(SongVoice);
+    } else if (SongType == SongTypeMIDI) {
+        MUSIC_StopSong();
+    } else if (SongType == SongTypeCDA) {
+        CD_Stop();
     }
+    SongType = SongTypeNone;
+
+    if (SongName) {
+        free(SongName);
+    }
+    SongName = 0;
+    SongTrack = 0;
+    
+    if (SongPtr) {
+        free(SongPtr);
+        SongPtr = 0;
+        SongLength = 0;
+    }
+}
+
+VOID
+PauseSong(BOOL pauseon)
+{
+    if (!gs.MusicOn) return;
+
+    if (SongType == SongTypeVoc && SongVoice >= 0) {
+        FX_PauseSound(SongVoice, pauseon);
+    } else if (SongType == SongTypeCDA) {
+        CD_Pause(pauseon);
+    }
+}
+
+void
+SetSongVolume(int volume)
+{
+}
+
+BOOL
+SongIsPlaying(void)
+{
+    return FALSE;
+}
 
 VOID
 StopSound(VOID)
     {
     StopFX();
     StopSong();
-    CDAudio_Stop(); 
     }
 
 //
@@ -882,16 +989,14 @@ PlaySound(int num, long *x, long *y, long *z, Voc3D_Flags flags)
     // Request playback and play it as a looping sound if flag is set.    
     if (vp->voc_flags & vf_loop)    
         {    
-        unsigned short start;    
         short loopvol=0;    
 
-        start = *(unsigned short *) (vp->data + 0x14);    
         if((loopvol = 255-sound_dist) <= 0)    
             loopvol = 0;    
 
         if(sound_dist < 255 || (flags & v3df_init))
             {
-            voice = FX_PlayLoopedVOC(vp->data, start, 65536,    
+            voice = FX_PlayLoopedAuto(vp->data, vp->datalen, 0, 0,    
                 pitch, loopvol, loopvol, loopvol, priority, num);    
             } 
         else
@@ -902,13 +1007,13 @@ PlaySound(int num, long *x, long *y, long *z, Voc3D_Flags flags)
     //if(!flags & v3df_init)  // If not initing sound, play it    
         if(tx==0 && ty==0 && tz==0) // It's a non-inlevel sound    
             {
-            voice = FX_PlayVOC( vp->data, pitch, 255, 255, 255, priority, num);    
+            voice = FX_PlayAuto( vp->data, vp->datalen, pitch, 255, 255, 255, priority, num);    
             }
         else // It's a 3d sound    
             {
             if (sound_dist < 255)
                 {
-                voice = FX_PlayVOC3D(vp->data, pitch, angle, sound_dist, priority, num);    
+                voice = FX_PlayAuto3D(vp->data, vp->datalen, pitch, angle, sound_dist, priority, num);    
                 }
             else
                 voice = -1;    
@@ -947,10 +1052,7 @@ VOID PlaySoundRTS(long rts_num)
     
     ASSERT(rtsptr);
     
-    if(*rtsptr == 'C')
-        voice = FX_PlayVOC3D(rtsptr, 0, 0, 0, 255, -rts_num);
-    else 
-        voice = FX_PlayWAV3D(rtsptr, 0, 0, 0, 255, -rts_num);
+    voice = FX_PlayAuto3D(rtsptr, RTS_SoundLength(rts_num - 1), 0, 0, 0, 255, -rts_num);
     
     if (voice <= FX_Ok)    
         {
@@ -985,48 +1087,47 @@ ReadSound(long handle, VOC_INFOp vp, long length)
         printf("Error reading file '%s'.\n", vp->name);
         exit(0);
         }
+    
+    vp->datalen = length;
 
     kclose(handle);
     return(0);
     }
 
-char *
-LoadMidi(char *filename)
+BOOL
+LoadSong(const char *filename)
     {
-    long handle;
-    long size;
-    char *MidiPtr;
+    int handle;
+    int size;
+    char *ptr;
 
     if ((handle = kopen4load(filename, 0)) == -1)
         {
-        return(NULL);
-        //TerminateGame();
-        //printf("Cannot open '%s' for read.\n", filename);
-        //exit(1);
+        return(FALSE);
         }
 
     size = kfilelength(handle);
 
-    MidiPtr = (char *) AllocMem(size);
-    if (MidiPtr == NULL)
+    ptr = (char *) AllocMem(size);
+    if (ptr == NULL)
         {
-        return(NULL);
-        //TerminateGame();
-        //printf("Out of memory while reading '%s'.\n", filename);
-        //exit(1);
+        kclose(handle);
+        return(FALSE);
         }
 
-    if (kread(handle, MidiPtr, size) != size)
+    if (kread(handle, ptr, size) != size)
         {
-        return(NULL);
-        //TerminateGame();
-        //printf("Unexpected end of file while reading '%s'.\n", filename);
-        //exit(1);
+        FreeMem(ptr);
+        kclose(handle);
+        return(FALSE);
         }
 
     kclose(handle);
+    
+    SongPtr = ptr;
+    SongLength = size;
 
-    return (MidiPtr);
+    return (TRUE);
     }
 
 
@@ -1039,17 +1140,26 @@ void
 SoundStartup(void)
     {
     int32 status;
+    void * initdata = 0;
+    int fxdevicetype;
 
     // if they chose None lets return
-    if (FXDevice < 0)
-        {
+    if (FXDevice < 0) {
         gs.FxOn = FALSE;
         return;
-        }
+    } else if (FXDevice == 0) {
+        fxdevicetype = ASS_AutoDetect;
+    } else {
+        fxdevicetype = FXDevice - 1;
+    }
+        
+#ifdef WIN32
+    initdata = (void *) win_gethwnd();
+#endif
 
     //gs.FxOn = TRUE;
 
-        status = FX_Init(FXDevice, NumVoices, NumChannels, NumBits, MixRate);
+        status = FX_Init(fxdevicetype, NumVoices, NumChannels, NumBits, MixRate, initdata);
         if (status == FX_Ok)
             {
             FxInitialized = TRUE;
@@ -1100,60 +1210,6 @@ SoundShutdown(void)
         printf("%s\n",FX_ErrorString(FX_Error));
         }
     }
-
-#if 0    
-void TestMusic( void )
-   {
-   int32 status;
-
-   // if they chose None lets return
-   if (MusicDevice == NumSoundCards)
-      return;
-
-   BlasterConfig.Midi = MidiPort;
-
-   status = MUSIC_Init( MusicDevice, MidiPort );
-   
-   if ( status == MUSIC_Ok )
-      {
-      MUSIC_SetVolume( MusicVolume );
-      //status = MUSIC_PlaySong( &theme, MUSIC_PlayOnce );
-      status = PlaySong("theme.mid");
-
-      if ( status == MUSIC_Ok )
-         {
-         char temp[200];
-         
-         sprintf(temp,"You should hear the %s\n"
-                      "     Press any key to end testing","song");
-                      
-         MONO_PRINT(temp);
-                      
-         while (1)
-            {
-            if (KB_KeyWaiting() == true)
-               {
-               KB_Getch();
-               break;
-               }
-            if (!MUSIC_SongPlaying())
-               {
-               break;
-               }
-            }
-            
-         //status = MUSIC_StopSong();
-         status = StopSong();
-         }
-         
-      status = MUSIC_Shutdown();
-      }
-   if ( status != MUSIC_Ok )
-      {
-      Error( MUSIC_ErrorString( MUSIC_ErrorCode ));
-      }
-   }
-#endif   
     
 
 /*
@@ -1182,7 +1238,14 @@ void loadtmb(void)
 void MusicStartup( void )
    {
    int32 status;
-
+   int fxdevicetype;
+       
+    if (FXDevice == 0) {
+        CD_Init(ASS_AutoDetect);
+    } else if (FXDevice > 0) {
+        CD_Init(FXDevice - 1);
+    }
+       
    // if they chose None lets return
    if (MusicDevice < 0)
         {
@@ -1224,6 +1287,8 @@ void
 MusicShutdown(void)
     {
     int32 status;
+        
+        CD_Shutdown();
 
     // if they chose None lets return
     if (MusicDevice < 0)
@@ -1795,7 +1860,7 @@ DoUpdateSounds3D(void)
                 //if (FX_SoundsPlaying() < NumVoices && dist <= 255)
                 if (dist <= 255)
                     {
-                        for(i=0; i<NumVoices; i++)
+                        for(i=0; i<min(SIZ(TmpVocArray), NumVoices); i++)
                         {
                             if(p->priority >= TmpVocArray[i].priority)
                             {                   
@@ -1823,7 +1888,7 @@ DoUpdateSounds3D(void)
     // Only update these sounds 5x per second!  Woo hoo!, aren't we optimized now?
     //if(MoveSkip8==0)  
     //    {
-        for(i=0; i<NumVoices; i++)
+        for(i=0; i<min(SIZ(TmpVocArray), NumVoices); i++)
             {
             int handle;
 
@@ -1979,3 +2044,4 @@ PlaySpriteSound(short spritenum, int attrib_ndx, Voc3D_Flags flags)
     PlaySound(u->Attrib->Sounds[attrib_ndx], &sp->x, &sp->y, &sp->z, flags);
     }
 
+// vim:ts=4:sw=4:expandtab:

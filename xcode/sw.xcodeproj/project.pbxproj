@@ -222,21 +222,21 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB735F480A29A2DC003261DC /* engine */;
+			remoteGlobalIDString = AB735F480A29A2DC003261DC;
 			remoteInfo = engine;
 		};
 		ABF4CFF110F199AB00E281C4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB735FCB0A29A916003261DC /* editor */;
+			remoteGlobalIDString = AB735FCB0A29A916003261DC;
 			remoteInfo = editor;
 		};
 		ABF4CFF310F199AB00E281C4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB3FE44A0C04336F00D5DBDC /* editorsupp */;
+			remoteGlobalIDString = AB3FE44A0C04336F00D5DBDC;
 			remoteInfo = editorsupp;
 		};
 /* End PBXContainerItemProxy section */
@@ -429,6 +429,18 @@
 		ABB4AC3D0C64C72C00F28920 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Users/jonof/Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		ABB4AC3F0C64C73A00F28920 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		ABBD3FAF10205ACF00F32F37 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
+		ABFF0CF410F1A4910043FD8E /* _control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _control.h; sourceTree = "<group>"; };
+		ABFF0CF510F1A4910043FD8E /* _scrplib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _scrplib.h; sourceTree = "<group>"; };
+		ABFF0CF610F1A4910043FD8E /* animlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = animlib.h; sourceTree = "<group>"; };
+		ABFF0CF710F1A4910043FD8E /* control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = control.h; sourceTree = "<group>"; };
+		ABFF0CF810F1A4910043FD8E /* develop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = develop.h; sourceTree = "<group>"; };
+		ABFF0CF910F1A4910043FD8E /* file_lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_lib.h; sourceTree = "<group>"; };
+		ABFF0CFA10F1A4910043FD8E /* keyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keyboard.h; sourceTree = "<group>"; };
+		ABFF0CFB10F1A4910043FD8E /* mathutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mathutil.h; sourceTree = "<group>"; };
+		ABFF0CFC10F1A4910043FD8E /* mouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mouse.h; sourceTree = "<group>"; };
+		ABFF0CFD10F1A4910043FD8E /* scriplib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scriplib.h; sourceTree = "<group>"; };
+		ABFF0CFE10F1A4910043FD8E /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		ABFF0CFF10F1A4910043FD8E /* util_lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util_lib.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -701,6 +713,18 @@
 		ABB4ABDE0C64C6AB00F28920 /* jmact */ = {
 			isa = PBXGroup;
 			children = (
+				ABFF0CF410F1A4910043FD8E /* _control.h */,
+				ABFF0CF510F1A4910043FD8E /* _scrplib.h */,
+				ABFF0CF610F1A4910043FD8E /* animlib.h */,
+				ABFF0CF710F1A4910043FD8E /* control.h */,
+				ABFF0CF810F1A4910043FD8E /* develop.h */,
+				ABFF0CF910F1A4910043FD8E /* file_lib.h */,
+				ABFF0CFA10F1A4910043FD8E /* keyboard.h */,
+				ABFF0CFB10F1A4910043FD8E /* mathutil.h */,
+				ABFF0CFC10F1A4910043FD8E /* mouse.h */,
+				ABFF0CFD10F1A4910043FD8E /* scriplib.h */,
+				ABFF0CFE10F1A4910043FD8E /* types.h */,
+				ABFF0CFF10F1A4910043FD8E /* util_lib.h */,
 				ABB4ABE10C64C6F100F28920 /* animlib.c */,
 				ABB4ABE20C64C6F100F28920 /* control.c */,
 				ABB4ABE30C64C6F100F28920 /* file_lib.c */,

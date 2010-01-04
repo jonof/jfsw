@@ -1159,7 +1159,7 @@ SoundStartup(void)
 
     //gs.FxOn = TRUE;
 
-        status = FX_Init(fxdevicetype, NumVoices, NumChannels, NumBits, MixRate, initdata);
+        status = FX_Init(fxdevicetype, NumVoices, &NumChannels, &NumBits, &MixRate, initdata);
         if (status == FX_Ok)
             {
             FxInitialized = TRUE;

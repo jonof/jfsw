@@ -128,6 +128,9 @@
 		ABB4AC3B0C64C6FE00F28920 /* zombie.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB60C64C4D000F28920 /* zombie.c */; };
 		ABB4AC3E0C64C72C00F28920 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
 		ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
+		ABF4CFF610F199EF00E281C4 /* libengine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21409A101D559900E844AE /* libengine.a */; };
+		ABF4CFF710F199EF00E281C4 /* libeditor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21409C101D559900E844AE /* libeditor.a */; };
+		ABF4CFF810F199EF00E281C4 /* libeditorsupp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21409E101D559900E844AE /* libeditorsupp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -214,6 +217,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = AB8F60C90C6591F300202E11;
 			remoteInfo = "Build Editor for JFShadowWarrior";
+		};
+		ABF4CFEF10F199AB00E281C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB735F480A29A2DC003261DC /* engine */;
+			remoteInfo = engine;
+		};
+		ABF4CFF110F199AB00E281C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB735FCB0A29A916003261DC /* editor */;
+			remoteInfo = editor;
+		};
+		ABF4CFF310F199AB00E281C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB3FE44A0C04336F00D5DBDC /* editorsupp */;
+			remoteInfo = editorsupp;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -412,6 +436,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABF4CFF610F199EF00E281C4 /* libengine.a in Frameworks */,
+				ABF4CFF710F199EF00E281C4 /* libeditor.a in Frameworks */,
+				ABF4CFF810F199EF00E281C4 /* libeditorsupp.a in Frameworks */,
 				AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */,
 				AB8F60D80C65924000202E11 /* SDL.framework in Frameworks */,
 			);
@@ -713,6 +740,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				ABF4CFF010F199AB00E281C4 /* PBXTargetDependency */,
+				ABF4CFF210F199AB00E281C4 /* PBXTargetDependency */,
+				ABF4CFF410F199AB00E281C4 /* PBXTargetDependency */,
 			);
 			name = "Build Editor for JFShadowWarrior";
 			productName = "Build Editor for JFShadowWarrior";
@@ -976,6 +1006,21 @@
 			target = AB8F60C90C6591F300202E11 /* Build Editor for JFShadowWarrior */;
 			targetProxy = AB8F61C60C6593F900202E11 /* PBXContainerItemProxy */;
 		};
+		ABF4CFF010F199AB00E281C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = engine;
+			targetProxy = ABF4CFEF10F199AB00E281C4 /* PBXContainerItemProxy */;
+		};
+		ABF4CFF210F199AB00E281C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = editor;
+			targetProxy = ABF4CFF110F199AB00E281C4 /* PBXContainerItemProxy */;
+		};
+		ABF4CFF410F199AB00E281C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = editorsupp;
+			targetProxy = ABF4CFF310F199AB00E281C4 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -983,6 +1028,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "Build Editor-Info.plist";
+				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_NAME = "Build Editor for JFShadowWarrior";
 				WRAPPER_EXTENSION = app;
 			};
@@ -992,6 +1038,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "Build Editor-Info.plist";
+				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_NAME = "Build Editor for JFShadowWarrior";
 				WRAPPER_EXTENSION = app;
 			};

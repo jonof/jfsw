@@ -7,6 +7,9 @@
 #include "winlayer.h"
 #include "compat.h"
 
+#include "gamedefs.h"
+#include "config.h"
+
 #include "startdlg.h"
 
 #define WIN32_LEAN_AND_MEAN
@@ -28,18 +31,48 @@ static struct {
 	int forcesetup;
 	int usemouse, usejoy;
 	char selectedgrp[BMAX_PATH+1];
+    int samplerate, bitspersample, channels;
 } settings;
+
+static struct soundQuality_t {
+    int frequency;
+    int samplesize;
+    int channels;
+} * soundQualities = 0;
 
 static HWND startupdlg = NULL;
 static HWND pages[3] = { NULL, NULL, NULL };
 static int done = -1, mode = TAB_CONFIG;
 
+#define POPULATE_VIDEO 1
+#define POPULATE_CONFIG 2
+#define POPULATE_GAME 4
+
+static int addSoundQualityItem( struct soundQuality_t * q, HWND hwnd )
+{
+    char buf[128];
+    const char *ch;
+    
+    switch (q->channels) {
+        case 1: ch = "Mono"; break;
+        case 2: ch = "Stereo"; break;
+        default: ch = "?"; break;
+    }
+     
+    sprintf(buf, "%dkHz, %d-bit, %s",
+            q->frequency / 1000,
+            q->samplesize,
+            ch);
+    return ComboBox_AddString(hwnd, buf);
+}
+
 static void PopulateForm(int pgs)
 {
 	HWND hwnd;
-	if (pgs & (1<<TAB_CONFIG)) {
-		int i,j;
-		char buf[64];
+	char buf[256];
+	int i,j;
+
+	if (pgs & POPULATE_VIDEO) {
 		int mode;
 
 		hwnd = GetDlgItem(pages[TAB_CONFIG], IDCVMODE);
@@ -57,8 +90,6 @@ static void PopulateForm(int pgs)
 		}
 
 		Button_SetCheck(GetDlgItem(pages[TAB_CONFIG], IDCFULLSCREEN), (settings.fullscreen ? BST_CHECKED : BST_UNCHECKED));
-		Button_SetCheck(GetDlgItem(pages[TAB_CONFIG], IDCALWAYSSHOW), (settings.forcesetup ? BST_CHECKED : BST_UNCHECKED));
-
 		ComboBox_ResetContent(hwnd);
 		for (i=0; i<validmodecnt; i++) {
 			if (validmode[i].fs != settings.fullscreen) continue;
@@ -69,12 +100,44 @@ static void PopulateForm(int pgs)
 			ComboBox_SetItemData(hwnd, j, i);
 			if (i == mode) ComboBox_SetCurSel(hwnd, j);
 		}
+	}
+
+	if (pgs & POPULATE_CONFIG) {
+        int curidx = -1;
+        
+		Button_SetCheck(GetDlgItem(pages[TAB_CONFIG], IDCALWAYSSHOW), (settings.forcesetup ? BST_CHECKED : BST_UNCHECKED));
 
 		Button_SetCheck(GetDlgItem(pages[TAB_CONFIG], IDCINPUTMOUSE), (settings.usemouse ? BST_CHECKED : BST_UNCHECKED));
 		Button_SetCheck(GetDlgItem(pages[TAB_CONFIG], IDCINPUTJOY), (settings.usejoy ? BST_CHECKED : BST_UNCHECKED));
+		
+		hwnd = GetDlgItem(pages[TAB_CONFIG], IDCSOUNDQUAL);
+		
+		ComboBox_ResetContent(hwnd);
+        for (i = 0; soundQualities[i].frequency > 0; i++) {
+            j = addSoundQualityItem(&soundQualities[i], hwnd);
+            ComboBox_SetItemData(hwnd, j, i);
+
+            if (soundQualities[i].frequency == settings.samplerate &&
+                soundQualities[i].samplesize == settings.bitspersample &&
+                soundQualities[i].channels == settings.channels) {
+                ComboBox_SetCurSel(hwnd, j);
+            }
+        }
+        
+        if (curidx < 0) {
+            soundQualities[i].frequency = settings.samplerate;
+            soundQualities[i].samplesize = settings.bitspersample;
+            soundQualities[i].channels = settings.channels;
+            
+            j = addSoundQualityItem(&soundQualities[i], hwnd);
+            ComboBox_SetItemData(hwnd, j, i);
+
+            i++;
+            soundQualities[i].frequency = -1;
+        }
 	}
 
-	if (pgs & (1<<TAB_GAME)) {
+	if (pgs & POPULATE_GAME) {
 		struct grpfile *fg;
 		int i, j;
 		char buf[128+BMAX_PATH];
@@ -115,6 +178,18 @@ static INT_PTR CALLBACK ConfigPageProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 						}
 					}
 					return TRUE;
+				case IDCSOUNDQUAL:
+				    if (HIWORD(wParam) == CBN_SELCHANGE) {
+                        int i;
+                        i = ComboBox_GetCurSel((HWND)lParam);
+                        if (i != CB_ERR) i = ComboBox_GetItemData((HWND)lParam, i);
+                        if (i != CB_ERR) {
+                            settings.samplerate = soundQualities[i].frequency;
+                            settings.bitspersample = soundQualities[i].samplesize;
+                            settings.channels = soundQualities[i].channels;
+                        }
+				    }
+				    return TRUE;
 				case IDCALWAYSSHOW:
 					settings.forcesetup = IsDlgButtonChecked(hwndDlg, IDCALWAYSSHOW) == BST_CHECKED;
 					return TRUE;
@@ -173,6 +248,7 @@ static void EnableConfig(int n)
 	EnableWindow(GetDlgItem(startupdlg, WIN_STARTWIN_START), n);
 	EnableWindow(GetDlgItem(pages[TAB_CONFIG], IDCFULLSCREEN), n);
 	EnableWindow(GetDlgItem(pages[TAB_CONFIG], IDCVMODE), n);
+	EnableWindow(GetDlgItem(pages[TAB_CONFIG], IDCSOUNDQUAL), n);
 	EnableWindow(GetDlgItem(pages[TAB_CONFIG], IDCINPUTMOUSE), n);
 	EnableWindow(GetDlgItem(pages[TAB_CONFIG], IDCINPUTJOY), n);
 
@@ -373,6 +449,34 @@ int startwin_open(void)
 	InitCommonControlsEx(&icc);
 	startupdlg = CreateDialog((HINSTANCE)win_gethinstance(), MAKEINTRESOURCE(WIN_STARTWIN), NULL, startup_dlgproc);
 	if (startupdlg) {
+        {
+            static int soundQualityFrequencies[] = { 44100, 22050, 11025 };
+            static int soundQualitySampleSizes[] = { 16, 8 };
+            static int soundQualityChannels[]    = { 2, 1 };
+            unsigned int f, b, c, i;
+            
+            i = sizeof(soundQualityFrequencies) *
+                sizeof(soundQualitySampleSizes) *
+                sizeof(soundQualityChannels) /
+                sizeof(int) + 2;    // one for the terminator, one for a custom setting
+            soundQualities = (struct soundQuality_t *) malloc(i * sizeof(struct soundQuality_t));
+            
+            i = 0;
+            for (c = 0; c < sizeof(soundQualityChannels) / sizeof(int); c++) {
+                for (b = 0; b < sizeof(soundQualitySampleSizes) / sizeof(int); b++) {
+                    for (f = 0; f < sizeof(soundQualityFrequencies) / sizeof(int); f++) {
+                        soundQualities[i].frequency = soundQualityFrequencies[f];
+                        soundQualities[i].samplesize = soundQualitySampleSizes[b];
+                        soundQualities[i].channels = soundQualityChannels[c];
+                        
+                        i++;
+                    }
+                }
+            }
+            
+            soundQualities[i].frequency = -1;
+        }
+	
 		SetPage(TAB_MESSAGES);
 		EnableConfig(0);
 		return 0;
@@ -385,6 +489,7 @@ int startwin_close(void)
 	if (!startupdlg) return 1;
 	DestroyWindow(startupdlg);
 	startupdlg = NULL;
+    free(soundQualities);
 	return 0;
 }
 
@@ -453,7 +558,6 @@ int startwin_idle(void *v)
 	return 0;
 }
 
-extern int32 ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP, ForceSetup, UseMouse, UseJoystick;
 extern char *grpfile;	// game.c
 
 int startwin_run(void)
@@ -472,6 +576,9 @@ int startwin_run(void)
 	settings.xdim = ScreenWidth;
 	settings.ydim = ScreenHeight;
 	settings.bpp = ScreenBPP;
+    settings.samplerate = MixRate;
+    settings.bitspersample = NumBits;
+    settings.channels = NumChannels;
 	settings.forcesetup = ForceSetup;
 	settings.usemouse = UseMouse;
 	settings.usejoy = UseJoystick;
@@ -497,6 +604,9 @@ int startwin_run(void)
 		ScreenWidth = settings.xdim;
 		ScreenHeight = settings.ydim;
 		ScreenBPP = settings.bpp;
+        MixRate = settings.samplerate;
+        NumBits = settings.bitspersample;
+        NumChannels = settings.channels;        
 		ForceSetup = settings.forcesetup;
 		UseMouse = settings.usemouse;
 		UseJoystick = settings.usejoy;

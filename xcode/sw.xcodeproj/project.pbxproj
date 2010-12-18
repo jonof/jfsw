@@ -22,12 +22,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		AB2140AF101D568500E844AE /* libjfaudiolib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2140AE101D567A00E844AE /* libjfaudiolib.a */; };
 		AB2140B2101D56BC00E844AE /* ogg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2140B0101D56BC00E844AE /* ogg.framework */; };
 		AB2140B3101D56BC00E844AE /* vorbis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2140B1101D56BC00E844AE /* vorbis.framework */; };
 		AB2140BF101D56CC00E844AE /* ogg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB2140B0101D56BC00E844AE /* ogg.framework */; };
 		AB2140C0101D56CC00E844AE /* vorbis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB2140B1101D56BC00E844AE /* vorbis.framework */; };
-		AB2140FC101D57CB00E844AE /* libengine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21409A101D559900E844AE /* libengine.a */; };
 		AB21411C101D5B8F00E844AE /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21411B101D5B8F00E844AE /* AudioUnit.framework */; };
 		AB8F60750C658D3400202E11 /* startdlg.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8F60740C658D3400202E11 /* startdlg.c */; };
 		AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
@@ -128,9 +126,11 @@
 		ABB4AC3B0C64C6FE00F28920 /* zombie.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB60C64C4D000F28920 /* zombie.c */; };
 		ABB4AC3E0C64C72C00F28920 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
 		ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
-		ABF4CFF610F199EF00E281C4 /* libengine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21409A101D559900E844AE /* libengine.a */; };
-		ABF4CFF710F199EF00E281C4 /* libeditor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21409C101D559900E844AE /* libeditor.a */; };
-		ABF4CFF810F199EF00E281C4 /* libeditorsupp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21409E101D559900E844AE /* libeditorsupp.a */; };
+		ABD1BA4512BC712200CD7C5F /* libjfaudiolib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD1B96F12BC6F9500CD7C5F /* libjfaudiolib.a */; };
+		ABD1BA5012BC717500CD7C5F /* libengine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD1B97E12BC6FA900CD7C5F /* libengine.a */; };
+		ABD1BA5112BC717500CD7C5F /* libeditor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD1B98012BC6FA900CD7C5F /* libeditor.a */; };
+		ABD1BA5212BC717500CD7C5F /* libeditorsupp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD1B98212BC6FA900CD7C5F /* libeditorsupp.a */; };
+		ABD1BA5312BC718100CD7C5F /* libengine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD1B97E12BC6FA900CD7C5F /* libengine.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,76 +141,6 @@
 			remoteGlobalIDString = ABB4ABCC0C64C52900F28920;
 			remoteInfo = JFShadowWarrior;
 		};
-		AB214099101D559900E844AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AB735F490A29A2DC003261DC;
-			remoteInfo = engine;
-		};
-		AB21409B101D559900E844AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AB735FCC0A29A916003261DC;
-			remoteInfo = editor;
-		};
-		AB21409D101D559900E844AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AB3FE4550C04336F00D5DBDC;
-			remoteInfo = editorsupp;
-		};
-		AB21409F101D559900E844AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = ABAE9AD20F0B307500A528DC;
-			remoteInfo = arttool;
-		};
-		AB2140A1101D559900E844AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = ABAE9C2E0F0CC80200A528DC;
-			remoteInfo = kextract;
-		};
-		AB2140A3101D559900E844AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = ABAE9C390F0CC81900A528DC;
-			remoteInfo = kgroup;
-		};
-		AB2140AD101D567A00E844AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AB2E9E421011E61700DD2F1F;
-			remoteInfo = jfaudiolib;
-		};
-		AB2140ED101D577600E844AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AB2E9E411011E61600DD2F1F;
-			remoteInfo = jfaudiolib;
-		};
-		AB2140F0101D578D00E844AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AB735F480A29A2DC003261DC;
-			remoteInfo = engine;
-		};
-		AB32FB8710777A4C00A9BAFF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AB32FA7F1077102D00A9BAFF;
-			remoteInfo = test;
-		};
 		AB8F61C60C6593F900202E11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB270C64C36100F28920 /* Project object */;
@@ -218,25 +148,95 @@
 			remoteGlobalIDString = AB8F60C90C6591F300202E11;
 			remoteInfo = "Build Editor for JFShadowWarrior";
 		};
-		ABF4CFEF10F199AB00E281C4 /* PBXContainerItemProxy */ = {
+		ABD1B96E12BC6F9500CD7C5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB2E9E421011E61700DD2F1F /* libjfaudiolib.a */;
+			remoteInfo = jfaudiolib;
+		};
+		ABD1B97012BC6F9500CD7C5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB32FA7F1077102D00A9BAFF /* test */;
+			remoteInfo = test;
+		};
+		ABD1B97D12BC6FA900CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AB735F480A29A2DC003261DC;
+			proxyType = 2;
+			remoteGlobalIDString = AB735F490A29A2DC003261DC /* libengine.a */;
 			remoteInfo = engine;
 		};
-		ABF4CFF110F199AB00E281C4 /* PBXContainerItemProxy */ = {
+		ABD1B97F12BC6FA900CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AB735FCB0A29A916003261DC;
+			proxyType = 2;
+			remoteGlobalIDString = AB735FCC0A29A916003261DC /* libeditor.a */;
 			remoteInfo = editor;
 		};
-		ABF4CFF310F199AB00E281C4 /* PBXContainerItemProxy */ = {
+		ABD1B98112BC6FA900CD7C5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB3FE4550C04336F00D5DBDC /* libeditorsupp.a */;
+			remoteInfo = editorsupp;
+		};
+		ABD1B98312BC6FA900CD7C5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ABAE9AD20F0B307500A528DC /* arttool */;
+			remoteInfo = arttool;
+		};
+		ABD1B98512BC6FA900CD7C5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ABAE9C2E0F0CC80200A528DC /* kextract */;
+			remoteInfo = kextract;
+		};
+		ABD1B98712BC6FA900CD7C5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ABAE9C390F0CC81900A528DC /* kgroup */;
+			remoteInfo = kgroup;
+		};
+		ABD1BA4612BC713300CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB3FE44A0C04336F00D5DBDC;
+			remoteGlobalIDString = AB735F480A29A2DC003261DC /* engine */;
+			remoteInfo = engine;
+		};
+		ABD1BA4812BC713600CD7C5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB2E9E411011E61600DD2F1F /* jfaudiolib */;
+			remoteInfo = jfaudiolib;
+		};
+		ABD1BA4A12BC714700CD7C5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB735F480A29A2DC003261DC /* engine */;
+			remoteInfo = engine;
+		};
+		ABD1BA4C12BC714700CD7C5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB735FCB0A29A916003261DC /* editor */;
+			remoteInfo = editor;
+		};
+		ABD1BA4E12BC714700CD7C5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB3FE44A0C04336F00D5DBDC /* editorsupp */;
 			remoteInfo = editorsupp;
 		};
 /* End PBXContainerItemProxy section */
@@ -267,9 +267,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = jfaudiolib.xcodeproj; path = ../source/jaudiolib/jfaudiolib.xcodeproj; sourceTree = SOURCE_ROOT; };
-		AB2140B0101D56BC00E844AE /* ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ogg.framework; path = "../source/jaudiolib/third-party/ogg.framework"; sourceTree = SOURCE_ROOT; };
-		AB2140B1101D56BC00E844AE /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = "../source/jaudiolib/third-party/vorbis.framework"; sourceTree = SOURCE_ROOT; };
+		AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = jfaudiolib.xcodeproj; path = ../../jfaudiolib.git/jfaudiolib.xcodeproj; sourceTree = SOURCE_ROOT; };
+		AB2140B0101D56BC00E844AE /* ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ogg.framework; path = "../../jfaudiolib.git/third-party/ogg.framework"; sourceTree = SOURCE_ROOT; };
+		AB2140B1101D56BC00E844AE /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = "../../jfaudiolib.git/third-party/vorbis.framework"; sourceTree = SOURCE_ROOT; };
 		AB21411B101D5B8F00E844AE /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
 		AB214357101EEFB200E844AE /* _config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _config.h; sourceTree = "<group>"; };
 		AB214358101EEFB200E844AE /* _functio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _functio.h; sourceTree = "<group>"; };
@@ -333,7 +333,7 @@
 		AB214394101EF14900E844AE /* weapon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = weapon.h; sourceTree = "<group>"; };
 		AB8F60740C658D3400202E11 /* startdlg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = startdlg.c; sourceTree = "<group>"; };
 		AB8F60CA0C6591F300202E11 /* Build Editor for JFShadowWarrior.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Build Editor for JFShadowWarrior.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../engine/xcode/engine.xcodeproj; sourceTree = SOURCE_ROOT; };
+		ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../../jfbuild.git/xcode/engine.xcodeproj; sourceTree = SOURCE_ROOT; };
 		ABB4AB5C0C64C3EB00F28920 /* jnstub.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jnstub.c; sourceTree = "<group>"; };
 		ABB4AB5E0C64C40200F28920 /* build.osxmain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = build.osxmain.nib; sourceTree = "<group>"; };
 		ABB4AB5F0C64C42000F28920 /* startwin.editor.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = startwin.editor.nib; sourceTree = "<group>"; };
@@ -448,9 +448,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABF4CFF610F199EF00E281C4 /* libengine.a in Frameworks */,
-				ABF4CFF710F199EF00E281C4 /* libeditor.a in Frameworks */,
-				ABF4CFF810F199EF00E281C4 /* libeditorsupp.a in Frameworks */,
+				ABD1BA5012BC717500CD7C5F /* libengine.a in Frameworks */,
+				ABD1BA5112BC717500CD7C5F /* libeditor.a in Frameworks */,
+				ABD1BA5212BC717500CD7C5F /* libeditorsupp.a in Frameworks */,
 				AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */,
 				AB8F60D80C65924000202E11 /* SDL.framework in Frameworks */,
 			);
@@ -460,8 +460,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB2140FC101D57CB00E844AE /* libengine.a in Frameworks */,
-				AB2140AF101D568500E844AE /* libjfaudiolib.a in Frameworks */,
+				ABD1BA5312BC718100CD7C5F /* libengine.a in Frameworks */,
+				ABD1BA4512BC712200CD7C5F /* libjfaudiolib.a in Frameworks */,
 				ABB4AC3E0C64C72C00F28920 /* SDL.framework in Frameworks */,
 				ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */,
 				AB2140B2101D56BC00E844AE /* ogg.framework in Frameworks */,
@@ -473,28 +473,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AB214091101D559900E844AE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AB21409A101D559900E844AE /* libengine.a */,
-				AB21409C101D559900E844AE /* libeditor.a */,
-				AB21409E101D559900E844AE /* libeditorsupp.a */,
-				AB2140A0101D559900E844AE /* arttool */,
-				AB2140A2101D559900E844AE /* kextract */,
-				AB2140A4101D559900E844AE /* kgroup */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		AB2140A7101D567A00E844AE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AB2140AE101D567A00E844AE /* libjfaudiolib.a */,
-				AB32FB8810777A4C00A9BAFF /* test */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		ABB4AB250C64C36100F28920 = {
 			isa = PBXGroup;
 			children = (
@@ -521,6 +499,7 @@
 		ABB4AB590C64C39400F28920 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				ABB4ABDE0C64C6AB00F28920 /* jfmact.git */,
 				ABB4AB6A0C64C44C00F28920 /* source */,
 				ABB4AB6B0C64C45500F28920 /* osx */,
 				ABB4ABC20C64C50100F28920 /* game_icon.icns */,
@@ -556,7 +535,6 @@
 				AB214357101EEFB200E844AE /* _config.h */,
 				AB214358101EEFB200E844AE /* _functio.h */,
 				AB214359101EEFB200E844AE /* _rts.h */,
-				ABB4ABDE0C64C6AB00F28920 /* jmact */,
 				ABB4AB6C0C64C4D000F28920 /* actor.c */,
 				AB21435A101EEFB200E844AE /* actor.h */,
 				ABB4AB6D0C64C4D000F28920 /* ai.c */,
@@ -710,7 +688,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		ABB4ABDE0C64C6AB00F28920 /* jmact */ = {
+		ABB4ABDE0C64C6AB00F28920 /* jfmact.git */ = {
 			isa = PBXGroup;
 			children = (
 				ABFF0CF410F1A4910043FD8E /* _control.h */,
@@ -734,8 +712,9 @@
 				ABB4ABE70C64C6F100F28920 /* scriplib.c */,
 				ABB4ABE80C64C6F100F28920 /* util_lib.c */,
 			);
-			path = jmact;
-			sourceTree = "<group>";
+			name = jfmact.git;
+			path = ../../jfmact.git;
+			sourceTree = SOURCE_ROOT;
 		};
 		ABB4AC410C64C74600F28920 /* Linked Frameworks */ = {
 			isa = PBXGroup;
@@ -747,6 +726,28 @@
 				ABB4AC3D0C64C72C00F28920 /* SDL.framework */,
 			);
 			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		ABD1B96A12BC6F9500CD7C5F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABD1B96F12BC6F9500CD7C5F /* libjfaudiolib.a */,
+				ABD1B97112BC6F9500CD7C5F /* test */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ABD1B97512BC6FA900CD7C5F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABD1B97E12BC6FA900CD7C5F /* libengine.a */,
+				ABD1B98012BC6FA900CD7C5F /* libeditor.a */,
+				ABD1B98212BC6FA900CD7C5F /* libeditorsupp.a */,
+				ABD1B98412BC6FA900CD7C5F /* arttool */,
+				ABD1B98612BC6FA900CD7C5F /* kextract */,
+				ABD1B98812BC6FA900CD7C5F /* kgroup */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -764,9 +765,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				ABF4CFF010F199AB00E281C4 /* PBXTargetDependency */,
-				ABF4CFF210F199AB00E281C4 /* PBXTargetDependency */,
-				ABF4CFF410F199AB00E281C4 /* PBXTargetDependency */,
+				ABD1BA4B12BC714700CD7C5F /* PBXTargetDependency */,
+				ABD1BA4D12BC714700CD7C5F /* PBXTargetDependency */,
+				ABD1BA4F12BC714700CD7C5F /* PBXTargetDependency */,
 			);
 			name = "Build Editor for JFShadowWarrior";
 			productName = "Build Editor for JFShadowWarrior";
@@ -785,8 +786,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				AB2140EE101D577600E844AE /* PBXTargetDependency */,
-				AB2140F1101D578D00E844AE /* PBXTargetDependency */,
+				ABD1BA4712BC713300CD7C5F /* PBXTargetDependency */,
+				ABD1BA4912BC713600CD7C5F /* PBXTargetDependency */,
 			);
 			name = JFShadowWarrior;
 			productName = JFShadowWarrior;
@@ -800,17 +801,24 @@
 			isa = PBXProject;
 			buildConfigurationList = ABB4AB280C64C36100F28920 /* Build configuration list for PBXProject "sw" */;
 			compatibilityVersion = "Xcode 3.0";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = ABB4AB250C64C36100F28920;
 			productRefGroup = ABB4ABCE0C64C52900F28920 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = AB214091101D559900E844AE /* Products */;
+					ProductGroup = ABD1B97512BC6FA900CD7C5F /* Products */;
 					ProjectRef = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 				},
 				{
-					ProductGroup = AB2140A7101D567A00E844AE /* Products */;
+					ProductGroup = ABD1B96A12BC6F9500CD7C5F /* Products */;
 					ProjectRef = AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */;
 				},
 			);
@@ -824,60 +832,60 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		AB21409A101D559900E844AE /* libengine.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libengine.a;
-			remoteRef = AB214099101D559900E844AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AB21409C101D559900E844AE /* libeditor.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libeditor.a;
-			remoteRef = AB21409B101D559900E844AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AB21409E101D559900E844AE /* libeditorsupp.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libeditorsupp.a;
-			remoteRef = AB21409D101D559900E844AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AB2140A0101D559900E844AE /* arttool */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = arttool;
-			remoteRef = AB21409F101D559900E844AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AB2140A2101D559900E844AE /* kextract */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = kextract;
-			remoteRef = AB2140A1101D559900E844AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AB2140A4101D559900E844AE /* kgroup */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = kgroup;
-			remoteRef = AB2140A3101D559900E844AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AB2140AE101D567A00E844AE /* libjfaudiolib.a */ = {
+		ABD1B96F12BC6F9500CD7C5F /* libjfaudiolib.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libjfaudiolib.a;
-			remoteRef = AB2140AD101D567A00E844AE /* PBXContainerItemProxy */;
+			remoteRef = ABD1B96E12BC6F9500CD7C5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AB32FB8810777A4C00A9BAFF /* test */ = {
+		ABD1B97112BC6F9500CD7C5F /* test */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = test;
-			remoteRef = AB32FB8710777A4C00A9BAFF /* PBXContainerItemProxy */;
+			remoteRef = ABD1B97012BC6F9500CD7C5F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABD1B97E12BC6FA900CD7C5F /* libengine.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libengine.a;
+			remoteRef = ABD1B97D12BC6FA900CD7C5F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABD1B98012BC6FA900CD7C5F /* libeditor.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libeditor.a;
+			remoteRef = ABD1B97F12BC6FA900CD7C5F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABD1B98212BC6FA900CD7C5F /* libeditorsupp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libeditorsupp.a;
+			remoteRef = ABD1B98112BC6FA900CD7C5F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABD1B98412BC6FA900CD7C5F /* arttool */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = arttool;
+			remoteRef = ABD1B98312BC6FA900CD7C5F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABD1B98612BC6FA900CD7C5F /* kextract */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = kextract;
+			remoteRef = ABD1B98512BC6FA900CD7C5F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABD1B98812BC6FA900CD7C5F /* kgroup */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = kgroup;
+			remoteRef = ABD1B98712BC6FA900CD7C5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1015,35 +1023,35 @@
 			target = ABB4ABCC0C64C52900F28920 /* JFShadowWarrior */;
 			targetProxy = AB01B6CC0C64CCE7008F444E /* PBXContainerItemProxy */;
 		};
-		AB2140EE101D577600E844AE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = jfaudiolib;
-			targetProxy = AB2140ED101D577600E844AE /* PBXContainerItemProxy */;
-		};
-		AB2140F1101D578D00E844AE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = engine;
-			targetProxy = AB2140F0101D578D00E844AE /* PBXContainerItemProxy */;
-		};
 		AB8F61C70C6593F900202E11 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AB8F60C90C6591F300202E11 /* Build Editor for JFShadowWarrior */;
 			targetProxy = AB8F61C60C6593F900202E11 /* PBXContainerItemProxy */;
 		};
-		ABF4CFF010F199AB00E281C4 /* PBXTargetDependency */ = {
+		ABD1BA4712BC713300CD7C5F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = engine;
-			targetProxy = ABF4CFEF10F199AB00E281C4 /* PBXContainerItemProxy */;
+			targetProxy = ABD1BA4612BC713300CD7C5F /* PBXContainerItemProxy */;
 		};
-		ABF4CFF210F199AB00E281C4 /* PBXTargetDependency */ = {
+		ABD1BA4912BC713600CD7C5F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = jfaudiolib;
+			targetProxy = ABD1BA4812BC713600CD7C5F /* PBXContainerItemProxy */;
+		};
+		ABD1BA4B12BC714700CD7C5F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = engine;
+			targetProxy = ABD1BA4A12BC714700CD7C5F /* PBXContainerItemProxy */;
+		};
+		ABD1BA4D12BC714700CD7C5F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = editor;
-			targetProxy = ABF4CFF110F199AB00E281C4 /* PBXContainerItemProxy */;
+			targetProxy = ABD1BA4C12BC714700CD7C5F /* PBXContainerItemProxy */;
 		};
-		ABF4CFF410F199AB00E281C4 /* PBXTargetDependency */ = {
+		ABD1BA4F12BC714700CD7C5F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = editorsupp;
-			targetProxy = ABF4CFF310F199AB00E281C4 /* PBXContainerItemProxy */;
+			targetProxy = ABD1BA4E12BC714700CD7C5F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1077,7 +1085,7 @@
 				);
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"source/jaudiolib/third-party",
+					"../../jfaudiolib.git/third-party",
 					"~/Library/Frameworks",
 					/Library/Frameworks,
 				);
@@ -1096,12 +1104,10 @@
 				);
 				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
-					../source/jaudiolib/include,
+					../../jfaudiolib.git/include,
 					../source,
-					../engine/include,
+					../../jfbuild.git/include,
 				);
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 			};
 			name = Debug;
@@ -1115,7 +1121,7 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"source/jaudiolib/third-party",
+					"../../jfaudiolib.git/third-party",
 					"~/Library/Frameworks",
 					/Library/Frameworks,
 				);
@@ -1133,12 +1139,10 @@
 				);
 				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
-					../source/jaudiolib/include,
+					../../jfaudiolib.git/include,
 					../source,
-					../engine/include,
+					../../jfbuild.git/include,
 				);
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 			};
 			name = Release;

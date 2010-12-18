@@ -427,14 +427,14 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
                 // ogg replacement for a CD track
                 return TRUE;
                 }
-            else if (SongName && !strcmp(SongName, song_file_name))
+            else if (SongName && song_file_name && !strcmp(SongName, song_file_name))
                 {
                 return TRUE;
                 }
             }
         else if (SongType == SongTypeMIDI)
             {
-            if (SongName && !strcmp(SongName, song_file_name))
+            if (SongName && song_file_name && !strcmp(SongName, song_file_name))
                 {
                 return TRUE;
                 }

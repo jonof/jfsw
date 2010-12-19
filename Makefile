@@ -1,25 +1,50 @@
 # Shadow Warrior Makefile for GNU Make
 
-# SDK locations - adjust to match your setup
-DXROOT=/z/sdks/directx/dx7
+# Create Makefile.user yourself to provide your own overrides
+# for configurable values
+-include Makefile.user
 
-# Engine options
-SUPERBUILD = 1
-POLYMOST = 1
-USE_OPENGL = 1
-DYNAMIC_OPENGL = 1
-USE_A_C = 0
-NOASM = 0
-LINKED_GTK = 0
+##
+##
+## CONFIGURABLE OPTIONS
+##
+##
 
 # Debugging options
-RELEASE?=1
+RELEASE ?= 1
+
+# DirectX SDK location
+DXROOT ?= $(HOME)/sdks/directx/dx7
+
+# Engine source code path
+EROOT ?= ../jfbuild.git
+
+# JMACT library source path
+MACTROOT ?= ../jfmact.git
+
+# JFAudioLib source path
+AUDIOLIBROOT ?= ../jfaudiolib.git
+
+# Engine options
+SUPERBUILD ?= 1
+POLYMOST ?= 1
+USE_OPENGL ?= 1
+DYNAMIC_OPENGL ?= 1
+USE_A_C ?= 0
+NOASM ?= 0
+LINKED_GTK ?= 0
+
+
+##
+##
+## HERE BE DRAGONS
+##
+##
 
 # build locations
 SRC=source
 RSRC=rsrc
 OBJ=obj
-EROOT=engine
 EINC=$(EROOT)/include
 ELIB=$(EROOT)
 INC=$(SRC)
@@ -33,14 +58,13 @@ else
   debug=-ggdb -O0
 endif
 
-JAUDIOLIBDIR=$(SRC)/jaudiolib
-JAUDIOLIB=libjfaudiolib.a
+include $(AUDIOLIBROOT)/Makefile.shared
 
 CC=gcc
 CXX=g++
 OURCFLAGS=$(debug) -W -Wall -Wimplicit -Wno-char-subscripts -Wno-unused \
-	-funsigned-char -fno-strict-aliasing -DNO_GCC_BUILTINS \
-	-I$(INC) -I$(EINC) -I$(SRC)/jmact -I$(JAUDIOLIBDIR)/include
+	-fno-pic -funsigned-char -fno-strict-aliasing -DNO_GCC_BUILTINS \
+	-I$(INC) -I$(EINC) -I$(MACTROOT) -I$(AUDIOLIBROOT)/include
 OURCXXFLAGS=-fno-exceptions -fno-rtti
 LIBS=-lm
 GAMELIBS=
@@ -138,7 +162,7 @@ include $(EROOT)/Makefile.shared
 
 ifeq ($(PLATFORM),LINUX)
 	NASMFLAGS+= -f elf
-	GAMELIBS+= -lvorbisfile -lvorbis -logg
+	GAMELIBS+= $(JFAUDIOLIB_LDFLAGS)
 endif
 ifeq ($(PLATFORM),WINDOWS)
 	OURCFLAGS+= -DUNDERSCORES -I$(DXROOT)/include
@@ -146,14 +170,13 @@ ifeq ($(PLATFORM),WINDOWS)
 	GAMEOBJS+= $(OBJ)/gameres.$o $(OBJ)/startdlg.$o $(OBJ)/startwin.game.$o
 	EDITOROBJS+= $(OBJ)/buildres.$o
 	GAMELIBS+= -ldsound \
-	       $(JAUDIOLIBDIR)/third-party/mingw32/lib/libvorbisfile.a \
-	       $(JAUDIOLIBDIR)/third-party/mingw32/lib/libvorbis.a \
-	       $(JAUDIOLIBDIR)/third-party/mingw32/lib/libogg.a
+	       $(AUDIOLIBROOT)/third-party/mingw32/lib/libvorbisfile.a \
+	       $(AUDIOLIBROOT)/third-party/mingw32/lib/libvorbis.a \
+	       $(AUDIOLIBROOT)/third-party/mingw32/lib/libogg.a
 endif
 
 ifeq ($(RENDERTYPE),SDL)
 	OURCFLAGS+= $(subst -Dmain=SDL_main,,$(shell sdl-config --cflags))
-	AUDIOLIBOBJ=$(AUDIOLIB_MUSIC_STUB) $(AUDIOLIB_FX_STUB)
 
 	ifeq (1,$(HAVE_GTK2))
 		OURCFLAGS+= -DHAVE_GTK2 $(shell pkg-config --cflags gtk+-2.0)
@@ -167,16 +190,16 @@ endif
 
 OURCFLAGS+= $(BUILDCFLAGS)
 
-.PHONY: clean all engine $(ELIB)/$(ENGINELIB) $(ELIB)/$(EDITORLIB) $(JAUDIOLIBDIR)/$(JAUDIOLIB)
+.PHONY: clean all engine $(ELIB)/$(ENGINELIB) $(ELIB)/$(EDITORLIB) $(AUDIOLIBROOT)/$(JFAUDIOLIB)
 
 # TARGETS
 
 # Invoking Make from the terminal in OSX just chains the build on to xcode
 ifeq ($(PLATFORM),DARWIN)
 ifeq ($(RELEASE),0)
-style=Development
+style=Debug
 else
-style=Deployment
+style=Release
 endif
 .PHONY: alldarwin
 alldarwin:
@@ -185,7 +208,7 @@ endif
 
 all: sw$(EXESUFFIX) build$(EXESUFFIX)
 
-sw$(EXESUFFIX): $(GAMEOBJS) $(ELIB)/$(ENGINELIB) $(JAUDIOLIBDIR)/$(JAUDIOLIB)
+sw$(EXESUFFIX): $(GAMEOBJS) $(ELIB)/$(ENGINELIB) $(AUDIOLIBROOT)/$(JFAUDIOLIB)
 	$(CXX) $(CXXFLAGS) $(OURCXXFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) $(GAMELIBS) -Wl,-Map=$@.map
 	
 build$(EXESUFFIX): $(EDITOROBJS) $(ELIB)/$(EDITORLIB) $(ELIB)/$(ENGINELIB)
@@ -202,20 +225,18 @@ enginelib editorlib:
 
 $(ELIB)/$(ENGINELIB): enginelib
 $(ELIB)/$(EDITORLIB): editorlib
-$(JAUDIOLIBDIR)/$(JAUDIOLIB):
-	$(MAKE) -C $(JAUDIOLIBDIR)
+$(AUDIOLIBROOT)/$(JAUDIOLIB):
+	$(MAKE) -C $(AUDIOLIBROOT) RELEASE=$(RELEASE)
 
 # RULES
 $(OBJ)/%.$o: $(SRC)/%.nasm
 	nasm $(NASMFLAGS) $< -o $@
-$(OBJ)/%.$o: $(SRC)/jaudiolib/%.nasm
-	nasm $(NASMFLAGS) $< -o $@
 
 $(OBJ)/%.$o: $(SRC)/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
+$(OBJ)/%.$o: $(SRC)/%.cpp
+	$(CXX) $(CXXFLAGS) $(OURCXXFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 $(OBJ)/%.$o: $(SRC)/jmact/%.c
-	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
-$(OBJ)/%.$o: $(SRC)/jaudiolib/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 
 $(OBJ)/%.$o: $(SRC)/misc/%.rc
@@ -243,13 +264,14 @@ ifeq ($(PLATFORM),DARWIN)
 else
 	-rm -f $(OBJ)/*
 	$(MAKE) -C $(EROOT) clean
-	$(MAKE) -C $(JAUDIOLIBDIR) clean
+	$(MAKE) -C $(AUDIOLIBROOT) clean
 endif
 	
 veryclean: clean
 ifeq ($(PLATFORM),DARWIN)
 else
 	-rm -f sw$(EXESUFFIX) build$(EXESUFFIX) core*
+	$(MAKE) -C $(EROOT) veryclean
 endif
 
 ifeq ($(PLATFORM),WINDOWS)

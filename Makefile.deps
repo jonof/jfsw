@@ -1,76 +1,76 @@
 panel_h=$(INC)/panel.h $(INC)/mytypes.h $(INC)/game.h $(INC)/conpic.h
 names2_h=$(INC)/names2.h $(INC)/names.h
-game_h=$(INC)/game.h $(INC)/mytypes.h $(SRC)/jmact/keyboard.h $(INC)/sounds.h $(INC)/settings.h $(INC)/digi.h $(INC)/damage.h $(INC)/inv.h $(INC)/stag.h
+game_h=$(INC)/game.h $(INC)/mytypes.h $(MACTROOT)/keyboard.h $(INC)/sounds.h $(INC)/settings.h $(INC)/digi.h $(INC)/damage.h $(INC)/inv.h $(INC)/stag.h
 tags_h=$(INC)/tags.h $(INC)/jtags.h
 
 $(OBJ)/actor.$o: $(SRC)/actor.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/weapon.h $(INC)/sprite.h $(INC)/actor.h $(INC)/saveable.h
 $(OBJ)/ai.$o: $(SRC)/ai.c $(INC)/keys.h $(names2_h) $(game_h) $(tags_h) $(INC)/ninja.h $(INC)/ai.h $(INC)/sector.h $(INC)/sprite.h $(INC)/net.h $(INC)/saveable.h
-$(OBJ)/anim.$o: $(SRC)/anim.c $(INC)/keys.h $(INC)/mytypes.h $(SRC)/jmact/develop.h $(JAUDIOLIBDIR)/include/fx_man.h $(JAUDIOLIBDIR)/include/music.h $(SRC)/jmact/scriplib.h $(SRC)/jmact/file_lib.h $(INC)/gamedefs.h $(SRC)/jmact/keyboard.h $(SRC)/jmact/util_lib.h $(SRC)/jmact/control.h $(INC)/config.h $(INC)/sounds.h $(INC)/function.h $(SRC)/jmact/animlib.h $(INC)/anim.h $(game_h) $(INC)/colormap.h $(INC)/net.h
-$(OBJ)/border.$o: $(SRC)/border.c $(INC)/keys.h $(names2_h) $(panel_h) $(INC)/lists.h $(game_h) $(SRC)/jmact/mathutil.h $(INC)/net.h $(INC)/text.h
+$(OBJ)/anim.$o: $(SRC)/anim.c $(INC)/keys.h $(INC)/mytypes.h $(MACTROOT)/develop.h $(JAUDIOLIBDIR)/include/fx_man.h $(JAUDIOLIBDIR)/include/music.h $(MACTROOT)/scriplib.h $(MACTROOT)/file_lib.h $(INC)/gamedefs.h $(MACTROOT)/keyboard.h $(MACTROOT)/util_lib.h $(MACTROOT)/control.h $(INC)/config.h $(INC)/sounds.h $(INC)/function.h $(MACTROOT)/animlib.h $(INC)/anim.h $(game_h) $(INC)/colormap.h $(INC)/net.h
+$(OBJ)/border.$o: $(SRC)/border.c $(INC)/keys.h $(names2_h) $(panel_h) $(INC)/lists.h $(game_h) $(MACTROOT)/mathutil.h $(INC)/net.h $(INC)/text.h
 $(OBJ)/break.$o: $(SRC)/break.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/break.h $(INC)/sprite.h $(INC)/sector.h $(INC)/light.h $(INC)/weapon.h
 $(OBJ)/bunny.$o: $(SRC)/bunny.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/pal.h $(INC)/sprite.h $(INC)/actor.h $(INC)/weapon.h $(INC)/track.h $(INC)/saveable.h
-$(OBJ)/cache.$o: $(SRC)/cache.c $(names2_h) $(game_h) $(tags_h) $(SRC)/jmact/mathutil.h $(INC)/break.h $(INC)/quake.h $(INC)/pal.h $(INC)/cache.h $(INC)/sounds.h $(INC)/net.h
-$(OBJ)/cd.$o: $(SRC)/cd.c $(INC)/mytypes.h $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/player.h $(INC)/lists.h $(INC)/warp.h $(INC)/quake.h $(SRC)/jmact/mathutil.h $(INC)/function.h $(SRC)/jmact/control.h $(INC)/trigger.h $(INC)/savedef.h $(INC)/menus.h $(INC)/net.h $(INC)/pal.h
-$(OBJ)/cheats.$o: $(SRC)/cheats.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/mytypes.h $(SRC)/jmact/control.h $(INC)/function.h $(INC)/text.h
+$(OBJ)/cache.$o: $(SRC)/cache.c $(names2_h) $(game_h) $(tags_h) $(MACTROOT)/mathutil.h $(INC)/break.h $(INC)/quake.h $(INC)/pal.h $(INC)/cache.h $(INC)/sounds.h $(INC)/net.h
+$(OBJ)/cd.$o: $(SRC)/cd.c $(INC)/mytypes.h $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/player.h $(INC)/lists.h $(INC)/warp.h $(INC)/quake.h $(MACTROOT)/mathutil.h $(INC)/function.h $(MACTROOT)/control.h $(INC)/trigger.h $(INC)/savedef.h $(INC)/menus.h $(INC)/net.h $(INC)/pal.h
+$(OBJ)/cheats.$o: $(SRC)/cheats.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/mytypes.h $(MACTROOT)/control.h $(INC)/function.h $(INC)/text.h
 $(OBJ)/colormap.$o: $(SRC)/colormap.c $(INC)/keys.h $(INC)/pal.h $(game_h)
-$(OBJ)/config.$o: $(SRC)/config.c $(INC)/settings.h $(INC)/mytypes.h $(SRC)/jmact/develop.h $(SRC)/jmact/scriplib.h $(SRC)/jmact/file_lib.h $(INC)/gamedefs.h $(SRC)/jmact/keyboard.h $(SRC)/jmact/util_lib.h $(INC)/function.h $(SRC)/jmact/control.h $(JAUDIOLIBDIR)/include/fx_man.h $(INC)/sounds.h $(INC)/config.h $(INC)/common.h $(INC)/_functio.h $(INC)/_config.h
-$(OBJ)/console.$o: $(SRC)/console.c $(INC)/mytypes.h $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/player.h $(INC)/lists.h $(INC)/warp.h $(INC)/quake.h $(SRC)/jmact/mathutil.h $(INC)/function.h $(SRC)/jmact/control.h $(INC)/trigger.h $(INC)/savedef.h $(INC)/menus.h $(INC)/net.h $(INC)/pal.h $(INC)/weapon.h $(INC)/text.h $(INC)/jsector.h
+$(OBJ)/config.$o: $(SRC)/config.c $(INC)/settings.h $(INC)/mytypes.h $(MACTROOT)/develop.h $(MACTROOT)/scriplib.h $(MACTROOT)/file_lib.h $(INC)/gamedefs.h $(MACTROOT)/keyboard.h $(MACTROOT)/util_lib.h $(INC)/function.h $(MACTROOT)/control.h $(JAUDIOLIBDIR)/include/fx_man.h $(INC)/sounds.h $(INC)/config.h $(INC)/common.h $(INC)/_functio.h $(INC)/_config.h
+$(OBJ)/console.$o: $(SRC)/console.c $(INC)/mytypes.h $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/player.h $(INC)/lists.h $(INC)/warp.h $(INC)/quake.h $(MACTROOT)/mathutil.h $(INC)/function.h $(MACTROOT)/control.h $(INC)/trigger.h $(INC)/savedef.h $(INC)/menus.h $(INC)/net.h $(INC)/pal.h $(INC)/weapon.h $(INC)/text.h $(INC)/jsector.h
 $(OBJ)/coolg.$o: $(SRC)/coolg.c $(INC)/keys.h $(names2_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/sprite.h $(INC)/actor.h $(INC)/weapon.h $(INC)/track.h $(INC)/saveable.h
 $(OBJ)/coolie.$o: $(SRC)/coolie.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/sprite.h $(INC)/actor.h $(INC)/track.h $(INC)/weapon.h $(INC)/saveable.h
 $(OBJ)/copysect.$o: $(SRC)/copysect.c $(names2_h) $(game_h) $(tags_h) $(INC)/weapon.h $(INC)/sprite.h $(INC)/track.h
-$(OBJ)/demo.$o: $(SRC)/demo.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/net.h $(INC)/mytypes.h $(SRC)/jmact/control.h $(INC)/function.h $(INC)/demo.h $(INC)/player.h $(INC)/menus.h
-$(OBJ)/draw.$o: $(SRC)/draw.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/quake.h $(INC)/vis.h $(INC)/jsector.h $(INC)/reserve.h $(INC)/mytypes.h $(SRC)/jmact/control.h $(INC)/function.h $(INC)/net.h $(INC)/pal.h $(INC)/player.h $(INC)/jtags.h $(INC)/parent.h $(INC)/cache.h $(INC)/text.h $(INC)/menus.h $(INC)/interp.h $(INC)/sector.h
+$(OBJ)/demo.$o: $(SRC)/demo.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/net.h $(INC)/mytypes.h $(MACTROOT)/control.h $(INC)/function.h $(INC)/demo.h $(INC)/player.h $(INC)/menus.h
+$(OBJ)/draw.$o: $(SRC)/draw.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/quake.h $(INC)/vis.h $(INC)/jsector.h $(INC)/reserve.h $(INC)/mytypes.h $(MACTROOT)/control.h $(INC)/function.h $(INC)/net.h $(INC)/pal.h $(INC)/player.h $(INC)/jtags.h $(INC)/parent.h $(INC)/cache.h $(INC)/text.h $(INC)/menus.h $(INC)/interp.h $(INC)/sector.h
 $(OBJ)/eel.$o: $(SRC)/eel.c $(INC)/keys.h $(names2_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/actor.h $(INC)/weapon.h $(INC)/track.h $(INC)/saveable.h
-$(OBJ)/game.$o: $(SRC)/game.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/sector.h $(INC)/sprite.h $(INC)/weapon.h $(INC)/player.h $(INC)/lists.h $(INC)/net.h $(INC)/pal.h $(JAUDIOLIBDIR)/include/fx_man.h $(INC)/mytypes.h $(INC)/menus.h $(SRC)/jmact/control.h $(INC)/function.h $(INC)/demo.h $(INC)/cache.h $(INC)/anim.h $(INC)/colormap.h $(INC)/break.h $(INC)/ninja.h $(INC)/light.h $(INC)/track.h $(INC)/jsector.h $(SRC)/jmact/keyboard.h $(INC)/text.h $(JAUDIOLIBDIR)/include/music.h $(INC)/saveable.h
+$(OBJ)/game.$o: $(SRC)/game.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/sector.h $(INC)/sprite.h $(INC)/weapon.h $(INC)/player.h $(INC)/lists.h $(INC)/net.h $(INC)/pal.h $(JAUDIOLIBDIR)/include/fx_man.h $(INC)/mytypes.h $(INC)/menus.h $(MACTROOT)/control.h $(INC)/function.h $(INC)/demo.h $(INC)/cache.h $(INC)/anim.h $(INC)/colormap.h $(INC)/break.h $(INC)/ninja.h $(INC)/light.h $(INC)/track.h $(INC)/jsector.h $(MACTROOT)/keyboard.h $(INC)/text.h $(JAUDIOLIBDIR)/include/music.h $(INC)/saveable.h
 $(OBJ)/girlninj.$o: $(SRC)/girlninj.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/pal.h $(INC)/player.h $(INC)/net.h $(INC)/actor.h $(INC)/track.h $(INC)/saveable.h
 $(OBJ)/goro.$o: $(SRC)/goro.c $(INC)/keys.h $(names2_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/actor.h $(INC)/track.h $(INC)/saveable.h
 $(OBJ)/hornet.$o: $(SRC)/hornet.c $(INC)/keys.h $(names2_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/actor.h $(INC)/weapon.h $(INC)/track.h $(INC)/saveable.h
 $(OBJ)/interp.$o: $(SRC)/interp.c $(INC)/interp.h
 $(OBJ)/interpsh.$o: $(SRC)/interpsh.c $(INC)/interp.h
 $(OBJ)/inv.$o: $(SRC)/inv.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/pal.h $(INC)/text.h $(INC)/colormap.h $(INC)/player.h
-$(OBJ)/jplayer.$o: $(SRC)/jplayer.c $(INC)/mytypes.h $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/player.h $(INC)/lists.h $(INC)/warp.h $(INC)/quake.h $(SRC)/jmact/mathutil.h $(INC)/function.h $(SRC)/jmact/control.h $(INC)/trigger.h $(INC)/savedef.h $(INC)/menus.h $(INC)/net.h $(INC)/pal.h $(INC)/bots.h
+$(OBJ)/jplayer.$o: $(SRC)/jplayer.c $(INC)/mytypes.h $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/player.h $(INC)/lists.h $(INC)/warp.h $(INC)/quake.h $(MACTROOT)/mathutil.h $(INC)/function.h $(MACTROOT)/control.h $(INC)/trigger.h $(INC)/savedef.h $(INC)/menus.h $(INC)/net.h $(INC)/pal.h $(INC)/bots.h
 $(OBJ)/jsector.$o: $(SRC)/jsector.c $(INC)/keys.h $(names2_h) $(INC)/jnames.h $(panel_h) $(game_h) $(tags_h) $(INC)/sector.h $(INC)/player.h $(INC)/sprite.h $(INC)/reserve.h $(INC)/jsector.h $(INC)/jtags.h $(INC)/lists.h $(INC)/pal.h $(INC)/parent.h
-$(OBJ)/jweapon.$o: $(SRC)/jweapon.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(SRC)/jmact/mathutil.h $(INC)/break.h $(INC)/quake.h $(INC)/net.h $(INC)/pal.h $(INC)/ai.h $(INC)/weapon.h $(INC)/sprite.h $(INC)/sector.h $(INC)/actor.h $(INC)/saveable.h
+$(OBJ)/jweapon.$o: $(SRC)/jweapon.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(MACTROOT)/mathutil.h $(INC)/break.h $(INC)/quake.h $(INC)/net.h $(INC)/pal.h $(INC)/ai.h $(INC)/weapon.h $(INC)/sprite.h $(INC)/sector.h $(INC)/actor.h $(INC)/saveable.h
 $(OBJ)/lava.$o: $(SRC)/lava.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/actor.h $(INC)/track.h
 $(OBJ)/light.$o: $(SRC)/light.c $(names2_h) $(game_h) $(INC)/light.h
 $(OBJ)/mclip.$o: $(SRC)/mclip.c $(INC)/mytypes.h $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/player.h $(INC)/mclip.h
 $(OBJ)/mdastr.$o: $(SRC)/mdastr.c $(INC)/mytypes.h $(INC)/keys.h $(names2_h) $(game_h)
-$(OBJ)/menus.$o: $(SRC)/menus.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/sector.h $(INC)/sprite.h $(INC)/weapon.h $(INC)/player.h $(INC)/jsector.h $(INC)/reserve.h $(SRC)/jmact/control.h $(INC)/menus.h $(INC)/sw_strs.h $(INC)/pal.h $(INC)/function.h $(INC)/net.h $(JAUDIOLIBDIR)/include/fx_man.h $(JAUDIOLIBDIR)/include/music.h $(INC)/text.h $(INC)/colormap.h
+$(OBJ)/menus.$o: $(SRC)/menus.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/sector.h $(INC)/sprite.h $(INC)/weapon.h $(INC)/player.h $(INC)/jsector.h $(INC)/reserve.h $(MACTROOT)/control.h $(INC)/menus.h $(INC)/sw_strs.h $(INC)/pal.h $(INC)/function.h $(INC)/net.h $(JAUDIOLIBDIR)/include/fx_man.h $(JAUDIOLIBDIR)/include/music.h $(INC)/text.h $(INC)/colormap.h
 $(OBJ)/miscactr.$o: $(SRC)/miscactr.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/quake.h $(JAUDIOLIBDIR)/include/fx_man.h $(INC)/actor.h $(INC)/sector.h $(INC)/sprite.h $(INC)/saveable.h
 $(OBJ)/morph.$o: $(SRC)/morph.c $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/sector.h $(INC)/ai.h $(INC)/player.h $(INC)/saveable.h
 $(OBJ)/net.$o: $(SRC)/net.c $(INC)/keys.h $(names2_h) $(tags_h) $(game_h) $(INC)/net.h $(INC)/pal.h $(INC)/weapon.h $(INC)/text.h $(INC)/menus.h
 $(OBJ)/ninja.$o: $(SRC)/ninja.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/pal.h $(INC)/player.h $(INC)/net.h $(INC)/weapon.h $(INC)/track.h $(INC)/actor.h $(INC)/ninja.h $(INC)/sprite.h $(INC)/saveable.h
-$(OBJ)/panel.$o: $(SRC)/panel.c $(INC)/keys.h $(names2_h) $(panel_h) $(INC)/lists.h $(game_h) $(SRC)/jmact/mathutil.h $(INC)/net.h $(INC)/pal.h $(INC)/vis.h $(INC)/weapon.h $(JAUDIOLIBDIR)/include/fx_man.h $(INC)/text.h $(INC)/player.h $(INC)/saveable.h
-$(OBJ)/player.$o: $(SRC)/player.c $(INC)/mytypes.h $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/player.h $(INC)/lists.h $(INC)/warp.h $(INC)/quake.h $(INC)/text.h $(SRC)/jmact/mathutil.h $(INC)/function.h $(SRC)/jmact/control.h $(INC)/trigger.h $(INC)/savedef.h $(INC)/menus.h $(INC)/net.h $(INC)/pal.h $(INC)/demo.h $(INC)/mclip.h $(JAUDIOLIBDIR)/include/fx_man.h $(INC)/sprite.h $(INC)/weapon.h $(INC)/ninja.h $(INC)/break.h $(INC)/jsector.h $(INC)/sector.h $(INC)/actor.h $(INC)/colormap.h $(JAUDIOLIBDIR)/include/music.h $(INC)/vis.h $(INC)/track.h $(INC)/interp.h $(INC)/saveable.h
+$(OBJ)/panel.$o: $(SRC)/panel.c $(INC)/keys.h $(names2_h) $(panel_h) $(INC)/lists.h $(game_h) $(MACTROOT)/mathutil.h $(INC)/net.h $(INC)/pal.h $(INC)/vis.h $(INC)/weapon.h $(JAUDIOLIBDIR)/include/fx_man.h $(INC)/text.h $(INC)/player.h $(INC)/saveable.h
+$(OBJ)/player.$o: $(SRC)/player.c $(INC)/mytypes.h $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/player.h $(INC)/lists.h $(INC)/warp.h $(INC)/quake.h $(INC)/text.h $(MACTROOT)/mathutil.h $(INC)/function.h $(MACTROOT)/control.h $(INC)/trigger.h $(INC)/savedef.h $(INC)/menus.h $(INC)/net.h $(INC)/pal.h $(INC)/demo.h $(INC)/mclip.h $(JAUDIOLIBDIR)/include/fx_man.h $(INC)/sprite.h $(INC)/weapon.h $(INC)/ninja.h $(INC)/break.h $(INC)/jsector.h $(INC)/sector.h $(INC)/actor.h $(INC)/colormap.h $(JAUDIOLIBDIR)/include/music.h $(INC)/vis.h $(INC)/track.h $(INC)/interp.h $(INC)/saveable.h
 $(OBJ)/predict.$o: $(SRC)/predict.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/net.h
-$(OBJ)/quake.$o: $(SRC)/quake.c $(names2_h) $(game_h) $(tags_h) $(SRC)/jmact/mathutil.h $(INC)/break.h $(INC)/quake.h $(INC)/sprite.h $(INC)/saveable.h
+$(OBJ)/quake.$o: $(SRC)/quake.c $(names2_h) $(game_h) $(tags_h) $(MACTROOT)/mathutil.h $(INC)/break.h $(INC)/quake.h $(INC)/sprite.h $(INC)/saveable.h
 $(OBJ)/ripper.$o: $(SRC)/ripper.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/pal.h $(INC)/actor.h $(INC)/sprite.h $(INC)/track.h $(INC)/saveable.h
 $(OBJ)/ripper2.$o: $(SRC)/ripper2.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/pal.h $(INC)/actor.h $(INC)/sprite.h $(INC)/track.h $(JAUDIOLIBDIR)/include/fx_man.h $(INC)/saveable.h
 $(OBJ)/rooms.$o: $(SRC)/rooms.c $(names2_h) $(panel_h) $(game_h) $(INC)/warp.h
 $(OBJ)/rotator.$o: $(SRC)/rotator.c $(names2_h) $(panel_h) $(game_h) $(INC)/net.h $(tags_h) $(INC)/sector.h $(INC)/text.h $(INC)/interp.h $(INC)/sprite.h $(INC)/saveable.h
-$(OBJ)/rts.$o: $(SRC)/rts.c $(INC)/mytypes.h $(SRC)/jmact/develop.h $(SRC)/jmact/util_lib.h $(SRC)/jmact/file_lib.h $(INC)/_rts.h $(INC)/rts.h $(INC)/cache.h
+$(OBJ)/rts.$o: $(SRC)/rts.c $(INC)/mytypes.h $(MACTROOT)/develop.h $(MACTROOT)/util_lib.h $(MACTROOT)/file_lib.h $(INC)/_rts.h $(INC)/rts.h $(INC)/cache.h
 $(OBJ)/save.$o: $(SRC)/save.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/lists.h $(INC)/interp.h $(INC)/net.h $(INC)/savedef.h $(INC)/jsector.h $(INC)/parent.h $(INC)/reserve.h $(INC)/mfile.h $(INC)/weapon.h $(INC)/cache.h $(INC)/colormap.h $(INC)/player.h $(JAUDIOLIBDIR)/include/fx_man.h $(JAUDIOLIBDIR)/include/music.h $(INC)/saveable.h
 $(OBJ)/scrip2.$o: $(SRC)/scrip2.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/parse.h $(INC)/jsector.h $(INC)/parent.h
-$(OBJ)/sector.$o: $(SRC)/sector.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/sector.h $(INC)/player.h $(INC)/quake.h $(INC)/weapon.h $(INC)/jtags.h $(INC)/net.h $(INC)/break.h $(INC)/track.h $(INC)/sprite.h $(SRC)/jmact/mathutil.h $(INC)/light.h $(INC)/text.h
+$(OBJ)/sector.$o: $(SRC)/sector.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/sector.h $(INC)/player.h $(INC)/quake.h $(INC)/weapon.h $(INC)/jtags.h $(INC)/net.h $(INC)/break.h $(INC)/track.h $(INC)/sprite.h $(MACTROOT)/mathutil.h $(INC)/light.h $(INC)/text.h
 $(OBJ)/serp.$o: $(SRC)/serp.c $(INC)/keys.h $(names2_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/actor.h $(INC)/track.h $(INC)/sector.h
-$(OBJ)/setup.$o: $(SRC)/setup.c $(INC)/keys.h $(game_h) $(INC)/mytypes.h $(SRC)/jmact/develop.h $(JAUDIOLIBDIR)/include/fx_man.h $(JAUDIOLIBDIR)/include/music.h $(SRC)/jmact/scriplib.h $(SRC)/jmact/file_lib.h $(INC)/gamedefs.h $(SRC)/jmact/keyboard.h $(SRC)/jmact/util_lib.h $(SRC)/jmact/control.h $(INC)/config.h $(INC)/sounds.h $(INC)/function.h $(INC)/rts.h
+$(OBJ)/setup.$o: $(SRC)/setup.c $(INC)/keys.h $(game_h) $(INC)/mytypes.h $(MACTROOT)/develop.h $(JAUDIOLIBDIR)/include/fx_man.h $(JAUDIOLIBDIR)/include/music.h $(MACTROOT)/scriplib.h $(MACTROOT)/file_lib.h $(INC)/gamedefs.h $(MACTROOT)/keyboard.h $(MACTROOT)/util_lib.h $(MACTROOT)/control.h $(INC)/config.h $(INC)/sounds.h $(INC)/function.h $(INC)/rts.h
 $(OBJ)/skel.$o: $(SRC)/skel.c $(INC)/keys.h $(names2_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/actor.h $(INC)/track.h
 $(OBJ)/skull.$o: $(SRC)/skull.c $(INC)/keys.h $(names2_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/weapon.h $(INC)/actor.h
 $(OBJ)/slidor.$o: $(SRC)/slidor.c $(names2_h) $(panel_h) $(game_h) $(INC)/net.h $(tags_h) $(INC)/slidor.h $(INC)/slidor.h $(INC)/sector.h $(INC)/interp.h $(INC)/text.h $(INC)/sprite.h $(INC)/saveable.h
-$(OBJ)/sounds.$o: $(SRC)/sounds.c $(INC)/keys.h $(names2_h) $(INC)/mytypes.h $(JAUDIOLIBDIR)/include/fx_man.h $(JAUDIOLIBDIR)/include/music.h $(JAUDIOLIBDIR)/include/cd.h $(SRC)/jmact/util_lib.h $(INC)/gamedefs.h $(INC)/config.h $(panel_h) $(game_h) $(INC)/sounds.h $(INC)/ai.h $(INC)/net.h $(INC)/cache.h $(INC)/text.h $(INC)/rts.h $(INC)/menus.h
+$(OBJ)/sounds.$o: $(SRC)/sounds.c $(INC)/keys.h $(names2_h) $(INC)/mytypes.h $(JAUDIOLIBDIR)/include/fx_man.h $(JAUDIOLIBDIR)/include/music.h $(JAUDIOLIBDIR)/include/cd.h $(MACTROOT)/util_lib.h $(INC)/gamedefs.h $(INC)/config.h $(panel_h) $(game_h) $(INC)/sounds.h $(INC)/ai.h $(INC)/net.h $(INC)/cache.h $(INC)/text.h $(INC)/rts.h $(INC)/menus.h
 $(OBJ)/spike.$o: $(SRC)/spike.c $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/sector.h $(INC)/sprite.h $(INC)/saveable.h
 $(OBJ)/sprite.$o: $(SRC)/sprite.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/warp.h $(INC)/light.h $(INC)/break.h $(INC)/net.h $(INC)/pal.h $(INC)/sounds.h $(INC)/interp.h $(INC)/sprite.h $(INC)/weapon.h $(INC)/jsector.h $(INC)/text.h $(INC)/slidor.h $(INC)/player.h $(INC)/saveable.h
 $(OBJ)/sumo.$o: $(SRC)/sumo.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/quake.h $(INC)/actor.h $(INC)/track.h $(INC)/weapon.h $(INC)/sector.h
-$(OBJ)/swconfig.$o: $(SRC)/swconfig.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/mytypes.h $(SRC)/jmact/develop.h $(SRC)/jmact/scriplib.h $(JAUDIOLIBDIR)/include/fx_man.h $(INC)/gamedefs.h $(INC)/common.h $(INC)/config.h $(INC)/function.h $(INC)/rts.h
+$(OBJ)/swconfig.$o: $(SRC)/swconfig.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/mytypes.h $(MACTROOT)/develop.h $(MACTROOT)/scriplib.h $(JAUDIOLIBDIR)/include/fx_man.h $(INC)/gamedefs.h $(INC)/common.h $(INC)/config.h $(INC)/function.h $(INC)/rts.h
 $(OBJ)/sync.$o: $(SRC)/sync.c $(INC)/keys.h $(game_h) $(tags_h) $(names2_h) $(INC)/net.h $(INC)/menus.h
-$(OBJ)/text.$o: $(SRC)/text.c $(INC)/keys.h $(names2_h) $(panel_h) $(INC)/lists.h $(game_h) $(SRC)/jmact/mathutil.h $(INC)/pal.h $(INC)/text.h $(INC)/net.h
+$(OBJ)/text.$o: $(SRC)/text.c $(INC)/keys.h $(names2_h) $(panel_h) $(INC)/lists.h $(game_h) $(MACTROOT)/mathutil.h $(INC)/pal.h $(INC)/text.h $(INC)/net.h
 $(OBJ)/timer.$o: $(SRC)/timer.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/sector.h $(INC)/sprite.h $(INC)/weapon.h $(JAUDIOLIBDIR)/include/fx_man.h $(JAUDIOLIBDIR)/include/music.h $(INC)/audiofx.h
 $(OBJ)/track.$o: $(SRC)/track.c $(names2_h) $(panel_h) $(tags_h) $(INC)/sector.h $(INC)/ai.h $(INC)/player.h $(game_h) $(INC)/net.h $(INC)/sprite.h $(INC)/track.h $(INC)/weapon.h $(INC)/saveable.h
 $(OBJ)/vator.$o: $(SRC)/vator.c $(names2_h) $(panel_h) $(game_h) $(INC)/net.h $(tags_h) $(INC)/sector.h $(INC)/interp.h $(INC)/text.h $(INC)/sprite.h $(INC)/weapon.h $(INC)/saveable.h
-$(OBJ)/vis.$o: $(SRC)/vis.c $(names2_h) $(game_h) $(tags_h) $(SRC)/jmact/mathutil.h $(INC)/break.h $(INC)/quake.h $(INC)/pal.h $(INC)/sprite.h
-$(OBJ)/wallmove.$o: $(SRC)/wallmove.c $(names2_h) $(game_h) $(tags_h) $(SRC)/jmact/mathutil.h $(INC)/weapon.h $(INC)/sprite.h
+$(OBJ)/vis.$o: $(SRC)/vis.c $(names2_h) $(game_h) $(tags_h) $(MACTROOT)/mathutil.h $(INC)/break.h $(INC)/quake.h $(INC)/pal.h $(INC)/sprite.h
+$(OBJ)/wallmove.$o: $(SRC)/wallmove.c $(names2_h) $(game_h) $(tags_h) $(MACTROOT)/mathutil.h $(INC)/weapon.h $(INC)/sprite.h
 $(OBJ)/warp.$o: $(SRC)/warp.c $(names2_h) $(panel_h) $(game_h) $(INC)/warp.h
-$(OBJ)/weapon.$o: $(SRC)/weapon.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(SRC)/jmact/mathutil.h $(INC)/break.h $(INC)/quake.h $(INC)/net.h $(INC)/pal.h $(INC)/vis.h $(INC)/ai.h $(INC)/weapon.h $(INC)/anim.h $(INC)/damage.h $(INC)/sector.h $(INC)/sprite.h $(INC)/actor.h $(INC)/track.h $(INC)/player.h
+$(OBJ)/weapon.$o: $(SRC)/weapon.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(MACTROOT)/mathutil.h $(INC)/break.h $(INC)/quake.h $(INC)/net.h $(INC)/pal.h $(INC)/vis.h $(INC)/ai.h $(INC)/weapon.h $(INC)/anim.h $(INC)/damage.h $(INC)/sector.h $(INC)/sprite.h $(INC)/actor.h $(INC)/track.h $(INC)/player.h
 $(OBJ)/zilla.$o: $(SRC)/zilla.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/quake.h $(INC)/actor.h $(INC)/track.h $(JAUDIOLIBDIR)/include/fx_man.h
 $(OBJ)/zombie.$o: $(SRC)/zombie.c $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/pal.h $(INC)/player.h $(INC)/net.h $(INC)/sprite.h $(INC)/weapon.h $(INC)/actor.h $(INC)/track.h
 $(OBJ)/saveable.$o: $(SRC)/saveable.c $(INC)/saveable.h
@@ -90,12 +90,12 @@ $(OBJ)/startwin.game.$o: $(SRC)/startwin.game.c $(EINC)/build.h $(EINC)/winlayer
 $(OBJ)/startgtk.game.$o: $(SRC)/startgtk.game.c $(duke3d_h) $(EINC)/dynamicgtk.h $(EINC)/build.h $(EINC)/baselayer.h $(EINC)/compat.h
 
 # jMACT objects
-$(OBJ)/util_lib.$o: $(SRC)/jmact/util_lib.c $(SRC)/jmact/util_lib.h $(SRC)/jmact/types.h $(EINC)/compat.h
-$(OBJ)/file_lib.$o: $(SRC)/jmact/file_lib.c $(SRC)/jmact/file_lib.h $(SRC)/jmact/types.h
-$(OBJ)/control.$o: $(SRC)/jmact/control.c $(SRC)/jmact/types.h $(SRC)/jmact/control.h $(SRC)/jmact/keyboard.h $(SRC)/jmact/mouse.h $(EINC)/baselayer.h
-$(OBJ)/keyboard.$o: $(SRC)/jmact/keyboard.c $(SRC)/jmact/types.h $(SRC)/jmact/keyboard.h $(EINC)/compat.h $(EINC)/baselayer.h
-$(OBJ)/mouse.$o: $(SRC)/jmact/mouse.c $(SRC)/jmact/types.h $(SRC)/jmact/mouse.h $(EINC)/baselayer.h
-$(OBJ)/mathutil.$o: $(SRC)/jmact/mathutil.c $(SRC)/jmact/types.h
-$(OBJ)/scriplib.$o: $(SRC)/jmact/scriplib.c $(SRC)/jmact/scriplib.h $(SRC)/jmact/util_lib.h $(SRC)/jmact/_scrplib.h $(SRC)/jmact/types.h $(EINC)/compat.h
-$(OBJ)/animlib.$o: $(SRC)/jmact/animlib.c $(SRC)/jmact/types.h $(SRC)/jmact/develop.h $(SRC)/jmact/util_lib.h $(SRC)/jmact/animlib.h
+$(OBJ)/util_lib.$o: $(MACTROOT)/util_lib.c $(MACTROOT)/util_lib.h $(MACTROOT)/types.h $(EINC)/compat.h
+$(OBJ)/file_lib.$o: $(MACTROOT)/file_lib.c $(MACTROOT)/file_lib.h $(MACTROOT)/types.h
+$(OBJ)/control.$o: $(MACTROOT)/control.c $(MACTROOT)/types.h $(MACTROOT)/control.h $(MACTROOT)/keyboard.h $(MACTROOT)/mouse.h $(EINC)/baselayer.h
+$(OBJ)/keyboard.$o: $(MACTROOT)/keyboard.c $(MACTROOT)/types.h $(MACTROOT)/keyboard.h $(EINC)/compat.h $(EINC)/baselayer.h
+$(OBJ)/mouse.$o: $(MACTROOT)/mouse.c $(MACTROOT)/types.h $(MACTROOT)/mouse.h $(EINC)/baselayer.h
+$(OBJ)/mathutil.$o: $(MACTROOT)/mathutil.c $(MACTROOT)/types.h
+$(OBJ)/scriplib.$o: $(MACTROOT)/scriplib.c $(MACTROOT)/scriplib.h $(MACTROOT)/util_lib.h $(MACTROOT)/_scrplib.h $(MACTROOT)/types.h $(EINC)/compat.h
+$(OBJ)/animlib.$o: $(MACTROOT)/animlib.c $(MACTROOT)/types.h $(MACTROOT)/develop.h $(MACTROOT)/util_lib.h $(MACTROOT)/animlib.h
 

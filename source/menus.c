@@ -1189,7 +1189,7 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
 		"*NETWORKING, OTHER CODE",
 		" Ken \"Awesoken\" Silverman",
 		"-",
-		" Visit http://jonof.edgenetwork.org/jfsw/ for the",
+		" Visit http://www.jonof.id.au/jfsw for the",
 		" source code, latest news, and updates of this port."
 	};
 	short dimx, dimy;

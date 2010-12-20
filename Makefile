@@ -224,7 +224,7 @@ enginelib editorlib:
 
 $(ELIB)/$(ENGINELIB): enginelib
 $(ELIB)/$(EDITORLIB): editorlib
-$(AUDIOLIBROOT)/$(JAUDIOLIB):
+$(AUDIOLIBROOT)/$(JFAUDIOLIB):
 	$(MAKE) -C $(AUDIOLIBROOT) RELEASE=$(RELEASE)
 
 # RULES
@@ -235,7 +235,7 @@ $(OBJ)/%.$o: $(SRC)/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 $(OBJ)/%.$o: $(SRC)/%.cpp
 	$(CXX) $(CXXFLAGS) $(OURCXXFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
-$(OBJ)/%.$o: $(SRC)/jmact/%.c
+$(OBJ)/%.$o: $(MACTROOT)/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 
 $(OBJ)/%.$o: $(SRC)/misc/%.rc

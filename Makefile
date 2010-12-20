@@ -43,7 +43,6 @@ LINKED_GTK ?= 0
 # build locations
 SRC=source
 RSRC=rsrc
-OBJ=obj
 EINC=$(EROOT)/include
 ELIB=$(EROOT)
 INC=$(SRC)
@@ -70,92 +69,92 @@ GAMELIBS=
 NASMFLAGS=-s #-g
 EXESUFFIX=
 
-JMACTOBJ=$(OBJ)/util_lib.$o \
-	$(OBJ)/file_lib.$o \
-	$(OBJ)/control.$o \
-	$(OBJ)/keyboard.$o \
-	$(OBJ)/mouse.$o \
-	$(OBJ)/mathutil.$o \
-	$(OBJ)/scriplib.$o \
-	$(OBJ)/animlib.$o
+JMACTOBJ=$(MACTROOT)/util_lib.$o \
+	$(MACTROOT)/file_lib.$o \
+	$(MACTROOT)/control.$o \
+	$(MACTROOT)/keyboard.$o \
+	$(MACTROOT)/mouse.$o \
+	$(MACTROOT)/mathutil.$o \
+	$(MACTROOT)/scriplib.$o \
+	$(MACTROOT)/animlib.$o
 
 GAMEOBJS= \
-	$(OBJ)/actor.$o \
-	$(OBJ)/ai.$o \
-	$(OBJ)/anim.$o \
-	$(OBJ)/border.$o \
-	$(OBJ)/break.$o \
-	$(OBJ)/bunny.$o \
-	$(OBJ)/cache.$o \
-	$(OBJ)/cheats.$o \
-	$(OBJ)/colormap.$o \
-	$(OBJ)/config.$o \
-	$(OBJ)/console.$o \
-	$(OBJ)/coolg.$o \
-	$(OBJ)/coolie.$o \
-	$(OBJ)/copysect.$o \
-	$(OBJ)/demo.$o \
-	$(OBJ)/draw.$o \
-	$(OBJ)/eel.$o \
-	$(OBJ)/game.$o \
-	$(OBJ)/girlninj.$o \
-	$(OBJ)/goro.$o \
-	$(OBJ)/hornet.$o \
-	$(OBJ)/interp.$o \
-	$(OBJ)/interpsh.$o \
-	$(OBJ)/inv.$o \
-	$(OBJ)/jplayer.$o \
-	$(OBJ)/jsector.$o \
-	$(OBJ)/jweapon.$o \
-	$(OBJ)/lava.$o \
-	$(OBJ)/light.$o \
-	$(OBJ)/mclip.$o \
-	$(OBJ)/mdastr.$o \
-	$(OBJ)/menus.$o \
-	$(OBJ)/miscactr.$o \
-	$(OBJ)/morph.$o \
-	$(OBJ)/net.$o \
-	$(OBJ)/ninja.$o \
-	$(OBJ)/panel.$o \
-	$(OBJ)/player.$o \
-	$(OBJ)/predict.$o \
-	$(OBJ)/quake.$o \
-	$(OBJ)/ripper.$o \
-	$(OBJ)/ripper2.$o \
-	$(OBJ)/rooms.$o \
-	$(OBJ)/rotator.$o \
-	$(OBJ)/rts.$o \
-	$(OBJ)/save.$o \
-	$(OBJ)/scrip2.$o \
-	$(OBJ)/sector.$o \
-	$(OBJ)/serp.$o \
-	$(OBJ)/setup.$o \
-	$(OBJ)/skel.$o \
-	$(OBJ)/skull.$o \
-	$(OBJ)/slidor.$o \
-	$(OBJ)/sounds.$o \
-	$(OBJ)/spike.$o \
-	$(OBJ)/sprite.$o \
-	$(OBJ)/sumo.$o \
-	$(OBJ)/swconfig.$o \
-	$(OBJ)/sync.$o \
-	$(OBJ)/text.$o \
-	$(OBJ)/track.$o \
-	$(OBJ)/vator.$o \
-	$(OBJ)/vis.$o \
-	$(OBJ)/wallmove.$o \
-	$(OBJ)/warp.$o \
-	$(OBJ)/weapon.$o \
-	$(OBJ)/zilla.$o \
-	$(OBJ)/zombie.$o \
-	$(OBJ)/saveable.$o \
+	$(SRC)/actor.$o \
+	$(SRC)/ai.$o \
+	$(SRC)/anim.$o \
+	$(SRC)/border.$o \
+	$(SRC)/break.$o \
+	$(SRC)/bunny.$o \
+	$(SRC)/cache.$o \
+	$(SRC)/cheats.$o \
+	$(SRC)/colormap.$o \
+	$(SRC)/config.$o \
+	$(SRC)/console.$o \
+	$(SRC)/coolg.$o \
+	$(SRC)/coolie.$o \
+	$(SRC)/copysect.$o \
+	$(SRC)/demo.$o \
+	$(SRC)/draw.$o \
+	$(SRC)/eel.$o \
+	$(SRC)/game.$o \
+	$(SRC)/girlninj.$o \
+	$(SRC)/goro.$o \
+	$(SRC)/hornet.$o \
+	$(SRC)/interp.$o \
+	$(SRC)/interpsh.$o \
+	$(SRC)/inv.$o \
+	$(SRC)/jplayer.$o \
+	$(SRC)/jsector.$o \
+	$(SRC)/jweapon.$o \
+	$(SRC)/lava.$o \
+	$(SRC)/light.$o \
+	$(SRC)/mclip.$o \
+	$(SRC)/mdastr.$o \
+	$(SRC)/menus.$o \
+	$(SRC)/miscactr.$o \
+	$(SRC)/morph.$o \
+	$(SRC)/net.$o \
+	$(SRC)/ninja.$o \
+	$(SRC)/panel.$o \
+	$(SRC)/player.$o \
+	$(SRC)/predict.$o \
+	$(SRC)/quake.$o \
+	$(SRC)/ripper.$o \
+	$(SRC)/ripper2.$o \
+	$(SRC)/rooms.$o \
+	$(SRC)/rotator.$o \
+	$(SRC)/rts.$o \
+	$(SRC)/save.$o \
+	$(SRC)/scrip2.$o \
+	$(SRC)/sector.$o \
+	$(SRC)/serp.$o \
+	$(SRC)/setup.$o \
+	$(SRC)/skel.$o \
+	$(SRC)/skull.$o \
+	$(SRC)/slidor.$o \
+	$(SRC)/sounds.$o \
+	$(SRC)/spike.$o \
+	$(SRC)/sprite.$o \
+	$(SRC)/sumo.$o \
+	$(SRC)/swconfig.$o \
+	$(SRC)/sync.$o \
+	$(SRC)/text.$o \
+	$(SRC)/track.$o \
+	$(SRC)/vator.$o \
+	$(SRC)/vis.$o \
+	$(SRC)/wallmove.$o \
+	$(SRC)/warp.$o \
+	$(SRC)/weapon.$o \
+	$(SRC)/zilla.$o \
+	$(SRC)/zombie.$o \
+	$(SRC)/saveable.$o \
 	$(JMACTOBJ)
 
-EDITOROBJS=$(OBJ)/jnstub.$o \
-	$(OBJ)/brooms.$o \
-	$(OBJ)/bldscript.$o \
-	$(OBJ)/jbhlp.$o \
-	$(OBJ)/colormap.$o
+EDITOROBJS=$(SRC)/jnstub.$o \
+	$(SRC)/brooms.$o \
+	$(SRC)/bldscript.$o \
+	$(SRC)/jbhlp.$o \
+	$(SRC)/colormap.$o
 
 include $(EROOT)/Makefile.shared
 
@@ -166,8 +165,8 @@ endif
 ifeq ($(PLATFORM),WINDOWS)
 	OURCFLAGS+= -DUNDERSCORES -I$(DXROOT)/include
 	NASMFLAGS+= -DUNDERSCORES -f win32
-	GAMEOBJS+= $(OBJ)/gameres.$o $(OBJ)/startdlg.$o $(OBJ)/startwin.game.$o
-	EDITOROBJS+= $(OBJ)/buildres.$o
+	GAMEOBJS+= $(SRC)/gameres.$o $(SRC)/startdlg.$o $(SRC)/startwin.game.$o
+	EDITOROBJS+= $(SRC)/buildres.$o
 	GAMELIBS+= -ldsound \
 	       $(AUDIOLIBROOT)/third-party/mingw32/lib/libvorbisfile.a \
 	       $(AUDIOLIBROOT)/third-party/mingw32/lib/libvorbis.a \
@@ -179,12 +178,12 @@ ifeq ($(RENDERTYPE),SDL)
 
 	ifeq (1,$(HAVE_GTK2))
 		OURCFLAGS+= -DHAVE_GTK2 $(shell pkg-config --cflags gtk+-2.0)
-		GAMEOBJS+= $(OBJ)/game_banner.$o $(OBJ)/startdlg.$o $(OBJ)/startgtk.game.$o
-		EDITOROBJS+= $(OBJ)/editor_banner.$o
+		GAMEOBJS+= $(SRC)/game_banner.$o $(SRC)/startdlg.$o $(SRC)/startgtk.game.$o
+		EDITOROBJS+= $(SRC)/editor_banner.$o
 	endif
 
-	GAMEOBJS+= $(OBJ)/game_icon.$o
-	EDITOROBJS+= $(OBJ)/build_icon.$o
+	GAMEOBJS+= $(SRC)/game_icon.$o
+	EDITOROBJS+= $(SRC)/build_icon.$o
 endif
 
 OURCFLAGS+= $(BUILDCFLAGS)
@@ -228,27 +227,27 @@ $(AUDIOLIBROOT)/$(JFAUDIOLIB):
 	$(MAKE) -C $(AUDIOLIBROOT) RELEASE=$(RELEASE)
 
 # RULES
-$(OBJ)/%.$o: $(SRC)/%.nasm
+$(SRC)/%.$o: $(SRC)/%.nasm
 	nasm $(NASMFLAGS) $< -o $@
 
-$(OBJ)/%.$o: $(SRC)/%.c
+$(SRC)/%.$o: $(SRC)/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
-$(OBJ)/%.$o: $(SRC)/%.cpp
+$(SRC)/%.$o: $(SRC)/%.cpp
 	$(CXX) $(CXXFLAGS) $(OURCXXFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
-$(OBJ)/%.$o: $(MACTROOT)/%.c
+$(MACTROOT)/%.$o: $(MACTROOT)/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 
-$(OBJ)/%.$o: $(SRC)/misc/%.rc
+$(SRC)/%.$o: $(SRC)/misc/%.rc
 	windres -i $< -o $@ --include-dir=$(EINC) --include-dir=$(SRC)
 
-$(OBJ)/%.$o: $(SRC)/util/%.c
+$(SRC)/%.$o: $(SRC)/util/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 
-$(OBJ)/%.$o: $(RSRC)/%.c
+$(SRC)/%.$o: $(RSRC)/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@ 2>&1
 
-$(OBJ)/game_banner.$o: $(RSRC)/game_banner.c
-$(OBJ)/editor_banner.$o: $(RSRC)/editor_banner.c
+$(SRC)/game_banner.$o: $(RSRC)/game_banner.c
+$(SRC)/editor_banner.$o: $(RSRC)/editor_banner.c
 $(RSRC)/game_banner.c: $(RSRC)/game.bmp
 	echo "#include <gdk-pixbuf/gdk-pixdata.h>" > $@
 	gdk-pixbuf-csource --extern --struct --raw --name=startbanner_pixdata $^ | sed 's/load_inc//' >> $@
@@ -261,7 +260,7 @@ clean:
 ifeq ($(PLATFORM),DARWIN)
 	cd osx && xcodebuild -target All clean
 else
-	-rm -f $(OBJ)/*
+	-rm -f $(GAMEOBJS) $(EDITOROBJS)
 	$(MAKE) -C $(EROOT) clean
 	$(MAKE) -C $(AUDIOLIBROOT) clean
 endif

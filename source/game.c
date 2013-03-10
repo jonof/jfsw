@@ -3456,21 +3456,21 @@ long app_main(long argc, char *argv[])
 			return 0;
 	}
 #endif
-    
-#ifdef _WIN32
-	if (!access("user_profiles_enabled", F_OK))
+
+#if defined(__linux) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+	addsearchpath("/usr/share/games/jfsw");
+	addsearchpath("/usr/local/share/games/jfsw");
+#elif defined(__APPLE__)
+	addsearchpath("/Library/Application Support/JFShadowWarrior");
 #endif
-	{
+    
+	// default behaviour is to write to the user profile directory, but
+	// creating a 'user_profiles_disabled' file makes the installation "portable"
+	if (access("user_profiles_disabled", F_OK) != 0) {
 		char cwd[BMAX_PATH];
 		char *homedir;
 		int asperr;
 
-#if defined(__linux) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
-		addsearchpath("/usr/share/games/jfsw");
-		addsearchpath("/usr/local/share/games/jfsw");
-#elif defined(__APPLE__)
-		addsearchpath("/Library/Application Support/JFShadowWarrior");
-#endif
 		if (getcwd(cwd,BMAX_PATH)) addsearchpath(cwd);
 		if ((homedir = Bgethomedir())) {
 			Bsnprintf(cwd,sizeof(cwd),"%s/"

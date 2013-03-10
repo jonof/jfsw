@@ -22,7 +22,7 @@ flags_link=/RELEASE
 !endif
 
 
-DXROOT=c:\sdks\directx\dx7
+DXROOT=c:\sdks\directx\dx81
 
 ENGINEOPTS=/DSUPERBUILD /DPOLYMOST /DUSE_OPENGL /DDYNAMIC_OPENGL
 

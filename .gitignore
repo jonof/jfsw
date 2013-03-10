@@ -4,9 +4,12 @@
 *.map
 *.log
 *.grp
+*.cfg
+*~
 /xcode/*.xcodeproj/*.mode1v3
 /xcode/*.xcodeproj/*.pbxuser
 /xcode/build
 /Makefile.user
 /sw
 /build
+/grpfiles.cache

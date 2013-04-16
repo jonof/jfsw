@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -35,7 +34,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "sprite.h"
 #include "actor.h"
 
-extern long jump_grav;
+extern int jump_grav;
 
 extern STATE s_DebrisNinja[];
 extern STATE s_DebrisRat[];
@@ -53,7 +52,7 @@ DoScaleSprite(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long scale_value;
+    int scale_value;
 
     if (u->scale_speed)
         {
@@ -289,8 +288,8 @@ DoDebrisCurrent(SPRITEp sp)
 
     //sp->clipdist = (256+128)>>2;
 
-    nx = DIV4(sectu->speed) * (long) sintable[NORM_ANGLE(sectu->ang + 512)] >> 14;
-    ny = DIV4(sectu->speed) * (long) sintable[sectu->ang] >> 14;
+    nx = DIV4(sectu->speed) * (int) sintable[NORM_ANGLE(sectu->ang + 512)] >> 14;
+    ny = DIV4(sectu->speed) * (int) sintable[sectu->ang] >> 14;
 
     // faster than move_sprite
     //move_missile(sp-sprite, nx, ny, 0, Z(2), Z(0), 0, ACTORMOVETICS);
@@ -301,8 +300,8 @@ DoDebrisCurrent(SPRITEp sp)
         {
         short rang = RANDOM_P2(2048);
 
-        nx = DIV4(sectu->speed) * (long) sintable[NORM_ANGLE(sectu->ang + rang + 512)] >> 14;
-        ny = DIV4(sectu->speed) * (long) sintable[NORM_ANGLE(sectu->ang + rang)] >> 14;
+        nx = DIV4(sectu->speed) * (int) sintable[NORM_ANGLE(sectu->ang + rang + 512)] >> 14;
+        ny = DIV4(sectu->speed) * (int) sintable[NORM_ANGLE(sectu->ang + rang)] >> 14;
 
         move_sprite(sp-sprite, nx, ny, 0, u->ceiling_dist, u->floor_dist, 0, ACTORMOVETICS);
         }
@@ -380,11 +379,11 @@ DoActorSectorDamage(short SpriteNum)
 
 
 int
-move_debris(short SpriteNum, long xchange, long ychange, long zchange)
+move_debris(short SpriteNum, int xchange, int ychange, int zchange)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long nx, ny;
+    int nx, ny;
 
     u->ret = move_sprite(SpriteNum, xchange, ychange, zchange,
         u->ceiling_dist, u->floor_dist, 0, ACTORMOVETICS);
@@ -401,7 +400,7 @@ DoActorDebris(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     SECTORp sectp = &sector[sp->sectnum];
-    long nx, ny;
+    int nx, ny;
 
     // This was move from DoActorDie so actor's can't be walked through until they are on the floor
     RESET(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
@@ -430,10 +429,10 @@ DoActorDebris(short SpriteNum)
             }
         else
             {
-            //nx = sp->xvel * ACTORMOVETICS * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-            //ny = sp->xvel * ACTORMOVETICS * (long) sintable[sp->ang] >> 14;
-            nx = ACTORMOVETICS * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-            ny = ACTORMOVETICS * (long) sintable[sp->ang] >> 14;
+            //nx = sp->xvel * ACTORMOVETICS * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+            //ny = sp->xvel * ACTORMOVETICS * (int) sintable[sp->ang] >> 14;
+            nx = ACTORMOVETICS * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+            ny = ACTORMOVETICS * (int) sintable[sp->ang] >> 14;
 
             //sp->clipdist = (256+128)>>2;
 
@@ -446,8 +445,8 @@ DoActorDebris(short SpriteNum)
         if (SectUser[sp->sectnum] && SectUser[sp->sectnum]->depth > 10)	// JBF: added null check
             {
             u->WaitTics = (u->WaitTics + (ACTORMOVETICS << 3)) & 1023;
-            //sp->z = Z(2) + u->loz + ((Z(4) * (long) sintable[u->WaitTics]) >> 14);
-            sp->z = u->loz - ((Z(2) * (long) sintable[u->WaitTics]) >> 14);
+            //sp->z = Z(2) + u->loz + ((Z(4) * (int) sintable[u->WaitTics]) >> 14);
+            sp->z = u->loz - ((Z(2) * (int) sintable[u->WaitTics]) >> 14);
             }
         }
     else
@@ -464,10 +463,10 @@ DoFireFly(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long nx, ny;
+    int nx, ny;
 
-    nx = 4 * ACTORMOVETICS * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = 4 * ACTORMOVETICS * (long) sintable[sp->ang] >> 14;
+    nx = 4 * ACTORMOVETICS * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = 4 * ACTORMOVETICS * (int) sintable[sp->ang] >> 14;
 
     sp->clipdist = 256>>2;
     if (!move_actor(SpriteNum, nx, ny, 0L))
@@ -477,7 +476,7 @@ DoFireFly(short SpriteNum)
 
     u->WaitTics = (u->WaitTics + (ACTORMOVETICS << 1)) & 2047;
 
-    sp->z = u->sz + ((Z(32) * (long) sintable[u->WaitTics]) >> 14);
+    sp->z = u->sz + ((Z(32) * (int) sintable[u->WaitTics]) >> 14);
     return(0);
     }
 
@@ -520,7 +519,7 @@ KeepActorOnFloor(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
     SECTORp sectp;
-    long depth;
+    int depth;
 
     sectp = &sector[sp->sectnum];
 
@@ -589,7 +588,7 @@ KeepActorOnFloor(short SpriteNum)
         }
     else
         {
-        long ceilz,ceilhit,florz,florhit;
+        int ceilz,ceilhit,florz,florhit;
         FAFgetzrangepoint(sp->x, sp->y, sp->z, sp->sectnum,
             &ceilz, &ceilhit, &florz, &florhit);
 
@@ -625,10 +624,10 @@ DoActorSlide(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    long nx, ny;
+    int nx, ny;
 
-    nx = u->slide_vel * (long) sintable[NORM_ANGLE(u->slide_ang + 512)] >> 14;
-    ny = u->slide_vel * (long) sintable[u->slide_ang] >> 14;
+    nx = u->slide_vel * (int) sintable[NORM_ANGLE(u->slide_ang + 512)] >> 14;
+    ny = u->slide_vel * (int) sintable[u->slide_ang] >> 14;
 
     if (!move_actor(SpriteNum, nx, ny, 0L))
         {
@@ -837,7 +836,7 @@ DoActorDeathMove(short SpriteNum)
 
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    long nx, ny;
+    int nx, ny;
 
     if (TEST(u->Flags, SPR_JUMPING | SPR_FALLING))
         {
@@ -847,8 +846,8 @@ DoActorDeathMove(short SpriteNum)
             DoActorFall(SpriteNum);
         }
 
-    nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = sp->xvel * (long) sintable[sp->ang] >> 14;
+    nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = sp->xvel * (int) sintable[sp->ang] >> 14;
 
     sp->clipdist = (128+64)>>2;
     move_actor(SpriteNum, nx, ny, 0);

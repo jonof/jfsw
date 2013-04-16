@@ -28,7 +28,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // This is all Jim's programming having to do with sectors.
 
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -65,10 +64,7 @@ BOOL bSpinBobVoxels = FALSE;            // Do twizzly stuff to voxels, but
                                         // not by default
 BOOL bAutoSize = TRUE;                  // Autosizing on/off
 
-
-extern long frameplace;
-
-//extern long chainnumpages;
+//extern int chainnumpages;
 extern AMB_INFO ambarray[];
 extern short NormalVisibility;
 
@@ -84,7 +80,7 @@ VOID
 SpawnWallSound(short sndnum, short i)
     {
     short SpriteNum;
-    long midx, midy, midz;
+    int midx, midy, midz;
     SPRITEp sp;
     int handle;
 
@@ -321,7 +317,7 @@ void
 JS_InitMirrors(void)
     {
     short startwall, endwall, dasector;
-    long i, j, k, s, dax, day, daz, dax2, day2;
+    int i, j, k, s, dax, day, daz, dax2, day2;
     short SpriteNum = 0, NextSprite;
     SPRITEp sp;
     static short on_cam = 0;
@@ -407,7 +403,7 @@ JS_InitMirrors(void)
                     if(!Found_Cam)
                         {
                         printf("Cound not find the camera view sprite for match %d\n",wall[i].hitag);
-                        printf("Map Coordinates: x = %ld, y = %ld\n",wall[i].x,wall[i].y);
+                        printf("Map Coordinates: x = %d, y = %d\n",wall[i].x,wall[i].y);
                         exit(0);
                         }    
 
@@ -433,8 +429,8 @@ JS_InitMirrors(void)
                         if(!Found_Cam)
                             {
                             printf("Did not find drawtotile for camera number %d\n",mirrorcnt);
-                            printf("wall[%ld].hitag == %d\n",i,wall[i].hitag);
-                            printf("Map Coordinates: x = %ld, y = %ld\n",wall[i].x,wall[i].y);
+                            printf("wall[%d].hitag == %d\n",i,wall[i].hitag);
+                            printf("Map Coordinates: x = %d, y = %d\n",wall[i].x,wall[i].y);
                             exit(0);
                             }
                         }    
@@ -488,8 +484,8 @@ JS_InitMirrors(void)
 //  Draw a 3d screen to a specific tile
 /////////////////////////////////////////////////////
 #if 1
-void drawroomstotile(long daposx, long daposy, long daposz,
-	 short daang, long dahoriz, short dacursectnum, short tilenume)
+void drawroomstotile(int daposx, int daposy, int daposz,
+	 short daang, int dahoriz, short dacursectnum, short tilenume)
 {
     if (waloff[tilenume] == 0)
         loadtile(tilenume);
@@ -510,12 +506,13 @@ void drawroomstotile(long daposx, long daposy, long daposz,
 }
 #else
 void
-drawroomstotile(long daposx, long daposy, long daposz,
-    short daang, long dahoriz, short dacursectnum, short tilenume)
+drawroomstotile(int daposx, int daposy, int daposz,
+    short daang, int dahoriz, short dacursectnum, short tilenume)
     {
 
-    long i, j, k, bakchainnumpages, bakvidoption, bakframeplace;
-    long bakwindowx1, bakwindowy1, bakwindowx2, bakwindowy2, xsiz, ysiz;
+    int i, j, k, bakchainnumpages, bakvidoption;
+    intptr_t bakframeplace;
+    int bakwindowx1, bakwindowy1, bakwindowx2, bakwindowy2, xsiz, ysiz;
     char *ptr1, *ptr2;
 
     // DRAWROOMS TO TILE BACKUP&SET CODE
@@ -602,7 +599,7 @@ JS_ProcessEchoSpot()
     {
     short i,nexti;
     SPRITEp tp;
-    long j,dist;
+    int j,dist;
     PLAYERp pp = Player+screenpeek;
     SHORT reverb;
     BOOL reverb_set = FALSE;
@@ -639,18 +636,18 @@ JS_ProcessEchoSpot()
 /////////////////////////////////////////////////////
 #define MAXCAMDIST 8000
 
-long camloopcnt = 0;                    // Timer to cycle through player
+int camloopcnt = 0;                    // Timer to cycle through player
                                         // views
 short camplayerview = 1;                // Don't show yourself!
 
 void 
-JS_DrawMirrors(PLAYERp pp, long tx, long ty, long tz, short tpang, long tphoriz)
+JS_DrawMirrors(PLAYERp pp, int tx, int ty, int tz, short tpang, int tphoriz)
     {
-    long j, dx, dy, top, bot, cnt;
-    long x1, y1, x2, y2, ox1, oy1, ox2, oy2, dist, maxdist;
-    long tposx, tposy, thoriz;
-    long tcx, tcy, tcz;                 // Camera
-    long tiltlock, *longptr;
+    int j, dx, dy, top, bot, cnt;
+    int x1, y1, x2, y2, ox1, oy1, ox2, oy2, dist, maxdist;
+    int tposx, tposy, thoriz;
+    int tcx, tcy, tcz;                 // Camera
+    int tiltlock, *longptr;
     short tang;
     char ch, *ptr, *ptr2, *ptr3, *ptr4;
     char tvisibility, palok;
@@ -671,7 +668,7 @@ JS_DrawMirrors(PLAYERp pp, long tx, long ty, long tz, short tpang, long tphoriz)
         }
 
     // WARNING!  Assuming (MIRRORLABEL&31) = 0 and MAXMIRRORS = 64 <-- JBF: wrong
-    longptr = (long *) FP_OFF(&gotpic[MIRRORLABEL >> 3]);
+    longptr = (int *)&gotpic[MIRRORLABEL >> 3];
     if (longptr && (longptr[0] || longptr[1]))
         {
         for (cnt = MAXMIRRORS - 1; cnt >= 0; cnt--)
@@ -729,9 +726,9 @@ JS_DrawMirrors(PLAYERp pp, long tx, long ty, long tz, short tpang, long tphoriz)
                 if (mirror[cnt].ismagic)
                     {
                     SPRITEp sp=NULL;
-                    long camhoriz;
+                    int camhoriz;
                     short wall_ang, w, nw, da, tda;
-                    long dx, dy, dz, tdx, tdy, tdz, midx, midy;
+                    int dx, dy, dz, tdx, tdy, tdz, midx, midy;
 
                     
                     ASSERT(mirror[cnt].camera != -1);
@@ -804,8 +801,8 @@ JS_DrawMirrors(PLAYERp pp, long tx, long ty, long tz, short tpang, long tphoriz)
                         if(mirror[cnt].campic == -1)        
                             {        
                             TerminateGame();        
-                            printf("Missing campic for mirror %ld\n",cnt);        
-                            printf("Map Coordinates: x = %ld, y = %ld\n",midx,midy);        
+                            printf("Missing campic for mirror %d\n",cnt);
+                            printf("Map Coordinates: x = %d, y = %d\n",midx,midy);
                             exit(0);        
                             }        
                             
@@ -816,7 +813,7 @@ JS_DrawMirrors(PLAYERp pp, long tx, long ty, long tz, short tpang, long tphoriz)
                                                 // angle else subtract
                                 {
                                 // Store current angle in TAG5
-                                SP_TAG5(sp) = NORM_ANGLE((SP_TAG5(sp) += 4));
+                                SP_TAG5(sp) = NORM_ANGLE((SP_TAG5(sp) + 4));
 
                                 // TAG6 = Turn radius
                                 if (klabs(GetDeltaAngle(SP_TAG5(sp), sp->ang)) >= SP_TAG6(sp))
@@ -828,7 +825,7 @@ JS_DrawMirrors(PLAYERp pp, long tx, long ty, long tz, short tpang, long tphoriz)
                             else
                                 {
                                 // Store current angle in TAG5
-                                SP_TAG5(sp) = NORM_ANGLE((SP_TAG5(sp) -= 4));
+                                SP_TAG5(sp) = NORM_ANGLE((SP_TAG5(sp) - 4));
 
                                 // TAG6 = Turn radius
                                 if (klabs(GetDeltaAngle(SP_TAG5(sp), sp->ang)) >= SP_TAG6(sp))
@@ -1074,7 +1071,7 @@ short rotang = 0;
 void 
 JAnalyzeSprites(SPRITEp tspr)
     {
-    long i, currsprite;
+    int i, currsprite;
 
     rotang += 4;
     if (rotang > 2047)
@@ -1236,10 +1233,10 @@ JS_PlockError(short wall_num, short t)
     switch(t)
         {
         case 1:
-        printf("wall %d, x %ld, y %ld, pic %d\n", wall_num, wall[wall_num].x, wall[wall_num].y, wall[wall_num].picnum);
+        printf("wall %d, x %d, y %d, pic %d\n", wall_num, wall[wall_num].x, wall[wall_num].y, wall[wall_num].picnum);
         break;
         case 2:
-        printf("wall %d, x %ld, y %ld, OVERpic %d\n", wall_num, wall[wall_num].x, wall[wall_num].y, wall[wall_num].overpicnum);
+        printf("wall %d, x %d, y %d, OVERpic %d\n", wall_num, wall[wall_num].x, wall[wall_num].y, wall[wall_num].overpicnum);
         break;
         case 3:
         printf("sector %d, ceiling %d\n", wall_num, sector[wall_num].ceilingpicnum);

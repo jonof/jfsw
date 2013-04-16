@@ -28,15 +28,15 @@ typedef void * saveable_code;
 
 typedef struct {
 	void *base;
-	unsigned long size;
+	unsigned int size;
 } saveable_data;
 
 typedef struct {
 	saveable_code *code;
-	unsigned long numcode;
+	unsigned int numcode;
 	
 	saveable_data *data;
-	unsigned long numdata;
+	unsigned int numdata;
 } saveable_module;
 
 #define SAVE_CODE(s) (void*)s
@@ -45,14 +45,14 @@ typedef struct {
 #define NUM_SAVEABLE_ITEMS(x) (sizeof(x)/sizeof(x[0]))
 
 typedef struct {
-	unsigned long module;
-	unsigned long index;
+	unsigned int module;
+	unsigned int index;
 } savedcodesym;
 
 typedef struct {
-	unsigned long module;
-	unsigned long index;
-	unsigned long offset;
+	unsigned int module;
+	unsigned int index;
+	unsigned int offset;
 } saveddatasym;
 
 void Saveable_Init(void);

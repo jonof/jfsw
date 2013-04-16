@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -804,8 +803,8 @@ SetupBunny(short SpriteNum)
 int 
 GetBunnyJumpHeight(short jump_speed, short jump_grav)
     {
-    long jump_iterations;
-    long height;
+    int jump_iterations;
+    int height;
 
     jump_speed = labs(jump_speed);
 
@@ -819,7 +818,7 @@ GetBunnyJumpHeight(short jump_speed, short jump_grav)
     }
 
 int 
-PickBunnyJumpSpeed(short SpriteNum, long pix_height)
+PickBunnyJumpSpeed(short SpriteNum, int pix_height)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
@@ -852,7 +851,7 @@ DoBunnyBeginJumpAttack(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     SPRITEp psp = User[SpriteNum]->tgt_sp;
-    long dist;
+    int dist;
     int CanSeePlayer(short SpriteNum);
     short tang;
 
@@ -894,11 +893,11 @@ DoBunnyMoveJump(short SpriteNum)
     
     if (TEST(u->Flags, SPR_JUMPING | SPR_FALLING))
         {
-        long nx, ny;
+        int nx, ny;
     
         // Move while jumping
-        nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-        ny = sp->xvel * (long) sintable[sp->ang] >> 14;
+        nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+        ny = sp->xvel * (int) sintable[sp->ang] >> 14;
 
         move_actor(SpriteNum, nx, ny, 0L);
 
@@ -926,12 +925,12 @@ DoPickCloseBunny(short SpriteNum)
     {
     USERp u = User[SpriteNum],tu;
     SPRITEp sp = &sprite[SpriteNum],tsp;
-    long dist, near_dist = 1000, a,b,c;
+    int dist, near_dist = 1000, a,b,c;
     short i, nexti;
     //short BunnyCount=0, Bunny_Result = -1;
 
     // if actor can still see the player
-    long look_height = SPRITEp_TOS(sp);
+    int look_height = SPRITEp_TOS(sp);
     BOOL ICanSee = FALSE;
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_ENEMY], i, nexti)
@@ -1457,7 +1456,7 @@ DoBunnyScrew(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long dist; 
+    int dist; 
 
     if (TEST(u->Flags, SPR_JUMPING | SPR_FALLING))
         {

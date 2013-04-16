@@ -488,7 +488,7 @@
 		ABB4AB580C64C38C00F28920 /* Editor */ = {
 			isa = PBXGroup;
 			children = (
-				ABB4AB5A0C64C39B00F28920 /* source */,
+				ABB4AB5A0C64C39B00F28920 /* src */,
 				ABB4AB5B0C64C3A800F28920 /* osx */,
 				ABB4AB680C64C43F00F28920 /* build_icon.icns */,
 				ABB4AB690C64C43F00F28920 /* build.bmp */,
@@ -508,7 +508,7 @@
 			name = Game;
 			sourceTree = "<group>";
 		};
-		ABB4AB5A0C64C39B00F28920 /* source */ = {
+		ABB4AB5A0C64C39B00F28920 /* src */ = {
 			isa = PBXGroup;
 			children = (
 				ABB4AB6F0C64C4D000F28920 /* bldscript.c */,
@@ -516,8 +516,8 @@
 				ABB4AB870C64C4D000F28920 /* jbhlp.c */,
 				ABB4AB5C0C64C3EB00F28920 /* jnstub.c */,
 			);
-			name = source;
-			path = ../source;
+			name = src;
+			path = ../src;
 			sourceTree = "<group>";
 		};
 		ABB4AB5B0C64C3A800F28920 /* osx */ = {
@@ -1080,16 +1080,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
-					ppc,
+					x86_64,
 					i386,
+					ppc,
 				);
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"../../jfaudiolib.git/third-party",
-					"~/Library/Frameworks",
-					/Library/Frameworks,
+					"$(HOME)/Library/Frameworks",
 				);
-				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
+				GCC_CHAR_IS_UNSIGNED_CHAR = NO;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1102,13 +1102,18 @@
 					NOASM,
 					RENDERTYPESDL,
 				);
-				GCC_VERSION = 4.0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = (
 					../../jfaudiolib.git/include,
 					../source,
 					../../jfbuild.git/include,
 				);
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-Wno-unused-variable",
+				);
 			};
 			name = Debug;
 		};
@@ -1116,16 +1121,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
-					ppc,
+					x86_64,
 					i386,
+					ppc,
 				);
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"../../jfaudiolib.git/third-party",
-					"~/Library/Frameworks",
-					/Library/Frameworks,
+					"$(HOME)/Library/Frameworks",
 				);
-				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
+				GCC_CHAR_IS_UNSIGNED_CHAR = NO;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1137,13 +1142,18 @@
 					NOASM,
 					RENDERTYPESDL,
 				);
-				GCC_VERSION = 4.0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = (
 					../../jfaudiolib.git/include,
 					../source,
 					../../jfbuild.git/include,
 				);
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-Wno-unused-variable",
+				);
 			};
 			name = Release;
 		};

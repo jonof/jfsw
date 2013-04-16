@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "names2.h"
 #include "panel.h"
@@ -33,10 +32,9 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "sector.h"
 #include "sprite.h"
 
-extern CHARp KeyDoorMessage[];
 short DoSpikeMatch(PLAYERp pp, short match);
 BOOL TestSpikeMatchActive(short match);
-int DoVatorMove(short SpriteNum, long *lptr);
+int DoVatorMove(short SpriteNum, int *lptr);
 VOID InterpSectorSprites(short sectnum, BOOL state);
 
 void ReverseSpike(short SpriteNum)
@@ -247,12 +245,12 @@ TestSpikeMatchActive(short match)
     return(FALSE);    
     }
 
-int DoSpikeMove(short SpriteNum, long *lptr)
+int DoSpikeMove(short SpriteNum, int *lptr)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
-    long zval;
+    int zval;
         
     zval = *lptr;
     
@@ -313,7 +311,7 @@ VOID MoveSpritesWithSpike(short sectnum)
     SECTORp sectp = &sector[sectnum];
     SPRITEp sp;
     short i,nexti;
-    long cz,fz;
+    int cz,fz;
     
     TRAVERSE_SPRITE_SECT(headspritesect[sectnum], i, nexti)
         {
@@ -335,8 +333,8 @@ int DoSpike(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
-    long *lptr;
-    long amt;
+    int *lptr;
+    int amt;
     
     // zclip = floor or ceiling z
     // oz = original z
@@ -454,9 +452,9 @@ int DoSpikeAuto(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
-    long zval;
-    long *lptr;
-    long amt;
+    int zval;
+    int *lptr;
+    int amt;
     
     lptr = &u->zclip;
         

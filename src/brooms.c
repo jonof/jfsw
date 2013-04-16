@@ -27,7 +27,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //-------------------------------------------------------------------------
 
 #include "build.h"
-#include "compat.h"
 #include "editor.h"
 
 #include "keys.h"
@@ -35,11 +34,11 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "game.h"
 
 
-extern long posx, posy, posz;
+extern int posx, posy, posz;
 extern short cursectnum;
 extern short ang;
-extern long horiz;
-extern long qsetmode;
+extern int horiz;
+extern int qsetmode;
 
 BOOL FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum);
 BOOL FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum);
@@ -117,7 +116,7 @@ void ToggleFAF(void)
     if (FAFon && qsetmode == 200 && keystatus[KEYSC_4])
         {
         short match;
-        long tx,ty,tz;
+        int tx,ty,tz;
         short tsectnum;
         short i;
         keystatus[KEYSC_4] = FALSE;
@@ -183,7 +182,7 @@ SetupBuildFAF(VOID)
     SPRITEp sp,vc_sp,vf_sp,vl_sp;
     short SpriteNum, NextSprite;
     short vc,nextvc,vf,nextvf,l,nextl;
-    long zdiff;
+    int zdiff;
     
     // move every sprite to the correct list
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_DEFAULT], SpriteNum, NextSprite)
@@ -204,7 +203,7 @@ SetupBuildFAF(VOID)
                     {
                     if (sprite[i].hitag == sp->hitag && sprite[i].lotag == sp->lotag)
                         {
-                        sprintf(ds,"Two VIEW_THRU_ tags with same match found on level\n1: x %ld, y %ld \n2: x %ld, y %ld", sp->x, sp->y, sprite[i].x, sprite[i].y);
+                        sprintf(ds,"Two VIEW_THRU_ tags with same match found on level\n1: x %d, y %d \n2: x %d, y %d", sp->x, sp->y, sprite[i].x, sprite[i].y);
                         Message(ds,0);
                         }
                     }
@@ -235,7 +234,7 @@ SetupBuildFAF(VOID)
             sector[sp->sectnum].ceilingpicnum = FAF_MIRROR_PIC;
             if (sector[sp->sectnum].floorz == sector[sp->sectnum].ceilingz)
                 {
-                sprintf(ds, "Mirror used for non-connect area. Use tile 342. Sect %d, x %ld, y %ld\n", sp->sectnum, wall[sector[sp->sectnum].wallptr].x, wall[sector[sp->sectnum].wallptr].y);
+                sprintf(ds, "Mirror used for non-connect area. Use tile 342. Sect %d, x %d, y %d\n", sp->sectnum, wall[sector[sp->sectnum].wallptr].x, wall[sector[sp->sectnum].wallptr].y);
                 Message(ds,0);    
                 }
             }    
@@ -245,7 +244,7 @@ SetupBuildFAF(VOID)
             sector[sp->sectnum].floorpicnum = FAF_MIRROR_PIC;
             if (sector[sp->sectnum].floorz == sector[sp->sectnum].ceilingz)
                 {
-                sprintf(ds, "Mirror used for non-connect area. Use tile 342. Sect %d, x %ld, y %ld\n", sp->sectnum, wall[sector[sp->sectnum].wallptr].x, wall[sector[sp->sectnum].wallptr].y);
+                sprintf(ds, "Mirror used for non-connect area. Use tile 342. Sect %d, x %d, y %d\n", sp->sectnum, wall[sector[sp->sectnum].wallptr].x, wall[sector[sp->sectnum].wallptr].y);
                 Message(ds,0);    
                 }
             }    
@@ -372,9 +371,9 @@ PicInView(short tile_num, BOOL reset)
     }
 
 void
-GetUpperLowerSector(short match, long x, long y, short *upper, short *lower)
+GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
     {
-    long i, j;
+    int i, j;
     short sectorlist[16];
     short sln = 0;
     short SpriteNum, Next;
@@ -454,13 +453,13 @@ GetUpperLowerSector(short match, long x, long y, short *upper, short *lower)
 BOOL 
 FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     {
-    long xoff = 0;
-    long yoff = 0;
+    int xoff = 0;
+    int yoff = 0;
     short i, nexti;
     SPRITEp sp = NULL;
     short top_sprite = -1;
-    long pix_diff;
-    long newz;
+    int pix_diff;
+    int newz;
 
     save.zcount = 0;
 
@@ -544,12 +543,12 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
 BOOL 
 FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     {
-    long xoff = 0;
-    long yoff = 0;
+    int xoff = 0;
+    int yoff = 0;
     short i, nexti;
     SPRITEp sp = NULL;
-    long newz;
-    long pix_diff;
+    int newz;
+    int pix_diff;
 
     save.zcount = 0;
 
@@ -653,7 +652,7 @@ ViewSectorInScene(short cursectnum, short type, short level)
     int j, nextj;
     SPRITEp sp;
     SPRITEp sp2;
-    long cz, fz;
+    int cz, fz;
     short match;
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
@@ -681,7 +680,7 @@ ViewSectorInScene(short cursectnum, short type, short level)
     }
 
 VOID 
-DrawOverlapRoom(long tx, long ty, long tz, short tang, long thoriz, short tsectnum)
+DrawOverlapRoom(int tx, int ty, int tz, short tang, int thoriz, short tsectnum)
     {
     short i;
     short match;
@@ -695,7 +694,7 @@ DrawOverlapRoom(long tx, long ty, long tz, short tang, long thoriz, short tsectn
         
         if (tsectnum < 0)
             {
-            sprintf(ds,"COULD NOT FIND TAGGED LEVEL2 SECTOR FROM X %ld, Y %ld, SECTNUM %d.",posx,posy,cursectnum);
+            sprintf(ds,"COULD NOT FIND TAGGED LEVEL2 SECTOR FROM X %d, Y %d, SECTNUM %d.",posx,posy,cursectnum);
             Message(ds, 0);
             return;
             }
@@ -720,7 +719,7 @@ DrawOverlapRoom(long tx, long ty, long tz, short tang, long thoriz, short tsectn
 
         if (tsectnum < 0)
             {
-            sprintf(ds,"COULD NOT FIND TAGGED LEVEL1 SECTOR FROM X %ld, Y %ld, SECTNUM %d.",posx,posy,cursectnum);
+            sprintf(ds,"COULD NOT FIND TAGGED LEVEL1 SECTOR FROM X %d, Y %d, SECTNUM %d.",posx,posy,cursectnum);
             Message(ds, 0);
             return;
             }

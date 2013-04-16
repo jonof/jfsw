@@ -43,7 +43,6 @@ Things required to make savegames work:
 #define QUIET
 #include "build.h"
 #include "baselayer.h"
-#include "compat.h"
 #include "cache1d.h"
 #include "osd.h"
 #ifdef RENDERTYPEWIN
@@ -111,12 +110,12 @@ BOOL Global_PLock = TRUE;
 BOOL Global_PLock = FALSE; 
 #endif
 
-long GameVersion = 13;	// 12 was original source release. For future releases increment by two.
-CHAR DemoText[3][64];
+int GameVersion = 13;   // 12 was original source release. For future releases increment by two.
+char DemoText[3][64];
 int DemoTextYstart = 0;
 
 BOOL DoubleInitAWE32 = FALSE;
-long Follow_posx=0,Follow_posy=0;
+int Follow_posx=0,Follow_posy=0;
 
 BOOL NoMeters = FALSE;
 short IntroAnimCount = 0;
@@ -152,7 +151,6 @@ short HelpPage = 0;
 short HelpPagePic[] = { 5115, 5116, 5117 };
 BOOL InputMode = FALSE;
 BOOL MessageInput = FALSE;
-extern char tempbuf[];
 extern BOOL GamePaused;
 short screenpeek = 0;
 BOOL NoDemoStartup = FALSE;
@@ -161,7 +159,7 @@ extern BYTE RedBookSong[40];
 
 BOOL BorderAdjust = TRUE;
 BOOL LocationInfo = 0;
-VOID drawoverheadmap(long cposx, long cposy, long czoom, short cang);
+VOID drawoverheadmap(int cposx, int cposy, int czoom, short cang);
 int DispFrameRate = FALSE;
 int DispMono = TRUE;
 int Fog = FALSE;
@@ -239,16 +237,16 @@ VOID LoadingLevelScreen(char *level_name);
 
 BYTE FakeMultiNumPlayers;
 
-long totalsynctics;
-long turn_scale = 256;
-long move_scale = 256;
+int totalsynctics;
+int turn_scale = 256;
+int move_scale = 256;
 
 short Level = 0;
 BOOL ExitLevel = FALSE;
 SHORT OrigCommPlayers=0;
 extern BYTE CommPlayers;
 extern BOOL CommEnabled;
-extern long bufferjitter;
+extern int bufferjitter;
 
 BOOL CameraTestMode = FALSE;
 
@@ -256,14 +254,14 @@ char ds[256];                           // debug string
 
 extern short NormalVisibility;
 
-extern long quotebot, quotebotgoal;     // Multiplayer typing buffer
+extern int quotebot, quotebotgoal;     // Multiplayer typing buffer
 char recbuf[80];                        // Used as a temp buffer to hold typing text
 
 extern unsigned char palette_data[256][3];             // Global palette array
 
 #define ACT_STATUE 0
 
-long score;
+int score;
 BOOL QuitFlag = FALSE; 
 BOOL InGame = FALSE;
 
@@ -274,7 +272,7 @@ char LevelName[20];
 
 BYTE DebugPrintColor = 255;
 
-long krandcount;
+int krandcount;
 
 /// L O C A L   P R O T O T Y P E S /////////////////////////////////////////////////////////
 void BOT_DeleteAllBots( void );
@@ -372,12 +370,12 @@ int krand1(void)
 #endif
 
 VOID *
-CacheAlloc(void **ptr, long size, char *lock_byte)
+CacheAlloc(void **ptr, int size, unsigned char *lock_byte)
     {
     if (*ptr == NULL)
         {
         *lock_byte = CACHE_LOCK_START;
-        allocache((long *)ptr, size, lock_byte);
+        allocache(ptr, size, lock_byte);
         }
     else
         {
@@ -391,7 +389,7 @@ CacheAlloc(void **ptr, long size, char *lock_byte)
     }
 
 VOID 
-CacheFree(void **ptr, char *lock_byte)
+CacheFree(void **ptr, unsigned char *lock_byte)
     {
     if (*ptr == NULL)
         {
@@ -448,7 +446,7 @@ ValidPtr(VOID * ptr)
 
     if (mhp->size == 0 || mhp->checksum == 0)
         {
-	printf("ValidPtr(): Size or Checksum == 0!\n");
+    printf("ValidPtr(): Size or Checksum == 0!\n");
         return (FALSE);
         }
 
@@ -462,7 +460,7 @@ ValidPtr(VOID * ptr)
     }
 
 VOID
-PtrCheckSum(VOID * ptr, unsigned long *stored, unsigned long *actual)
+PtrCheckSum(VOID * ptr, unsigned int *stored, unsigned int *actual)
     {
     MEM_HDRp mhp;
     BYTEp check;
@@ -546,7 +544,7 @@ CallocMem(int size, int num)
     BYTEp bp;
     MEM_HDRp mhp;
     BYTEp check;
-    long num_bytes;
+    int num_bytes;
 
     ASSERT(size != 0 && num != 0);
 
@@ -625,7 +623,7 @@ FreeMem(VOID * ptr)
 
 #endif
 
-int PointOnLine(long x, long y, long x1, long y1, long x2, long y2)
+int PointOnLine(int x, int y, int x1, int y1, int x2, int y2)
     {
     // the closer to 0 the closer to the line the point is
     return( ((x2 - x1) * (y - y1)) - ((y2 - y1) * (x - x1)) );
@@ -672,8 +670,6 @@ MapSetAll2D(BYTE fill)
 VOID
 MapSetup(VOID)
     {
-    extern char automapping;
-
     #define NO_AUTO_MAPPING FALSE
 
     #if NO_AUTO_MAPPING
@@ -695,7 +691,7 @@ VOID
 TerminateGame(VOID)
     {
     int i,j;
-    long oldtotalclock;
+    int oldtotalclock;
 
     DemoTerm();
     
@@ -736,11 +732,11 @@ LoadLevel(char *filename)
         {
         TerminateGame();
 #ifdef RENDERTYPEWIN
-	{
-		char msg[256];
-		Bsnprintf(msg, 256, "Level not found: %s", filename);
-		wm_msgbox(apptitle, msg);
-	}
+    {
+        char msg[256];
+        Bsnprintf(msg, 256, "Level not found: %s", filename);
+        wm_msgbox(apptitle, msg);
+    }
 #else
         printf("Level Not Found: %s\n", filename);
 #endif
@@ -749,7 +745,7 @@ LoadLevel(char *filename)
     }
 
 VOID
-LoadImages(TEXT filename)
+LoadImages(char *filename)
     {
     short ndx;
     FILE *fin;
@@ -758,9 +754,9 @@ LoadImages(TEXT filename)
         {
         TerminateGame();
 #ifdef RENDERTYPEWIN
-	{
-		wm_msgbox(apptitle, "Art not found. Please check your GRP file.");
-	}
+    {
+        wm_msgbox(apptitle, "Art not found. Please check your GRP file.");
+    }
 #else
         printf("Art not found. Please check your GRP file.\n");
 #endif
@@ -817,7 +813,7 @@ void DisplayDemoText(void)
 
 void Set_GameMode(void)
     {
-    extern long ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP;
+    extern int ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP;
     int result;
     char ch;
     
@@ -828,18 +824,18 @@ void Set_GameMode(void)
     if (result < 0)
         {
         initprintf("Failure setting video mode %dx%dx%d %s! Attempting safer mode...",
-				ScreenWidth,ScreenHeight,ScreenBPP,ScreenMode?"fullscreen":"windowed");
-	ScreenMode = 0;
-	ScreenWidth = 320;
-	ScreenHeight = 240;
-	ScreenBPP = 8;
+                ScreenWidth,ScreenHeight,ScreenBPP,ScreenMode?"fullscreen":"windowed");
+    ScreenMode = 0;
+    ScreenWidth = 320;
+    ScreenHeight = 240;
+    ScreenBPP = 8;
 
-	result = COVERsetgamemode(ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP);
-	if (result < 0)
-	    {
-	    uninitmultiplayers();
+    result = COVERsetgamemode(ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP);
+    if (result < 0)
+        {
+        uninitmultiplayers();
             //uninitkeys();
-	    KB_Shutdown();
+        KB_Shutdown();
             uninitengine();
             TermSetup();
             UnInitSound();
@@ -848,7 +844,7 @@ void Set_GameMode(void)
             uninitgroupfile();
             exit(0);
             }
-	}
+    }
     }
 
 void MultiSharewareCheck(void)
@@ -857,8 +853,8 @@ void MultiSharewareCheck(void)
     if (numplayers > 4)
         {
 #ifdef RENDERTYPEWIN
-	wm_msgbox(apptitle,"To play a Network game with more than 4 players you must purchase "
-		"the full version.  Read the Ordering Info screens for details.");
+    wm_msgbox(apptitle,"To play a Network game with more than 4 players you must purchase "
+        "the full version.  Read the Ordering Info screens for details.");
 #else
         printf(
 "\n\nTo play a Network game with more than 4 players you must purchase the\n"
@@ -866,7 +862,7 @@ void MultiSharewareCheck(void)
 #endif
                         uninitmultiplayers();
         //uninitkeys();
-	KB_Shutdown();
+    KB_Shutdown();
         uninitengine();
         TermSetup();
         UnInitSound();
@@ -879,8 +875,8 @@ void MultiSharewareCheck(void)
 
 // Some mem crap for Jim 
 // I reserve 1 meg of heap space for our use out side the cache   
-long TotalMemory = 0;
-long ActualHeap = 0;
+int TotalMemory = 0;
+int ActualHeap = 0;
 
 VOID InitAutoNet(VOID)
     {
@@ -924,22 +920,22 @@ void AnimateCacheCursor(void)
 #endif
     }
     
-void COVERsetbrightness(int bright, char *pal)
+void COVERsetbrightness(int bright, unsigned char *pal)
 {
 setbrightness(bright, pal, 0);
 }    
     
 
-static int firstnet = 0;	// JBF
-int nextvoxid = 0;	// JBF
-static char *deffile = "sw.def";
+static int firstnet = 0;    // JBF
+int nextvoxid = 0;  // JBF
+static const char *deffile = "sw.def";
 
 extern int startwin_run(void);
 
 VOID
 InitGame(VOID)
     {
-    extern long MovesPerPacket;
+    extern int MovesPerPacket;
     //void *ReserveMem=NULL;
     int i;
 
@@ -947,13 +943,13 @@ InitGame(VOID)
     MONO_PRINT(ds);
 
 
-	if (initengine()) {
-	   wm_msgbox("Build Engine Initialisation Error",
-			   "There was a problem initialising the Build engine: %s", engineerrstr);
-	   exit(1);
-	}
+    if (initengine()) {
+       wm_msgbox("Build Engine Initialisation Error",
+               "There was a problem initialising the Build engine: %s", engineerrstr);
+       exit(1);
+    }
 
-    //initgroupfile("sw.grp");	// JBF: moving this close to start of program to detect shareware
+    //initgroupfile("sw.grp");  // JBF: moving this close to start of program to detect shareware
     InitSetup();
     
     InitAutoNet();
@@ -971,16 +967,16 @@ InitGame(VOID)
     // sets numplayers, connecthead, connectpoint2, myconnectindex
 
     if (!firstnet)
-    	initmultiplayers(0, NULL, 0, 0, 0);
+        initmultiplayers(0, NULL, 0, 0, 0);
     else if (initmultiplayersparms(_buildargc - firstnet, &_buildargv[firstnet])) {
-		initprintf("Waiting for players...\n");
-		while (initmultiplayerscycle()) {
+        initprintf("Waiting for players...\n");
+        while (initmultiplayerscycle()) {
             handleevents();
-			if (quitevent) {
-				QuitFlag = TRUE;
-				return;
+            if (quitevent) {
+                QuitFlag = TRUE;
+                return;
             }
-		}
+        }
     }
     initsynccrc();
     
@@ -1016,7 +1012,7 @@ InitGame(VOID)
     LoadDemoRun();
     // Save off total heap for later calculations
     //TotalMemory = Z_AvailHeap();
-    //DSPRINTF(ds,"Available Heap before LoadImages =  %ld", TotalMemory);
+    //DSPRINTF(ds,"Available Heap before LoadImages =  %d", TotalMemory);
     //MONO_PRINT(ds);
     // Reserve 1.5 megs for normal program use
     // Generally, SW is consuming about a total of 11 megs including 
@@ -1044,7 +1040,7 @@ InitGame(VOID)
         ActualHeap = Z_AvailHeap() + 1536000L;
         FreeMem(ReserveMem);
         }
-	*/
+    */
 
     Connect();
     SortBreakInfo();
@@ -1065,7 +1061,7 @@ InitGame(VOID)
     LoadKVXFromScript( "swvoxfil.txt" );  // Load voxels from script file
     LoadPLockFromScript( "swplock.txt" ); // Get Parental Lock setup info
     if (!SW_SHAREWARE)
-	LoadCustomInfoFromScript( "swcustom.txt" );	// Load user customisation information
+    LoadCustomInfoFromScript( "swcustom.txt" ); // Load user customisation information
     
     if (!loaddefinitionsfile(deffile)) initprintf("Definitions file loaded.\n");
 
@@ -1092,9 +1088,9 @@ InitGame(VOID)
     GraphicsMode = TRUE;
     SetupAspectRatio();
     
-    COVERsetbrightness(gs.Brightness,(char *)palette_data);
+    COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
 
-    InitFX();	// JBF: do it down here so we get a hold of the window handle
+    InitFX();   // JBF: do it down here so we get a hold of the window handle
     InitMusic();
         
     }
@@ -1166,24 +1162,24 @@ LEVEL_INFO LevelInfo[MAX_LEVELS+2] =  // Shareware
 #endif*/
 
 char EpisodeNames[2][MAX_EPISODE_NAME_LEN+2] = {
-	"^Enter the Wang",
-	"^Code of Honor"
+    "^Enter the Wang",
+    "^Code of Honor"
 };
 char EpisodeSubtitles[2][MAX_EPISODE_SUBTITLE_LEN+1] = {
-	"Four levels (Shareware Version)",
-	"Eighteen levels (Full Version Only)"
+    "Four levels (Shareware Version)",
+    "Eighteen levels (Full Version Only)"
 };
 char SkillNames[4][MAX_SKILL_NAME_LEN+2] = {
-	"^Tiny grasshopper",
-	"^I Have No Fear",
-	"^Who Wants Wang",
-	"^No Pain, No Gain"
+    "^Tiny grasshopper",
+    "^I Have No Fear",
+    "^Who Wants Wang",
+    "^No Pain, No Gain"
 };
 
 VOID InitNewGame(VOID)
     {
     int i, ready_bak;
-    long ver_bak;
+    int ver_bak;
     
         //waitforeverybody();           // since ready flag resets after this point, need to carefully sync
     
@@ -1223,13 +1219,13 @@ void FindLevelInfo(char *map_name, short *level)
     return;
     }
 
-long ChopTics;    
+int ChopTics;    
 VOID InitLevelGlobals(VOID)
     {
     extern char PlayerGravity;
     extern short wait_active_check_offset;
     //extern short Zombies;
-    extern long PlaxCeilGlobZadjust, PlaxFloorGlobZadjust;
+    extern int PlaxCeilGlobZadjust, PlaxFloorGlobZadjust;
     extern BOOL left_foot;  
     extern BOOL serpwasseen;
     extern BOOL sumowasseen;
@@ -1661,16 +1657,16 @@ NewLevel(VOID)
     
     InGame = FALSE;
     
-	if (SW_SHAREWARE)
-		{
-		if (FinishAnim)
-			MenuLevel();
-		}
-	else
-		{
-		if (FinishAnim == ANIM_ZILLA || FinishAnim == ANIM_SERP)
-			MenuLevel();
-		}
+    if (SW_SHAREWARE)
+        {
+        if (FinishAnim)
+            MenuLevel();
+        }
+    else
+        {
+        if (FinishAnim == ANIM_ZILLA || FinishAnim == ANIM_SERP)
+            MenuLevel();
+        }
     FinishAnim = 0;
     }
 
@@ -1729,11 +1725,11 @@ VOID
 LogoLevel(VOID)
     {
     char called;
-    long fin;
-    char backup_pal[256*3];
-    char pal[PAL_SIZE];
-    char tempbuf[256];
-    char *palook_bak = palookup[0];
+    int fin;
+    unsigned char backup_pal[256*3];
+    unsigned char pal[PAL_SIZE];
+    unsigned char tempbuf[256];
+    unsigned char *palook_bak = palookup[0];
     int i;
     
 
@@ -1787,10 +1783,10 @@ LogoLevel(VOID)
     ResetKeys();
     while (TRUE)
         {
-		handleevents();
+        handleevents();
 
-		if (quitevent) { QuitFlag = TRUE; break; }
-	
+        if (quitevent) { QuitFlag = TRUE; break; }
+    
         // taken from top of faketimerhandler
         // limits checks to max of 40 times a second
         if (totalclock >= ototalclock + synctics)
@@ -1813,7 +1809,7 @@ LogoLevel(VOID)
     clearview(0);
     nextpage();
     //SetPaletteToVESA(backup_pal);
-    setbrightness(gs.Brightness, (char*)palette_data, 2);
+    setbrightness(gs.Brightness, &palette_data[0][0], 2);
 
     // put up a blank screen while loading
 
@@ -1826,12 +1822,12 @@ VOID
 CreditsLevel(VOID)
     {
     char called;
-    long fin;
+    int fin;
     int i;
     int curpic;
-    long handle;
+    int handle;
     ULONG timer = 0;
-    long zero=0;
+    int zero=0;
     short save;
     #define CREDITS1_PIC 5111
     #define CREDITS2_PIC 5118
@@ -1855,7 +1851,7 @@ CreditsLevel(VOID)
     
     // try 14 then 2 then quit
     if (!PlaySong(NULL, 14, FALSE, TRUE)) {
-	    if (!PlaySong(NULL, 2, FALSE, TRUE)) {
+        if (!PlaySong(NULL, 2, FALSE, TRUE)) {
             handle = PlaySound(DIGI_NOLIKEMUSIC,&zero,&zero,&zero,v3df_none);
             if (handle > 0)
                 while(FX_SoundActive(handle)) handleevents();
@@ -1932,14 +1928,14 @@ VOID
 TenScreen(VOID)
     {
     char called;
-    long fin;
+    int fin;
     char backup_pal[256*3];
     char pal[PAL_SIZE];
     char tempbuf[256];
     char *palook_bak = palookup[0];
     int i;
     ULONG bak;
-    long bakready2send;
+    int bakready2send;
     
     if (CommEnabled)
         return;
@@ -2001,10 +1997,11 @@ VOID
 TitleLevel(VOID)
     {
     char called;
-    long fin;
-    char backup_pal[256*3];
-    char pal[PAL_SIZE];
-    char *palook_bak = palookup[0];
+    int fin;
+    unsigned char backup_pal[256*3];
+    unsigned char pal[PAL_SIZE];
+    unsigned char tempbuf[256];
+    unsigned char *palook_bak = palookup[0];
     int i;
     
     for (i = 0; i < 256; i++)
@@ -2039,8 +2036,8 @@ TitleLevel(VOID)
     ResetKeys();
     while (TRUE)
         {
-		handleevents();
-		OSD_DispatchQueued();
+        handleevents();
+        OSD_DispatchQueued();
 
         // taken from top of faketimerhandler
         // limits checks to max of 40 times a second
@@ -2113,14 +2110,14 @@ MenuLevel(VOID)
     {
     BOOL MNU_StartNetGame(void);
     char called;
-    long fin;
-    extern long totalclocklock;
+    int fin;
+    extern int totalclocklock;
     short w,h;
 
     DSPRINTF(ds,"MenuLevel...");
     MONO_PRINT(ds);
 
-	if (gs.MusicOn)
+    if (gs.MusicOn)
         {
         PlaySong(NULL, RedBookSong[0], TRUE, FALSE);
         }    
@@ -2204,23 +2201,23 @@ MenuLevel(VOID)
     ResetKeys();
     
     if (SW_SHAREWARE) {
-	// go to ordering menu only if shareware
-	if (FinishAnim)
-	    {
-	    KEY_PRESSED(KEYSC_ESC) = 1;
-	    ControlPanelType = ct_ordermenu;
-	    FinishAnim = 0;
-	    }
+    // go to ordering menu only if shareware
+    if (FinishAnim)
+        {
+        KEY_PRESSED(KEYSC_ESC) = 1;
+        ControlPanelType = ct_ordermenu;
+        FinishAnim = 0;
+        }
     } else {
-	FinishAnim = 0;
+    FinishAnim = 0;
     }
     
     while (TRUE)
         {
-		handleevents();
-		OSD_DispatchQueued();
-	
-		if (quitevent) QuitFlag = TRUE;
+        handleevents();
+        OSD_DispatchQueued();
+    
+        if (quitevent) QuitFlag = TRUE;
 
         // taken from top of faketimerhandler
         // limits checks to max of 40 times a second
@@ -2237,9 +2234,10 @@ MenuLevel(VOID)
             if (MultiPlayQuitFlag)
                 {
                 short pnum;
+                BYTE pbuf[1];
                 QuitFlag = TRUE;
-                                ds[0] = PACKET_TYPE_MENU_LEVEL_QUIT;
-                                netbroadcastpacket(ds, 1);                      // TENSW
+                                pbuf[0] = PACKET_TYPE_MENU_LEVEL_QUIT;
+                                netbroadcastpacket(pbuf, 1);                      // TENSW
                 break;
                 }
             
@@ -2366,7 +2364,7 @@ gNextState(STATEp *State)
     
 // Generic state control 
 VOID   
-gStateControl(STATEp *State, long *tics)
+gStateControl(STATEp *State, int *tics)
     {    
     *tics += synctics;
 
@@ -2407,15 +2405,15 @@ int BonusGrabSound(short SpriteNum)
 VOID
 BonusScreen(PLAYERp pp)
     {
-    long minutes,seconds,second_tics;
+    int minutes,seconds,second_tics;
     extern BOOL FinishedLevel;
-    extern long PlayClock;
+    extern int PlayClock;
     extern short LevelSecrets;
     extern short TotalKillable;
     short w,h;
     short pic,limit;
-    long zero=0;
-    long handle = 0;
+    int zero=0;
+    int handle = 0;
     short LI_Num;
     
     
@@ -2515,8 +2513,8 @@ BonusScreen(PLAYERp pp)
         
     STATEp State = s_BonusRest;        
     
-    long Tics = 0;
-    long line = 0;
+    int Tics = 0;
+    int line = 0;
     BOOL BonusDone;
 
     if(Level < 0) Level = 0;
@@ -2529,10 +2527,10 @@ BonusScreen(PLAYERp pp)
     totalclock = ototalclock = 0;
     limit = synctics;
 
-	if (gs.MusicOn)
-	    {
-	    PlaySong(voc[DIGI_ENDLEV].name, 3, TRUE, TRUE);
-	    }    
+    if (gs.MusicOn)
+        {
+        PlaySong(voc[DIGI_ENDLEV].name, 3, TRUE, TRUE);
+        }    
         
     // special case code because I don't care any more!
     if (FinishAnim)
@@ -2547,7 +2545,7 @@ BonusScreen(PLAYERp pp)
     BonusDone = FALSE;
     while (!BonusDone)
         {
-		handleevents();
+        handleevents();
 
         // taken from top of faketimerhandler
         if (totalclock < ototalclock + limit)
@@ -2595,7 +2593,7 @@ BonusScreen(PLAYERp pp)
         second_tics = (PlayClock/120);
         minutes = (second_tics/60);
         seconds = (second_tics%60);
-        sprintf(ds,"Your Time:  %2ld : %02ld", minutes, seconds);
+        sprintf(ds,"Your Time:  %2d : %02d", minutes, seconds);
         MNU_MeasureString(ds, &w, &h);
         MNU_DrawString(60, BONUS_LINE(line), ds,1,16);
 
@@ -2681,18 +2679,18 @@ VOID EndGameSequence(VOID)
 VOID
 StatScreen(PLAYERp mpp)
     {
-    long minutes,seconds,second_tics;
+    int minutes,seconds,second_tics;
     extern BOOL FinishedLevel;
-    extern long PlayClock;
+    extern int PlayClock;
     extern short LevelSecrets;
     extern short TotalKillable;
     short w,h;
-    long zero=0;
-    long handle=0;
+    int zero=0;
+    int handle=0;
     
     short rows,cols,i,j;
     PLAYERp pp = NULL;
-    long x,y;
+    int x,y;
     short death_total[MAX_SW_PLAYERS_REG];
     short kills[MAX_SW_PLAYERS_REG];
     short pal;
@@ -2851,8 +2849,8 @@ StatScreen(PLAYERp mpp)
     
     while (!KEY_PRESSED(KEYSC_SPACE) && !KEY_PRESSED(KEYSC_ENTER))
         {
-		handleevents();
-	
+        handleevents();
+    
         ScreenCaptureKeys();
         }    
 
@@ -2907,10 +2905,10 @@ Control(VOID)
 
     while (!QuitFlag)
         {
-		handleevents();
-		OSD_DispatchQueued();
+        handleevents();
+        OSD_DispatchQueued();
 
-		if (quitevent) QuitFlag = TRUE;
+        if (quitevent) QuitFlag = TRUE;
 
         NewLevel();
         }
@@ -2946,13 +2944,13 @@ _ErrMsg(char *strFile, unsigned uLine, char *format, ...)
     
 #if 1 //def RENDERTYPEWIN
     {
-	    char msg[256], *p;
-	    Bsnprintf(msg, sizeof(msg), "Error: %s, line %u\n", strFile, uLine);
-	    p = &msg[strlen(msg)];
-	    va_start( arglist, format );
-	    Bvsnprintf(msg, sizeof(msg) - (p-msg), format, arglist);
-	    va_end(arglist);
-	    wm_msgbox(apptitle, msg);
+        char msg[256], *p;
+        Bsnprintf(msg, sizeof(msg), "Error: %s, line %u\n", strFile, uLine);
+        p = &msg[strlen(msg)];
+        va_start( arglist, format );
+        Bvsnprintf(msg, sizeof(msg) - (p-msg), format, arglist);
+        va_end(arglist);
+        wm_msgbox(apptitle, msg);
     }
 #else
     printf("Error: %s, line %u\n", strFile, uLine);
@@ -2983,7 +2981,7 @@ dsprintf_null(char *str, char *format, ...)
     
 void MoveLoop(void)    
     {
-    long pnum;
+    int pnum;
     
     getpackets();
     
@@ -3076,8 +3074,8 @@ VOID InitRunLevel(VOID)
 
     if (LoadGameOutsideMoveLoop)
         {
-        long SavePlayClock;
-        extern long PlayClock;
+        int SavePlayClock;
+        extern int PlayClock;
         LoadGameOutsideMoveLoop = FALSE;
         // contains what is needed from calls below
         if (gs.Ambient)    
@@ -3171,10 +3169,10 @@ RunLevel(VOID)
     
     while (TRUE)
         {
-		handleevents();
-		OSD_DispatchQueued();
+        handleevents();
+        OSD_DispatchQueued();
 
-		if (quitevent) QuitFlag = TRUE;
+        if (quitevent) QuitFlag = TRUE;
 
           //MONO_PRINT("Before MoveLoop");
         MoveLoop();
@@ -3212,7 +3210,7 @@ VOID DosScreen(VOID)
 
     #define DOS_SCREEN_SIZE (4000-(80*2))
     #define DOS_SCREEN_PTR ((void *)(0xB8000))
-    long fin;
+    int fin;
     int i;
     char buffer[DOS_SCREEN_SIZE];
 
@@ -3263,18 +3261,18 @@ VOID AlphaMessage(VOID)
 #if 1 //!UK_VERSION && !PLOCK_VERSION
 VOID AlphaMessage(VOID)
     {
-	if (SW_SHAREWARE) {
-	    initprintf("SHADOW WARRIOR(tm) Version 1.2 (Shareware Version)\n");
-	} else {
-	    initprintf("SHADOW WARRIOR(tm) Version 1.2\n");
+    if (SW_SHAREWARE) {
+        initprintf("SHADOW WARRIOR(tm) Version 1.2 (Shareware Version)\n");
+    } else {
+        initprintf("SHADOW WARRIOR(tm) Version 1.2\n");
     }
-	initprintf("Copyright (c) 1997 3D Realms Entertainment\n\n\n");
+    initprintf("Copyright (c) 1997 3D Realms Entertainment\n\n\n");
     }
 #endif    
 
 typedef struct
 {
-char	notshareware;
+char    notshareware;
 char    *arg_switch;
 short   arg_match_len;
 char    *arg_fmt;
@@ -3365,176 +3363,176 @@ int DetectShareware(void)
 
     h = kopen4load(DOS_SCREEN_NAME_SW,1);
     if (h >= 0) {
-	isShareware = TRUE;
-	kclose(h);
-	return 0;
+    isShareware = TRUE;
+    kclose(h);
+    return 0;
     }
 
     h = kopen4load(DOS_SCREEN_NAME_REG,1);
     if (h >= 0) {
-	isShareware = FALSE;
-	kclose(h);
-	return 0;
+    isShareware = FALSE;
+    kclose(h);
+    return 0;
     }
 
-    return 1;	// heavens knows what this is...
+    return 1;   // heavens knows what this is...
 }
 
 
 void CommandLineHelp(void)
 {
-	int i;
+    int i;
 #ifdef RENDERTYPEWIN
-	char *str;
-	int strl;
+    char *str;
+    int strl;
 
-	strl = 30 + 70;
-	for (i=0;i < (int)SIZ(cli_arg);i++)
-		if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
-			strl += strlen(cli_arg[i].arg_fmt) + 1 + strlen(cli_arg[i].arg_descr) + 1;
+    strl = 30 + 70;
+    for (i=0;i < (int)SIZ(cli_arg);i++)
+        if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
+            strl += strlen(cli_arg[i].arg_fmt) + 1 + strlen(cli_arg[i].arg_descr) + 1;
 
-	str = (char*)malloc(strl);
-	if (str) {
-		strcpy(str,"Usage: sw [options]\n");
-		strcat(str,"options:  ('/' may be used instead of '-', <> text is optional)\n\n");
-		for (i=0; i < (int)SIZ(cli_arg); i++) {
-			if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
-			{
-				strcat(str, cli_arg[i].arg_fmt);
-				strcat(str, "\t");
-				strcat(str, cli_arg[i].arg_descr);
-				strcat(str, "\n");
-			}
-		}
-		wm_msgbox("Shadow Warrior Help",str);
-		free(str);
-	}
+    str = (char*)malloc(strl);
+    if (str) {
+        strcpy(str,"Usage: sw [options]\n");
+        strcat(str,"options:  ('/' may be used instead of '-', <> text is optional)\n\n");
+        for (i=0; i < (int)SIZ(cli_arg); i++) {
+            if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
+            {
+                strcat(str, cli_arg[i].arg_fmt);
+                strcat(str, "\t");
+                strcat(str, cli_arg[i].arg_descr);
+                strcat(str, "\n");
+            }
+        }
+        wm_msgbox("Shadow Warrior Help",str);
+        free(str);
+    }
 #else
-	if (SW_SHAREWARE)
-		printf("Usage: %s [options]\n", _buildargv[0]);
-	else
-        	printf("Usage: %s [options] [map]\n", _buildargv[0]);
-	printf("options:  ('/' may be used instead of '-', <> text is optional)\n\n");
+    if (SW_SHAREWARE)
+        printf("Usage: %s [options]\n", _buildargv[0]);
+    else
+            printf("Usage: %s [options] [map]\n", _buildargv[0]);
+    printf("options:  ('/' may be used instead of '-', <> text is optional)\n\n");
 
-	for (i = 0; i < (int)SIZ(cli_arg); i++)
-	{
-		if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
+    for (i = 0; i < (int)SIZ(cli_arg); i++)
+    {
+        if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
                 {
-			printf(" %-20s   %-30s\n",cli_arg[i].arg_fmt, cli_arg[i].arg_descr);
-		}
-	}
+            printf(" %-20s   %-30s\n",cli_arg[i].arg_fmt, cli_arg[i].arg_descr);
+        }
+    }
 #endif
 }
 
 char *grpfile = "sw.grp";
-long app_main(long argc, char *argv[])
+int app_main(int argc, char const * const argv[])
     {
     int i;
     int stat, nexti;
     char type;
-    extern long MovesPerPacket;
+    extern int MovesPerPacket;
     VOID DoSector(VOID);
     VOID gameinput(VOID);
     int cnt = 0;
     ULONG TotalMemory;
-    extern int32 ForceSetup;	// config.c
+    extern int32 ForceSetup;    // config.c
     int32 CONFIG_ReadSetup(void);
 
     for (i=1;i<argc;i++) {
-	if (argv[i][0] != '-' && argv[i][0] != '/') continue;
-	if (!Bstrcasecmp(argv[i]+1, "setup")) CommandSetup = TRUE;
-	else if (!Bstrcasecmp(argv[i]+1, "?")) {
-		CommandLineHelp();
-		return(0);
-	}
+    if (argv[i][0] != '-' && argv[i][0] != '/') continue;
+    if (!Bstrcasecmp(argv[i]+1, "setup")) CommandSetup = TRUE;
+    else if (!Bstrcasecmp(argv[i]+1, "?")) {
+        CommandLineHelp();
+        return(0);
+    }
     }
 
 #ifdef RENDERTYPEWIN
-	if (win_checkinstance()) {
-		if (!wm_ynbox("Shadow Warrior","Another Build game is currently running. "
-					"Do you wish to continue starting this copy?"))
-			return 0;
-	}
+    if (win_checkinstance()) {
+        if (!wm_ynbox("Shadow Warrior","Another Build game is currently running. "
+                    "Do you wish to continue starting this copy?"))
+            return 0;
+    }
 #endif
 
 #if defined(__linux) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
-	addsearchpath("/usr/share/games/jfsw");
-	addsearchpath("/usr/local/share/games/jfsw");
+    addsearchpath("/usr/share/games/jfsw");
+    addsearchpath("/usr/local/share/games/jfsw");
 #elif defined(__APPLE__)
-	addsearchpath("/Library/Application Support/JFShadowWarrior");
+    addsearchpath("/Library/Application Support/JFShadowWarrior");
 #endif
     
-	// default behaviour is to write to the user profile directory, but
-	// creating a 'user_profiles_disabled' file makes the installation "portable"
-	if (access("user_profiles_disabled", F_OK) != 0) {
-		char cwd[BMAX_PATH];
-		char *homedir;
-		int asperr;
+    // default behaviour is to write to the user profile directory, but
+    // creating a 'user_profiles_disabled' file makes the installation "portable"
+    if (access("user_profiles_disabled", F_OK) != 0) {
+        char cwd[BMAX_PATH];
+        char *homedir;
+        int asperr;
 
-		if (getcwd(cwd,BMAX_PATH)) addsearchpath(cwd);
-		if ((homedir = Bgethomedir())) {
-			Bsnprintf(cwd,sizeof(cwd),"%s/"
+        if (getcwd(cwd,BMAX_PATH)) addsearchpath(cwd);
+        if ((homedir = Bgethomedir())) {
+            Bsnprintf(cwd,sizeof(cwd),"%s/"
 #if defined(_WIN32)
-				"JFShadowWarrior"
+                "JFShadowWarrior"
 #elif defined(__APPLE__)
-				"Library/Application Support/JFShadowWarrior"
+                "Library/Application Support/JFShadowWarrior"
 #else
-				".jfsw"
+                ".jfsw"
 #endif
-			,homedir);
-			asperr = addsearchpath(cwd);
-			if (asperr == -2) {
-				if (Bmkdir(cwd,S_IRWXU) == 0) asperr = addsearchpath(cwd);
-				else asperr = -1;
-			}
-			if (asperr == 0)
-				chdir(cwd);
-			free(homedir);
-		}
-	}
+            ,homedir);
+            asperr = addsearchpath(cwd);
+            if (asperr == -2) {
+                if (Bmkdir(cwd,S_IRWXU) == 0) asperr = addsearchpath(cwd);
+                else asperr = -1;
+            }
+            if (asperr == 0)
+                chdir(cwd);
+            free(homedir);
+        }
+    }
     
     OSD_SetLogFile("sw.log");
     {
-	char *newgrp;
-	newgrp = getenv("SWGRP");
-	if (newgrp) {
-		grpfile = newgrp;
-		initprintf("Using alternative GRP file: %s\n", newgrp);
-	}
+    char *newgrp;
+    newgrp = getenv("SWGRP");
+    if (newgrp) {
+        grpfile = newgrp;
+        initprintf("Using alternative GRP file: %s\n", newgrp);
+    }
     }
 
-	wm_setapptitle("Shadow Warrior");
-	if (preinitengine()) {
-	   wm_msgbox("Build Engine Initialisation Error",
-			   "There was a problem initialising the Build engine: %s", engineerrstr);
-	   exit(1);
-	}
+    wm_setapptitle("Shadow Warrior");
+    if (preinitengine()) {
+       wm_msgbox("Build Engine Initialisation Error",
+               "There was a problem initialising the Build engine: %s", engineerrstr);
+       exit(1);
+    }
 
     i = CONFIG_ReadSetup();
 
 #if defined RENDERTYPEWIN || (defined RENDERTYPESDL && (defined __APPLE__ || defined HAVE_GTK2))
-	if (i < 0 || ForceSetup || CommandSetup) {
-		if (quitevent || !startwin_run()) {
-			uninitengine();
-			exit(0);
-		}
-	}
+    if (i < 0 || ForceSetup || CommandSetup) {
+        if (quitevent || !startwin_run()) {
+            uninitengine();
+            exit(0);
+        }
+    }
 #endif
 
     initgroupfile(grpfile);
     if (!DetectShareware()) {
-	if (SW_SHAREWARE) initprintf("Detected shareware GRP\n");
-	else initprintf("Detected registered GRP\n");
+    if (SW_SHAREWARE) initprintf("Detected shareware GRP\n");
+    else initprintf("Detected registered GRP\n");
     }
     
     if (SW_SHAREWARE) {
-	wm_setapptitle("Shadow Warrior Shareware");
+    wm_setapptitle("Shadow Warrior Shareware");
 
-	// Zero out the maps that aren't in shareware version
-	memset(&LevelInfo[MAX_LEVELS_SW+1], 0, sizeof(LEVEL_INFO)*(MAX_LEVELS_REG-MAX_LEVELS_SW));
-	GameVersion++;
+    // Zero out the maps that aren't in shareware version
+    memset(&LevelInfo[MAX_LEVELS_SW+1], 0, sizeof(LEVEL_INFO)*(MAX_LEVELS_REG-MAX_LEVELS_SW));
+    GameVersion++;
     } else {
-	wm_setapptitle("Shadow Warrior");
+    wm_setapptitle("Shadow Warrior");
     }
     
     for (i = 0; i < MAX_SW_PLAYERS; i++)
@@ -3574,39 +3572,39 @@ long app_main(long argc, char *argv[])
     
     for (cnt = 1; cnt < argc; cnt++)
         {
-	char *arg = argv[cnt];
+        char const *arg = argv[cnt];
         
         if (*arg != '/' && *arg != '-') continue;
         
-	if (firstnet > 0) {
-		arg++;
-		switch (arg[0]) {
-			case 'n':
-			case 'N':
-				if (arg[1] == '0') {
-					NetBroadcastMode = FALSE;
-					initprintf("Network mode: master/slave\n");
-					wm_msgbox("Multiplayer Option Error",
-						"This release unfortunately does not support a master-slave networking "
-						"mode because of certain bugs we have not been able to locate and fix "
-						"at this time. However, peer-to-peer networking has been found to be "
-						"playable, so we suggest attempting to use that for now. Details can be "
-						"found in the release notes. Sorry for the inconvenience.");
-					return 0;
-				} else if (arg[1] == '1') {
-					NetBroadcastMode = TRUE;
-					initprintf("Network mode: peer-to-peer\n");
-				}
-				break;
-			default:
-				break;
-		}
-		continue;
-	}
-	
+        if (firstnet > 0) {
+            arg++;
+            switch (arg[0]) {
+                case 'n':
+                case 'N':
+                    if (arg[1] == '0') {
+                        NetBroadcastMode = FALSE;
+                        initprintf("Network mode: master/slave\n");
+                        wm_msgbox("Multiplayer Option Error",
+                            "This release unfortunately does not support a master-slave networking "
+                            "mode because of certain bugs we have not been able to locate and fix "
+                            "at this time. However, peer-to-peer networking has been found to be "
+                            "playable, so we suggest attempting to use that for now. Details can be "
+                            "found in the release notes. Sorry for the inconvenience.");
+                        return 0;
+                    } else if (arg[1] == '1') {
+                        NetBroadcastMode = TRUE;
+                        initprintf("Network mode: peer-to-peer\n");
+                    }
+                    break;
+                default:
+                    break;
+            }
+            continue;
+        }
+    
         // Store arg in command line array!
         CON_StoreArg(arg);
-	arg++;
+        arg++;
 
         if (Bstrncasecmp(arg, "autonet",7) == 0)
             {   
@@ -3621,7 +3619,7 @@ long app_main(long argc, char *argv[])
             if (cnt <= argc-2)
                 {
                 cnt++;
-                sscanf(argv[cnt], "%ld",&turn_scale);
+                sscanf(argv[cnt], "%d",&turn_scale);
                 }
             }
         else    
@@ -3630,7 +3628,7 @@ long app_main(long argc, char *argv[])
             if (cnt <= argc-2)
                 {
                 cnt++;
-                sscanf(argv[cnt], "%ld",&move_scale);
+                sscanf(argv[cnt], "%d",&move_scale);
                 }
             }
         else    
@@ -3654,9 +3652,9 @@ long app_main(long argc, char *argv[])
         else
         if (Bstrncasecmp(arg, "net",3) == 0)
             {
-	    if (cnt+1 < argc)
+        if (cnt+1 < argc)
             {
-		firstnet = cnt+1;
+        firstnet = cnt+1;
             }
             }
         #if DEBUG    
@@ -3664,28 +3662,28 @@ long app_main(long argc, char *argv[])
         if (Bstrncasecmp(arg, "debug",5) == 0)
             {
 #ifdef RENDERTYPEWIN
-	    char *str;
-	    int strl;
+        char *str;
+        int strl;
 
-	    strl = 24 + 70;
-	    for (i=0;i < (int)SIZ(cli_dbg_arg);i++)
-		strl += strlen(cli_dbg_arg[i].arg_fmt) + 1 + strlen(cli_dbg_arg[i].arg_descr) + 1;
+        strl = 24 + 70;
+        for (i=0;i < (int)SIZ(cli_dbg_arg);i++)
+        strl += strlen(cli_dbg_arg[i].arg_fmt) + 1 + strlen(cli_dbg_arg[i].arg_descr) + 1;
 
-	    str = (char*)malloc(strl);
-	    if (str) {
-		strcpy(str,
-			"Usage: sw [options]\n"
-			"options:  ('/' may be used instead of '-', <> text is optional)\n\n"
-		      );
-		for (i=0; i < (int)SIZ(cli_dbg_arg); i++) {
-			strcat(str, cli_dbg_arg[i].arg_fmt);
-			strcat(str, "\t");
-			strcat(str, cli_dbg_arg[i].arg_descr);
-			strcat(str, "\n");
-		}
-		wm_msgbox("Shadow Warrior Debug Help",str);
-		free(str);
-	    }
+        str = (char*)malloc(strl);
+        if (str) {
+        strcpy(str,
+            "Usage: sw [options]\n"
+            "options:  ('/' may be used instead of '-', <> text is optional)\n\n"
+              );
+        for (i=0; i < (int)SIZ(cli_dbg_arg); i++) {
+            strcat(str, cli_dbg_arg[i].arg_fmt);
+            strcat(str, "\t");
+            strcat(str, cli_dbg_arg[i].arg_descr);
+            strcat(str, "\n");
+        }
+        wm_msgbox("Shadow Warrior Debug Help",str);
+        free(str);
+        }
 #else
             printf("Usage: %s [options]\n", argv[0]);
             printf("options:  ('/' may be used instead of '-', <> text is optional)\n\n");
@@ -4009,9 +4007,9 @@ long app_main(long argc, char *argv[])
         #endif
             
         else
-	if (Bstrncasecmp(arg, "map", 3) == 0 && !SW_SHAREWARE)
+        if (Bstrncasecmp(arg, "map", 3) == 0 && !SW_SHAREWARE)
             {
-            long fil;
+            int fil;
 
             strcpy(UserMapName, argv[++cnt]);
             if (strchr(UserMapName, '.') == 0)
@@ -4020,9 +4018,9 @@ long app_main(long argc, char *argv[])
             if ((fil = kopen4load(UserMapName,0)) == -1)
                 {
 #ifdef RENDERTYPEWIN
-		char msg[256];
-		Bsnprintf(msg, 256, "ERROR: Could not find user map %s!",UserMapName);
-		wm_msgbox(apptitle, msg);
+                char msg[256];
+                Bsnprintf(msg, 256, "ERROR: Could not find user map %s!",UserMapName);
+                wm_msgbox(apptitle, msg);
 #else
                 printf("ERROR: Could not find user map %s!\n\n",UserMapName);
 #endif
@@ -4032,24 +4030,25 @@ long app_main(long argc, char *argv[])
             else    
                 kclose(fil);    
             }
-	else
-	if (Bstrncasecmp(arg, "g", 1) == 0 && !SW_SHAREWARE)
-	    {
-	    if (strlen(arg) > 1)
-		{
-		if (initgroupfile(arg+1) >= 0)
-		    initprintf("Added %s\n", arg+1);
-		}
-	    }
-	else
-	if (Bstrncasecmp(arg, "h", 1) == 0 && !SW_SHAREWARE)
-	    {
-	    if (strlen(arg) > 1)
-		{
-		deffile = (arg+1);
-		initprintf("Using DEF file %s.\n", arg+1);
-		}
-	    }
+
+        else
+        if (Bstrncasecmp(arg, "g", 1) == 0 && !SW_SHAREWARE)
+            {
+            if (strlen(arg) > 1)
+                {
+                if (initgroupfile(arg+1) >= 0)
+                    initprintf("Added %s\n", arg+1);
+                }
+            }
+        else
+        if (Bstrncasecmp(arg, "h", 1) == 0 && !SW_SHAREWARE)
+            {
+            if (strlen(arg) > 1)
+                {
+                deffile = (arg+1);
+                initprintf("Using DEF file %s.\n", arg+1);
+                }
+            }
         }
 
     Control();
@@ -4077,7 +4076,7 @@ ManualPlayerInsert(PLAYERp pp)
         myconnectindex = numplayers;
         screenpeek = numplayers;
 
-        sprintf(Player[myconnectindex].PlayerName,"PLAYER %ld",myconnectindex+1);
+        sprintf(Player[myconnectindex].PlayerName,"PLAYER %d",myconnectindex+1);
 
         Player[numplayers].movefifoend = Player[0].movefifoend;
 
@@ -4109,7 +4108,7 @@ BotPlayerInsert(PLAYERp pp)
         //myconnectindex = numplayers;
         //screenpeek = numplayers;
 
-        sprintf(Player[numplayers].PlayerName,"BOT %ld",numplayers+1);
+        sprintf(Player[numplayers].PlayerName,"BOT %d",numplayers+1);
 
         Player[numplayers].movefifoend = Player[0].movefifoend;
 
@@ -4183,10 +4182,10 @@ SinglePlayInput(PLAYERp pp)
 
             tp = Player + screenpeek;
             PlayerUpdatePanelInfo(tp);
-	    if (getrendermode() < 3)
+        if (getrendermode() < 3)
             COVERsetbrightness(gs.Brightness,(char *)palette_data);
-	    else
-		setpalettefade(0,0,0,0);
+        else
+        setpalettefade(0,0,0,0);
             memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
             DoPlayerDivePalette(tp);
             DoPlayerNightVisionPalette(tp);
@@ -4264,7 +4263,7 @@ SinglePlayInput(PLAYERp pp)
 
         save_myconnectindex = myconnectindex;
 
-        myconnectindex = (long)kp - (long)(&KEY_PRESSED(KEYSC_1));
+        myconnectindex = (intptr_t)kp - (intptr_t)(&KEY_PRESSED(KEYSC_1));
 
         if (myconnectindex >= numplayers)
             myconnectindex = save_myconnectindex;
@@ -4277,7 +4276,7 @@ SinglePlayInput(PLAYERp pp)
         // This sets the palette to whatever it is of the player you
         // just chose to view the game through.
 //      printf("SingPlayInput ALT+1-9 set_pal: pp->PlayerSprite = %d\n",pp->PlayerSprite);
-        COVERsetbrightness(gs.Brightness,(char *)palette_data);	// JBF: figure out what's going on here
+        COVERsetbrightness(gs.Brightness,(char *)palette_data); // JBF: figure out what's going on here
 
         DoPlayerNightVisionPalette(pp);
 
@@ -4423,8 +4422,8 @@ FunctionKeys(PLAYERp pp)
     {
     extern BOOL GamePaused;
     extern short QuickLoadNum;
-    static long rts_delay = 0;
-    long fn_key = 0;
+    static int rts_delay = 0;
+    int fn_key = 0;
     
     rts_delay++;
 
@@ -4457,7 +4456,7 @@ FunctionKeys(PLAYERp pp)
                 p.PacketType = PACKET_TYPE_RTS;
                 p.RTSnum = fn_key;
                 
-                                netbroadcastpacket((char *)(&p), sizeof(p));            // TENSW
+                netbroadcastpacket((BYTEp)(&p), sizeof(p));            // TENSW
                 }
             }
             
@@ -4620,7 +4619,7 @@ FunctionKeys(PLAYERp pp)
         
         if(!pp->NightVision && pp->FadeAmt <= 0)
             {
-            COVERsetbrightness(gs.Brightness,(char *)&palette_data[0][0]);
+            COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
             }
 
         //DoPlayerDivePalette(pp);
@@ -4948,11 +4947,11 @@ VOID GetHelpInput(PLAYERp pp)
             
             HelpPage++;
             if (HelpPage >= (int)SIZ(HelpPagePic))
-				// CTW MODIFICATION
-				// "Oops! I did it again..."
-				// HelpPage = SIZ(HelpPagePic) - 1;
-				HelpPage = 0;
-				// CTW MODIFICATION END
+                // CTW MODIFICATION
+                // "Oops! I did it again..."
+                // HelpPage = SIZ(HelpPagePic) - 1;
+                HelpPage = 0;
+                // CTW MODIFICATION END
             }
             
         if (KEY_PRESSED(KEYSC_PGUP) || KEY_PRESSED(KEYSC_UP) || KEY_PRESSED(KEYSC_LEFT) || KEY_PRESSED(sc_kpad_9) || KEY_PRESSED(sc_kpad_8) || KEY_PRESSED(sc_kpad_4))    
@@ -4966,10 +4965,10 @@ VOID GetHelpInput(PLAYERp pp)
             
             HelpPage--;
             if (HelpPage < 0)
-				// CTW MODIFICATION
-				// "Played with the logic, got lost in the game..."
+                // CTW MODIFICATION
+                // "Played with the logic, got lost in the game..."
                 HelpPage = SIZ(HelpPagePic) - 1;
-				// CTW MODIFICATION END
+                // CTW MODIFICATION END
             }
         }
     }    
@@ -4980,11 +4979,11 @@ VOID
 getinput(SW_PACKET *loc)
     {
     BOOL found = FALSE;
-    long i;
+    int i;
     PLAYERp pp = Player + myconnectindex;
     PLAYERp newpp = Player + myconnectindex;
     int pnum = myconnectindex;
-    long inv_hotkey = 0;
+    int inv_hotkey = 0;
 
 #define TURBOTURNTIME (120/8)
 #define NORMALTURN   (12+6)
@@ -5002,7 +5001,7 @@ getinput(SW_PACKET *loc)
     static int32 turnheldtime;
     int32 keymove;
     int32 momx, momy;
-    long aimvel;
+    int aimvel;
 
     extern BOOL MenuButtonAutoRun;
     extern BOOL MenuButtonAutoAim;
@@ -5437,8 +5436,8 @@ getinput(SW_PACKET *loc)
     
             if (dimensionmode != 2 && screenpeek == myconnectindex)
                 {
-			// JBF: figure out what's going on here
-                COVERsetbrightness(gs.Brightness,(char *)palette_data);
+            // JBF: figure out what's going on here
+                COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
                 memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
                 DoPlayerDivePalette(pp);  // Check Dive again
                 DoPlayerNightVisionPalette(pp);  // Check Night Vision again
@@ -5450,7 +5449,7 @@ getinput(SW_PACKET *loc)
                     memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
                 else    
                     memcpy(pp->temp_pal, tp->temp_pal, sizeof(tp->temp_pal));
-                COVERsetbrightness(gs.Brightness,(char *)palette_data);
+                COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
                 DoPlayerDivePalette(tp);  
                 DoPlayerNightVisionPalette(tp);
                 }
@@ -5482,17 +5481,17 @@ getinput(SW_PACKET *loc)
 
 #define MAP_BLOCK_SPRITE    (DK_BLUE + 6)
 
-void drawoverheadmap(long cposx, long cposy, long czoom, short cang)
+void drawoverheadmap(int cposx, int cposy, int czoom, short cang)
     {
-    long i, j, k, l, x1, y1, x2, y2, x3, y3, x4, y4, ox, oy, xoff, yoff;
-    long dax, day, cosang, sinang, xspan, yspan, sprx, spry;
-    long xrepeat, yrepeat, z1, z2, startwall, endwall, tilenum, daang;
-    long xvect, yvect, xvect2, yvect2;
+    int i, j, k, l, x1, y1, x2, y2, x3, y3, x4, y4, ox, oy, xoff, yoff;
+    int dax, day, cosang, sinang, xspan, yspan, sprx, spry;
+    int xrepeat, yrepeat, z1, z2, startwall, endwall, tilenum, daang;
+    int xvect, yvect, xvect2, yvect2;
     char col;
     walltype *wal, *wal2;
     spritetype *spr;
     short p;
-    static long pspr_ndx[8]={0,0,0,0,0,0,0,0};
+    static int pspr_ndx[8]={0,0,0,0,0,0,0,0};
     BOOL sprisplayer = FALSE;
     short txt_x, txt_y;
     
@@ -5684,7 +5683,7 @@ void drawoverheadmap(long cposx, long cposy, long czoom, short cang)
                     x1 = sprx;
                     y1 = spry;
                     tilenum = spr->picnum;
-                    xoff = (long) ((signed char) ((picanm[tilenum] >> 8) & 255)) + ((long) spr->xoffset);
+                    xoff = (int) ((signed char) ((picanm[tilenum] >> 8) & 255)) + ((int) spr->xoffset);
                     if ((spr->cstat & 4) > 0)
                         xoff = -xoff;
                     k = spr->ang;
@@ -5716,8 +5715,8 @@ void drawoverheadmap(long cposx, long cposy, long czoom, short cang)
                     if (dimensionmode == 5)
                         {
                         tilenum = spr->picnum;
-                        xoff = (long) ((signed char) ((picanm[tilenum] >> 8) & 255)) + ((long) spr->xoffset);
-                        yoff = (long) ((signed char) ((picanm[tilenum] >> 16) & 255)) + ((long) spr->yoffset);
+                        xoff = (int) ((signed char) ((picanm[tilenum] >> 8) & 255)) + ((int) spr->xoffset);
+                        yoff = (int) ((signed char) ((picanm[tilenum] >> 16) & 255)) + ((int) spr->yoffset);
                         if ((spr->cstat & 4) > 0)
                             xoff = -xoff;
                         if ((spr->cstat & 8) > 0)
@@ -5819,14 +5818,14 @@ void drawoverheadmap(long cposx, long cposy, long czoom, short cang)
 
     }
     
-extern long tilefileoffs[MAXTILES];//offset into the
+extern int tilefileoffs[MAXTILES];//offset into the
 extern char tilefilenum[MAXTILES];//0-11
 
 #if 0
 loadtile (short tilenume)
 {
     char *ptr;
-        long i;
+        int i;
         char zerochar = 0;
 
         if (walsiz[tilenume] <= 0)
@@ -5935,9 +5934,9 @@ StdRandomRange(int range)
     
     // shift values to give more precision
 #if (RAND_MAX > 0x7fff)
-    value = rand_num / (((long)RAND_MAX) / range);
+    value = rand_num / (((int)RAND_MAX) / range);
 #else
-    value = (rand_num << 14) / ((((long)RAND_MAX) << 14) / range);
+    value = (rand_num << 14) / ((((int)RAND_MAX) << 14) / range);
 #endif
     
     if (value >= (ULONG)range)
@@ -5949,19 +5948,19 @@ StdRandomRange(int range)
 #include "saveable.h"
 
 static saveable_data saveable_build_data[] = {
-	SAVE_DATA(sector),
-	SAVE_DATA(sprite),
-	SAVE_DATA(wall)
+    SAVE_DATA(sector),
+    SAVE_DATA(sprite),
+    SAVE_DATA(wall)
 };
 
 saveable_module saveable_build = {
-	// code
-	NULL,
-	0,
+    // code
+    NULL,
+    0,
 
-	// data
-	saveable_build_data,
-	NUM_SAVEABLE_ITEMS(saveable_build_data)
+    // data
+    saveable_build_data,
+    NUM_SAVEABLE_ITEMS(saveable_build_data)
 };
 
 // vim:ts=4:sw=4:expandtab:

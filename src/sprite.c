@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -55,10 +54,10 @@ BOOL MoveSkip4, MoveSkip2, MoveSkip8;
 extern STATE s_CarryFlag[];
 extern STATE s_CarryFlagNoDet[];
 
-static long globhiz, globloz, globhihit, globlohit;
+static int globhiz, globloz, globhihit, globlohit;
 short wait_active_check_offset;
-long PlaxCeilGlobZadjust, PlaxFloorGlobZadjust;
-void SetSectorWallBits(short sectnum, long bit_mask, BOOL set_sectwall, BOOL set_nextwall);
+int PlaxCeilGlobZadjust, PlaxFloorGlobZadjust;
+void SetSectorWallBits(short sectnum, int bit_mask, BOOL set_sectwall, BOOL set_nextwall);
 int DoActorDebris(short SpriteNum);
 void ActorWarpUpdatePos(short SpriteNum,short sectnum);
 VOID ActorWarpType(SPRITEp sp, SPRITEp sp_warp);
@@ -102,7 +101,7 @@ STATE s_DebrisStarFish[] =
     };
 
 extern BOOL DebugActor;
-extern long score;
+extern int score;
 
 ANIMATOR DoGet, DoKey, DoSpriteFade;
 
@@ -1567,11 +1566,11 @@ VOID PreMapCombineFloors(VOID)
     {
     #define MAX_FLOORS 32
     SPRITEp sp;
-    long xoff,yoff;
+    int xoff,yoff;
     int i, j, k;
     SHORT SpriteNum, NextSprite;
     WALLp wp;
-    long base_offset; 
+    int base_offset; 
     PLAYERp pp = &Player[myconnectindex];
     int dx,dy;
     short sectlist[MAXSECTORS];
@@ -1734,7 +1733,7 @@ SpriteSetupPost(VOID)
     USERp u;
     short SpriteNum, NextSprite;
     short i, nexti;
-    long cz,fz;
+    int cz,fz;
     
     // Post processing of some sprites after gone through the main SpriteSetup()
     // routine
@@ -1781,7 +1780,7 @@ SpriteSetup(VOID)
     TRACK_POINTp tp;
     TRACKp t;
     short i, num;
-    long cz,fz;
+    int cz,fz;
 
     // special case for player
     PicAnimOff(PLAYER_NINJA_RUN_R0);
@@ -2078,7 +2077,7 @@ SpriteSetup(VOID)
                 {
                 short i,nexti;
                 SPRITEp ds;
-                long cz,fz;
+                int cz,fz;
                 
                 // if moves with SO
                 if (TEST_BOOL1(sp))
@@ -2105,7 +2104,7 @@ SpriteSetup(VOID)
                 {
                 short i, found = FALSE;
                 short hitsect, hitwall, hitsprite;
-                long hitx, hity, hitz;
+                int hitx, hity, hitz;
 
                 hitscan(sp->x, sp->y, sp->z - Z(8), sp->sectnum,    // Start position
                 sintable[NORM_ANGLE(sp->ang + 512)],    // X vector of 3D ang
@@ -2135,7 +2134,7 @@ SpriteSetup(VOID)
             case WALL_DONT_STICK:
                 {
                 short hitsect, hitwall, hitsprite;
-                long hitx, hity, hitz;
+                int hitx, hity, hitz;
 
                 hitscan(sp->x, sp->y, sp->z - Z(8), sp->sectnum,    // Start position
                 sintable[NORM_ANGLE(sp->ang + 512)],    // X vector of 3D ang
@@ -2305,7 +2304,7 @@ SpriteSetup(VOID)
                     u->z_tgt = sp->z;
                     if (start_on)
                         {
-                        long amt;
+                        int amt;
                         amt = sp->z - sectp->floorz;
                         
                         // start in the on position
@@ -2326,7 +2325,7 @@ SpriteSetup(VOID)
                     u->z_tgt = sp->z;
                     if (start_on)
                         {
-                        long amt;
+                        int amt;
                         amt = sp->z - sectp->ceilingz;
                         
                         // starting in the on position
@@ -2477,7 +2476,7 @@ SpriteSetup(VOID)
                 {
                 ANIMATOR DoSpike, DoSpikeAuto;
                 short speed,vel,time,type,start_on,floor_vator;
-                long floorz,ceilingz,trash;
+                int floorz,ceilingz,trash;
                 u = SpawnUser(SpriteNum, 0, NULL);
 
                 SetSectorWallBits(sp->sectnum, WALLFX_DONT_STICK, FALSE, TRUE);
@@ -2878,7 +2877,7 @@ SpriteSetup(VOID)
                     if (sprite[i].hitag == sp->hitag && sprite[i].lotag == sp->lotag)
                         {
                         TerminateGame();
-                        printf("Two VIEW_THRU_ tags with same match found on level\n1: x %ld, y %ld \n2: x %ld, y %ld", sp->x, sp->y, sprite[i].x, sprite[i].y);
+                        printf("Two VIEW_THRU_ tags with same match found on level\n1: x %d, y %d \n2: x %d, y %d", sp->x, sp->y, sprite[i].x, sprite[i].y);
                         exit(0);
                         }
                     }
@@ -3838,8 +3837,8 @@ VOID SetupItemForJump(SPRITEp sip, short SpriteNum)
         u->floor_dist = Z(0);
         u->Counter = 0;
 
-        sp->xvel = (long)SP_TAG7(sip)<<2;
-        sp->zvel = -(((long)SP_TAG8(sip))<<5);
+        sp->xvel = (int)SP_TAG7(sip)<<2;
+        sp->zvel = -(((int)SP_TAG8(sip))<<5);
         
         u->xchange = MOVEx(sp->xvel, sp->ang);
         u->ychange = MOVEy(sp->xvel, sp->ang);
@@ -4661,7 +4660,7 @@ SpriteOverlap(SHORT spritenum_a, SHORT spritenum_b)
     USERp ua = User[spritenum_a];
     USERp ub = User[spritenum_b];
 
-    long spa_tos, spa_bos, spb_tos, spb_bos, overlap_z;
+    int spa_tos, spa_bos, spb_tos, spb_bos, overlap_z;
 
     if (!ua || !ub) return FALSE;
     if ((unsigned)Distance(spa->x, spa->y, spb->x, spb->y) > ua->Radius + ub->Radius)
@@ -4695,14 +4694,14 @@ SpriteOverlap(SHORT spritenum_a, SHORT spritenum_b)
     }
 
 BOOL
-SpriteOverlapZ(SHORT spritenum_a, SHORT spritenum_b, long z_overlap)
+SpriteOverlapZ(SHORT spritenum_a, SHORT spritenum_b, int z_overlap)
     {
     SPRITEp spa = &sprite[spritenum_a], spb = &sprite[spritenum_b];
 
     USERp ua = User[spritenum_a];
     USERp ub = User[spritenum_b];
 
-    long spa_tos, spa_bos, spb_tos, spb_bos;
+    int spa_tos, spa_bos, spb_tos, spb_bos;
 
     spa_tos = SPRITEp_TOS(spa);
     spa_bos = SPRITEp_BOS(spa);
@@ -4728,12 +4727,12 @@ SpriteOverlapZ(SHORT spritenum_a, SHORT spritenum_b, long z_overlap)
     }
 
 VOID 
-getzrangepoint(long x, long y, long z, short sectnum,
+getzrangepoint(int x, int y, int z, short sectnum,
     LONGp ceilz, LONGp ceilhit, LONGp florz, LONGp florhit)
     {
     spritetype *spr;
-    long i, j, k, l, dax, day, daz, xspan, yspan, xoff, yoff;
-    long x1, y1, x2, y2, x3, y3, x4, y4, cosang, sinang, tilenum;
+    int i, j, k, l, dax, day, daz, xspan, yspan, xoff, yoff;
+    int x1, y1, x2, y2, x3, y3, x4, y4, cosang, sinang, tilenum;
     short cstat;
     char clipyou;
 
@@ -4767,8 +4766,8 @@ getzrangepoint(long x, long y, long z, short sectnum,
 
     // Calculate and store centering offset information into xoff&yoff
     tilenum = spr->picnum;
-    xoff = (long) ((signed char) ((picanm[tilenum] >> 8) & 255)) + ((long) spr->xoffset);
-    yoff = (long) ((signed char) ((picanm[tilenum] >> 16) & 255)) + ((long) spr->yoffset);
+    xoff = (int) ((signed char) ((picanm[tilenum] >> 8) & 255)) + ((int) spr->xoffset);
+    yoff = (int) ((signed char) ((picanm[tilenum] >> 16) & 255)) + ((int) spr->yoffset);
     if (cstat & 4)
         xoff = -xoff;
     if (cstat & 8)
@@ -4857,12 +4856,12 @@ DoActorZrange(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long ceilhit, florhit;
+    int ceilhit, florhit;
     short save_cstat;
 
     save_cstat = TEST(sp->cstat, CSTAT_SPRITE_BLOCK);
     RESET(sp->cstat, CSTAT_SPRITE_BLOCK);
-    FAFgetzrange(sp->x, sp->y, sp->z - DIV2(SPRITEp_SIZE_Z(sp)), sp->sectnum, &u->hiz, &ceilhit, &u->loz, &florhit, (((long) sp->clipdist) << 2) - GETZRANGE_CLIP_ADJ, CLIPMASK_ACTOR);
+    FAFgetzrange(sp->x, sp->y, sp->z - DIV2(SPRITEp_SIZE_Z(sp)), sp->sectnum, &u->hiz, &ceilhit, &u->loz, &florhit, (((int) sp->clipdist) << 2) - GETZRANGE_CLIP_ADJ, CLIPMASK_ACTOR);
     SET(sp->cstat, save_cstat);
 
     u->lo_sectp = u->hi_sectp = NULL;
@@ -4935,11 +4934,11 @@ DoActorGlobZ(short SpriteNum)
 
 
 BOOL
-ActorDrop(short SpriteNum, long x, long y, long z, short new_sector, short min_height)
+ActorDrop(short SpriteNum, int x, int y, int z, short new_sector, short min_height)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long ceilhit, florhit, hiz, loz;
+    int ceilhit, florhit, hiz, loz;
     short save_cstat;
 
     // look only at the center point for a floor sprite
@@ -5010,7 +5009,7 @@ DropAhead(short SpriteNum, short min_height)
     {
 
     SPRITEp sp = &sprite[SpriteNum];
-    long dax, day;
+    int dax, day;
     short newsector;
 
     // dax = sp->x + MOVEx(128, sp->ang);
@@ -5040,17 +5039,17 @@ DropAhead(short SpriteNum, short min_height)
 */    
     
 int
-move_actor(short SpriteNum, long xchange, long ychange, long zchange)
+move_actor(short SpriteNum, int xchange, int ychange, int zchange)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
 
-    long x, y, z, loz, hiz;
+    int x, y, z, loz, hiz;
     SPRITEp lo_sp, hi_sp;
     SECTORp lo_sectp, hi_sectp;
     short sectnum,sect;
     short dist;
-    long cliptype = CLIPMASK_ACTOR;
+    int cliptype = CLIPMASK_ACTOR;
 
     
     if (TEST(u->Flags, SPR_NO_SCAREDZ))
@@ -5151,7 +5150,7 @@ DoGrating(short SpriteNum)
     {
     SPRITEp sp = User[SpriteNum]->SpriteP;
     SHORT x, y;
-    long dir;
+    int dir;
     #define GRATE_FACTOR 3
 
     // reduce to 0 to 3 value
@@ -5275,7 +5274,7 @@ DoCoin(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    long offset;
+    int offset;
     
     u->WaitTics -= ACTORMOVETICS * 2;
     
@@ -5519,7 +5518,7 @@ char *ReadFortune[MAX_FORTUNES] = {
     };
 
 
-BOOL CanGetWeapon(PLAYERp pp, short SpriteNum, long WPN)
+BOOL CanGetWeapon(PLAYERp pp, short SpriteNum, int WPN)
     {
     USERp u = User[SpriteNum], pu;
     SPRITEp sp = User[SpriteNum]->SpriteP;
@@ -5588,11 +5587,11 @@ DoGet(short SpriteNum)
     SPRITEp sp = User[SpriteNum]->SpriteP;
     PLAYERp pp;
     short pnum, key_num;
-    long dist, a,b,c;
+    int dist, a,b,c;
     VOID InitWeaponRocket(PLAYERp);
     VOID InitWeaponUzi(PLAYERp);
     BOOL can_see;
-    long cstat_bak;
+    int cstat_bak;
 
     // For flag stuff
     USERp nu;
@@ -6526,12 +6525,12 @@ ProcessActiveVars(short SpriteNum)
     }
 
 VOID
-AdjustActiveRange(PLAYERp pp, short SpriteNum, long dist)
+AdjustActiveRange(PLAYERp pp, short SpriteNum, int dist)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     SPRITEp psp = pp->SpriteP;
-    long look_height;
+    int look_height;
     
         
     // do no FAFcansee before it is time
@@ -6764,7 +6763,7 @@ SpriteControl(VOID)
     USERp u;
     short pnum, CloseToPlayer;
     PLAYERp pp;
-    long tx, ty, tmin, dist;
+    int tx, ty, tmin, dist;
     extern BOOL DebugActorFreeze;
     short StateTics;
     
@@ -7022,10 +7021,10 @@ SpriteControl(VOID)
 */    
 
 int
-move_sprite(short spritenum, long xchange, long ychange, long zchange, long ceildist, long flordist, ULONG cliptype, long numtics)
+move_sprite(short spritenum, int xchange, int ychange, int zchange, int ceildist, int flordist, ULONG cliptype, int numtics)
     {
-    long daz;
-    long retval=0, zh;
+    int daz;
+    int retval=0, zh;
     short dasectnum, tempshort;
     SPRITEp spr;
     USERp u = User[spritenum];
@@ -7060,7 +7059,7 @@ move_sprite(short spritenum, long xchange, long ychange, long zchange, long ceil
     clipmoveboxtracenum = 1;
     retval = clipmove(&spr->x, &spr->y, &daz, &dasectnum,
     ((xchange * numtics) << 11), ((ychange * numtics) << 11),
-    (((long) spr->clipdist) << 2), ceildist, flordist, cliptype);
+    (((int) spr->clipdist) << 2), ceildist, flordist, cliptype);
     clipmoveboxtracenum = 3;
     
     //if (TEST(retval, HIT_MASK) == HIT_WALL)
@@ -7093,7 +7092,7 @@ move_sprite(short spritenum, long xchange, long ychange, long zchange, long ceil
     // player. Seems to work ok!
     FAFgetzrange(spr->x, spr->y, spr->z - zh - 1, spr->sectnum,
     &globhiz, &globhihit, &globloz, &globlohit,
-    (((long) spr->clipdist) << 2) - GETZRANGE_CLIP_ADJ, cliptype);
+    (((int) spr->clipdist) << 2) - GETZRANGE_CLIP_ADJ, cliptype);
 
     spr->cstat = tempshort;
 
@@ -7155,12 +7154,12 @@ int pushmove_sprite(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     short sectnum, ret;
-    long daz;
+    int daz;
     
     daz = sp->z - u->zclip;
     sectnum = sp->sectnum;
     ret = pushmove(&sp->x, &sp->y, &daz, &sectnum, 
-        (((long)sp->clipdist)<<2)-GETZRANGE_CLIP_ADJ, u->ceiling_dist, u->floor_dist, CLIPMASK_ACTOR);
+        (((int)sp->clipdist)<<2)-GETZRANGE_CLIP_ADJ, u->ceiling_dist, u->floor_dist, CLIPMASK_ACTOR);
     
     if (sectnum != sp->sectnum && sectnum >= 0)
         changespritesect(SpriteNum, sectnum);
@@ -7273,10 +7272,10 @@ MissileZrange(short SpriteNum)
 
     
 int
-move_missile(short spritenum, long xchange, long ychange, long zchange, long ceildist, long flordist, ULONG cliptype, long numtics)
+move_missile(short spritenum, int xchange, int ychange, int zchange, int ceildist, int flordist, ULONG cliptype, int numtics)
     {
-    long daz;
-    long retval, zh;
+    int daz;
+    int retval, zh;
     short dasectnum, tempshort;
     SPRITEp sp;
     USERp u = User[spritenum];
@@ -7309,7 +7308,7 @@ move_missile(short spritenum, long xchange, long ychange, long zchange, long cei
     clipmoveboxtracenum = 1;
     retval = clipmove(&sp->x, &sp->y, &daz, &dasectnum,
     ((xchange * numtics) << 11), ((ychange * numtics) << 11),
-    (((long) sp->clipdist) << 2), ceildist, flordist, cliptype);
+    (((int) sp->clipdist) << 2), ceildist, flordist, cliptype);
     clipmoveboxtracenum = 3;
 
     if (dasectnum < 0)
@@ -7413,15 +7412,15 @@ move_missile(short spritenum, long xchange, long ychange, long zchange, long cei
 
 
 int
-move_ground_missile(short spritenum, long xchange, long ychange, long zchange, long ceildist, long flordist, ULONG cliptype, long numtics)
+move_ground_missile(short spritenum, int xchange, int ychange, int zchange, int ceildist, int flordist, ULONG cliptype, int numtics)
     {
-    long daz;
-    long retval=0, zh;
+    int daz;
+    int retval=0, zh;
     short dasectnum, tempshort;
     SPRITEp sp;
     USERp u = User[spritenum];
     short lastsectnum;
-    long ox,oy;
+    int ox,oy;
 
     sp = &sprite[spritenum];
 
@@ -7470,7 +7469,7 @@ move_ground_missile(short spritenum, long xchange, long ychange, long zchange, l
         clipmoveboxtracenum = 1;
         retval = clipmove(&sp->x, &sp->y, &daz, &dasectnum,
         ((xchange * numtics) << 11), ((ychange * numtics) << 11),
-        (((long) sp->clipdist) << 2), ceildist, flordist, cliptype);
+        (((int) sp->clipdist) << 2), ceildist, flordist, cliptype);
         clipmoveboxtracenum = 3;
         }
 
@@ -7485,7 +7484,7 @@ move_ground_missile(short spritenum, long xchange, long ychange, long zchange, l
     
     if (retval)  // ran into a white wall
         {
-        long new_loz,new_hiz;
+        int new_loz,new_hiz;
         
         // back up and try to clip UP
         //dasectnum = lastsectnum = sp->sectnum;           
@@ -7510,7 +7509,7 @@ move_ground_missile(short spritenum, long xchange, long ychange, long zchange, l
     u->z_tgt = 0;
     if ((dasectnum != sp->sectnum) && (dasectnum >= 0))
         {
-        long new_loz,new_hiz;
+        int new_loz,new_hiz;
         getzsofslope(dasectnum, sp->x, sp->y, &new_hiz, &new_loz);    
         
         sp->z = new_loz;
@@ -7613,7 +7612,7 @@ int push_check(short SpriteNum)
                 sp = &sprite[i];
                 u = User[i];
                 
-                sect = pushmove(&sp->x, &sp->y, &sp->z, &sp->sectnum, (((long)sp->clipdist)<<2)-8, u->ceiling_dist, u->floor_dist, CLIPMASK0);
+                sect = pushmove(&sp->x, &sp->y, &sp->z, &sp->sectnum, (((int)sp->clipdist)<<2)-8, u->ceiling_dist, u->floor_dist, CLIPMASK0);
                 if (sect == -1)
                     {
                     KillSprite(i);

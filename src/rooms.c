@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "names2.h"
 #include "panel.h"
@@ -32,7 +31,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "warp.h"
 
 void _ErrMsg(char *strFile, unsigned uLine, char *format, ...);
-void FAF_DrawRooms(long posx, long posy, long posz, short ang, long horiz, short cursectnum);
+void FAF_DrawRooms(int posx, int posy, int posz, short ang, int horiz, short cursectnum);
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -78,7 +77,7 @@ int COVERinsertsprite(short sectnum, short stat)
     sprite[spnum].xoffset = sprite[spnum].yoffset = 0;
     sprite[spnum].ang = 0;
     sprite[spnum].owner = -1;
-    sprite[spnum].xvel = sprite[spnum].yvel = sprite[spnum].yvel = 0;
+    sprite[spnum].xvel = sprite[spnum].yvel = sprite[spnum].zvel = 0;
     sprite[spnum].lotag = 0;
     sprite[spnum].hitag = 0;
     sprite[spnum].extra = 0;
@@ -153,11 +152,11 @@ FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
     SHORTp hitsect, SHORTp hitwall, SHORTp hitsprite,
     LONGp hitx, LONGp hity, LONGp hitz, LONG clipmask)
     {
-    long loz, hiz;
+    int loz, hiz;
     short newsectnum = sectnum;
-    long startclipmask = 0;
+    int startclipmask = 0;
     BOOL plax_found = FALSE;
-    long sx,sy,sz;
+    int sx,sy,sz;
 
     if (clipmask == CLIPMASK_MISSILE)
         startclipmask = CLIPMASK_WARP_HITSCAN;
@@ -276,13 +275,13 @@ BOOL
 FAFcansee(LONG xs, LONG ys, LONG zs, SHORT sects,
     LONG xe, LONG ye, LONG ze, SHORT secte)
     {
-    long loz, hiz;
+    int loz, hiz;
     short newsectnum = sects;
-    long xvect, yvect, zvect;
+    int xvect, yvect, zvect;
     short ang;
     short hitsect, hitwall, hitsprite;
-    long hitx, hity, hitz;
-    long dist;
+    int hitx, hity, hitz;
+    int dist;
     BOOL plax_found = FALSE;
     
     ASSERT(sects >= 0 && secte >= 0);
@@ -359,7 +358,7 @@ FAFcansee(LONG xs, LONG ys, LONG zs, SHORT sects,
     }
 
 
-long 
+int
 GetZadjustment(short sectnum, short hitag)
     {
     short i, nexti;
@@ -381,14 +380,14 @@ GetZadjustment(short sectnum, short hitag)
     return(0L);    
     }
     
-BOOL SectorZadjust(long ceilhit, LONGp hiz, short florhit, LONGp loz)    
+BOOL SectorZadjust(int ceilhit, LONGp hiz, short florhit, LONGp loz)
     {
-    extern long PlaxCeilGlobZadjust, PlaxFloorGlobZadjust;
-    long z_amt = 0;
+    extern int PlaxCeilGlobZadjust, PlaxFloorGlobZadjust;
+    int z_amt = 0;
     
     BOOL SkipFAFcheck = FALSE;
     
-    if ((long)florhit != -1)  
+    if ((int)florhit != -1)
         {
         switch (TEST(florhit, HIT_MASK))
             {
@@ -442,7 +441,7 @@ BOOL SectorZadjust(long ceilhit, LONGp hiz, short florhit, LONGp loz)
             }
         }    
         
-    if ((long)ceilhit != -1)  
+    if ((int)ceilhit != -1)
         {
         switch (TEST(ceilhit, HIT_MASK))
             {
@@ -517,8 +516,8 @@ VOID FAFgetzrange(LONG x, LONG y, LONG z, SHORT sectnum,
     LONGp loz, LONGp florhit, 
     LONG clipdist, LONG clipmask)
     {
-    long foo1;
-    long foo2;
+    int foo1;
+    int foo2;
     BOOL SkipFAFcheck;
     
     // IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -544,7 +543,7 @@ VOID FAFgetzrange(LONG x, LONG y, LONG z, SHORT sectnum,
     if (FAF_ConnectCeiling(sectnum))
         {
         short uppersect = sectnum;
-        long newz = *hiz - Z(2);
+        int newz = *hiz - Z(2);
         
         switch (TEST(*ceilhit, HIT_MASK))
             {
@@ -563,7 +562,7 @@ VOID FAFgetzrange(LONG x, LONG y, LONG z, SHORT sectnum,
     //if (FAF_ConnectFloor(sectnum))
         {
         short lowersect = sectnum;
-        long newz = *loz + Z(2);
+        int newz = *loz + Z(2);
         
         switch (TEST(*florhit, HIT_MASK))
             {
@@ -589,8 +588,8 @@ VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum,
     LONGp hiz, LONGp ceilhit, 
     LONGp loz, LONGp florhit)
     {
-    long foo1;
-    long foo2;
+    int foo1;
+    int foo2;
     BOOL SkipFAFcheck;
 
     // IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -616,7 +615,7 @@ VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum,
     if (FAF_ConnectCeiling(sectnum))
         {
         short uppersect = sectnum;
-        long newz = *hiz - Z(2);
+        int newz = *hiz - Z(2);
         switch (TEST(*ceilhit, HIT_MASK))
             {
             case HIT_SPRITE:
@@ -633,7 +632,7 @@ VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum,
     //if (FAF_ConnectFloor(sectnum))
         {
         short lowersect = sectnum;
-        long newz = *loz + Z(2);
+        int newz = *loz + Z(2);
         switch (TEST(*florhit, HIT_MASK))
             {
             case HIT_SPRITE:
@@ -718,10 +717,10 @@ SetupMirrorTiles(VOID)
 
 #if 0
 void 
-updatesectorz(long x, long y, long z, short *sectnum)
+updatesectorz(int x, int y, int z, short *sectnum)
     {
     walltype *wal;
-    long i, j, cz, fz;
+    int i, j, cz, fz;
     
     ASSERT(*sectnum >=0 && *sectnum <= MAXSECTORS);
 
@@ -778,18 +777,18 @@ updatesectorz(long x, long y, long z, short *sectnum)
 short GlobStackSect[2];
 
 void
-GetUpperLowerSector(short match, long x, long y, short *upper, short *lower)
+GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
     {
-    long i, j;
+    int i, j;
     short sectorlist[16];
-    long sln = 0;
+    int sln = 0;
     short SpriteNum, Next;
     SPRITEp sp;
     
     // keep a list of the last stacked sectors the view was in and
     // check those fisrt
     sln = 0;
-    for (i = 0; i < (long)SIZ(GlobStackSect); i++)
+    for (i = 0; i < (int)SIZ(GlobStackSect); i++)
         {
         // will not hurt if GlobStackSect is invalid - inside checks for this
         if (inside(x, y, GlobStackSect[i]) == 1)
@@ -842,7 +841,7 @@ GetUpperLowerSector(short match, long x, long y, short *upper, short *lower)
                     continue;
 
                 sectorlist[sln] = i;
-                if (sln < (long)SIZ(GlobStackSect))
+                if (sln < (int)SIZ(GlobStackSect))
                     GlobStackSect[sln] = i;
                 sln++;
                 }
@@ -888,13 +887,13 @@ GetUpperLowerSector(short match, long x, long y, short *upper, short *lower)
 BOOL 
 FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     {
-    long xoff = 0;
-    long yoff = 0;
+    int xoff = 0;
+    int yoff = 0;
     short i, nexti;
     SPRITEp sp = NULL;
     short top_sprite = -1;
-    long pix_diff;
-    long newz;
+    int pix_diff;
+    int newz;
 
     save.zcount = 0;
 
@@ -976,12 +975,12 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
 BOOL 
 FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     {
-    long xoff = 0;
-    long yoff = 0;
+    int xoff = 0;
+    int yoff = 0;
     short i, nexti;
     SPRITEp sp = NULL;
-    long newz;
-    long pix_diff;
+    int newz;
+    int pix_diff;
 
     save.zcount = 0;
 
@@ -1070,7 +1069,7 @@ ViewSectorInScene(short cursectnum, short type, short level)
     int j, nextj;
     SPRITEp sp;
     SPRITEp sp2;
-    long cz, fz;
+    int cz, fz;
     short match;
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
@@ -1102,7 +1101,7 @@ ViewSectorInScene(short cursectnum, short type, short level)
     }
 
 VOID 
-DrawOverlapRoom(long tx, long ty, long tz, short tang, long thoriz, short tsectnum)
+DrawOverlapRoom(int tx, int ty, int tz, short tang, int thoriz, short tsectnum)
     {
     short i;
     short match;

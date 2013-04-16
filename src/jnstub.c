@@ -27,7 +27,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //-------------------------------------------------------------------------
 
 #include "build.h"
-#include "compat.h"
 #include "editor.h"
 #include "cache1d.h"
 
@@ -52,9 +51,9 @@ VOID ResetBuildFAF(VOID);	// brooms.c
 
 
 // Idle time counter
-//long  idleclock=0;        // How much time is spent not touching the keyboard.
-//long    slackerclock=0;       // Accumulated no keyboard time, adds every 30 secs
-//long    oldtotalclock=0;
+//int  idleclock=0;        // How much time is spent not touching the keyboard.
+//int    slackerclock=0;       // Accumulated no keyboard time, adds every 30 secs
+//int    oldtotalclock=0;
 
 // Sprite lists
 int numsprite[MAXSPRITES], multisprite[MAXSPRITES];
@@ -65,7 +64,7 @@ short siNextTag = 1;                    // Shows next available tag if there
 short siNextEndTag = 1;                 // Shows the hightest possible next
                                         // tag
 
-long loaded_numwalls;                                        
+int loaded_numwalls;                                        
 // Boolean flags used for sprite searching
 BOOL bFindPicNum = TRUE;                // Default
 BOOL bFindHiTag = FALSE;
@@ -89,7 +88,7 @@ void LoadKVXFromScript(char *filename);
 
 // voxelarray format is:
 //      spritenumber, voxelnumber
-extern long aVoxelArray[MAXSPRITES];
+extern int aVoxelArray[MAXSPRITES];
 
 // Ken ALT highlighted array
 extern short highlightsector[MAXSECTORS];
@@ -106,7 +105,7 @@ int DispMono = FALSE;
 typedef struct
     {
     char name[64];
-    long flags;
+    int flags;
     } STAG_INFO, *STAG_INFOp;
 
 STAG_INFO StagInfo[MAX_STAG_INFO];
@@ -114,7 +113,6 @@ STAG_INFO StagInfo[MAX_STAG_INFO];
 void PrintStatus(char *string, int num, char x, char y, char color);
 
 #define NUMOPTIONS 8
-extern long mapversion;
 char option[NUMOPTIONS] = {0, 0, 0, 0, 0, 0, 1, 0};
 char keys[NUMBUILDKEYS] =
     {
@@ -127,10 +125,10 @@ char keys[NUMBUILDKEYS] =
 
 extern short pointhighlight, linehighlight;
 extern short defaultspritecstat;
-extern long posx, posy, posz;
+extern int posx, posy, posz;
 extern short cursectnum;
 extern short ang;
-extern long horiz;
+extern int horiz;
 extern short asksave;
 short ExtSectorTag[MAXSECTORS][4];
 static char tempbuf[256];
@@ -159,11 +157,9 @@ extern short highlightcnt;
 
 // Variables copied with the tab key
 extern short temppicnum, tempcstat, templotag, temphitag, tempextra;
-extern char tempshade, temppal, tempxrepeat, tempyrepeat;
-extern char somethingintab;
 
-void SectorMoveFloorZ(long);
-void SectorMoveCeilingZ(long);
+void SectorMoveFloorZ(int);
+void SectorMoveCeilingZ(int);
 
 VOID BuildStagTable(VOID);
 void Message(char *string, char color);
@@ -177,7 +173,7 @@ void SetClipdist2D(void);
 VOID DrawClipBox(short spritenum);
 
 //printext16 parameters:
-//printext16(long xpos, long ypos, short col, short backcol,
+//printext16(int xpos, int ypos, short col, short backcol,
 //           char name[82], char fontsize)
 //  xpos 0-639   (top left)
 //  ypos 0-479   (top left)
@@ -187,7 +183,7 @@ VOID DrawClipBox(short spritenum);
 //  fontsize 0=8*8, 1=3*5
 
 //drawline16 parameters:
-// drawline16(long x1, long y1, long x2, long y2, char col)
+// drawline16(int x1, int y1, int x2, int y2, char col)
 //  x1, x2  0-639
 //  y1, y2  0-143  (status bar is 144 high, origin is top-left of STATUS BAR)
 //  col     0-15
@@ -466,7 +462,7 @@ short rotang = 0;
 void
 ExtAnalyzeSprites(void)
     {
-    long i, currsprite;
+    int i, currsprite;
     spritetype *tspr;
 
 
@@ -607,7 +603,7 @@ void
 ExtInit(void)
     {
     VOID InitPalette(VOID);
-    long i, fil;
+    int i, fil;
 
     initgroupfile("sw.grp");
     if ((fil = open("setup.dat", O_BINARY | O_RDWR, S_IREAD)) != -1)
@@ -687,7 +683,7 @@ ExtInit(void)
 
 
         VOID InitPalette(VOID);
-        long i, fil;
+        int i, fil;
 
         // Store user log in time
         //LogUserTime(TRUE);              // Send true because user is logging
@@ -1363,7 +1359,7 @@ VOID
 MoreKeys(short searchstat, short searchwall, short searchsector, short pointhighlight)
     {
 
-    typedef short GET_NUM_FUNC(char *, short, long, char);
+    typedef short GET_NUM_FUNC(char *, short, int, char);
     typedef GET_NUM_FUNC *GET_NUM_FUNCp;
     typedef void PRINT_MSG_FUNC(char *);
     typedef PRINT_MSG_FUNC *PRINT_MSG_FUNCp;
@@ -2065,7 +2061,7 @@ ExtCheckKeys(void)
     {
     extern short f_c;
 
-//  long ticdiff=0;
+//  int ticdiff=0;
 
     // Display BUILD notice
     ExtCheckKeysNotice();
@@ -2088,13 +2084,13 @@ ExtCheckKeys(void)
     if (qsetmode == 200)                // In 3D mode
         {
 #define AVERAGEFRAMES 16
-        static long frameval[AVERAGEFRAMES], framecnt = 0;
-        long i;
+        static int frameval[AVERAGEFRAMES], framecnt = 0;
+        int i;
 
         i = totalclock;
         if (i != frameval[framecnt])
             {
-            sprintf(tempbuf, "%ld", ((120 * AVERAGEFRAMES) / (i - frameval[framecnt])) + f_c);
+            sprintf(tempbuf, "%d", ((120 * AVERAGEFRAMES) / (i - frameval[framecnt])) + f_c);
             printext256(0L, 0L, 1, -1, tempbuf, 1);
             frameval[framecnt] = i;
             }
@@ -2254,10 +2250,10 @@ const char *
 ExtGetSpriteCaption(short spritenum)
     {
     SPRITEp sp = &sprite[spritenum];
-    CHARp p = "";
-    CHAR name[64];
-    CHAR tp[30];
-    CHAR multi_str[30] = "";
+    char *p = "";
+    char name[64];
+    char tp[30];
+    char multi_str[30] = "";
     SHORT data;
 
     data = TEST(sp->extra, SPRX_SKILL);
@@ -2696,10 +2692,10 @@ ExtGetSpriteCaption(short spritenum)
     }
 
 VOID
-SectorMidPoint(short sectnum, long *xmid, long *ymid, long *zmid)
+SectorMidPoint(short sectnum, int *xmid, int *ymid, int *zmid)
     {
     short startwall, endwall, j;
-    long xsum = 0, ysum = 0;
+    int xsum = 0, ysum = 0;
     WALLp wp;
 
     startwall = sector[sectnum].wallptr;
@@ -2720,9 +2716,9 @@ SectorMidPoint(short sectnum, long *xmid, long *ymid, long *zmid)
 VOID
 DrawClipBox(short spritenum)
     {
-    long x, y, z;
-    long radius;
-    extern long zoom;
+    int x, y, z;
+    int radius;
+    extern int zoom;
 
     if (sprite[spritenum].hitag == SO_CLIP_BOX)
         {
@@ -3117,7 +3113,7 @@ PlaxSetShade(void)
     {
     short data;
     short shade;
-    long i, count = 0;
+    int i, count = 0;
 
     if (qsetmode == 200)                // In 3D mode
         return;
@@ -3141,7 +3137,7 @@ PlaxSetShade(void)
 
     clearmidstatbar16();                // Clear middle of status bar
 
-    sprintf(tempbuf, "%ld Plax Sky shades set.", count);
+    sprintf(tempbuf, "%d Plax Sky shades set.", count);
     printext16(8, ydim16+32, 11, -1, tempbuf, 0);
     }
 
@@ -3150,7 +3146,7 @@ PlaxAdjustShade(void)
     {
     short data;
     short shade;
-    long i, count = 0;
+    int i, count = 0;
 
     if (qsetmode == 200)                // In 3D mode
         return;
@@ -3179,7 +3175,7 @@ PlaxAdjustShade(void)
 
     clearmidstatbar16();                // Clear middle of status bar
 
-    sprintf(tempbuf, "%ld Plax Sky shades adjusted.", count);
+    sprintf(tempbuf, "%d Plax Sky shades adjusted.", count);
     printext16(8, ydim16+32, 11, -1, tempbuf, 0);
     }
 
@@ -3188,7 +3184,7 @@ AdjustShade(void)
     {
     short data;
     short shade;
-    long i, count;
+    int i, count;
     short SpriteNum, NextSprite;
 
     if (qsetmode == 200)                // In 3D mode
@@ -3275,7 +3271,7 @@ void
 SetClipdist2D(void)
     {
     short dist;
-    long i;
+    int i;
     short num;
 
     if (qsetmode == 200)                // In 3D mode
@@ -3306,7 +3302,7 @@ AdjustVisibility(void)
     {
     short data;
     short vis;
-    long i, count = 0;
+    int i, count = 0;
 
     if (qsetmode == 200)                // In 3D mode
         return;
@@ -3349,14 +3345,14 @@ AdjustVisibility(void)
 
     clearmidstatbar16();                // Clear middle of status bar
 
-    sprintf(tempbuf, "%ld Vis adjusted.", count);
+    sprintf(tempbuf, "%d Vis adjusted.", count);
     printext16(8, ydim16+32, 11, -1, tempbuf, 0);
     }
 
 void
 FindSprite(short picnum, short findspritenum)
     {
-    long i, count;
+    int i, count;
     short SpriteNum, NextSprite;
     SPRITEp sp;
 
@@ -3428,7 +3424,7 @@ FindSprite(short picnum, short findspritenum)
 void
 FindNextSprite(short picnum)
     {
-    long i, count;
+    int i, count;
     short SpriteNum, NextSprite;
     SPRITEp sp;
     short animlen;
@@ -3517,7 +3513,7 @@ ShowNextTag(void)
 void
 FindNextTag(void)
     {
-    long i, count, j;
+    int i, count, j;
     short SpriteNum, NextSprite;
     short siNextFind;                   // Next tag that SHOULD be found
     SPRITEp sp;
@@ -3599,12 +3595,12 @@ void faketimerhandler(void)
 
 //Just thought you might want my getnumber16 code
 /*
-getnumber16(char namestart[80], short num, long maxnumber)
+getnumber16(char namestart[80], short num, int maxnumber)
 {
         char buffer[80];
-        long j, k, n, danum, oldnum;
+        int j, k, n, danum, oldnum;
 
-        danum = (long)num;
+        danum = (int)num;
         oldnum = danum;
         while ((KEY_PRESSED(0x1c) != 2) && (KEY_PRESSED(0x1) == 0))  //Enter, ESC
         {

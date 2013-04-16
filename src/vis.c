@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "names2.h"
 #include "game.h"
@@ -82,12 +81,12 @@ void ProcessVisOn(void)
         }
     }
 
-void VisViewChange(PLAYERp pp, long *vis)
+void VisViewChange(PLAYERp pp, int *vis)
     {
     short i, nexti;
     SPRITEp sp;
     short BrightestVis = NormalVisibility;
-    long x,y,z;
+    int x,y,z;
     short sectnum;
     
     if (GamePaused)    
@@ -124,7 +123,7 @@ void VisViewChange(PLAYERp pp, long *vis)
     *vis = BrightestVis;    
     }
     
-int SpawnVis(short Parent, short sectnum, long x, long y, long z, long amt)    
+int SpawnVis(short Parent, short sectnum, int x, int y, int z, int amt)    
     {
     short SpriteNum;
     SPRITEp sp;

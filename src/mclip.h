@@ -26,10 +26,10 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 #define RECT_CLIP 1
 
-long MultiClipMove(PLAYERp pp, long z, long floor_dist);
-short MultiClipTurn(PLAYERp pp, short new_ang, long z, long floor_dist);
-long testquadinsect(long *point_num, long *qx, long *qy, short sectnum);
-long RectClipMove(PLAYERp pp, long *qx, long *qy);
-long testpointinquad(long x, long y, long *qx, long *qy);
-//short RectClipTurn(PLAYERp pp, short new_ang, long z, long floor_dist, long *qx, long *qy);
-short RectClipTurn(PLAYERp pp, short new_ang, long *qx, long *qy, long *ox, long *oy);
+int MultiClipMove(PLAYERp pp, int z, int floor_dist);
+short MultiClipTurn(PLAYERp pp, short new_ang, int z, int floor_dist);
+int testquadinsect(int *point_num, int *qx, int *qy, short sectnum);
+int RectClipMove(PLAYERp pp, int *qx, int *qy);
+int testpointinquad(int x, int y, int *qx, int *qy);
+//short RectClipTurn(PLAYERp pp, short new_ang, int z, int floor_dist, int *qx, int *qy);
+short RectClipTurn(PLAYERp pp, short new_ang, int *qx, int *qy, int *ox, int *oy);

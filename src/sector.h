@@ -38,7 +38,7 @@ int MoveDoorHoriz(short door_sector, short dir, short door_speed);
 VOID DoDoorsClose(VOID);
 short Switch(short SwitchSector);
 VOID PlayerOperateEnv(PLAYERp pp);
-int TeleportToSector(PLAYERp pp, long newsector);
+int TeleportToSector(PLAYERp pp, int newsector);
 int OperateSector(short sectnum,short player_is_operating);
 int OperateSprite(short SpriteNum, short player_is_operating);
 int OperateWall(short wallnum, short player_is_operating);
@@ -58,7 +58,7 @@ enum SO_SCALE_TYPE
 
 typedef struct
 {
-long dist;
+int dist;
 short sectnum, wallnum, spritenum;
 }NEAR_TAG_INFO, *NEAR_TAG_INFOp;    
 extern short nti_cnt;

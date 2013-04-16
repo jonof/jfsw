@@ -25,7 +25,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //-------------------------------------------------------------------------
 #include <math.h>
 #include "build.h"
-#include "compat.h"
 #include "cache1d.h"
 
 #include "keys.h"
@@ -154,8 +153,8 @@ AMB_INFO ambarray[] =
 
 #define MAXSONGS        10              // This is the max songs per episode
 
-BOOL OpenSound(VOC_INFOp vp, long *handle, long *length);
-int ReadSound(long handle, VOC_INFOp vp, long length);
+BOOL OpenSound(VOC_INFOp vp, int *handle, int *length);
+int ReadSound(int handle, VOC_INFOp vp, int length);
 
 // 3d sound engine function prototype
 VOC3D_INFOp Insert3DSound(void);
@@ -163,7 +162,7 @@ VOC3D_INFOp Insert3DSound(void);
 #if 0
 // DEBUG
 char *globsndata[DIGI_MAX], *globvpdata[DIGI_MAX];
-long glength[DIGI_MAX];
+int glength[DIGI_MAX];
 #endif
 
 /*
@@ -241,7 +240,7 @@ int PlayerYellVocs[] = {
     DIGI_PLAYERYELL3
 };
 
-extern char lumplockbyte[];
+extern unsigned char lumplockbyte[];
 
 #if 0
 // DEBUG
@@ -280,7 +279,7 @@ SoundCallBack(unsigned int num)
         }
         
     // RTS sounds are negative
-    if ((long)num < 0)
+    if ((int)num < 0)
         {
         ASSERT(-num < 11);
         lumplockbyte[-num]--;
@@ -368,9 +367,9 @@ ExternalSoundMod(VOID)
     VOC_INFOp vp;
     char name[40];
     char new_name[40];
-    long pri;
-    long pitch_lo, pitch_hi;
-    long ret;
+    int pri;
+    int pitch_lo, pitch_hi;
+    int ret;
 
     fin = fopen("swextern.snd", "r");
 
@@ -379,7 +378,7 @@ ExternalSoundMod(VOID)
 
     while (TRUE)
         {
-        ret = fscanf(fin, "%s %s %ld %ld", name, new_name, &pitch_lo, &pitch_hi);
+        ret = fscanf(fin, "%s %s %d %d", name, new_name, &pitch_lo, &pitch_hi);
 
         if (ret == EOF)
             break;
@@ -562,7 +561,7 @@ StopSound(VOID)
 #define MAXLEVLDIST 19000   // The higher the number, the further away you can hear sound
 
 short
-SoundDist(long x, long y, long z, long basedist)
+SoundDist(int x, int y, int z, int basedist)
     {
     double tx, ty, tz;
     double sqrdist,retval;
@@ -615,7 +614,7 @@ SoundDist(long x, long y, long z, long basedist)
 //
 
 short
-SoundAngle(long x, long y)
+SoundAngle(int x, int y)
     {
     extern short screenpeek;
 
@@ -633,8 +632,8 @@ SoundAngle(long x, long y)
     return (delta_angle >> 6);
     }
 
-int _PlayerSound(char *file, int line, int num, long *x, long *y, long *z, Voc3D_Flags flags, PLAYERp pp)
-//PlayerSound(int num, long *x, long *y, long *z, Voc3D_Flags flags, PLAYERp pp)
+int _PlayerSound(char *file, int line, int num, int *x, int *y, int *z, Voc3D_Flags flags, PLAYERp pp)
+//PlayerSound(int num, int *x, int *y, int *z, Voc3D_Flags flags, PLAYERp pp)
 {
     int handle;
     VOC_INFOp vp;
@@ -718,8 +717,8 @@ BOOL CacheSound(int num, int type)
     // if no data we need to cache it in
     if (!vp->data)
         {
-        long handle;
-        long length;
+        int handle;
+        int length;
 
         if (!OpenSound(vp, &handle, &length))
             {
@@ -745,7 +744,7 @@ BOOL CacheSound(int num, int type)
             */
                 vp->lock = CACHE_UNLOCK_MAX;
                 
-            allocache((long *)(&vp->data), length, &vp->lock);
+            allocache((void **)&vp->data, length, &vp->lock);
             
             #if 0
             // DEBUG
@@ -783,13 +782,13 @@ BOOL CacheSound(int num, int type)
 #define SOUND_UNIT  MAXLEVLDIST/255
 // NOTE: If v3df_follow == 1, x,y,z are considered literal coordinates
 int
-PlaySound(int num, long *x, long *y, long *z, Voc3D_Flags flags)
+PlaySound(int num, int *x, int *y, int *z, Voc3D_Flags flags)
     {
     VOC_INFOp vp;
     VOC3D_INFOp v3p;
     int pitch = 0;
     short angle, sound_dist;
-    long tx, ty, tz;
+    int tx, ty, tz;
     BYTE priority;
     SPRITEp sp=NULL;
 
@@ -996,7 +995,7 @@ PlaySound(int num, long *x, long *y, long *z, Voc3D_Flags flags)
 
         if(sound_dist < 255 || (flags & v3df_init))
             {
-            voice = FX_PlayLoopedAuto(vp->data, vp->datalen, 0, 0,    
+            voice = FX_PlayLoopedAuto((char *)vp->data, vp->datalen, 0, 0,    
                 pitch, loopvol, loopvol, loopvol, priority, num);    
             } 
         else
@@ -1007,13 +1006,13 @@ PlaySound(int num, long *x, long *y, long *z, Voc3D_Flags flags)
     //if(!flags & v3df_init)  // If not initing sound, play it    
         if(tx==0 && ty==0 && tz==0) // It's a non-inlevel sound    
             {
-            voice = FX_PlayAuto( vp->data, vp->datalen, pitch, 255, 255, 255, priority, num);    
+            voice = FX_PlayAuto( (char *)vp->data, vp->datalen, pitch, 255, 255, 255, priority, num);    
             }
         else // It's a 3d sound    
             {
             if (sound_dist < 255)
                 {
-                voice = FX_PlayAuto3D(vp->data, vp->datalen, pitch, angle, sound_dist, priority, num);    
+                voice = FX_PlayAuto3D( (char *)vp->data, vp->datalen, pitch, angle, sound_dist, priority, num);    
                 }
             else
                 voice = -1;    
@@ -1040,10 +1039,10 @@ PlaySound(int num, long *x, long *y, long *z, Voc3D_Flags flags)
     return(voice);
     }
 
-VOID PlaySoundRTS(long rts_num)
+VOID PlaySoundRTS(int rts_num)
     {
     char *rtsptr;
-    long voice=-1;
+    int voice=-1;
     
     if (RTS_NumSounds() <= 0 || !gs.FxOn)
         return;
@@ -1063,7 +1062,7 @@ VOID PlaySoundRTS(long rts_num)
 ///////////////////////////////////////////////
 
 BOOL
-OpenSound(VOC_INFOp vp, long *handle, long *length)
+OpenSound(VOC_INFOp vp, int *handle, int *length)
     {
     *handle = kopen4load(vp->name, 0);
 
@@ -1079,7 +1078,7 @@ OpenSound(VOC_INFOp vp, long *handle, long *length)
 
     
 int
-ReadSound(long handle, VOC_INFOp vp, long length)
+ReadSound(int handle, VOC_INFOp vp, int length)
     {
     if (kread(handle, vp->data, length) != length)
         {
@@ -1222,15 +1221,15 @@ SoundShutdown(void)
 
 void loadtmb(void)
 {
-    char tmb[8000];
-    long fil, l;
+    unsigned char tmb[8000];
+    int fil, l;
 
     fil = kopen4load("swtimbr.tmb",0);
     if(fil == -1) 
         return;
         
     l = kfilelength(fil);
-    kread(fil,(char *)tmb,l);
+    kread(fil,tmb,l);
     MUSIC_RegisterTimbreBank(tmb);
     kclose(fil);
 }
@@ -1270,7 +1269,7 @@ void MusicStartup( void )
        loadtmb();
    }
 
-void COVER_SetReverb(long amt)
+void COVER_SetReverb(int amt)
     {
         FX_SetReverb(amt);
         }
@@ -1694,7 +1693,7 @@ DoUpdateSounds3D(void)
     VOC3D_INFOp p;
     BOOL looping;
     int pitch = 0, pitchmax;
-    long delta;
+    int delta;
     short dist, angle;
     BOOL deletesound = FALSE;
 
@@ -1860,7 +1859,7 @@ DoUpdateSounds3D(void)
                 //if (FX_SoundsPlaying() < NumVoices && dist <= 255)
                 if (dist <= 255)
                     {
-                        for(i=0; i<min(SIZ(TmpVocArray), NumVoices); i++)
+                        for(i=0; i<min((int)SIZ(TmpVocArray), NumVoices); i++)
                         {
                             if(p->priority >= TmpVocArray[i].priority)
                             {                   
@@ -1888,7 +1887,7 @@ DoUpdateSounds3D(void)
     // Only update these sounds 5x per second!  Woo hoo!, aren't we optimized now?
     //if(MoveSkip8==0)  
     //    {
-        for(i=0; i<min(SIZ(TmpVocArray), NumVoices); i++)
+        for(i=0; i<min((int)SIZ(TmpVocArray), NumVoices); i++)
             {
             int handle;
 

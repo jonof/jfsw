@@ -26,7 +26,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 // scriplib.c
 #include "build.h"
-#include "compat.h"
 #include "cache1d.h"
 
 #include "keys.h"
@@ -96,7 +95,7 @@ BOOL    tokenready;                     // only TRUE if UnGetToken was just call
 
 BOOL LoadScriptFile (char *filename)
 {
-    long size, readsize;
+    int size, readsize;
     int fp;
 
 
@@ -287,7 +286,7 @@ BOOL TokenAvailable (void)
 
 void LoadKVXFromScript( char *filename )
 {
-    long lNumber=0,lTile=0; // lNumber is the voxel no. and lTile is the editart tile being
+    int lNumber=0,lTile=0; // lNumber is the voxel no. and lTile is the editart tile being
                             // replaced.
     char *sName;            // KVS file being loaded in.
 
@@ -351,7 +350,7 @@ void LoadKVXFromScript( char *filename )
 //              etc....
 void LoadPLockFromScript( char *filename )
 {
-    long lNumber=0,lTile=0; // lNumber is the voxel no. and lTile is the editart tile being
+    int lNumber=0,lTile=0; // lNumber is the voxel no. and lTile is the editart tile being
                             // replaced.
     char *sName;            // KVS file being loaded in.
 
@@ -547,7 +546,7 @@ static int cm_transtok(const char *tok, const struct _tokset *set, const unsigne
 static LEVEL_INFO custommaps[MAX_LEVELS_REG];
 static char *customfortune[MAX_FORTUNES];
 static char *customkeymsg[MAX_KEYS];
-static CHARp customkeydoormsg[MAX_KEYS];
+static char *customkeydoormsg[MAX_KEYS];
 static char *custominventoryname[InvDecl_TOTAL];
 static char *customweaponname[2][MAX_WEAPONS];	// weapon, ammo
 
@@ -893,7 +892,7 @@ void LoadCustomInfoFromScript(char *filename)
 
 				if ((unsigned)--in >= (unsigned)SIZ(weaponmap)) {
 					initprintf("Error: weapon number not in range 1-%d on line %s:%d\n",
-							SIZ(weaponmap), script->filename,
+							(int)SIZ(weaponmap), script->filename,
 							scriptfile_getlinum(script,wpnnumptr));
 					script->textptr = braceend;
 					break;

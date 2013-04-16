@@ -31,13 +31,13 @@ extern short short_bakipos[SHORT_MAXINTERPOLATIONS];
 extern short *short_curipos[SHORT_MAXINTERPOLATIONS];
 
 #define MAXINTERPOLATIONS 1024
-extern long numinterpolations, startofdynamicinterpolations;
-extern long oldipos[MAXINTERPOLATIONS];
-extern long bakipos[MAXINTERPOLATIONS];
-extern long *curipos[MAXINTERPOLATIONS];
+extern int numinterpolations, startofdynamicinterpolations;
+extern int oldipos[MAXINTERPOLATIONS];
+extern int bakipos[MAXINTERPOLATIONS];
+extern int *curipos[MAXINTERPOLATIONS];
 
-void setinterpolation(long *posptr);
-void stopinterpolation(long *posptr);
+void setinterpolation(int *posptr);
+void stopinterpolation(int *posptr);
 void updateinterpolations(void);
-void dointerpolations(long smoothratio);
+void dointerpolations(int smoothratio);
 void restoreinterpolations(void);

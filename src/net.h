@@ -110,7 +110,7 @@ typedef struct PACKED
 typedef struct PACKED
     {
     BYTE PacketType;  // first byte is always packet type
-    long Version;
+    int Version;
     }PACKET_VERSION,*PACKET_VERSIONp;
 
 #undef PACKED
@@ -126,18 +126,18 @@ extern BOOL PredictionOn;
 extern PLAYER PredictPlayer;
 extern PLAYERp ppp;
 extern short predictangpos[MOVEFIFOSIZ];
-extern long predictmovefifoplc;
+extern int predictmovefifoplc;
 extern BOOL Prediction;
 extern short NumSyncBytes;
     
 void InitPrediction(PLAYERp pp);
 void DoPrediction(PLAYERp ppp);
-void CorrectPrediction(long actualfifoplc);
+void CorrectPrediction(int actualfifoplc);
 
 //TENSW: safe packet senders
-void netsendpacket(int ind, char *buf, int len);
-void netbroadcastpacket(char *buf, int len);
-long netgetpacket(long *ind, char *buf);
+void netsendpacket(int ind, BYTEp buf, int len);
+void netbroadcastpacket(BYTEp buf, int len);
+int netgetpacket(int *ind, BYTEp buf);
 
 
 enum MultiGameTypes
@@ -197,9 +197,9 @@ void ErrorCorrectionQuit(void );
 void Connect(void );
 void waitforeverybody(void );
 BOOL MenuCommPlayerQuit(short quit_player);
-VOID SendVersion(long version);
+VOID SendVersion(int version);
 VOID InitNetPlayerOptions(void );
-VOID CheckVersion(long GameVersion);
+VOID CheckVersion(int GameVersion);
 VOID SendMessage(short pnum,char *text);
 void PauseGame(void );
 void ResumeGame(void );

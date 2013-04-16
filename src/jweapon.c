@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -376,7 +375,7 @@ DoBloodSpray(SHORT Weapon)
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
     LONG dax, day, daz;
-    long cz,fz;
+    int cz,fz;
 
     if (TEST(u->Flags, SPR_UNDERWATER))
         {
@@ -1382,10 +1381,10 @@ PlayerInitChemBomb(PLAYERp pp)
     USERp u = User[pp->PlayerSprite];
     USERp wu;
     SPRITEp wp;
-    long nx, ny, nz;
+    int nx, ny, nz;
     short w, hitsprite;
     short oclipdist;
-    long dist;
+    int dist;
 
 
     PlaySound(DIGI_THROW, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan | v3df_doppler);
@@ -1466,10 +1465,10 @@ InitSpriteChemBomb(SHORT SpriteNum)
     USERp u = User[SpriteNum];
     USERp wu;
     SPRITEp sp = &sprite[SpriteNum], wp;
-    long nx, ny, nz;
+    int nx, ny, nz;
     short w, hitsprite;
     short oclipdist;
-    long dist;
+    int dist;
 
 
     PlaySound(DIGI_THROW, &sp->x, &sp->y, &sp->z, v3df_dontpan | v3df_doppler);
@@ -1522,10 +1521,10 @@ InitChemBomb(short SpriteNum)
     USERp u = User[SpriteNum];
     USERp wu;
     SPRITEp wp;
-    long nx, ny, nz;
+    int nx, ny, nz;
     short w, hitsprite;
     short oclipdist;
-    long dist;
+    int dist;
 
 
 // Need to make it take away from inventory weapon list
@@ -1598,7 +1597,7 @@ PlayerInitFlashBomb(PLAYERp pp)
     {
     short pnum, i, nexti;
     unsigned int stat;
-    long dist, tx, ty, tmin;
+    int dist, tx, ty, tmin;
     short damage;
     SPRITEp sp = pp->SpriteP, hp;
     USERp u = User[pp->PlayerSprite], hu;
@@ -1643,7 +1642,7 @@ PlayerInitFlashBomb(PLAYERp pp)
 //              }else
                 if(damage < -70)
                     {
-                    char choosesnd = 0;
+                    int choosesnd = 0;
 
                     choosesnd = RANDOM_RANGE(MAX_PAIN);
 
@@ -1668,7 +1667,7 @@ InitFlashBomb(SHORT SpriteNum)
     {
     short pnum, i, nexti;
     unsigned int stat;
-    long dist, tx, ty, tmin;
+    int dist, tx, ty, tmin;
     short damage;
     SPRITEp sp = &sprite[SpriteNum], hp;
     USERp u = User[SpriteNum], hu;
@@ -1703,7 +1702,7 @@ InitFlashBomb(SHORT SpriteNum)
                 {
                 if(damage < -70)
                     {
-                    char choosesnd = 0;
+                    int choosesnd = 0;
 
                     choosesnd = RANDOM_RANGE(MAX_PAIN);
 
@@ -1752,7 +1751,7 @@ SpawnFlashBombOnActor(SHORT enemy)
 
         if (eu->flame >= 0)
             {
-            long sizez = SPRITEp_SIZE_Z(ep) + DIV4(SPRITEp_SIZE_Z(ep));
+            int sizez = SPRITEp_SIZE_Z(ep) + DIV4(SPRITEp_SIZE_Z(ep));
 
             np = &sprite[eu->flame];
             nu = User[eu->flame];
@@ -1826,10 +1825,10 @@ PlayerInitCaltrops(PLAYERp pp)
     USERp u = User[pp->PlayerSprite];
     USERp wu;
     SPRITEp wp;
-    long nx, ny, nz;
+    int nx, ny, nz;
     short w, hitsprite;
     short oclipdist, i;
-    long dist;
+    int dist;
 
 
     PlaySound(DIGI_THROW, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan | v3df_doppler);
@@ -1908,10 +1907,10 @@ InitCaltrops(SHORT SpriteNum)
     USERp u = User[SpriteNum];
     USERp wu;
     SPRITEp wp;
-    long nx, ny, nz;
+    int nx, ny, nz;
     short w, hitsprite;
     short oclipdist, i;
-    long dist;
+    int dist;
 
 
     PlaySound(DIGI_THROW, &sp->x, &sp->y, &sp->z, v3df_dontpan | v3df_doppler);
@@ -1961,10 +1960,10 @@ InitPhosphorus(SHORT SpriteNum)
     USERp u = User[SpriteNum];
     USERp wu;
     SPRITEp wp;
-    long nx, ny, nz;
+    int nx, ny, nz;
     short w, hitsprite;
     short oclipdist, i, daang;
-    long dist;
+    int dist;
 
 
     PlaySound(DIGI_FIREBALL1, &sp->x, &sp->y, &sp->z, v3df_follow);
@@ -2021,10 +2020,10 @@ InitBloodSpray(SHORT SpriteNum, BOOL dogib, short velocity)
     USERp u = User[SpriteNum];
     USERp wu;
     SPRITEp wp;
-    long nx, ny, nz;
+    int nx, ny, nz;
     short w, hitsprite;
     short oclipdist, i, cnt, ang, vel, rnd;
-    long dist;
+    int dist;
 
 
     if(dogib)
@@ -2159,8 +2158,8 @@ DoFlagRangeTest(short Weapon, short range)
     SPRITEp sp;
     short i, nexti;
     unsigned int stat;
-    long dist, tx, ty;
-    long tmin;
+    int dist, tx, ty;
+    int tmin;
 
     for (stat = 0; stat < SIZ(StatDamageList); stat++)
         {
@@ -2479,12 +2478,12 @@ InitShell(SHORT SpriteNum, SHORT ShellNum)
     USERp u = User[SpriteNum];
     USERp wu;
     SPRITEp sp = &sprite[SpriteNum], wp;
-    long nx, ny, nz;
+    int nx, ny, nz;
     short w, hitsprite;
     short oclipdist,id=0,velocity=0;
-    long dist;
+    int dist;
     STATEp p=NULL;
-    long zvel;
+    int zvel;
     extern STATE s_UziShellShrap[];
     extern STATE s_ShotgunShellShrap[];
 

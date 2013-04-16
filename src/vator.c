@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "names2.h"
 #include "panel.h"
@@ -38,7 +37,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "weapon.h"
 
 
-extern CHARp KeyDoorMessage[];
 short DoVatorMatch(PLAYERp pp, short match);
 BOOL TestVatorMatchActive(short match);
 VOID InterpSectorSprites(short sectnum, BOOL state);
@@ -346,7 +344,7 @@ VOID InterpSectorSprites(short sectnum, BOOL state)
         }
     }    
 
-VOID MoveSpritesWithSector(short sectnum, long z_amt, BOOL type)
+VOID MoveSpritesWithSector(short sectnum, int z_amt, BOOL type)
     {
     SECTORp sectp = &sector[sectnum];
     SPRITEp sp;
@@ -414,13 +412,13 @@ VOID MoveSpritesWithSector(short sectnum, long z_amt, BOOL type)
         }
     }    
 
-int DoVatorMove(short SpriteNum, long *lptr)
+int DoVatorMove(short SpriteNum, int *lptr)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
-    long zval;
-    long move_amt;
+    int zval;
+    int move_amt;
         
     zval = *lptr;
     
@@ -461,8 +459,8 @@ int DoVator(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
-    long *lptr;
-    long amt;
+    int *lptr;
+    int amt;
     
     // u->sz        - where the sector z started
     // u->z_tgt     - current target z
@@ -631,9 +629,9 @@ int DoVatorAuto(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
-    long zval;
-    long *lptr;
-    long amt;
+    int zval;
+    int *lptr;
+    int amt;
 
     if (TEST(sp->cstat, CSTAT_SPRITE_YFLIP))
         {

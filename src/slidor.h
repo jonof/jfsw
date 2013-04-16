@@ -27,12 +27,11 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #ifndef _SLIDOR_PUBLIC
 #define _SLIDOR_PUBLIC
 
-extern CHARp KeyDoorMessage[];
 short DoSlidorMatch(PLAYERp pp, short match, BOOL);
 BOOL TestSlidorMatchActive(short match);
 VOID InterpSectorSprites(short sectnum, BOOL state);
 
-typedef void INTERP_FUNC(long *);
+typedef void INTERP_FUNC(int *);
 typedef INTERP_FUNC *INTERP_FUNCp;
 
 void SetSlidorActive(short SpriteNum);

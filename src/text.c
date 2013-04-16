@@ -25,7 +25,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //-------------------------------------------------------------------------
 #undef MAIN
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -35,6 +34,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "mathutil.h"
 #include "pal.h"
 #include "text.h"
+#include "menus.h"
 
 #include "net.h"
 
@@ -46,7 +46,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define PANEL_SM_FONT_Y 3613
 #define PANEL_SM_FONT_R 3625
 
-CHARp KeyDoorMessage[MAX_KEYS] =
+char *KeyDoorMessage[MAX_KEYS] =
     {
     "You need a RED key for this door.",
     "You need a BLUE key for this door.",
@@ -59,35 +59,36 @@ CHARp KeyDoorMessage[MAX_KEYS] =
     };
 
 VOID
-DisplaySummaryString(PLAYERp pp, short xs, short ys, short color, short shade, CHARp buffer)
+DisplaySummaryString(PLAYERp pp, short xs, short ys, short color, short shade, const char *buffer)
     {
     short size,x;
-    CHARp ptr;
+    const char *ptr;
+    char ch;
     PANEL_SPRITEp nsp;
     short font_pic;
     static short font_base[] = {PANEL_SM_FONT_G, PANEL_SM_FONT_Y, PANEL_SM_FONT_R};
     
     for (ptr = buffer, x = xs; *ptr; ptr++, x += size)
         {
-        
-        if (*ptr == ' ')
+        ch = *ptr;        
+        if (ch == ' ')
             {
             size = 4;
             continue;
             }
             
-        switch (*ptr)
+        switch (ch)
             {
             case '\\':
-                *ptr = '0' - 1; // one pic before 0
+                ch = '0' - 1; // one pic before 0
                 break;
             case ':':
-                *ptr = '9' + 1; // one pic after nine
+                ch = '9' + 1; // one pic after nine
                 break;
             }    
         
         ASSERT(color < 3);
-        font_pic = font_base[color] + (*ptr - '0');
+        font_pic = font_base[color] + (ch - '0');
         nsp = pSpawnFullScreenSprite(pp, font_pic, PRI_FRONT_MAX, x, ys);
         nsp->shade = shade;
         size = tilesizx[font_pic] + 1;
@@ -162,7 +163,7 @@ StringTimer(PANEL_SPRITEp psp)
     }
 
 void
-PutStringTimer(PLAYERp pp, short x, short y, char *string, short seconds)
+PutStringTimer(PLAYERp pp, short x, short y, const char *string, short seconds)
     {
     int ndx, offset;
     char c;
@@ -298,10 +299,10 @@ DisplayMiniBarNumber(PLAYERp pp, short xs, short ys, int number)
     }
 
 VOID
-DisplayMiniBarSmString(PLAYERp pp, short xs, short ys, short pal, CHARp buffer)
+DisplayMiniBarSmString(PLAYERp pp, short xs, short ys, short pal, const char *buffer)
     {
     short size=4,x;
-    CHARp ptr;
+    const char *ptr;
     PANEL_SPRITEp nsp;
     short pic;
     
@@ -324,10 +325,10 @@ DisplayMiniBarSmString(PLAYERp pp, short xs, short ys, short pal, CHARp buffer)
     }
 
 VOID
-DisplaySmString(PLAYERp pp, short xs, short ys, short pal, CHARp buffer)
+DisplaySmString(PLAYERp pp, short xs, short ys, short pal, const char *buffer)
     {
     short size=4,x;
-    CHARp ptr;
+    const char *ptr;
     PANEL_SPRITEp nsp;
     // ID is base + (0-3)
     //short id = ID_TEXT + MOD4(pp->pnum);
@@ -349,10 +350,10 @@ DisplaySmString(PLAYERp pp, short xs, short ys, short pal, CHARp buffer)
     }
 
 VOID
-DisplayFragString(PLAYERp pp, short xs, short ys, CHARp buffer)
+DisplayFragString(PLAYERp pp, short xs, short ys, const char *buffer)
     {
     short size=4,x;
-    CHARp ptr;
+    const char *ptr;
     PANEL_SPRITEp nsp;
     // ID is base + (0-3)
     short id = ID_TEXT + MOD4(pp->pnum);
@@ -452,7 +453,7 @@ DisplayFragNames(PLAYERp pp)
     }
 
 short GlobInfoStringTime = TEXT_INFO_TIME;
-VOID PutStringInfo(PLAYERp pp, char *string)
+VOID PutStringInfo(PLAYERp pp, const char *string)
     {
     if (pp-Player != myconnectindex)
         return;
@@ -464,7 +465,7 @@ VOID PutStringInfo(PLAYERp pp, char *string)
     PutStringInfoLine(pp, string);    
     }
     
-VOID PutStringInfoLine(PLAYERp pp, char *string)
+VOID PutStringInfoLine(PLAYERp pp, const char *string)
     {
     short x,y;
     short w,h;
@@ -488,7 +489,7 @@ VOID PutStringInfoLine(PLAYERp pp, char *string)
     //PutStringInfoLine2(pp, "");
     }
     
-VOID PutStringInfoLine2(PLAYERp pp, char *string)
+VOID PutStringInfoLine2(PLAYERp pp, const char *string)
     {
     short x,y;
     short w,h;
@@ -514,7 +515,7 @@ pMenuClearTextLine(PLAYERp pp)
 #define TEXT_PLAYER_INFO_TIME (3)
 #define TEXT_PLAYER_INFO_Y (200 - 40)
 
-VOID PutStringPlayerInfo(PLAYERp pp, char *string)
+VOID PutStringPlayerInfo(PLAYERp pp, const char *string)
     {
     short x,y;
     short w,h;

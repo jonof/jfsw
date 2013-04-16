@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "names2.h"
 #include "panel.h"
@@ -378,7 +377,7 @@ void DoSlidorInterp(short SpriteNum, INTERP_FUNCp interp_func)
     while(w != startwall);
     }
     
-int DoSlidorMoveWalls(short SpriteNum, long amt)
+int DoSlidorMoveWalls(short SpriteNum, int amt)
     {
     short w, pw, startwall, endwall;
     
@@ -494,7 +493,7 @@ int DoSlidorInstantClose(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     short w, pw, startwall, endwall;
-    long diff;
+    int diff;
     
     w = startwall = sector[sprite[SpriteNum].sectnum].wallptr;
     endwall = startwall + sector[sprite[SpriteNum].sectnum].wallnum - 1;
@@ -539,9 +538,9 @@ int DoSlidorMove(short SpriteNum)
     ROTATORp r;
     short ndx,w,startwall,endwall;
     int i, nexti;
-    long nx,ny;
-    long dist,closest;
-    long old_pos;
+    int nx,ny;
+    int dist,closest;
+    int old_pos;
     BOOL kill = FALSE;
     
     r = u->rotator;
@@ -684,8 +683,8 @@ int DoSlidor(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
-    long *lptr;
-    long amt;
+    int *lptr;
+    int amt;
     
     DoSlidorMove(SpriteNum);
         

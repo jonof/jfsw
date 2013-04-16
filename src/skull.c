@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -386,9 +385,9 @@ int DoSkullJump(short SpriteNum)
         // jump/fall type
         if (sp->xvel)
             {
-            BOOL SpriteOverlapZ(SHORT, SHORT, long);
+            BOOL SpriteOverlapZ(SHORT, SHORT, int);
 
-            long dist,a,b,c;
+            int dist,a,b,c;
 
             DISTANCE(sp->x, sp->y, u->tgt_sp->x, u->tgt_sp->y, dist, a, b, c);
 
@@ -437,8 +436,8 @@ int DoSkullBob(short SpriteNum)
     #define SKULL_BOB_AMT (Z(16))
 
     u->Counter = (u->Counter + (ACTORMOVETICS << 3) + (ACTORMOVETICS << 1)) & 2047;
-    sp->z = u->sz + ((SKULL_BOB_AMT * (long)sintable[u->Counter]) >> 14) +
-                    ((DIV2(SKULL_BOB_AMT) * (long)sintable[u->Counter]) >> 14);
+    sp->z = u->sz + ((SKULL_BOB_AMT * (int)sintable[u->Counter]) >> 14) +
+                    ((DIV2(SKULL_BOB_AMT) * (int)sintable[u->Counter]) >> 14);
 
     return(0);
 }
@@ -458,7 +457,7 @@ int DoSkullWait(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long a,b,c,dist;
+    int a,b,c,dist;
 
     DISTANCE(sp->x, sp->y, u->tgt_sp->x, u->tgt_sp->y, dist, a, b, c);
 
@@ -802,9 +801,9 @@ int DoBettyJump(short SpriteNum)
         // jump/fall type
         if (sp->xvel)
             {
-            BOOL SpriteOverlapZ(SHORT, SHORT, long);
+            BOOL SpriteOverlapZ(SHORT, SHORT, int);
 
-            long dist,a,b,c;
+            int dist,a,b,c;
 
             DISTANCE(sp->x, sp->y, u->tgt_sp->x, u->tgt_sp->y, dist, a, b, c);
 
@@ -852,8 +851,8 @@ int DoBettyBob(short SpriteNum)
     #define BETTY_BOB_AMT (Z(16))
 
     u->Counter = (u->Counter + (ACTORMOVETICS << 3) + (ACTORMOVETICS << 1)) & 2047;
-    sp->z = u->sz + ((BETTY_BOB_AMT * (long)sintable[u->Counter]) >> 14) +
-                    ((DIV2(BETTY_BOB_AMT) * (long)sintable[u->Counter]) >> 14);
+    sp->z = u->sz + ((BETTY_BOB_AMT * (int)sintable[u->Counter]) >> 14) +
+                    ((DIV2(BETTY_BOB_AMT) * (int)sintable[u->Counter]) >> 14);
 
     return(0);
 }
@@ -870,7 +869,7 @@ int DoBettyWait(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long a,b,c,dist;
+    int a,b,c,dist;
 
     DISTANCE(sp->x, sp->y, u->tgt_sp->x, u->tgt_sp->y, dist, a, b, c);
 

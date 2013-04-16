@@ -29,7 +29,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // Copyright (c) 1996 by Jim Norwood
 
 #include "build.h"
-#include "compat.h"
 
 #include "mytypes.h"
 #include "keys.h"
@@ -67,7 +66,7 @@ extern BOOL QuitFlag;
 // FUNCTION PROTOTYPES ///////////////////////////////////////////////////////////////////////
 void CON_ProcessOptions( void );
 void CON_ClearConsole( void );
-BYTE CON_CommandCmp(char *str1, char *str2, long len);
+BYTE CON_CommandCmp(const char *str1, const char *str2, int len);
 void CheatInput(void);
 
 // Modify actor routines
@@ -100,7 +99,7 @@ void CON_DumpSoundList( void );
 
 typedef struct 
 {
-    BYTEp command;              // Text string representing the command that calls this function
+    const char *command;              // Text string representing the command that calls this function
     void (*function)(void);     // Function assigned to the command, take no parameters
 
 } CON_COMMAND, *CON_COMMANDp;
@@ -169,15 +168,15 @@ CON_COMMANDp commandptr;    // Pointer to a command
 
 SHORT numcommands=0;    // Total number of commands in the command list
 
-BYTE command_history[MAX_HISTORY][256]; // History of what has been typed in lately
+char command_history[MAX_HISTORY][256]; // History of what has been typed in lately
 SHORT curr_history=0; // Line currently being pointed to in the history array
 SHORT numhistory=0;
 
 // Array which stores all the user arguments passed into the game.
-static BYTE user_args[MAX_USER_ARGS][256];
+static char user_args[MAX_USER_ARGS][256];
 static BYTE con_argnum=0;   // Total number of arguments that were passed into the game
 
-BYTE con_message[80]; // Holds the current console message to send to adduserquote
+char con_message[80]; // Holds the current console message to send to adduserquote
 
 // FUNCTIONS /////////////////////////////////////////////////////////////////////////////////
 
@@ -185,10 +184,10 @@ BYTE con_message[80]; // Holds the current console message to send to adduserquo
 //
 // Frank's neato input string checker, useful for my stuff too.
 //
-BYTE CON_CommandCmp(char *str1, char *str2, long len)
+BYTE CON_CommandCmp(const char *str1, const char *str2, int len)
 {
-    char *cp1 = str1;
-    char *cp2 = str2;
+    const char *cp1 = str1;
+    const char *cp2 = str2;
     
     do
     {
@@ -236,7 +235,7 @@ BOOL IsCommand(char *str)
 // Sends a message to the user quote array
 //
 
-void CON_Message(BYTEp message, ...)
+void CON_Message(const char *message, ...)
 {
     va_list argptr;
 
@@ -252,7 +251,7 @@ void CON_Message(BYTEp message, ...)
 // Sends a message to the console quote array
 //
 
-void CON_ConMessage(BYTEp message, ...)
+void CON_ConMessage(const char *message, ...)
 {
     va_list argptr;
 
@@ -267,7 +266,7 @@ void CON_ConMessage(BYTEp message, ...)
 //
 // Stores user arguments passed in on the command line for later inspection
 //
-void CON_StoreArg(BYTEp userarg)
+void CON_StoreArg(const char *userarg)
 {
     if(con_argnum < MAX_USER_ARGS)
     {
@@ -280,7 +279,7 @@ void CON_StoreArg(BYTEp userarg)
 //
 // Checkes the user command array to see if user did in fact pass in a particular argument
 //
-BOOL CON_CheckParm(BYTEp userarg)
+BOOL CON_CheckParm(const char *userarg)
 {
     SHORT i;
 
@@ -307,9 +306,9 @@ void CON_CommandHistory(signed char dir)
     strcpy(MessageInputString, command_history[curr_history]);
 }
 
-void CON_AddHistory(char *commandstr)
+void CON_AddHistory(const char *commandstr)
 {
-    long i;
+    int i;
 
     for(i=MAX_HISTORY-1;i>=0;i--)
     {
@@ -323,7 +322,7 @@ void CON_AddHistory(char *commandstr)
 //
 // Adds a command name to the command list and assigns the appropriate function pointer
 // 
-BOOL CON_AddCommand(BYTEp command, /*BOOL*/void (*function)(void))
+BOOL CON_AddCommand(const char *command, void (*function)(void))
 {
     if(command != NULL && function != NULL && numcommands < MAX_CONSOLE_COMMANDS)
     {
@@ -349,7 +348,7 @@ BOOL CON_AddCommand(BYTEp command, /*BOOL*/void (*function)(void))
 void CON_ProcessUserCommand( void )
 {
     SHORT i=0;
-    BYTE temp_message[256],command_str[256];
+    char temp_message[256],command_str[256];
 
     strcpy(temp_message,MessageInputString);
     sscanf(Bstrlwr(temp_message),"%s", command_str); // Get the base command type
@@ -592,7 +591,7 @@ void CON_ModTranslucent( void )
 void CON_SoundTest( void )
     {
     int handle;
-    long zero=0;
+    int zero=0;
     char base[80];
     SHORT op1=0;
 
@@ -636,15 +635,15 @@ void CON_Reverb( void )
 void CON_Heap( void )
     {
 	    /*
-    long totalmemory=0;
-    extern long TotalMemory, ActualHeap;
-    long i;
+    int totalmemory=0;
+    extern int TotalMemory, ActualHeap;
+    int i;
     void *testheap;
         
     totalmemory = Z_AvailHeap();    
-    CON_ConMessage("Total heap at game startup = %ld", TotalMemory);
-    CON_ConMessage("ActualHeap reserved for non-cache use = %ld", ActualHeap);
-    CON_ConMessage("Total unallocated blocks in bytes minus reserved heap = %ld", totalmemory);
+    CON_ConMessage("Total heap at game startup = %d", TotalMemory);
+    CON_ConMessage("ActualHeap reserved for non-cache use = %d", ActualHeap);
+    CON_ConMessage("Total unallocated blocks in bytes minus reserved heap = %d", totalmemory);
     CON_ConMessage("NOTE: Allocation exceeding ActualHeap will result in out of memory");
     // Find remaining heap space unused
     i = ActualHeap;
@@ -657,8 +656,8 @@ void CON_Heap( void )
             {
             CON_ConMessage("Heap test result (+ or - 1k):");
             CON_ConMessage("=============================");
-            CON_ConMessage("Unallocated heap space remaining  = %ld",i);
-            CON_ConMessage("Unallocated heap space used  = %ld",ActualHeap - i);
+            CON_ConMessage("Unallocated heap space remaining  = %d",i);
+            CON_ConMessage("Unallocated heap space used  = %d",ActualHeap - i);
             FreeMem(testheap);
             i=0; // Beam us out of here Scotty!
             }
@@ -671,10 +670,10 @@ void CON_Heap( void )
 	*/
     }
 
-long TileRangeMem(int start)
+int TileRangeMem(int start)
     {
     int i;
-    long total=0;
+    int total=0;
 
     switch(start)
         {
@@ -980,11 +979,11 @@ void CON_Cache( void )
 
     CON_ConMessage("/////////////////////////////////////////////");
     CON_ConMessage("Current Memory Consumption:");
-    CON_ConMessage("Total Tiles        = %ld",tottiles);
-    CON_ConMessage("Total Sprites      = %ld",totsprites);
-    CON_ConMessage("Total Actors       = %ld",totactors);
-    CON_ConMessage("Total Memory       = %ld",(tottiles+totsprites+totactors));
-    CON_ConMessage("Total with LoWang  = %ld",(tottiles+totsprites+totactors+TileRangeMem(1024)));
+    CON_ConMessage("Total Tiles        = %d",tottiles);
+    CON_ConMessage("Total Sprites      = %d",totsprites);
+    CON_ConMessage("Total Actors       = %d",totactors);
+    CON_ConMessage("Total Memory       = %d",(tottiles+totsprites+totactors));
+    CON_ConMessage("Total with LoWang  = %d",(tottiles+totsprites+totactors+TileRangeMem(1024)));
     CON_ConMessage("/////////////////////////////////////////////");
     
     }
@@ -1056,7 +1055,7 @@ void CON_SpriteDetail( void )
     if(!CheckValidSprite(op1)) return;
     sp = &sprite[op1];
 
-    CON_ConMessage("x = %ld, y = %ld, z = %ld",sp->x,sp->y,sp->z);
+    CON_ConMessage("x = %d, y = %d, z = %d",sp->x,sp->y,sp->z);
     CON_ConMessage("cstat = %d, picnum = %d",sp->cstat,sp->picnum);
     CON_ConMessage("shade = %d, pal = %d, clipdist = %d",sp->shade,sp->pal,sp->clipdist);
     CON_ConMessage("xrepeat = %d, yrepeat = %d",sp->xrepeat, sp->yrepeat);
@@ -1089,19 +1088,19 @@ void CON_UserDetail( void )
 
     if(!u) return;
 
-    CON_ConMessage("State = %#08x, Rot = %#08x",u->State,u->Rot);
-    CON_ConMessage("StateStart = %#08x, StateEnd = %#08x",u->StateStart,u->StateEnd);
-    CON_ConMessage("ActorActionFunc = %#08x",u->ActorActionFunc);
-    CON_ConMessage("ActorActionSet = %#08x",u->ActorActionSet);
-    CON_ConMessage("Personality = %#08x",u->Personality);
-    CON_ConMessage("Attrib = %#08x",u->Attrib);
-    CON_ConMessage("Flags = %ld, Flags2 = %ld, Tics = %ld",u->Flags,u->Flags2,u->Tics);
+    CON_ConMessage("State = %p, Rot = %p",u->State,u->Rot);
+    CON_ConMessage("StateStart = %p, StateEnd = %p",u->StateStart,u->StateEnd);
+    CON_ConMessage("ActorActionFunc = %p",u->ActorActionFunc);
+    CON_ConMessage("ActorActionSet = %p",u->ActorActionSet);
+    CON_ConMessage("Personality = %p",u->Personality);
+    CON_ConMessage("Attrib = %p",u->Attrib);
+    CON_ConMessage("Flags = %d, Flags2 = %d, Tics = %d",u->Flags,u->Flags2,u->Tics);
     CON_ConMessage("RotNum = %d, ID = %d",u->RotNum,u->ID);
     CON_ConMessage("Health = %d, MaxHealth = %d",u->Health,u->MaxHealth); 
     CON_ConMessage("LastDamage = %d, PainThreshold = %d",u->LastDamage,u->PainThreshold);
     CON_ConMessage("jump_speed = %d, jump_grav = %d",u->jump_speed,u->jump_grav);
-    CON_ConMessage("xchange = %ld, ychange = %ld, zchange = %ld",u->xchange,u->ychange,u->zchange);
-    CON_ConMessage("ret = %ld, WaitTics = %d, spal = %d",u->ret,u->WaitTics,u->spal);
+    CON_ConMessage("xchange = %d, ychange = %d, zchange = %d",u->xchange,u->ychange,u->zchange);
+    CON_ConMessage("ret = %d, WaitTics = %d, spal = %d",u->ret,u->WaitTics,u->spal);
     }
 
 void CON_Quit( void )
@@ -1278,10 +1277,10 @@ void CON_WinPachinko( void )
 void CON_Tweak( void )
     {
     char base[80], command[80];
-    long op1=0;
+    int op1=0;
 
     // Format: tweak [weapon] [number]
-    if (sscanf(MessageInputString,"%s %s %ld",base,command,&op1) < 3)
+    if (sscanf(MessageInputString,"%s %s %d",base,command,&op1) < 3)
         {
         strcpy(MessageInputString,"help tweak");
         CON_GetHelp();
@@ -1297,7 +1296,7 @@ void CON_Tweak( void )
         } else
     if(!strcmp(command,"adjustv"))
         {
-        extern long ADJUSTV;
+        extern int ADJUSTV;
         ADJUSTV = op1;
         CON_ConMessage("Zvelocity ADJUSTV set to %d.",op1);
         }     

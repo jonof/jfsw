@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "names2.h"
 #include "game.h"
@@ -129,7 +128,7 @@ void ProcessQuakeSpot(void)
     {
     short i, nexti;
     SPRITEp sp;
-    long rand_test;
+    int rand_test;
 
     // check timed quakes and random quakes
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_QUAKE_SPOT], i, nexti)
@@ -172,16 +171,16 @@ void ProcessQuakeSpot(void)
         }
     }
 
-void QuakeViewChange(PLAYERp pp, long *z_diff, long *x_diff, long *y_diff, short *ang_diff)
+void QuakeViewChange(PLAYERp pp, int *z_diff, int *x_diff, int *y_diff, short *ang_diff)
     {
     short i, nexti;
     SPRITEp sp;
     SPRITEp save_sp = NULL;
-    long dist,save_dist = 999999;
-    long dist_diff, scale_value;
-    long ang_amt;
-    long radius;
-    long pos_amt;
+    int dist,save_dist = 999999;
+    int dist_diff, scale_value;
+    int ang_amt;
+    int radius;
+    int pos_amt;
 
     *z_diff = 0;
     *x_diff = 0;
@@ -244,8 +243,8 @@ void QuakeViewChange(PLAYERp pp, long *z_diff, long *x_diff, long *y_diff, short
         }
     }
 
-int SpawnQuake(short sectnum, long x, long y, long z,
-    short tics, short amt, long radius)
+int SpawnQuake(short sectnum, int x, int y, int z,
+    short tics, short amt, int radius)
     {
     short SpriteNum;
     SPRITEp sp;

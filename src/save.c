@@ -27,7 +27,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define MAIN
 #define QUIET
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -67,13 +66,12 @@ TO DO
 //////////////////////////////////////////////////////////////////////////////
 */
 
-extern long lastUpdate;
+extern int lastUpdate;
 extern BYTE RedBookSong[40];
 extern char UserMapName[80];
-extern char palette[256*3];
 extern char LevelSong[16];
 extern char SaveGameDescr[10][80];
-extern long PlayClock;
+extern int PlayClock;
 extern short TotalKillable;
 extern short LevelSecrets;
 extern short Bunny_Count;
@@ -81,7 +79,7 @@ extern BOOL NewGame;
 extern char CacheLastLevel[];
 extern short PlayingLevel;
 extern int GodMode;
-extern long GameVersion;
+extern int GameVersion;
 //extern short Zombies;
 
 extern BOOL serpwasseen;
@@ -130,7 +128,7 @@ PanelSpriteToNdx(PLAYERp pp, PANEL_SPRITEp psprite)
 
     
 PANEL_SPRITEp
-PanelNdxToSprite(PLAYERp pp, long ndx)
+PanelNdxToSprite(PLAYERp pp, int ndx)
     {
     short count = 0;
     PANEL_SPRITEp psp, next;
@@ -212,7 +210,7 @@ int LoadSymCodeInfo(MFILE fil, void **ptr)
 int SaveGame(short save_num)
 {
     MFILE fil;
-    long i,j;
+    int i,j;
     short ndx;
     SPRITE tsp;
     SPRITEp sp;
@@ -230,7 +228,7 @@ int SaveGame(short save_num)
     PANEL_SPRITEp psp,cur,next;
     SECTOR_OBJECTp sop;
     char game_name[80];
-    long cnt = 0, saveisshot=0;
+    int cnt = 0, saveisshot=0;
     OrgTileP otp, next_otp;
 
     Saveable_Init();
@@ -266,19 +264,19 @@ int SaveGame(short save_num)
         // this does not point to global data - this is allocated link list based
         // save this inside the structure
         #if PANEL_SAVE
-        pp->CurWpn = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->CurWpn);
+        pp->CurWpn = (PANEL_SPRITEp)(intptr_t)PanelSpriteToNdx(&Player[i], pp->CurWpn);
         for (ndx = 0; ndx < MAX_WEAPONS; ndx++)
-            pp->Wpn[ndx] = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->Wpn[ndx]);
-        pp->Chops = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->Chops);
+            pp->Wpn[ndx] = (PANEL_SPRITEp)(intptr_t)PanelSpriteToNdx(&Player[i], pp->Wpn[ndx]);
+        pp->Chops = (PANEL_SPRITEp)(intptr_t)PanelSpriteToNdx(&Player[i], pp->Chops);
         for (ndx = 0; ndx < MAX_INVENTORY; ndx++)
-            pp->InventorySprite[ndx] = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->InventorySprite[ndx]);
-        pp->InventorySelectionBox = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->InventorySelectionBox);
-        pp->MiniBarHealthBox = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->MiniBarHealthBox);
-        pp->MiniBarAmmo = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->MiniBarAmmo);
+            pp->InventorySprite[ndx] = (PANEL_SPRITEp)(intptr_t)PanelSpriteToNdx(&Player[i], pp->InventorySprite[ndx]);
+        pp->InventorySelectionBox = (PANEL_SPRITEp)(intptr_t)PanelSpriteToNdx(&Player[i], pp->InventorySelectionBox);
+        pp->MiniBarHealthBox = (PANEL_SPRITEp)(intptr_t)PanelSpriteToNdx(&Player[i], pp->MiniBarHealthBox);
+        pp->MiniBarAmmo = (PANEL_SPRITEp)(intptr_t)PanelSpriteToNdx(&Player[i], pp->MiniBarAmmo);
         for (ndx = 0; ndx < (short)SIZ(pp->MiniBarHealthBoxDigit); ndx++)
-            pp->MiniBarHealthBoxDigit[ndx] = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->MiniBarHealthBoxDigit[ndx]);
+            pp->MiniBarHealthBoxDigit[ndx] = (PANEL_SPRITEp)(intptr_t)PanelSpriteToNdx(&Player[i], pp->MiniBarHealthBoxDigit[ndx]);
         for (ndx = 0; ndx < (short)SIZ(pp->MiniBarAmmoDigit); ndx++)
-            pp->MiniBarAmmoDigit[ndx] = (PANEL_SPRITEp)PanelSpriteToNdx(&Player[i], pp->MiniBarAmmoDigit[ndx]);
+            pp->MiniBarAmmoDigit[ndx] = (PANEL_SPRITEp)(intptr_t)PanelSpriteToNdx(&Player[i], pp->MiniBarAmmoDigit[ndx]);
         #endif    
         
         MWRITE(&tp, sizeof(PLAYER),1,fil);
@@ -321,7 +319,7 @@ int SaveGame(short save_num)
             memcpy(psp, cur, sizeof(PANEL_SPRITE));
             
             // Panel Sprite - save in structure
-            psp->sibling = (PANEL_SPRITEp)PanelSpriteToNdx(pp, cur->sibling);
+            psp->sibling = (PANEL_SPRITEp)(intptr_t)PanelSpriteToNdx(pp, cur->sibling);
             MWRITE(psp, sizeof(PANEL_SPRITE),1,fil);
           
             saveisshot |= SaveSymDataInfo(fil, psp->PlayerP);
@@ -502,7 +500,7 @@ int SaveGame(short save_num)
     
     for(i = 0, a = &tanim; i < AnimCnt; i++)
         {
-        long offset;
+        intptr_t offset;
         memcpy(a,&Anim[i],sizeof(ANIM));
         
         // maintain compatibility with sinking boat which points to user data
@@ -514,14 +512,14 @@ int SaveGame(short save_num)
                 
                 if ((BYTEp)a->ptr >= bp && (BYTEp)a->ptr < bp + sizeof(USER))
                     {
-                    offset = (long)((BYTEp)a->ptr - bp); // offset from user data
-                    a->ptr = (long*)-2;
+                    offset = (intptr_t)((BYTEp)a->ptr - bp); // offset from user data
+                    a->ptr = (int*)-2;
                     break;
                     }
                 }    
             }
         
-        if ((long)a->ptr != -2)
+        if ((intptr_t)a->ptr != -2)
             {
             for (j=0; j<numsectors; j++)
                 {
@@ -531,8 +529,8 @@ int SaveGame(short save_num)
                     
                     if ((BYTEp)a->ptr >= bp && (BYTEp)a->ptr < bp + sizeof(SECT_USER))
                         {
-                        offset = (long)((BYTEp)a->ptr - bp); // offset from user data
-                        a->ptr = (long*)-3;
+                        offset = (intptr_t)((BYTEp)a->ptr - bp); // offset from user data
+                        a->ptr = (int*)-3;
                         break;
                         }
                     }    
@@ -540,7 +538,7 @@ int SaveGame(short save_num)
             }    
         MWRITE(a,sizeof(ANIM),1,fil);
             
-        if ((long)a->ptr == -2 || (long)a->ptr == -3)
+        if ((intptr_t)a->ptr == -2 || (intptr_t)a->ptr == -3)
             {
             MWRITE(&j, sizeof(j),1,fil);
             MWRITE(&offset, sizeof(offset),1,fil);
@@ -612,7 +610,7 @@ int SaveGame(short save_num)
 
     
     // parental lock
-    for (i = 0; i < (long)SIZ(otlist); i++)
+    for (i = 0; i < (int)SIZ(otlist); i++)
         {
         ndx = 0;
         TRAVERSE(otlist[i], otp, next_otp)
@@ -690,7 +688,7 @@ int LoadGameFullHeader(short save_num, char *descr, short *level, short *skill)
     MFILE fil;
     char game_name[80];
     short tile;
-    long ver;
+    int ver;
 
     sprintf(game_name,"game%d.sav",save_num);
     if ((fil = MOPEN_READ(game_name)) == MF_ERR)
@@ -720,7 +718,7 @@ void LoadGameDescr(short save_num, char *descr)
     MFILE fil;
     char game_name[80];
     short tile;
-    long ver;
+    int ver;
     
     sprintf(game_name,"game%d.sav",save_num);
     if ((fil = MOPEN_READ(game_name)) == MF_ERR)
@@ -741,7 +739,7 @@ void LoadGameDescr(short save_num, char *descr)
 int LoadGame(short save_num)
 {
     MFILE fil;
-    long i,j,saveisshot=0;
+    int i,j,saveisshot=0;
     short ndx,SpriteNum,sectnum;
     PLAYERp pp = NULL;
     SPRITEp sp;
@@ -757,10 +755,10 @@ int LoadGame(short save_num)
     char game_name[80];
     OrgTileP otp, next_otp;
 
-    long RotNdx;
-    long StateStartNdx;
-    long StateNdx;
-    long StateEndNdx;
+    int RotNdx;
+    int StateStartNdx;
+    int StateNdx;
+    int StateEndNdx;
     extern BOOL InMenuLevel;
 
     Saveable_Init();
@@ -859,7 +857,7 @@ int LoadGame(short save_num)
             saveisshot |= LoadSymCodeInfo(fil, (void**)&psp->PanelSpriteFunc);
 	    if (saveisshot) { MCLOSE(fil); return -1; }
 
-            for (j = 0; j < (long)SIZ(psp->over); j++)
+            for (j = 0; j < (int)SIZ(psp->over); j++)
                 {
                 saveisshot |= LoadSymDataInfo(fil, (void**)&psp->over[j].State);
 		if (saveisshot) { MCLOSE(fil); return -1; }
@@ -1017,22 +1015,22 @@ int LoadGame(short save_num)
         a = &Anim[i];
         MREAD(a,sizeof(ANIM),1,fil);
         
-        if ((long)a->ptr == -2)
+        if ((intptr_t)a->ptr == -2)
             {
             // maintain compatibility with sinking boat which points to user data
-            long offset;
+            int offset;
             MREAD(&j, sizeof(j),1,fil);
             MREAD(&offset, sizeof(offset),1,fil);
-            a->ptr = (long*)(((char *)User[j]) + offset);
+            a->ptr = (int*)(((char *)User[j]) + offset);
             }
         else
-        if ((long)a->ptr == -3)
+        if ((intptr_t)a->ptr == -3)
             {
             // maintain compatibility with sinking boat which points to user data
-            long offset;
+            int offset;
             MREAD(&j, sizeof(j),1,fil);
             MREAD(&offset, sizeof(offset),1,fil);
-            a->ptr = (long*)(((char *)SectUser[j]) + offset);
+            a->ptr = (int*)(((char *)SectUser[j]) + offset);
             }
         else   
             {
@@ -1102,7 +1100,7 @@ int LoadGame(short save_num)
     if (saveisshot) { MCLOSE(fil); return -1; }
     
     // parental lock
-    for (i = 0; i < (long)SIZ(otlist); i++)
+    for (i = 0; i < (int)SIZ(otlist); i++)
         {
         INITLIST(otlist[i]);
             
@@ -1208,7 +1206,7 @@ int LoadGame(short save_num)
             // when sprites were inserted
             
             // sibling is the only PanelSprite (malloced ptr) in the PanelSprite struct
-            psp->sibling = PanelNdxToSprite(pp, (long)psp->sibling);
+            psp->sibling = PanelNdxToSprite(pp, (int)(intptr_t)psp->sibling);
             }
         }
     #endif
@@ -1235,30 +1233,30 @@ int LoadGame(short save_num)
     for (i = 0; i < numplayers; i++)
         {
         #if PANEL_SAVE
-        pp->CurWpn = PanelNdxToSprite(pp, (long)pp->CurWpn);
+        pp->CurWpn = PanelNdxToSprite(pp, (int)(intptr_t)pp->CurWpn);
 
         for (ndx = 0; ndx < MAX_WEAPONS; ndx++)
-            pp->Wpn[ndx] = PanelNdxToSprite(pp, (long)pp->Wpn[ndx]);
+            pp->Wpn[ndx] = PanelNdxToSprite(pp, (int)(intptr_t)pp->Wpn[ndx]);
 
         for (ndx = 0; ndx < MAX_INVENTORY; ndx++)
-            pp->InventorySprite[ndx] = PanelNdxToSprite(pp, (long)pp->InventorySprite[ndx]);
+            pp->InventorySprite[ndx] = PanelNdxToSprite(pp, (int)(intptr_t)pp->InventorySprite[ndx]);
 
-        pp->Chops = PanelNdxToSprite(pp, (long)pp->Chops);
-        pp->InventorySelectionBox = PanelNdxToSprite(pp, (long)pp->InventorySelectionBox);
-        pp->MiniBarHealthBox = PanelNdxToSprite(pp, (long)pp->MiniBarHealthBox);
-        pp->MiniBarAmmo = PanelNdxToSprite(pp, (long)pp->MiniBarAmmo);
+        pp->Chops = PanelNdxToSprite(pp, (int)(intptr_t)pp->Chops);
+        pp->InventorySelectionBox = PanelNdxToSprite(pp, (int)(intptr_t)pp->InventorySelectionBox);
+        pp->MiniBarHealthBox = PanelNdxToSprite(pp, (int)(intptr_t)pp->MiniBarHealthBox);
+        pp->MiniBarAmmo = PanelNdxToSprite(pp, (int)(intptr_t)pp->MiniBarAmmo);
 
         for (ndx = 0; ndx < (short)SIZ(pp->MiniBarHealthBoxDigit); ndx++)
-            pp->MiniBarHealthBoxDigit[ndx] = PanelNdxToSprite(pp, (long)pp->MiniBarHealthBoxDigit[ndx]);
+            pp->MiniBarHealthBoxDigit[ndx] = PanelNdxToSprite(pp, (int)(intptr_t)pp->MiniBarHealthBoxDigit[ndx]);
 
         for (ndx = 0; ndx < (short)SIZ(pp->MiniBarAmmoDigit); ndx++)
-            pp->MiniBarAmmoDigit[ndx] = PanelNdxToSprite(pp, (long)pp->MiniBarAmmoDigit[ndx]);
+            pp->MiniBarAmmoDigit[ndx] = PanelNdxToSprite(pp, (int)(intptr_t)pp->MiniBarAmmoDigit[ndx]);
 
         #endif
         }
 
     {    
-    long SavePlayClock = PlayClock;
+    int SavePlayClock = PlayClock;
     InitTimingVars();
     PlayClock = SavePlayClock;
     }
@@ -1267,7 +1265,7 @@ int LoadGame(short save_num)
     SetupAspectRatio();
     SetRedrawScreen(Player + myconnectindex);
     
-    COVERsetbrightness(gs.Brightness,(char *)palette_data);
+    COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
 
     screenpeek = myconnectindex;
     PlayingLevel = Level;
@@ -1299,7 +1297,7 @@ int LoadGame(short save_num)
 VOID
 ScreenSave(MFILE fout)
     {
-    long num;
+    int num;
     num = MWRITE((void*)waloff[SAVE_SCREEN_TILE], SAVE_SCREEN_XSIZE * SAVE_SCREEN_YSIZE, 1, fout);
     ASSERT(num == 1);
     }
@@ -1307,7 +1305,7 @@ ScreenSave(MFILE fout)
 VOID
 ScreenLoad(MFILE fin)
     {
-    long num;
+    int num;
     
     setviewtotile(SAVE_SCREEN_TILE, SAVE_SCREEN_YSIZE, SAVE_SCREEN_XSIZE);
     

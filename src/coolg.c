@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -632,10 +631,10 @@ int DoCoolgMatchPlayerZ(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     SPRITEp tsp = User[SpriteNum]->tgt_sp;
-    long zdiff,zdist;
-    long loz,hiz;
+    int zdiff,zdist;
+    int loz,hiz;
     
-    long bound;
+    int bound;
     
     // If blocking bits get unset, just die
     if (!TEST(sp->cstat,CSTAT_SPRITE_BLOCK) || !TEST(sp->cstat,CSTAT_SPRITE_BLOCK_HITSCAN))
@@ -697,7 +696,7 @@ int DoCoolgMatchPlayerZ(short SpriteNum)
     u->sz = max(u->sz, hiz + u->ceiling_dist);    
     
     u->Counter = (u->Counter + (ACTORMOVETICS<<3)) & 2047;
-    sp->z = u->sz + ((COOLG_BOB_AMT * (long)sintable[u->Counter]) >> 14);
+    sp->z = u->sz + ((COOLG_BOB_AMT * (int)sintable[u->Counter]) >> 14);
 
     bound = u->hiz + u->ceiling_dist + COOLG_BOB_AMT;
     if (sp->z < bound)    
@@ -747,13 +746,13 @@ int DoCoolgCircle(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     SPRITEp tsp = User[SpriteNum]->tgt_sp;
-    long nx,ny,bound;
+    int nx,ny,bound;
 
     
     sp->ang = NORM_ANGLE(sp->ang + u->Counter2);
     
-    nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = sp->xvel * (long) sintable[sp->ang] >> 14;
+    nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = sp->xvel * (int) sintable[sp->ang] >> 14;
     
     if (!move_actor(SpriteNum, nx, ny, 0L))
         {
@@ -790,7 +789,7 @@ DoCoolgDeath(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long nx, ny;
+    int nx, ny;
 
 
     RESET(sp->cstat, CSTAT_SPRITE_TRANSLUCENT);
@@ -813,8 +812,8 @@ DoCoolgDeath(short SpriteNum)
         DoActorSlide(SpriteNum);
 
     // slide while falling
-    nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = sp->xvel * (long) sintable[sp->ang] >> 14;
+    nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = sp->xvel * (int) sintable[sp->ang] >> 14;
 
     u->ret = move_sprite(SpriteNum, nx, ny, 0L, u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, ACTORMOVETICS);
     DoFindGroundPoint(SpriteNum);

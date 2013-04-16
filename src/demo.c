@@ -27,7 +27,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //#define MAIN
 //#define QUIET
 #include "build.h"
-#include "compat.h"
 #include "cache1d.h"
 
 #include "keys.h"
@@ -53,8 +52,8 @@ BOOL DemoEdit = FALSE;
 BOOL DemoMode = FALSE;
 BOOL DemoModeMenuState = FALSE;
 BOOL DemoOverride = FALSE;
-CHAR DemoFileName[16] = "demo.dmo";
-CHAR DemoLevelName[16] = "";
+char DemoFileName[16] = "demo.dmo";
+char DemoLevelName[16] = "";
 extern BOOL NewGame;
 
 // Demo sync stuff
@@ -63,7 +62,7 @@ BOOL DemoSyncTest = FALSE, DemoSyncRecord = FALSE;
 char DemoTmpName[16] = "";
 
 SW_PACKET DemoBuffer[DEMO_BUFFER_MAX];
-long DemoRecCnt = 0;                    // Can only record 1-player game
+int DemoRecCnt = 0;                    // Can only record 1-player game
 
 BOOL DemoDone;
 
@@ -266,7 +265,7 @@ DemoReadHeader(VOID)
 VOID
 DemoDebugWrite(VOID)
     {
-    long size;
+    int size;
     
     DemoFileOut = fopen(DemoFileName, "ab");
 
@@ -383,11 +382,11 @@ DemoTerm(VOID)
 VOID
 DemoPlayBack(VOID)
     {
-    long pnum, cnt;
-    static long buf_ndx;
+    int pnum, cnt;
+    static int buf_ndx;
     PLAYERp pp;
     ControlInfo info;
-    long Xdim, Ydim, ScreenSize;
+    int Xdim, Ydim, ScreenSize;
 
     if (SW_SHAREWARE) {
     // code here needs to be similar to RunLevel startup code
@@ -585,7 +584,7 @@ DemoPlayBack(VOID)
 VOID
 ScenePlayBack(VOID)
     {
-    long buf_ndx, pnum, cnt;
+    int buf_ndx, pnum, cnt;
     PLAYERp pp;
 
     if (SW_SHAREWARE) {

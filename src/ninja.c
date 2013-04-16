@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -1917,7 +1916,7 @@ DoNinjaHariKari(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    int SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, long hitz);
+    int SpawnBlood(short SpriteNum, short Weapon, short hitang, int hitx, int hity, int hitz);
     short cnt,i;
 
     UpdateSinglePlayKills(SpriteNum);
@@ -1948,7 +1947,7 @@ DoNinjaGrabThroat(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    int SpawnBlood(short SpriteNum, short Weapon, short hitang, long hitx, long hity, long hitz);
+    int SpawnBlood(short SpriteNum, short Weapon, short hitang, int hitx, int hity, int hitz);
     short cnt,i;
 
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
@@ -2035,11 +2034,11 @@ NinjaJumpActionFunc(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    long nx, ny;
+    int nx, ny;
     
     // Move while jumping
-    nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = sp->xvel * (long) sintable[sp->ang] >> 14;
+    nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = sp->xvel * (int) sintable[sp->ang] >> 14;
 
     // if cannot move the sprite
     if (!move_actor(SpriteNum, nx, ny, 0L))
@@ -2332,10 +2331,10 @@ PlayerGameReset(PLAYERp pp)
 
     if(pp == Player+screenpeek)
         {
-	if (getrendermode() < 3)
-        COVERsetbrightness(gs.Brightness,(char *)palette_data);
-	else
-	    setpalettefade(0,0,0,0);
+        if (getrendermode() < 3)
+            COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
+        else
+            setpalettefade(0,0,0,0);
         memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
         }
     pp->NightVision = FALSE;
@@ -2373,7 +2372,7 @@ InitPlayerSprite(PLAYERp pp)
     short i, sp_num;
     SPRITE *sp;
     USERp u;
-    long pnum = pp - Player;
+    int pnum = pp - Player;
     extern BOOL NewGame;
 
     COVER_SetReverb(0); // Turn off any echoing that may have been going before
@@ -2436,10 +2435,10 @@ InitPlayerSprite(PLAYERp pp)
 
     if(pp == Player+screenpeek)
         {
-	if (getrendermode() < 3)
-        COVERsetbrightness(gs.Brightness,(char *)palette_data);
-	else
-	    setpalettefade(0,0,0,0);
+        if (getrendermode() < 3)
+            COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
+        else
+            setpalettefade(0,0,0,0);
         memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
         }
         

@@ -26,17 +26,18 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 #include "compat.h"
 #include "pragmas.h"
+
 #include "interp.h"
 
 #define MAXINTERPOLATIONS 1024
-long numinterpolations = 0, startofdynamicinterpolations = 0;
-long oldipos[MAXINTERPOLATIONS];
-long bakipos[MAXINTERPOLATIONS];
-long *curipos[MAXINTERPOLATIONS];
+int numinterpolations = 0, startofdynamicinterpolations = 0;
+int oldipos[MAXINTERPOLATIONS];
+int bakipos[MAXINTERPOLATIONS];
+int *curipos[MAXINTERPOLATIONS];
 
-void setinterpolation(long *posptr)
+void setinterpolation(int *posptr)
     {
-    long i;
+    int i;
 
     if (numinterpolations >= MAXINTERPOLATIONS)
         return;
@@ -52,9 +53,9 @@ void setinterpolation(long *posptr)
     numinterpolations++;
     }
 
-void stopinterpolation(long *posptr)
+void stopinterpolation(int *posptr)
     {
-    long i;
+    int i;
 
     for (i = numinterpolations - 1; i >= startofdynamicinterpolations; i--)
         {
@@ -70,7 +71,7 @@ void stopinterpolation(long *posptr)
 
 void updateinterpolations(void)                  // Stick at beginning of domovethings
     {
-    long i;
+    int i;
 
     for (i = numinterpolations - 1; i >= 0; i--)
         oldipos[i] = *curipos[i];
@@ -78,9 +79,9 @@ void updateinterpolations(void)                  // Stick at beginning of domove
 
 // must call restore for every do interpolations
 // make sure you don't exit
-void dointerpolations(long smoothratio)                      // Stick at beginning of drawscreen
+void dointerpolations(int smoothratio)                      // Stick at beginning of drawscreen
     {
-    long i, j, odelta, ndelta;
+    int i, j, odelta, ndelta;
 
     ndelta = 0;
     j = 0;
@@ -101,7 +102,7 @@ void dointerpolations(long smoothratio)                      // Stick at beginni
 
 void restoreinterpolations(void)                 // Stick at end of drawscreen
     {
-    long i;
+    int i;
 
     for (i = numinterpolations - 1; i >= 0; i--)
         *curipos[i] = bakipos[i];

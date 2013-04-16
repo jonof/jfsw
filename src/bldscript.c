@@ -28,7 +28,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 // scriplib.c
 #include "build.h"
-#include "compat.h"
 #include "editor.h"
 #include "cache1d.h"
 
@@ -87,7 +86,7 @@ BOOL    tokenready;                     // only TRUE if UnGetToken was just call
 
 BOOL LoadScriptFile (char *filename)
 {
-	long size, readsize;
+	int size, readsize;
 	int fp;
 
 
@@ -344,10 +343,10 @@ void ExtractFileBase (char *path, char *dest)
 ==============
 */
 
-long ParseHex (char *hex)
+int ParseHex (char *hex)
 {
 	char    *str;
-	long    num;
+	int    num;
 
 	num = 0;
 	str = hex;
@@ -370,7 +369,7 @@ long ParseHex (char *hex)
 }
 
 
-long ParseNum (char *str)
+int ParseNum (char *str)
 {
 	if (str[0] == '$')
 		return ParseHex (str+1);
@@ -384,7 +383,7 @@ long ParseNum (char *str)
 
 // voxelarray format is:
 //  	spritenumber, voxelnumber
-long aVoxelArray[MAXTILES];
+int aVoxelArray[MAXTILES];
 
 extern int nextvoxid;
 
@@ -399,7 +398,7 @@ extern int nextvoxid;
 
 void LoadKVXFromScript( char *filename )
 {
-	long lNumber=0,lTile=0;	// lNumber is the voxel no. and lTile is the editart tile being
+	int lNumber=0,lTile=0;	// lNumber is the voxel no. and lTile is the editart tile being
 							// replaced.
 	char *sName;			// KVS file being loaded in.
 
@@ -450,16 +449,16 @@ void LoadKVXFromScript( char *filename )
 /// MISC ////////////////////////////////////////////////////////////////////
 
 /*
-extern long idleclock,slackerclock;
+extern int idleclock,slackerclock;
 
 // Watch dog function.  Tracks user's work times.
 void LogUserTime( BOOL bIsLoggingIn )
 {
-	long size, readsize;
+	int size, readsize;
 	time_t time_of_day;
     char serialid[20],filename[100],fbase[20],buf[26],filetemp[100];
     FILE *fp;
-	long tothours, totmins, totsecs, gtotalclock=0,gidleclock=0;
+	int tothours, totmins, totsecs, gtotalclock=0,gidleclock=0;
 	ldiv_t mins_secs;
 	ldiv_t hrs_mins;
 	int i;

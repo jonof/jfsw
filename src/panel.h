@@ -56,7 +56,7 @@ enum PanelSpriteIDs
 struct PANEL_STATEstruct
     {
     short picndx;                       // for pip stuff in conpic.h
-    long tics;
+    int tics;
     void (*Animator) (PANEL_SPRITEp);	// JBF: return type was long
     PANEL_STATEp NextState;
     ULONG flags;
@@ -95,7 +95,7 @@ typedef VOID (*PANEL_SPRITE_FUNCp)(PANEL_SPRITEp);
 typedef struct
     {
     PANEL_STATEp State;
-    long flags;
+    int flags;
     short tics;
     short pic;
     short xoff; // from panel sprite center x
@@ -124,10 +124,10 @@ struct PANEL_SPRITEstruct
     short x1, y1, x2, y2;               // for rotatesprites box cliping
     short vel, vel_adj;
     short numpages;
-    long xorig, yorig, flags, priority;
-    long scale;
-    long jump_speed, jump_grav;         // jumping vars
-    long xspeed;
+    int xorig, yorig, flags, priority;
+    int scale;
+    int jump_speed, jump_grav;         // jumping vars
+    int xspeed;
     short tics, delay;                  // time vars
     short ang, rotate_ang;
     short sin_ndx, sin_amt, sin_arc_speed;
@@ -181,9 +181,9 @@ BORDER_BAR = 2
 #define SHOTGUN_AUTO_NUM 0
 #define SHOTGUN_AUTO 2078
 
-PANEL_SPRITEp pSpawnSprite(PLAYERp pp, PANEL_STATEp state, BYTE priority, long x, long y);
-PANEL_SPRITEp pSpawnFullScreenSprite(PLAYERp pp, short pic, short pri, long x, long y);
-PANEL_SPRITEp pSpawnFullViewSprite(PLAYERp pp,short pic,short pri,long x,long y);
+PANEL_SPRITEp pSpawnSprite(PLAYERp pp, PANEL_STATEp state, BYTE priority, int x, int y);
+PANEL_SPRITEp pSpawnFullScreenSprite(PLAYERp pp, short pic, short pri, int x, int y);
+PANEL_SPRITEp pSpawnFullViewSprite(PLAYERp pp,short pic,short pri,int x,int y);
 void pSetSuicide(PANEL_SPRITEp psp);
 BOOL pKillScreenSpiteIDs(PLAYERp pp, short id);
 VOID pFlushPerms(PLAYERp pp);

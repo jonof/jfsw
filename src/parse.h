@@ -45,5 +45,5 @@ void DefaultPath (char *path, char *basepath);
 void StripFilename (char *path);
 void ExtractFileBase (char *path, char *dest);
 
-long ParseNum (char *str);
+int ParseNum (char *str);
 

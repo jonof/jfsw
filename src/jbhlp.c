@@ -27,7 +27,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //-------------------------------------------------------------------------
 
 #include "build.h"
-#include "compat.h"
 #include "editor.h"
 #include "cache1d.h"
 
@@ -70,16 +69,9 @@ long GetAToken(char *name, char *tc, long length)
 {
     int i,x=0;
     char t,*tmp,tokenfound=0;
-    char *token;
+    char token[10];
     long count=0;
     
-    if(!(token = (char *)malloc(9)))
-    {
-        Msg("Out of heap space!",M_RED);
-        return(tokenfound);
-    }
-
-
     do{
 
         // Find the token symbol
@@ -103,7 +95,7 @@ long GetAToken(char *name, char *tc, long length)
                 tc++;
                 x++;
                 count++;
-            } while((t>=48 && t<=127) && t!='@' && x < 9 && count < length);
+            } while(t>=48 && t!='@' && x < 9 && count < length);
 
             *tmp = 0;
 
@@ -120,10 +112,9 @@ long GetAToken(char *name, char *tc, long length)
 
 void ContextHelp(short spritenum)
 {
-    int i,fp;
+    int i,fp,x=0,y=4;
     char t,*tc;
-    char x=0,y=4;
-    char *name,*hightag;
+    char name[20];
     char *filebuffer;
     SPRITEp sp;
     short hitag=0;
@@ -163,20 +154,15 @@ void ContextHelp(short spritenum)
     //strupr(filebuffer);
 
     // Assign a token name to search for based on the sprite being pointed to.
-    name = (char *)malloc(20);
-    hightag = (char *)malloc(sizeof(short));
 
     // Make the token
-    strcpy(name,"@TAG");
     // Make sure 500-600 SOBJ bounding tags all say the same thing.
     hitag = sp->hitag;
     if(hitag > 500 && hitag <= 600 ) hitag = 500;
     // Give help summary for unknown sprites.
     if((hitag == 0 || hitag > 1006) && sp->lotag == 0) hitag = 999;
 
-    sprintf(hightag,"%d",hitag);
-    //itoa(hitag,hightag,10);
-    strcat(name,hightag);
+    sprintf(name,"@TAG%d",hitag);
 
     tc = filebuffer;
     

@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "game.h"
@@ -35,15 +34,15 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 BOOL SyncPrintMode = TRUE;
 short NumSyncBytes = 1;
-CHAR sync_first[MAXSYNCBYTES][60];
+char sync_first[MAXSYNCBYTES][60];
 int sync_found = FALSE;
 
-static long crctable[256];
+static int crctable[256];
 #define updatecrc(dcrc,xz) (dcrc = (crctable[((dcrc)>>8)^((xz)&255)]^((dcrc)<<8)))
 
 void initsynccrc(void)
 {
-	long i, j, k, a;
+	int i, j, k, a;
 
 	for(j=0;j<256;j++)      //Calculate CRC table
 	{
@@ -309,11 +308,11 @@ static BYTE(*SyncFunc[MAXSYNCBYTES + 1]) (VOID) =
 void
 getsyncstat(void)
     {
-    long i;
+    int i;
     PLAYERp pp = Player + myconnectindex;
-	unsigned long val;
-	static unsigned long count;
-    extern long syncvaltail, syncvaltottail;
+	unsigned int val;
+	static unsigned int count;
+    extern int syncvaltail, syncvaltottail;
 
     if (!CommEnabled)
         return;
@@ -342,9 +341,9 @@ getsyncstat(void)
 void
 SyncStatMessage(void)
     {
-    long i, j, count = 0;
-    static unsigned long MoveCount = 0;
-    extern unsigned long MoveThingsCount;
+    int i, j, count = 0;
+    static unsigned int MoveCount = 0;
+    extern unsigned int MoveThingsCount;
     
     if (!CommEnabled)
         return;
@@ -395,7 +394,7 @@ SyncStatMessage(void)
                 { 
                 sprintf(ds, "FIRST %s", sync_first[i]);
                 printext256(50L, 0L, 1, 31, ds, 0);
-                sprintf(ds, "MoveCount %lu",MoveCount);
+                sprintf(ds, "MoveCount %u",MoveCount);
                 printext256(50L, 10L, 1, 31, ds, 0);
                 }
             else
@@ -420,10 +419,10 @@ SyncStatMessage(void)
 
 
 void 
-GetSyncInfoFromPacket(char *packbuf, long packbufleng, long *j, long otherconnectindex)
+GetSyncInfoFromPacket(char *packbuf, int packbufleng, int *j, int otherconnectindex)
     {
-    long sb, i;
-    extern long syncvaltail, syncvaltottail;
+    int sb, i;
+    extern int syncvaltail, syncvaltottail;
     PLAYERp ppo = &Player[otherconnectindex];
     BOOL found = FALSE;
     
@@ -504,7 +503,7 @@ extern FILE *DemoSyncFile;
 void
 demosync_record(void)
     {
-    long i;
+    int i;
     BYTE sync_val;
 
     for (i = 0; SyncFunc[i]; i++)
@@ -515,9 +514,9 @@ demosync_record(void)
     }
 
 void
-demosync_test(long cnt)
+demosync_test(int cnt)
     {
-    long i;
+    int i;
     BYTE sync_val;
 
     for (i = 0; SyncFunc[i]; i++)
@@ -528,7 +527,7 @@ demosync_test(long cnt)
             {
             TerminateLevel();
             TerminateGame();
-            printf("Demo out of sync - Sync Byte Number %ld - Iteration %ld.", i, cnt);
+            printf("Demo out of sync - Sync Byte Number %d - Iteration %d.", i, cnt);
             exit(0);
             }
         }
@@ -539,7 +538,7 @@ demosync_test(long cnt)
 /*
 getsyncbyte()
     {
-    long i, j;
+    int i, j;
     char ch;
     SPRITEp spr;
     PLAYERp pp;

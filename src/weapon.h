@@ -46,7 +46,8 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 // This is how many bullet shells have been spawned since the beginning of the game.
 extern FOOT_TYPE FootMode;
-extern long ShellCount;
+extern int ShellCount;
+#define MAXSHELLS 32
 
 extern short StarQueueHead;
 extern short StarQueue[MAX_STAR_QUEUE];
@@ -65,12 +66,12 @@ VOID ChangeState(short SpriteNum, STATEp statep);
 void DoPlayerBeginRecoil(PLAYERp pp, short pix_amt);
 SECTOR_OBJECTp DetectSectorObject(SECTORp);
 SECTOR_OBJECTp DetectSectorObjectByWall(WALLp);
-VOID ScaleSpriteVector(short SpriteNum, long scale);
-int QueueHole(short ang, short hitsect, short hitwall, long hitx, long hity, long hitz);
+VOID ScaleSpriteVector(short SpriteNum, int scale);
+int QueueHole(short ang, short hitsect, short hitwall, int hitx, int hity, int hitz);
 int QueueWallBlood(short hitsprite,short ang);
 BOOL SlopeBounce(short SpriteNum, BOOL *hitwall);
 BOOL HitscanSpriteAdjust(short SpriteNum, short hitwall);
-int SpawnSwordSparks(PLAYERp pp, short hitsect, short hitwall, long hitx, long hity, long hitz, short hitang);
+int SpawnSwordSparks(PLAYERp pp, short hitsect, short hitwall, int hitx, int hity, int hitz, short hitang);
 int SpawnBubble(short SpriteNum);
 int SpawnFireballExp(SHORT Weapon);
 int SpawnFireballFlames(SHORT SpriteNum,SHORT enemy);
@@ -79,7 +80,7 @@ int SpawnGrenadeExp(SHORT Weapon);
 int SpawnSectorExp(SHORT Weapon);
 int DoShrapVelocity(SHORT SpriteNum);
 int ShrapKillSprite(short SpriteNum);
-BOOL MissileSetPos(short Weapon,ANIMATORp DoWeapon,long dist);
+BOOL MissileSetPos(short Weapon,ANIMATORp DoWeapon,int dist);
 int ActorPain(short SpriteNum);
     
 // 
@@ -137,12 +138,12 @@ extern DAMAGE_DATA DamageData[];
 // electro weapon
 #define ELECTRO_MAX_JUMP_DIST 25000
 
-extern long WeaponIsAmmo;
+extern int WeaponIsAmmo;
 
 #define MISSILEMOVETICS 6
 
 #define CLOSE_RANGE_DIST_FUDGE(sp1, sp2, fudge) \
-    (((long)(sp1)->clipdist<<2) + ((long)(sp2)->clipdist<<2) + (fudge))    
+    (((int)(sp1)->clipdist<<2) + ((int)(sp2)->clipdist<<2) + (fudge))    
 
 #define CLOSE_RANGE_DIST(sp1, sp2) CLOSE_RANGE_DIST_FUDGE(sp1, sp2, 400)
 
@@ -151,9 +152,9 @@ extern short target_ang;
 
 BOOL SpriteOverlap(short, short);
 
-int SpawnShotgunSparks(PLAYERp pp, short hitsect, short hitwall, long hitx, long hity, long hitz, short hitang);
+int SpawnShotgunSparks(PLAYERp pp, short hitsect, short hitwall, int hitx, int hity, int hitz, short hitang);
 int DoActorBeginSlide(short SpriteNum, short ang, short vel, short dec);
-int GetOverlapSector(long x, long y, short *over, short *under);
+int GetOverlapSector(int x, int y, short *over, short *under);
 BOOL MissileHitDiveArea(short SpriteNum);
 
 int DoDamageTest(short);
@@ -214,7 +215,7 @@ int DoBladeDamage(short SpriteNum);
 int DoFindGround(SHORT SpriteNum);
 int DoFindGroundPoint(SHORT SpriteNum);
 VOID SpriteQueueDelete(short SpriteNum);
-int HelpMissileLateral(SHORT Weapon,long dist);
+int HelpMissileLateral(SHORT Weapon,int dist);
 int AddSpriteToSectorObject(short SpriteNum,SECTOR_OBJECTp sop);
 void QueueReset(void );
 int PlayerCheckDeath(PLAYERp pp,short Weapon);

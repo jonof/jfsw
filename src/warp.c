@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "names2.h"
 #include "panel.h"
@@ -43,7 +42,7 @@ extern BOOL Prediction;
 BOOL 
 WarpPlaneSectorInfo(short sectnum, SPRITEp *sp_ceiling, SPRITEp *sp_floor)
     {
-    long i,nexti;
+    int i,nexti;
     SPRITEp sp;
 
     *sp_floor = NULL;
@@ -113,15 +112,15 @@ WarpPlane(LONGp x, LONGp y, LONGp z, SHORTp sectnum)
 SPRITEp    
 WarpToArea(SPRITEp sp_from, LONGp x, LONGp y, LONGp z, SHORTp sectnum)
     {
-    long xoff;
-    long yoff;
-    long zoff;
+    int xoff;
+    int yoff;
+    int zoff;
     short i, nexti;
     SPRITEp sp = sp_from;
     short match;
     short to_tag = 0;
     short match_rand[16];
-    long z_adj = 0;
+    int z_adj = 0;
 
     xoff = *x - sp->x;
     yoff = *y - sp->y;
@@ -212,7 +211,7 @@ TAG 5 to 8 = random match locations
 BOOL 
 WarpSectorInfo(short sectnum, SPRITEp *sp_warp)
     {
-    long i,nexti;
+    int i,nexti;
     SPRITEp sp;
     
     *sp_warp = NULL;

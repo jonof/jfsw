@@ -30,8 +30,8 @@ extern BOOL DemoRecording;
 extern BOOL DemoEdit;
 extern BOOL DemoMode;
 extern BOOL DemoOverride;
-extern CHAR DemoFileName[16];
-extern CHAR DemoLevelName[16];
+extern char DemoFileName[16];
+extern char DemoLevelName[16];
 
 extern FILE *DemoSyncFile;
 extern BOOL DemoSyncTest;
@@ -42,8 +42,9 @@ extern BOOL DemoDebugMode;
 extern BOOL DemoInitOnce;
 extern short DemoDebugBufferMax;
 
+#define DEMO_BUFFER_MAX 2048
 extern SW_PACKET DemoBuffer[DEMO_BUFFER_MAX];
-extern long DemoRecCnt;                    // Can only record 1-player game
+extern int DemoRecCnt;                    // Can only record 1-player game
 
 #define DEMO_FILE_GROUP 0
 #define DEMO_FILE_STD   1

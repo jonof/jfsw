@@ -24,15 +24,14 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
+
 #include "keys.h"
 #include "pal.h"
-
 #include "game.h"
 
 short f_c = 3;
-static char tempbuf[256];
-char DefaultPalette[256 * 32];
+static unsigned char tempbuf[256];
+unsigned char DefaultPalette[256 * 32];
 #if 1
 VOID
 MapColors(short num, COLOR_MAP cm, short create)
@@ -416,7 +415,7 @@ VBE_setPalette(0, 256, mypalette);
 #define NRED 2
 #define NRESERVED 3
 
-VOID SetPaletteToVESA(char *pal)
+VOID SetPaletteToVESA(unsigned char *pal)
     {
 	    /*
     char pal_buff[1024];
@@ -436,12 +435,12 @@ VOID SetPaletteToVESA(char *pal)
 	  //  fprintf(stderr,"SetPaletteToVESA() called\n");
     }
 
-VOID set_pal(char *pal)
+VOID set_pal(unsigned char *pal)
     {
     SetPaletteToVESA(pal);
     }
 
-VOID GetPaletteFromVESA(char *pal)
+VOID GetPaletteFromVESA(unsigned char *pal)
     {
 	    /*
     char pal_buff[1024];

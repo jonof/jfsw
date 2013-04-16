@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -68,14 +67,14 @@ short SWBorderTest[] =
 
 BOOL RedrawScreen = FALSE;
 
-long f_xdim, f_ydim, x_pix_size, y_pix_size, x_aspect_mul, y_aspect_mul;
-long CrosshairX, CrosshairY;
+int f_xdim, f_ydim, x_pix_size, y_pix_size, x_aspect_mul, y_aspect_mul;
+int CrosshairX, CrosshairY;
 
 extern BOOL BorderAdjust;
 BOOL GlobSpriteBoxUpdateEveryFrame = FALSE;
 
 PANEL_SPRITEp
-pSpawnFullScreenSpriteBox(PLAYERp pp, short id, short pic, short pri, long x, long y, short x1, short y1, short x2, short y2)
+pSpawnFullScreenSpriteBox(PLAYERp pp, short id, short pic, short pri, int x, int y, short x1, short y1, short x2, short y2)
     {
     PANEL_SPRITEp psp;
     extern BOOL DrawBeforeView;           
@@ -107,7 +106,7 @@ pSpawnFullScreenSpriteBox(PLAYERp pp, short id, short pic, short pri, long x, lo
 
 VOID SetCrosshair(VOID)
     {
-    long wdx,wdy,x,y;
+    int wdx,wdy,x,y;
     
     wdx = ((windowx2-windowx1)/2);
     wdy = ((windowy2-windowy1)/2);
@@ -139,11 +138,11 @@ SetupAspectRatio(VOID)
 VOID
 SetConsoleDmost(VOID)
     {
-    long ystart;
-    long xstart;
+    int ystart;
+    int xstart;
 
-    long i;
-    long adj=0;
+    int i;
+    int adj=0;
 
     // dont setup the startumost/dmost arrays if border is 0
     if (gs.BorderNum == BORDER_NONE || gs.BorderNum == BORDER_MINI_BAR)
@@ -183,7 +182,7 @@ VOID
 SetFragBar(PLAYERp pp)
     {
     short i, num_frag_bars;
-    long y;
+    int y;
     extern SHORT OrigCommPlayers;
 
     if (numplayers <= 1) 
@@ -391,9 +390,9 @@ VOID DrawBorder(PLAYERp pp, short x, short y, short x2, short y2)
     }    
 
 static 
-VOID BorderSetView(PLAYERp pp, long *Xdim, long *Ydim, long *ScreenSize)
+VOID BorderSetView(PLAYERp UNUSED(pp), int *Xdim, int *Ydim, int *ScreenSize)
     {
-    void setview(long scrx1, long scry1, long scrx2, long scry2);
+    void setview(int scrx1, int scry1, int scrx2, int scry2);
     int x, x2, y, y2;
     BORDER_INFO *b;
     
@@ -485,8 +484,8 @@ BorderRefresh(PLAYERp pp)
     
 VOID SetBorder(PLAYERp pp, int value)
     {
-    long diff;
-    long Xdim, Ydim, ScreenSize;
+    int diff;
+    int Xdim, Ydim, ScreenSize;
     BOOL set_view = TRUE;
 
     if (pp != Player + myconnectindex)

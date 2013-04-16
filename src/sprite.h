@@ -31,7 +31,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 VOID KillSprite(SHORT SpriteNum);
 SHORT SpawnSprite(short stat, short id, STATEp state, short sectnum, int x, int y, int z, int ang, int vel);
 VOID SpriteSetup(VOID);
-int move_actor(short SpriteNum, long xchange, long ychange, long zchange);
+int move_actor(short SpriteNum, int xchange, int ychange, int zchange);
 short GetSpriteDir(short sn);
 short GetDirToPlayer(short sn);
 short PlayerInVision(short sn, short view_deg);
@@ -55,7 +55,7 @@ BOOL ActorSpawn(SPRITEp sp);
 int SpawnItemsMatch(short match);
 void PicAnimOff(short picnum);
 int MissileWaterAdjust(short SpriteNum);
-BOOL SpriteOverlapZ(SHORT spritenum_a,SHORT spritenum_b,long z_overlap);
+BOOL SpriteOverlapZ(SHORT spritenum_a,SHORT spritenum_b,int z_overlap);
 
 enum {
 	InvDecl_Armor,		// ie. +50 armour

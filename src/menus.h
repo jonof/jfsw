@@ -53,12 +53,12 @@ void MNU_DrawMenu( void );  // This is used in drawscreen to refresh menus in
                             // multiplay situations.
 void MNU_CheckForMenus( void );
 void MNU_CheckForMenusAnyKey(void );
-void MNU_MeasureString(char *string, short *w, short *h);
-void MNU_DrawString(short x, short y, char *string, short shade, short pal);
-void MNU_MeasureSmallString(char *string,short *w,short *h);
-void MNU_DrawSmallString(short x,short y,char *string,short shade,short pal);
-void MNU_MeasureStringLarge(char *string, short *w, short *h);
-void MNU_DrawStringLarge(short x, short y, char *string);
+void MNU_MeasureString(const char *string, short *w, short *h);
+void MNU_DrawString(short x, short y, const char *string, short shade, short pal);
+void MNU_MeasureSmallString(const char *string,short *w,short *h);
+void MNU_DrawSmallString(short x,short y,const char *string,short shade,short pal);
+void MNU_MeasureStringLarge(const char *string, short *w, short *h);
+void MNU_DrawStringLarge(short x, short y, const char *string);
 
 // Functions from my other engine
 //void Get_Palette (unsigned char *pal);
@@ -79,7 +79,7 @@ VOID ResetMenuInput(VOID);
     )
 
 extern BOOL BorderAdjust;    
-extern long FXDevice,MusicDevice;
+extern int FXDevice,MusicDevice;
 extern BOOL MultiPlayQuitFlag;
 
 // Make memcpy an intrinsic function for an easy frame rate boost
@@ -251,10 +251,10 @@ typedef struct MENU_ITEM
     char *text;                         // Text appearing in item, if any.
     void *child;                        // Should be menugroup, used to spawn
                                         // sub-groups from items.
-    long x, y;                          // x,y position on screen.
+    int x, y;                          // x,y position on screen.
     short pic;                        // Startpic to use
     char shade;                         // Shade of pic
-    long tics;                          // Ticcount for item
+    int tics;                          // Ticcount for item
      BOOL(*custom) (void);              // Work function on item select
      
      BOOL (*preprocess)(struct MENU_ITEM *);
@@ -263,7 +263,7 @@ typedef struct MENU_ITEM
 
 typedef struct
     {
-    long x, y;                          // Menu x,y position on screen.
+    int x, y;                          // Menu x,y position on screen.
     char *text;
     MenuItem_p items;                   // Array of menu items for this menu.
     short titlepic;                   // Used to draw title on menu with.
@@ -327,7 +327,7 @@ BOOL MNU_ParentalCustom(void);
 
 typedef struct
 {
-long x,y;
+int x,y;
 }VMODE;
 
 #endif

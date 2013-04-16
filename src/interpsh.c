@@ -26,6 +26,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 #include "compat.h"
 #include "pragmas.h"
+
 #include "interp.h"
 
 #define SHORT_MAXINTERPOLATIONS 256
@@ -36,7 +37,7 @@ short *short_curipos[SHORT_MAXINTERPOLATIONS];
 
 void short_setinterpolation(short *posptr)
     {
-    long i;
+    int i;
 
     if (short_numinterpolations >= SHORT_MAXINTERPOLATIONS)
         return;
@@ -54,7 +55,7 @@ void short_setinterpolation(short *posptr)
 
 void short_stopinterpolation(short *posptr)
     {
-    long i;
+    int i;
 
     for (i = short_numinterpolations - 1; i >= short_startofdynamicinterpolations; i--)
         {
@@ -70,7 +71,7 @@ void short_stopinterpolation(short *posptr)
 
 void short_updateinterpolations(void)                  // Stick at beginning of domovethings
     {
-    long i;
+    int i;
 
     for (i = short_numinterpolations - 1; i >= 0; i--)
         short_oldipos[i] = *short_curipos[i];
@@ -78,9 +79,9 @@ void short_updateinterpolations(void)                  // Stick at beginning of 
 
 // must call restore for every do interpolations
 // make sure you don't exit
-void short_dointerpolations(long smoothratio)                      // Stick at beginning of drawscreen
+void short_dointerpolations(int smoothratio)                      // Stick at beginning of drawscreen
     {
-    long i, j, odelta, ndelta;
+    int i, j, odelta, ndelta;
 
     ndelta = 0;
     j = 0;
@@ -101,7 +102,7 @@ void short_dointerpolations(long smoothratio)                      // Stick at b
 
 void short_restoreinterpolations(void)                 // Stick at end of drawscreen
     {
-    long i;
+    int i;
 
     for (i = short_numinterpolations - 1; i >= 0; i--)
         *short_curipos[i] = short_bakipos[i];

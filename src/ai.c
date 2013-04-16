@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -151,7 +150,7 @@ BOOL ActorFlaming(short SpriteNum)
     
     if (u->flame >= 0)
         {
-        long size;
+        int size;
         SPRITEp fp = &sprite[u->flame];
 
         size = SPRITEp_SIZE_Z(sp) - DIV4(SPRITEp_SIZE_Z(sp));
@@ -304,7 +303,7 @@ CanSeePlayer(short SpriteNum)
     SPRITEp sp = User[SpriteNum]->SpriteP;
 
     // if actor can still see the player
-    long look_height = SPRITEp_TOS(sp);
+    int look_height = SPRITEp_TOS(sp);
     
     ASSERT(u->tgt_sp);
     
@@ -322,12 +321,12 @@ CanHitPlayer(short SpriteNum)
     {
     USERp u = User[SpriteNum], hu;
     SPRITEp sp = User[SpriteNum]->SpriteP, hp;
-    long hitx, hity, hitz;
+    int hitx, hity, hitz;
     short hitsect, hitwall, hitsprite;
-    long xvect,yvect,zvect;
+    int xvect,yvect,zvect;
     short ang,ret=FALSE;
     // if actor can still see the player
-    long zhs, zhh;
+    int zhs, zhh;
     
     //if (FAF_Sector(sp->sectnum))
     //    return(TRUE);
@@ -388,11 +387,11 @@ DoActorPickClosePlayer(short SpriteNum)
     //extern short Zombies;
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    long dist, near_dist = MAX_ACTIVE_RANGE, a,b,c;
+    int dist, near_dist = MAX_ACTIVE_RANGE, a,b,c;
     short pnum;
     PLAYERp pp,tp;
     // if actor can still see the player
-    long look_height = SPRITEp_TOS(sp);
+    int look_height = SPRITEp_TOS(sp);
     BOOL ICanSee = FALSE;
     BOOL found = FALSE;
     int i,nexti;
@@ -530,8 +529,8 @@ GetPlayerSpriteNum(short SpriteNum)
 int
 CloseRangeDist(SPRITEp sp1, SPRITEp sp2)
     {
-    long clip1 = sp1->clipdist;
-    long clip2 = sp2->clipdist;
+    int clip1 = sp1->clipdist;
+    int clip2 = sp2->clipdist;
     
     // add clip boxes and a fudge factor
     #define DIST_CLOSE_RANGE 400
@@ -544,8 +543,8 @@ int DoActorOperate(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     short nearsector, nearwall, nearsprite;
-    long nearhitdist;
-    long z[2];
+    int nearhitdist;
+    int z[2];
     unsigned int i;
 
     if (u->ID == HORNET_RUN_R0 || u->ID == EEL_RUN_R0 || u->ID == BUNNY_RUN_R0)
@@ -632,7 +631,7 @@ DoActorActionDecide(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    long dist;
+    int dist;
     short pnum;
     ANIMATORp action;
     PLAYERp pp;
@@ -1105,10 +1104,10 @@ DoActorMoveCloser(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    long nx, ny;
+    int nx, ny;
 
-    nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = sp->xvel * (long) sintable[sp->ang] >> 14;
+    nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = sp->xvel * (int) sintable[sp->ang] >> 14;
 
     // if cannot move the sprite
     if (!move_actor(SpriteNum, nx, ny, 0L))
@@ -1181,7 +1180,7 @@ FindTrackToPlayer(USERp u)
 
     short point, track_dir, track;
     short i, *type, size;
-    long zdiff;
+    int zdiff;
 
     static short PlayerAbove[] =
         {
@@ -1515,7 +1514,7 @@ DoActorAttack(short SpriteNum)
     USERp u = User[SpriteNum],pu;
     SPRITEp sp = User[SpriteNum]->SpriteP;
     short rand_num;
-    long dist,a,b,c;
+    int dist,a,b,c;
 
     DoActorNoise(ChooseAction(u->Personality->Broadcast),SpriteNum);
     
@@ -1690,12 +1689,12 @@ DoActorMoveJump(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    long nx, ny;
+    int nx, ny;
     
     // Move while jumping
 
-    nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = sp->xvel * (long) sintable[sp->ang] >> 14;
+    nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = sp->xvel * (int) sintable[sp->ang] >> 14;
 
     move_actor(SpriteNum, nx, ny, 0L);
     
@@ -1708,17 +1707,17 @@ DoActorMoveJump(short SpriteNum)
     }
 
 
-int move_scan(short SpriteNum, short ang, long dist, long *stopx, long *stopy, long *stopz, short *stopsect)
+int move_scan(short SpriteNum, short ang, int dist, int *stopx, int *stopy, int *stopz, short *stopsect)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
     
-    long nx,ny;
+    int nx,ny;
     ULONG cliptype = CLIPMASK_ACTOR;
-    long ret;
+    int ret;
     
     short sang,ss;
-    long x, y, z, loz, hiz;
+    int x, y, z, loz, hiz;
     SPRITEp lo_sp, hi_sp;
     SECTORp lo_sectp, hi_sectp;
     
@@ -1740,8 +1739,8 @@ int move_scan(short SpriteNum, short ang, long dist, long *stopx, long *stopy, l
     
     // do the move
     sp->ang = ang;
-    nx = (dist) * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = (dist) * (long) sintable[sp->ang] >> 14;
+    nx = (dist) * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = (dist) * (int) sintable[sp->ang] >> 14;
     
     ret = move_sprite(SpriteNum, nx, ny, 0, u->ceiling_dist, u->floor_dist, cliptype, 1);
     // move_sprite DOES do a getzrange point?
@@ -1774,7 +1773,7 @@ int move_scan(short SpriteNum, short ang, long dist, long *stopx, long *stopy, l
 #define AWAY -1
 
 int 
-FindNewAngle(short SpriteNum, signed char dir, long DistToMove)
+FindNewAngle(short SpriteNum, signed char dir, int DistToMove)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
@@ -1804,10 +1803,10 @@ FindNewAngle(short SpriteNum, signed char dir, long DistToMove)
     unsigned short ret;
     int set;
     
-    long dist, stopx, stopy, stopz;
+    int dist, stopx, stopy, stopz;
     short stopsect;
     // start out with mininum distance that will be accepted as a move
-    long save_dist = 500;
+    int save_dist = 500;
     
     // if on fire, run shorter distances
     if (ActorFlaming(SpriteNum))
@@ -1920,10 +1919,10 @@ InitActorReposition(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
     short ang;
-    long rnum;
-    long dist;
+    int rnum;
+    int dist;
 
-    static long AwayDist[8] = 
+    static int AwayDist[8] = 
       {
       17000,
       20000,
@@ -1935,7 +1934,7 @@ InitActorReposition(short SpriteNum)
       42000
       };
       
-    static long TowardDist[8] = 
+    static int TowardDist[8] = 
       {
       10000,
       15000,
@@ -1947,7 +1946,7 @@ InitActorReposition(short SpriteNum)
       40000
       };
     
-    static long PlayerDist[8] = 
+    static int PlayerDist[8] = 
         {
         2000,
         3000,
@@ -2025,10 +2024,10 @@ DoActorReposition(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    long nx, ny;
+    int nx, ny;
 
-    nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = sp->xvel * (long) sintable[sp->ang] >> 14;
+    nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = sp->xvel * (int) sintable[sp->ang] >> 14;
 
     // still might hit something and have to handle it.
     if (!move_actor(SpriteNum, nx, ny, 0L))
@@ -2114,10 +2113,10 @@ DoActorReposition(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    long nx, ny;
+    int nx, ny;
 
-    nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = sp->xvel * (long) sintable[sp->ang] >> 14;
+    nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = sp->xvel * (int) sintable[sp->ang] >> 14;
 
     if (!move_actor(SpriteNum, nx, ny, 0L))
         {

@@ -27,7 +27,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 void DoQuakeMatch(short match);
 void ProcessQuakeOn(void);
 void ProcessQuakeSpot(void);
-void QuakeViewChange(PLAYERp pp, long *z_diff, long *x_diff, long *y_diff, short *ang_diff);
+void QuakeViewChange(PLAYERp pp, int *z_diff, int *x_diff, int *y_diff, short *ang_diff);
 void DoQuake(PLAYERp pp);
 BOOL SetQuake(PLAYERp pp, short tics, short amt); 
 int SetExpQuake(SHORT Weapon);

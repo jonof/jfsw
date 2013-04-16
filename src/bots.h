@@ -46,9 +46,9 @@ typedef struct NODEstruct NODE, *NODEp;
 struct NODEstruct
     {
     NODEp p, l, r;              // Pointers to tree nodes
-    long goalx, goaly, goalz;   // x,y,z point bot wants to get to
+    int goalx, goaly, goalz;   // x,y,z point bot wants to get to
     BOT_Actions action;         // Action to take if this node is reached
-    long tics;                  // Optionally stay in this node for x tics.
+    int tics;                  // Optionally stay in this node for x tics.
     };
     
 struct NODETREEstruct;    

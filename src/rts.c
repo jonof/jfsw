@@ -45,7 +45,7 @@ void * ReAllocMem(void *ptr, int size);
 void FreeMem(void *ptr);
 
 extern char ds[];
-char lumplockbyte[11];
+unsigned char lumplockbyte[11];
 
 //=============
 // STATICS
@@ -300,7 +300,7 @@ void *RTS_GetSound (int32 lump)
    if (lumpcache[lump] == NULL)
    {
       lumplockbyte[lump] = CACHE_LOCK_START;
-      allocache((long *)&lumpcache[lump],(long)RTS_SoundLength(lump-1),&lumplockbyte[lump]);
+      allocache(&lumpcache[lump],(int)RTS_SoundLength(lump-1),&lumplockbyte[lump]);
       RTS_ReadLump(lump, lumpcache[lump]);
    }
    else

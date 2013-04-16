@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -862,8 +861,8 @@ SetupRipper(short SpriteNum)
 int 
 GetJumpHeight(short jump_speed, short jump_grav)
     {
-    long jump_iterations;
-    long height;
+    int jump_iterations;
+    int height;
 
     jump_speed = labs(jump_speed);
 
@@ -877,7 +876,7 @@ GetJumpHeight(short jump_speed, short jump_grav)
     }
 
 int 
-PickJumpSpeed(short SpriteNum, long pix_height)
+PickJumpSpeed(short SpriteNum, int pix_height)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
@@ -906,7 +905,7 @@ PickJumpMaxSpeed(short SpriteNum, short max_speed)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long zh;
+    int zh;
 
     ASSERT(max_speed < 0);
     
@@ -939,12 +938,12 @@ InitRipperHang(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long dist;
+    int dist;
     short ang2;
 
     short hitwall;
     short hitsprite = -2, hitsect = -2;
-    long hitx, hity, hitz;
+    int hitx, hity, hitz;
 
     BOOL Found = FALSE;
     short dang, tang;
@@ -1019,11 +1018,11 @@ DoRipperMoveHang(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long nx, ny;
+    int nx, ny;
 
     // Move while jumping
-    nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = sp->xvel * (long) sintable[sp->ang] >> 14;
+    nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = sp->xvel * (int) sintable[sp->ang] >> 14;
 
     // if cannot move the sprite
     if (!move_actor(SpriteNum, nx, ny, 0L))
@@ -1059,7 +1058,7 @@ DoRipperHangJF(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long nx, ny;
+    int nx, ny;
 
     if (TEST(u->Flags, SPR_JUMPING | SPR_FALLING))
         {
@@ -1093,7 +1092,7 @@ DoRipperBeginJumpAttack(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     SPRITEp psp = User[SpriteNum]->tgt_sp;
-    long dist;
+    int dist;
     int CanSeePlayer(short SpriteNum);
     short tang;
 

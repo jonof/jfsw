@@ -21,8 +21,9 @@
  */
 //-------------------------------------------------------------------------
 
+#include "compat.h"
 #include "saveable.h"
-#include "stdlib.h"
+#include <stdlib.h>
 
 #define maxModules 35
 
@@ -114,12 +115,12 @@ int Saveable_FindDataSym(void *ptr, saveddatasym *sym)
 	for (m=0; m<nummodules; m++) {
 		for (i=0; i<saveablemodules[m]->numdata; i++) {
 			if (ptr < saveablemodules[m]->data[i].base) continue;
-			if (ptr >= (void*)((unsigned long)saveablemodules[m]->data[i].base +
+			if (ptr >= (void*)((intptr_t)saveablemodules[m]->data[i].base +
 						saveablemodules[m]->data[i].size)) continue;
 
 			sym->module = 1+m;
 			sym->index  = i;
-			sym->offset = (unsigned long)ptr - (unsigned long)saveablemodules[m]->data[i].base;
+			sym->offset = (intptr_t)ptr - (intptr_t)saveablemodules[m]->data[i].base;
 
 			return 0;
 		}
@@ -153,7 +154,7 @@ int Saveable_RestoreDataSym(saveddatasym *sym, void **ptr)
 	if (sym->index  >= saveablemodules[ sym->module-1 ]->numdata) return -1;
 	if (sym->offset >= saveablemodules[ sym->module-1 ]->data[ sym->index ].size) return -1;
 
-	*ptr = (void*)((unsigned long)saveablemodules[ sym->module-1 ]->data[ sym->index ].base + sym->offset);
+	*ptr = (void*)((intptr_t)saveablemodules[ sym->module-1 ]->data[ sym->index ].base + sym->offset);
 
 	return 0;
 }

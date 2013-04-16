@@ -30,9 +30,9 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 #define DEBUG 0
  
+#include "compat.h"
 #include "baselayer.h"
 #include "mmulti.h"
-#include "compat.h"
 
 #include "mytypes.h"
 #include "keyboard.h"
@@ -395,8 +395,8 @@ int StdRandomRange(int range);
 #define STD_RANDOM_RANGE(range) (StdRandomRange(range))
 #define STD_RANDOM() (rand())
 
-#define MOVEx(vel,ang) (((long)(vel) * (long)sintable[NORM_ANGLE((ang) + 512)]) >> 14)
-#define MOVEy(vel,ang) (((long)(vel) * (long)sintable[NORM_ANGLE((ang))]) >> 14)
+#define MOVEx(vel,ang) (((int)(vel) * (int)sintable[NORM_ANGLE((ang) + 512)]) >> 14)
+#define MOVEy(vel,ang) (((int)(vel) * (int)sintable[NORM_ANGLE((ang))]) >> 14)
 
 #define DIST(x1, y1, x2, y2) ksqrt( SQ((x1) - (x2)) + SQ((y1) - (y2)) )
 
@@ -476,8 +476,8 @@ int StdRandomRange(int range);
 #define SPRITEp_UPPER(sp) (SPRITEp_TOS(sp) + DIV4(SPRITEp_SIZE_Z(sp)))
 #define SPRITEp_LOWER(sp) (SPRITEp_BOS(sp) - DIV4(SPRITEp_SIZE_Z(sp)))
                 
-#define Z(value) ((long)(value) << 8)
-#define PIXZ(value) ((long)(value) >> 8)
+#define Z(value) ((int)(value) << 8)
+#define PIXZ(value) ((int)(value) >> 8)
 
 #define SQ(val) ((val) * (val))
 
@@ -823,9 +823,6 @@ struct STATEstruct
 // Jim's MISC declarations from other files
 ///////////////////////////////////////////////////////////////////////////////
 
-#define MAXSHELLS 32
-extern long ShellCount;
-
 typedef enum {WATER_FOOT, BLOOD_FOOT} FOOT_TYPE;
 
 extern FOOT_TYPE FootMode;
@@ -877,11 +874,11 @@ BOOL DLL_ExecFunc(int procHandle, char *fName);
 #define MAXUSERQUOTES 6
 #define MAXCONQUOTES 13
 
-extern long quotebot, quotebotgoal;
+extern int quotebot, quotebotgoal;
 extern short user_quote_time[MAXUSERQUOTES];
 extern char user_quote[MAXUSERQUOTES][256];
 
-extern long conbot, conbotgoal;
+extern int conbot, conbotgoal;
 extern char con_quote[MAXCONQUOTES][256];
 
 int minitext(int x,int y,char *t,char p,char sb);
@@ -896,12 +893,12 @@ void addconquote(char *daquote);
 // Console
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
-void CON_Message(BYTEp message, ...);
-void CON_ConMessage(BYTEp message, ...);
-void CON_StoreArg(BYTEp userarg);
-BOOL CON_CheckParm(BYTEp userarg);
+void CON_Message(const char *message, ...) PRINTF_FORMAT(1, 2);
+void CON_ConMessage(const char *message, ...) PRINTF_FORMAT(1, 2);
+void CON_StoreArg(const char *userarg);
+BOOL CON_CheckParm(const char *userarg);
 void CON_CommandHistory(signed char dir);
-BOOL CON_AddCommand(BYTEp command, /*BOOL*/void (*function)(void));
+BOOL CON_AddCommand(const char *command, void (*function)(void));
 void CON_ProcessUserCommand( void );
 void CON_InitConsole( void );
 
@@ -911,19 +908,12 @@ void CON_InitConsole( void );
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-static int RedBookToSector(int rb);
-static void CDAudio_Reset(void);
 void CDAudio_Eject(void);
-static int CDAudio_GetAudioTrackInfo(BYTE track, int *start);
-static int CDAudio_GetAudioDiskInfo(void);
-static int CDAudio_GetAudioStatus(void);
-static int CDAudio_MediaChange(void);
 BYTE CDAudio_GetVolume(void);
 void CDAudio_SetVolume(BYTE volume);
 void CDAudio_Play(BYTE track, BOOL looping);
 void CDAudio_Stop(void);
 void CDAudio_Resume(void);
-static void CD_f(void);
 void CDAudio_Update(void);
 BOOL CDAudio_Playing(void);
 int CDAudio_Init(void);
@@ -963,7 +953,7 @@ typedef struct
 extern DAMAGE_DATA DamageData[];
 
 // bit arrays that determine if a) Weapon has no ammo b) Weapon is the ammo (no weapon exists)
-extern long WeaponHasNoAmmo, WeaponIsAmmo;
+extern int WeaponHasNoAmmo, WeaponIsAmmo;
 
 
 VOID InitWeaponFist(PLAYERp);
@@ -1005,7 +995,7 @@ typedef struct
     
 typedef struct
     {
-    long x,y,z;
+    int x,y,z;
     }DEMO_START_POS, *DEMO_START_POSp;
 
 #define MAX_LEVELS_REG 29
@@ -1037,7 +1027,7 @@ extern char *ReadFortune[MAX_FORTUNES];
 
 #define MAX_KEYS 8
 extern char *KeyMsg[MAX_KEYS];
-extern CHARp KeyDoorMessage[MAX_KEYS];
+extern char *KeyDoorMessage[MAX_KEYS];
 
 typedef struct 
     {
@@ -1052,20 +1042,8 @@ extern SW_PACKET loc;
 
 #define PACK 1
 
-extern long DemoRecCnt;
-
-extern FILE *DemoFile;
-extern BOOL DemoPlaying;
-extern BOOL DemoRecording;
-extern BOOL DemoEdit;
-extern BOOL DemoMode;
 extern BOOL CameraTestMode;
-extern CHAR DemoFileName[16];
-extern CHAR DemoLevelName[16];
 
-#define DEMO_BUFFER_MAX 2048
-extern SW_PACKET DemoBuffer[DEMO_BUFFER_MAX];    
-    
 enum PlayerDeathTypes
     {
     PLAYER_DEATH_FLIP, PLAYER_DEATH_CRUMBLE, PLAYER_DEATH_EXPLODE, PLAYER_DEATH_RIPPER, PLAYER_DEATH_SQUISH, PLAYER_DEATH_DROWN, MAX_PLAYER_DEATHS
@@ -1078,59 +1056,59 @@ typedef void (*PLAYER_ACTION_FUNCp)(PLAYERp);
 typedef struct
 {
 short cursectnum,lastcursectnum,pang,filler;
-long xvect,yvect,oxvect,oyvect,slide_xvect,slide_yvect;
-long posx,posy,posz;
+int xvect,yvect,oxvect,oyvect,slide_xvect,slide_yvect;
+int posx,posy,posz;
 SECTOR_OBJECTp sop_control;
 }REMOTE_CONTROL, *REMOTE_CONTROLp;
     
 struct PLAYERstruct
     {
     // variable that fit in the sprite or user structure
-    long posx, posy, posz;
+    int posx, posy, posz;
     // interpolation
-    long 
+    int 
     oposx, oposy, oposz;
     short oang;
     short ohoriz;
     
     // holds last valid move position
     short lv_sectnum;
-    long lv_x,lv_y,lv_z;
+    int lv_x,lv_y,lv_z;
     
     SPRITEp remote_sprite;
     REMOTE_CONTROL remote;
     SECTOR_OBJECTp sop_remote;
     SECTOR_OBJECTp sop;  // will either be sop_remote or sop_control
 
-    long jump_count, jump_speed;     // jumping
+    int jump_count, jump_speed;     // jumping
     short down_speed, up_speed; // diving
-    long z_speed,oz_speed; // used for diving and flying instead of down_speed, up_speed
-    long climb_ndx;
-    long hiz,loz;
-    long ceiling_dist,floor_dist;
+    int z_speed,oz_speed; // used for diving and flying instead of down_speed, up_speed
+    int climb_ndx;
+    int hiz,loz;
+    int ceiling_dist,floor_dist;
     SECTORp hi_sectp, lo_sectp;
     SPRITEp hi_sp, lo_sp;
 
     SPRITEp last_camera_sp;
-    long camera_dist; // view mode dist
-    long circle_camera_dist; 
-    long six,siy,siz; // save player interp position for PlayerSprite
+    int camera_dist; // view mode dist
+    int circle_camera_dist; 
+    int six,siy,siz; // save player interp position for PlayerSprite
     short siang;
     
-    long xvect, yvect;
-    long oxvect, oyvect;
-    long friction;
-    long slide_xvect, slide_yvect;
+    int xvect, yvect;
+    int oxvect, oyvect;
+    int friction;
+    int slide_xvect, slide_yvect;
     short slide_ang;
-    long slide_dec;
-    long drive_angvel;
-    long drive_oangvel;
+    int slide_dec;
+    int drive_angvel;
+    int drive_oangvel;
     
     
     
     // scroll 2D mode stuff
-    long scr_x, scr_y, oscr_x, oscr_y;
-    long scr_xvect, scr_yvect;
+    int scr_x, scr_y, oscr_x, oscr_y;
+    int scr_xvect, scr_yvect;
     short scr_ang, oscr_ang, scr_sectnum;
     
     short view_outside_dang;  // outside view delta ang
@@ -1141,14 +1119,14 @@ struct PLAYERstruct
     short turn180_target; // 180 degree turn
 
     // variables that do not fit into sprite structure
-    long horizbase,horiz,horizoff,hvel,tilt,tilt_dest;
+    int horizbase,horiz,horizoff,hvel,tilt,tilt_dest;
     short recoil_amt;
     short recoil_speed;
     short recoil_ndx;
     short recoil_horizoff;
     
-    long oldposx,oldposy,oldposz;
-    long RevolveX, RevolveY;
+    int oldposx,oldposy,oldposz;
+    int RevolveX, RevolveY;
     short RevolveDeltaAng, RevolveAng;
     
     // under vars are for wading and swimming
@@ -1159,13 +1137,13 @@ struct PLAYERstruct
     short pnum; // carry along the player number
     
     short LadderSector,LadderAngle;
-    long lx,ly; // ladder x and y
+    int lx,ly; // ladder x and y
     short JumpDuration;
     short WadeDepth;
     short bob_amt;
     short bob_ndx;
     short bcnt; // bob count
-    long bob_z;
+    int bob_z;
     
     //Multiplayer variables
     SW_PACKET input;
@@ -1175,9 +1153,9 @@ struct PLAYERstruct
     SW_PACKET inputfifo[MOVEFIFOSIZ];
     
     
-    long movefifoend;
-    long myminlag;
-    long syncvalhead;
+    int movefifoend;
+    int myminlag;
+    int syncvalhead;
     #define MAXSYNCBYTES 16
 	// TENSW: on really bad network connections, the sync FIFO queue can overflow if it is the
 	// same size as the move fifo.
@@ -1185,11 +1163,11 @@ struct PLAYERstruct
     BYTE syncval[SYNCFIFOSIZ][MAXSYNCBYTES];
 
     // must start out as 0
-    long playerreadyflag;
+    int playerreadyflag;
     
     PLAYER_ACTION_FUNCp DoPlayerAction;
-    long Flags, Flags2;
-    long KeyPressFlags;
+    int Flags, Flags2;
+    int KeyPressFlags;
     
     SECTOR_OBJECTp sop_control; // sector object pointer
     SECTOR_OBJECTp sop_riding; // sector object pointer
@@ -1201,23 +1179,23 @@ struct PLAYERstruct
 
     // Key stuff
     #define NUM_KEYS 8
-    char HasKey[NUM_KEYS];
+    unsigned char HasKey[NUM_KEYS];
     
     // Weapon stuff
     short SwordAng;
-    long WpnGotOnceFlags; // for no respawn mode where weapons are allowed grabbed only once
-    long WpnFlags;
+    int WpnGotOnceFlags; // for no respawn mode where weapons are allowed grabbed only once
+    int WpnFlags;
     short WpnAmmo[MAX_WEAPONS];
     short WpnNum;
     PANEL_SPRITEp CurWpn;
     PANEL_SPRITEp Wpn[MAX_WEAPONS];
     PANEL_SPRITEp Chops;
-    char WpnRocketType; // rocket type
-    char WpnRocketHeat; // 5 to 0 range
-    char WpnRocketNuke; // 1, you have it, or you don't
-    char WpnFlameType; // Guardian weapons fire 
-    char WpnFirstType; // First weapon type - Sword/Shuriken
-    char WeaponType; // for weapons with secondary functions 
+    unsigned char WpnRocketType; // rocket type
+    unsigned char WpnRocketHeat; // 5 to 0 range
+    unsigned char WpnRocketNuke; // 1, you have it, or you don't
+    unsigned char WpnFlameType; // Guardian weapons fire 
+    unsigned char WpnFirstType; // First weapon type - Sword/Shuriken
+    unsigned char WeaponType; // for weapons with secondary functions 
     short FirePause; // for sector objects - limits rapid firing
     //
     // Inventory Vars
@@ -1248,11 +1226,11 @@ struct PLAYERstruct
     short MaxHealth;
     
     //char RocketBarrel;
-    CHAR PlayerName[32];
+    char PlayerName[32];
     
-    char UziShellLeftAlt;
-    char UziShellRightAlt;
-    char TeamColor;  // used in team play and also used in regular mulit-play for show
+    unsigned char UziShellLeftAlt;
+    unsigned char UziShellRightAlt;
+    unsigned char TeamColor;  // used in team play and also used in regular mulit-play for show
     
     // palette fading up and down for player hit and get items
     short FadeTics;                 // Tics between each fade cycle
@@ -1267,23 +1245,23 @@ struct PLAYERstruct
     BOOL PlayerTalking;             // Is player currently talking
     int TalkVocnum;                 // Number of sound that player is using
     int TalkVocHandle;              // Handle of sound in sound queue, to access in Dose's code
-    char WpnUziType;                // Toggle between single or double uzi's if you own 2.
-    char WpnShotgunType;            // Shotgun has normal or fully automatic fire
-    char WpnShotgunAuto;            // 50-0 automatic shotgun rounds
-    char WpnShotgunLastShell;       // Number of last shell fired
-    char WpnRailType;               // Normal Rail Gun or EMP Burst Mode
+    unsigned char WpnUziType;                // Toggle between single or double uzi's if you own 2.
+    unsigned char WpnShotgunType;            // Shotgun has normal or fully automatic fire
+    unsigned char WpnShotgunAuto;            // 50-0 automatic shotgun rounds
+    unsigned char WpnShotgunLastShell;       // Number of last shell fired
+    unsigned char WpnRailType;               // Normal Rail Gun or EMP Burst Mode
     BOOL Bloody;                    // Is player gooey from the slaughter?
     int nukevochandle;              // Stuff for the Nuke
     BOOL InitingNuke;
     BOOL TestNukeInit;
     BOOL NukeInitialized;           // Nuke already has counted down
     short FistAng;                  // KungFu attack angle
-    char WpnKungFuMove;             // KungFu special moves
+    unsigned char WpnKungFuMove;             // KungFu special moves
     BOOL BunnyMode;                 // Can shoot Bunnies out of rocket launcher
     short HitBy;                    // SpriteNum of whatever player was last hit by
     short Reverb;                   // Player's current reverb setting
     short Heads;                    // Number of Accursed Heads orbiting player
-    long PlayerVersion;
+    int PlayerVersion;
     };
     
 extern PLAYER Player[MAX_SW_PLAYERS_REG+1];
@@ -1392,15 +1370,15 @@ STATEp *Dive;
 
 typedef struct 
 {
-long pos;           // current position - always moves toward tgt
-long open_dest;     // destination of open position
-long tgt;           // current target
-long speed;         // speed of movement
-long orig_speed;    // original speed - vel jacks with speed
-long vel;           // velocity adjuments
-long num_walls;     // save off positions of walls for rotator
-long *origx;
-long *origy;
+int pos;           // current position - always moves toward tgt
+int open_dest;     // destination of open position
+int tgt;           // current target
+int speed;         // speed of movement
+int orig_speed;    // original speed - vel jacks with speed
+int vel;           // velocity adjuments
+int num_walls;     // save off positions of walls for rotator
+int *origx;
+int *origy;
 }ROTATOR, *ROTATORp;
 
 //
@@ -1432,11 +1410,11 @@ typedef struct
     SECTOR_OBJECTp sop_parent;  // denotes that this sprite is a part of the 
                                 // sector object - contains info for the SO
     
-    long ox, oy, oz;
+    int ox, oy, oz;
     
-    long Flags;
-    long Flags2;
-    long Tics;
+    int Flags;
+    int Flags2;
+    int Tics;
     
     short RotNum;
     short ID;
@@ -1457,12 +1435,12 @@ typedef struct
     short ceiling_dist;
     short floor_dist;
     short lo_step;
-    long hiz,loz;
-    long zclip; // z height to move up for clipmove
+    int hiz,loz;
+    int zclip; // z height to move up for clipmove
     SECTORp hi_sectp, lo_sectp;
     SPRITEp hi_sp, lo_sp;
     
-    long active_range;
+    int active_range;
     
     short   SpriteNum;
     short   Attach;  // attach to sprite if needed - electro snake
@@ -1478,12 +1456,12 @@ typedef struct
     //
     
     // precalculated vectors
-    long xchange,ychange,zchange;
+    int xchange,ychange,zchange;
     
-    long  z_tgt;
+    int  z_tgt;
     
     // velocity
-    long  vel_tgt;
+    int  vel_tgt;
     short vel_rate;
     BYTE speed; // Ordinal Speed Range 0-3 from slow to fast
     
@@ -1495,7 +1473,7 @@ typedef struct
     
     short WpnGoal;
     unsigned int Radius;    // for distance checking
-    long  OverlapZ;  // for z overlap variable
+    int  OverlapZ;  // for z overlap variable
     
     // 
     // Only have a place for actors
@@ -1527,11 +1505,11 @@ typedef struct
     short track;
     short point;
     short track_dir;
-    long  track_vel;
+    int  track_vel;
     
     // sliding variables - slide backwards etc
     short slide_ang;     
-    long  slide_vel;     
+    int  slide_vel;     
     short slide_dec;
     
     short motion_blur_dist;
@@ -1539,21 +1517,21 @@ typedef struct
 
     short wait_active_check;  // for enemy checking of player
     short inactive_time; // length of time actor has been unaware of his tgt
-    long  sx,sy,sz;
+    int  sx,sy,sz;
     short sang;
     char spal;  // save off default palette number
     
-    long ret; //holder for move_sprite return value
+    int ret; //holder for move_sprite return value
     
     // Need to get rid of these flags
-    long  Flag1;
+    int  Flag1;
     
     CHAR  LastWeaponNum;
     CHAR  WeaponNum;
     
     short bounce;           // count bounces off wall for killing shrap stuff
     // !JIM! my extensions
-    long ShellNum;          // This is shell no. 0 to whatever
+    int ShellNum;          // This is shell no. 0 to whatever
                             // Shell gets deleted when ShellNum < (ShellCount - MAXSHELLS) 
     short FlagOwner;        // The spritenum of the original flag
     short Vis;              // Shading upgrade, for shooting, etc...
@@ -1799,7 +1777,7 @@ SHRAP_USER_DEFINED      = 99
                                                            
 typedef struct
     {
-    long dist, flags;
+    int dist, flags;
     short depth_fract, depth; // do NOT change this, doubles as a long FIXED point number
     short stag,    // ST? tag number - for certain things it helps to know it
         ang,     
@@ -1829,8 +1807,8 @@ typedef struct
   {
   short sprite_num;
   short dang;
-  long dist;
-  long weight;
+  int dist;
+  int weight;
   }TARGET_SORT, *TARGET_SORTp;    
     
 #define MAX_TARGET_SORT 16    
@@ -1860,13 +1838,13 @@ typedef struct
 
 typedef struct
     {
-    long origx[17], origy[17];
+    int origx[17], origy[17];
     short sector, angopen, angclosed, angopendir, sang, anginc, wall[17];
     } SWING;
 
 typedef struct
     {
-    long floor_origz, ceiling_origz, range;
+    int floor_origz, ceiling_origz, range;
     short sector, sintable_ndx, speed_shift;
     char flags;
     } SINE_WAVE_FLOOR, *SINE_WAVE_FLOORp;
@@ -1876,7 +1854,7 @@ extern SINE_WAVE_FLOOR SineWaveFloor[MAX_SINE_WAVE][21];
 
 typedef struct
     {
-    long orig_xy, range;
+    int orig_xy, range;
     short wall, sintable_ndx, speed_shift, type;
     } SINE_WALL, *SINE_WALLp;
 
@@ -1895,12 +1873,12 @@ extern SWING Rotate[17];
 typedef struct
     {
     short sector, speed;
-    long xmid, ymid;
+    int xmid, ymid;
     } SPIN;
 
 extern SPIN Spin[17];
 extern DOOR_AUTO_CLOSE DoorAutoClose[MAX_DOOR_AUTO_CLOSE];
-extern long x_min_bound, y_min_bound, x_max_bound, y_max_bound; 
+extern int x_min_bound, y_min_bound, x_max_bound, y_max_bound; 
 
 #define MAXANIM 256   
 typedef void ANIM_CALLBACK(ANIMp, void *);
@@ -1909,8 +1887,8 @@ typedef void *ANIM_DATAp;
 
 struct ANIMstruct
     {
-    long *ptr, goal;
-    long vel;
+    int *ptr, goal;
+    int vel;
     short vel_adj;
     ANIM_CALLBACKp callback;
     ANIM_DATAp callbackdata;
@@ -1922,14 +1900,14 @@ extern short AnimCnt;
 
 typedef struct
     {
-    long x,y,z;
+    int x,y,z;
     short ang, tag_low, tag_high, filler;
     }TRACK_POINT, *TRACK_POINTp;
 
 typedef struct
     {
     TRACK_POINTp TrackPoint;
-    long ttflags;
+    int ttflags;
     short flags;
     short NumPoints;
     }TRACK, *TRACKp;
@@ -1963,7 +1941,7 @@ struct SECTOR_OBJECTstruct
     
     SPRITEp sp_child;  // child sprite that holds info for the sector object
     
-    long    xmid,ymid,zmid, // midpoints of the sector object
+    int    xmid,ymid,zmid, // midpoints of the sector object
         vel,            // velocity
         vel_tgt,        // target velocity
         player_xoff,    // player x offset from the xmid
@@ -2119,22 +2097,21 @@ VOID SetBorder(PLAYERp pp, int);
 VOID SetFragBar(PLAYERp pp);
 int Distance(int x1, int y1, int x2, int y2);
 short GetDeltaAngle(short, short);
-int move_actor(short SpriteNum, long xchange, long ychange, long zchange);
 
-int SetActorRotation(short SpriteNum,long,long);
+int SetActorRotation(short SpriteNum,int,int);
 int NewStateGroup(short SpriteNum, STATEp SpriteGroup[]);
-VOID SectorMidPoint(short sectnum, long *xmid, long *ymid, long *zmid);
+VOID SectorMidPoint(short sectnum, int *xmid, int *ymid, int *zmid);
 USERp SpawnUser(short SpriteNum, short id, STATEp state);
 
-short ActorFindTrack(short SpriteNum, CHAR player_dir, long track_type, short *track_point_num, short *track_dir);
+short ActorFindTrack(short SpriteNum, CHAR player_dir, int track_type, short *track_point_num, short *track_dir);
 
 SECT_USERp GetSectUser(short sectnum);
 
-short SoundDist(long x, long y, long z, long basedist);
-short SoundAngle(long x, long  y);
+short SoundDist(int x, int y, int z, int basedist);
+short SoundAngle(int x, int  y);
 //void PlaySound(int num, short angle, short vol);
-int PlaySound(int num, long *x, long *y, long *z, Voc3D_Flags flags);
-void PlayerSound(int num, long *x, long *y, long *z, Voc3D_Flags flags, PLAYERp pp);
+int PlaySound(int num, int *x, int *y, int *z, Voc3D_Flags flags);
+void PlayerSound(int num, int *x, int *y, int *z, Voc3D_Flags flags, PLAYERp pp);
 
 ANIMATOR DoActorBeginJump,DoActorJump,DoActorBeginFall,DoActorFall,DoActorDeathMove;
 
@@ -2147,28 +2124,28 @@ VOID PlayerUpdateKills(PLAYERp pp, short value);
 VOID PlayerUpdatePanelInfo(PLAYERp pp);
 VOID RefreshInfoLine(PLAYERp pp);
 
-VOID DoAnim(long numtics);
-void AnimDelete(long *animptr);
-short AnimGetGoal(long *animptr);
-short AnimSet(long *animptr, long thegoal, long thevel);
-//short AnimSetCallback(long *animptr, long thegoal, long thevel, ANIM_CALLBACKp call, ANIM_DATAp data);
+VOID DoAnim(int numtics);
+void AnimDelete(int *animptr);
+short AnimGetGoal(int *animptr);
+short AnimSet(int *animptr, int thegoal, int thevel);
+//short AnimSetCallback(int *animptr, int thegoal, int thevel, ANIM_CALLBACKp call, ANIM_DATAp data);
 short AnimSetCallback(short anim_ndx, ANIM_CALLBACKp call, ANIM_DATAp data);
 short AnimSetVelAdj(short anim_ndx, short vel_adj);
 
 VOID EnemyDefaults(short SpriteNum, ACTOR_ACTION_SETp action, PERSONALITYp person);
 
-VOID getzrangepoint(long x, long y, long z, short sectnum, LONGp ceilz, LONGp ceilhit, LONGp florz, LONGp florhit);
-int move_sprite(short spritenum, long xchange, long ychange, long zchange, long ceildist, long flordist, ULONG cliptype, long numtics);
-int move_missile(short spritenum, long xchange, long ychange, long zchange, long ceildist, long flordist, ULONG cliptype, long numtics);
+VOID getzrangepoint(int x, int y, int z, short sectnum, LONGp ceilz, LONGp ceilhit, LONGp florz, LONGp florhit);
+int move_sprite(short spritenum, int xchange, int ychange, int zchange, int ceildist, int flordist, ULONG cliptype, int numtics);
+int move_missile(short spritenum, int xchange, int ychange, int zchange, int ceildist, int flordist, ULONG cliptype, int numtics);
 int DoPickTarget(SPRITEp sp, WORD max_delta_ang, BOOL skip_targets);
 
 VOID change_sprite_stat(short, short);
 VOID SetOwner(short, short);  
 VOID SetAttach(short, short);  
-VOID analyzesprites(long,long,long,BOOL);
+VOID analyzesprites(int,int,int,BOOL);
 VOID ChangeState(short SpriteNum, STATEp statep);
 
-VOID UpdateSectorFAF_Connect(short SpriteNum, long newz);
+VOID UpdateSectorFAF_Connect(short SpriteNum, int newz);
 #if 0
 BOOL FAF_ConnectCeiling(short sectnum);
 BOOL FAF_ConnectFloor(short sectnum);
@@ -2179,11 +2156,11 @@ BOOL FAF_ConnectFloor(short sectnum);
 #define FAF_ConnectFloor(sectnum) (sector[(sectnum)].floorpicnum == FAF_MIRROR_PIC)
 #define FAF_ConnectArea(sectnum) (FAF_ConnectCeiling(sectnum) || FAF_ConnectFloor(sectnum))
 #endif
-void updatesectorz(long, long, long, short *);
+void updatesectorz(int, int, int, short *);
 VOID FAF_ConnectPlayerCeiling(PLAYERp pp);
 VOID FAF_ConnectPlayerFloor(PLAYERp pp);
-BOOL PlayerCeilingHit(PLAYERp pp, long zlimit);
-BOOL PlayerFloorHit(PLAYERp pp, long zlimit);
+BOOL PlayerCeilingHit(PLAYERp pp, int zlimit);
+BOOL PlayerFloorHit(PLAYERp pp, int zlimit);
 
 VOID FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum, 
                 LONG xvect, LONG yvect, LONG zvect, 
@@ -2203,15 +2180,15 @@ VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum,
     
 VOID COVERupdatesector(LONG x, LONG y, SHORTp newsector);
 
-void updatesectorz(long,long,long,SHORTp);
+void updatesectorz(int,int,int,SHORTp);
     
-extern long clipmoveboxtracenum;
+extern int clipmoveboxtracenum;
 
 
 void short_setinterpolation(short *posptr);
 void short_stopinterpolation(short *posptr);
 void short_updateinterpolations(void);
-void short_dointerpolations(long smoothratio); 
+void short_dointerpolations(int smoothratio); 
 void short_restoreinterpolations(void);
 
 enum SoundType
@@ -2243,13 +2220,13 @@ extern char ds[];
 extern short Skill;
 extern int GodMode;
 
-extern long x_min_bound, y_min_bound, x_max_bound, y_max_bound; 
+extern int x_min_bound, y_min_bound, x_max_bound, y_max_bound; 
 
 //extern unsigned char synctics, lastsynctics;
 extern BORDER_INFO BorderInfo;
 extern short snum;
 
-extern long lockspeed,totalsynctics;
+extern int lockspeed,totalsynctics;
 
 #define synctics 3
 #define ACTORMOVETICS (synctics<<1)
@@ -2266,7 +2243,7 @@ extern long lockspeed,totalsynctics;
 extern short numplayers, myconnectindex;
 extern short connecthead, connectpoint2[MAXPLAYERS];
 */
-extern long *lastpacket2clock;
+extern int *lastpacket2clock;
 extern char username[MAXPLAYERS][50];
 
 // save player info when moving to a new level
@@ -2284,8 +2261,7 @@ extern USER puser[MAX_SW_PLAYERS_REG];
 #define TEXT_TEST_COL(width) TEXT_XCENTER(width)
 #define TEXT_TEST_TIME 2
 
-void PutStringTimer(PLAYERp pp, short x, short y, char *string, short seconds);
-void MNU_MeasureString(char *string, short *, short *);
+void PutStringTimer(PLAYERp pp, short x, short y, const char *string, short seconds);
 
 ///////////////////////////
 //
@@ -2308,17 +2284,14 @@ void sendlogoff(void);
 //
 ///////////////////////////
 
-extern long ototalclock, save_totalclock, gotlastpacketclock,smoothratio;
+extern int ototalclock, save_totalclock, gotlastpacketclock,smoothratio;
 extern BOOL ready2send;
 
 // local copy of variables updated by faketimerhandler
-extern long locselectedgun;
+extern int locselectedgun;
 
 //FIFO queue to hold values while faketimerhandler is called from within the drawing routing
-extern long movefifoplc, movefifoend[];
-
-//MULTI.OBJ sync state variables
-extern char syncstate;
+extern int movefifoplc, movefifoend[];
 
 
 extern BOOL MoveSkip4, MoveSkip2, MoveSkip8;
@@ -2330,8 +2303,8 @@ extern char keys[];
 
 extern short screenpeek;
 
-extern long dimensionmode, zoom;
-extern long vel,svel,angvel;
+extern int dimensionmode, zoom;
+extern int vel,svel,angvel;
 
 #define STAT_DAMAGE_LIST_SIZE 20
 extern SHORT StatDamageList[STAT_DAMAGE_LIST_SIZE];
@@ -2349,7 +2322,7 @@ extern unsigned char palette_data[256][3];
 extern BOOL NightVision;
 #endif
 
-int _PlayerSound(char *file, int line, int num, long *x, long *y, long *z, Voc3D_Flags flags, PLAYERp pp);
+int _PlayerSound(char *file, int line, int num, int *x, int *y, int *z, Voc3D_Flags flags, PLAYERp pp);
 #define PlayerSound(num, x, y, z, flags, pp) _PlayerSound(__FILE__, __LINE__, (num), (x), (y), (z), (flags), (pp))
 
 #define MAXSO (MAXLONG)
@@ -2373,8 +2346,8 @@ void TerminateGame(void );	// game.c
 void TerminateLevel(void );	// game.c
 void ResetKeys(void );	// game.c
 BOOL KeyPressed(void );	// game.c
-void drawoverheadmap(long cposx,long cposy,long czoom,short cang);	// game.c
-void COVERsetbrightness(int bright, char *pal);	// game.c
+void drawoverheadmap(int cposx,int cposy,int czoom,short cang);	// game.c
+void COVERsetbrightness(int bright, unsigned char *pal);	// game.c
 void DrawMenuLevelScreen(void );	// game.c
 VOID DebugWriteString(char *string);	// game.c
 VOID ManualPlayerInsert(PLAYERp pp);	// game.c
@@ -2386,22 +2359,22 @@ VOID SetCrosshair(VOID);	// border.c
 
 void initsynccrc(void);		// sync.c
 void demosync_record(void );	// sync.c
-void demosync_test(long cnt);	// sync.c
+void demosync_test(int cnt);	// sync.c
 void getsyncstat(void );	// sync.c
 void SyncStatMessage(void );	// sync.c
 
 void drawscreen(PLAYERp pp);	// draw.c
 void post_analyzesprites(void );	// draw.c
-long COVERsetgamemode(long mode, long xdim, long ydim, long bpp);	// draw.c
+int COVERsetgamemode(int mode, int xdim, int ydim, int bpp);	// draw.c
 VOID ScreenCaptureKeys(VOID);	// draw.c
 
 int minigametext(int x,int y,char *t,char s,short dabits);	// jplayer.c
-void computergetinput(long snum,SW_PACKET *syn);	// jplayer.c
+void computergetinput(int snum,SW_PACKET *syn);	// jplayer.c
 
-void DrawOverlapRoom(long tx,long ty,long tz,short tang,long thoriz,short tsectnum);	// rooms.c
+void DrawOverlapRoom(int tx,int ty,int tz,short tang,int thoriz,short tsectnum);	// rooms.c
 void SetupMirrorTiles(void );	// rooms.c
 BOOL FAF_Sector(short sectnum);	// rooms.c
-long GetZadjustment(short sectnum,short hitag);	// rooms.c
+int GetZadjustment(short sectnum,short hitag);	// rooms.c
 
 void TermSetup(void);	// swconfig.c
 
@@ -2427,7 +2400,7 @@ void LoadGameDescr(short save_num, char *descr);	// save.c
 void SetRotatorActive(short SpriteNum);	// rotator.c
 
 BOOL VatorSwitch(short match, short setting); // vator.c
-void MoveSpritesWithSector(short sectnum,long z_amt,BOOL type);	// vator.c
+void MoveSpritesWithSector(short sectnum,int z_amt,BOOL type);	// vator.c
 void SetVatorActive(short SpriteNum);	// vator.c
 
 short DoSpikeMatch(PLAYERp pp,short match);	// spike.c
@@ -2435,12 +2408,12 @@ void SpikeAlign(short SpriteNum);	// spike.c
 
 short DoSectorObjectSetScale(short match);	// morph.c
 short DoSOevent(short match,short state);	// morph.c
-void SOBJ_AlignCeilingToPoint(SECTOR_OBJECTp sop,long x,long y,long z);	// morph.c
-void SOBJ_AlignFloorToPoint(SECTOR_OBJECTp sop,long x,long y,long z);	// morph.c
+void SOBJ_AlignCeilingToPoint(SECTOR_OBJECTp sop,int x,int y,int z);	// morph.c
+void SOBJ_AlignFloorToPoint(SECTOR_OBJECTp sop,int x,int y,int z);	// morph.c
 void ScaleSectorObject(SECTOR_OBJECTp sop);	// morph.c
 void MorphTornado(SECTOR_OBJECTp sop);	// morph.c
 void MorphFloor(SECTOR_OBJECTp sop);	// morph.c
-void ScaleRandomPoint(SECTOR_OBJECTp sop,short k,short ang,long x,long y,long *dx,long *dy);	// morph.c
+void ScaleRandomPoint(SECTOR_OBJECTp sop,short k,short ang,int x,int y,int *dx,int *dy);	// morph.c
 
 void CopySectorMatch(short match);	// copysect.c
 

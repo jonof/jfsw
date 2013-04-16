@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -461,11 +460,11 @@ int DoEelMatchPlayerZ(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     SPRITEp tsp = User[SpriteNum]->tgt_sp;
-    long zdiff,zdist;
-    long loz,hiz;
-    long dist,a,b,c;
+    int zdiff,zdist;
+    int loz,hiz;
+    int dist,a,b,c;
     
-    long bound;
+    int bound;
 
     if (FAF_ConnectArea(sp->sectnum))
         {
@@ -544,7 +543,7 @@ int DoEelMatchPlayerZ(short SpriteNum)
     u->sz = max(u->sz, hiz + u->ceiling_dist);    
     
     u->Counter = (u->Counter + (ACTORMOVETICS << 3) + (ACTORMOVETICS << 1)) & 2047;
-    sp->z = u->sz + ((EEL_BOB_AMT * (long)sintable[u->Counter]) >> 14);
+    sp->z = u->sz + ((EEL_BOB_AMT * (int)sintable[u->Counter]) >> 14);
     
     bound = u->hiz + u->ceiling_dist + EEL_BOB_AMT;
     if (sp->z < bound)    
@@ -561,7 +560,7 @@ DoEelDeath(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    long nx, ny;
+    int nx, ny;
     if (TEST(u->Flags, SPR_FALLING))
         {
         DoFall(SpriteNum);
@@ -577,8 +576,8 @@ DoEelDeath(short SpriteNum)
         DoActorSlide(SpriteNum);
 
     // slide while falling
-    nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = sp->xvel * (long) sintable[sp->ang] >> 14;
+    nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = sp->xvel * (int) sintable[sp->ang] >> 14;
 
     u->ret = move_sprite(SpriteNum, nx, ny, 0L, u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, ACTORMOVETICS);
     DoFindGroundPoint(SpriteNum);

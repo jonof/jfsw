@@ -1,6 +1,6 @@
 void MapColors(short num,COLOR_MAP cm,short create);
 void InitPalette(void );
-void SetPaletteToVESA(char *pal);
-void set_pal(char *pal);
-void GetPaletteFromVESA(char *pal);
+void SetPaletteToVESA(unsigned char *pal);
+void set_pal(unsigned char *pal);
+void GetPaletteFromVESA(unsigned char *pal);
 void InitPalette(void );

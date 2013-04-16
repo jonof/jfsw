@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 //#include "keys.h"
 #include "names2.h"
@@ -39,7 +38,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 SECTOR_OBJECTp DetectSectorObjectByWall(WALLp);
 
-void SOwallmove(SECTOR_OBJECTp sop, SPRITEp sp, WALLp find_wallp, long dist, long *nx, long *ny)
+void SOwallmove(SECTOR_OBJECTp sop, SPRITEp sp, WALLp find_wallp, int dist, int *nx, int *ny)
     {
     int j,k,wallcount;
     WALLp wp;
@@ -83,7 +82,7 @@ void SOwallmove(SECTOR_OBJECTp sop, SPRITEp sp, WALLp find_wallp, long dist, lon
 
 int DoWallMove(SPRITEp sp)
     {
-    long dist,nx,ny;
+    int dist,nx,ny;
     short shade1,shade2,ang,picnum1,picnum2;
     WALLp wallp;
     short prev_wall;
@@ -97,7 +96,7 @@ int DoWallMove(SPRITEp sp)
     picnum2 = SP_TAG6(sp);
     shade1 = SP_TAG7(sp);
     shade2 = SP_TAG8(sp);
-    dang = ((long)SP_TAG10(sp)) << 3;
+    dang = ((int)SP_TAG10(sp)) << 3;
 
     if (dang)
         ang = NORM_ANGLE(ang + (RANDOM_RANGE(dang) - dang/2));

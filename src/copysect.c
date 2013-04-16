@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "names2.h"
 #include "game.h"
@@ -141,7 +140,7 @@ void CopySectorMatch(short match)
                     // don't move ST1 Copy Tags
                     if (SPRITE_TAG1(src_move) != SECT_COPY_SOURCE)
                         {
-                        long sx,sy,dx,dy,src_xoff,src_yoff,trash;
+                        int sx,sy,dx,dy,src_xoff,src_yoff,trash;
                         
                         // move sprites from source to dest - use center offset
                         

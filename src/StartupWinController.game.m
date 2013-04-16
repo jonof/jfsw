@@ -23,9 +23,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+#include "compat.h"
 #include "types.h"
 #include "build.h"
-#include "compat.h"
 #include "baselayer.h"
 #include "startdlg.h"
 

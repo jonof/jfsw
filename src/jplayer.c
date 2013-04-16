@@ -28,7 +28,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // Copyright (c) 1996 by Jim Norwood
 
 #include "build.h"
-#include "compat.h"
 
 #include "mytypes.h"
 #include "keys.h"
@@ -221,13 +220,13 @@ int minitextshade(int x,int y,char *t,char s,char p,char sb)
     return (x);
 }
 
-long quotebot, quotebotgoal;
+int quotebot, quotebotgoal;
 short user_quote_time[MAXUSERQUOTES];
 char user_quote[MAXUSERQUOTES][256];
 
 void adduserquote(char *daquote)
 {
-    long i;
+    int i;
 
     SetRedrawScreen(Player+myconnectindex);
     
@@ -242,7 +241,7 @@ void adduserquote(char *daquote)
 
 void operatefta(void)
 {
-     long i, j, k;
+     int i, j, k;
 
      j=MESSAGE_LINE; // Base line position on screen
      quotebot = min(quotebot,j);
@@ -280,12 +279,12 @@ void operatefta(void)
 }
 
 //////////// Console Message Queue ////////////////////////////////////
-long conbot, conbotgoal;
+int conbot, conbotgoal;
 char con_quote[MAXCONQUOTES][256];
 
 void addconquote(char *daquote)
 {
-    long i;
+    int i;
 
     for(i=MAXCONQUOTES-1;i>0;i--)
     {
@@ -297,7 +296,7 @@ void addconquote(char *daquote)
 #define CON_ROT_FLAGS (ROTATE_SPRITE_CORNER|ROTATE_SPRITE_SCREEN_CLIP|ROTATE_SPRITE_NON_MASK)
 void operateconfta(void)
 {
-     long i, j, k;
+     int i, j, k;
 
      if(!ConPanel) return;  // If panel isn't up, don't draw anything
 
@@ -353,7 +352,7 @@ void BOT_ChooseWeapon(PLAYERp p, USERp u, SW_PACKET *syn)
         }
     } 
        
-long getspritescore(long snum, long dapicnum)
+int getspritescore(int snum, int dapicnum)
 {
 
     switch(dapicnum)
@@ -400,7 +399,7 @@ long getspritescore(long snum, long dapicnum)
     return(0);
 }
 
-static long fdmatrix[13][13] =
+static int fdmatrix[13][13] =
 {
  //SWRD  SHUR  UZI SHOT RPG  40MM MINE RAIL HEAD HEAD2HEAD3HEART
    { 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128},   //SWRD
@@ -417,21 +416,21 @@ static long fdmatrix[13][13] =
    {1024, 512, 128, 128,2560, 512,2560,1024, 128,2560,1024,1024,1024},   //HEART
 };
 
-static long goalx[MAX_SW_PLAYERS_REG], goaly[MAX_SW_PLAYERS_REG], goalz[MAX_SW_PLAYERS_REG];
-static long goalsect[MAX_SW_PLAYERS_REG], goalwall[MAX_SW_PLAYERS_REG], goalsprite[MAX_SW_PLAYERS_REG];
-static long goalplayer[MAX_SW_PLAYERS_REG], clipmovecount[MAX_SW_PLAYERS_REG];
+static int goalx[MAX_SW_PLAYERS_REG], goaly[MAX_SW_PLAYERS_REG], goalz[MAX_SW_PLAYERS_REG];
+static int goalsect[MAX_SW_PLAYERS_REG], goalwall[MAX_SW_PLAYERS_REG], goalsprite[MAX_SW_PLAYERS_REG];
+static int goalplayer[MAX_SW_PLAYERS_REG], clipmovecount[MAX_SW_PLAYERS_REG];
 short searchsect[MAXSECTORS], searchparent[MAXSECTORS];
 char dashow2dsector[(MAXSECTORS+7)>>3];
 
-void computergetinput(long snum, SW_PACKET *syn)
+void computergetinput(int snum, SW_PACKET *syn)
 {
-    long i, j, k, l, x1, y1, z1, x2, y2, z2, x3, y3, z3, dx, dy, nextj;
-    long dist, daang, zang, fightdist, damyang, damysect;
-    long startsect, endsect, splc, send, startwall, endwall;
+    int i, j, k, l, x1, y1, z1, x2, y2, z2, x3, y3, z3, dx, dy, nextj;
+    int dist, daang, zang, fightdist, damyang, damysect;
+    int startsect, endsect, splc, send, startwall, endwall;
     short dasect, dawall, daspr;
     PLAYERp p;
     walltype *wal;
-    long myx, myy, myz, myang, mycursectnum;
+    int myx, myy, myz, myang, mycursectnum;
     USERp u;
     short weap;
     //extern BOOL Pachinko_Win_Cheat;
@@ -570,7 +569,7 @@ void computergetinput(long snum, SW_PACKET *syn)
                     hitscan(sprite[j].x,sprite[j].y,sprite[j].z,sprite[j].sectnum,
                      mulscale14(sprite[j].xvel,sintable[(sprite[j].ang+512)&2047]),
                      mulscale14(sprite[j].xvel,sintable[sprite[j].ang&2047]),
-                     (long)sprite[j].zvel,
+                     (int)sprite[j].zvel,
                      &dasect,&dawall,&daspr,&x3,&y3,&z3,CLIPMASK1);
                 }
             }
@@ -606,7 +605,7 @@ void computergetinput(long snum, SW_PACKET *syn)
         // Only fire explosive type weaps if you are not too close to the target!
         if (u->WeaponNum == WPN_MICRO || u->WeaponNum == WPN_GRENADE || u->WeaponNum == WPN_RAIL)
         {
-            long x4,y4,z4;
+            int x4,y4,z4;
             hitscan(x1,y1,z1-PLAYER_HEIGHT,damysect,sintable[(damyang+512)&2047],sintable[damyang&2047],
                 (100-p->horiz-p->horizoff)*32,&dasect,&dawall,&daspr,&x4,&y4,&z4,CLIPMASK1);
             if ((x4-x1)*(x4-x1)+(y4-y1)*(y4-y1) < 2560*2560) syn->bits &= ~(1<<SK_SHOOT);

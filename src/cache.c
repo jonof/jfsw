@@ -30,7 +30,6 @@ not load" error messages.
 ****************************************/
 
 #include "build.h"
-#include "compat.h"
 
 #include "names2.h"
 #include "game.h"
@@ -158,8 +157,8 @@ short Pachinko_SCTable[] =
 419,420,421,422,423
 };
 
-void PreCacheSoundList(short table[], long num);
-void PreCacheTable(short table[], long num);
+void PreCacheSoundList(short table[], int num);
+void PreCacheTable(short table[], int num);
 VOID PreCacheGhost(VOID);
 
 void
@@ -401,7 +400,7 @@ VOID PreCachePachinko(VOID)
     PreCacheSoundList(Pachinko_SCTable, SIZ(Pachinko_SCTable));
     }
 
-void PreCacheSoundList(short table[], long num)
+void PreCacheSoundList(short table[], int num)
     {
     short j;
 
@@ -413,7 +412,7 @@ void PreCacheSoundList(short table[], long num)
     }
     
 void
-PreCacheTable(short table[], long num)
+PreCacheTable(short table[], int num)
     {
     short j;
 
@@ -620,7 +619,7 @@ PreCacheActor(VOID)
 void DoTheCache(void)
     {
     extern char CacheLastLevel[32],LevelName[20];
-    long i, cnt=0;
+    int i, cnt=0;
     
     PreCacheAmbient();
     PreCacheSoundSpot();
@@ -649,7 +648,7 @@ void DoTheCache(void)
 void
 precache(void)
     {
-    long i;
+    int i;
     short j;
     SECTORp sectp;
     WALLp wp;

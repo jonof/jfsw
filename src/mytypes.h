@@ -37,8 +37,8 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 	typedef uint16                  word;
 	typedef short int               int16;
 
-	typedef unsigned long           uint32;
-	typedef long                    int32;
+	typedef unsigned int            uint32;
+	typedef int                     int32;
 	typedef uint32                  dword;
 
 	typedef int32                   fixed;
@@ -125,7 +125,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
    #define MAXWORD ((WORD) 65535U)
 
 
-   typedef long       LONG;
+   typedef int       LONG;
    typedef LONG  *LONGp;
    typedef LONG  *fLONGp;
 
@@ -142,7 +142,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
    #define MAXLONG  (2147483647L)
 
 
-   typedef unsigned long ULONG;
+   typedef unsigned int ULONG;
    typedef ULONG    *ULONGp;
    typedef ULONG    *fULONGp;
 

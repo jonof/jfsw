@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 #include "cache1d.h"
 
 #include "keys.h"
@@ -53,9 +52,9 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define MAX_ANMS 10
 anim_t *anm_ptr[MAX_ANMS];
 
-long ANIMnumframes;
-char ANIMpal[3*256];
-char ANIMnum = 0;
+int ANIMnumframes;
+unsigned char ANIMpal[3*256];
+unsigned char ANIMnum = 0;
 short SoundState;
 
 char *ANIMname[] = 
@@ -70,7 +69,7 @@ char *ANIMname[] =
 
 VOID AnimShareIntro(int frame, int numframes)
     {
-    long zero=0;
+    int zero=0;
         
     if (frame == numframes-1)
         ototalclock += 120;
@@ -96,7 +95,7 @@ VOID AnimShareIntro(int frame, int numframes)
 
 VOID AnimSerp(int frame, int numframes)
     {
-    long zero=0;
+    int zero=0;
     ototalclock += 16;
     
     if (frame == numframes-1)
@@ -133,7 +132,7 @@ VOID AnimSerp(int frame, int numframes)
 
 VOID AnimSumo(int frame, int numframes)
     {
-    long zero=0;
+    int zero=0;
     ototalclock += 10;
 
     if (frame == numframes-1)
@@ -166,7 +165,7 @@ VOID AnimSumo(int frame, int numframes)
 
 VOID AnimZilla(int frame, int numframes)
     {
-    long zero=0;
+    int zero=0;
     ototalclock += 16;
     
     if (frame == numframes-1)
@@ -245,12 +244,12 @@ VOID AnimZilla(int frame, int numframes)
         }
     }
     
-char * LoadAnm(short anim_num)
+unsigned char * LoadAnm(short anim_num)
     {
-    long handle;
-    long length;
-    char *animbuf, *palptr;
-    long i,j,k;
+    int handle;
+    int length;
+    unsigned char *animbuf, *palptr;
+    int i,j,k;
     
     DSPRINTF(ds,"LoadAnm");
     MONO_PRINT(ds);
@@ -269,15 +268,15 @@ char * LoadAnm(short anim_num)
             return(NULL);
         length = kfilelength(handle);
         
-        allocache((long *) &anm_ptr[anim_num], length + sizeof(anim_t), &walock[ANIM_TILE(ANIMnum)]);
-        animbuf = (char *) (FP_OFF(anm_ptr[anim_num]) + sizeof(anim_t));
+        allocache((void **) &anm_ptr[anim_num], length + sizeof(anim_t), &walock[ANIM_TILE(ANIMnum)]);
+        animbuf = (unsigned char *) ((intptr_t)anm_ptr[anim_num] + sizeof(anim_t));
         
         kread(handle, animbuf, length);
         kclose(handle);
         }
     else    
         {
-        animbuf = (char *) (FP_OFF(anm_ptr[anim_num]) + sizeof(anim_t));
+        animbuf = (unsigned char *) ((intptr_t)anm_ptr[anim_num] + sizeof(anim_t));
         }
     
     return(animbuf);
@@ -286,12 +285,12 @@ char * LoadAnm(short anim_num)
 void 
 playanm(short anim_num)
     {
-    char *animbuf, *palptr;
-    long i, j, k, length = 0, numframes = 0;
+    unsigned char *animbuf, *palptr;
+    int i, j, k, length = 0, numframes = 0;
     int32 handle = -1;
-    char ANIMvesapal[4*256];
-    char tempbuf[256];
-    char *palook_bak = palookup[0];
+    unsigned char ANIMvesapal[4*256];
+    unsigned char tempbuf[256];
+    unsigned char *palook_bak = palookup[0];
 
     ANIMnum = anim_num;
 
@@ -330,7 +329,7 @@ playanm(short anim_num)
     if (ANIMnum == 1)
         {
         // draw the first frame
-        waloff[ANIM_TILE(ANIMnum)] = FP_OFF(ANIM_DrawFrame(1));
+        waloff[ANIM_TILE(ANIMnum)] = (intptr_t)ANIM_DrawFrame(1);
 	invalidatetile(ANIM_TILE(ANIMnum), 0, 1<<4);
         rotatesprite(0 << 16, 0 << 16, 65536L, 512, ANIM_TILE(ANIMnum), 0, 0, 2 + 4 + 8 + 16 + 64, 0, 0, xdim - 1, ydim - 1);
         }
@@ -375,7 +374,7 @@ playanm(short anim_num)
                 break;
             }    
             
-        waloff[ANIM_TILE(ANIMnum)] = FP_OFF(ANIM_DrawFrame(i));
+        waloff[ANIM_TILE(ANIMnum)] = (intptr_t)ANIM_DrawFrame(i);
 	invalidatetile(ANIM_TILE(ANIMnum), 0, 1<<4);
 
         rotatesprite(0 << 16, 0 << 16, 65536L, 512, ANIM_TILE(ANIMnum), 0, 0, 2 + 4 + 8 + 16 + 64, 0, 0, xdim - 1, ydim - 1);
@@ -393,7 +392,7 @@ ENDOFANIMLOOP:
     clearview(0);
     nextpage();
     palookup[0] = palook_bak;
-    setbrightness(gs.Brightness, (char*)palette_data, 2);
+    setbrightness(gs.Brightness, (unsigned char*)palette_data, 2);
     
     KB_FlushKeyboardQueue();    
     KB_ClearKeysDown();    

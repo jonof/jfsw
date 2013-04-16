@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 #include "osd.h"
 
 #include "keys.h"
@@ -42,6 +41,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "sw_strs.h"
 #include "control.h"
 #include "pal.h"
+#include "demo.h"
 
 #include "function.h"
 #include "gamedefs.h"
@@ -1008,10 +1008,10 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
     {
     static signed char on_screen = 0,last_screen = 0;
     UserInput order_input;
-    static long limitmove=0;
+    static int limitmove=0;
     UserInput tst_input;
     BOOL select_held = FALSE;
-    long zero = 0;
+    int zero = 0;
     static BOOL DidOrderSound = FALSE;
     short choose_snd;
     static int wanghandle;
@@ -1290,7 +1290,7 @@ MNU_StartGame(void)
     {
     PLAYERp pp = Player + screenpeek;
     int handle = 0;
-    long zero = 0;
+    int zero = 0;
 
     // always assumed that a demo is playing
 
@@ -1344,7 +1344,7 @@ MNU_StartNetGame(void)
         // CTW REMOVED
         //extern int gTenActivated;
         // CTW REMOVED END
-    long pnum;
+    int pnum;
     
     // always assumed that a demo is playing
 
@@ -1410,7 +1410,7 @@ MNU_StartNetGame(void)
         p.TimeLimit = gs.NetTimeLimit;
         p.Nuke = gs.NetNuke;
         
-                netbroadcastpacket((char *)(&p), sizeof(p));            // TENSW
+        netbroadcastpacket((BYTEp)(&p), sizeof(p));            // TENSW
         }
 
         
@@ -1492,11 +1492,11 @@ MNU_QuickLoadCustom(UserCall call, MenuItem_p item)
     {
     int select;
     extern BOOL ReloadPrompt;
-    long bak;
+    int bak;
     PLAYERp pp = Player + myconnectindex;
     extern short GlobInfoStringTime;
     extern BOOL DrawScreen;
-    long ret;
+    int ret;
 
     if (cust_callback == NULL)
         {
@@ -1662,7 +1662,7 @@ static char lg_xlat_num[] = {0,1,2,3,4,5,6,7,8,9};
 #define FONT_LARGE_DIGIT 3732
 
 void
-MNU_MeasureStringLarge(char *string, short *w, short *h)
+MNU_MeasureStringLarge(const char *string, short *w, short *h)
     {
     short ndx, width, height;
     char c;
@@ -1707,7 +1707,7 @@ MNU_MeasureStringLarge(char *string, short *w, short *h)
 // Draw a string using a graphic font
 ////////////////////////////////////////////////
 void 
-MNU_DrawStringLarge(short x, short y, char *string)
+MNU_DrawStringLarge(short x, short y, const char *string)
     {
     int ndx, offset;
     char c;
@@ -1749,7 +1749,7 @@ MNU_DrawStringLarge(short x, short y, char *string)
 // Measure the pixel width of a graphic string
 ////////////////////////////////////////////////
 void
-MNU_MeasureString(char *string, short *w, short *h)
+MNU_MeasureString(const char *string, short *w, short *h)
     {
     short ndx, width, height;
     char c;
@@ -1791,7 +1791,7 @@ MNU_MeasureString(char *string, short *w, short *h)
 // MenuTextShade and MenuDrawFlags
 ////////////////////////////////////////////////
 void 
-MNU_DrawString(short x, short y, char *string, short shade, short pal)
+MNU_DrawString(short x, short y, const char *string, short shade, short pal)
 {
     int ndx, offset;
     char c;
@@ -1854,7 +1854,7 @@ MNU_DrawString(short x, short y, char *string)
 // Measure the pixel width of a small font string
 ////////////////////////////////////////////////
 void
-MNU_MeasureSmallString(char *string, short *w, short *h)
+MNU_MeasureSmallString(const char *string, short *w, short *h)
     {
     short ndx, width, height;
     char c;
@@ -1888,7 +1888,7 @@ MNU_MeasureSmallString(char *string, short *w, short *h)
 // Draw a string using a small graphic font
 ////////////////////////////////////////////////
 void 
-MNU_DrawSmallString(short x, short y, char *string, short shade, short pal)
+MNU_DrawSmallString(short x, short y, const char *string, short shade, short pal)
 {
     int ndx;
     char c;
@@ -2716,14 +2716,14 @@ MNU_MusicFxCheck(MenuItem *item)
 void 
 MNU_DoButton(MenuItem_p item, BOOL draw)
     {
-    long x, y;
+    int x, y;
     BOOL state;
-    long last_value;
+    int last_value;
     short shade = MENU_SHADE_DEFAULT;
     extern char LevelSong[];
     char *extra_text = NULL;
     PLAYERp pp = &Player[myconnectindex];
-    long button_x,zero=0;
+    int button_x,zero=0;
     int handle=0;
     extern BOOL MusicInitialized,FxInitialized;
 
@@ -2989,7 +2989,7 @@ void
 MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     {
     short offset, i, barwidth;
-    long x, y, knobx;
+    int x, y, knobx;
     short shade = MENU_SHADE_DEFAULT;
     char *extra_text=NULL;
     char tmp_text[256];
@@ -3094,7 +3094,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
         if (gs.Brightness != offset)
             {
             gs.Brightness = offset;
-            COVERsetbrightness(gs.Brightness,(char *)palette_data);
+            COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
             }
         break;
 
@@ -3448,7 +3448,7 @@ VOID
 MNU_ItemPostProcess(MenuGroup * group)
     {
     MenuItem *item;
-    long zero = 0;
+    int zero = 0;
 
     if (!group->items)
         return;
@@ -3496,7 +3496,7 @@ MNU_DownLevel(MenuGroup * group)
 static void
 MNU_UpLevel(void)
     {
-    long zero = 0;
+    int zero = 0;
     static int handle1=0;
     // if run out of menus then EXIT
     if (!menuarrayptr)
@@ -3564,8 +3564,8 @@ static void
 MNU_DrawItemIcon(MenuItem * item)
     {
     //void BorderRefreshClip(PLAYERp pp, short x, short y, short x2, short y2);
-    long x = item->x, y = item->y;
-    long scale = MZ;
+    int x = item->x, y = item->y;
+    int scale = MZ;
     short w,h;
     
     if (item->text)
@@ -3851,9 +3851,9 @@ void MNU_DoMenu( CTLType type, PLAYERp pp )
     {
     BOOL resetitem;
     UCHAR key;
-    long zero = 0;
+    int zero = 0;
     static int handle2 = 0;
-    static long limitmove=0;
+    static int limitmove=0;
     static BOOL select_held=FALSE;
 
     resetitem = TRUE;
@@ -4124,7 +4124,7 @@ void
 Fade_Timer(int clicks)
     {
 //        unsigned int now;
-    long now;
+    int now;
 
     now = totalclock;
 
@@ -4314,10 +4314,10 @@ SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
     // Reset the palette
     if(pp == Player + screenpeek)
         {
-	if (getrendermode() < 3)
-        COVERsetbrightness(gs.Brightness,(char *)palette_data);
-	else
-	    setpalettefade(0,0,0,0);
+        if (getrendermode() < 3)
+            COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
+        else
+            setpalettefade(0,0,0,0);
         if (pp->FadeAmt <= 0)
             GetPaletteFromVESA(&ppalette[screenpeek][0]);
         }
@@ -4437,10 +4437,10 @@ DoPaletteFlash(PLAYERp pp)
         pp->StartColor = 0;
         if(pp == Player + screenpeek)
             {
-	    if (getrendermode() < 3)
-            COVERsetbrightness(gs.Brightness,(char *)palette_data);
-	    else
-		setpalettefade(0,0,0,0);
+            if (getrendermode() < 3)
+                COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
+            else
+                setpalettefade(0,0,0,0);
             memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
             DoPlayerDivePalette(pp);  // Check Dive again
             DoPlayerNightVisionPalette(pp);  // Check Night Vision again
@@ -4476,8 +4476,10 @@ DoPaletteFlash(PLAYERp pp)
         pp->StartColor = 0;   
         if(pp == Player + screenpeek)
             {
-            if (getrendermode() < 3) COVERsetbrightness(gs.Brightness,(char *)palette_data);
-	    else setpalettefade(0,0,0,0);
+            if (getrendermode() < 3)
+                COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
+            else
+                setpalettefade(0,0,0,0);
             memcpy(pp->temp_pal, palette_data, sizeof(palette_data)); 
             DoPlayerDivePalette(pp);  // Check Dive again
             DoPlayerNightVisionPalette(pp);  // Check Night Vision again
@@ -4529,9 +4531,9 @@ DoPaletteFlash(PLAYERp pp)
 VOID ResetPalette(PLAYERp pp)
     {
     if (getrendermode() < 3)
-    COVERsetbrightness(gs.Brightness,(char *)palette_data);
+        COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
     else
-	setpalettefade(0,0,0,0);
+        setpalettefade(0,0,0,0);
     memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
     //DoPlayerDivePalette(pp);  // Check Dive again
     //DoPlayerNightVisionPalette(pp);  // Check Night Vision again

@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "names2.h"
 #include "panel.h"
@@ -36,7 +35,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "interp.h"
 #include "sprite.h"
 
-extern CHARp KeyDoorMessage[];
 short DoRotatorMatch(PLAYERp pp, short match, BOOL);
 BOOL TestRotatorMatchActive(short match);
 VOID InterpSectorSprites(short sectnum, BOOL state);
@@ -312,8 +310,8 @@ int DoRotatorMove(short SpriteNum)
     short ndx,w,startwall,endwall;
     SPRITEp pivot = NULL;
     int i, nexti;
-    long nx,ny;
-    long dist,closest;
+    int nx,ny;
+    int dist,closest;
     BOOL kill = FALSE;
     
     r = u->rotator;
@@ -434,8 +432,8 @@ int DoRotator(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
-    long *lptr;
-    long amt;
+    int *lptr;
+    int amt;
     
     // could move this inside sprite control
     DoRotatorMove(SpriteNum);

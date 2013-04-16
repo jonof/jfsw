@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -37,6 +36,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "net.h"
 #include "actor.h"
 #include "track.h"
+#include "sprite.h"
 
 int DoHariKariBlood(short SpriteNum);
 //int InitActorMoveCloser(short SpriteNum);
@@ -791,11 +791,11 @@ GirlNinjaJumpActionFunc(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    long nx, ny;
+    int nx, ny;
     
     // Move while jumping
-    nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
-    ny = sp->xvel * (long) sintable[sp->ang] >> 14;
+    nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
+    ny = sp->xvel * (int) sintable[sp->ang] >> 14;
 
     // if cannot move the sprite
     if (!move_actor(SpriteNum, nx, ny, 0L))

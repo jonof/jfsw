@@ -30,9 +30,9 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 typedef struct
 {
-long MouseSpeed;
-long MusicVolume;
-long SoundVolume;
+int MouseSpeed;
+int MusicVolume;
+int SoundVolume;
 CHAR BorderNum;
 CHAR Brightness;
 CHAR BorderTile;
@@ -62,7 +62,7 @@ BYTE NetKillLimit;  // Number of frags at which game ends
 BYTE NetTimeLimit;  // Limit time of game
 BYTE NetColor;      // Chosen color for player
 BYTE ParentalLock;  // Parental Lock on/off
-BYTE Password[20];  // Parental Lock password
+char Password[20];  // Parental Lock password
 BOOL NetNuke;
 BOOL Voxels;
 BOOL Stats;

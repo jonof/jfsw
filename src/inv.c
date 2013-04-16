@@ -26,7 +26,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 #undef MAIN
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -108,7 +107,7 @@ VOID UpdateMiniBar(PLAYERp pp)
     {
     USERp u = User[pp->PlayerSprite];
     short i;
-    long x,y;
+    int x,y;
     BOOL found;
     INVENTORY_DATAp id;
     extern BOOL PanelUpdateMode;
@@ -631,9 +630,9 @@ DoPlayerNightVisionPalette(PLAYERp pp)
             memcpy(palookup[PALETTE_DEFAULT], DefaultPalette, 256 * 32);
             pp->FadeAmt = 0;
             if (getrendermode() < 3)
-            COVERsetbrightness(gs.Brightness, (char *) &palette_data[0][0]);
-	    else
-		setpalettefade(0,0,0,0);
+                COVERsetbrightness(gs.Brightness, &palette_data[0][0]);
+            else
+                setpalettefade(0,0,0,0);
             }
             pp->NightVision = FALSE;
         }
@@ -799,7 +798,7 @@ VOID InventoryKeys(PLAYERp pp)
 
 VOID InvBorderRefresh(PLAYERp pp)
     {
-    long x,y;
+    int x,y;
     
     if (pp != Player + myconnectindex)
         return;
@@ -995,7 +994,7 @@ short InventoryBoxX;
 short InventoryBoxY;
 short InventoryXoff;
 short InventoryYoff;
-VOID (*InventoryDisplayString)(PLAYERp, short, short, short, CHARp);
+VOID (*InventoryDisplayString)(PLAYERp, short, short, short, const char *);
 
 #define INVENTORY_PIC_XOFF 1
 #define INVENTORY_PIC_YOFF 1
@@ -1011,8 +1010,6 @@ PlayerUpdateInventory(PLAYERp pp, short InventoryNum)
     {
     USERp u = User[pp->PlayerSprite];
     short w,h;
-    VOID DisplayMiniBarSmString(PLAYERp pp, short xs, short ys, short pal, CHARp buffer);
-    VOID DisplaySmString(PLAYERp pp, short xs, short ys, short pal, CHARp buffer);
     
     // Check for items that need to go translucent from use
     if (pp->InventoryBarTics)

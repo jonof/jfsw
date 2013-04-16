@@ -55,9 +55,9 @@ typedef struct
     BOOL ismagic;                       // Is this a magic mirror?
     MIRRORSTATE mstate;                 // What state the mirror is currently
     // in
-    long maxtics;                       // Tic count used to time mirror
+    int maxtics;                       // Tic count used to time mirror
     // events
-    long tics;                          // How much viewing time has been
+    int tics;                          // How much viewing time has been
     // used on mirror?
     } MIRRORTYPE, *MIRRORTYPEp;
 
@@ -69,7 +69,7 @@ extern BOOL mirrorinview;
 extern short NormalVisibility;
 
 void JAnalyzeSprites(SPRITEp tspr);
-void JS_DrawMirrors(PLAYERp pp,long tx,long ty,long tz,short tpang,long tphoriz);
+void JS_DrawMirrors(PLAYERp pp,int tx,int ty,int tz,short tpang,int tphoriz);
 void JS_InitMirrors(void );
 void JS_InitLockouts(void );
 void JS_ToggleLockouts(void );

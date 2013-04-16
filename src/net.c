@@ -25,7 +25,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //-------------------------------------------------------------------------
 #include "build.h"
 #include "baselayer.h"
-#include "compat.h"
 #include "mmulti.h"
 
 #include "keys.h"
@@ -34,6 +33,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "names2.h"
 #include "net.h"
 #include "pal.h"
+#include "demo.h"
 
 #include "weapon.h"
 #include "text.h"
@@ -62,8 +62,8 @@ SYNC BUG NOTES:
 
 //#undef MAXSYNCBYTES
 //#define MAXSYNCBYTES 16
-char tempbuf[576], packbuf[576];
-long PlayClock;
+BYTE tempbuf[576], packbuf[576];
+int PlayClock;
 extern BOOL PauseKeySet;
 extern char CommPlayerName[32];
 
@@ -84,14 +84,11 @@ BOOL ready2send = 0;
 
 BOOL CommEnabled = FALSE;
 BYTE CommPlayers = 0;
-long movefifoplc, movefifosendplc;//, movefifoend[MAX_SW_PLAYERS];
-unsigned long MoveThingsCount;
+int movefifoplc, movefifosendplc;//, movefifoend[MAX_SW_PLAYERS];
+unsigned int MoveThingsCount;
 
- // MULTI.OBJ sync state variables
-extern char syncstate;
-
-//long myminlag[MAX_SW_PLAYERS];
-long mymaxlag, otherminlag, bufferjitter = 1;
+//int myminlag[MAX_SW_PLAYERS];
+int mymaxlag, otherminlag, bufferjitter = 1;
 extern CHAR sync_first[MAXSYNCBYTES][60];
 extern int sync_found;
 
@@ -107,19 +104,19 @@ typedef struct
     LONG bits;
     }SW_AVERAGE_PACKET;
     
-long MovesPerPacket = 1;
+int MovesPerPacket = 1;
 SW_AVERAGE_PACKET AveragePacket;
 
  // GAME.C sync state variables
 BYTE syncstat[MAXSYNCBYTES];
-//long syncvalhead[MAX_SW_PLAYERS];
-long syncvaltail, syncvaltottail;
-void GetSyncInfoFromPacket(char *packbuf, long packbufleng, long *j, long otherconnectindex);
+//int syncvalhead[MAX_SW_PLAYERS];
+int syncvaltail, syncvaltottail;
+void GetSyncInfoFromPacket(BYTEp packbuf, int packbufleng, int *j, int otherconnectindex);
 
 // when you set totalclock to 0 also set this one
-long ototalclock;
-long smoothratio;
-long save_totalclock;
+int ototalclock;
+int smoothratio;
+int save_totalclock;
 
 // must start out as 0
 
@@ -128,16 +125,16 @@ BOOL NetBroadcastMode = TRUE;
 BOOL NetModeOverride = FALSE;
 
 
-void netsendpacket(int ind, char *buf, int len)
+void netsendpacket(int ind, BYTEp buf, int len)
 {
-	char bbuf[ sizeof(packbuf) + sizeof(PACKET_PROXY) ];
+	BYTE bbuf[ sizeof(packbuf) + sizeof(PACKET_PROXY) ];
 	PACKET_PROXYp prx = (PACKET_PROXYp)bbuf;
 	int i;
 
 	// send via master if in M/S mode and we are not the master, and the recipient is not the master and not ourselves
 	if (!NetBroadcastMode && myconnectindex != connecthead && ind != myconnectindex && ind != connecthead) {
 		if ((unsigned)len > sizeof(packbuf)) {
-			initprintf("netsendpacket(): packet length > %d!\n",sizeof(packbuf));
+			initprintf("netsendpacket(): packet length > %d!\n",(int)sizeof(packbuf));
 			len = sizeof(packbuf);
 		}
 
@@ -163,16 +160,16 @@ void netsendpacket(int ind, char *buf, int len)
 	initprintf("\n");
 }
 
-void netbroadcastpacket(char *buf, int len)
+void netbroadcastpacket(BYTEp buf, int len)
 {
 	int i;
-	char bbuf[ sizeof(packbuf) + sizeof(PACKET_PROXY) ];
+	BYTE bbuf[ sizeof(packbuf) + sizeof(PACKET_PROXY) ];
 	PACKET_PROXYp prx = (PACKET_PROXYp)bbuf;
 
 	// broadcast via master if in M/S mode and we are not the master
 	if (!NetBroadcastMode && myconnectindex != connecthead) {
 		if ((unsigned)len > sizeof(packbuf)) {
-			initprintf("netbroadcastpacket(): packet length > %d!\n",sizeof(packbuf));
+			initprintf("netbroadcastpacket(): packet length > %d!\n",(int)sizeof(packbuf));
 			len = sizeof(packbuf);
 		}
 
@@ -202,10 +199,10 @@ void netbroadcastpacket(char *buf, int len)
 	initprintf("\n");
 }
 
-long netgetpacket(long *ind, char *buf)
+int netgetpacket(int *ind, BYTEp buf)
 {
 	int i;
-	long len;
+	int len;
 	PACKET_PROXYp prx;
 
 	len = getpacket(ind, buf);
@@ -222,7 +219,7 @@ long netgetpacket(long *ind, char *buf)
 	prx = (PACKET_PROXYp)buf;
 
 	initprintf("netgetpacket() got proxy from %d\nPlayerIndex=%d Contents:",*ind,prx->PlayerIndex);
-	for (i=0; i<len-sizeof(PACKET_PROXY); i++)
+	for (i=0; i<len-(int)sizeof(PACKET_PROXY); i++)
 		initprintf(" %02x", *(((char*)&prx[1])+i));
 	initprintf("\n");
 
@@ -278,9 +275,9 @@ long netgetpacket(long *ind, char *buf)
 }
 
 
-long EncodeBits(SW_PACKET *pak, SW_PACKET *old_pak, char *buf)
+int EncodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
     {
-    char *base_ptr = buf;
+    BYTEp base_ptr = buf;
     unsigned i;
     
     // skipping the bits field sync test fake byte (Ed. Ken)
@@ -338,9 +335,9 @@ long EncodeBits(SW_PACKET *pak, SW_PACKET *old_pak, char *buf)
     return(buf - base_ptr);
     }    
 
-long DecodeBits(SW_PACKET *pak, SW_PACKET *old_pak, char *buf)
+int DecodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
     {
-    char *base_ptr = buf;
+    BYTEp base_ptr = buf;
     unsigned i;
     
     // skipping the bits field sync test fake byte (Ed. Ken)
@@ -378,7 +375,7 @@ long DecodeBits(SW_PACKET *pak, SW_PACKET *old_pak, char *buf)
         if (TEST(*base_ptr, BIT(i+4)))
             {
             RESET(pak->bits, 0xff<<(i<<3));
-            SET(pak->bits, ((long)(*buf))<<(i<<3));
+            SET(pak->bits, ((int)(*buf))<<(i<<3));
             buf++;
             }
         }    
@@ -446,7 +443,7 @@ SendMessage(short pnum, char *text)
         return;
         
     tempbuf[0] = PACKET_TYPE_MESSAGE;
-    strcpy(&tempbuf[1], text);
+    strcpy((char *)&tempbuf[1], text);
     netsendpacket(pnum, tempbuf, strlen(text) + 2); 
     }
     
@@ -460,7 +457,7 @@ InitNetPlayerOptions(VOID)
 
     // if you don't have a name :(
     if (!CommPlayerName[0])
-        sprintf(CommPlayerName, "PLAYER %ld", myconnectindex + 1);
+        sprintf(CommPlayerName, "PLAYER %d", myconnectindex + 1);
 
     Bstrupr(CommPlayerName);
     strcpy(pp->PlayerName, CommPlayerName);
@@ -482,7 +479,7 @@ InitNetPlayerOptions(VOID)
             //if (pnum != myconnectindex)
                 {
                 //netsendpacket(pnum, (char *)(&p), sizeof(p));
-                netbroadcastpacket((char *)(&p), sizeof(p));
+                netbroadcastpacket((BYTEp)(&p), sizeof(p));
                 }
             }
         }
@@ -510,13 +507,13 @@ SendMulitNameChange(char *new_name)
             p.PacketType = PACKET_TYPE_NAME_CHANGE;
             strcpy(p.PlayerName, pp->PlayerName);
             //netsendpacket(pnum, (char *)(&p), sizeof(p));
-            netbroadcastpacket((char *)(&p), sizeof(p));
+            netbroadcastpacket((BYTEp)(&p), sizeof(p));
             }
         }
     }
     
 VOID
-SendVersion(long version)
+SendVersion(int version)
     {
     short pnum;
     PLAYERp pp = Player + myconnectindex;
@@ -534,13 +531,13 @@ SendVersion(long version)
             p.PacketType = PACKET_TYPE_VERSION;
             p.Version = version;
             //netsendpacket(pnum, (char *)(&p), sizeof(p));
-            netbroadcastpacket((char *)(&p), sizeof(p));
+            netbroadcastpacket((BYTEp)(&p), sizeof(p));
             }
         }
     }
 
 VOID
-CheckVersion(long GameVersion)
+CheckVersion(int GameVersion)
     {
     short pnum;
     PACKET_VERSION p;
@@ -588,8 +585,8 @@ Connect(VOID)
     if (CommEnabled)
         {
         #if 0
-        long x1, x2, y1, y2;
-        long screensize = xdim;
+        int x1, x2, y1, y2;
+        int screensize = xdim;
         extern short BorderTest[];
 
         // put up a tile
@@ -607,13 +604,13 @@ Connect(VOID)
     //InitTimingVars();                   // resettiming();
     }
 
-long wfe_Clock;
+int wfe_Clock;
 BOOL (*wfe_ExitCallback)(VOID);
     
 void
 waitforeverybody(void)
     {
-    long i, size = 1;
+    int i, size = 1;
     short other;
 
     if (!CommEnabled)
@@ -841,7 +838,7 @@ BOOL MenuCommPlayerQuit(short quit_player)
     
 VOID ErrorCorrectionQuit(VOID)
     {
-    long oldtotalclock;
+    int oldtotalclock;
     short i,j;
     
     if (CommPlayers > 1)
@@ -922,9 +919,9 @@ InitTimingVars(VOID)
 
 
 void 
-AddSyncInfoToPacket(long *j)
+AddSyncInfoToPacket(int *j)
     {
-    long sb;
+    int sb;
 	int count = 0;
 
     // sync testing
@@ -941,7 +938,7 @@ void
 faketimerhandler(void)
     {
     short other, packbufleng;
-    long i, j, k, l;
+    int i, j, k, l;
     PLAYERp pp;
     short pnum;
     void getinput(SW_PACKET *);
@@ -950,7 +947,7 @@ faketimerhandler(void)
     #if 0
     if (KEY_PRESSED(KEYSC_PERIOD))
         {
-        extern unsigned long MoveThingsCount;
+        extern unsigned int MoveThingsCount;
         MoveThingsCount++;
         MoveThingsCount--;
         return;
@@ -1261,8 +1258,8 @@ checkmasterslaveswitch(VOID)
 VOID
 getpackets(VOID)
     {
-    long otherconnectindex, packbufleng;
-    long i, j, k, l, fifoCheck, sb;
+    int otherconnectindex, packbufleng;
+    int i, j, k, l, fifoCheck, sb;
     PLAYERp pp;
     SW_PACKET tempinput;
 
@@ -1293,7 +1290,7 @@ getpackets(VOID)
                     for (i = connectpoint2[connecthead]; i >= 0; i = connectpoint2[i])
                         {
                         if (i == myconnectindex)
-                            otherminlag = (long) ((signed char) packbuf[j]);
+                            otherminlag = (int) ((signed char) packbuf[j]);
                         j++;
                         }
                     }    
@@ -1342,7 +1339,7 @@ getpackets(VOID)
                     {
                     // if (playerquitflag[i]) continue;
                     if (i == myconnectindex)
-                        otherminlag = (long) ((signed char) packbuf[j]);
+                        otherminlag = (int) ((signed char) packbuf[j]);
                     j++;
                     }
                 }    
@@ -1552,7 +1549,7 @@ getpackets(VOID)
             pp = Player + otherconnectindex;
             p = (void *)&packbuf[0];
             
-			//tenDbLprintf(gTenLog, 3, "rcv pid %d version %lx", (int) otherconnectindex, (long) p->Version);
+			//tenDbLprintf(gTenLog, 3, "rcv pid %d version %lx", (int) otherconnectindex, (int) p->Version);
             pp->PlayerVersion = p->Version;
             break;
             }

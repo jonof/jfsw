@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -556,7 +555,7 @@ short FindBreakSpriteMatch(short match)
 // WALL
 // 
 
-int AutoBreakWall(WALLp wallp, long hitx, long hity, long hitz, short ang, short type)
+int AutoBreakWall(WALLp wallp, int hitx, int hity, int hitz, short ang, short type)
     {
     BREAK_INFOp break_info;
     short BreakSprite;
@@ -661,7 +660,7 @@ int AutoBreakWall(WALLp wallp, long hitx, long hity, long hitz, short ang, short
     return(TRUE);    
     }
 
-BOOL UserBreakWall(WALLp wp, short ang)
+BOOL UserBreakWall(WALLp wp, short UNUSED(ang))
     {
     short SpriteNum;
     SPRITEp sp;
@@ -754,13 +753,13 @@ BOOL UserBreakWall(WALLp wp, short ang)
     return(FALSE);    
     }
 
-int WallBreakPosition(short hitwall, short *sectnum, long *x, long *y, long *z, short *ang)
+int WallBreakPosition(short hitwall, short *sectnum, int *x, int *y, int *z, short *ang)
     {
     short w,nw;
     WALLp wp;
-    long nx,ny;
+    int nx,ny;
     short wall_ang; 
-    long ret=0;
+    int ret=0;
     
     w = hitwall;
     wp = &wall[w];
@@ -821,7 +820,7 @@ int WallBreakPosition(short hitwall, short *sectnum, long *x, long *y, long *z, 
     }
     
 // If the tough parameter is not set, then it can't break tough walls and sprites    
-BOOL HitBreakWall(WALLp wp, long hitx, long hity, long hitz, short ang, short type)
+BOOL HitBreakWall(WALLp wp, int hitx, int hity, int hitz, short ang, short type)
     {
     short SpriteNum;
     short match = wp->hitag;
@@ -1110,7 +1109,7 @@ static int SectorOfWall(short theline)
 void DoWallBreakMatch( short match )    
     {
     short i,sectnum;
-    long x,y,z;
+    int x,y,z;
     WALLp wp;
     short nw,wall_ang;
     

@@ -29,5 +29,5 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define ANIM_SUMO 2
 #define ANIM_ZILLA 3
 
-char * LoadAnm(short anim_num);
+unsigned char * LoadAnm(short anim_num);
 void playanm(short anim_num);

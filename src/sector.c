@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -51,7 +50,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define LAVAMAXDROPS 32
 #define DEFAULT_DOOR_SPEED 800
 
-short FindNextSectorByTag(short sectnum, long tag);
+short FindNextSectorByTag(short sectnum, int tag);
 short LevelSecrets;
 BOOL TestVatorMatchActive(short match);
 BOOL TestSpikeMatchActive(short match);
@@ -70,13 +69,12 @@ int DoTrapReset(short match);
 int DoTrapMatch(short match);
 
 PLAYERp GlobPlayerP;
-extern CHARp KeyDoorMessage[];
 #if 0
 char lavabakpic[(LAVASIZ + 2) * (LAVASIZ + 2)], lavainc[LAVASIZ];
-long lavanumdrops, lavanumframes;
-long lavadropx[LAVAMAXDROPS], lavadropy[LAVAMAXDROPS];
-long lavadropsiz[LAVAMAXDROPS], lavadropsizlookup[LAVAMAXDROPS];
-long lavaradx[32][128], lavarady[32][128], lavaradcnt[32];
+int lavanumdrops, lavanumframes;
+int lavadropx[LAVAMAXDROPS], lavadropy[LAVAMAXDROPS];
+int lavadropsiz[LAVAMAXDROPS], lavadropsizlookup[LAVAMAXDROPS];
+int lavaradx[32][128], lavarady[32][128], lavaradcnt[32];
 #endif
 
 SECT_USERp SectUser[MAXSECTORS];
@@ -88,9 +86,9 @@ short AnimCnt = 0;
 SINE_WAVE_FLOOR SineWaveFloor[MAX_SINE_WAVE][21];
 SINE_WALL SineWall[MAX_SINE_WALL][MAX_SINE_WALL_POINTS];
 SPRING_BOARD SpringBoard[20];
-long x_min_bound, y_min_bound, x_max_bound, y_max_bound; 
+int x_min_bound, y_min_bound, x_max_bound, y_max_bound;
 
-void SetSectorWallBits(short sectnum, long bit_mask, BOOL set_sectwall, BOOL set_nextwall)
+void SetSectorWallBits(short sectnum, int bit_mask, BOOL set_sectwall, BOOL set_nextwall)
     {
     short wall_num, start_wall;
     
@@ -112,7 +110,7 @@ void SetSectorWallBits(short sectnum, long bit_mask, BOOL set_sectwall, BOOL set
 
 VOID WallSetupDontMove(VOID)
     {    
-    long i,j,nexti,nextj;
+    int i,j,nexti,nextj;
     SPRITEp spu, spl;
     WALLp wallp;
     
@@ -578,9 +576,9 @@ SectorSetup(VOID)
                 short near_sect = i, base_sect = i;
                 short swf_ndx = 0;
                 short cnt = 0, sector_cnt;
-                long range;
-                long range_diff = 0;
-                long wave_diff = 0;
+                int range;
+                int range_diff = 0;
+                int wave_diff = 0;
                 short peak_dist = 0;
                 short speed_shift = 3;
                 short num;
@@ -709,10 +707,10 @@ SectorSetup(VOID)
     }
 
 VOID
-SectorMidPoint(short sectnum, long *xmid, long *ymid, long *zmid)
+SectorMidPoint(short sectnum, int *xmid, int *ymid, int *zmid)
     {
     short startwall, endwall, j;
-    long xsum = 0, ysum = 0;
+    int xsum = 0, ysum = 0;
     WALLp wp;
 
     startwall = sector[sectnum].wallptr;
@@ -735,7 +733,7 @@ VOID
 DoSpringBoard(PLAYERp pp, short sectnum)
     {
     int sb;
-    long i;
+    int i;
     VOID DoPlayerBeginForceJump(PLAYERp);
 
     #if 0
@@ -785,7 +783,7 @@ DoSpringBoardDown(VOID)
             {
             if ((sbp->TimeOut -= synctics) <= 0)
                 {
-                long destz;
+                int destz;
 
                 destz = sector[nextsectorneighborz(sbp->Sector, sector[sbp->Sector].floorz, SEARCH_FLOOR, SEARCH_DOWN)].floorz;
 
@@ -803,10 +801,10 @@ DoSpringBoardDown(VOID)
     }
 
 short
-FindSectorByTag(long x, long y, long tag)
+FindSectorByTag(int x, int y, int tag)
     {
     short i = 0, near_sector = -1;
-    long diff, near_diff = 9999999;
+    int diff, near_diff = 9999999;
     short wallnum;
 
     for (i = 0; i < numsectors; i++)
@@ -833,24 +831,24 @@ FindSectorByTag(long x, long y, long tag)
     }
 
 short
-FindSectorByTag_Wall(short wallnum, long tag)
+FindSectorByTag_Wall(short wallnum, int tag)
     {
     return (FindSectorByTag(wall[wallnum].x, wall[wallnum].y, tag));
     }
 
 short
-FindSectorByTag_Sprite(short SpriteNum, long tag)
+FindSectorByTag_Sprite(short SpriteNum, int tag)
     {
     return (FindSectorByTag(sprite[SpriteNum].x, sprite[SpriteNum].y, tag));
     }
 
 #if 1
 short
-FindSectorMidByTag(short sectnum, long tag)
+FindSectorMidByTag(short sectnum, int tag)
     {
     short i = 0, near_sector = -1;
-    long diff, near_diff = 9999999, x, y;
-    long trash, fx, fy;
+    int diff, near_diff = 9999999, x, y;
+    int trash, fx, fy;
 
     // Get the mid x,y of the sector
     SectorMidPoint(sectnum, &x, &y, &trash);
@@ -881,7 +879,7 @@ FindSectorMidByTag(short sectnum, long tag)
 #endif
 
 short
-FindNextSectorByTag(short sectnum, long tag)
+FindNextSectorByTag(short sectnum, int tag)
     {
     short next_sectnum, startwall, endwall, j;
 
@@ -906,8 +904,8 @@ FindNextSectorByTag(short sectnum, long tag)
     }
 
 
-long
-SectorDistance(short sect1, long sect2)
+int
+SectorDistance(short sect1, int sect2)
     {
     short wallnum1, wallnum2;
 
@@ -922,10 +920,10 @@ SectorDistance(short sect1, long sect2)
     }
 
 
-long
-SectorDistanceByMid(short sect1, long sect2)
+int
+SectorDistanceByMid(short sect1, int sect2)
     {
-    long sx1, sy1, sx2, sy2, trash;
+    int sx1, sy1, sx2, sy2, trash;
 
     SectorMidPoint(sect1, &sx1, &sy1, &trash);
     SectorMidPoint(sect2, &sx2, &sy2, &trash);
@@ -1123,7 +1121,7 @@ AnimateSwitch(SPRITEp sp, short tgt_value)
 
 
 VOID
-SectorExp(short SpriteNum, short sectnum, short orig_ang, long zh)
+SectorExp(short SpriteNum, short sectnum, short orig_ang, int zh)
         {
         SPRITEp sp = &sprite[SpriteNum];
         USERp u = User[SpriteNum];
@@ -1132,7 +1130,7 @@ SectorExp(short SpriteNum, short sectnum, short orig_ang, long zh)
         short explosion;
         SPRITEp exp;
         USERp eu;
-        long x,y,z;
+        int x,y,z;
         
         RESET(sp->cstat, CSTAT_SPRITE_WALL|CSTAT_SPRITE_FLOOR);
         SectorMidPoint(sectnum, &x, &y, &z);
@@ -1169,7 +1167,7 @@ VOID
 DoExplodeSector(short match)    
     {
     short orig_ang;
-    long zh;
+    int zh;
     USERp u;
     short cf,nextcf;
     short ed,nexted;
@@ -1303,7 +1301,7 @@ DoSoundSpotMatch(short match, short sound_num, short sound_type)
     {
     short sn, next_sn;
     SPRITEp sp;
-    long flags;
+    int flags;
     short snd2play;
     
     //sound_type is not used
@@ -1505,8 +1503,8 @@ WeaponExplodeSectorInRange(short weapon)
     SPRITEp wp = &sprite[weapon];
     USERp wu = User[weapon];
     SPRITEp sp;
-    long dist;
-    long radius;
+    int dist;
+    int radius;
     short match;
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_SPRITE_HIT_MATCH], i, nexti)
@@ -1519,9 +1517,9 @@ WeaponExplodeSectorInRange(short weapon)
         if (sp->clipdist == 0)
             continue;
             
-        radius = (((long)sp->clipdist) << 2) * 8;
+        radius = (((int)sp->clipdist) << 2) * 8;
         
-        if ((unsigned long)dist > (wu->Radius/2) + radius)
+        if ((unsigned int)dist > (wu->Radius/2) + radius)
             continue;
         
         if (!FAFcansee(wp->x,wp->y,wp->z,wp->sectnum,sp->x,sp->y,sp->z,sp->sectnum))    
@@ -1580,7 +1578,7 @@ VOID DoDeleteSpriteMatch(short match)
         STAT_FAF
         };
         
-    long del_x = 0,del_y = 0;
+    int del_x = 0,del_y = 0;
     short i,nexti;  
     unsigned stat;
     short found;
@@ -2287,7 +2285,7 @@ OperateTripTrigger(PLAYERp pp)
          
     case TAG_TRIGGER_ACTORS:
             {
-            long dist;
+            int dist;
             short i, nexti;
             SPRITEp sp;
             USERp u;
@@ -2437,9 +2435,9 @@ BOOL NearThings(PLAYERp pp)
 {
     short sectnum;
     short rndnum;
-    long daz;
+    int daz;
     short neartagsect, neartagwall, neartagsprite;
-    long neartaghitdist;
+    int neartaghitdist;
     
 
     // Check player's current sector for triggered sound
@@ -2484,7 +2482,7 @@ BOOL NearThings(PLAYERp pp)
     // This only gets called if nothing else worked, check for nearness to a wall
     {
     short hitsect, hitwall, hitsprite, dang;
-    long hitx, hity, hitz;
+    int hitx, hity, hitz;
 
 
     hitsect = hitwall = hitsprite = 0;
@@ -2538,18 +2536,18 @@ BOOL NearThings(PLAYERp pp)
 #if 0  // Move to sector.h file because .def files could not find declaration!
 typedef struct
 {
-long dist;
+int dist;
 short sectnum, wallnum, spritenum;
 }NEAR_TAG_INFO, *NEAR_TAG_INFOp;    
 #endif
 short nti_cnt;
     
 void
-NearTagList(NEAR_TAG_INFOp ntip, PLAYERp pp, long z, long dist, long type, long count)
+NearTagList(NEAR_TAG_INFOp ntip, PLAYERp pp, int z, int dist, int type, int count)
     {
     short save_lotag, save_hitag;
     short neartagsector, neartagwall, neartagsprite;
-    long neartaghitdist;
+    int neartaghitdist;
 
 
     neartag(pp->posx, pp->posy, z, pp->cursectnum, pp->pang,
@@ -2650,7 +2648,7 @@ NearTagList(NEAR_TAG_INFOp ntip, PLAYERp pp, long z, long dist, long type, long 
     }
 
 void
-BuildNearTagList(NEAR_TAG_INFOp ntip, long size, PLAYERp pp, long z, long dist, long type, long count)
+BuildNearTagList(NEAR_TAG_INFOp ntip, int size, PLAYERp pp, int z, int dist, int type, int count)
     {
     memset(ntip, -1, size);
     nti_cnt = 0;
@@ -2751,7 +2749,7 @@ PlayerOperateEnv(PLAYERp pp)
             // if not found look at different z positions    
             if (!found)        
                 {
-                long z[3];
+                int z[3];
                 unsigned i;
                 NEAR_TAG_INFO nti[16];
                 short nt_ndx;
@@ -2780,7 +2778,7 @@ PlayerOperateEnv(PLAYERp pp)
                 }
 
             {    
-            long neartaghitdist;
+            int neartaghitdist;
             short neartagsector, neartagsprite, neartagwall;
             
             neartaghitdist = nti[0].dist;
@@ -2891,7 +2889,7 @@ VOID
 DoSineWaveFloor(VOID)
     {
     SINE_WAVE_FLOOR *swf;
-    long newz;
+    int newz;
     short wave;
     char flags;
     
@@ -2956,7 +2954,7 @@ VOID
 DoSineWaveWall(VOID)
     {
     SINE_WALL *sw;
-    long new;
+    int new;
     short sw_num;
 
     for (sw_num = 0; sw_num < MAX_SINE_WAVE; sw_num++)
@@ -2983,9 +2981,9 @@ DoSineWaveWall(VOID)
     }
 
 VOID
-DoAnim(long numtics)
+DoAnim(int numtics)
     {
-    long i, animval;
+    int i, animval;
 
     for (i = AnimCnt - 1; i >= 0; i--)
         {
@@ -3045,7 +3043,7 @@ DoAnim(long numtics)
 VOID
 AnimClear(VOID)
     {
-    long i, animval;
+    int i, animval;
 
 #if 1
     AnimCnt = 0;
@@ -3064,9 +3062,9 @@ AnimClear(VOID)
     }
 
 short
-AnimGetGoal(long *animptr)
+AnimGetGoal(int *animptr)
     {
-    long i, j;
+    int i, j;
 
     j = -1;
     for (i = 0; i < AnimCnt; i++)
@@ -3082,9 +3080,9 @@ AnimGetGoal(long *animptr)
     }
 
 void
-AnimDelete(long *animptr)
+AnimDelete(int *animptr)
     {
-    long i, j;
+    int i, j;
 
     j = -1;
     for (i = 0; i < AnimCnt; i++)
@@ -3112,9 +3110,9 @@ AnimDelete(long *animptr)
 
 
 short
-AnimSet(long *animptr, long thegoal, long thevel)
+AnimSet(int *animptr, int thegoal, int thevel)
     {
-    long i, j;
+    int i, j;
 
     ASSERT(AnimCnt < MAXANIM - 1);
 
@@ -3174,21 +3172,21 @@ AnimSetVelAdj(short anim_ndx, short vel_adj)
 void initlava(void)
     {
 #if 0    
-    long x, y, z, r;
+    int x, y, z, r;
     int i;
     extern char tempbuf[];
     
 //char lavabakpic[(LAVASIZ + 2) * (LAVASIZ + 2)], lavainc[LAVASIZ];
-//long lavanumdrops, lavanumframes;
-//long lavadropx[LAVAMAXDROPS], lavadropy[LAVAMAXDROPS];
-//long lavadropsiz[LAVAMAXDROPS], lavadropsizlookup[LAVAMAXDROPS];
-//long lavaradx[32][128], lavarady[32][128], lavaradcnt[32];
+//int lavanumdrops, lavanumframes;
+//int lavadropx[LAVAMAXDROPS], lavadropy[LAVAMAXDROPS];
+//int lavadropsiz[LAVAMAXDROPS], lavadropsizlookup[LAVAMAXDROPS];
+//int lavaradx[32][128], lavarady[32][128], lavaradcnt[32];
     
     
 UPDATE TO NEW CODE
 
-    static long lavaradx[24][96];
-    static long lavarady[24][96];
+    static int lavaradx[24][96];
+    static int lavarady[24][96];
     
     for
     lavaradcnt[z] = 0;
@@ -3230,8 +3228,9 @@ void movelava(char *dapic)
 #define COLOR_OFFSET LT_BROWN
 
     char dat, *ptr;
-    long x, y, z, zx, dalavadropsiz, dadropsizlookup, offs, offs2;
-    long dalavax, dalavay;
+    int x, y, z, zx, dalavadropsiz, dadropsizlookup;
+    intptr_t offs, offs2;
+    int dalavax, dalavay;
 
     z = 3;
     if (lavanumdrops + z >= LAVAMAXDROPS)
@@ -3276,8 +3275,8 @@ void movelava(char *dapic)
 
     // Back up dapic with 1 pixel extra on each boundary
     // (to prevent anding for wrap-around)
-    offs = ((long) dapic);
-    offs2 = (LAVASIZ + 2) + 1 + ((long) lavabakpic);
+    offs = ((intptr_t) dapic);
+    offs2 = (LAVASIZ + 2) + 1 + ((intptr_t) lavabakpic);
     for (x = 0; x < LAVASIZ; x++)
         {
         copybuf(offs, offs2, LAVASIZ >> 2);
@@ -3311,7 +3310,7 @@ void movelava(char *dapic)
         {
         FAKETIMERHANDLER();
         offs = (x + 1) * (LAVASIZ + 2) + 1;
-        ptr = (char *) ((x << LAVALOGSIZ) + (long) dapic);
+        ptr = (char *) ((x << LAVALOGSIZ) + (intptr_t) dapic);
 
         zx = ((x + lavanumframes) & (LAVASIZ - 1));
 
@@ -3340,7 +3339,7 @@ void movelava(char *dapic)
 VOID
 DoPanning(VOID)
     {
-    long nx, ny;
+    int nx, ny;
     short i,nexti;
     SPRITEp sp;
     SECTORp sectp;
@@ -3351,8 +3350,8 @@ DoPanning(VOID)
         sp = &sprite[i];
         sectp = &sector[sp->sectnum];
         
-        nx = (((long) sintable[NORM_ANGLE(sp->ang + 512)]) * sp->xvel) >> 20;
-        ny = (((long) sintable[sp->ang]) * sp->xvel) >> 20;
+        nx = (((int) sintable[NORM_ANGLE(sp->ang + 512)]) * sp->xvel) >> 20;
+        ny = (((int) sintable[sp->ang]) * sp->xvel) >> 20;
 
         sectp->floorxpanning += nx;
         sectp->floorypanning += ny;
@@ -3366,8 +3365,8 @@ DoPanning(VOID)
         sp = &sprite[i];
         sectp = &sector[sp->sectnum];
         
-        nx = (((long) sintable[NORM_ANGLE(sp->ang + 512)]) * sp->xvel) >> 20;
-        ny = (((long) sintable[sp->ang]) * sp->xvel) >> 20;
+        nx = (((int) sintable[NORM_ANGLE(sp->ang + 512)]) * sp->xvel) >> 20;
+        ny = (((int) sintable[sp->ang]) * sp->xvel) >> 20;
 
         sectp->ceilingxpanning += nx;
         sectp->ceilingypanning += ny;
@@ -3381,8 +3380,8 @@ DoPanning(VOID)
         sp = &sprite[i];
         wallp = &wall[sp->owner];
         
-        nx = (((long) sintable[NORM_ANGLE(sp->ang + 512)]) * sp->xvel) >> 20;
-        ny = (((long) sintable[sp->ang]) * sp->xvel) >> 20;
+        nx = (((int) sintable[NORM_ANGLE(sp->ang + 512)]) * sp->xvel) >> 20;
+        ny = (((int) sintable[sp->ang]) * sp->xvel) >> 20;
 
         wallp->xpanning += nx;
         wallp->ypanning += ny;
@@ -3400,9 +3399,9 @@ DoSector(VOID)
     SECTOR_OBJECTp sop;
     BOOL riding;
     extern BOOL DebugActorFreeze;
-    long sync_flag;
+    int sync_flag;
     short pnum;
-    long min_dist,dist,a,b,c;
+    int min_dist,dist,a,b,c;
     PLAYERp pp;
 
     if (DebugActorFreeze)
@@ -3512,10 +3511,10 @@ DoSector(VOID)
     }
 
 #if 0
-int inside(long x, long y, short sectnum)
+int inside(int x, int y, short sectnum)
     {
     WALLp wal;
-    long i, x1, y1, x2, y2;
+    int i, x1, y1, x2, y2;
     char cnt;
 
     if ((sectnum < 0) || (sectnum >= numsectors))

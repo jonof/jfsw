@@ -78,7 +78,7 @@ void DeleteNoSoundOwner( short spritenum );
 void DeleteNoFollowSoundOwner(short spritenum);
 
 BOOL CacheSound(int num, int type);
-void COVER_SetReverb(long amt);
+void COVER_SetReverb(int amt);
 VOID UnInitSound(VOID);
 void InitFX(void );
 VOID InitMusic(VOID);
@@ -92,7 +92,7 @@ void StopAmbientSound(void );
 BOOL PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart);
 void SetSongVolume(int volume);
 BOOL SongIsPlaying(void);
-VOID PlaySoundRTS(long rts_num);
+VOID PlaySoundRTS(int rts_num);
 
 //
 // Standard VOC format information - generally don't need this
@@ -115,7 +115,7 @@ struct ambientstruct
     SHORT name;
     SHORT diginame;
     Voc3D_Flags ambient_flags;
-    long maxtics;                       // When tics reaches this number next
+    int maxtics;                       // When tics reaches this number next
     // sound happens
     };
 
@@ -155,10 +155,10 @@ struct VOCstruct
 struct VOC3Dstruct
     {
     VOC_INFOp vp;                       // Pointer to the sound
-    long *x;                            // Pointer to x coordinate
-    long *y;                            // Pointer to y coordinate
-    long *z;                            // Pointer to z coordinate
-    long fx, fy, fz;                    // Non-Follow literal values
+    int *x;                            // Pointer to x coordinate
+    int *y;                            // Pointer to y coordinate
+    int *z;                            // Pointer to z coordinate
+    int fx, fy, fz;                    // Non-Follow literal values
     Voc3D_Flags flags;                  // 3d voc sound flags
     int handle;                         // Current handle to the voc
     short doplr_delta;                  // Change in distance since last call
@@ -170,8 +170,8 @@ struct VOC3Dstruct
                                         // If sound is active but user == 0, stop the sound
     short dist;                         // Current distance of sound from player
     BYTE priority;                      // Used to force a higher priority based on distance
-    long tics;                          // Tics used to count to next sound occurance
-    long maxtics;                       // Tics until next sound occurance
+    int tics;                          // Tics used to count to next sound occurance
+    int maxtics;                       // Tics until next sound occurance
                                         // for intermittent sounds
     BOOL deleted;                       // Has sound been marked for deletion?
     BOOL FX_Ok;                         // Did this sound play ok?

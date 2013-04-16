@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "names2.h"
 #include "panel.h"
@@ -157,13 +156,13 @@ DoSOevent(short match, short state)
                 
             if (state == ON)
                 {
-                spin_adj = (long)SP_TAG3(me_sp);
+                spin_adj = (int)SP_TAG3(me_sp);
                 vel_adj = SP_TAG7(me_sp);
                 }
             else    
             if (state == OFF)
                 {
-                spin_adj = -(long)SP_TAG3(me_sp);
+                spin_adj = -(int)SP_TAG3(me_sp);
                 vel_adj = -SP_TAG7(me_sp);
                 }
 
@@ -258,9 +257,9 @@ VOID ScaleSectorObject(SECTOR_OBJECTp sop)
         }    
     }
 
-VOID ScaleRandomPoint(SECTOR_OBJECTp sop, short k, short ang, long x, long y, long *dx, long *dy)
+VOID ScaleRandomPoint(SECTOR_OBJECTp sop, short k, short ang, int x, int y, int *dx, int *dy)
     {
-    long xmul,ymul;
+    int xmul,ymul;
     
     sop->scale_point_dist[k] += sop->scale_point_speed[k];
     if (sop->scale_point_dist[k] > sop->scale_point_dist_max)    
@@ -303,12 +302,12 @@ VOID ScaleRandomPoint(SECTOR_OBJECTp sop, short k, short ang, long x, long y, lo
 VOID 
 MorphTornado(SECTOR_OBJECTp sop)
     {
-    long mx, my;
-    long ceilingz;
-    long floorz;
+    int mx, my;
+    int ceilingz;
+    int floorz;
     SECTORp *sectp;
-    long j;
-    long x,y,sx,sy;
+    int j;
+    int x,y,sx,sy;
     
     // z direction
     ASSERT(sop->op_main_sector >= 0);
@@ -386,11 +385,11 @@ MorphTornado(SECTOR_OBJECTp sop)
 VOID 
 MorphFloor(SECTOR_OBJECTp sop)
     {
-    long mx, my;
-    long floorz;
+    int mx, my;
+    int floorz;
     SECTORp *sectp;
-    long j;
-    long x,y;
+    int j;
+    int x,y;
     
     // z direction
     ASSERT(sop->op_main_sector >= 0);
@@ -465,10 +464,10 @@ MorphFloor(SECTOR_OBJECTp sop)
     }
 
 VOID
-SOBJ_AlignFloorToPoint(SECTOR_OBJECTp sop, long x, long y, long z)
+SOBJ_AlignFloorToPoint(SECTOR_OBJECTp sop, int x, int y, int z)
     {
     SECTORp *sectp;
-    long j;
+    int j;
     
     for (sectp = sop->sectp, j = 0; *sectp; sectp++, j++)
         {
@@ -481,10 +480,10 @@ SOBJ_AlignFloorToPoint(SECTOR_OBJECTp sop, long x, long y, long z)
     }
 
 VOID
-SOBJ_AlignCeilingToPoint(SECTOR_OBJECTp sop, long x, long y, long z)
+SOBJ_AlignCeilingToPoint(SECTOR_OBJECTp sop, int x, int y, int z)
     {
     SECTORp *sectp;
-    long j;
+    int j;
     
     for (sectp = sop->sectp, j = 0; *sectp; sectp++, j++)
         {
@@ -497,10 +496,10 @@ SOBJ_AlignCeilingToPoint(SECTOR_OBJECTp sop, long x, long y, long z)
     }
 
 VOID
-SOBJ_AlignFloorCeilingToPoint(SECTOR_OBJECTp sop, long x, long y, long z)
+SOBJ_AlignFloorCeilingToPoint(SECTOR_OBJECTp sop, int x, int y, int z)
     {
     SECTORp *sectp;
-    long j;
+    int j;
     
     for (sectp = sop->sectp, j = 0; *sectp; sectp++, j++)
         {
@@ -517,11 +516,11 @@ SOBJ_AlignFloorCeilingToPoint(SECTOR_OBJECTp sop, long x, long y, long z)
 VOID 
 SpikeFloor(SECTOR_OBJECTp sop)
     {
-    long mx, my;
-    long floorz;
+    int mx, my;
+    int floorz;
     SECTORp *sectp;
-    long j;
-    long x,y;
+    int j;
+    int x,y;
     
     // z direction
     ASSERT(sop->op_main_sector >= 0);

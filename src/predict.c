@@ -27,7 +27,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //#define MAIN
 #define QUIET
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -50,12 +49,12 @@ PLAYERp ppp = &PredictPlayer;
 
 typedef struct
 {
-long x,y,z,horiz;
+int x,y,z,horiz;
 short ang,filler;
 }PREDICT, *PREDICTp;
 
 PREDICT Predict[MOVEFIFOSIZ];
-long predictmovefifoplc;
+int predictmovefifoplc;
 
 VOID DoPlayerSectorUpdatePreMove(PLAYERp);
 VOID DoPlayerSectorUpdatePostMove(PLAYERp);
@@ -124,7 +123,7 @@ DoPrediction(PLAYERp ppp)
     {
     USERp u;
     SPRITE spr;
-    long bakrandomseed;
+    int bakrandomseed;
     short angvel;
     
     // routine called from MoveLoop
@@ -197,7 +196,7 @@ DoPrediction(PLAYERp ppp)
     }    
     
 void    
-CorrectPrediction(long actualfifoplc)
+CorrectPrediction(int actualfifoplc)
     {
     PREDICTp predict = &Predict[actualfifoplc & (MOVEFIFOSIZ-1)];
 

@@ -25,7 +25,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //-------------------------------------------------------------------------
 #define QUIET
 #include "build.h"
-#include "compat.h"
 #include "pragmas.h"
 #include "cache1d.h"
 
@@ -69,7 +68,7 @@ extern short HelpPagePic[];
 extern ParentalStruct aVoxelArray[MAXTILES];
 extern BOOL RedrawScreen;
 BOOL RedrawCompass=FALSE;
-extern long Follow_posx,Follow_posy;
+extern int Follow_posx,Follow_posy;
 
 int ConnectCopySprite(SPRITEp tsp);
 void PreDrawStackedWater(void );
@@ -93,7 +92,7 @@ ShadeSprite(SPRITEp tsp)
     
 
 short
-GetRotation(short tSpriteNum, long viewx, long viewy)
+GetRotation(short tSpriteNum, int viewx, int viewy)
     {
     static short RotTable8[] = {0, 7, 6, 5, 4, 3, 2, 1};
     static short RotTable5[] = {0, 1, 2, 3, 4, 3, 2, 1};
@@ -166,7 +165,7 @@ directions was not standardized.
 */    
 
 int
-SetActorRotation(short tSpriteNum, long viewx, long viewy)
+SetActorRotation(short tSpriteNum, int viewx, int viewy)
     {
     SPRITEp tsp = &tsprite[tSpriteNum];
     USERp tu = User[tsp->owner];
@@ -234,8 +233,8 @@ DoShadowFindGroundPoint(SPRITEp sp)
     // USES TSPRITE !!!!!
     USERp u = User[sp->owner];
     SPRITEp hsp;
-    long ceilhit, florhit;
-    long hiz, loz = u->loz;
+    int ceilhit, florhit;
+    int hiz, loz = u->loz;
     short save_cstat, bak_cstat;
     BOOL found = FALSE;
 
@@ -367,13 +366,13 @@ DoVoxelShadow(SPRITEp tspr)
 #endif
 
 VOID 
-DoShadows(SPRITEp tsp, long viewz)
+DoShadows(SPRITEp tsp, int viewz)
     {
     SPRITEp new = &tsprite[spritesortcnt];
     USERp tu = User[tsp->owner];
-    long ground_dist = 0;
-    long view_dist = 0;
-    long loz;
+    int ground_dist = 0;
+    int view_dist = 0;
+    int loz;
     short xrepeat;
     short yrepeat;
     short sectnum;
@@ -386,7 +385,7 @@ DoShadows(SPRITEp tsp, long viewz)
     
     if (sectnum < 0)
         {
-        //long cz,fz;
+        //int cz,fz;
         //getzsofslope(tsp->sectnum, tsp->x, tsp->y, &cz, &fz);
         ////DSPRINTF(ds,"Shad sect !fnd x%d, y%d, z%d, sect%d, cz %d, fz %d", tsp->x, tsp->y, tsp->z, tsp->sectnum, cz, fz);
         //MONO_PRINT(ds);
@@ -466,10 +465,10 @@ DoMotionBlur(SPRITEp tsp)
     {
     SPRITEp new;
     USERp tu = User[tsp->owner];
-    long nx,ny,nz = 0,dx,dy,dz;
+    int nx,ny,nz = 0,dx,dy,dz;
     short i, ang;
     short xrepeat, yrepeat, repeat_adj = 0;
-    long z_amt_per_pixel;
+    int z_amt_per_pixel;
 
     ang = NORM_ANGLE(tsp->ang + 1024);
     
@@ -480,11 +479,11 @@ DoMotionBlur(SPRITEp tsp)
 
     if (TEST(tsp->extra, SPRX_PLAYER_OR_ENEMY))
         {
-        z_amt_per_pixel = (((long)-tu->jump_speed * ACTORMOVETICS)<<16)/tsp->xvel;
+        z_amt_per_pixel = (((int)-tu->jump_speed * ACTORMOVETICS)<<16)/tsp->xvel;
         }
     else    
         {
-        z_amt_per_pixel = (((long)-tsp->zvel)<<16)/tsp->xvel;
+        z_amt_per_pixel = (((int)-tsp->zvel)<<16)/tsp->xvel;
         }
     
     switch (tu->motion_blur_dist)
@@ -570,7 +569,7 @@ VOID WarpCopySprite(VOID)
     short sn, nsn;
     short sn2, nsn2;
     short spnum, next_spnum;
-    long xoff,yoff,zoff;
+    int xoff,yoff,zoff;
     short match;
     short sect1, sect2;
     
@@ -643,7 +642,7 @@ VOID WarpCopySprite(VOID)
         }
     }
 
-VOID DoStarView(SPRITEp tsp, USERp tu, long viewz)    
+VOID DoStarView(SPRITEp tsp, USERp tu, int viewz)    
     {
     extern STATE s_Star[], s_StarDown[];
     extern STATE s_StarStuck[], s_StarDownStuck[];
@@ -667,11 +666,11 @@ VOID DoStarView(SPRITEp tsp, USERp tu, long viewz)
     }
 
 VOID
-analyzesprites(long viewx, long viewy, long viewz, BOOL mirror)
+analyzesprites(int viewx, int viewy, int viewz, BOOL mirror)
     {
-    long tSpriteNum, j, k;
+    int tSpriteNum, j, k;
     short SpriteNum, pnum;
-    long smr4, smr2;
+    int smr4, smr2;
     SPRITEp tsp;
     USERp tu;
     static int ang = 0;
@@ -681,8 +680,8 @@ analyzesprites(long viewx, long viewy, long viewz, BOOL mirror)
     
     ang = NORM_ANGLE(ang + 12);
 
-    smr4 = smoothratio + (((long) MoveSkip4) << 16);
-    smr2 = smoothratio + (((long) MoveSkip2) << 16);
+    smr4 = smoothratio + (((int) MoveSkip4) << 16);
+    smr2 = smoothratio + (((int) MoveSkip2) << 16);
     
     for (tSpriteNum = spritesortcnt - 1; tSpriteNum >= 0; tSpriteNum--)
         {
@@ -977,7 +976,7 @@ analyzesprites(long viewx, long viewy, long viewz, BOOL mirror)
 SPRITEp 
 get_tsprite(short SpriteNum)
     {
-    long tSpriteNum;
+    int tSpriteNum;
     
     for (tSpriteNum = spritesortcnt - 1; tSpriteNum >= 0; tSpriteNum--)
         {
@@ -991,7 +990,7 @@ get_tsprite(short SpriteNum)
 VOID
 post_analyzesprites(void)
     {
-    long tSpriteNum;
+    int tSpriteNum;
     short SpriteNum;
     SPRITEp tsp;
     USERp tu;
@@ -1092,8 +1091,8 @@ extern BOOL UsingMenus;
 VOID
 ViewOutsidePlayerRecurse(PLAYERp pp, LONGp vx, LONGp vy, LONGp vz, SHORTp ang, SHORTp vsectnum)
     {
-    long nx, ny;
-    long ret;
+    int nx, ny;
+    int ret;
 
     *vx = pp->posx;
     *vy = pp->posy;
@@ -1131,7 +1130,7 @@ ViewOutsidePlayerRecurse(PLAYERp pp, LONGp vx, LONGp vy, LONGp vz, SHORTp ang, S
 
     if (TEST(sector[*vsectnum].floorstat, FLOOR_STAT_SLOPE)|TEST(sector[*vsectnum].ceilingstat, CEILING_STAT_SLOPE))    
         {
-        long cz, fz;
+        int cz, fz;
         
         getzsofslope(*vsectnum, *vx, *vy, &cz, &fz);
         
@@ -1148,10 +1147,10 @@ ViewOutsidePlayerRecurse(PLAYERp pp, LONGp vx, LONGp vy, LONGp vz, SHORTp ang, S
 
 
 void 
-BackView(long *nx, long *ny, long *nz, short *vsect, short *nang, short horiz)
+BackView(int *nx, int *ny, int *nz, short *vsect, short *nang, short horiz)
     {
     SPRITEp sp;
-    long i, vx, vy, vz, hx, hy, hz, hitx, hity, hitz;
+    int i, vx, vy, vz, hx, hy, hz, hitx, hity, hitz;
     short bakcstat, hitsect, hitwall, hitsprite, daang;
     PLAYERp pp = &Player[screenpeek];
     short ang;
@@ -1213,7 +1212,7 @@ BackView(long *nx, long *ny, long *nz, short *vsect, short *nang, short horiz)
         else
             {
             SPRITEp hsp = &sprite[hitsprite];
-            long flag_backup;
+            int flag_backup;
             
             // if you hit a sprite that's not a wall sprite - try again
             if (!TEST(hsp->cstat, CSTAT_SPRITE_WALL))
@@ -1266,10 +1265,10 @@ BackView(long *nx, long *ny, long *nz, short *vsect, short *nang, short horiz)
     }
 
 void 
-CircleCamera(long *nx, long *ny, long *nz, short *vsect, short *nang, short horiz)
+CircleCamera(int *nx, int *ny, int *nz, short *vsect, short *nang, short horiz)
     {
     SPRITEp sp;
-    long i, vx, vy, vz, hx, hy, hz, hitx, hity, hitz;
+    int i, vx, vy, vz, hx, hy, hz, hitx, hity, hitz;
     short bakcstat, hitsect, hitwall, hitsprite, daang;
     PLAYERp pp = &Player[screenpeek];
     short ang;
@@ -1333,7 +1332,7 @@ CircleCamera(long *nx, long *ny, long *nz, short *vsect, short *nang, short hori
         else
             {
             SPRITEp hsp = &sprite[hitsprite];
-            long flag_backup;
+            int flag_backup;
             
             // if you hit a sprite that's not a wall sprite - try again
             if (!TEST(hsp->cstat, CSTAT_SPRITE_WALL))
@@ -1377,10 +1376,10 @@ VOID PrintLocationInfo(PLAYERp pp)
   {
     #define Y_STEP 7
     #define AVERAGEFRAMES 16
-    long x = windowx1+2;
-    long y = windowy1+2;
-    static long frameval[AVERAGEFRAMES], framecnt = 0;
-    long i;
+    int x = windowx1+2;
+    int y = windowy1+2;
+    static int frameval[AVERAGEFRAMES], framecnt = 0;
+    int i;
 
     if (LocationInfo)
         {
@@ -1388,7 +1387,7 @@ VOID PrintLocationInfo(PLAYERp pp)
         i = totalclock;
         if (i != frameval[framecnt])
             {
-            sprintf(tempbuf, "FPS: %ld", ((120 * AVERAGEFRAMES) / (i - frameval[framecnt])) + f_c);
+            sprintf(tempbuf, "FPS: %d", ((120 * AVERAGEFRAMES) / (i - frameval[framecnt])) + f_c);
             printext256(x, y, 1, -1, tempbuf, 1);
             frameval[framecnt] = i;
             }
@@ -1399,16 +1398,16 @@ VOID PrintLocationInfo(PLAYERp pp)
             {
             y += Y_STEP;
 
-            sprintf(buffer, "POSX:%ld", pp->posx);
+            sprintf(buffer, "POSX:%d", pp->posx);
             printext256(x, y, 1, -1, buffer, 1);
             y += Y_STEP;
-            sprintf(buffer, "POSY:%ld", pp->posy);
+            sprintf(buffer, "POSY:%d", pp->posy);
             printext256(x, y, 1, -1, buffer, 1);
             y += Y_STEP;
-            sprintf(buffer, "POSZ:%ld", pp->posz);
+            sprintf(buffer, "POSZ:%d", pp->posz);
             printext256(x, y, 1, -1, buffer, 1);
             y += Y_STEP;
-            sprintf(buffer, "ANG:%ld", (LONG) pp->pang);
+            sprintf(buffer, "ANG:%d", (LONG) pp->pang);
             printext256(x, y, 1, -1, buffer, 1);
             y += Y_STEP;
             }
@@ -1420,8 +1419,8 @@ VOID SecretInfo(PLAYERp pp)
     {
     #define Y_STEP 7
     #define AVERAGEFRAMES 16
-    long x = windowx1+2;
-    long y = windowy1+2+8;
+    int x = windowx1+2;
+    int y = windowy1+2+8;
     extern short LevelSecrets,TotalKillable;
     
     if (CommEnabled || numplayers > 1)
@@ -1443,8 +1442,8 @@ VOID SecretInfo(PLAYERp pp)
 VOID PrintSpriteInfo(PLAYERp pp)
   {
     #define Y_STEP 7
-    long x = windowx1+2;
-    long y = windowy1+2;
+    int x = windowx1+2;
+    int y = windowy1+2;
     SPRITEp sp;
     USERp u;
     short hitsprite;
@@ -1493,16 +1492,16 @@ VOID PrintSpriteInfo(PLAYERp pp)
             }
         if(SpriteInfo > 1)
             {
-            sprintf(buffer, "POSX:%ld", sp->x);
+            sprintf(buffer, "POSX:%d", sp->x);
             printext256(x, y, 1, -1, buffer, 1);
             y += Y_STEP;
-            sprintf(buffer, "POSY:%ld", sp->y);
+            sprintf(buffer, "POSY:%d", sp->y);
             printext256(x, y, 1, -1, buffer, 1);
             y += Y_STEP;
-            sprintf(buffer, "POSZ:%ld", sp->z);
+            sprintf(buffer, "POSZ:%d", sp->z);
             printext256(x, y, 1, -1, buffer, 1);
             y += Y_STEP;
-            sprintf(buffer, "ANG:%ld", (LONG) sp->ang);
+            sprintf(buffer, "ANG:%d", (LONG) sp->ang);
             printext256(x, y, 1, -1, buffer, 1);
             y += Y_STEP;
             }
@@ -1510,11 +1509,11 @@ VOID PrintSpriteInfo(PLAYERp pp)
     }
 
 
-VOID SpriteSortList2D(long tx, long ty)
+VOID SpriteSortList2D(int tx, int ty)
     {
     SPRITEp sp;
-    long i;
-    long dist,a,b,c;
+    int i;
+    int dist,a,b,c;
     
     spritesortcnt = 0;
     for (i = 0; i < MAXSPRITES; i++)
@@ -1538,9 +1537,9 @@ VOID SpriteSortList2D(long tx, long ty)
         }    
     }    
 
-long COVERsetgamemode(long mode, long xdim, long ydim, long bpp)
+int COVERsetgamemode(int mode, int xdim, int ydim, int bpp)
     {
-    extern long ScreenHeight, ScreenWidth, ScreenMode, ScreenBPP;
+    extern int ScreenHeight, ScreenWidth, ScreenMode, ScreenBPP;
     
     
     ScreenHeight = ydim;
@@ -1548,7 +1547,7 @@ long COVERsetgamemode(long mode, long xdim, long ydim, long bpp)
     ScreenMode   = mode;
     ScreenBPP    = bpp;
 
-    return((long)setgamemode(mode,xdim,ydim,bpp));
+    return((int)setgamemode(mode,xdim,ydim,bpp));
       }
 
 void CheatResChange(void)
@@ -1804,7 +1803,7 @@ VOID DrawConInput(PLAYERp pp)
 
 VOID DrawCrosshair(PLAYERp pp)
     {
-    extern long CrosshairX, CrosshairY;
+    extern int CrosshairX, CrosshairY;
     extern BOOL DemoMode,CameraTestMode;
 
     if (!gs.Crosshair)
@@ -1824,7 +1823,7 @@ VOID DrawCrosshair(PLAYERp pp)
 #if 0
     if (gs.AutoAim)
     {
-        long daz;
+        int daz;
         short hitsprite, daang;
         static int handle=-1;
 
@@ -1834,7 +1833,7 @@ VOID DrawCrosshair(PLAYERp pp)
         {
             SPRITEp hp = &sprite[hitsprite];
             USERp hu = User[hitsprite];
-            long dx,dy,dz;
+            int dx,dy,dz;
             
 
             // Find the delta coordinates from player to monster that is targeted
@@ -1889,7 +1888,7 @@ VOID DrawCrosshair(PLAYERp pp)
     
     }
     
-void CameraView(PLAYERp pp, long *tx, long *ty, long *tz, short *tsectnum, short *tang, long *thoriz)
+void CameraView(PLAYERp pp, int *tx, int *ty, int *tz, short *tsectnum, short *tang, int *thoriz)
     {
     int i,nexti;
     short ang;
@@ -1936,7 +1935,7 @@ void CameraView(PLAYERp pp, long *tx, long *ty, long *tz, short *tsectnum, short
                             
                         default:
                             {
-                            long xvect,yvect,zvect,zdiff;
+                            int xvect,yvect,zvect,zdiff;
 
                             pp->last_camera_sp = sp;
                             
@@ -2086,7 +2085,7 @@ int CopySprite(SPRITEp tsp, short newsector)
 int ConnectCopySprite(SPRITEp tsp)
     {
     short newsector;
-    long testz;
+    int testz;
     
     if (FAF_ConnectCeiling(tsp->sectnum))
         {
@@ -2127,13 +2126,13 @@ void PreDrawStackedWater(void)
     SPRITEp sp,np;
     USERp u,nu;
     short new;
-    long smr4,smr2;
-    long x,y,z;
+    int smr4,smr2;
+    int x,y,z;
     short ang;
     PLAYERp pp = Player + screenpeek;
     
-    smr4 = smoothratio + (((long) MoveSkip4) << 16);
-    smr2 = smoothratio + (((long) MoveSkip2) << 16);
+    smr4 = smoothratio + (((int) MoveSkip4) << 16);
+    smr2 = smoothratio + (((int) MoveSkip2) << 16);
     
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_CEILING_FLOOR_PIC_OVERRIDE], si, snexti)
         {
@@ -2192,7 +2191,7 @@ void PreDrawStackedWater(void)
     }    
     
 
-void FAF_DrawRooms(long x, long y, long z, short ang, long horiz, short sectnum)
+void FAF_DrawRooms(int x, int y, int z, short ang, int horiz, short sectnum)
     {
     short i,nexti;
     
@@ -2204,7 +2203,7 @@ void FAF_DrawRooms(long x, long y, long z, short ang, long horiz, short sectnum)
             SPRITE_TAG5(i) = sector[sprite[i].sectnum].ceilingpicnum;
             sector[sprite[i].sectnum].ceilingpicnum = SPRITE_TAG2(i);
             SPRITE_TAG4(i) = sector[sprite[i].sectnum].ceilingstat;
-            //SET(sector[sprite[i].sectnum].ceilingstat, ((long)SPRITE_TAG7(i))<<7);
+            //SET(sector[sprite[i].sectnum].ceilingstat, ((int)SPRITE_TAG7(i))<<7);
             SET(sector[sprite[i].sectnum].ceilingstat, SPRITE_TAG6(i));
             RESET(sector[sprite[i].sectnum].ceilingstat, CEILING_STAT_PLAX);
             }
@@ -2214,7 +2213,7 @@ void FAF_DrawRooms(long x, long y, long z, short ang, long horiz, short sectnum)
             SPRITE_TAG5(i) = sector[sprite[i].sectnum].floorpicnum;
             sector[sprite[i].sectnum].floorpicnum = SPRITE_TAG2(i);
             SPRITE_TAG4(i) = sector[sprite[i].sectnum].floorstat;
-            //SET(sector[sprite[i].sectnum].floorstat, ((long)SPRITE_TAG7(i))<<7);
+            //SET(sector[sprite[i].sectnum].floorstat, ((int)SPRITE_TAG7(i))<<7);
             SET(sector[sprite[i].sectnum].floorstat, SPRITE_TAG6(i));
             RESET(sector[sprite[i].sectnum].floorstat, FLOOR_STAT_PLAX);
             }
@@ -2255,13 +2254,13 @@ VOID
 drawscreen(PLAYERp pp)
     {
     extern BOOL DemoMode,CameraTestMode;
-    long tx, ty, tz,thoriz,pp_siz;
+    int tx, ty, tz,thoriz,pp_siz;
     short tang,tsectnum;
     short i,j;
     walltype *wal;
-    long tiltlock;
-    long bob_amt = 0;
-    long quake_z, quake_x, quake_y;
+    int tiltlock;
+    int bob_amt = 0;
+    int quake_z, quake_x, quake_y;
     short quake_ang;
     BOOL PicInView(short, BOOL);
     extern BOOL FAF_DebugView;
@@ -2270,7 +2269,7 @@ drawscreen(PLAYERp pp)
     
     // last valid stuff
     static short lv_sectnum = -1;
-    static long lv_x, lv_y, lv_z;
+    static int lv_x, lv_y, lv_z;
 
     if (HelpInputMode)    
         {
@@ -2613,7 +2612,7 @@ DrawCompass(PLAYERp pp)
     short x_size = tilesizx[COMPASS_NORTH];
     short x;
     short i;
-    long flags;
+    int flags;
     PANEL_SPRITEp psp;
 
     static short CompassPic[32] =
@@ -2692,7 +2691,7 @@ VOID ScreenTileUnLock(void)
 int
 ScreenLoadSaveSetup(PLAYERp pp)
     {
-    long tx, ty, tz,thoriz,pp_siz;
+    int tx, ty, tz,thoriz,pp_siz;
     short tang,tsectnum;
     short i;
 
@@ -2701,7 +2700,7 @@ ScreenLoadSaveSetup(PLAYERp pp)
     ScreenTileLock();
     
     if (!waloff[SAVE_SCREEN_TILE])
-        allocache(&waloff[SAVE_SCREEN_TILE], SAVE_SCREEN_XSIZE * SAVE_SCREEN_YSIZE, &walock[SAVE_SCREEN_TILE]);
+        allocache((void **)&waloff[SAVE_SCREEN_TILE], SAVE_SCREEN_XSIZE * SAVE_SCREEN_YSIZE, &walock[SAVE_SCREEN_TILE]);
     
     tilesizx[SAVE_SCREEN_TILE] = SAVE_SCREEN_XSIZE;    
     tilesizx[SAVE_SCREEN_TILE] = SAVE_SCREEN_YSIZE;    

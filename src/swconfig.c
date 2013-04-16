@@ -24,7 +24,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 #include "build.h"
-#include "compat.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -61,10 +60,10 @@ extern BOOL DrawScreen;
 
 void EncodePassword(char *pw)
     {
-    long bak_DrawScreen = DrawScreen;
-    long bak_randomseed = randomseed;
-    long i;
-    long len;
+    int bak_DrawScreen = DrawScreen;
+    int bak_randomseed = randomseed;
+    int i;
+    int len;
 
     DrawScreen = FALSE;
     randomseed = 1234L;
@@ -81,10 +80,10 @@ void EncodePassword(char *pw)
    
 void DecodePassword(char *pw)
     {
-    long bak_DrawScreen = DrawScreen;
-    long bak_randomseed = randomseed;
-    long i;
-    long len;
+    int bak_DrawScreen = DrawScreen;
+    int bak_randomseed = randomseed;
+    int i;
+    int len;
 
     DrawScreen = FALSE;
     randomseed = 1234L;
@@ -109,13 +108,13 @@ void DecodePassword(char *pw)
 
 void ReadGameSetup( int32 scripthandle )
     {
-    long dummy;
-    long ret;
+    int dummy;
+    int ret;
     extern char WangBangMacro[10][64];
 
     for(dummy = 0;dummy < 10;dummy++)
         {
-        sprintf(ds,"CommbatMacro#%ld",dummy);
+        sprintf(ds,"CommbatMacro#%d",dummy);
         SCRIPT_GetString( scripthandle, "Comm Setup",ds,WangBangMacro[dummy]);
         }
 
@@ -273,7 +272,7 @@ void ReadGameSetup( int32 scripthandle )
 
 void WriteGameSetup( int32 scripthandle)
    {
-   long dummy;
+   int dummy;
    
    dummy = gs.BorderNum;
    SCRIPT_PutNumber( scripthandle, "Options", "BorderNum",dummy,FALSE,FALSE);

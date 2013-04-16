@@ -25,5 +25,5 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //-------------------------------------------------------------------------
 
 void ProcessVisOn(void);
-void VisViewChange(PLAYERp pp, long *vis);
-int SpawnVis(short Parent, short sectnum, long x, long y, long z, long amt);
+void VisViewChange(PLAYERp pp, int *vis);
+int SpawnVis(short Parent, short sectnum, int x, int y, int z, int amt);

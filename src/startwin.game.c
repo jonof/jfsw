@@ -5,7 +5,6 @@
 #include "types.h"
 #include "build.h"
 #include "winlayer.h"
-#include "compat.h"
 
 #include "gamedefs.h"
 #include "config.h"

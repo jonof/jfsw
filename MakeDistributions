@@ -1,9 +1,7 @@
 # GNU Makefile to prepare source and binary distributions.
 #    make -f MakeDistributions [source|binary]
 
-SOURCEFILES=build.cfg GNU.TXT \
-	   Makefile Makefile.deps Makefile.msvc Makefile.watcom MakeDistributions \
-	   makemsc.bat makew.bat readme.txt releasenotes.html
+GITHEAD=HEAD
 
 BINARYFILES=build.cfg build.exe sw.exe GNU.TXT readme.txt \
            releasenotes.html setup.exe
@@ -13,19 +11,15 @@ BINARYCHECKS=checksetupexe
 .PHONY: source binary $(BINARYCHECKS)
 
 datenow=$(shell date +%Y%m%d)
+gitsha1=$(shell git rev-parse --short $(GITHEAD))
 
-sourcedir=jfsw_src_$(datenow)
+sourcedir=jfsw_src_$(datenow)-$(gitsha1)
 binarydir=jfsw_$(datenow)
 
 all: source binary
 
 source:
-	mkdir $(sourcedir) $(sourcedir)/eobj $(sourcedir)/obj
-	touch $(sourcedir)/eobj/keep.me $(sourcedir)/obj/keep.me
-	cp $(SOURCEFILES) $(sourcedir)
-	cp -R source rsrc osx $(sourcedir)
-	rm -Rf $(sourcedir)/source/tmp
-	kzip -r $(sourcedir).zip $(sourcedir)
+	git archive --format=zip --prefix=$(sourcedir)/ --output=$(sourcedir).zip $(GITHEAD)
 
 binary: $(BINARYCHECKS)
 	#nmake /f Makefile.msvc

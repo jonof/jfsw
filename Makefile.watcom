@@ -1,6 +1,6 @@
 # Shadow Warrior Makefile for Watcom Make
 
-SRC=source
+SRC=src
 OBJ=obj
 EROOT=engine
 EINC=$(EROOT)\include

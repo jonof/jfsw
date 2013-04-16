@@ -152,91 +152,91 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = AB2E9E421011E61700DD2F1F /* libjfaudiolib.a */;
+			remoteGlobalIDString = AB2E9E421011E61700DD2F1F;
 			remoteInfo = jfaudiolib;
 		};
 		ABD1B97012BC6F9500CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = AB32FA7F1077102D00A9BAFF /* test */;
+			remoteGlobalIDString = AB32FA7F1077102D00A9BAFF;
 			remoteInfo = test;
 		};
 		ABD1B97D12BC6FA900CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = AB735F490A29A2DC003261DC /* libengine.a */;
+			remoteGlobalIDString = AB735F490A29A2DC003261DC;
 			remoteInfo = engine;
 		};
 		ABD1B97F12BC6FA900CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = AB735FCC0A29A916003261DC /* libeditor.a */;
+			remoteGlobalIDString = AB735FCC0A29A916003261DC;
 			remoteInfo = editor;
 		};
 		ABD1B98112BC6FA900CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = AB3FE4550C04336F00D5DBDC /* libeditorsupp.a */;
+			remoteGlobalIDString = AB3FE4550C04336F00D5DBDC;
 			remoteInfo = editorsupp;
 		};
 		ABD1B98312BC6FA900CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = ABAE9AD20F0B307500A528DC /* arttool */;
+			remoteGlobalIDString = ABAE9AD20F0B307500A528DC;
 			remoteInfo = arttool;
 		};
 		ABD1B98512BC6FA900CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = ABAE9C2E0F0CC80200A528DC /* kextract */;
+			remoteGlobalIDString = ABAE9C2E0F0CC80200A528DC;
 			remoteInfo = kextract;
 		};
 		ABD1B98712BC6FA900CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = ABAE9C390F0CC81900A528DC /* kgroup */;
+			remoteGlobalIDString = ABAE9C390F0CC81900A528DC;
 			remoteInfo = kgroup;
 		};
 		ABD1BA4612BC713300CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB735F480A29A2DC003261DC /* engine */;
+			remoteGlobalIDString = AB735F480A29A2DC003261DC;
 			remoteInfo = engine;
 		};
 		ABD1BA4812BC713600CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB2E9E411011E61600DD2F1F /* jfaudiolib */;
+			remoteGlobalIDString = AB2E9E411011E61600DD2F1F;
 			remoteInfo = jfaudiolib;
 		};
 		ABD1BA4A12BC714700CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB735F480A29A2DC003261DC /* engine */;
+			remoteGlobalIDString = AB735F480A29A2DC003261DC;
 			remoteInfo = engine;
 		};
 		ABD1BA4C12BC714700CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB735FCB0A29A916003261DC /* editor */;
+			remoteGlobalIDString = AB735FCB0A29A916003261DC;
 			remoteInfo = editor;
 		};
 		ABD1BA4E12BC714700CD7C5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = AB3FE44A0C04336F00D5DBDC /* editorsupp */;
+			remoteGlobalIDString = AB3FE44A0C04336F00D5DBDC;
 			remoteInfo = editorsupp;
 		};
 /* End PBXContainerItemProxy section */
@@ -500,8 +500,8 @@
 			isa = PBXGroup;
 			children = (
 				ABB4ABDE0C64C6AB00F28920 /* jfmact.git */,
-				ABB4AB6A0C64C44C00F28920 /* source */,
-				ABB4AB6B0C64C45500F28920 /* osx */,
+				ABB4AB6A0C64C44C00F28920 /* src */,
+				ABB4AB6B0C64C45500F28920 /* xcode */,
 				ABB4ABC20C64C50100F28920 /* game_icon.icns */,
 				ABB4ABC30C64C50100F28920 /* game.bmp */,
 			);
@@ -529,7 +529,7 @@
 			name = osx;
 			sourceTree = "<group>";
 		};
-		ABB4AB6A0C64C44C00F28920 /* source */ = {
+		ABB4AB6A0C64C44C00F28920 /* src */ = {
 			isa = PBXGroup;
 			children = (
 				AB214357101EEFB200E844AE /* _config.h */,
@@ -665,18 +665,18 @@
 				ABB4ABB50C64C4D000F28920 /* zilla.c */,
 				ABB4ABB60C64C4D000F28920 /* zombie.c */,
 			);
-			name = source;
-			path = ../source;
+			name = src;
+			path = ../src;
 			sourceTree = "<group>";
 		};
-		ABB4AB6B0C64C45500F28920 /* osx */ = {
+		ABB4AB6B0C64C45500F28920 /* xcode */ = {
 			isa = PBXGroup;
 			children = (
 				ABB4ABB70C64C4EF00F28920 /* JFShadowWarrior-Info.plist */,
 				ABB4ABB80C64C4EF00F28920 /* game.osxmain.nib */,
 				ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */,
 			);
-			name = osx;
+			name = xcode;
 			sourceTree = "<group>";
 		};
 		ABB4ABCE0C64C52900F28920 /* Products */ = {

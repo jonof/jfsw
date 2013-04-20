@@ -63,8 +63,6 @@ int32 NumberPlayers,CommPort,PortSpeed,IrqNumber,UartAddress;
 //
 int32 FXDevice    = 0;
 int32 MusicDevice = 0;
-int32 FXVolume    = 192;
-int32 MusicVolume = 128;
 int32 NumVoices   = 32;
 int32 NumChannels = 2;
 int32 NumBits     = 16;
@@ -216,13 +214,11 @@ void CONFIG_SetDefaults( void )
    ScreenBPP = 8;
    FXDevice = 0;
    MusicDevice = 0;
-   FXVolume = 192;
-   MusicVolume = 128;
    NumVoices = 32;
    NumChannels = 2;
    NumBits = 16;
    MixRate = 44100;
-   gs.FlipStereo = 0;
+   memcpy(&gs, &gs_defaults, sizeof(gs));
 
    Bstrcpy(RTSName, DEFAULTRTSFILE);
    Bstrcpy(CommPlayerName, DEFAULTPLAYERNAME);
@@ -238,36 +234,19 @@ void CONFIG_SetDefaults( void )
    Bstrcpy(WangBangMacro[8], MACRO9);
    Bstrcpy(WangBangMacro[9], MACRO10);
 
-   memset(KeyboardKeys, 0xff, sizeof(KeyboardKeys));
-   for (i=0; i < (int32)(sizeof(keydefaults)/sizeof(keydefaults[0]))/3; i++) {
-      f = CONFIG_FunctionNameToNum( keydefaults[3*i+0] );
-      if (f == -1) continue;
-      k1 = KB_StringToScanCode( keydefaults[3*i+1] );
-      k2 = KB_StringToScanCode( keydefaults[3*i+2] );
-
-      KeyboardKeys[f][0] = k1;
-      KeyboardKeys[f][1] = k2;
-   }
-
-   memset(MouseFunctions, -1, sizeof(MouseFunctions));
-   for (i=0; i < (int32)(sizeof(mousedefaults)/sizeof(char*)); i++) {
-      MouseFunctions[i][0] = CONFIG_FunctionNameToNum( mousedefaults[i] );
-
-      if (i<4) continue;
-
-      MouseFunctions[i][1] = CONFIG_FunctionNameToNum( mouseclickeddefaults[i] );
-   }
+   SetDefaultKeyDefinitions(0);
+   SetMouseDefaults(0);
 
    memset(MouseDigitalFunctions, -1, sizeof(MouseDigitalFunctions));
    for (i=0; i<MAXMOUSEAXES; i++) {
-	MouseAnalogueScale[i] = 65536;
+      MouseAnalogueScale[i] = 65536;
 
-	MouseDigitalFunctions[i][0] = CONFIG_FunctionNameToNum( mousedigitaldefaults[i*2] );
-	MouseDigitalFunctions[i][1] = CONFIG_FunctionNameToNum( mousedigitaldefaults[i*2+1] );
+      MouseDigitalFunctions[i][0] = CONFIG_FunctionNameToNum( mousedigitaldefaults[i*2] );
+      MouseDigitalFunctions[i][1] = CONFIG_FunctionNameToNum( mousedigitaldefaults[i*2+1] );
 
-	MouseAnalogueAxes[i] = CONFIG_AnalogNameToNum( mouseanalogdefaults[i] );
+      MouseAnalogueAxes[i] = CONFIG_AnalogNameToNum( mouseanalogdefaults[i] );
    }
-   CONTROL_SetMouseSensitivity(32768<<2);
+   CONTROL_SetMouseSensitivity(gs.MouseSpeed<<2);
 
    memset(JoystickFunctions, -1, sizeof(JoystickFunctions));
    for (i=0; i < (int32)(sizeof(joystickdefaults)/sizeof(char*)); i++) {
@@ -285,6 +264,63 @@ void CONFIG_SetDefaults( void )
 	JoystickDigitalFunctions[i][1] = CONFIG_FunctionNameToNum( joystickdigitaldefaults[i*2+1] );
 
 	JoystickAnalogueAxes[i] = CONFIG_AnalogNameToNum( joystickanalogdefaults[i] );
+   }
+}
+
+
+void SetDefaultKeyDefinitions(int style)
+{
+   int numkeydefaults;
+   char **keydefaultset;
+   int i, f, k1, k2;
+
+   if (style) {
+      numkeydefaults = sizeof(keydefaults_modern) / sizeof(char *) / 3;
+      keydefaultset = keydefaults_modern;
+   } else {
+      numkeydefaults = sizeof(keydefaults) / sizeof(char *) / 3;
+      keydefaultset = keydefaults;
+   }
+
+   memset(KeyboardKeys, 0xff, sizeof(KeyboardKeys));
+   for (i=0; i < numkeydefaults; i++) {
+      f = CONFIG_FunctionNameToNum( keydefaultset[3*i+0] );
+      if (f == -1) continue;
+      k1 = KB_StringToScanCode( keydefaultset[3*i+1] );
+      k2 = KB_StringToScanCode( keydefaultset[3*i+2] );
+
+      CONTROL_MapKey( i, k1, k2 );
+
+      KeyboardKeys[f][0] = k1;
+      KeyboardKeys[f][1] = k2;
+   }
+}
+
+void SetMouseDefaults(int style)
+{
+   int nummousedefaults;
+   char **mousedefaultset, **mouseclickeddefaultset;
+   int i;
+
+   if (style) {
+      nummousedefaults = sizeof(mousedefaults_modern) / sizeof(char *);
+      mousedefaultset = mousedefaults_modern;
+      mouseclickeddefaultset = mouseclickeddefaults_modern;
+   } else {
+      nummousedefaults = sizeof(mousedefaults) / sizeof(char *);
+      mousedefaultset = mousedefaults;
+      mouseclickeddefaultset = mouseclickeddefaults;
+   }
+
+   memset(MouseFunctions, -1, sizeof(MouseFunctions));
+   for (i=0; i < nummousedefaults; i++) {
+      MouseFunctions[i][0] = CONFIG_FunctionNameToNum( mousedefaultset[i] );
+      CONTROL_MapButton( MouseFunctions[i][0], i, FALSE, controldevice_mouse );
+
+      if (i<4) continue;
+
+      MouseFunctions[i][1] = CONFIG_FunctionNameToNum( mouseclickeddefaultset[i] );
+      CONTROL_MapButton( MouseFunctions[i][1], i, TRUE,  controldevice_mouse );
    }
 }
 
@@ -398,7 +434,6 @@ void CONFIG_SetupMouse( void )
       }
 
    // 0 to 65536  
-   function = 32768;
    SCRIPT_GetNumber( scripthandle, "Controls","MouseSensitivity",&function);
    gs.MouseSpeed = function;
 
@@ -530,10 +565,10 @@ int32 CONFIG_ReadSetup( void )
 
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "FXDevice",&FXDevice);
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "MusicDevice",&MusicDevice);
-      SCRIPT_GetNumber( scripthandle, "Sound Setup", "FXVolume",&FXVolume);
-      gs.SoundVolume = FXVolume;
-      SCRIPT_GetNumber( scripthandle, "Sound Setup", "MusicVolume",&MusicVolume);
-      gs.MusicVolume = MusicVolume;
+      SCRIPT_GetNumber( scripthandle, "Sound Setup", "FXVolume",&dummy);
+      gs.SoundVolume = dummy;
+      SCRIPT_GetNumber( scripthandle, "Sound Setup", "MusicVolume",&dummy);
+      gs.MusicVolume = dummy;
  
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "NumVoices",&NumVoices);
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "NumChannels",&NumChannels);

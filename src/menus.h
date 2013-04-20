@@ -307,6 +307,10 @@ BOOL MNU_SaveGameCustom(void);
 BOOL MNU_GetLoadCustom(void);
 BOOL MNU_GetSaveCustom(void);
 BOOL MNU_ParentalCustom(void);
+BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item);
+BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item);
+BOOL MNU_LoadModernDefaults(void);
+BOOL MNU_LoadClassicDefaults(void);
 
 // Menu Definitions /////////////////////////////////////////////////////////////////////////////
 

@@ -144,6 +144,60 @@ static char * keydefaults[] =
    "Show_Console", "NumLck", "",
    };
 
+static char * keydefaults_modern[] =
+   {
+   "Move_Forward", "W", "", 
+   "Move_Backward", "S", "", 
+   "Turn_Left", "", "", 
+   "Turn_Right", "", "", 
+   "Strafe", "", "", 
+   "Fire", "", "", 
+   "Open", "E", "", 
+   "Run", "LShift", "", 
+   "AutoRun", "CapLck", "", 
+   "Jump", "Space", "", 
+   "Crouch", "LAlt", "", 
+   "Look_Up", "", "", 
+   "Look_Down", "", "", 
+   "Strafe_Left", "A", "", 
+   "Strafe_Right", "D", "", 
+   "Aim_Up", "", "", 
+   "Aim_Down", "", "", 
+   "Weapon_1", "1", "", 
+   "Weapon_2", "2", "", 
+   "Weapon_3", "3", "", 
+   "Weapon_4", "4", "", 
+   "Weapon_5", "5", "", 
+   "Weapon_6", "6", "", 
+   "Weapon_7", "7", "", 
+   "Weapon_8", "8", "", 
+   "Weapon_9", "9", "", 
+   "Weapon_10", "0", "", 
+   "Inventory", "Enter", "", 
+   "Inventory_Left", "[", "", 
+   "Inventory_Right", "]", "", 
+   "Med_Kit", "M", "", 
+   "Smoke_Bomb", "B", "", 
+   "Night_Vision", "N", "", 
+   "Gas_Bomb", "G", "", 
+   "Flash_Bomb", "F", "", 
+   "Caltrops", "C", "", 
+   "TurnAround", "BakSpc", "", 
+   "SendMessage", "T", "", 
+   "Map", "Tab", "", 
+   "Shrink_Screen", "-", "", 
+   "Enlarge_Screen", "=", "", 
+   "Center_View", "", "", 
+   "Holster_Weapon", "H", "", 
+   "Map_Follow_Mode", "F", "", 
+   "See_Co_Op_View", "K", "", 
+   "Mouse_Aiming", "U", "", 
+   "Toggle_Crosshair", "I", "", 
+   "Next_Weapon", "", "", 
+   "Previous_Weapon", "", "", 
+   "Show_Console", "NumLck", "",
+   };
+
 
 static char * mousedefaults[] =
    {
@@ -154,11 +208,31 @@ static char * mousedefaults[] =
    ""
    };
 
+static char * mousedefaults_modern[] =
+   {
+   "Fire",
+   "Open",
+   "",
+   "",
+   "Next_Weapon",
+   "Previous_Weapon"
+   };
+
 
 static char * mouseclickeddefaults[] =
    {
    "",
    "Open",
+   "",
+   "",
+   ""
+   };
+
+static char * mouseclickeddefaults_modern[] =
+   {
+   "",
+   "",
+   "",
    "",
    "",
    ""

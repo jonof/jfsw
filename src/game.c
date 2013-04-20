@@ -176,10 +176,10 @@ BOOL AutoNet = FALSE;
 BOOL HasAutoColor = FALSE;
 BYTE AutoColor;
 
-GAME_SET gs = {
-0, // mouse speed
-0, // music vol
-0, // fx vol
+const GAME_SET gs_defaults = {
+32768, // mouse speed
+128, // music vol
+192, // fx vol
 2, // border
 0, // brightness
 0, // border tile
@@ -217,6 +217,7 @@ FALSE, // stats
 FALSE, // mouse aiming on
 FALSE, // play cd
 };
+GAME_SET gs;
 
 char PlaxBits = 0;
 BOOL PlayerTrackingMode = FALSE;
@@ -825,17 +826,17 @@ void Set_GameMode(void)
         {
         initprintf("Failure setting video mode %dx%dx%d %s! Attempting safer mode...",
                 ScreenWidth,ScreenHeight,ScreenBPP,ScreenMode?"fullscreen":"windowed");
-    ScreenMode = 0;
-    ScreenWidth = 320;
-    ScreenHeight = 240;
-    ScreenBPP = 8;
+        ScreenMode = 0;
+        ScreenWidth = 640;
+        ScreenHeight = 480;
+        ScreenBPP = 8;
 
-    result = COVERsetgamemode(ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP);
-    if (result < 0)
-        {
-        uninitmultiplayers();
-            //uninitkeys();
-        KB_Shutdown();
+        result = COVERsetgamemode(ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP);
+        if (result < 0)
+            {
+            uninitmultiplayers();
+                //uninitkeys();
+            KB_Shutdown();
             uninitengine();
             TermSetup();
             UnInitSound();
@@ -844,7 +845,7 @@ void Set_GameMode(void)
             uninitgroupfile();
             exit(0);
             }
-    }
+        }
     }
 
 void MultiSharewareCheck(void)

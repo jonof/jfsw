@@ -1162,7 +1162,7 @@ SoundStartup(void)
         if (status == FX_Ok)
             {
             FxInitialized = TRUE;
-            FX_SetVolume(FXVolume);
+            FX_SetVolume(gs.SoundVolume);
             
              if (gs.FlipStereo)
                 FX_SetReverseStereo(!FX_GetReverseStereo());
@@ -1257,7 +1257,7 @@ void MusicStartup( void )
    if ( status == MUSIC_Ok )
       {
       MusicInitialized = TRUE;
-      MUSIC_SetVolume( MusicVolume );
+      MUSIC_SetVolume( gs.MusicVolume );
       }
    else
       {

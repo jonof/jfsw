@@ -45,6 +45,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 #include "function.h"
 #include "gamedefs.h"
+#include "config.h"
 #include "net.h"
 #include "fx_man.h"
 #include "music.h"
@@ -247,19 +248,19 @@ MenuItem mouse_i[] =
 
 MenuGroup mousegroup = {65, 5, "^Mouse", mouse_i, pic_newgametitl, 0, m_defshade, NULL,NULL, 0};
 
-BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item);
 MenuGroup keysetupgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_KeySetupCustom, NULL, 0};
 
-BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item);
 MenuGroup mousesetupgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_MouseSetupCustom, NULL, 0};
 
 MenuItem inputsetup_i[] =
     {
-    {DefLayer(0, "Keys Setup", &keysetupgroup),OPT_XS,           OPT_LINE(0),1,m_defshade,0,NULL,NULL,NULL},
-    {DefLayer(0, "Mouse Setup", &mousesetupgroup),OPT_XS,           OPT_LINE(1),1,m_defshade,0,NULL,NULL,NULL},
-    {DefDisabled(0, "Joystick Setup", &keysetupgroup),OPT_XS,           OPT_LINE(2),1,m_defshade,0,NULL,NULL,NULL},
-    {DefDisabled(0, "Advanced Mouse Setup", &keysetupgroup),OPT_XS,           OPT_LINE(4),1,m_defshade,0,NULL,NULL,NULL},
-    {DefDisabled(0, "Advanced Joystick Setup", &keysetupgroup),OPT_XS,           OPT_LINE(5),1,m_defshade,0,NULL,NULL,NULL},
+    {DefLayer(0, "Keys Setup", &keysetupgroup),OPT_XS,                 OPT_LINE(0),1,m_defshade,0,NULL,NULL,NULL},
+    {DefLayer(0, "Mouse Setup", &mousesetupgroup),OPT_XS,              OPT_LINE(1),1,m_defshade,0,NULL,NULL,NULL},
+    {DefDisabled(0, "Joystick Setup", &keysetupgroup),OPT_XS,          OPT_LINE(2),1,m_defshade,0,NULL,NULL,NULL},
+    {DefDisabled(0, "Advanced Mouse Setup", &keysetupgroup),OPT_XS,    OPT_LINE(4),1,m_defshade,0,NULL,NULL,NULL},
+    {DefDisabled(0, "Advanced Joystick Setup", &keysetupgroup),OPT_XS, OPT_LINE(5),1,m_defshade,0,NULL,NULL,NULL},
+    {DefOption(0, "Apply Modern Defaults"), OPT_XS,                    OPT_LINE(7),1,m_defshade,0,MNU_LoadModernDefaults,NULL,NULL},
+    {DefOption(0, "Apply Classic Defaults"), OPT_XS,                   OPT_LINE(8),1,m_defshade,0,MNU_LoadClassicDefaults,NULL,NULL},
     {DefNone}
     };
 MenuGroup inputsetupgroup = {65, 5, "^Input Setup", inputsetup_i, pic_newgametitl, 0, m_defshade, NULL,NULL, 0};
@@ -1031,8 +1032,8 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
         //4979,
         //5261,
         //5262
-	
-	5114		// JBF: for my credits
+
+        5114    // JBF: for my credits
         };
     static short SWOrderScreen[] = 
         {
@@ -1044,16 +1045,16 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
         5118,
         4979,
 
-	5114		// JBF: for my credits
+        5114    // JBF: for my credits
         };
     short *OrderScreen, OrderScreenSiz;
     
     if (SW_SHAREWARE) {
-	OrderScreen = SWOrderScreen;
-	OrderScreenSiz = SIZ(SWOrderScreen);
+        OrderScreen = SWOrderScreen;
+        OrderScreenSiz = SIZ(SWOrderScreen);
     } else {
-	OrderScreen = RegOrderScreen;
-	OrderScreenSiz = SIZ(RegOrderScreen);
+        OrderScreen = RegOrderScreen;
+        OrderScreenSiz = SIZ(RegOrderScreen);
     }
     
     // Ignore the special touchup calls
@@ -1179,98 +1180,116 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
         (ROTATE_SPRITE_CORNER|ROTATE_SPRITE_SCREEN_CLIP|ROTATE_SPRITE_NON_MASK|ROTATE_SPRITE_IGNORE_START_MOST),
         0, 0, xdim-1, ydim-1);
 
-    if (on_screen == OrderScreenSiz-1) {
-	// Jonathon's credits page hack :-)
+    if (on_screen == OrderScreenSiz-1)
+        {
+        // Jonathon's credits page hack :-)
 
-	static char *jtitle = "^Port Credits";
-	static char *jtext[] = {
-		"*GAME AND ENGINE PORT",
-		" Jonathon \"JonoF\" Fowler",
-		"-",
-		"*\"POLYMOST\" 3D RENDERER",
-		"*NETWORKING, OTHER CODE",
-		" Ken \"Awesoken\" Silverman",
-		"-",
-		" Visit http://www.jonof.id.au/jfsw for the",
-		" source code, latest news, and updates of this port."
-	};
-	short dimx, dimy;
-	int ycur = 54;
-	unsigned ji;
+        static char *jtitle = "^Port Credits";
+        static char *jtext[] = {
+            "*GAME AND ENGINE PORT",
+            " Jonathon \"JonoF\" Fowler",
+            "-",
+            "*\"POLYMOST\" 3D RENDERER",
+            "*NETWORKING, OTHER CODE",
+            " Ken \"Awesoken\" Silverman",
+            "-",
+            " Visit http://www.jonof.id.au/jfsw for the",
+            " source code, latest news, and updates of this port."
+        };
+        static char *scroller[] = {
+            "This program is free software; you can redistribute it",
+            "and/or modify it under the terms of the GNU General",
+            "Public License as published by the Free Software",
+            "Foundation; either version 2 of the License, or (at your",
+            "option) any later version.",
+            "",
+            "This program is distributed in the hope that it will be",
+            "useful but WITHOUT ANY WARRANTY; without even the implied",
+            "warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR",
+            "PURPOSE. See the GNU General Public License (GPL.TXT) for",
+            "more details.",
+            "",
+            "",
+            "",
+            "",
+            "Thanks to these people for their input and contributions:",
+            "",
+            "Richard \"TerminX\" Gobeille,",
+            "Par \"Parkar\" Karlsson", // "Pär \"Parkar\" Karlsson",
+            "Ben \"ProAsm\" Smit",
+            "",
+            "and all those who submitted bug reports and ",
+            "supported the project financially!",
+            "",
+            "",
+            "--x--",
+            "",
+            "",
+            "",
+            ""
+        };
+        const int numscrollerlines = SIZ(scroller);
+        short dimx, dimy;
+        int ycur = 54;
+        unsigned ji;
 
-	dimy = 0; MNU_MeasureString(jtitle, &dimx, &dimy);
-	MNU_DrawString(160-(dimx>>1), ycur, jtitle, 0, 0);
-	ycur += dimy + 8;
+        dimy = 0; MNU_MeasureString(jtitle, &dimx, &dimy);
+        MNU_DrawString(160-(dimx>>1), ycur, jtitle, 0, 0);
+        ycur += dimy + 8;
 
-	for (ji = 0; ji < SIZ(jtext); ji++) {
-		switch (jtext[ji][0]) {
-			case '-':
-				ycur += 6;
-				break;
-			case '*':
-				dimx = dimy = 0;
-				MNU_MeasureString(&jtext[ji][1], &dimx, &dimy);
-				MNU_DrawString(160-(dimx>>1), ycur, &jtext[ji][1], 0, 16);
-				ycur += dimy+1;
-				break;
-			default:
-				if (ji>0 && jtext[ji-1][0] == '*') ycur += 3;
-				dimx = dimy = 0;
-				MNU_MeasureSmallString(&jtext[ji][1], &dimx, &dimy);
-				MNU_DrawSmallString(160-(dimx>>1), ycur, &jtext[ji][1], 0, 0);
-				ycur += dimy+1;
-				break;
-		}
-	}
+        for (ji = 0; ji < SIZ(jtext); ji++)
+            {
+            switch (jtext[ji][0])
+                {
+                case '-':
+                    ycur += 6;
+                    break;
+                case '*':
+                    dimx = dimy = 0;
+                    MNU_MeasureString(&jtext[ji][1], &dimx, &dimy);
+                    MNU_DrawString(160-(dimx>>1), ycur, &jtext[ji][1], 0, 16);
+                    ycur += dimy+1;
+                    break;
+                default:
+                    if (ji>0 && jtext[ji-1][0] == '*') ycur += 3;
+                    dimx = dimy = 0;
+                    MNU_MeasureSmallString(&jtext[ji][1], &dimx, &dimy);
+                    MNU_DrawSmallString(160-(dimx>>1), ycur, &jtext[ji][1], 0, 0);
+                    ycur += dimy+1;
+                    break;
+                }
+            }
 
-	{
-		static char *scroller[] = {
-			"This program is free software; you can redistribute it",
-			"and/or modify it under the terms of the GNU General",
-			"Public License as published by the Free Software",
-			"Foundation; either version 2 of the License, or (at your",
-			"option) any later version.",
-			"",
-			"This program is distributed in the hope that it will be",
-			"useful but WITHOUT ANY WARRANTY; without even the implied",
-			"warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR",
-			"PURPOSE. See the GNU General Public License (GPL.TXT) for",
-			"more details.",
-			"",
-			"",
-			"",
-			"",
-			"Thanks to these people for their input and contributions:",
-			"",
-			"Richard \"TerminX\" Gobeille,",
-			"Par \"Parkar\" Karlsson", // "Pär \"Parkar\" Karlsson",
-			"Ben \"ProAsm\" Smit",
-			"",
-			"and all those who submitted bug reports and ",
-			"supported the project financially!",
-			"",
-			"",
-			"--x--",
-			"",
-			"",
-			"",
-			""
-		};
-		const int numlines = SIZ(scroller);
-		int m,i;
-		for (m=0,i=(totalclock/104)%numlines; m<4; m++,i++) {
-			if (i==numlines) i=0;
-			dimx = dimy = 0;
-			MNU_MeasureSmallString(scroller[i], &dimx, &dimy);
-			MNU_DrawSmallString(160-(dimx>>1), 154+(m*7), scroller[i], 0, 8);
-		}
-	}
-    }
+        int m,i;
+        for (m=0, i=(totalclock/104)%numscrollerlines; m<4; m++,i++)
+            {
+            if (i == numscrollerlines)
+                i=0;
+            dimx = dimy = 0;
+            MNU_MeasureSmallString(scroller[i], &dimx, &dimy);
+            MNU_DrawSmallString(160-(dimx>>1), 154+(m*7), scroller[i], 0, 8);
+            }
+        }
 
     //KB_ClearKeysDown();
 
     return (TRUE);
     }
+
+BOOL MNU_LoadModernDefaults(void)
+    {
+    SetDefaultKeyDefinitions(1);
+    SetMouseDefaults(1);
+    return TRUE;
+    }
+
+BOOL MNU_LoadClassicDefaults(void)
+    {
+    SetDefaultKeyDefinitions(0);
+    SetMouseDefaults(0);
+    return TRUE;
+    }
+
 
 short EpisodeMenuSelection;
 

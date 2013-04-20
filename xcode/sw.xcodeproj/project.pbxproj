@@ -22,9 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		AB2140B2101D56BC00E844AE /* ogg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2140B0101D56BC00E844AE /* ogg.framework */; };
 		AB2140B3101D56BC00E844AE /* vorbis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2140B1101D56BC00E844AE /* vorbis.framework */; };
-		AB2140BF101D56CC00E844AE /* ogg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB2140B0101D56BC00E844AE /* ogg.framework */; };
 		AB2140C0101D56CC00E844AE /* vorbis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB2140B1101D56BC00E844AE /* vorbis.framework */; };
 		AB21411C101D5B8F00E844AE /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21411B101D5B8F00E844AE /* AudioUnit.framework */; };
 		AB8F60750C658D3400202E11 /* startdlg.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8F60740C658D3400202E11 /* startdlg.c */; };
@@ -258,7 +256,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AB2140BF101D56CC00E844AE /* ogg.framework in CopyFiles */,
 				AB2140C0101D56CC00E844AE /* vorbis.framework in CopyFiles */,
 				AB8F61B00C6592A600202E11 /* SDL.framework in CopyFiles */,
 			);
@@ -268,7 +265,6 @@
 
 /* Begin PBXFileReference section */
 		AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = jfaudiolib.xcodeproj; path = ../../jfaudiolib.git/jfaudiolib.xcodeproj; sourceTree = SOURCE_ROOT; };
-		AB2140B0101D56BC00E844AE /* ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ogg.framework; path = "../../jfaudiolib.git/third-party/ogg.framework"; sourceTree = SOURCE_ROOT; };
 		AB2140B1101D56BC00E844AE /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = "../../jfaudiolib.git/third-party/vorbis.framework"; sourceTree = SOURCE_ROOT; };
 		AB21411B101D5B8F00E844AE /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
 		AB214357101EEFB200E844AE /* _config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _config.h; sourceTree = "<group>"; };
@@ -464,7 +460,6 @@
 				ABD1BA4512BC712200CD7C5F /* libjfaudiolib.a in Frameworks */,
 				ABB4AC3E0C64C72C00F28920 /* SDL.framework in Frameworks */,
 				ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */,
-				AB2140B2101D56BC00E844AE /* ogg.framework in Frameworks */,
 				AB2140B3101D56BC00E844AE /* vorbis.framework in Frameworks */,
 				AB21411C101D5B8F00E844AE /* AudioUnit.framework in Frameworks */,
 			);
@@ -720,7 +715,6 @@
 			isa = PBXGroup;
 			children = (
 				AB21411B101D5B8F00E844AE /* AudioUnit.framework */,
-				AB2140B0101D56BC00E844AE /* ogg.framework */,
 				AB2140B1101D56BC00E844AE /* vorbis.framework */,
 				ABB4AC3F0C64C73A00F28920 /* AppKit.framework */,
 				ABB4AC3D0C64C72C00F28920 /* SDL.framework */,
@@ -1104,9 +1098,9 @@
 				);
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = (
-					../../jfaudiolib.git/include,
-					../source,
+					../src,
 					../../jfbuild.git/include,
+					../../jfaudiolib.git/include,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				WARNING_CFLAGS = (
@@ -1144,9 +1138,9 @@
 				);
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = (
-					../../jfaudiolib.git/include,
-					../source,
+					../src,
 					../../jfbuild.git/include,
+					../../jfaudiolib.git/include,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				WARNING_CFLAGS = (
@@ -1182,12 +1176,8 @@
 		ABB4ABD50C64C52A00F28920 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../source/jaudiolib/third-party\"";
 				INFOPLIST_FILE = "JFShadowWarrior-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				OTHER_LDFLAGS = "-lstdc++";
 				PREBINDING = NO;
 				PRODUCT_NAME = JFShadowWarrior;
@@ -1198,12 +1188,8 @@
 		ABB4ABD60C64C52A00F28920 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../source/jaudiolib/third-party\"";
 				INFOPLIST_FILE = "JFShadowWarrior-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				OTHER_LDFLAGS = "-lstdc++";
 				PREBINDING = NO;
 				PRODUCT_NAME = JFShadowWarrior;

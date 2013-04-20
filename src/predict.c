@@ -133,10 +133,6 @@ DoPrediction(PLAYERp ppp)
     
     ppp->input = Player[myconnectindex].inputfifo[predictmovefifoplc & (MOVEFIFOSIZ-1)];
     
-    //#define FLAG_KEY_PRESSED(pp,sync_key) TEST(pp->KeyPressFlags,1<<sync_key)
-    //#define FLAG_KEY_RELEASE(pp,sync_key) RESET(pp->KeyPressFlags,1<<sync_key)
-    //#define FLAG_KEY_RESET(pp,sync_key) SET(pp->KeyPressFlags,1<<sync_key)
-
     // get rid of input bits so it doesn't go into other code branches that would
     // get it out of sync
     RESET(ppp->input.bits, 
@@ -147,6 +143,9 @@ DoPrediction(PLAYERp ppp)
         SK_WEAPON_MASK|
         SK_INV_HOTKEY_MASK
         );
+    RESET(ppp->input.bits2,
+        BIT(SK2_TILTING)
+        );
         
     SET(ppp->KeyPressFlags, 
         BIT(SK_SHOOT)|BIT(SK_OPERATE)|BIT(SK_INV_LEFT)|BIT(SK_INV_RIGHT)|
@@ -155,6 +154,9 @@ DoPrediction(PLAYERp ppp)
         BIT(SK_CENTER_VIEW)|
         SK_WEAPON_MASK|
         SK_INV_HOTKEY_MASK
+        );
+    SET(ppp->KeyPressFlags2,
+        BIT(SK2_TILTING)
         );
         
     // back up things so they won't get stepped on    

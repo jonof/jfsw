@@ -1820,7 +1820,7 @@ PlayerAutoLook(PLAYERp pp)
     
     if (!TEST(pp->Flags, PF_FLYING|PF_SWIMMING|PF_DIVING|PF_CLIMBING|PF_JUMPING|PF_FALLING))
         {
-        if (TEST(sector[pp->cursectnum].floorstat, FLOOR_STAT_SLOPE)) // If the floor is sloped
+        if (TEST(pp->Flags2, PF2_TILTING) && TEST(sector[pp->cursectnum].floorstat, FLOOR_STAT_SLOPE)) // If the floor is sloped
             {
             // Get a point, 512 units ahead of player's position
             x = pp->posx + (sintable[(pp->pang + 512) & 2047] >> 5);
@@ -2544,6 +2544,17 @@ DoPlayerMenuKeys(PLAYERp pp)
             }                                               
         else                                                
             FLAG_KEY_RESET(pp, SK_AUTO_AIM);
+        
+        if (TEST_SYNC_KEY2((pp), SK2_TILTING))
+            {
+            if (FLAG2_KEY_PRESSED(pp, SK2_TILTING))
+                {
+                FLAG2_KEY_RELEASE(pp, SK2_TILTING);
+                FLIP(pp->Flags2, PF2_TILTING);
+                }
+            }
+        else
+            FLAG2_KEY_RESET(pp, SK2_TILTING);
         }    
     }
 
@@ -8214,6 +8225,7 @@ InitAllPlayers(VOID)
         pp->WpnGotOnceFlags = 0;
         pp->DoPlayerAction = DoPlayerBeginRun;
         pp->KeyPressFlags = 0xFFFFFFFF;
+        pp->KeyPressFlags2 = 0xFFFFFFFF;
         memset(pp->KilledPlayer,0,sizeof(pp->KilledPlayer));
         
         if (NewGame)

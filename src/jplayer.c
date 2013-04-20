@@ -56,17 +56,6 @@ BOOL WeaponOK(PLAYERp pp);
 
 #define MAXANGVEL 80
 
-/*
-typedef struct 
-    {
-    SHORT vel;
-    SHORT svel;
-    CHAR angvel;
-    CHAR aimvel;
-    LONG bits;
-    }SW_PACKET;
- */
-
 // From build.h
 #define CLIPMASK0 (((1L)<<16)+1L)
 #define CLIPMASK1 (((256L)<<16)+64L)
@@ -457,6 +446,7 @@ void computergetinput(int snum, SW_PACKET *syn)
     syn->angvel = 0;
     syn->aimvel = 0;
     syn->bits = 0;
+    syn->bits2 = SK2_TILTING;
 
     x1 = p->posx;
     y1 = p->posy;

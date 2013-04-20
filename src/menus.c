@@ -79,8 +79,9 @@ static void MNU_UpLevel(void);
 BOOL MNU_LoadSaveDraw(UserCall call, MenuItem * item);
 BOOL MNU_LoadSaveMove(UserCall call, MenuItem * item);
 
-BOOL MenuButtonAutoRun = FALSE;    
-BOOL MenuButtonAutoAim = FALSE;    
+BOOL MenuButtonAutoRun = FALSE;
+BOOL MenuButtonAutoAim = FALSE;
+BOOL MenuButtonTilting = FALSE;
 // misc load-save vars
 short LastSaveNum = 99;
 char SaveGameDescr[10][80];
@@ -273,13 +274,14 @@ MenuItem options_i[] =
     {DefLayer(0, "Kid Mode", &parentalgroup),OPT_XS,             OPT_LINE(4), 1, m_defshade,0,NULL, NULL, NULL},
     #endif
     {DefButton(btn_messages, 0, "Messages"), OPT_XS,             OPT_LINE(5), 1, m_defshade, 0, NULL, NULL, NULL},
-//    {DefButton(btn_bobbing, 0, "View Bobbing"), OPT_XS,          OPT_LINE(7), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefButton(btn_shadows, 0, "Shadows"), OPT_XS,               OPT_LINE(6), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefButton(btn_auto_run, 0, "Auto Run"), OPT_XS,             OPT_LINE(7), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefButton(btn_crosshair, 0, "Crosshair"), OPT_XS,           OPT_LINE(8), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefButton(btn_auto_aim, 0, "Auto-Aiming"), OPT_XS,          OPT_LINE(9), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefButton(btn_voxels, 0, "Voxel Sprites"), OPT_XS,          OPT_LINE(10), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefButton(btn_stats, 0, "Level Stats"), OPT_XS,             OPT_LINE(11), 1, m_defshade, 0, NULL, MNU_StatCheck, NULL},
+//    {DefButton(btn_bobbing, 0, "View Bobbing"), OPT_XS,          OPT_LINE(12), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefButton(btn_tilting, 0, "Slope Tilting"), OPT_XS,         OPT_LINE(12), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefNone}
     };
 
@@ -1614,6 +1616,7 @@ MNU_InitMenus(void)
     buttonsettings[btn_messages] = gs.Messages;
     buttonsettings[btn_crosshair] = gs.Crosshair;
     //    buttonsettings[btn_bobbing] = gs.Bobbing;
+    buttonsettings[btn_tilting] = gs.Tilting;
     buttonsettings[btn_shadows] = gs.Shadows; 
     
     buttonsettings[btn_mouse_aim] = gs.MouseAimingType;      
@@ -2793,6 +2796,12 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
 //        case btn_bobbing:
 //            gs.Bobbing = state = buttonsettings[item->button];
 //            break;
+        case btn_tilting:
+            last_value = gs.Tilting;
+            gs.Tilting = state = buttonsettings[item->button];
+            if (gs.Tilting != last_value)
+                MenuButtonTilting = TRUE;
+            break;
         case btn_sound:
 
             if (!FxInitialized)

@@ -1777,6 +1777,7 @@ LogoLevel(VOID)
     DSPRINTF(ds,"About to display 3drealms pic...");
     MONO_PRINT(ds);
 
+    clearview(0);
     rotatesprite(0, 0, RS_SCALE, 0, THREED_REALMS_PIC, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
     nextpage();
     //FadeIn(0, 3);
@@ -1794,10 +1795,6 @@ LogoLevel(VOID)
             {
             ototalclock += synctics;
             }
-
-        rotatesprite(0, 0, RS_SCALE, 0, THREED_REALMS_PIC, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
-
-        nextpage();
 
         if (totalclock > 5*120 || KeyPressed())
             {
@@ -2081,18 +2078,21 @@ TitleLevel(VOID)
 VOID DrawMenuLevelScreen(VOID)
     {
     flushperms();
+    clearview(0);
     rotatesprite(0, 0, RS_SCALE, 0, TITLE_PIC, 20, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
     }
 
 VOID DrawStatScreen(VOID)
     {
     flushperms();
+    clearview(0);
     rotatesprite(0, 0, RS_SCALE, 0, STAT_SCREEN_PIC, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
     }
     
 VOID DrawLoadLevelScreen(VOID)
     {
     flushperms();
+    clearview(0);
     rotatesprite(0, 0, RS_SCALE, 0, TITLE_PIC, 20, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
     }
     

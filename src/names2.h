@@ -348,7 +348,7 @@ STAT_QUICK_DEFEND
 #define STARTALPHANUM 4608  // New SW font for typing in stuff, It's in ASCII order.
 #define ENDALPHANUM   4701
 
-#define STATUS_BAR 2880
+#define STATUS_BAR 2434
 #define STATUS_KEYS 2881
 #define STATUS_NUMBERS 2887
 #define BORDER_TILE 2604

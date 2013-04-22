@@ -153,8 +153,6 @@ SetConsoleDmost(VOID)
     //
     
     ystart = f_ydim - Y_TO_FIXED(BAR_HEIGHT);
-    #undef STATUS_BAR
-    #define STATUS_BAR 2434
 
     if (ydim == 480 && gs.BorderNum == 2)
         adj = 1;
@@ -458,6 +456,17 @@ BorderRefresh(PLAYERp pp)
     x2 = xdim;
     y2 = ydim;
 
+    // fill in the sides of the status bar
+    if (gs.BorderNum == BORDER_BAR)
+        {
+        y = ydim - b->Ydim - 1;
+
+        pKillScreenSpiteIDs(pp, ID_BORDER_SHADE);
+
+        DrawBorder(pp, x, y, x2, y2);
+        return;
+        }
+
     // only need a border if border is > BORDER_BAR
     if (gs.BorderNum > BORDER_BAR)
         {
@@ -466,7 +475,7 @@ BorderRefresh(PLAYERp pp)
         x2 = min(x2, xdim - 1);
 
         y = max(y, 0);
-        y2 = min(y2, ydim - (Y_TO_FIXED(b->Ydim) >> 16) - 1);
+        y2 = min(y2, ydim - 1);
 
         DrawBorder(pp, x, y, x2, y2);
 
@@ -511,11 +520,10 @@ VOID SetBorder(PLAYERp pp, int value)
     
     BorderSetView(pp, &Xdim, &Ydim, &ScreenSize);
 
-    if (gs.BorderNum > BORDER_BAR)
-        BorderRefresh(pp);
-
     if (gs.BorderNum >= BORDER_BAR)
         {
+        BorderRefresh(pp);
+
         if (gs.BorderNum == BORDER_BAR)
             SetConsoleDmost();
 

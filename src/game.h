@@ -28,8 +28,10 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 #define GAME_H
 
+#ifndef DEBUG
 #define DEBUG 0
- 
+#endif
+
 #include "compat.h"
 #include "baselayer.h"
 #include "mmulti.h"

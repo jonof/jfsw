@@ -518,7 +518,7 @@ StopSong(VOID)
     SongTrack = 0;
     
     if (SongPtr) {
-        free(SongPtr);
+        FreeMem(SongPtr);
         SongPtr = 0;
         SongLength = 0;
     }

@@ -446,7 +446,6 @@ void computergetinput(int snum, SW_PACKET *syn)
     syn->angvel = 0;
     syn->aimvel = 0;
     syn->bits = 0;
-    syn->bits2 = SK2_TILTING;
 
     x1 = p->posx;
     y1 = p->posy;

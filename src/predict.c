@@ -143,9 +143,6 @@ DoPrediction(PLAYERp ppp)
         SK_WEAPON_MASK|
         SK_INV_HOTKEY_MASK
         );
-    RESET(ppp->input.bits2,
-        BIT(SK2_TILTING)
-        );
         
     SET(ppp->KeyPressFlags, 
         BIT(SK_SHOOT)|BIT(SK_OPERATE)|BIT(SK_INV_LEFT)|BIT(SK_INV_RIGHT)|
@@ -154,9 +151,6 @@ DoPrediction(PLAYERp ppp)
         BIT(SK_CENTER_VIEW)|
         SK_WEAPON_MASK|
         SK_INV_HOTKEY_MASK
-        );
-    SET(ppp->KeyPressFlags2,
-        BIT(SK2_TILTING)
         );
         
     // back up things so they won't get stepped on    

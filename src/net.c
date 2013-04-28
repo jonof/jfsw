@@ -277,23 +277,23 @@ int netgetpacket(int *ind, BYTEp buf)
 
 int EncodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
     {
-    SHORTp base_ptr = (SHORTp)buf;
+    BYTEp base_ptr = buf;
     unsigned i;
     
     // skipping the bits field sync test fake byte (Ed. Ken)
-    *base_ptr = 0;
-    buf+=2;
+    *buf = 0;
+    buf++;
     
     if (pak->vel != old_pak->vel)
         {
-        *((short*)buf) = B_LITTLE16(pak->vel);
+        *((short*)buf) = pak->vel;
         buf += sizeof(pak->vel);
         SET(*base_ptr, BIT(0));
         }
 
     if (pak->svel != old_pak->svel)
         {
-        *((short*)buf) = B_LITTLE16(pak->svel);
+        *((short*)buf) = pak->svel;
         buf += sizeof(pak->svel);
         SET(*base_ptr, BIT(1));
         }
@@ -312,11 +312,8 @@ int EncodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
         SET(*base_ptr, BIT(3));
         }
 
-    ASSERT(sizeof(pak->bits) == 4);
-    ASSERT(sizeof(pak->bits2) == 4);
-        
     //won't work if > 4 bytes
-    for(i = 0; i < 4; i++)
+    for(i = 0; i < sizeof(pak->bits); i++)
         {
         if (TEST(pak->bits ^ old_pak->bits, 0xff<<(i<<3)))
             {
@@ -326,64 +323,47 @@ int EncodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
             }
         }    
 
-    for(i = 0; i < 4; i++)
-        {
-        if (TEST(pak->bits2 ^ old_pak->bits2, 0xff<<(i<<3)))
-            {
-            *buf = (pak->bits2>>(i<<3));
-            buf++;
-            SET(*base_ptr, BIT(i+8));
-            }
-        }    
-
-    *base_ptr = B_LITTLE16(*base_ptr);
-
-    return(buf - (BYTEp)base_ptr);
+    return(buf - base_ptr);
     }    
 
 int DecodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
     {
-    SHORTp base_ptr = (SHORTp)buf;
-    short bits;
+    BYTEp base_ptr = buf;
     unsigned i;
-
+    
     // skipping the bits field sync test fake byte (Ed. Ken)
-    bits = B_LITTLE16(*base_ptr);
-    buf+=2;
+    buf++;
     
     *pak = *old_pak;
     
-    if (TEST(bits, BIT(0)))
+    if (TEST(*base_ptr, BIT(0)))
         {
         pak->vel = *(short*)buf;
         buf += sizeof(pak->vel);
         }
 
-    if (TEST(bits, BIT(1)))
+    if (TEST(*base_ptr, BIT(1)))
         {
         pak->svel = *(short*)buf;
         buf += sizeof(pak->svel);
         }
 
-    if (TEST(bits, BIT(2)))
+    if (TEST(*base_ptr, BIT(2)))
         {
         pak->angvel = *(char*)buf;
         buf += sizeof(pak->angvel);
         }
         
-    if (TEST(bits, BIT(3)))
+    if (TEST(*base_ptr, BIT(3)))
         {
         pak->aimvel = *(char*)buf;
         buf += sizeof(pak->aimvel);
         }
-        
-    ASSERT(sizeof(pak->bits) == 4);
-    ASSERT(sizeof(pak->bits2) == 4);
-        
+
     //won't work if > 4 bytes
-    for(i = 0; i < 4; i++)
+    for(i = 0; i < sizeof(pak->bits); i++)
         {
-        if (TEST(bits, BIT(i+4)))
+        if (TEST(*base_ptr, BIT(i+4)))
             {
             RESET(pak->bits, 0xff<<(i<<3));
             SET(pak->bits, ((int)(*buf))<<(i<<3));
@@ -391,17 +371,7 @@ int DecodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
             }
         }    
 
-    for(i = 0; i < 4; i++)
-        {
-        if (TEST(bits, BIT(i+8)))
-            {
-            RESET(pak->bits2, 0xff<<(i<<3));
-            SET(pak->bits2, ((int)(*buf))<<(i<<3));
-            buf++;
-            }
-        }    
-        
-    return( buf - (BYTEp)base_ptr );    
+    return( buf - base_ptr );    
     }
     
 VOID 
@@ -482,7 +452,6 @@ InitNetPlayerOptions(VOID)
         {
         p.PacketType = PACKET_TYPE_PLAYER_OPTIONS;
         p.AutoRun = gs.AutoRun;
-        p.Tilting = gs.Tilting;
         p.Color = gs.NetColor;
         strcpy(p.PlayerName, CommPlayerName);
 
@@ -1578,11 +1547,6 @@ getpackets(VOID)
                 SET(pp->Flags, PF_LOCK_RUN);
             else    
                 RESET(pp->Flags, PF_LOCK_RUN);
-
-            if (p->Tilting)
-                SET(pp->Flags2, PF2_TILTING);
-            else
-                RESET(pp->Flags2, PF2_TILTING);
             
             // palette
             pp->TeamColor = p->Color;

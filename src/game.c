@@ -110,7 +110,7 @@ BOOL Global_PLock = TRUE;
 BOOL Global_PLock = FALSE; 
 #endif
 
-int GameVersion = 15;   // 12 was original source release. For future releases increment by two.
+int GameVersion = 13;   // 12 was original source release. For future releases increment by two.
 char DemoText[3][64];
 int DemoTextYstart = 0;
 
@@ -3064,11 +3064,6 @@ void InitPlayerGameSettings(void)
         SET(Player[myconnectindex].Flags, PF_MOUSE_AIMING_ON);
     else    
         RESET(Player[myconnectindex].Flags, PF_MOUSE_AIMING_ON);
-    
-    if (gs.Tilting)
-        SET(Player[myconnectindex].Flags2, PF2_TILTING);
-    else
-        RESET(Player[myconnectindex].Flags2, PF2_TILTING);
     }    
 
 
@@ -5011,7 +5006,6 @@ getinput(SW_PACKET *loc)
 
     extern BOOL MenuButtonAutoRun;
     extern BOOL MenuButtonAutoAim;
-    extern BOOL MenuButtonTilting;
     
     if (Prediction && CommEnabled) 
         {
@@ -5025,7 +5019,6 @@ getinput(SW_PACKET *loc)
 
     // reset all syncbits
     loc->bits = 0;
-    loc->bits2 = 0;
     svel = vel = angvel = aimvel = 0;
 
     // MAKE SURE THIS WILL GET SET
@@ -5281,13 +5274,6 @@ getinput(SW_PACKET *loc)
         }
         
     SET_LOC_KEY(loc->bits, SK_RUN_LOCK, BUTTON(gamefunc_AutoRun));
-    
-    if (MenuButtonTilting)
-        {
-        MenuButtonTilting = FALSE;
-        if ((!!TEST(pp->Flags2, PF2_TILTING)) != gs.Tilting)
-            SET_LOC_KEY(loc->bits2, SK2_TILTING, TRUE);
-        }
     
     if (!CommEnabled)
         {

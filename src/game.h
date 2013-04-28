@@ -279,8 +279,6 @@ extern char MessageOutputString[256];
     #define SK_INV_USE   29
     #define SK_HIDE_WEAPON  30
     #define SK_SPACE_BAR  31
-
-    #define SK2_TILTING    0
     
 
     // REDEFINABLE PLAYER KEYS NUMBERS
@@ -379,19 +377,11 @@ extern char MessageOutputString[256];
 #define FLAG_KEY_RELEASE(pp,sync_key) RESET(pp->KeyPressFlags,1<<sync_key)
 #define FLAG_KEY_RESET(pp,sync_key) SET(pp->KeyPressFlags,1<<sync_key)
     
-#define FLAG2_KEY_PRESSED(pp,sync_key) TEST(pp->KeyPressFlags2,1<<sync_key)
-#define FLAG2_KEY_RELEASE(pp,sync_key) RESET(pp->KeyPressFlags2,1<<sync_key)
-#define FLAG2_KEY_RESET(pp,sync_key) SET(pp->KeyPressFlags2,1<<sync_key)
-
 // syncbit manipulation macros
 // key_test MUST be a boolean - force it to be
 #define SET_SYNC_KEY(player, sync_num, key_test) SET((player)->input.bits, ((!!(key_test)) << (sync_num)))
 #define TEST_SYNC_KEY(player, sync_num) TEST((player)->input.bits, (1 << (sync_num)))
 #define RESET_SYNC_KEY(player, sync_num) RESET((player)->input.bits, (1 << (sync_num)))
-
-#define SET_SYNC_KEY2(player, sync_num, key_test) SET((player)->input.bits2, ((!!(key_test)) << (sync_num)))
-#define TEST_SYNC_KEY2(player, sync_num) TEST((player)->input.bits2, (1 << (sync_num)))
-#define RESET_SYNC_KEY2(player, sync_num) RESET((player)->input.bits2, (1 << (sync_num)))
 
 #define TRAVERSE_SPRITE_SECT(l, o, n)    for ((o) = (l); (n) = nextspritesect[o], (o) != -1; (o) = (n))
 #define TRAVERSE_SPRITE_STAT(l, o, n)    for ((o) = (l); (n) = nextspritestat[o], (o) != -1; (o) = (n))
@@ -1048,7 +1038,6 @@ typedef struct
     CHAR angvel;
     CHAR aimvel;
     LONG bits;
-    LONG bits2;
     }SW_PACKET;
     
 extern SW_PACKET loc;    
@@ -1180,7 +1169,7 @@ struct PLAYERstruct
     
     PLAYER_ACTION_FUNCp DoPlayerAction;
     int Flags, Flags2;
-    int KeyPressFlags, KeyPressFlags2;
+    int KeyPressFlags;
     
     SECTOR_OBJECTp sop_control; // sector object pointer
     SECTOR_OBJECTp sop_riding; // sector object pointer
@@ -1318,7 +1307,6 @@ extern PLAYER Player[MAX_SW_PLAYERS_REG+1];
 #define PF_WEAPON_DOWN       (BIT(31))
 
 #define PF2_TELEPORTED        (BIT(0))
-#define PF2_TILTING           (BIT(1))  //slope tilting
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //

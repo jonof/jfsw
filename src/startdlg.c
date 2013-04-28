@@ -20,7 +20,7 @@ static struct grpcache {
 	char name[BMAX_PATH+1];
 	int size;
 	int mtime;
-	int crcval;
+	unsigned int crcval;
 } *grpcache = NULL, *usedgrpcache = NULL;
 
 static int LoadGroupsCache(void)
@@ -110,20 +110,20 @@ int ScanGroups(void)
 
 		{
 			int b, fh;
-			int crcval;
-			char buf[16*512];
+			unsigned int crcval;
+			unsigned char buf[16*512];
 
 			fh = openfrompath(sidx->name, BO_RDONLY|BO_BINARY, BS_IREAD);
 			if (fh < 0) continue;
 			if (fstat(fh, &st)) continue;
 
 			initprintf(" Checksumming %s...", sidx->name);
-			crc32init((unsigned long *)&crcval);			
+			crc32init(&crcval);			
 			do {
 				b = read(fh, buf, sizeof(buf));
-				if (b > 0) crc32block((unsigned long *)&crcval, buf, b);
+				if (b > 0) crc32block(&crcval, buf, b);
 			} while (b == sizeof(buf));
-			crc32finish((unsigned long *)&crcval);
+			crc32finish(&crcval);
 			close(fh);
 			initprintf(" Done\n");
 		

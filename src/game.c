@@ -824,7 +824,7 @@ void Set_GameMode(void)
     
     if (result < 0)
         {
-        initprintf("Failure setting video mode %dx%dx%d %s! Attempting safer mode...",
+        buildprintf("Failure setting video mode %dx%dx%d %s! Attempting safer mode...",
                 ScreenWidth,ScreenHeight,ScreenBPP,ScreenMode?"fullscreen":"windowed");
         ScreenMode = 0;
         ScreenWidth = 640;
@@ -970,7 +970,7 @@ InitGame(VOID)
     if (!firstnet)
         initmultiplayers(0, NULL, 0, 0, 0);
     else if (initmultiplayersparms(_buildargc - firstnet, &_buildargv[firstnet])) {
-        initprintf("Waiting for players...\n");
+        buildputs("Waiting for players...\n");
         while (initmultiplayerscycle()) {
             handleevents();
             if (quitevent) {
@@ -1030,7 +1030,7 @@ InitGame(VOID)
     // LoadImages will now proceed to steal all the remaining heap space    
     //_outtext("\n\n\n\n\n\n\n\n");
     //AnimateCacheCursor();
-    initprintf("Loading sound and graphics...\n");
+    buildputs("Loading sound and graphics...\n");
     LoadImages("tiles000.art");
     
     // Now free it up for later use
@@ -1064,7 +1064,7 @@ InitGame(VOID)
     if (!SW_SHAREWARE)
     LoadCustomInfoFromScript( "swcustom.txt" ); // Load user customisation information
     
-    if (!loaddefinitionsfile(deffile)) initprintf("Definitions file loaded.\n");
+    if (!loaddefinitionsfile(deffile)) buildputs("Definitions file loaded.\n");
 
     DemoModeMenuInit = TRUE;
     // precache as much stuff as you can
@@ -3231,7 +3231,7 @@ VOID DosScreen(VOID)
 VOID AlphaMessage(VOID)
     {
     Global_PLock = TRUE; // Set the hardwired parental lock mode!
-    initprintf(""
+    buildputs(""
     "                          SHADOW WARRIOR(tm) Version 1.2                      \n"
     "Copyright (c) 1997 3D Realms Entertainment\n"
     "\n\n"
@@ -3247,7 +3247,7 @@ VOID AlphaMessage(VOID)
 #if 0 //UK_VERSION
 VOID AlphaMessage(VOID)
     {
-    initprintf(""
+    buildputs(""
     "                    SHADOW WARRIOR(tm) Version 1.2 (UK Version)               \n"
     "Copyright (c) 1997 3D Realms Entertainment\n"
     "\n\n"
@@ -3263,11 +3263,11 @@ VOID AlphaMessage(VOID)
 VOID AlphaMessage(VOID)
     {
     if (SW_SHAREWARE) {
-        initprintf("SHADOW WARRIOR(tm) Version 1.2 (Shareware Version)\n");
+        buildputs("SHADOW WARRIOR(tm) Version 1.2 (Shareware Version)\n");
     } else {
-        initprintf("SHADOW WARRIOR(tm) Version 1.2\n");
+        buildputs("SHADOW WARRIOR(tm) Version 1.2\n");
     }
-    initprintf("Copyright (c) 1997 3D Realms Entertainment\n\n\n");
+    buildputs("Copyright (c) 1997 3D Realms Entertainment\n\n\n");
     }
 #endif    
 
@@ -3492,14 +3492,14 @@ int app_main(int argc, char const * const argv[])
         }
     }
     
-    OSD_SetLogFile("sw.log");
+    buildsetlogfile("sw.log");
     {
-    char *newgrp;
-    newgrp = getenv("SWGRP");
-    if (newgrp) {
-        grpfile = newgrp;
-        initprintf("Using alternative GRP file: %s\n", newgrp);
-    }
+        char *newgrp;
+        newgrp = getenv("SWGRP");
+        if (newgrp) {
+            grpfile = newgrp;
+            buildprintf("Using alternative GRP file: %s\n", newgrp);
+        }
     }
 
     wm_setapptitle("Shadow Warrior");
@@ -3522,18 +3522,18 @@ int app_main(int argc, char const * const argv[])
 
     initgroupfile(grpfile);
     if (!DetectShareware()) {
-    if (SW_SHAREWARE) initprintf("Detected shareware GRP\n");
-    else initprintf("Detected registered GRP\n");
+        if (SW_SHAREWARE) buildputs("Detected shareware GRP\n");
+        else buildputs("Detected registered GRP\n");
     }
     
     if (SW_SHAREWARE) {
-    wm_setapptitle("Shadow Warrior Shareware");
+        wm_setapptitle("Shadow Warrior Shareware");
 
-    // Zero out the maps that aren't in shareware version
-    memset(&LevelInfo[MAX_LEVELS_SW+1], 0, sizeof(LEVEL_INFO)*(MAX_LEVELS_REG-MAX_LEVELS_SW));
-    GameVersion++;
+        // Zero out the maps that aren't in shareware version
+        memset(&LevelInfo[MAX_LEVELS_SW+1], 0, sizeof(LEVEL_INFO)*(MAX_LEVELS_REG-MAX_LEVELS_SW));
+        GameVersion++;
     } else {
-    wm_setapptitle("Shadow Warrior");
+        wm_setapptitle("Shadow Warrior");
     }
     
     for (i = 0; i < MAX_SW_PLAYERS; i++)
@@ -3543,7 +3543,7 @@ int app_main(int argc, char const * const argv[])
     
     AlphaMessage();
     
-    initprintf("\nType 'SW -?' for command line options.\n\n");
+    buildputs("\nType 'SW -?' for command line options.\n\n");
 
     UserMapName[0] = '\0';
     
@@ -3584,7 +3584,7 @@ int app_main(int argc, char const * const argv[])
                 case 'N':
                     if (arg[1] == '0') {
                         NetBroadcastMode = FALSE;
-                        initprintf("Network mode: master/slave\n");
+                        buildputs("Network mode: master/slave\n");
                         wm_msgbox("Multiplayer Option Error",
                             "This release unfortunately does not support a master-slave networking "
                             "mode because of certain bugs we have not been able to locate and fix "
@@ -3594,7 +3594,7 @@ int app_main(int argc, char const * const argv[])
                         return 0;
                     } else if (arg[1] == '1') {
                         NetBroadcastMode = TRUE;
-                        initprintf("Network mode: peer-to-peer\n");
+                        buildputs("Network mode: peer-to-peer\n");
                     }
                     break;
                 default:
@@ -4038,7 +4038,7 @@ int app_main(int argc, char const * const argv[])
             if (strlen(arg) > 1)
                 {
                 if (initgroupfile(arg+1) >= 0)
-                    initprintf("Added %s\n", arg+1);
+                    buildprintf("Added %s\n", arg+1);
                 }
             }
         else
@@ -4047,7 +4047,7 @@ int app_main(int argc, char const * const argv[])
             if (strlen(arg) > 1)
                 {
                 deffile = (arg+1);
-                initprintf("Using DEF file %s.\n", arg+1);
+                buildprintf("Using DEF file %s.\n", arg+1);
                 }
             }
         }

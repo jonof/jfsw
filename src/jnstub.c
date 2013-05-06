@@ -727,7 +727,7 @@ ExtInit(void)
 	
     if (getenv("SWGRP")) {
 	    swgrp = getenv("SWGRP");
-	    initprintf("Using %s as main GRP file\n", swgrp);
+	    buildprintf("Using %s as main GRP file\n", swgrp);
     }
         initgroupfile(swgrp);
 	/*
@@ -741,7 +741,7 @@ ExtInit(void)
             }
 	    */
 	bpp = 8;
-	if (loadsetup("build.cfg") < 0) initprintf("Configuration file not found, using defaults.\n"), rv = 1;
+	if (loadsetup("build.cfg") < 0) buildputs("Configuration file not found, using defaults.\n"), rv = 1;
 	Bmemcpy((void *)buildkeys,(void *)keys,NUMBUILDKEYS);   //Trick to make build use setup.dat keys
         if (option[4] > 0)
             option[4] = 0;

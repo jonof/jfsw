@@ -134,14 +134,14 @@ void netsendpacket(int ind, BYTEp buf, int len)
 	// send via master if in M/S mode and we are not the master, and the recipient is not the master and not ourselves
 	if (!NetBroadcastMode && myconnectindex != connecthead && ind != myconnectindex && ind != connecthead) {
 		if ((unsigned)len > sizeof(packbuf)) {
-			initprintf("netsendpacket(): packet length > %d!\n",(int)sizeof(packbuf));
+			buildprintf("netsendpacket(): packet length > %d!\n",(int)sizeof(packbuf));
 			len = sizeof(packbuf);
 		}
 
-		initprintf("netsendpacket() sends proxy to %d\nPlayerIndex=%d Contents:",connecthead,ind);
+		buildprintf("netsendpacket() sends proxy to %d\nPlayerIndex=%d Contents:",connecthead,ind);
 		for (i=0; i<len; i++)
-			initprintf(" %02x", buf[i]);
-		initprintf("\n");
+			buildprintf(" %02x", buf[i]);
+		buildputs("\n");
 		
 		prx->PacketType = PACKET_TYPE_PROXY;
 		prx->PlayerIndex = (BYTE)ind;
@@ -154,10 +154,10 @@ void netsendpacket(int ind, BYTEp buf, int len)
 
 	sendpacket(ind, buf, len);
 
-	initprintf("netsendpacket() sends normal to %d\nContents:",ind);
+	buildprintf("netsendpacket() sends normal to %d\nContents:",ind);
 	for (i=0; i<len; i++)
-		initprintf(" %02x", buf[i]);
-	initprintf("\n");
+		buildprintf(" %02x", buf[i]);
+	buildputs("\n");
 }
 
 void netbroadcastpacket(BYTEp buf, int len)
@@ -169,14 +169,14 @@ void netbroadcastpacket(BYTEp buf, int len)
 	// broadcast via master if in M/S mode and we are not the master
 	if (!NetBroadcastMode && myconnectindex != connecthead) {
 		if ((unsigned)len > sizeof(packbuf)) {
-			initprintf("netbroadcastpacket(): packet length > %d!\n",(int)sizeof(packbuf));
+			buildprintf("netbroadcastpacket(): packet length > %d!\n",(int)sizeof(packbuf));
 			len = sizeof(packbuf);
 		}
 
-		initprintf("netbroadcastpacket() sends proxy to %d\nPlayerIndex=255 Contents:",connecthead);
+		buildprintf("netbroadcastpacket() sends proxy to %d\nPlayerIndex=255 Contents:",connecthead);
 		for (i=0; i<len; i++)
-			initprintf(" %02x", buf[i]);
-		initprintf("\n");
+			buildprintf(" %02x", buf[i]);
+		buildputs("\n");
 
 		prx->PacketType = PACKET_TYPE_PROXY;
 		prx->PlayerIndex = (BYTE)(-1);
@@ -191,12 +191,12 @@ void netbroadcastpacket(BYTEp buf, int len)
 	{
 		if (i == myconnectindex) continue;
 		sendpacket(i, buf, len);
-		initprintf("netsendpacket() sends normal to %d\n",i);
+		buildprintf("netsendpacket() sends normal to %d\n",i);
 	}
-	initprintf("Contents:");
+	buildputs("Contents:");
 	for (i=0; i<len; i++)
-		initprintf(" %02x", buf[i]);
-	initprintf("\n");
+		buildprintf(" %02x", buf[i]);
+	buildputs("\n");
 }
 
 int netgetpacket(int *ind, BYTEp buf)
@@ -208,20 +208,20 @@ int netgetpacket(int *ind, BYTEp buf)
 	len = getpacket(ind, buf);
 	if ((unsigned)len < sizeof(PACKET_PROXY) || buf[0] != PACKET_TYPE_PROXY) {
 		if (len > 0) {
-			initprintf("netgetpacket() gets normal from %d\nContents:",*ind);
+			buildprintf("netgetpacket() gets normal from %d\nContents:",*ind);
 			for (i=0; i<len; i++)
-				initprintf(" %02x", buf[i]);
-			initprintf("\n");
+				buildprintf(" %02x", buf[i]);
+			buildputs("\n");
 		}
 		return len;
 	}
 
 	prx = (PACKET_PROXYp)buf;
 
-	initprintf("netgetpacket() got proxy from %d\nPlayerIndex=%d Contents:",*ind,prx->PlayerIndex);
+	buildprintf("netgetpacket() got proxy from %d\nPlayerIndex=%d Contents:",*ind,prx->PlayerIndex);
 	for (i=0; i<len-(int)sizeof(PACKET_PROXY); i++)
-		initprintf(" %02x", *(((char*)&prx[1])+i));
-	initprintf("\n");
+		buildprintf(" %02x", *(((char*)&prx[1])+i));
+	buildputs("\n");
 
 	if (myconnectindex == connecthead) {
 		// I am the master
@@ -235,7 +235,7 @@ int netgetpacket(int *ind, BYTEp buf)
 			// Transmit to all the other players except ourselves and the sender
 			for (i = connecthead; i >= 0; i = connectpoint2[i]) {
 				if (i == myconnectindex || i == *ind) continue;
-				initprintf("netgetpacket(): distributing to %d\n", i);
+				buildprintf("netgetpacket(): distributing to %d\n", i);
 				sendpacket(i, buf, len);
 			}
 			
@@ -258,7 +258,7 @@ int netgetpacket(int *ind, BYTEp buf)
 				return len;
 			}
 
-			initprintf("netgetpacket(): forwarding to %d\n", i);
+			buildprintf("netgetpacket(): forwarding to %d\n", i);
 			sendpacket(i, buf, len);
 			return 0;	// nothing for us to do
 		}
@@ -269,7 +269,7 @@ int netgetpacket(int *ind, BYTEp buf)
 		memmove(buf, &prx[1], len);
 		return len;
 	} else {
-		initprintf("netgetpacket(): Got a proxy message from %d instead of %d\n",*ind,connecthead);
+		buildprintf("netgetpacket(): Got a proxy message from %d instead of %d\n",*ind,connecthead);
 	}
 	return 0;
 }
@@ -533,8 +533,8 @@ CheckVersion(int GameVersion)
             {
             if (GameVersion != Player[pnum].PlayerVersion)
                 {
-		initprintf("CheckVersion(): player %d has version %d, expecting %d\n",
-				pnum, Player[pnum].PlayerVersion, GameVersion);
+                buildprintf("CheckVersion(): player %d has version %d, expecting %d\n",
+                        pnum, Player[pnum].PlayerVersion, GameVersion);
 
                 adduserquote(VERSION_MSG);
                 adduserquote(VERSION_MSG);
@@ -597,7 +597,7 @@ waitforeverybody(void)
     if (!CommEnabled)
         return; 
 
-    initprintf("waitforeverybody() #%d\n", Player[myconnectindex].playerreadyflag + 1);
+    buildprintf("waitforeverybody() #%d\n", Player[myconnectindex].playerreadyflag + 1);
 
 	//tenDbLprintf(gTenLog, 3, "in w4e");
 	//tenDbFlushLog(gTenLog);
@@ -1599,7 +1599,7 @@ getpackets(VOID)
             break;
 
 	case PACKET_TYPE_PROXY:
-	    initprintf("getpackets(): nested proxy packets!?\n");
+	    buildputs("getpackets(): nested proxy packets!?\n");
 	    break;
 
         default:

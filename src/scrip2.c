@@ -614,7 +614,7 @@ void LoadCustomInfoFromScript(char *filename)
 
 				// first map file in LevelInfo[] is bogus, last map file is NULL
 				if (curmap < 1 || curmap > MAX_LEVELS_REG) {
-					initprintf("Error: map number %d not in range 1-%d on line %s:%d\n",
+					buildprintf("Error: map number %d not in range 1-%d on line %s:%d\n",
 							curmap, MAX_LEVELS_REG, script->filename,
 							scriptfile_getlinum(script,mapnumptr));
 					script->textptr = braceend;
@@ -686,7 +686,7 @@ void LoadCustomInfoFromScript(char *filename)
 							break;
 						}
 						default:
-							initprintf("Error on line %s:%d\n",
+							buildprintf("Error on line %s:%d\n",
 									script->filename,
 									scriptfile_getlinum(script,script->ltextptr));
 							break;
@@ -703,7 +703,7 @@ void LoadCustomInfoFromScript(char *filename)
 
 				// first map file in LevelInfo[] is bogus, last map file is NULL
 				if ((unsigned)--curmap >= 2u) {
-					initprintf("Error: episode number %d not in range 1-2 on line %s:%d\n",
+					buildprintf("Error: episode number %d not in range 1-2 on line %s:%d\n",
 							curmap, script->filename,
 							scriptfile_getlinum(script,epnumptr));
 					script->textptr = braceend;
@@ -733,7 +733,7 @@ void LoadCustomInfoFromScript(char *filename)
 							break;
 						}
 						default:
-							initprintf("Error on line %s:%d\n",
+							buildprintf("Error on line %s:%d\n",
 									script->filename,
 									scriptfile_getlinum(script,script->ltextptr));
 							break;
@@ -750,7 +750,7 @@ void LoadCustomInfoFromScript(char *filename)
 
 				// first map file in LevelInfo[] is bogus, last map file is NULL
 				if ((unsigned)--curmap >= 4u) {
-					initprintf("Error: skill number %d not in range 1-4 on line %s:%d\n",
+					buildprintf("Error: skill number %d not in range 1-4 on line %s:%d\n",
 							curmap, script->filename,
 							scriptfile_getlinum(script,epnumptr));
 					script->textptr = braceend;
@@ -771,7 +771,7 @@ void LoadCustomInfoFromScript(char *filename)
 							break;
 						}
 						default:
-							initprintf("Error on line %s:%d\n",
+							buildprintf("Error on line %s:%d\n",
 									script->filename,
 									scriptfile_getlinum(script,script->ltextptr));
 							break;
@@ -845,7 +845,7 @@ void LoadCustomInfoFromScript(char *filename)
 				if (scriptfile_getbraces(script, &braceend)) break;
 
 				if ((unsigned)--in >= (unsigned)InvDecl_TOTAL) {
-					initprintf("Error: inventory item number not in range 1-%d on line %s:%d\n",
+					buildprintf("Error: inventory item number not in range 1-%d on line %s:%d\n",
 							InvDecl_TOTAL, script->filename,
 							scriptfile_getlinum(script,invnumptr));
 					script->textptr = braceend;
@@ -863,7 +863,7 @@ void LoadCustomInfoFromScript(char *filename)
 							if (scriptfile_getnumber(script, &amt)) break;
 							break;
 						default:
-							initprintf("Error on line %s:%d\n",
+							buildprintf("Error on line %s:%d\n",
 									script->filename,
 									scriptfile_getlinum(script,script->ltextptr));
 							break;
@@ -891,7 +891,7 @@ void LoadCustomInfoFromScript(char *filename)
 				if (scriptfile_getbraces(script, &braceend)) break;
 
 				if ((unsigned)--in >= (unsigned)SIZ(weaponmap)) {
-					initprintf("Error: weapon number not in range 1-%d on line %s:%d\n",
+					buildprintf("Error: weapon number not in range 1-%d on line %s:%d\n",
 							(int)SIZ(weaponmap), script->filename,
 							scriptfile_getlinum(script,wpnnumptr));
 					script->textptr = braceend;
@@ -924,7 +924,7 @@ void LoadCustomInfoFromScript(char *filename)
 							if (scriptfile_getnumber(script, &wpickup)) break;
 							break;
 						default:
-							initprintf("Error on line %s:%d\n",
+							buildprintf("Error on line %s:%d\n",
 									script->filename,
 									scriptfile_getlinum(script,script->ltextptr));
 							break;
@@ -957,7 +957,7 @@ void LoadCustomInfoFromScript(char *filename)
 			case CM_SECRET:
 			case CM_QUIT:
 			default:
-				initprintf("Error on line %s:%d\n",
+				buildprintf("Error on line %s:%d\n",
 						script->filename,
 						scriptfile_getlinum(script,script->ltextptr));
 				break;

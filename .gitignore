@@ -1,5 +1,7 @@
 *.o
+*.obj
 *.a
+*.res
 *.exe
 *.map
 *.log

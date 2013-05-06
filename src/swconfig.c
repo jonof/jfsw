@@ -246,20 +246,20 @@ void ReadGameSetup( int32 scripthandle )
     SCRIPT_GetNumber( scripthandle, "Options", "CDDevice",&dummy);
     if (dummy < 0) dummy = -1;
    
-    if (SW_SHAREWARE) {
-   dummy = -1;
-   SCRIPT_GetNumber( scripthandle, "Options", "Chickens",&dummy);
-   if (dummy != -1) GamePlays = dummy;
+    if (SW_SHAREWARE)
+      {
+      dummy = -1;
+      SCRIPT_GetNumber( scripthandle, "Options", "Chickens",&dummy);
+      if (dummy != -1) GamePlays = dummy;
 
-	initprintf
-            (
+	    buildprintf(
             "\n"            
             "You have played Shadow Warrior %d times.  Please call and order the full\n"
             "version at 1(800)-3DREALMS or see the ORDER.FRM file.\n\n"
             ,GamePlays);
             
-    GamePlays++;
-    }
+      GamePlays++;
+      }
     }
 
 /*

@@ -445,7 +445,7 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
     if (!SW_SHAREWARE) {
         char oggtrack[] = "track??.ogg";
             
-        if (CD_Play(cdaudio_track, TRUE) == CD_Ok) {
+        if (CD_GetCurrentDriver() != ASS_NoSound && CD_Play(cdaudio_track, TRUE) == CD_Ok) {
             SongType = SongTypeCDA;
             SongTrack = cdaudio_track;
             return TRUE;

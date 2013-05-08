@@ -1,4 +1,4 @@
-#include "compat.h"
+#include "build.h"
 #include "baselayer.h"
 
 #include "scriptfile.h"

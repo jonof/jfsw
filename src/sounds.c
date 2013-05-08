@@ -75,6 +75,7 @@ BYTE RedBookSong[40] =
 BOOL Use_SoundSpriteNum = FALSE;
 SHORT SoundSpriteNum = -1;  // Always set this back to -1 for proper validity checking!
 
+BOOL CDInitialized = FALSE;
 BOOL MusicInitialized = FALSE;
 BOOL FxInitialized = FALSE;
 
@@ -445,16 +446,25 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
     if (!SW_SHAREWARE) {
         char oggtrack[] = "track??.ogg";
             
-        if (CD_GetCurrentDriver() != ASS_NoSound && CD_Play(cdaudio_track, TRUE) == CD_Ok) {
-            SongType = SongTypeCDA;
-            SongTrack = cdaudio_track;
-            return TRUE;
-        }
+        if (CD_GetCurrentDriver() != ASS_NoSound && CDInitialized)
+            {
+            int status;
+            status = CD_Play(cdaudio_track, TRUE);
+            if (status == CD_Ok)
+                {
+                SongType = SongTypeCDA;
+                SongTrack = cdaudio_track;
+                return TRUE;
+                }
+
+            buildprintf("CD play error: %s", CD_ErrorString(status));
+            }
             
-        if (cdaudio_track >= 0) {
+        if (cdaudio_track >= 0)
+            {
             oggtrack[5] = '0' + (cdaudio_track / 10) % 10;
             oggtrack[6] = '0' + cdaudio_track % 10;
-        }
+            }
             
         if (LoadSong(oggtrack)) {
             SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
@@ -1169,14 +1179,14 @@ SoundStartup(void)
             }
     if (status != FX_Ok)
         {
-        printf("%s\n",FX_ErrorString(FX_Error));
+        buildprintf("Sound error: %s\n",FX_ErrorString(FX_Error));
         }
 
     status = FX_SetCallBack(SoundCallBack);
 
     if (status != FX_Ok)
         {
-        printf("%s\n",FX_ErrorString(FX_Error));
+        buildprintf("Sound error: %s\n",FX_ErrorString(FX_Error));
         }
 
     }
@@ -1206,7 +1216,7 @@ SoundShutdown(void)
     status = FX_Shutdown();
     if (status != FX_Ok)
         {
-        printf("%s\n",FX_ErrorString(FX_Error));
+        buildprintf("Sound error: %s\n",FX_ErrorString(FX_Error));
         }
     }
     
@@ -1235,44 +1245,57 @@ void loadtmb(void)
 }
 
 void MusicStartup( void )
-   {
-   int32 status;
-   int fxdevicetype;
+    {
+    int32 status;
+    int devicetype;
        
-    if (FXDevice == 0) {
-        CD_Init(ASS_AutoDetect);
-    } else if (FXDevice > 0) {
-        CD_Init(FXDevice - 1);
-    }
-       
-   // if they chose None lets return
-   if (MusicDevice < 0)
+    // if they chose None lets return
+    if (MusicDevice < 0)
         {
         gs.MusicOn = FALSE;
         return;
         }
+    else if (MusicDevice == 0)
+        {
+        devicetype = ASS_AutoDetect;
+        }
+    else
+        {
+        devicetype = MusicDevice - 1;
+        }
+   
+    status = CD_Init(devicetype);
 
-   status = MUSIC_Init( MusicDevice, 0 );
+    if (status != CD_Ok)
+        {
+        buildprintf("CD error: %s\n", CD_ErrorString(status));
+        }
+    else
+        {
+        CDInitialized = TRUE;
+        }
 
-   if ( status == MUSIC_Ok )
-      {
-      MusicInitialized = TRUE;
-      MUSIC_SetVolume( gs.MusicVolume );
-      }
-   else
-      {
-      printf("%s\n",MUSIC_ErrorString(MUSIC_ErrorCode));
-      gs.MusicOn = FALSE;
-      }
+    status = MUSIC_Init( devicetype, 0 );
+
+    if ( status == MUSIC_Ok )
+        {
+        MusicInitialized = TRUE;
+        MUSIC_SetVolume( gs.MusicVolume );
+        }
+    else
+        {
+        buildprintf("Music error: %s\n",MUSIC_ErrorString(MUSIC_ErrorCode));
+        gs.MusicOn = FALSE;
+        }
       
-   if (MusicInitialized)   
+    if (MusicInitialized)   
        loadtmb();
-   }
+    }
 
 void COVER_SetReverb(int amt)
     {
-        FX_SetReverb(amt);
-        }
+    FX_SetReverb(amt);
+    }
     
 /*
 ===================
@@ -1286,7 +1309,8 @@ void
 MusicShutdown(void)
     {
     int32 status;
-        
+
+    if (CDInitialized)        
         CD_Shutdown();
 
     // if they chose None lets return
@@ -1301,7 +1325,7 @@ MusicShutdown(void)
     status = MUSIC_Shutdown();
     if (status != MUSIC_Ok)
         {
-        printf("%s\n",MUSIC_ErrorString(MUSIC_ErrorCode));
+        buildprintf("Music error: %s\n",MUSIC_ErrorString(MUSIC_ErrorCode));
         }
     }
 
@@ -1519,25 +1543,29 @@ Delete3DSounds(void)
             //MONO_PRINT(ds);
             // Reset Player talking flag if a voice was deleted
             //if(vp->num > DIGI_FIRSTPLAYERVOICE && vp->num < DIGI_LASTPLAYERVOICE) 
-	    if (!vp->vp) printf("Delete3DSounds(): NULL vp->vp\n"); else	// JBF: added null check
+            if (!vp->vp)
+                {
+                printf("Delete3DSounds(): NULL vp->vp\n");
+                }
+            else	// JBF: added null check
             if(vp->vp->priority == PRI_PLAYERVOICE || vp->vp->priority == PRI_PLAYERDEATH)
-            {
+                {
                 SHORT pnum;
 
                 TRAVERSE_CONNECT(pnum)
-                {
+                    {
                     pp = &Player[pnum];
 
                     if(vp->num == pp->TalkVocnum)
-                    {
+                        {
                         pp->PlayerTalking = FALSE;
                         pp->TalkVocnum = -1;
                         pp->TalkVocHandle = -1;  
                         //DSPRINTF(ds,"DELETED PLAYER VOICE VOC! NUM=%d\n",vp->num);
                         //MONO_PRINT(ds);
+                        }
                     }
                 }
-            }
 
             dp = vp;                    // Point to sound to be deleted
             if (vp->prev)

@@ -27,130 +27,28 @@
 #include "types.h"
 #include "build.h"
 #include "baselayer.h"
-#include "startdlg.h"
+#include "grpscan.h"
+#include "gamedefs.h"
+#include "config.h"
+
+#import "GrpFile.game.h"
+#import "GameListSource.game.h"
 
 static struct {
 	int fullscreen;
 	int xdim3d, ydim3d, bpp3d;
 	int forcesetup;
 	char selectedgrp[BMAX_PATH+1];
+    int samplerate, bitspersample, channels;
+    int usemouse, usejoystick;
 } settings;
 
-@interface GrpFile : NSObject
-{
-	NSString *name;
-	struct grpfile *fg;
-}
-- (id)initWithGrpfile:(struct grpfile *)grpfile andName:(NSString*)aName;
-- (void)dealloc;
-- (NSString *)name;
-- (NSString *)grpname;
-- (struct grpfile *)entryptr;
-@end
+static struct soundQuality_t {
+    int frequency;
+    int samplesize;
+    int channels;
+} * soundQualities = 0;
 
-@implementation GrpFile
-- (id)initWithGrpfile:(struct grpfile *)grpfile andName:(NSString*)aName
-{
-	self = [super init];
-	if (self) {
-		fg = grpfile;
-		name = aName;
-		[aName retain];
-	}
-	return self;
-}
-- (void)dealloc
-{
-	[name release];
-	[super dealloc];
-}
-- (NSString *)name
-{
-	return name;
-}
-- (NSString *)grpname
-{
-	return [NSString stringWithCString:(fg->name)];
-}
-- (struct grpfile *)entryptr
-{
-	return fg;
-}
-@end
-
-@interface GameListSource : NSObject
-{
-	NSMutableArray *list;
-}
-- (id)init;
-- (void)dealloc;
-- (GrpFile*)grpAtIndex:(int)index;
-- (int)findIndexForGrpname:(NSString*)grpname;
-- (id)tableView:(NSTableView *)aTableView
-    objectValueForTableColumn:(NSTableColumn *)aTableColumn
-	    row:(int)rowIndex;
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
-@end
-
-@implementation GameListSource
-- (id)init
-{
-	self = [super init];
-	if (self) {
-		struct grpfile *p;
-		int i;
-		
-		list = [[NSMutableArray alloc] init];
-		
-		for (p = foundgrps; p; p=p->next) {
-			for (i=0; i<numgrpfiles; i++) if (p->crcval == grpfiles[i].crcval) break;
-			if (i == numgrpfiles) continue;
-			[list addObject:[[GrpFile alloc] initWithGrpfile:p andName:[NSString stringWithCString:grpfiles[i].name]]];
-		}
-	}
-	
-	return self;
-}
-
-- (void)dealloc
-{
-	[list release];
-	[super dealloc];
-}
-
-- (GrpFile*)grpAtIndex:(int)index
-{
-	return [list objectAtIndex:index];
-}
-
-- (int)findIndexForGrpname:(NSString*)grpname
-{
-	int i;
-	for (i=0; i<[list count]; i++) {
-		if ([[[list objectAtIndex:i] grpname] isEqual:grpname]) return i;
-	}
-	return -1;
-}
-
-- (id)tableView:(NSTableView *)aTableView
-    objectValueForTableColumn:(NSTableColumn *)aTableColumn
-	    row:(int)rowIndex
-{
-	NSParameterAssert(rowIndex >= 0 && rowIndex < [list count]);
-	switch ([[aTableColumn identifier] intValue]) {
-		case 0:	// name column
-			return [[list objectAtIndex:rowIndex] name];
-		case 1:	// grp column
-			return [[list objectAtIndex:rowIndex] grpname];
-		default: return nil;
-	}
-}
-
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
-{
-	return [list count];
-}
-@end
 
 @interface StartupWinController : NSWindowController
 {
@@ -159,9 +57,12 @@ static struct {
 
 	IBOutlet NSButton *alwaysShowButton;
 	IBOutlet NSButton *fullscreenButton;
+    IBOutlet NSButton *useMouseButton;
+    IBOutlet NSButton *useJoystickButton;
 	IBOutlet NSTextView *messagesView;
 	IBOutlet NSTabView *tabView;
 	IBOutlet NSPopUpButton *videoMode3DPUButton;
+    IBOutlet NSPopUpButton *soundQualityPUButton;
 	IBOutlet NSScrollView *gameList;
 	
 	IBOutlet NSButton *cancelButton;
@@ -170,6 +71,7 @@ static struct {
 
 - (void)dealloc;
 - (void)populateVideoModes:(BOOL)firstTime;
+- (void)populateSoundQuality:(BOOL)firstTime;
 
 - (IBAction)alwaysShowClicked:(id)sender;
 - (IBAction)fullscreenClicked:(id)sender;
@@ -239,6 +141,62 @@ static struct {
 	if (idx3d >= 0) [videoMode3DPUButton selectItemAtIndex:idx3d];
 }
 
+- (void)populateSoundQuality:(BOOL)firstTime
+{
+    int i, curidx = -1;
+    
+    [soundQualityPUButton removeAllItems];
+    
+    for (i = 0; soundQualities[i].frequency > 0; i++) {
+        const char *ch;
+        switch (soundQualities[i].channels) {
+            case 1: ch = "Mono"; break;
+            case 2: ch = "Stereo"; break;
+            default: ch = "?"; break;
+        }
+        
+        NSString *s = [NSString stringWithFormat:@"%dkHz, %d-bit, %s",
+                       soundQualities[i].frequency / 1000,
+                       soundQualities[i].samplesize,
+                       ch
+                       ];
+        [soundQualityPUButton addItemWithTitle:s];
+        
+        if (firstTime &&
+            soundQualities[i].frequency == settings.samplerate &&
+            soundQualities[i].samplesize == settings.bitspersample &&
+            soundQualities[i].channels == settings.channels) {
+            curidx = i;
+        }
+    }
+    
+    if (firstTime && curidx < 0) {
+        soundQualities[i].frequency = settings.samplerate;
+        soundQualities[i].samplesize = settings.bitspersample;
+        soundQualities[i].channels = settings.channels;
+        
+        const char *ch;
+        switch (soundQualities[i].channels) {
+            case 1: ch = "Mono"; break;
+            case 2: ch = "Stereo"; break;
+            default: ch = "?"; break;
+        }
+        NSString *s = [NSString stringWithFormat:@"%dkHz, %d-bit, %s",
+                       soundQualities[i].frequency / 1000,
+                       soundQualities[i].samplesize,
+                       ch
+                       ];
+        [soundQualityPUButton addItemWithTitle:s];
+        
+        curidx = i++;
+        soundQualities[i].frequency = -1;
+    }
+    
+    if (curidx >= 0) {
+        [soundQualityPUButton selectItemAtIndex:curidx];
+    }
+}
+
 - (IBAction)alwaysShowClicked:(id)sender
 {
 }
@@ -263,6 +221,13 @@ static struct {
 		settings.fullscreen = validmode[mode].fs;
 	}
 	
+    int quality = [soundQualityPUButton indexOfSelectedItem];
+    if (quality >= 0) {
+        settings.samplerate = soundQualities[quality].frequency;
+        settings.bitspersample = soundQualities[quality].samplesize;
+        settings.channels = soundQualities[quality].channels;
+    }
+    
 	int row = [[gameList documentView] selectedRow];
 	if (row >= 0) {
 		struct grpfile *p = [[gamelistsrc grpAtIndex:row] entryptr];
@@ -270,7 +235,9 @@ static struct {
 			strcpy(settings.selectedgrp, p->name);
 		}
 	}
-		
+    
+    settings.usemouse = [useMouseButton state] == NSOnState;
+    settings.usejoystick = [useJoystickButton state] == NSOnState;
 	settings.forcesetup = [alwaysShowButton state] == NSOnState;
 
 	[NSApp stopModal];
@@ -282,25 +249,26 @@ static struct {
 
 	[fullscreenButton setState: (settings.fullscreen ? NSOnState : NSOffState)];
 	[alwaysShowButton setState: (settings.forcesetup ? NSOnState : NSOffState)];
+    [useMouseButton setState: (settings.usemouse ? NSOnState : NSOffState)];
+    [useJoystickButton setState: (settings.usejoystick ? NSOnState : NSOffState)];
 	[self populateVideoModes:YES];
+    [self populateSoundQuality:YES];
 
 	// enable all the controls on the Configuration page
 	NSEnumerator *enumerator = [[[[tabView tabViewItemAtIndex:0] view] subviews] objectEnumerator];
 	NSControl *control;
-	while (control = [enumerator nextObject]) [control setEnabled:true];
+	while ((control = [enumerator nextObject])) {
+        [control setEnabled:true];
+    }
 	
 	gamelistsrc = [[GameListSource alloc] init];
 	[[gameList documentView] setDataSource:gamelistsrc];
 	[[gameList documentView] deselectAll:nil];
 
-	int row = [gamelistsrc findIndexForGrpname:[NSString stringWithCString:settings.selectedgrp]];
+	int row = [gamelistsrc findIndexForGrpname:[NSString stringWithUTF8String:settings.selectedgrp]];
 	if (row >= 0) {
 		[[gameList documentView] scrollRowToVisible:row];
-#if defined(MAC_OS_X_VERSION_10_3) && (MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3)
 		[[gameList documentView] selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
-#else
-		[[gameList documentView] selectRow:row byExtendingSelection:NO];
-#endif
 	}
 	
 	[cancelButton setEnabled:true];
@@ -318,7 +286,7 @@ static struct {
 	// user can enable it if they want to while waiting for something else to happen
 	NSEnumerator *enumerator = [[[[tabView tabViewItemAtIndex:0] view] subviews] objectEnumerator];
 	NSControl *control;
-	while (control = [enumerator nextObject]) {
+	while ((control = [enumerator nextObject])) {
 		if (control == alwaysShowButton) continue;
 		[control setEnabled:false];
 	}
@@ -364,7 +332,35 @@ int startwin_open(void)
 	
 	startwin = [[StartupWinController alloc] initWithWindowNibName:@"startwin.game"];
 	if (startwin == nil) return -1;
-
+    
+    {
+        static unsigned soundQualityFrequencies[] = { 44100, 22050, 11025 };
+        static unsigned soundQualitySampleSizes[] = { 16, 8 };
+        static unsigned soundQualityChannels[]    = { 2, 1 };
+        unsigned f, b, c, i;
+        
+        i = sizeof(soundQualityFrequencies) *
+            sizeof(soundQualitySampleSizes) *
+            sizeof(soundQualityChannels) /
+            sizeof(int) + 2;    // one for the terminator, one for a custom setting
+        soundQualities = (struct soundQuality_t *) malloc(i * sizeof(struct soundQuality_t));
+        
+        i = 0;
+        for (c = 0; c < sizeof(soundQualityChannels) / sizeof(int); c++) {
+            for (b = 0; b < sizeof(soundQualitySampleSizes) / sizeof(int); b++) {
+                for (f = 0; f < sizeof(soundQualityFrequencies) / sizeof(int); f++) {
+                    soundQualities[i].frequency = soundQualityFrequencies[f];
+                    soundQualities[i].samplesize = soundQualitySampleSizes[b];
+                    soundQualities[i].channels = soundQualityChannels[c];
+                    
+                    i++;
+                }
+            }
+        }
+        
+        soundQualities[i].frequency = -1;
+    }
+    
 	[startwin setupMessagesMode];
 	[startwin showWindow:nil];
 
@@ -431,6 +427,11 @@ int startwin_run(void)
 	settings.xdim3d = ScreenWidth;
 	settings.ydim3d = ScreenHeight;
 	settings.bpp3d = ScreenBPP;
+    settings.samplerate = MixRate;
+    settings.bitspersample = NumBits;
+    settings.channels = NumChannels;
+    settings.usemouse = UseMouse;
+    settings.usejoystick = UseJoystick;
 	settings.forcesetup = ForceSetup;
 	strncpy(settings.selectedgrp, grpfile, BMAX_PATH);
 	
@@ -449,6 +450,11 @@ int startwin_run(void)
 		ScreenWidth = settings.xdim3d;
 		ScreenHeight = settings.ydim3d;
 		ScreenBPP = settings.bpp3d;
+        MixRate = settings.samplerate;
+        NumBits = settings.bitspersample;
+        NumChannels = settings.channels;
+        UseMouse = settings.usemouse;
+        UseJoystick = settings.usejoystick;
 		ForceSetup = settings.forcesetup;
 		grpfile = settings.selectedgrp;
 	}

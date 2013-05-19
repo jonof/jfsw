@@ -125,8 +125,6 @@ void InitSetup(void)
    CONTROL_JoystickEnabled = (UseJoystick && CONTROL_JoyPresent);
    CONTROL_MouseEnabled = (UseMouse && CONTROL_MousePresent);
 
-   for (i=0;i<joynumaxes;i++)
-      setjoydeadzone(i,JoystickAnalogueDead[i],JoystickAnalogueSaturate[i]);
    /*{
    int i;
    CONTROL_PrintKeyMap();

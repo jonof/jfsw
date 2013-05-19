@@ -30,7 +30,9 @@
 		AB2140B3101D56BC00E844AE /* vorbis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2140B1101D56BC00E844AE /* vorbis.framework */; };
 		AB2140C0101D56CC00E844AE /* vorbis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB2140B1101D56BC00E844AE /* vorbis.framework */; };
 		AB21411C101D5B8F00E844AE /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21411B101D5B8F00E844AE /* AudioUnit.framework */; };
-		AB8F60750C658D3400202E11 /* startdlg.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8F60740C658D3400202E11 /* startdlg.c */; };
+		AB4909D61748652600C7A068 /* GrpFile.game.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4909D51748652600C7A068 /* GrpFile.game.m */; };
+		AB4909DC1748658600C7A068 /* GameListSource.game.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4909DB1748658600C7A068 /* GameListSource.game.m */; };
+		AB8F60750C658D3400202E11 /* grpscan.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8F60740C658D3400202E11 /* grpscan.c */; };
 		AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
 		AB8F60D80C65924000202E11 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
 		AB8F60D90C65924800202E11 /* bldscript.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB6F0C64C4D000F28920 /* bldscript.c */; };
@@ -319,7 +321,7 @@
 		AB214389101EF14900E844AE /* sounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sounds.h; sourceTree = "<group>"; };
 		AB21438A101EF14900E844AE /* sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sprite.h; sourceTree = "<group>"; };
 		AB21438B101EF14900E844AE /* stag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stag.h; sourceTree = "<group>"; };
-		AB21438C101EF14900E844AE /* startdlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = startdlg.h; sourceTree = "<group>"; };
+		AB21438C101EF14900E844AE /* grpscan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grpscan.h; sourceTree = "<group>"; };
 		AB21438D101EF14900E844AE /* sw_strs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sw_strs.h; sourceTree = "<group>"; };
 		AB21438E101EF14900E844AE /* tags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tags.h; sourceTree = "<group>"; };
 		AB21438F101EF14900E844AE /* text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
@@ -328,7 +330,11 @@
 		AB214392101EF14900E844AE /* vis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vis.h; sourceTree = "<group>"; };
 		AB214393101EF14900E844AE /* warp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = warp.h; sourceTree = "<group>"; };
 		AB214394101EF14900E844AE /* weapon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = weapon.h; sourceTree = "<group>"; };
-		AB8F60740C658D3400202E11 /* startdlg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = startdlg.c; sourceTree = "<group>"; };
+		AB4909D41748652600C7A068 /* GrpFile.game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrpFile.game.h; sourceTree = "<group>"; };
+		AB4909D51748652600C7A068 /* GrpFile.game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrpFile.game.m; sourceTree = "<group>"; };
+		AB4909DA1748658600C7A068 /* GameListSource.game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameListSource.game.h; sourceTree = "<group>"; };
+		AB4909DB1748658600C7A068 /* GameListSource.game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameListSource.game.m; sourceTree = "<group>"; };
+		AB8F60740C658D3400202E11 /* grpscan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grpscan.c; sourceTree = "<group>"; };
 		AB8F60CA0C6591F300202E11 /* Build Editor for JFShadowWarrior.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Build Editor for JFShadowWarrior.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../jfbuild/xcode/engine.xcodeproj; sourceTree = SOURCE_ROOT; };
 		ABB4AB5C0C64C3EB00F28920 /* jnstub.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jnstub.c; sourceTree = "<group>"; };
@@ -590,9 +596,13 @@
 				AB214369101EEFB200E844AE /* function.h */,
 				ABB4AB800C64C4D000F28920 /* game.c */,
 				ABBD3FAF10205ACF00F32F37 /* game.h */,
+				AB4909DA1748658600C7A068 /* GameListSource.game.h */,
+				AB4909DB1748658600C7A068 /* GameListSource.game.m */,
 				AB21436B101EF04C00E844AE /* gamedefs.h */,
 				ABB4AB810C64C4D000F28920 /* girlninj.c */,
 				ABB4AB820C64C4D000F28920 /* goro.c */,
+				AB4909D41748652600C7A068 /* GrpFile.game.h */,
+				AB4909D51748652600C7A068 /* GrpFile.game.m */,
 				ABB4AB830C64C4D000F28920 /* hornet.c */,
 				ABB4AB840C64C4D000F28920 /* interp.c */,
 				AB21436C101EF04C00E844AE /* interp.h */,
@@ -662,8 +672,8 @@
 				ABB4ABA80C64C4D000F28920 /* sprite.c */,
 				AB21438A101EF14900E844AE /* sprite.h */,
 				AB21438B101EF14900E844AE /* stag.h */,
-				AB8F60740C658D3400202E11 /* startdlg.c */,
-				AB21438C101EF14900E844AE /* startdlg.h */,
+				AB8F60740C658D3400202E11 /* grpscan.c */,
+				AB21438C101EF14900E844AE /* grpscan.h */,
 				ABB4ABA90C64C4D000F28920 /* StartupWinController.game.m */,
 				ABB4ABAA0C64C4D000F28920 /* sumo.c */,
 				AB21438D101EF14900E844AE /* sw_strs.h */,
@@ -1009,7 +1019,9 @@
 				ABB4ABEE0C64C6F100F28920 /* mouse.c in Sources */,
 				ABB4ABEF0C64C6F100F28920 /* scriplib.c in Sources */,
 				ABB4ABF00C64C6F100F28920 /* util_lib.c in Sources */,
-				AB8F60750C658D3400202E11 /* startdlg.c in Sources */,
+				AB8F60750C658D3400202E11 /* grpscan.c in Sources */,
+				AB4909D61748652600C7A068 /* GrpFile.game.m in Sources */,
+				AB4909DC1748658600C7A068 /* GameListSource.game.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

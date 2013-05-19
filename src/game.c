@@ -70,6 +70,8 @@ Things required to make savegames work:
 
 #include "control.h"
 #include "function.h"
+#include "gamedefs.h"
+#include "config.h"
 
 #include "demo.h"
 #include "cache.h"
@@ -3437,8 +3439,6 @@ int app_main(int argc, char const * const argv[])
     VOID gameinput(VOID);
     int cnt = 0;
     ULONG TotalMemory;
-    extern int32 ForceSetup;    // config.c
-    int32 CONFIG_ReadSetup(void);
 
     for (i=1;i<argc;i++) {
     if (argv[i][0] != '-' && argv[i][0] != '/') continue;
@@ -4975,7 +4975,8 @@ VOID GetHelpInput(PLAYERp pp)
         }
     }    
 
-short MirrorDelay;    
+short MirrorDelay;
+int MouseYAxisMode = -1;
     
 VOID
 getinput(SW_PACKET *loc)
@@ -5004,6 +5005,7 @@ getinput(SW_PACKET *loc)
     int32 keymove;
     int32 momx, momy;
     int aimvel;
+    int mouseaxis;
 
     extern BOOL MenuButtonAutoRun;
     extern BOOL MenuButtonAutoAim;
@@ -5013,18 +5015,68 @@ getinput(SW_PACKET *loc)
         newpp = ppp;
         }
     
+    // reset all syncbits
+    loc->bits = 0;
+    svel = vel = angvel = aimvel = 0;
+    
+    // MAKE SURE THIS WILL GET SET
+    SET_LOC_KEY(loc->bits, SK_QUIT_GAME, MultiPlayQuitFlag);
+        
+    if (gs.MouseAimingType == 1) // while held
+        {
+        if (BUTTON(gamefunc_Mouse_Aiming))
+            {
+            SET(pp->Flags, PF_MOUSE_AIMING_ON);
+            gs.MouseAimingOn = TRUE;
+            }
+        else
+            {
+            if (TEST(pp->Flags, PF_MOUSE_AIMING_ON))
+                {
+                SET_LOC_KEY(loc->bits, SK_LOOK_UP, TRUE);
+                RESET(pp->Flags, PF_MOUSE_AIMING_ON);
+                gs.MouseAimingOn = FALSE;
+                }
+            }
+        }
+    else
+    if (gs.MouseAimingType == 0) // togglable button
+        {
+        if (BUTTON(gamefunc_Mouse_Aiming) && !BUTTONHELD(gamefunc_Mouse_Aiming))
+            {
+            FLIP(pp->Flags, PF_MOUSE_AIMING_ON);
+            gs.MouseAimingOn = !gs.MouseAimingOn;
+            if (!TEST(pp->Flags, PF_MOUSE_AIMING_ON))
+                {
+                SET_LOC_KEY(loc->bits, SK_LOOK_UP, TRUE);
+                PutStringInfo(pp, "Mouse Aiming Off");
+                }
+            else    
+                {
+                PutStringInfo(pp, "Mouse Aiming On");
+                }
+            }
+        }
+
+    if (TEST(pp->Flags, PF_MOUSE_AIMING_ON))
+        {
+        mouseaxis = analog_lookingupanddown;
+        }
+    else
+        {
+        mouseaxis = MouseAnalogAxes[1];
+        }
+    if (mouseaxis != MouseYAxisMode)
+        {
+        CONTROL_MapAnalogAxis(1, mouseaxis, controldevice_mouse);
+        MouseYAxisMode = mouseaxis;
+        }
+        
     CONTROL_GetInput(&info);
 
     info.dz = (info.dz * move_scale)>>8;
     info.dyaw = (info.dyaw * turn_scale)>>8;
 
-    // reset all syncbits
-    loc->bits = 0;
-    svel = vel = angvel = aimvel = 0;
-
-    // MAKE SURE THIS WILL GET SET
-    SET_LOC_KEY(loc->bits, SK_QUIT_GAME, MultiPlayQuitFlag);
-    
     PauseKey(pp);
     
     if (PauseKeySet)
@@ -5087,89 +5139,24 @@ getinput(SW_PACKET *loc)
     running = BUTTON(gamefunc_Run) || TEST(pp->Flags, PF_LOCK_RUN);
         
     if (BUTTON(gamefunc_Strafe) && !pp->sop)
-        svel = -info.dyaw >> 6;
+        svel = -info.dyaw;
     else
         {
         if (info.dyaw > 0)
-            angvel = labs((-info.dyaw) >> 8);
+            angvel = labs((-info.dyaw));
         else    
-            angvel = info.dyaw >> 8;
+            angvel = info.dyaw;
         }
     
+    aimvel = info.dpitch;
+    aimvel = min(127, aimvel);
+    aimvel = max(-128, aimvel);
+    if (gs.MouseInvert)
+        aimvel = -aimvel;
+
     svel -= info.dx;
+    vel = -info.dz;
 
-            if (gs.MouseAimingType == 1) // while held
-                {
-                if (BUTTON(gamefunc_Mouse_Aiming))
-                    {
-                    SET(pp->Flags, PF_MOUSE_AIMING_ON);
-                    gs.MouseAimingOn = TRUE;
-
-                    if (info.dz > 0)
-                        // a negative value shifted down will always return -1 for the smallest value
-                        // this allows sensitivity in the up direction
-                        aimvel = labs((-info.dz) >> 10);
-                    else
-                        aimvel = info.dz >> 10;
-         
-                    aimvel = min(127, aimvel);
-                    aimvel = max(-128, aimvel);
-                    
-                    if (gs.MouseInvert)
-                        aimvel = -aimvel;
-                    }
-                else
-                    {
-                    if (TEST(pp->Flags, PF_MOUSE_AIMING_ON))
-                        {
-                        SET_LOC_KEY(loc->bits, SK_LOOK_UP, TRUE);
-                        RESET(pp->Flags, PF_MOUSE_AIMING_ON);
-                        gs.MouseAimingOn = FALSE;
-                        }
-
-                    aimvel = 0;
-                    vel = -info.dz >> 6;
-                    }
-                }
-            else
-            if (gs.MouseAimingType == 0) // togglable button
-                {
-                if (BUTTON(gamefunc_Mouse_Aiming) && !BUTTONHELD(gamefunc_Mouse_Aiming))
-                    {
-                    FLIP(pp->Flags, PF_MOUSE_AIMING_ON);
-                    gs.MouseAimingOn = !gs.MouseAimingOn;
-                    if (!TEST(pp->Flags, PF_MOUSE_AIMING_ON))
-                        {
-                        SET_LOC_KEY(loc->bits, SK_LOOK_UP, TRUE);
-                        PutStringInfo(pp, "Mouse Aiming Off");
-                        }
-                    else    
-                        {
-                        PutStringInfo(pp, "Mouse Aiming On");
-                        }
-                    }
-
-                if (TEST(pp->Flags, PF_MOUSE_AIMING_ON))
-                    {
-                    if (info.dz > 0)
-                        aimvel = labs((-info.dz) >> 10);
-                    else
-                        aimvel = info.dz >> 10;
-         
-                    aimvel = min(127, aimvel);
-                    aimvel = max(-128, aimvel);
-                    
-                    if (gs.MouseInvert)
-                        aimvel = -aimvel;
-                    }
-                else
-                    {
-                    aimvel = 0;
-                    vel = -info.dz >> 6;
-                    }
-                }
-
-    
     if (running)
         {
         if (pp->sop_control)

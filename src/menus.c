@@ -643,7 +643,6 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 {
 	static int currentkey = 0, currentcol = 0;
 	static int currentmode = 0;
-	extern byte KeyboardKeys[NUMGAMEFUNCTIONS][2];
 
 	if (call == uc_touchup)
         	return (TRUE);
@@ -818,7 +817,6 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item)
 {
 	static int currentbut = 0, currentmode = 0, currentfunc = 0;
-	extern int32 MouseFunctions[MAXMOUSEBUTTONS][2];
 	const char *colnames[2] = { "", "Double " };
 	const char *butnames[6] = { "Left", "Right", "Middle", "Thumb", "Wheel Down", "Wheel Up" };
 #define FIRSTWHEEL 8
@@ -883,10 +881,18 @@ BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item)
 			KB_ClearKeyDown(sc_PgUp);
 		}
 		else if (inpt.button0) {
-			MouseFunctions[ currentbut<FIRSTWHEEL ? currentbut/2 : currentbut-FIRSTWHEEL/2 ]
-				[ currentbut<FIRSTWHEEL ? currentbut%2 : 0 ] = currentfunc;
-			CONTROL_MapButton( currentfunc, currentbut<FIRSTWHEEL ? currentbut/2 : currentbut-FIRSTWHEEL/2,
-					currentbut<FIRSTWHEEL ? currentbut%2 : 0, controldevice_mouse);
+            if (currentbut < FIRSTWHEEL) {
+                if (currentbut % 2) {
+                    MouseButtonsClicked[currentbut/2] = currentfunc;
+                    CONTROL_MapButton(currentfunc, currentbut/2, 1, controldevice_mouse);
+                } else {
+                    MouseButtons[currentbut/2] = currentfunc;
+                    CONTROL_MapButton(currentfunc, currentbut/2, 0, controldevice_mouse);
+                }
+            } else {
+                MouseButtons[currentbut-FIRSTWHEEL/2] = currentfunc;
+                CONTROL_MapButton(currentfunc, currentbut-FIRSTWHEEL/2, 0, controldevice_mouse);
+            }
 			currentmode = 0;
 			KB_ClearLastScanCode();
 			KB_ClearKeysDown();
@@ -957,10 +963,18 @@ BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item)
 		}
 		else if (KB_KeyPressed(sc_Delete)) {
 			KB_ClearKeyDown(sc_Delete);
-			MouseFunctions[ currentbut<FIRSTWHEEL ? currentbut/2 : currentbut-FIRSTWHEEL/2 ]
-				[ currentbut<FIRSTWHEEL ? currentbut%2 : 0 ] = -1;
-			CONTROL_MapButton( -1, currentbut<FIRSTWHEEL ? currentbut/2 : currentbut-FIRSTWHEEL/2,
-					currentbut<FIRSTWHEEL ? currentbut%2 : 0, controldevice_mouse);
+            if (currentbut < FIRSTWHEEL) {
+                if (currentbut % 2) {
+                    MouseButtonsClicked[currentbut/2] = -1;
+                    CONTROL_MapButton(-1, currentbut/2, 1, controldevice_mouse);
+                } else {
+                    MouseButtons[currentbut/2] = -1;
+                    CONTROL_MapButton(-1, currentbut/2, 0, controldevice_mouse);
+                }
+            } else {
+                MouseButtons[currentbut-FIRSTWHEEL/2] = -1;
+                CONTROL_MapButton(-1, currentbut-FIRSTWHEEL/2, 0, controldevice_mouse);
+            }
 		}
 		else if (KB_KeyPressed(sc_Home) || KB_KeyPressed(sc_PgUp)) {
 			currentbut = 0;
@@ -974,8 +988,15 @@ BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item)
 		}
 		else if (inpt.button0) {
 			currentmode = 1;
-			currentfunc = MouseFunctions[ currentbut<FIRSTWHEEL ? currentbut/2 : currentbut-FIRSTWHEEL/2 ]
-				[ currentbut<FIRSTWHEEL ? currentbut%2 : 0 ];
+            if (currentbut < FIRSTWHEEL) {
+                if (currentbut % 2) {
+                    currentfunc = MouseButtonsClicked[currentbut/2];
+                } else {
+                    currentfunc = MouseButtons[currentbut/2];
+                }
+            } else {
+                currentfunc = MouseButtons[currentbut-FIRSTWHEEL/2];
+            }
 			KB_ClearLastScanCode();
 			KB_ClearKeysDown();
 		}
@@ -991,7 +1012,11 @@ BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item)
 			j = OPT_LINE(0)+i*8;
 			MNU_DrawSmallString(OPT_XS*2, j, ds, (i==currentbut)?0:12, 16);
 
-			p = MouseFunctions[y][x] < 0 ? "  -" : gamefunctions[MouseFunctions[y][x]];
+            if (x) {
+                p = MouseButtonsClicked[y] < 0 ? "  -" : gamefunctions[MouseButtonsClicked[y]];
+            } else {
+                p = MouseButtons[y] < 0 ? "  -" : gamefunctions[MouseButtons[y]];
+            }
 			for (x=0; p[x]; x++) ds[x] = (p[x] == '_' ? ' ' : p[x]);
 			ds[x] = 0;
 			MNU_DrawSmallString(OPT_XSIDE, j, ds, (i==currentbut)?-5:12,

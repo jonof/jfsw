@@ -29,6 +29,8 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #ifdef __cplusplus
 extern "C" {
 #endif
+    
+#include "function.h"
 
 #define SETUPNAMEPARM "SETUPFILE"
 
@@ -84,24 +86,27 @@ extern int32 MouseSensitivity;
 extern int32 MouseAiming;
 extern int32 MouseAimingFlipped;
 
-extern char  MouseButtons[MAXMOUSEBUTTONS][MAXFUNCTIONLENGTH];
-extern char  MouseButtonsClicked[MAXMOUSEBUTTONS][MAXFUNCTIONLENGTH];
+extern byte KeyboardKeys[NUMGAMEFUNCTIONS][2];
 
-extern char  JoystickButtons[MAXJOYBUTTONS][MAXFUNCTIONLENGTH];
-extern char  JoystickButtonsClicked[MAXJOYBUTTONS][MAXFUNCTIONLENGTH];
+extern int32 MouseButtons[MAXMOUSEBUTTONS];
+extern int32 MouseButtonsClicked[MAXMOUSEBUTTONS];
 
-extern char  MouseAnalogAxes[MAXMOUSEAXES][MAXFUNCTIONLENGTH];
-extern char  JoystickAnalogAxes[MAXJOYAXES][MAXFUNCTIONLENGTH];
+extern int32 JoystickButtons[MAXJOYBUTTONS];
+extern int32 JoystickButtonsClicked[MAXJOYBUTTONS];
+
+extern int32 MouseAnalogAxes[MAXMOUSEAXES];
+extern int32 JoystickAnalogAxes[MAXJOYAXES];
 extern int32 MouseAnalogScales[MAXMOUSEAXES];
 extern int32 JoystickAnalogScales[MAXJOYAXES];
-extern int32 JoystickAnalogueDead[MAXJOYAXES];
-extern int32 JoystickAnalogueSaturate[MAXJOYAXES];
+extern int32 JoystickAnalogDead[MAXJOYAXES];
+extern int32 JoystickAnalogSaturate[MAXJOYAXES];
 
 extern int32 EnableRudder;
 
-extern char  MouseDigitalAxes[MAXMOUSEAXES][2][MAXFUNCTIONLENGTH];
-extern char  GamePadDigitalAxes[MAXGAMEPADAXES][2][MAXFUNCTIONLENGTH];
-extern char  JoystickDigitalAxes[MAXJOYAXES][2][MAXFUNCTIONLENGTH];
+extern int32 MouseDigitalAxes[MAXMOUSEAXES];
+extern int32 MouseDigitalAxesClicked[MAXMOUSEAXES];
+extern int32 JoystickDigitalAxes[MAXJOYAXES];
+extern int32 JoystickDigitalAxesClicked[MAXJOYAXES];
 
 extern char setupfilename[64];
 extern char ExternalControlFilename[64];

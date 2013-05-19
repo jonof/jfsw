@@ -291,6 +291,7 @@ playanm(short anim_num)
     unsigned char ANIMvesapal[4*256];
     unsigned char tempbuf[256];
     unsigned char *palook_bak = palookup[0];
+    UserInput uinfo = { FALSE, FALSE, dir_None };
 
     ANIMnum = anim_num;
 
@@ -345,14 +346,16 @@ playanm(short anim_num)
         while (totalclock < ototalclock)
             {
 			handleevents();
+            CONTROL_GetUserInput(&uinfo);
+            CONTROL_ClearUserInput(&uinfo);
             switch (ANIMnum)
                 {
-                case 0:
-                    if (KB_KeyWaiting() || quitevent)
+                case ANIM_INTRO:
+                    if (KB_KeyWaiting() || uinfo.button0 || uinfo.button1 || quitevent)
                         goto ENDOFANIMLOOP;
                     break;
-                case 1:
-                    if (KEY_PRESSED(KEYSC_ESC) || quitevent)
+                case ANIM_SERP:
+                    if (KEY_PRESSED(KEYSC_ESC) || uinfo.button1 || quitevent)
                         goto ENDOFANIMLOOP;
                     break;
                 }    

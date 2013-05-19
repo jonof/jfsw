@@ -720,6 +720,7 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 		if (KEY_PRESSED(KEYSC_ESC) || inpt.button1) {
 			KEY_PRESSED(KEYSC_ESC) = FALSE;
 			cust_callback = NULL;
+            CONTROL_ClearUserInput(&inpt);
 			return TRUE;
 		}
 		else if (KB_KeyPressed(sc_Delete)) {
@@ -959,6 +960,7 @@ BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item)
 		if (KEY_PRESSED(KEYSC_ESC) || inpt.button1) {
 			KEY_PRESSED(KEYSC_ESC) = FALSE;
 			cust_callback = NULL;
+            CONTROL_ClearUserInput(&inpt);
 			return TRUE;
 		}
 		else if (KB_KeyPressed(sc_Delete)) {
@@ -1516,7 +1518,7 @@ MNU_QuitCustom(UserCall call, MenuItem_p item)
         ExitMenus();
         }
 
-    if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter))
+    if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter) || mnu_input.button0)
         {
         if (CommPlayers >= 2)
             MultiPlayQuitFlag = TRUE;
@@ -2069,7 +2071,7 @@ MNU_Dialog(void)
     CONTROL_ClearUserInput(&mnu_input);
     CONTROL_GetUserInput(&mnu_input);
 
-    if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter))
+    if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter) || mnu_input.button0)
         return (TRUE);
     else
         return (FALSE);
@@ -3061,7 +3063,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
         slidersettings[sldr_mouse] = offset;
         
         gs.MouseSpeed = offset * (MOUSE_SENS_MAX_VALUE/SLDR_MOUSESENSEMAX);
-        CONTROL_SetMouseSensitivity(gs.MouseSpeed<<2);
+        CONTROL_SetMouseSensitivity(gs.MouseSpeed);
         break;
         
     case sldr_sndfxvolume:

@@ -2449,9 +2449,9 @@ MoveScrollMode2D(PLAYERp pp)
     running = BUTTON(gamefunc_Run) || TEST(pp->Flags, PF_LOCK_RUN);
         
     if (BUTTON(gamefunc_Strafe))
-        mfsvel = -scrl_input.dyaw >> 6;
-    
-    mfvel = -scrl_input.dz >> 6;
+        mfsvel -= scrl_input.dyaw>>2;
+    mfsvel -= scrl_input.dx>>2;
+    mfvel = -scrl_input.dz>>2;
 
     if (running)
         {

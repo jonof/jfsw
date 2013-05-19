@@ -245,7 +245,7 @@ void CONFIG_SetDefaults( void )
 
       MouseAnalogAxes[i] = CONFIG_AnalogNameToNum( mouseanalogdefaults[i] );
    }
-   CONTROL_SetMouseSensitivity(gs.MouseSpeed<<2);
+   CONTROL_SetMouseSensitivity(gs.MouseSpeed);
 
    memset(JoystickButtons, -1, sizeof(JoystickButtons));
    memset(JoystickButtonsClicked, -1, sizeof(JoystickButtonsClicked));
@@ -452,7 +452,7 @@ void CONFIG_SetupMouse( void )
       CONTROL_SetAnalogAxisScale( i, MouseAnalogScale[i], controldevice_mouse );
       }
    
-   CONTROL_SetMouseSensitivity(gs.MouseSpeed<<2);
+   CONTROL_SetMouseSensitivity(gs.MouseSpeed);
    }
 
 /*

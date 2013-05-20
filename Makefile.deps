@@ -84,11 +84,11 @@ $(SRC)/jbhlp.$o: $(SRC)/jbhlp.c $(build_h) $(INC)/keys.h $(names2_h) $(game_h) $
 $(SRC)/game_icon.$o: $(RSRC)/game_icon.c
 $(SRC)/build_icon.$o: $(RSRC)/build_icon.c
 
-$(SRC)/startdlg.$o: $(SRC)/startdlg.c $(EINC)/compat.h $(EINC)/baselayer.h $(EINC)/scriptfile.h $(EINC)/cache1d.h $(EINC)/crc32.h $(INC)/startdlg.h
+$(SRC)/grpscan.$o: $(SRC)/grpscan.c $(EINC)/compat.h $(EINC)/baselayer.h $(EINC)/scriptfile.h $(EINC)/cache1d.h $(EINC)/crc32.h $(INC)/grpscan.h
 $(SRC)/gameres.$o: $(SRC)/misc/gameres.rc $(SRC)/startwin.game.h $(RSRC)/game.bmp $(RSRC)/game_icon.ico
 $(SRC)/buildres.$o: $(SRC)/misc/buildres.rc $(RSRC)/build.bmp $(RSRC)/build_icon.ico
-$(SRC)/startwin.game.$o: $(SRC)/startwin.game.c $(build_h) $(EINC)/winlayer.h $(INC)/startdlg.h
-$(SRC)/startgtk.game.$o: $(SRC)/startgtk.game.c $(build_h) $(EINC)/dynamicgtk.h $(EINC)/baselayer.h $(INC)/startdlg.h
+$(SRC)/startwin.game.$o: $(SRC)/startwin.game.c $(build_h) $(EINC)/winlayer.h $(INC)/grpscan.h
+$(SRC)/startgtk.game.$o: $(SRC)/startgtk.game.c $(build_h) $(EINC)/dynamicgtk.h $(EINC)/baselayer.h $(INC)/grpscan.h
 
 # jMACT objects
 $(MACTROOT)/util_lib.$o: $(MACTROOT)/util_lib.c $(MACTROOT)/util_lib.h $(MACTROOT)/types.h $(EINC)/compat.h

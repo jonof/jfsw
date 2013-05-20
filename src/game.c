@@ -5139,7 +5139,7 @@ getinput(SW_PACKET *loc)
     if (MenuInputMode || UsingMenus || ScrollMode2D || InputMode)
         return;
         
-    SET_LOC_KEY(loc->bits, SK_SPACE_BAR, (!!KEY_PRESSED(KEYSC_SPACE) | BUTTON(gamefunc_Open)));
+    SET_LOC_KEY(loc->bits, SK_SPACE_BAR, ((!!KEY_PRESSED(KEYSC_SPACE)) | BUTTON(gamefunc_Open)));
         
     running = BUTTON(gamefunc_Run) || TEST(pp->Flags, PF_LOCK_RUN);
         

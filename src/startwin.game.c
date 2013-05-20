@@ -9,7 +9,7 @@
 #include "gamedefs.h"
 #include "config.h"
 
-#include "startdlg.h"
+#include "grpscan.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

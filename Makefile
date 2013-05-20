@@ -165,7 +165,7 @@ endif
 ifeq ($(PLATFORM),WINDOWS)
 	OURCFLAGS+= -I$(DXROOT)/include
 	NASMFLAGS+= -f win32 --prefix _
-	GAMEOBJS+= $(SRC)/gameres.$o $(SRC)/startdlg.$o $(SRC)/startwin.game.$o
+	GAMEOBJS+= $(SRC)/gameres.$o $(SRC)/grpscan.$o $(SRC)/startwin.game.$o
 	EDITOROBJS+= $(SRC)/buildres.$o
 	GAMELIBS+= -ldsound \
 	       $(AUDIOLIBROOT)/third-party/mingw32/lib/libvorbisfile.a \
@@ -178,7 +178,7 @@ ifeq ($(RENDERTYPE),SDL)
 
 	ifeq (1,$(HAVE_GTK2))
 		OURCFLAGS+= -DHAVE_GTK2 $(shell pkg-config --cflags gtk+-2.0)
-		GAMEOBJS+= $(SRC)/game_banner.$o $(SRC)/startdlg.$o $(SRC)/startgtk.game.$o
+		GAMEOBJS+= $(SRC)/game_banner.$o $(SRC)/grpscan.$o $(SRC)/startgtk.game.$o
 		EDITOROBJS+= $(SRC)/editor_banner.$o
 	endif
 

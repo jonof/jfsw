@@ -1155,7 +1155,7 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
         order_input_buffered.dir = tst_input.dir;
         }
 
-    if (!KEY_PRESSED(KEYSC_ESC))
+    if (!KEY_PRESSED(KEYSC_ESC) && !order_input_buffered.button1)
         {
         cust_callback = MNU_OrderCustom;
         cust_callback_call = call;
@@ -4007,9 +4007,10 @@ void MNU_DoMenu( CTLType type, PLAYERp pp )
         resetitem = TRUE;
         }
     else 
-    if (mnu_input.button1)
+    if (mnu_input.button1 || BUTTON(gamefunc_Show_Menu))
         {
         static int handle3=0;
+        CONTROL_ClearButton(gamefunc_Show_Menu);
         if(!FX_SoundActive(handle3))
             handle3 = PlaySound(DIGI_SWORDSWOOSH,&zero,&zero,&zero,v3df_dontpan);
         MNU_UpLevel();
@@ -4054,9 +4055,10 @@ MNU_CheckForMenus(void)
         }
     else
         {
-        if (KEY_PRESSED(KEYSC_ESC) && dimensionmode == 3 && !ConPanel)
+        if ((KEY_PRESSED(KEYSC_ESC) || BUTTON(gamefunc_Show_Menu)) && dimensionmode == 3 && !ConPanel)
             {
             KEY_PRESSED(KEYSC_ESC) = 0;
+            CONTROL_ClearButton(gamefunc_Show_Menu);
             KB_ClearKeysDown();
             // setup sliders/buttons
             MNU_InitMenus();

@@ -85,6 +85,7 @@ char * gamefunctions[] =
    "Toggle_Crosshair",
    "Next_Weapon",
    "Previous_Weapon",
+   "Show_Menu",
    "Show_Console",
    };
 

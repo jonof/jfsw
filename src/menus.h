@@ -176,7 +176,9 @@ typedef enum
     sldr_none,
     sldr_mouse, sldr_sndfxvolume, sldr_musicvolume, sldr_scrsize, sldr_brightness, 
     sldr_bordertile, sldr_gametype, sldr_netlevel, sldr_monsters, sldr_killlimit,
-    sldr_timelimit, sldr_playercolor, sldr_videores, sldr_videobpp, sldr_max
+    sldr_timelimit, sldr_playercolor, sldr_videores, sldr_videobpp,
+    sldr_mousescalex, sldr_mousescaley,
+    sldr_max
     } SLDRType;
 
 

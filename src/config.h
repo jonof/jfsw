@@ -96,17 +96,15 @@ extern int32 JoystickButtonsClicked[MAXJOYBUTTONS];
 
 extern int32 MouseAnalogAxes[MAXMOUSEAXES];
 extern int32 JoystickAnalogAxes[MAXJOYAXES];
-extern int32 MouseAnalogScales[MAXMOUSEAXES];
-extern int32 JoystickAnalogScales[MAXJOYAXES];
+extern int32 MouseAnalogScale[MAXMOUSEAXES];
+extern int32 JoystickAnalogScale[MAXJOYAXES];
 extern int32 JoystickAnalogDead[MAXJOYAXES];
 extern int32 JoystickAnalogSaturate[MAXJOYAXES];
 
 extern int32 EnableRudder;
 
-extern int32 MouseDigitalAxes[MAXMOUSEAXES];
-extern int32 MouseDigitalAxesClicked[MAXMOUSEAXES];
-extern int32 JoystickDigitalAxes[MAXJOYAXES];
-extern int32 JoystickDigitalAxesClicked[MAXJOYAXES];
+extern int32 MouseDigitalAxes[MAXMOUSEAXES][2];
+extern int32 JoystickDigitalAxes[MAXJOYAXES][2];
 
 extern char setupfilename[64];
 extern char ExternalControlFilename[64];
@@ -123,6 +121,11 @@ void CONFIG_SetupJoystick( void );
 void CONFIG_WriteSetup( void );
 void WriteCommitFile( int32 gametype );
 void CONFIG_GetSetupFilename( void );
+
+const char * CONFIG_FunctionNumToName( int32 func );
+int32 CONFIG_FunctionNameToNum( const char * func );
+const char * CONFIG_AnalogNumToName( int32 func );
+int32 CONFIG_AnalogNameToNum( const char * func );
 
 #ifdef __cplusplus
 };

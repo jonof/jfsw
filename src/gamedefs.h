@@ -70,6 +70,9 @@ extern "C" {
 
 //#define MAXEXTERNALBUTTONS 6
 
+// max path+track length for OGG music files
+#define MAXOGGTRACKLENGTH 256
+
 //
 // modem string defines
 //

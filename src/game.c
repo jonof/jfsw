@@ -216,6 +216,7 @@ TRUE, // voxels
 FALSE, // stats
 FALSE, // mouse aiming on
 FALSE, // play cd
+"track??.ogg", // ogg track name
 };
 GAME_SET gs;
 

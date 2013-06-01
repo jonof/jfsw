@@ -444,10 +444,8 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
     StopSong();
         
     if (!SW_SHAREWARE) {
-        char oggtrack[] = "track??.ogg";
-            
         if (CD_GetCurrentDriver() != ASS_NoSound && CDInitialized)
-            {
+        {
             int status;
             status = CD_Play(cdaudio_track, TRUE);
             if (status == CD_Ok)
@@ -457,23 +455,36 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
                 return TRUE;
                 }
 
-            buildprintf("CD play error: %s", CD_ErrorString(status));
-            }
-            
+            buildprintf("CD play error: %s\n", CD_ErrorString(status));
+        }
+        
         if (cdaudio_track >= 0)
-            {
-            oggtrack[5] = '0' + (cdaudio_track / 10) % 10;
-            oggtrack[6] = '0' + cdaudio_track % 10;
-            }
+        {
+            char oggtrack[MAXOGGTRACKLENGTH];
+            memcpy(oggtrack, gs.OggTrackName, MAXOGGTRACKLENGTH);
             
-        if (LoadSong(oggtrack)) {
-            SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
-                                          255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
-            if (SongVoice > FX_Ok) {
-                SongType = SongTypeVoc;
-                SongTrack = cdaudio_track;
-                SongName = strdup(oggtrack);
-                return TRUE;
+            char* numPos = strstr(oggtrack, "??");
+            
+            if(numPos && (numPos-oggtrack) < MAXOGGTRACKLENGTH - 1)
+            {
+                numPos[0] = '0' + (cdaudio_track / 10) % 10;
+                numPos[1] = '0' + cdaudio_track % 10;
+                
+                if (LoadSong(oggtrack)) {
+                    SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
+                                                  255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
+                    if (SongVoice > FX_Ok) {
+                        SongType = SongTypeVoc;
+                        SongTrack = cdaudio_track;
+                        SongName = strdup(oggtrack);
+                        return TRUE;
+                    }
+                } else {
+                    buildprintf("Can't play OGG music track: %s\n", oggtrack);
+                }
+            } else {
+                buildprintf("Make sure to have \"??\" as a placeholder for the track number in your OggTrackName!\n");
+                buildprintf("  e.g. OggTrackName = \"MUSIC/Track??.ogg\"\n");
             }
         }
     }

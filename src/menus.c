@@ -2159,6 +2159,8 @@ MNU_GetLoadCustom(void)
             return (FALSE);
 
         QuickLoadNum = load_num;
+        // the (Quick)Save menu should default to the last loaded game
+        SaveGameGroup.cursor = load_num;
 
         ExitMenus();
         ExitLevel = TRUE;
@@ -2180,6 +2182,8 @@ MNU_GetLoadCustom(void)
         }
 
     QuickLoadNum = load_num;
+    // the (Quick)Save menu should default to the last loaded game
+    SaveGameGroup.cursor = load_num;
         
     ready2send = 1;
     LastSaveNum = -1;
@@ -2197,7 +2201,7 @@ MNU_GetLoadCustom(void)
 ////////////////////////////////////////////////
 //  Save Game menu
 //  This function gets called whenever you
-//  press enter on one of the load game
+//  press enter on one of the save game
 //  spots.
 //  I'm figuring it need to do the following:
 //  . Call MNU_GetInput to allow string input of description.

@@ -64,7 +64,7 @@ extern "C" {
 
 // Number of JOY buttons
 
-#define MAXJOYBUTTONS 32
+#define MAXJOYBUTTONS (32+4)
 
 // Number of EXTERNAL buttons
 

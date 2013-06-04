@@ -280,6 +280,25 @@ MenuItem mousesetup_i[] =
     };
 MenuGroup mousesetupgroup = {65, 5, "^Mouse Setup", mousesetup_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
 
+#define JOYSTICKITEMSPERPAGE 12
+#define MAXJOYSTICKBUTTONPAGES (MAXJOYBUTTONS*2 / JOYSTICKITEMSPERPAGE)
+static char JoystickButtonPageName[MAXJOYSTICKBUTTONPAGES][64];
+static char JoystickButtonFunctions[MAXJOYBUTTONS*2][MAXFUNCTIONLENGTH];
+static char JoystickButtonNames[MAXJOYBUTTONS*2][64];
+static int JoystickButtonPage = 0;
+static BOOL MNU_JoystickButtonsInitialise(MenuItem_p item);
+static BOOL MNU_SetJoystickButtonFunctions(MenuItem_p item);
+static BOOL MNU_JoystickButtonPostProcess(MenuItem_p item);
+static BOOL MNU_JoystickButtonSetupCustom(UserCall call, MenuItem_p item);
+static BOOL MNU_JoystickButtonNextPage(void);
+MenuGroup joybuttonsgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_JoystickButtonSetupCustom, NULL, 0};
+MenuItem joybuttons_i[MAXJOYSTICKBUTTONPAGES][JOYSTICKITEMSPERPAGE*2+3] =    // itemsperpage * Layer/Inert + Pagetext + Next + DefNone
+    {
+    // this menu gets defined by the call to MNU_JoystickButtonsInitialise
+    { {DefNone} },
+    };
+MenuGroup joybuttonssetupgroup = {65, 5, "^Joystick Setup", NULL, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
+
 static char AdvancedMouseAxisFunctions[4][MAXAXISFUNCTIONLENGTH] = { "", "", "", "" };
 static BOOL MNU_SetAdvancedMouseFunctions(MenuItem_p item);
 static BOOL MNU_MouseDigitalPostProcess(MenuItem_p item);
@@ -307,7 +326,7 @@ MenuItem inputsetup_i[] =
     {
     {DefLayer(0, "Keys Setup", &keysetupgroup),OPT_XS,                 OPT_LINE(0),1,m_defshade,0,NULL,NULL,NULL},
     {DefLayer(0, "Mouse Setup", &mousesetupgroup),OPT_XS,              OPT_LINE(1),1,m_defshade,0,NULL,NULL,NULL},
-    {DefDisabled(0, "Joystick Setup", &keysetupgroup),OPT_XS,          OPT_LINE(2),1,m_defshade,0,NULL,NULL,NULL},
+    {DefLayer(0, "Joystick Buttons Setup", &joybuttonssetupgroup),OPT_XS,OPT_LINE(2),1,m_defshade,0,NULL,NULL,MNU_JoystickButtonsInitialise},
     {DefLayer(0, "Advanced Mouse Setup", &mouseadvancedgroup),OPT_XS,  OPT_LINE(4),1,m_defshade,0,NULL,NULL,NULL},
     {DefDisabled(0, "Advanced Joystick Setup", &keysetupgroup),OPT_XS, OPT_LINE(5),1,m_defshade,0,NULL,NULL,NULL},
     {DefOption(0, "Apply Modern Defaults"), OPT_XS,                    OPT_LINE(7),1,m_defshade,0,MNU_LoadModernDefaults,NULL,NULL},
@@ -1126,6 +1145,211 @@ static BOOL MNU_SetAdvancedMouseFunctions(MenuItem_p item)
     }
     return TRUE;
 }
+
+
+static MenuItem_p joystick_button_item = NULL;
+
+static BOOL MNU_JoystickButtonsInitialise(MenuItem_p mitem)
+{
+    MenuItem_p item;
+    MenuItem templayer = { DefLayer(0, JoystickButtonNames[0], &joybuttonsgroup), OPT_XS, OPT_LINE(0), 1, m_defshade, 0, NULL, NULL, MNU_JoystickButtonPostProcess };
+    MenuItem tempinert = { DefInert(0, JoystickButtonFunctions[0]), OPT_XSIDE, OPT_LINE(0), 1, m_defshade, 0, NULL, MNU_SetJoystickButtonFunctions, NULL };
+    MenuItem temppagename = { DefInert(0, JoystickButtonPageName[0]), OPT_XS, OPT_LINE(JOYSTICKITEMSPERPAGE+1), 1, m_defshade, 0, NULL, NULL, NULL };
+    MenuItem tempnextpage = { DefOption(0, "Next..."), OPT_XSIDE, OPT_LINE(JOYSTICKITEMSPERPAGE+1), 1, m_defshade, 0, MNU_JoystickButtonNextPage, NULL, NULL };
+    MenuItem tempnone = { DefNone };
+    const char *hatdirs[] = { " Up", " Right", " Down", " Left" };
+    int button, page, pageitem;
+
+    if (joybuttonssetupgroup.items != NULL) {
+        return TRUE;
+    }
+
+    page = 0;
+    pageitem = 0;
+    joybuttonssetupgroup.items = joybuttons_i[0];
+    item = &joybuttons_i[0][0];
+
+    for (button = 0; button < joynumbuttons * 2 + (joynumhats > 0) * 4; ) {
+        if (button < joynumbuttons * 2) {
+            int dbutton = button / 2;
+
+            strcpy(JoystickButtonNames[dbutton], getjoyname(1, dbutton));
+
+            templayer.text = JoystickButtonNames[dbutton];
+            templayer.y = OPT_LINE(pageitem);
+            templayer.tics = dbutton;
+            memcpy(item, &templayer, sizeof(MenuItem));
+            item++;
+
+            tempinert.text = JoystickButtonFunctions[dbutton];
+            tempinert.y = OPT_LINE(pageitem);
+            tempinert.tics = dbutton;
+            memcpy(item, &tempinert, sizeof(MenuItem));
+            item++;
+
+            pageitem++;
+
+            strcpy(JoystickButtonNames[dbutton + MAXJOYBUTTONS], "Double ");
+            strcat(JoystickButtonNames[dbutton + MAXJOYBUTTONS], getjoyname(1, dbutton));
+
+            templayer.text = JoystickButtonNames[dbutton + MAXJOYBUTTONS];
+            templayer.y = OPT_LINE(pageitem);
+            templayer.tics = 128 | dbutton;
+            memcpy(item, &templayer, sizeof(MenuItem));
+            item++;
+
+            tempinert.text = JoystickButtonFunctions[dbutton + MAXJOYBUTTONS];
+            tempinert.y = OPT_LINE(pageitem);
+            tempinert.tics = 128 | dbutton;
+            memcpy(item, &tempinert, sizeof(MenuItem));
+            item++;
+
+            pageitem++;
+
+            button += 2;
+        } else {
+            int dir = button - joynumbuttons * 2;
+            int dbutton = joynumbuttons + dir;
+
+            strcpy(JoystickButtonNames[dbutton], getjoyname(2, 0));
+            strcat(JoystickButtonNames[dbutton], hatdirs[dir]);
+
+            templayer.text = JoystickButtonNames[dbutton];
+            templayer.y = OPT_LINE(pageitem);
+            templayer.tics = dbutton;
+            memcpy(item, &templayer, sizeof(MenuItem));
+            item++;
+
+            tempinert.text = JoystickButtonFunctions[dbutton];
+            tempinert.y = OPT_LINE(pageitem);
+            tempinert.tics = dbutton;
+            memcpy(item, &tempinert, sizeof(MenuItem));
+            item++;
+
+            pageitem++;
+            button++;
+        }
+
+        if (pageitem == JOYSTICKITEMSPERPAGE || button == joynumbuttons * 2 + (joynumhats > 0) * 4) {
+            // next page
+            sprintf(JoystickButtonPageName[page], "Page %d / %d", page+1,
+                ((joynumbuttons * 2 + (joynumhats > 0) * 4) / JOYSTICKITEMSPERPAGE) + 1);
+
+            temppagename.text = JoystickButtonPageName[page];
+            memcpy(item, &temppagename, sizeof(MenuItem));
+            item++;
+
+            memcpy(item, &tempnextpage, sizeof(MenuItem));
+            item++;
+
+            memcpy(item, &tempnone, sizeof(MenuItem));
+
+            page++;
+            pageitem = 0;
+            item = &joybuttons_i[page][0];
+        }
+    }
+
+    return TRUE;
+}
+
+static BOOL MNU_JoystickButtonPostProcess(MenuItem_p item)
+{
+    joystick_button_item = item;
+    return TRUE;
+}
+
+static BOOL MNU_JoystickButtonSetupCustom(UserCall call, MenuItem *item)
+{
+    static int currentfunc = 0;
+
+    if (call == uc_touchup)
+            return (TRUE);
+
+    if (cust_callback == NULL) {
+        if (call != uc_setup)
+            return (FALSE);
+
+        if (joystick_button_item->tics & 128) {
+            currentfunc = JoystickButtonsClicked[joystick_button_item->tics & 127];
+        } else {
+            currentfunc = JoystickButtons[joystick_button_item->tics & 127];
+        }
+        currentfunc++;
+
+        cust_callback = MNU_JoystickButtonSetupCustom;
+        cust_callback_call = call;
+        cust_callback_item = item;
+    }
+
+    {
+        short w, h = 0;
+        const char *s = "Joystick Setup";
+
+        rotatesprite(10 << 16, (5-3) << 16, MZ, 0, 2427,
+            m_defshade, 0, MenuDrawFlags|ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
+        MNU_MeasureStringLarge(s, &w, &h);
+        MNU_DrawStringLarge(TEXT_XCENTER(w), 5, s);
+    }
+
+    int selection = MNU_SelectButtonFunction(joystick_button_item->text, &currentfunc);
+    switch (selection) {
+        case -1:    //cancel
+            cust_callback = NULL;
+            break;
+        case 1:     //acknowledge
+            currentfunc--;
+            if (joystick_button_item->tics & 128) {
+                JoystickButtonsClicked[joystick_button_item->tics & 127] = currentfunc;
+                CONTROL_MapButton(currentfunc, joystick_button_item->tics & 127, 1, controldevice_joystick);
+            } else {
+                JoystickButtons[joystick_button_item->tics & 127] = currentfunc;
+                CONTROL_MapButton(currentfunc, joystick_button_item->tics & 127, 0, controldevice_joystick);
+            }
+            MNU_SetJoystickButtonFunctions(joystick_button_item);
+            cust_callback = NULL;
+            break;
+        default: break;
+    }
+
+    return TRUE;
+}
+
+static BOOL MNU_JoystickButtonNextPage(void)
+{
+    JoystickButtonPage = (JoystickButtonPage + 1) % (((joynumbuttons * 2 + (joynumhats > 0) * 4) / JOYSTICKITEMSPERPAGE) + 1);
+    joybuttonssetupgroup.items = &joybuttons_i[JoystickButtonPage][0];
+    joybuttonssetupgroup.cursor = 0;
+    MNU_ItemPreProcess(&joybuttonssetupgroup);
+    return TRUE;
+}
+
+static BOOL MNU_SetJoystickButtonFunctions(MenuItem_p item)
+{
+    int button, clicked, function;
+    char *p;
+
+    clicked = (item->tics & 128) > 0;
+    button = item->tics & 127;
+    ASSERT(button >= 0 && button < MAXJOYBUTTONS);
+
+    if (clicked) {
+        function = JoystickButtonsClicked[button];
+    } else {
+        function = JoystickButtons[button];
+    }
+    if (function < 0) {
+        strcpy(JoystickButtonFunctions[button + clicked*MAXJOYBUTTONS], "  -");
+    } else {
+        strcpy(JoystickButtonFunctions[button + clicked*MAXJOYBUTTONS], CONFIG_FunctionNumToName(function));
+        for (p = JoystickButtonFunctions[button + clicked*MAXJOYBUTTONS]; *p; p++) {
+            if (*p == '_')
+                *p = ' ';
+        }
+    }
+    return TRUE;
+}
+
 
 BOOL 
 MNU_OrderCustom(UserCall call, MenuItem * item)

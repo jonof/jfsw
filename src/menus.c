@@ -249,7 +249,36 @@ MenuGroup mousegroup = {65, 5, "^Mouse", mouse_i, pic_newgametitl, 0, m_defshade
 
 MenuGroup keysetupgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_KeySetupCustom, NULL, 0};
 
-MenuGroup mousesetupgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_MouseSetupCustom, NULL, 0};
+static char MouseButtonFunctions[10][MAXFUNCTIONLENGTH];
+static BOOL MNU_SetMouseButtonFunctions(MenuItem_p item);
+static BOOL MNU_MouseButtonPostProcess(MenuItem_p item);
+static BOOL MNU_MouseButtonSetupCustom(UserCall call, MenuItem_p item);
+MenuGroup mousebuttongroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_MouseButtonSetupCustom, NULL, 0};
+MenuItem mousesetup_i[] =
+    {
+    {DefLayer(0, "Left", &mousebuttongroup),          OPT_XS, OPT_LINE(0), 1, m_defshade, 0,   NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[0]),         OPT_XSIDE, OPT_LINE(0), 1, m_defshade, 0,   NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Double Left", &mousebuttongroup),   OPT_XS, OPT_LINE(1), 1, m_defshade, 6+0, NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[6+0]),       OPT_XSIDE, OPT_LINE(1), 1, m_defshade, 6+0, NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Right", &mousebuttongroup),         OPT_XS, OPT_LINE(2), 1, m_defshade, 1,   NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[1]),         OPT_XSIDE, OPT_LINE(2), 1, m_defshade, 1,   NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Double Right", &mousebuttongroup),  OPT_XS, OPT_LINE(3), 1, m_defshade, 6+1, NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[6+1]),       OPT_XSIDE, OPT_LINE(3), 1, m_defshade, 6+1, NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Middle", &mousebuttongroup),        OPT_XS, OPT_LINE(4), 1, m_defshade, 2,   NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[2]),         OPT_XSIDE, OPT_LINE(4), 1, m_defshade, 2,   NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Double Middle", &mousebuttongroup), OPT_XS, OPT_LINE(5), 1, m_defshade, 6+2, NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[6+2]),       OPT_XSIDE, OPT_LINE(5), 1, m_defshade, 6+2, NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Thumb", &mousebuttongroup),         OPT_XS, OPT_LINE(6), 1, m_defshade, 3,   NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[3]),         OPT_XSIDE, OPT_LINE(6), 1, m_defshade, 3,   NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Double Thumb", &mousebuttongroup),  OPT_XS, OPT_LINE(7), 1, m_defshade, 6+3, NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[6+3]),       OPT_XSIDE, OPT_LINE(7), 1, m_defshade, 6+3, NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Wheel Up", &mousebuttongroup),      OPT_XS, OPT_LINE(8), 1, m_defshade, 4,   NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[4]),         OPT_XSIDE, OPT_LINE(8), 1, m_defshade, 4,   NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Wheel Down", &mousebuttongroup),    OPT_XS, OPT_LINE(9), 1, m_defshade, 5,   NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[5]),         OPT_XSIDE, OPT_LINE(9), 1, m_defshade, 5,   NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefNone}
+    };
+MenuGroup mousesetupgroup = {65, 5, "^Mouse Setup", mousesetup_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
 
 static char AdvancedMouseAxisFunctions[4][MAXAXISFUNCTIONLENGTH] = { "", "", "", "" };
 static BOOL MNU_SetAdvancedMouseFunctions(MenuItem_p item);
@@ -840,12 +869,11 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 
 static int MNU_SelectButtonFunction(const char *buttonname, int *currentfunc)
 {
-#define PGSIZ 9
+    const int PGSIZ = 9;
     const char *strs[] = { "Select the function to assign to", "%s", "or ESCAPE to cancel." };
     int topitem = 0, botitem = NUMGAMEFUNCTIONS-1;
-    int i,j,y;
-    short w,h=0;
-    const char *morestr = "More...";
+    int i, j, y;
+    short w, h=0;
     int returnval = 0;
 
     UserInput inpt = {FALSE,FALSE,dir_None};
@@ -920,28 +948,31 @@ static int MNU_SelectButtonFunction(const char *buttonname, int *currentfunc)
     }
 
     {
-        short dx,dy;
-        dx = 0, dy = 8;
+        short dx = 0, dy = 8;
+        const char *morestr = "More...";
+        
         MNU_MeasureSmallString(morestr,&dx,&dy);
         if (topitem > 0)
             MNU_DrawSmallString(XDIM - OPT_XS - dx, OPT_LINE(4), morestr, 8,16);
         if (botitem < NUMGAMEFUNCTIONS-1)
             MNU_DrawSmallString(XDIM - OPT_XS - dx, OPT_LINE(4)+PGSIZ*8, morestr, 8,16);
     }
-#undef PGSIZ
 
     return returnval;
 }
 
-BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item)
+
+static MenuItem_p mouse_button_item = NULL;
+
+static BOOL MNU_MouseButtonPostProcess(MenuItem_p item)
 {
-    static int currentbut = 0, currentmode = 0, currentfunc = 0;
-    static char currentbutname[64];
-    const char *colnames[2] = { "", "Double " };
-    const char *butnames[6] = { "Left", "Right", "Middle", "Thumb", "Wheel Down", "Wheel Up" };
-    int i;
-#define FIRSTWHEEL 8
-#define NUMBUTS (FIRSTWHEEL+2)
+    mouse_button_item = item;
+    return TRUE;
+}
+
+BOOL MNU_MouseButtonSetupCustom(UserCall call, MenuItem_p item)
+{
+    static int currentfunc = 0;
 
     if (call == uc_touchup)
             return (TRUE);
@@ -949,11 +980,14 @@ BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item)
     if (cust_callback == NULL) {
         if (call != uc_setup)
             return (FALSE);
-        currentbut = 0;
-        currentmode = 0;
-        currentfunc = 0;
+        if (mouse_button_item->tics >= 6) {
+            currentfunc = MouseButtonsClicked[mouse_button_item->tics % 6];
+        } else {
+            currentfunc = MouseButtons[mouse_button_item->tics % 6];
+        }
+        currentfunc++;
 
-        cust_callback = MNU_MouseSetupCustom;
+        cust_callback = MNU_MouseButtonSetupCustom;
         cust_callback_call = call;
         cust_callback_item = item;
     }
@@ -961,122 +995,63 @@ BOOL MNU_MouseSetupCustom(UserCall call, MenuItem *item)
     {
         short w, h = 0;
         const char *s = "Mouse Setup";
+
         rotatesprite(10 << 16, (5-3) << 16, MZ, 0, 2427,
             m_defshade, 0, MenuDrawFlags|ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
         MNU_MeasureStringLarge(s, &w, &h);
         MNU_DrawStringLarge(TEXT_XCENTER(w), 5, s);
     }
 
-    if (currentmode) {
-        // customising a button
-        int selection = MNU_SelectButtonFunction(currentbutname, &currentfunc);
-        switch (selection) {
-            case -1:    //cancel
-                currentmode = 0;
-                break;
-            case 1:     //acknowledge
-                currentfunc--;
-                if (currentbut < FIRSTWHEEL) {
-                    if (currentbut % 2) {
-                        MouseButtonsClicked[currentbut/2] = currentfunc;
-                        CONTROL_MapButton(currentfunc, currentbut/2, 1, controldevice_mouse);
-                    } else {
-                        MouseButtons[currentbut/2] = currentfunc;
-                        CONTROL_MapButton(currentfunc, currentbut/2, 0, controldevice_mouse);
-                    }
-                } else {
-                    MouseButtons[currentbut-FIRSTWHEEL/2] = currentfunc;
-                    CONTROL_MapButton(currentfunc, currentbut-FIRSTWHEEL/2, 0, controldevice_mouse);
-                }
-                currentmode = 0;
-                break;
-            default: break;
-        }
-    } else {
-        // button list
-        int i,j;
-        const char *morestr = "More...";
-        const char *p;
-
-        UserInput inpt = {FALSE,FALSE,dir_None};
-        CONTROL_GetUserInput(&inpt);
-
-        if (inpt.button1) {
+    int selection = MNU_SelectButtonFunction(mouse_button_item->text, &currentfunc);
+    switch (selection) {
+        case -1:    //cancel
             cust_callback = NULL;
-            CONTROL_ClearUserInput(&inpt);
-            return TRUE;
-        }
-        else if (KB_KeyPressed(sc_Delete)) {
-            KB_ClearKeyDown(sc_Delete);
-            if (currentbut < FIRSTWHEEL) {
-                if (currentbut % 2) {
-                    MouseButtonsClicked[currentbut/2] = -1;
-                    CONTROL_MapButton(-1, currentbut/2, 1, controldevice_mouse);
-                } else {
-                    MouseButtons[currentbut/2] = -1;
-                    CONTROL_MapButton(-1, currentbut/2, 0, controldevice_mouse);
-                }
+            break;
+        case 1:     //acknowledge
+            currentfunc--;
+            if (mouse_button_item->tics >= 6) {
+                MouseButtonsClicked[mouse_button_item->tics % 6] = currentfunc;
+                CONTROL_MapButton(currentfunc, mouse_button_item->tics % 6, 1, controldevice_mouse);
             } else {
-                MouseButtons[currentbut-FIRSTWHEEL/2] = -1;
-                CONTROL_MapButton(-1, currentbut-FIRSTWHEEL/2, 0, controldevice_mouse);
+                MouseButtons[mouse_button_item->tics % 6] = currentfunc;
+                CONTROL_MapButton(currentfunc, mouse_button_item->tics % 6, 0, controldevice_mouse);
             }
-        }
-        else if (KB_KeyPressed(sc_Home) || KB_KeyPressed(sc_PgUp)) {
-            currentbut = 0;
-            KB_ClearKeyDown(sc_Home);
-            KB_ClearKeyDown(sc_PgUp);
-        }
-        else if (KB_KeyPressed(sc_End) || KB_KeyPressed(sc_PgDn)) {
-            currentbut = NUMBUTS-1;
-            KB_ClearKeyDown(sc_End);
-            KB_ClearKeyDown(sc_PgDn);
-        }
-        else if (inpt.button0) {
-            currentmode = 1;
-            sprintf(currentbutname, "%s%s",
-                colnames[currentbut<FIRSTWHEEL ? currentbut%2 : 0],
-                butnames[currentbut<FIRSTWHEEL ? currentbut/2 : currentbut-FIRSTWHEEL/2]);
-            if (currentbut < FIRSTWHEEL) {
-                if (currentbut % 2) {
-                    currentfunc = MouseButtonsClicked[currentbut/2];
-                } else {
-                    currentfunc = MouseButtons[currentbut/2];
-                }
-            } else {
-                currentfunc = MouseButtons[currentbut-FIRSTWHEEL/2];
-            }
-            currentfunc++;  // 0 is 'none' to the option selector
-            KB_ClearLastScanCode();
-            KB_ClearKeysDown();
-        }
-        else if (inpt.dir == dir_North) currentbut = max(0,currentbut-1);
-        else if (inpt.dir == dir_South) currentbut = min(NUMBUTS-1,currentbut+1);
-
-        CONTROL_ClearUserInput(&inpt);
-
-        for (i = 0; i < NUMBUTS; i++) {
-            int x = i<FIRSTWHEEL ? i%2 : 0, y = i<FIRSTWHEEL ? i/2 : i-FIRSTWHEEL/2;
-            sprintf(ds, "%s%s", colnames[x], butnames[y]);
-
-            j = OPT_LINE(0)+i*8;
-            MNU_DrawSmallString(OPT_XS*2, j, ds, (i==currentbut)?0:12, 16);
-
-            if (x) {
-                p = MouseButtonsClicked[y] < 0 ? "  -" : gamefunctions[MouseButtonsClicked[y]];
-            } else {
-                p = MouseButtons[y] < 0 ? "  -" : gamefunctions[MouseButtons[y]];
-            }
-            for (x=0; p[x]; x++) ds[x] = (p[x] == '_' ? ' ' : p[x]);
-            ds[x] = 0;
-            MNU_DrawSmallString(OPT_XSIDE, j, ds, (i==currentbut)?-5:12,
-                    (i==currentbut) ? 14:16);
-        }
+            MNU_SetMouseButtonFunctions(mouse_button_item);
+            cust_callback = NULL;
+            break;
+        default: break;
     }
 
-#undef FIRSTWHEEL
-#undef NUMBUTS
-    return (TRUE);
+    return TRUE;
 }
+
+static BOOL MNU_SetMouseButtonFunctions(MenuItem_p item)
+{
+    int button, clicked, function;
+    char *p;
+
+    clicked = item->tics >= 6;
+    button = item->tics % 6;
+    ASSERT(button >= 0 && button <= 5);
+
+    if (clicked) {
+        function = MouseButtonsClicked[button];
+    } else {
+        function = MouseButtons[button];
+    }
+
+    if (function < 0) {
+        strcpy(MouseButtonFunctions[item->tics], "  -");
+    } else {
+        strcpy(MouseButtonFunctions[item->tics], CONFIG_FunctionNumToName(function));
+        for (p = MouseButtonFunctions[item->tics]; *p; p++) {
+            if (*p == '_')
+                *p = ' ';
+        }
+    }
+    return TRUE;
+}
+
 
 static MenuItem_p mouse_digital_item = NULL;
 
@@ -1107,6 +1082,7 @@ static BOOL MNU_MouseDigitalSetupCustom(UserCall call, MenuItem_p item)
     {
         short w, h = 0;
         const char *s = "Adv'd Mouse";
+
         rotatesprite(10 << 16, (5-3) << 16, MZ, 0, 2427,
             m_defshade, 0, MenuDrawFlags|ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
         MNU_MeasureStringLarge(s, &w, &h);

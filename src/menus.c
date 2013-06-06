@@ -299,6 +299,43 @@ MenuItem joybuttons_i[MAXJOYSTICKBUTTONPAGES][JOYSTICKITEMSPERPAGE*2+3] =    // 
     };
 MenuGroup joybuttonssetupgroup = {65, 5, "^Joystick Setup", NULL, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
 
+static char JoystickAxisName[64];
+static char JoystickAxisPageName[64];
+static char JoystickAxisFunctions[2][MAXFUNCTIONLENGTH];
+static int JoystickAxisPage = 0;
+static BOOL MNU_JoystickAxesInitialise(MenuItem_p item);
+static BOOL MNU_SetJoystickAxisFunctions(MenuItem_p item);
+static BOOL MNU_JoystickAxisPostProcess(MenuItem_p item);
+static BOOL MNU_JoystickAxisSetupCustom(UserCall call, MenuItem_p item);
+static BOOL MNU_JoystickAxisNextPage(void);
+MenuGroup joyaxesgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_JoystickAxisSetupCustom, NULL, 0};
+MenuItem joyaxes_i[] =
+    {
+    {DefInert(0, JoystickAxisName), OPT_XS, OPT_LINE(0), 1, MENU_SHADE_INACTIVE, 0, NULL, NULL, NULL},
+
+    {DefSlider(sldr_joyaxisscale, 0, "Axis Scale"),     OPT_XS, OPT_LINE(2), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefInert(0, NULL),                              OPT_XSIDE, OPT_LINE(2), 0, m_defshade, 0, NULL, NULL, NULL},
+   
+    {DefSlider(sldr_joyaxisanalog, 0, "Analog"),        OPT_XS, OPT_LINE(4), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefInert(0, NULL),                              OPT_XSIDE, OPT_LINE(4), 0, m_defshade, 0, NULL, NULL, NULL},
+    {DefLayer(0, "Digital +ve", &joyaxesgroup),         OPT_XS, OPT_LINE(5), 1, m_defshade, 1, NULL, NULL, MNU_JoystickAxisPostProcess},
+    {DefInert(0, JoystickAxisFunctions[1]),          OPT_XSIDE, OPT_LINE(5), 1, m_defshade, 1, NULL, MNU_SetJoystickAxisFunctions, NULL},
+    {DefLayer(0, "Digital -ve", &joyaxesgroup),         OPT_XS, OPT_LINE(6), 1, m_defshade, 0, NULL, NULL, MNU_JoystickAxisPostProcess},
+    {DefInert(0, JoystickAxisFunctions[0]),          OPT_XSIDE, OPT_LINE(6), 1, m_defshade, 0, NULL, MNU_SetJoystickAxisFunctions, NULL},
+
+    {DefSlider(sldr_joyaxisdead, 0, "Dead Zone"),       OPT_XS, OPT_LINE(8), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefInert(0, NULL),                              OPT_XSIDE, OPT_LINE(8), 0, m_defshade, 0, NULL, NULL, NULL},
+    {DefSlider(sldr_joyaxissatur, 0, "Saturate"),       OPT_XS, OPT_LINE(9), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefInert(0, NULL),                              OPT_XSIDE, OPT_LINE(9), 0, m_defshade, 0, NULL, NULL, NULL},
+
+    {DefInert(0, JoystickAxisPageName),                 OPT_XS, OPT_LINE(11), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefOption(0, "Next..."),                        OPT_XSIDE, OPT_LINE(11), 1, m_defshade, 0, MNU_JoystickAxisNextPage, NULL, NULL},
+
+    {DefNone},
+    };
+MenuGroup joyaxessetupgroup = {65, 5, "^Joystick Axes", joyaxes_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 1};
+
+
 static char AdvancedMouseAxisFunctions[4][MAXAXISFUNCTIONLENGTH] = { "", "", "", "" };
 static BOOL MNU_SetAdvancedMouseFunctions(MenuItem_p item);
 static BOOL MNU_MouseDigitalPostProcess(MenuItem_p item);
@@ -327,8 +364,8 @@ MenuItem inputsetup_i[] =
     {DefLayer(0, "Keys Setup", &keysetupgroup),OPT_XS,                 OPT_LINE(0),1,m_defshade,0,NULL,NULL,NULL},
     {DefLayer(0, "Mouse Setup", &mousesetupgroup),OPT_XS,              OPT_LINE(1),1,m_defshade,0,NULL,NULL,NULL},
     {DefLayer(0, "Joystick Buttons Setup", &joybuttonssetupgroup),OPT_XS,OPT_LINE(2),1,m_defshade,0,NULL,NULL,MNU_JoystickButtonsInitialise},
-    {DefLayer(0, "Advanced Mouse Setup", &mouseadvancedgroup),OPT_XS,  OPT_LINE(4),1,m_defshade,0,NULL,NULL,NULL},
-    {DefDisabled(0, "Advanced Joystick Setup", &keysetupgroup),OPT_XS, OPT_LINE(5),1,m_defshade,0,NULL,NULL,NULL},
+    {DefLayer(0, "Joystick Axes Setup", &joyaxessetupgroup), OPT_XS,   OPT_LINE(3),1,m_defshade,0,NULL,NULL,MNU_JoystickAxesInitialise},
+    {DefLayer(0, "Advanced Mouse Setup", &mouseadvancedgroup),OPT_XS,  OPT_LINE(5),1,m_defshade,0,NULL,NULL,NULL},
     {DefOption(0, "Apply Modern Defaults"), OPT_XS,                    OPT_LINE(7),1,m_defshade,0,MNU_LoadModernDefaults,NULL,NULL},
     {DefOption(0, "Apply Classic Defaults"), OPT_XS,                   OPT_LINE(8),1,m_defshade,0,MNU_LoadClassicDefaults,NULL,NULL},
     {DefNone}
@@ -528,6 +565,9 @@ VOID LoadSaveMsg(char *msg);
 static VOID MNU_ItemPreProcess(MenuGroup *group);
 static void MNU_SelectItem(MenuGroup * group, short index, BOOL draw);
 static void MNU_PushItem(MenuItem * item, BOOL draw);
+
+static int MNU_ControlAxisOffset(int num);
+static int MNU_ControlAxisNum(int offset);
 
 
 // F U N C T I O N S ////////////////////////////////////////////////////////////////////////////
@@ -1351,6 +1391,105 @@ static BOOL MNU_SetJoystickButtonFunctions(MenuItem_p item)
 }
 
 
+static MenuItem_p joystick_axis_item = NULL;
+
+static BOOL MNU_JoystickAxesInitialise(MenuItem_p mitem)
+{
+    if (JoystickAxisPage < 0 || JoystickAxisPage >= joynumaxes) {
+        JoystickAxisPage = 0;
+    }
+
+    strcpy(JoystickAxisName, getjoyname(0, JoystickAxisPage));
+    sprintf(JoystickAxisPageName, "Page %d / %d", JoystickAxisPage+1, joynumaxes);
+    slidersettings[sldr_joyaxisanalog] = MNU_ControlAxisOffset(JoystickAnalogAxes[JoystickAxisPage]);
+    slidersettings[sldr_joyaxisscale] = JoystickAnalogScale[JoystickAxisPage] >> 13;
+    slidersettings[sldr_joyaxisdead] = JoystickAnalogDead[JoystickAxisPage] >> 10;
+    slidersettings[sldr_joyaxissatur] = JoystickAnalogSaturate[JoystickAxisPage] >> 10;
+
+    return TRUE;
+}
+
+static BOOL MNU_JoystickAxisPostProcess(MenuItem_p item)
+{
+    joystick_axis_item = item;
+    return TRUE;
+}
+
+static BOOL MNU_JoystickAxisSetupCustom(UserCall call, MenuItem *item)
+{
+    static int currentfunc = 0;
+
+    if (call == uc_touchup)
+            return (TRUE);
+
+    if (cust_callback == NULL) {
+        if (call != uc_setup)
+            return (FALSE);
+
+        currentfunc = JoystickDigitalAxes[JoystickAxisPage][joystick_axis_item->tics];
+        currentfunc++;
+
+        cust_callback = MNU_JoystickAxisSetupCustom;
+        cust_callback_call = call;
+        cust_callback_item = item;
+    }
+
+    {
+        short w, h = 0;
+        const char *s = "Joystick Axes";
+
+        rotatesprite(10 << 16, (5-3) << 16, MZ, 0, 2427,
+            m_defshade, 0, MenuDrawFlags|ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
+        MNU_MeasureStringLarge(s, &w, &h);
+        MNU_DrawStringLarge(TEXT_XCENTER(w), 5, s);
+    }
+
+    int selection = MNU_SelectButtonFunction(joystick_axis_item->text, &currentfunc);
+    switch (selection) {
+        case -1:    //cancel
+            cust_callback = NULL;
+            break;
+        case 1:     //acknowledge
+            currentfunc--;
+            JoystickDigitalAxes[JoystickAxisPage][joystick_axis_item->tics] = currentfunc;
+            CONTROL_MapDigitalAxis(JoystickAxisPage, currentfunc, joystick_axis_item->tics, controldevice_joystick);
+            MNU_SetJoystickAxisFunctions(joystick_axis_item);
+            cust_callback = NULL;
+            break;
+        default: break;
+    }
+
+    return TRUE;
+}
+
+static BOOL MNU_JoystickAxisNextPage(void)
+{
+    JoystickAxisPage = (JoystickAxisPage + 1) % MNU_ControlAxisOffset(analog_maxtype);
+    joyaxessetupgroup.cursor = 1;
+    MNU_ItemPreProcess(&joyaxessetupgroup);
+    MNU_JoystickAxesInitialise(NULL);
+    return TRUE;
+}
+
+static BOOL MNU_SetJoystickAxisFunctions(MenuItem_p item)
+{
+    int function;
+    char *p;
+
+    function = JoystickDigitalAxes[JoystickAxisPage][item->tics];
+    if (function < 0) {
+        strcpy(JoystickAxisFunctions[item->tics], "  -");
+    } else {
+        strcpy(JoystickAxisFunctions[item->tics], CONFIG_FunctionNumToName(function));
+        for (p = JoystickAxisFunctions[item->tics]; *p; p++) {
+            if (*p == '_')
+                *p = ' ';
+        }
+    }
+    return TRUE;
+}
+
+
 BOOL 
 MNU_OrderCustom(UserCall call, MenuItem * item)
     {
@@ -2009,6 +2148,11 @@ MNU_InitMenus(void)
 
     slidersettings[sldr_mousescalex] = MouseAnalogScale[0]>>13;
     slidersettings[sldr_mousescaley] = MouseAnalogScale[1]>>13;
+
+    slidersettings[sldr_joyaxisscale] = 0;
+    slidersettings[sldr_joyaxisanalog] = 0;
+    slidersettings[sldr_joyaxisdead] = 0;
+    slidersettings[sldr_joyaxissatur] = 0;
 
     // Distinguish between Single or Multiplay for new game menu types
     if(numplayers > 1)
@@ -3650,7 +3794,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     case sldr_mousescalex:
     case sldr_mousescaley:
         barwidth = 8+1+8;
-        offset = slidersettings[item->slider] += dir;
+        offset = slidersettings[item->slider] + dir;
         
         if (TEST(item->flags, mf_disabled))
             break;
@@ -3666,7 +3810,85 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
             }        
 
         sprintf(tmp_text, "%.2f", (float)(slidersettings[item->slider]<<13) / 65535.f);
-        MNU_DrawString(OPT_XSIDE+tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+barwidth*tilesizx[pic_slidebar]-4, item->y, tmp_text, 1, 16);
+        MNU_DrawSmallString(OPT_XSIDE+tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(MAX_SLDR_WIDTH+1)*tilesizx[pic_slidebar], item->y+4, tmp_text, 1, 16);
+        break;
+
+    case sldr_joyaxisscale:
+        barwidth = 8+1+8;
+        offset = slidersettings[item->slider] + dir;
+
+        if (TEST(item->flags, mf_disabled))
+            break;
+
+        offset = max(offset, 0);
+        offset = min(offset, barwidth-1);
+
+        if (slidersettings[item->slider] != offset)
+            {
+            slidersettings[item->slider] = offset;
+            JoystickAnalogScale[JoystickAxisPage] = offset<<13;
+            CONTROL_SetAnalogAxisScale(JoystickAxisPage, offset<<13, controldevice_joystick);
+            }        
+
+        sprintf(tmp_text, "%.2f", (float)(slidersettings[item->slider]<<13) / 65535.f);
+        MNU_DrawSmallString(OPT_XSIDE+tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(MAX_SLDR_WIDTH+1)*tilesizx[pic_slidebar], item->y+4, tmp_text, 1, 16);
+        break;
+
+    case sldr_joyaxisanalog:
+        {
+        const char *p;
+
+        barwidth = MNU_ControlAxisOffset(analog_maxtype);
+        offset = slidersettings[item->slider] + dir;
+
+        if (TEST(item->flags, mf_disabled))
+            break;
+
+        offset = max(offset, 0);
+        offset = min(offset, barwidth-1);
+
+        if (slidersettings[item->slider] != offset)
+            {
+            slidersettings[item->slider] = offset;
+            JoystickAnalogAxes[JoystickAxisPage] = MNU_ControlAxisNum(offset);
+            CONTROL_MapAnalogAxis(JoystickAxisPage, MNU_ControlAxisNum(offset), controldevice_joystick);
+            }        
+
+        p = CONFIG_AnalogNumToName(MNU_ControlAxisNum(offset));
+        while (*p != 0 && *p != '_') p++;
+        if (*p == '_') p++;
+        MNU_DrawSmallString(OPT_XSIDE+tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(barwidth+1)*tilesizx[pic_slidebar], item->y+4, p, 1, 16);
+        }
+        break;
+
+    case sldr_joyaxisdead:
+    case sldr_joyaxissatur:
+        barwidth = (32768>>10)+1;
+        offset = slidersettings[item->slider] + dir;
+
+        if (TEST(item->flags, mf_disabled))
+            break;
+
+        offset = max(offset, 0);
+        offset = min(offset, barwidth-1);
+
+        if (slidersettings[item->slider] != offset)
+            {
+            slidersettings[item->slider] = offset;
+            if (item->slider == sldr_joyaxisdead)
+                {
+                JoystickAnalogDead[JoystickAxisPage] = min((offset<<10), 32767);
+                CONTROL_SetJoyAxisDead(JoystickAxisPage, JoystickAnalogDead[JoystickAxisPage]);
+                }
+            else
+                {
+                JoystickAnalogSaturate[JoystickAxisPage] = min((offset<<10), 32767);
+                CONTROL_SetJoyAxisSaturate(JoystickAxisPage, JoystickAnalogSaturate[JoystickAxisPage]);
+                }
+            }        
+
+        sprintf(tmp_text, "%.2f%%", (float)(slidersettings[item->slider]<<10) / 32767.f);
+        MNU_DrawSmallString(OPT_XSIDE+tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(MAX_SLDR_WIDTH+1)*tilesizx[pic_slidebar], item->y+4, tmp_text, 1, 16);
         break;
 
     default:
@@ -4434,6 +4656,29 @@ MNU_CheckForMenusAnyKey(void)
             }
         }
     }
+
+static int MNU_ControlAxisOffset(int num)
+{
+    switch (num) {
+        case analog_turning: return 0;
+        case analog_strafing: return 1;
+        case analog_moving: return 2;
+        case analog_lookingupanddown: return 3;
+        case analog_maxtype: return 4;
+        default: return 0;
+    }
+}
+
+static int MNU_ControlAxisNum(int offset)
+{
+    switch (offset) {
+        case 0: return analog_turning;
+        case 1: return analog_strafing;
+        case 2: return analog_moving;
+        case 3: return analog_lookingupanddown;
+        default: return analog_turning;
+    }
+}
 
 
 

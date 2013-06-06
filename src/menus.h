@@ -178,6 +178,7 @@ typedef enum
     sldr_bordertile, sldr_gametype, sldr_netlevel, sldr_monsters, sldr_killlimit,
     sldr_timelimit, sldr_playercolor, sldr_videores, sldr_videobpp,
     sldr_mousescalex, sldr_mousescaley,
+    sldr_joyaxisscale, sldr_joyaxisanalog, sldr_joyaxisdead, sldr_joyaxissatur,
     sldr_max
     } SLDRType;
 

@@ -3446,12 +3446,20 @@ int app_main(int argc, char const * const argv[])
     ULONG TotalMemory;
 
     for (i=1;i<argc;i++) {
-    if (argv[i][0] != '-' && argv[i][0] != '/') continue;
-    if (!Bstrcasecmp(argv[i]+1, "setup")) CommandSetup = TRUE;
-    else if (!Bstrcasecmp(argv[i]+1, "?")) {
-        CommandLineHelp();
-        return(0);
-    }
+        if (argv[i][0] != '-'
+#ifdef _WIN32
+            && argv[i][0] != '/'
+#endif
+            ) {
+            continue;
+        }
+        if (!Bstrcasecmp(argv[i]+1, "setup")) {
+            CommandSetup = TRUE;
+        }
+        else if (!Bstrcasecmp(argv[i]+1, "?")) {
+            CommandLineHelp();
+            return(0);
+        }
     }
 
 #ifdef RENDERTYPEWIN
@@ -3465,36 +3473,61 @@ int app_main(int argc, char const * const argv[])
 #if defined(__linux) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
     addsearchpath("/usr/share/games/jfsw");
     addsearchpath("/usr/local/share/games/jfsw");
-#elif defined(__APPLE__)
-    addsearchpath("/Library/Application Support/JFShadowWarrior");
 #endif
+
+    {
+        char *supportdir = Bgetsupportdir(TRUE);
+        char *appdir = Bgetappdir();
+        char dirpath[BMAX_PATH+1];
+
+        // the OSX app bundle, or on Windows the directory where the EXE was launched
+        if (appdir) {
+            addsearchpath(appdir);
+            free(appdir);
+        }
+        
+        // the global support files directory
+        if (supportdir) {
+            Bsnprintf(dirpath, sizeof(dirpath), "%s/JFShadowWarrior", supportdir);
+            addsearchpath(dirpath);
+            free(supportdir);
+        }
+    }
     
     // default behaviour is to write to the user profile directory, but
-    // creating a 'user_profiles_disabled' file makes the installation "portable"
-    if (access("user_profiles_disabled", F_OK) != 0) {
-        char cwd[BMAX_PATH];
-        char *homedir;
+    // creating a 'user_profiles_disabled' file in the current working
+    // directory where the game was launched makes the installation
+    // "portable" by writing into the working directory
+    if (access("user_profiles_disabled", F_OK) == 0) {
+        char cwd[BMAX_PATH+1];
+        if (getcwd(cwd, sizeof(cwd))) {
+            addsearchpath(cwd);
+        }
+    } else {
+        char *supportdir;
+        char dirpath[BMAX_PATH+1];
         int asperr;
-
-        if (getcwd(cwd,BMAX_PATH)) addsearchpath(cwd);
-        if ((homedir = Bgethomedir())) {
-            Bsnprintf(cwd,sizeof(cwd),"%s/"
-#if defined(_WIN32)
+        
+        if ((supportdir = Bgetsupportdir(FALSE))) {
+            Bsnprintf(dirpath, sizeof(dirpath), "%s/"
+#if defined(_WIN32) || defined(__APPLE__)
                 "JFShadowWarrior"
-#elif defined(__APPLE__)
-                "Library/Application Support/JFShadowWarrior"
 #else
                 ".jfsw"
 #endif
-            ,homedir);
-            asperr = addsearchpath(cwd);
+            , supportdir);
+            asperr = addsearchpath(dirpath);
             if (asperr == -2) {
-                if (Bmkdir(cwd,S_IRWXU) == 0) asperr = addsearchpath(cwd);
-                else asperr = -1;
+                if (Bmkdir(dirpath, S_IRWXU) == 0) {
+                    asperr = addsearchpath(dirpath);
+                } else {
+                    asperr = -1;
+                }
             }
-            if (asperr == 0)
-                chdir(cwd);
-            free(homedir);
+            if (asperr == 0) {
+                chdir(dirpath);
+            }
+            free(supportdir);
         }
     }
     

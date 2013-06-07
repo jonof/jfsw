@@ -294,6 +294,7 @@ BOOL MNU_MusicFxCheck(MenuItem_p item);
 BOOL MNU_MusicCheck(MenuItem_p item);
 BOOL MNU_FxCheck(MenuItem_p item);
 BOOL MNU_MouseCheck(MenuItem_p item);
+BOOL MNU_JoystickCheck(MenuItem_p item);
 BOOL MNU_BorderCheck(MenuItem_p item);
 BOOL MNU_ShareWareCheck(MenuItem_p item);
 BOOL MNU_MenuLevelCheck(MenuItem_p item);

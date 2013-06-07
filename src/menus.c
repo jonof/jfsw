@@ -363,8 +363,8 @@ MenuItem inputsetup_i[] =
     {
     {DefLayer(0, "Keys Setup", &keysetupgroup),OPT_XS,                 OPT_LINE(0),1,m_defshade,0,NULL,NULL,NULL},
     {DefLayer(0, "Mouse Setup", &mousesetupgroup),OPT_XS,              OPT_LINE(1),1,m_defshade,0,NULL,NULL,NULL},
-    {DefLayer(0, "Joystick Buttons Setup", &joybuttonssetupgroup),OPT_XS,OPT_LINE(2),1,m_defshade,0,NULL,NULL,MNU_JoystickButtonsInitialise},
-    {DefLayer(0, "Joystick Axes Setup", &joyaxessetupgroup), OPT_XS,   OPT_LINE(3),1,m_defshade,0,NULL,NULL,MNU_JoystickAxesInitialise},
+    {DefLayer(0, "Joystick Buttons Setup", &joybuttonssetupgroup),OPT_XS,OPT_LINE(2),1,m_defshade,0,NULL,MNU_JoystickCheck,MNU_JoystickButtonsInitialise},
+    {DefLayer(0, "Joystick Axes Setup", &joyaxessetupgroup), OPT_XS,   OPT_LINE(3),1,m_defshade,0,NULL,MNU_JoystickCheck,MNU_JoystickAxesInitialise},
     {DefLayer(0, "Advanced Mouse Setup", &mouseadvancedgroup),OPT_XS,  OPT_LINE(5),1,m_defshade,0,NULL,NULL,NULL},
     {DefOption(0, "Apply Modern Defaults"), OPT_XS,                    OPT_LINE(7),1,m_defshade,0,MNU_LoadModernDefaults,NULL,NULL},
     {DefOption(0, "Apply Classic Defaults"), OPT_XS,                   OPT_LINE(8),1,m_defshade,0,MNU_LoadClassicDefaults,NULL,NULL},
@@ -1395,6 +1395,9 @@ static MenuItem_p joystick_axis_item = NULL;
 
 static BOOL MNU_JoystickAxesInitialise(MenuItem_p mitem)
 {
+    if (!CONTROL_JoyPresent) {
+        return TRUE;
+    }
     if (JoystickAxisPage < 0 || JoystickAxisPage >= joynumaxes) {
         JoystickAxisPage = 0;
     }
@@ -3141,6 +3144,21 @@ BOOL
 MNU_MouseCheck(MenuItem *item)
     {
     if (!CONTROL_MousePresent)
+        {
+        SET(item->flags, mf_disabled);
+        }
+    else
+        {
+        RESET(item->flags, mf_disabled);
+        }    
+        
+    return (TRUE);
+    }
+
+BOOL
+MNU_JoystickCheck(MenuItem *item)
+    {
+    if (!CONTROL_JoyPresent)
         {
         SET(item->flags, mf_disabled);
         }
@@ -5181,4 +5199,5 @@ VOID ResetPalette(PLAYERp pp)
     }
 
 // vim:ts=4:sw=4:enc=utf-8:
+
 

@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="35"/>
+			<integer value="23"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -36,7 +36,7 @@
 			<object class="NSWindowTemplate" id="345170021">
 				<int key="NSWindowStyleMask">5</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{414, 203}, {483, 280}}</string>
+				<string key="NSWindowRect">{{720, 617}, {483, 280}}</string>
 				<int key="NSWTFlags">813170688</int>
 				<string key="NSWindowTitle">Startup</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -700,7 +700,7 @@
 														<reference key="NSDocView" ref="708234391"/>
 														<reference key="NSBGColor" ref="266277826"/>
 														<object class="NSCursor" key="NSCursor">
-															<string key="NSHotSpot">{4, 4}</string>
+															<string key="NSHotSpot">{1, -1}</string>
 															<int key="NSCursorType">0</int>
 														</object>
 														<int key="NScvFlags">4</int>
@@ -803,7 +803,7 @@
 					<string key="NSFrameSize">{483, 280}</string>
 					<reference key="NSSuperview"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{213, 129}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
 			</object>
@@ -1554,9 +1554,9 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{349, 446}, {483, 280}}</string>
+					<string>{{720, 617}, {483, 280}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{349, 446}, {483, 280}}</string>
+					<string>{{720, 617}, {483, 280}}</string>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
 					<string>{213, 107}</string>

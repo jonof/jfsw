@@ -387,6 +387,33 @@ VOID DrawBorder(PLAYERp pp, short x, short y, short x2, short y2)
         }
     }    
 
+VOID DrawPanelBorderSides(PLAYERp pp, short x, short y, short x2, short y2, short panl, short panr)
+    {
+    short i,j,k,l;
+    short count = 0;
+    
+    for (i = 0; i < xdim; i += tilesizx[BORDER_TILE])
+        {
+        for (j = 0; j < ydim; j += tilesizy[BORDER_TILE])
+            {
+            k = i + tilesizx[BORDER_TILE];
+            l = j + tilesizy[BORDER_TILE];
+            
+            if (RectOverlap(i, j, k, l, x, y, panl, y2))
+                {
+                pSpawnFullScreenSpriteBox(pp, ID_PANEL_BORDER_LEFT, BORDER_TILE, PRI_BACK, i, j, x, y, panl, y2);
+                count++;
+                }
+                
+            if (RectOverlap(i, j, k, l, panr, y, x2, y2))
+                {
+                pSpawnFullScreenSpriteBox(pp, ID_PANEL_BORDER_RIGHT, BORDER_TILE, PRI_BACK, i, j, panr, y, x2, y2);
+                count++;
+                }
+            }
+        }
+    }
+
 static 
 VOID BorderSetView(PLAYERp UNUSED(pp), int *Xdim, int *Ydim, int *ScreenSize)
     {
@@ -450,32 +477,29 @@ BorderRefresh(PLAYERp pp)
     // the whole screen
     // minus the border if necessary
 
-    // set full window size - account for panel size
-    x = 0;
-    y = 0;
-    x2 = xdim;
-    y2 = ydim;
-
-    // fill in the sides of the status bar
-    if (gs.BorderNum == BORDER_BAR)
+    // fill in the sides of the panel when the screen is wide
+    if (gs.BorderNum >= BORDER_BAR && widescreen)
         {
-        y = ydim - b->Ydim - 1;
-
-        pKillScreenSpiteIDs(pp, ID_BORDER_SHADE);
-
-        DrawBorder(pp, x, y, x2, y2);
-        return;
+        int sidew = (xdim - scale(320, ydim, mulscale16(200, pixelaspect))) / 2;
+        
+        x = 0;
+        x2 = xdim - 1;
+        
+        y = ydim - (Y_TO_FIXED(b->Ydim) >> 16);
+        y2 = ydim - 1;
+        
+        DrawPanelBorderSides(pp, x, y, x2, y2, sidew, xdim-sidew);
         }
-
+        
     // only need a border if border is > BORDER_BAR
     if (gs.BorderNum > BORDER_BAR)
         {
         // make sure that these values dont go out of bound - which they do
-        x = max(x, 0);
-        x2 = min(x2, xdim - 1);
+        x = 0;
+        x2 = xdim - 1;
 
-        y = max(y, 0);
-        y2 = min(y2, ydim - 1);
+        y = 0;
+        y2 = ydim - (Y_TO_FIXED(b->Ydim) >> 16) - 1;
 
         DrawBorder(pp, x, y, x2, y2);
 

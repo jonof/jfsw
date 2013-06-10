@@ -22,7 +22,7 @@
 #include "types.h"
 #include "build.h"
 #include "baselayer.h"
-#include "startdlg.h"
+#include "grpscan.h"
 
 #define TAB_CONFIG 0
 #define TAB_GAME 1

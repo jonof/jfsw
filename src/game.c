@@ -3481,6 +3481,7 @@ int app_main(int argc, char const * const argv[])
         char dirpath[BMAX_PATH+1];
 
         // the OSX app bundle, or on Windows the directory where the EXE was launched
+        // on Linux/*BSD directory of the executable
         if (appdir) {
             addsearchpath(appdir);
             free(appdir);

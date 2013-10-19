@@ -3470,9 +3470,13 @@ int app_main(int argc, char const * const argv[])
     }
 #endif
 
-#if defined(__linux) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
-    addsearchpath("/usr/share/games/jfsw");
-    addsearchpath("/usr/local/share/games/jfsw");
+#if defined(PREFIX)
+    {
+        const char *prefixdir = PREFIX;
+        if (prefixdir && prefixdir[0]) {
+            addsearchpath(prefixdir);
+        }
+    }
 #endif
 
     {

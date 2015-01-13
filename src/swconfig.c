@@ -115,10 +115,10 @@ void ReadGameSetup( int32 scripthandle )
     for(dummy = 0;dummy < 10;dummy++)
         {
         sprintf(ds,"CommbatMacro#%d",dummy);
-        SCRIPT_GetString( scripthandle, "Comm Setup",ds,WangBangMacro[dummy]);
+        SCRIPT_GetString( scripthandle, "Comm Setup",ds,WangBangMacro[dummy], sizeof(WangBangMacro[0]));
         }
 
-    SCRIPT_GetString( scripthandle, "Options","Rooster",gs.Password);
+    SCRIPT_GetString( scripthandle, "Options","Rooster",gs.Password, sizeof(gs.Password));
     DecodePassword(gs.Password);    
         
     // option stuff

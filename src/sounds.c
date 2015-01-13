@@ -1286,7 +1286,7 @@ void MusicStartup( void )
         CDInitialized = TRUE;
         }
 
-    status = MUSIC_Init( devicetype, 0 );
+    status = MUSIC_Init( devicetype, MusicParams );
 
     if ( status == MUSIC_Ok )
         {

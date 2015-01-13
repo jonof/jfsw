@@ -67,6 +67,7 @@ int32 NumVoices   = 32;
 int32 NumChannels = 2;
 int32 NumBits     = 16;
 int32 MixRate     = 44100;
+char MusicParams[BMAX_PATH] = {0};
 
 int32 UseMouse = 1, UseJoystick = 0;
 
@@ -214,6 +215,7 @@ void CONFIG_SetDefaults( void )
    NumChannels = 2;
    NumBits = 16;
    MixRate = 44100;
+   MusicParams[0] = 0;
    memcpy(&gs, &gs_defaults, sizeof(gs));
 
    Bstrcpy(RTSName, DEFAULTRTSFILE);
@@ -579,6 +581,7 @@ int32 CONFIG_ReadSetup( void )
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "ReverseStereo",&dummy);
       gs.FlipStereo = dummy;
       if (gs.FlipStereo) gs.FlipStereo = 1;
+      SCRIPT_GetString( scripthandle, "Sound Setup", "MusicParams", MusicParams, sizeof(MusicParams));
       
       SCRIPT_GetString( scripthandle, "Sound Setup", "OggTrackName", oggtrackname, sizeof(oggtrackname));
       if(oggtrackname[0] != '\0')

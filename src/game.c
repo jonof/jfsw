@@ -971,7 +971,7 @@ InitGame(VOID)
     // sets numplayers, connecthead, connectpoint2, myconnectindex
 
     if (!firstnet)
-        initmultiplayers(0, NULL, 0, 0, 0);
+        initmultiplayers(0, NULL);
     else if (initmultiplayersparms(_buildargc - firstnet, &_buildargv[firstnet])) {
         buildputs("Waiting for players...\n");
         while (initmultiplayerscycle()) {

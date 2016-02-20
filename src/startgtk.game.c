@@ -125,14 +125,14 @@ static void PopulateForm(int pgs)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(lookup_widget(startwin,"inputmousecheck")), settings.usemouse);
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(lookup_widget(startwin,"inputjoycheck")), settings.usejoy);
     }
-    
+
     if (pgs & (1<<TAB_GAME)) {
         struct grpfile *fg;
         int i;
         GtkListStore *list;
         GtkTreeIter iter;
         GtkTreeView *gamelist;
-        
+
         gamelist = GTK_TREE_VIEW(lookup_widget(startwin,"gamelist"));
         list = GTK_LIST_STORE(gtk_tree_view_get_model(gamelist));
         gtk_list_store_clear(list);
@@ -206,7 +206,7 @@ static void on_gamelist_selection_changed(GtkTreeSelection *selection, gpointer 
     GtkTreeIter iter;
     GtkTreeModel *model;
     struct grpfile *fg;
-    
+
     if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
         gtk_tree_model_get(model, &iter, 2, (gpointer)&fg, -1);
         strcpy(settings.selectedgrp, fg->name);
@@ -225,15 +225,15 @@ static gint name_sorter(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpo
 {
     gchar *as, *bs;
     gint r;
-    
+
     gtk_tree_model_get(model, a, 0, &as, -1);
     gtk_tree_model_get(model, b, 0, &bs, -1);
-    
+
     r = g_utf8_collate(as,bs);
-    
+
     g_free(as);
     g_free(bs);
-    
+
     return r;
 }
 
@@ -415,7 +415,7 @@ static GtkWidget *create_window(void)
     GtkListStore *list = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER);
     GtkCellRenderer *cell;
     GtkTreeViewColumn *col;
-    
+
     gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(list), 0, name_sorter, NULL, NULL);
     gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(list), 0, GTK_SORT_ASCENDING);
 
@@ -612,11 +612,17 @@ int startwin_open(void)
     if (!gtkenabled) return 0;
     if (startwin) return 1;
 
+    if (!gtk_init_check(NULL, NULL)) {
+        gtkenabled = 0;
+        return -1;
+    }
+
     startwin = create_window();
     if (startwin) {
         SetPage(TAB_MESSAGES);
         gtk_widget_show(startwin);
-        gtk_main_iteration_do(FALSE);
+        while (gtk_events_pending())
+            gtk_main_iteration();
         return 0;
     }
     return -1;
@@ -694,7 +700,8 @@ int startwin_idle(void *s)
 {
     if (!gtkenabled) return 0;
     //if (!startwin) return 1;
-    gtk_main_iteration_do (FALSE);
+    while (gtk_events_pending())
+        gtk_main_iteration();
     return 0;
 }
 
@@ -719,9 +726,9 @@ int startwin_run(void)
     settings.usejoy = UseJoystick;
     strncpy(settings.selectedgrp, grpfile, BMAX_PATH);
     PopulateForm(-1);
-    
+
     gtk_main();
-    
+
     SetPage(TAB_MESSAGES);
     if (retval) {
         ScreenMode = settings.fullscreen;

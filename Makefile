@@ -56,7 +56,7 @@ ifneq (0,$(RELEASE))
   debug=-fomit-frame-pointer -O2
 else
   # debugging enabled
-  debug=-ggdb -O0 -Werror
+  debug=-ggdb -O0
 endif
 
 include $(AUDIOLIBROOT)/Makefile.shared
@@ -215,7 +215,7 @@ all: sw$(EXESUFFIX) build$(EXESUFFIX)
 
 sw$(EXESUFFIX): $(GAMEOBJS) $(ELIB)/$(ENGINELIB) $(AUDIOLIBROOT)/$(JFAUDIOLIB)
 	$(CXX) $(CXXFLAGS) $(OURCXXFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) $(GAMELIBS) -Wl,-Map=$@.map
-	
+
 build$(EXESUFFIX): $(EDITOROBJS) $(ELIB)/$(EDITORLIB) $(ELIB)/$(ENGINELIB)
 	$(CXX) $(CXXFLAGS) $(OURCXXFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) -Wl,-Map=$@.map
 
@@ -262,7 +262,7 @@ $(RSRC)/editor_banner.c: $(RSRC)/build.bmp
 	echo "#include <gdk-pixbuf/gdk-pixdata.h>" > $@
 	gdk-pixbuf-csource --extern --struct --rle --name=startbanner_pixdata $^ | sed '/pixel_data:/ a (guint8*)' >> $@
 
-# PHONIES	
+# PHONIES
 clean:
 ifeq ($(PLATFORM),DARWIN)
 	cd osx && xcodebuild -target All clean
@@ -271,7 +271,7 @@ else
 	$(MAKE) -C $(EROOT) clean
 	$(MAKE) -C $(AUDIOLIBROOT) clean
 endif
-	
+
 veryclean: clean
 ifeq ($(PLATFORM),DARWIN)
 else

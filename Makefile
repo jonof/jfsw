@@ -177,8 +177,6 @@ ifeq ($(PLATFORM),WINDOWS)
 endif
 
 ifeq ($(RENDERTYPE),SDL)
-	OURCFLAGS+= $(subst -Dmain=SDL_main,,$(shell sdl-config --cflags))
-
 	ifeq (1,$(HAVE_GTK2))
 		OURCFLAGS+= -DHAVE_GTK2 $(shell pkg-config --cflags gtk+-2.0)
 		GAMEOBJS+= $(SRC)/game_banner.$o $(SRC)/grpscan.$o $(SRC)/startgtk.game.$o

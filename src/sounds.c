@@ -473,7 +473,7 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
                 if (LoadSong(oggtrack)) {
                     SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
                                                   255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
-                    if (SongVoice > FX_Ok) {
+                    if (SongVoice >= FX_Ok) {
                         SongType = SongTypeVoc;
                         SongTrack = cdaudio_track;
                         SongName = strdup(oggtrack);
@@ -501,7 +501,7 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
     } else {
         SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
                                       255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
-        if (SongVoice > FX_Ok) {
+        if (SongVoice >= FX_Ok) {
             SongType = SongTypeVoc;
             SongName = strdup(song_file_name);
             return TRUE;
@@ -1040,7 +1040,7 @@ PlaySound(int num, int *x, int *y, int *z, Voc3D_Flags flags)
             }
          
     // If sound played, update our counter
-    if (voice > FX_Ok)
+    if (voice >= FX_Ok)
         {
         //vp->playing++;
         v3p->FX_Ok = TRUE;
@@ -1074,7 +1074,7 @@ VOID PlaySoundRTS(int rts_num)
     
     voice = FX_PlayAuto3D(rtsptr, RTS_SoundLength(rts_num - 1), 0, 0, 0, 255, -rts_num);
     
-    if (voice <= FX_Ok)    
+    if (voice < FX_Ok)
         {
         lumplockbyte[rts_num]--;
         }

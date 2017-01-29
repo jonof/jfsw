@@ -1831,7 +1831,7 @@ MNU_StartGame(void)
     if(Skill == 3)
         handle = PlaySound(DIGI_NOPAIN,&zero,&zero,&zero,v3df_none);
 
-    if (handle > FX_Ok)
+    if (handle >= FX_Ok)
         while(FX_SoundActive(handle))
 			handleevents();
     
@@ -3364,7 +3364,7 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
 					    {
                         handle = PlaySound(DIGI_NOLIKEMUSIC,&zero,&zero,&zero,v3df_none);
 
-                        if (handle > FX_Ok)
+                        if (handle >= FX_Ok)
                             while(FX_SoundActive(handle))
                                 handleevents();
                         }

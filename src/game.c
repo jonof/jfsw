@@ -1749,8 +1749,7 @@ LogoLevel(VOID)
     MONO_PRINT(ds);
 
     // start music at logo
-    strcpy(LevelSong,"theme.mid");
-    PlaySong(LevelSong, RedBookSong[0], TRUE, TRUE);
+    PlaySong(LevelInfo[0].SongName, RedBookSong[0], TRUE, TRUE);
 
     DSPRINTF(ds,"After music stuff...");
     MONO_PRINT(ds);    
@@ -2125,7 +2124,7 @@ MenuLevel(VOID)
 
     if (gs.MusicOn)
         {
-        PlaySong(NULL, RedBookSong[0], TRUE, FALSE);
+        PlaySong(LevelInfo[0].SongName, RedBookSong[0], TRUE, FALSE);
         }    
     
     if (AutoNet)

@@ -410,7 +410,7 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
     if (!gs.MusicOn) {
         return FALSE;
     }
-        
+
     if (DemoMode)    
         return FALSE;
 
@@ -1184,6 +1184,7 @@ SoundStartup(void)
             {
             FxInitialized = TRUE;
             FX_SetVolume(gs.SoundVolume);
+            buildprintf("FX driver is %s\n", FX_GetCurrentDriverName());
             
              if (gs.FlipStereo)
                 FX_SetReverseStereo(!FX_GetReverseStereo());
@@ -1292,6 +1293,7 @@ void MusicStartup( void )
         {
         MusicInitialized = TRUE;
         MUSIC_SetVolume( gs.MusicVolume );
+        buildprintf("Music driver is %s\n", MUSIC_GetCurrentDriverName());
         }
     else
         {

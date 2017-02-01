@@ -56,7 +56,7 @@ ifneq (0,$(RELEASE))
   debug=-fomit-frame-pointer -O2
 else
   # debugging enabled
-  debug=-ggdb -O0
+  debug=-ggdb -Og
 endif
 
 include $(AUDIOLIBROOT)/Makefile.shared

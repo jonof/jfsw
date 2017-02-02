@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -22,13 +22,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		AB0A48961E43581500CC2214 /* libogg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0A48931E43581500CC2214 /* libogg.a */; };
+		AB0A48971E43581500CC2214 /* libvorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0A48941E43581500CC2214 /* libvorbis.a */; };
+		AB0A48981E43581500CC2214 /* libvorbisfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0A48951E43581500CC2214 /* libvorbisfile.a */; };
 		AB0FFB26172B56AD00400B2B /* libengine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFACC172B54E100400B2B /* libengine.a */; };
 		AB0FFB27172B56BD00400B2B /* libjfaudiolib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFAE0172B54FE00400B2B /* libjfaudiolib.a */; };
 		AB0FFB2E172B572700400B2B /* libengine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFACC172B54E100400B2B /* libengine.a */; };
 		AB0FFB33172B573C00400B2B /* libeditor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFACE172B54E100400B2B /* libeditor.a */; };
 		AB0FFB38172B575000400B2B /* libeditorsupp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFAD0172B54E100400B2B /* libeditorsupp.a */; };
-		AB2140B3101D56BC00E844AE /* vorbis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2140B1101D56BC00E844AE /* vorbis.framework */; };
-		AB2140C0101D56CC00E844AE /* vorbis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB2140B1101D56BC00E844AE /* vorbis.framework */; };
 		AB21411C101D5B8F00E844AE /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21411B101D5B8F00E844AE /* AudioUnit.framework */; };
 		AB4909D61748652600C7A068 /* GrpFile.game.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4909D51748652600C7A068 /* GrpFile.game.m */; };
 		AB4909DC1748658600C7A068 /* GameListSource.game.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4909DB1748658600C7A068 /* GameListSource.game.m */; };
@@ -43,8 +44,8 @@
 		AB8F60DE0C65925F00202E11 /* build.osxmain.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4AB5E0C64C40200F28920 /* build.osxmain.nib */; };
 		AB8F60DF0C65926200202E11 /* build_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = ABB4AB680C64C43F00F28920 /* build_icon.icns */; };
 		AB8F60E00C65926400202E11 /* startwin.editor.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4AB5F0C64C42000F28920 /* startwin.editor.nib */; };
-		AB8F610B0C65928C00202E11 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
-		AB8F61B00C6592A600202E11 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
+		AB8F610B0C65928C00202E11 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		AB8F61B00C6592A600202E11 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		AB8F61B50C65932600202E11 /* keyboard.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE40C64C6F100F28920 /* keyboard.c */; };
 		AB8F61B70C65936000202E11 /* colormap.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB770C64C4D000F28920 /* colormap.c */; };
 		ABB4ABDA0C64C69900F28920 /* game.osxmain.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4ABB80C64C4EF00F28920 /* game.osxmain.nib */; };
@@ -265,7 +266,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AB2140C0101D56CC00E844AE /* vorbis.framework in CopyFiles */,
 				AB8F61B00C6592A600202E11 /* SDL2.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,8 +273,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AB0A48931E43581500CC2214 /* libogg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libogg.a; path = "../jfaudiolib/third-party/osx/libogg.a"; sourceTree = "<group>"; };
+		AB0A48941E43581500CC2214 /* libvorbis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbis.a; path = "../jfaudiolib/third-party/osx/libvorbis.a"; sourceTree = "<group>"; };
+		AB0A48951E43581500CC2214 /* libvorbisfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbisfile.a; path = "../jfaudiolib/third-party/osx/libvorbisfile.a"; sourceTree = "<group>"; };
 		AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = jfaudiolib.xcodeproj; path = ../jfaudiolib/jfaudiolib.xcodeproj; sourceTree = SOURCE_ROOT; };
-		AB2140B1101D56BC00E844AE /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = "../jfaudiolib/third-party/vorbis.framework"; sourceTree = SOURCE_ROOT; };
 		AB21411B101D5B8F00E844AE /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
 		AB214357101EEFB200E844AE /* _config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _config.h; sourceTree = "<group>"; };
 		AB214358101EEFB200E844AE /* _functio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _functio.h; sourceTree = "<group>"; };
@@ -468,11 +470,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB0A48981E43581500CC2214 /* libvorbisfile.a in Frameworks */,
+				AB0A48971E43581500CC2214 /* libvorbis.a in Frameworks */,
+				AB0A48961E43581500CC2214 /* libogg.a in Frameworks */,
 				AB0FFB26172B56AD00400B2B /* libengine.a in Frameworks */,
 				AB0FFB27172B56BD00400B2B /* libjfaudiolib.a in Frameworks */,
 				ABB4AC3E0C64C72C00F28920 /* SDL2.framework in Frameworks */,
 				ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */,
-				AB2140B3101D56BC00E844AE /* vorbis.framework in Frameworks */,
 				ABD91FA417375E9300394607 /* AudioToolbox.framework in Frameworks */,
 				AB21411C101D5B8F00E844AE /* AudioUnit.framework in Frameworks */,
 			);
@@ -481,6 +485,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB0A48921E43581400CC2214 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AB0A48931E43581500CC2214 /* libogg.a */,
+				AB0A48941E43581500CC2214 /* libvorbis.a */,
+				AB0A48951E43581500CC2214 /* libvorbisfile.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AB0FFAC2172B54E000400B2B /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -513,6 +527,7 @@
 				ABB4AB590C64C39400F28920 /* Game */,
 				ABB4ABCE0C64C52900F28920 /* Products */,
 				ABB4AC410C64C74600F28920 /* Linked Frameworks */,
+				AB0A48921E43581400CC2214 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -754,7 +769,6 @@
 			children = (
 				AB21411B101D5B8F00E844AE /* AudioUnit.framework */,
 				ABD91FA317375E9300394607 /* AudioToolbox.framework */,
-				AB2140B1101D56BC00E844AE /* vorbis.framework */,
 				ABB4AC3F0C64C73A00F28920 /* AppKit.framework */,
 				ABB4AC3D0C64C72C00F28920 /* SDL2.framework */,
 			);
@@ -814,7 +828,7 @@
 				LastUpgradeCheck = 0610;
 			};
 			buildConfigurationList = ABB4AB280C64C36100F28920 /* Build configuration list for PBXProject "sw" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -1105,10 +1119,8 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"../jfaudiolib/third-party",
-					"$(HOME)/Library/Frameworks",
-				);
+				DEVELOPMENT_TEAM = S7U4E54CHC;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1126,8 +1138,9 @@
 					../jfbuild/include,
 					../jfaudiolib/include,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				OTHER_CODE_SIGN_FLAGS = "--deep";
+				LIBRARY_SEARCH_PATHS = "../jfaudiolib/third-party/osx";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
@@ -1141,10 +1154,8 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"../jfaudiolib/third-party",
-					"$(HOME)/Library/Frameworks",
-				);
+				DEVELOPMENT_TEAM = S7U4E54CHC;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1161,8 +1172,8 @@
 					../jfbuild/include,
 					../jfaudiolib/include,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				OTHER_CODE_SIGN_FLAGS = "--deep";
+				LIBRARY_SEARCH_PATHS = "../jfaudiolib/third-party/osx";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",

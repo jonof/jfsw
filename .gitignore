@@ -7,6 +7,7 @@
 *.log
 *.grp
 *.cfg
+*.swp
 *~
 /xcode/*.xcodeproj/*
 !/xcode/*.xcodeproj/project.pbxproj

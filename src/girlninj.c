@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -90,10 +90,10 @@ DECISION GirlNinjaCloseRange[] =
     };
 
 /*
-    
+
  !AIC - Collection of decision tables
 
-*/    
+*/
 
 PERSONALITY GirlNinjaPersonality =
     {
@@ -114,7 +114,7 @@ ATTRIBUTE GirlNinjaAttrib =
     {4, 0, 0, -2},                      // Tic Adjusts
      3,                                 // MaxWeapons;
     {DIGI_GIRLNINJAALERT, DIGI_GIRLNINJAALERT, DIGI_STAR,
-     DIGI_GIRLNINJAALERTT, DIGI_GIRLNINJASCREAM,0,0,0,0,0}                
+     DIGI_GIRLNINJAALERTT, DIGI_GIRLNINJASCREAM,0,0,0,0,0}
     };
 
 //////////////////////
@@ -130,7 +130,7 @@ ANIMATOR InitActorDecide;
 
 STATE s_GirlNinjaRun[5][4] =
     {
-    
+
     {
     {GIRLNINJA_RUN_R0 + 0, GIRLNINJA_RATE | SF_TIC_ADJUST, DoGirlNinjaMove, &s_GirlNinjaRun[0][1]},
     {GIRLNINJA_RUN_R0 + 1, GIRLNINJA_RATE | SF_TIC_ADJUST, DoGirlNinjaMove, &s_GirlNinjaRun[0][2]},
@@ -161,7 +161,7 @@ STATE s_GirlNinjaRun[5][4] =
     {GIRLNINJA_RUN_R4 + 2, GIRLNINJA_RATE | SF_TIC_ADJUST, DoGirlNinjaMove, &s_GirlNinjaRun[4][3]},
     {GIRLNINJA_RUN_R4 + 3, GIRLNINJA_RATE | SF_TIC_ADJUST, DoGirlNinjaMove, &s_GirlNinjaRun[4][0]},
     },
-    
+
     };
 
 
@@ -173,7 +173,7 @@ STATEp sg_GirlNinjaRun[] =
     s_GirlNinjaRun[3],
     s_GirlNinjaRun[4]
     };
-    
+
 //////////////////////
 //
 // GIRLNINJA STAND
@@ -210,7 +210,7 @@ STATEp sg_GirlNinjaStand[] =
     s_GirlNinjaStand[3],
     s_GirlNinjaStand[4]
     };
-    
+
 //////////////////////
 //
 // GIRLNINJA RISE
@@ -248,7 +248,7 @@ STATE s_GirlNinjaRise[5][3] =
     {GIRLNINJA_STAND_R4 + 0, GIRLNINJA_STAND_RATE, NullGirlNinja, &s_GirlNinjaRise[4][2]},
     {0, 0, NULL, (STATEp)sg_GirlNinjaRun},
     },
-    };    
+    };
 
 
 STATEp sg_GirlNinjaRise[] =
@@ -339,7 +339,7 @@ STATEp sg_GirlNinjaSit[] =
     s_GirlNinjaSit[4]
     };
 
-    
+
 //////////////////////
 //
 // GIRLNINJA JUMP
@@ -451,8 +451,8 @@ STATE s_GirlNinjaPain[5][1] =
     {
     {GIRLNINJA_PAIN_R4 + 0, GIRLNINJA_PAIN_RATE, DoGirlNinjaPain, &s_GirlNinjaPain[4][0]},
     },
-    };    
-    
+    };
+
 STATEp sg_GirlNinjaPain[] =
     {
     s_GirlNinjaPain[0],
@@ -524,7 +524,7 @@ STATEp sg_GirlNinjaSticky[] =
     s_GirlNinjaSticky[4]
     };
 
-    
+
 //////////////////////
 //
 // GIRLNINJA CROSSBOW
@@ -676,11 +676,11 @@ STATEp sg_GirlNinjaDeathFall[] =
     };
 
 /*
-    
+
  !AIC - Collection of states that connect action to states
 
-*/    
-    
+*/
+
 ACTOR_ACTION_SET GirlNinjaActionSet =
     {
     sg_GirlNinjaStand,
@@ -709,7 +709,7 @@ ACTOR_ACTION_SET GirlNinjaActionSet =
     NULL
     };
 
-int 
+int
 SetupGirlNinja(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -736,7 +736,7 @@ SetupGirlNinja(short SpriteNum)
     u->Attrib = &GirlNinjaAttrib;
     sp->pal = u->spal = 26;
     EnemyDefaults(SpriteNum, &GirlNinjaActionSet, &GirlNinjaPersonality);
-    
+
     ChangeState(SpriteNum, s_GirlNinjaRun[0]);
     DoActorSetSpeed(SpriteNum, NORM_SPEED);
 
@@ -747,7 +747,7 @@ SetupGirlNinja(short SpriteNum)
     }
 
 
-int 
+int
 DoGirlNinjaMove(short SpriteNum)
     {
     USERp u = User[SpriteNum];
@@ -762,37 +762,37 @@ DoGirlNinjaMove(short SpriteNum)
             DoActorFall(SpriteNum);
         }
 
-    // sliding    
+    // sliding
     if (TEST(u->Flags, SPR_SLIDING) && !TEST(u->Flags, SPR_CLIMBING))
         DoActorSlide(SpriteNum);
 
-    // !AIC - do track or call current action function - such as DoActorMoveCloser()    
+    // !AIC - do track or call current action function - such as DoActorMoveCloser()
     if (u->track >= 0)
         ActorFollowTrack(SpriteNum, ACTORMOVETICS);
     else
-    {   
+    {
         (*u->ActorActionFunc) (SpriteNum);
     }
 
-    // stay on floor unless doing certain things    
+    // stay on floor unless doing certain things
     if (!TEST(u->Flags, SPR_JUMPING | SPR_FALLING | SPR_CLIMBING))
         {
         KeepActorOnFloor(SpriteNum);
         }
-        
-    // take damage from environment 
+
+    // take damage from environment
     DoActorSectorDamage(SpriteNum);
-    
+
     return(0);
     }
 
-int 
+int
 GirlNinjaJumpActionFunc(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
     int nx, ny;
-    
+
     // Move while jumping
     nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
     ny = sp->xvel * (int) sintable[sp->ang] >> 14;
@@ -802,7 +802,7 @@ GirlNinjaJumpActionFunc(short SpriteNum)
         {
         return (0);
         }
-    
+
     if (!TEST(u->Flags, SPR_JUMPING|SPR_FALLING))
         {
         InitActorDecide(SpriteNum);
@@ -811,14 +811,14 @@ GirlNinjaJumpActionFunc(short SpriteNum)
     return (0);
     }
 
-int 
+int
 NullGirlNinja(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
 
     if(u->WaitTics > 0) u->WaitTics -= ACTORMOVETICS;
-    
+
     if (TEST(u->Flags, SPR_SLIDING) && !TEST(u->Flags, SPR_CLIMBING) && !TEST(u->Flags, SPR_JUMPING|SPR_FALLING))
         DoActorSlide(SpriteNum);
 
@@ -826,7 +826,7 @@ NullGirlNinja(short SpriteNum)
         KeepActorOnFloor(SpriteNum);
 
     DoActorSectorDamage(SpriteNum);
-    
+
     return (0);
     }
 
@@ -837,18 +837,18 @@ int DoGirlNinjaPain(short SpriteNum)
     USERp u = User[SpriteNum];
 
     NullGirlNinja(SpriteNum);
-    
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         InitActorDecide(SpriteNum);
-        
+
     return(0);
-}    
+}
 
 int DoGirlNinjaSpecial(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     if(u->spal == PALETTE_PLAYER5)
         {
         RESET(sp->cstat,CSTAT_SPRITE_TRANSLUCENT);
@@ -857,8 +857,8 @@ int DoGirlNinjaSpecial(short SpriteNum)
         }
 
     return(0);
-    }  
-      
+    }
+
 
 #include "saveable.h"
 

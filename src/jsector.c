@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -260,7 +260,7 @@ JS_SpriteSetup(void)
                 Set3DSoundOwner(SpriteNum);
             break;
         case 460:  // Wind Chimes
-            handle = PlaySound(79, &sp->x, &sp->y, &sp->z, v3df_ambient | v3df_init 
+            handle = PlaySound(79, &sp->x, &sp->y, &sp->z, v3df_ambient | v3df_init
                 | v3df_doppler | v3df_follow);
             if (handle != -1)
                 Set3DSoundOwner(SpriteNum);
@@ -339,7 +339,7 @@ JS_InitMirrors(void)
         {
         tilesizx[i + MIRRORLABEL] = 0;
         tilesizy[i + MIRRORLABEL] = 0;
-        mirror[i].campic = -1;                  
+        mirror[i].campic = -1;
         mirror[i].camsprite = -1;
         mirror[i].camera = -1;
         mirror[i].ismagic = FALSE;
@@ -399,13 +399,13 @@ JS_InitMirrors(void)
                             Found_Cam = TRUE;
                             }
                         }
-                    
+
                     if(!Found_Cam)
                         {
                         printf("Cound not find the camera view sprite for match %d\n",wall[i].hitag);
                         printf("Map Coordinates: x = %d, y = %d\n",wall[i].x,wall[i].y);
                         exit(0);
-                        }    
+                        }
 
                     Found_Cam = FALSE;
                     if(TEST_BOOL1(&sprite[mirror[mirrorcnt].camera]))
@@ -418,14 +418,14 @@ JS_InitMirrors(void)
                                 {
                                 mirror[mirrorcnt].campic = sp->picnum;
                                 mirror[mirrorcnt].camsprite = SpriteNum;
-				
+
 				// JBF: commenting out this line results in the screen in $BULLET being visible
                                 tilesizx[mirror[mirrorcnt].campic] = tilesizy[mirror[mirrorcnt].campic] = 0;
 
                                 Found_Cam = TRUE;
                                 }
                             }
-                    
+
                         if(!Found_Cam)
                             {
                             printf("Did not find drawtotile for camera number %d\n",mirrorcnt);
@@ -433,7 +433,7 @@ JS_InitMirrors(void)
                             printf("Map Coordinates: x = %d, y = %d\n",wall[i].x,wall[i].y);
                             exit(0);
                             }
-                        }    
+                        }
 
                     // For magic mirrors, set allowable viewing time to 30
                     // secs
@@ -489,11 +489,11 @@ void drawroomstotile(int daposx, int daposy, int daposz,
 {
     if (waloff[tilenume] == 0)
         loadtile(tilenume);
-        
+
     PRODUCTION_ASSERT(waloff[tilenume]);
-    
+
 	setviewtotile(tilenume, tilesizx[tilenume], tilesizy[tilenume]);
-    
+
 	drawrooms(daposx, daposy, daposz, daang, dahoriz, dacursectnum);
 	analyzesprites(daposx, daposy, daposz, FALSE);
 	drawmasks();
@@ -640,7 +640,7 @@ int camloopcnt = 0;                    // Timer to cycle through player
                                         // views
 short camplayerview = 1;                // Don't show yourself!
 
-void 
+void
 JS_DrawMirrors(PLAYERp pp, int tx, int ty, int tz, short tpang, int tphoriz)
     {
     int j, dx, dy, top, bot, cnt;
@@ -730,11 +730,11 @@ JS_DrawMirrors(PLAYERp pp, int tx, int ty, int tz, short tpang, int tphoriz)
                     short wall_ang, w, nw, da, tda;
                     int dx, dy, dz, tdx, tdy, tdz, midx, midy;
 
-                    
+
                     ASSERT(mirror[cnt].camera != -1);
-                    
+
                     sp = &sprite[mirror[cnt].camera];
-                    
+
                     ASSERT(sp);
 
                     // tvisibility = visibility;
@@ -788,7 +788,7 @@ JS_DrawMirrors(PLAYERp pp, int tx, int ty, int tz, short tpang, int tphoriz)
                         // Set TV camera sprite size to 0 to show mirror
                         // behind in this case!
 
-                        if(mirror[cnt].campic != -1)    
+                        if(mirror[cnt].campic != -1)
                             tilesizx[mirror[cnt].campic] = tilesizy[mirror[cnt].campic] = 0;
                         drawrooms(dx, dy, dz, tpang, tphoriz, sp->sectnum + MAXSECTORS);
                         analyzesprites(dx, dy, dz, FALSE);
@@ -798,14 +798,14 @@ JS_DrawMirrors(PLAYERp pp, int tx, int ty, int tz, short tpang, int tphoriz)
                         {
                         BOOL DoCam = FALSE;
 
-                        if(mirror[cnt].campic == -1)        
-                            {        
-                            TerminateGame();        
+                        if(mirror[cnt].campic == -1)
+                            {
+                            TerminateGame();
                             printf("Missing campic for mirror %d\n",cnt);
                             printf("Map Coordinates: x = %d, y = %d\n",midx,midy);
-                            exit(0);        
-                            }        
-                            
+                            exit(0);
+                            }
+
                         // BOOL2 = Oscilate camera
                         if (TEST_BOOL2(sp) && MoveSkip2 == 0)
                             {
@@ -868,7 +868,7 @@ JS_DrawMirrors(PLAYERp pp, int tx, int ty, int tz, short tpang, int tphoriz)
                             if (dist < MAXCAMDIST)
                                 {
                                 PLAYERp cp = Player + camplayerview;
-                                
+
                                 if (TEST_BOOL11(sp) && numplayers > 1)
                                     {
                                     drawroomstotile(cp->posx, cp->posy, cp->posz, cp->pang, cp->horiz, cp->cursectnum, mirror[cnt].campic);
@@ -888,12 +888,12 @@ JS_DrawMirrors(PLAYERp pp, int tx, int ty, int tz, short tpang, int tphoriz)
                     // position into tposx, tposy, and tang (tposz == cposz)
                     // Must call preparemirror before drawrooms and
                     // completemirror after drawrooms
-                    
+
                     preparemirror(tx, ty, tz, tpang, tphoriz,
                         mirror[cnt].mirrorwall, mirror[cnt].mirrorsector, &tposx, &tposy, &tang);
 
                     drawrooms(tposx, tposy, tz, tang, tphoriz, mirror[cnt].mirrorsector + MAXSECTORS);
-                    
+
                     analyzesprites(tposx, tposy, tz, TRUE);
                     drawmasks();
 
@@ -916,7 +916,7 @@ JS_DrawMirrors(PLAYERp pp, int tx, int ty, int tz, short tpang, int tphoriz)
         }
     }
 
-void 
+void
 DoAutoSize(SPRITEp tspr)
     {
     short i;
@@ -1068,7 +1068,7 @@ DoAutoSize(SPRITEp tspr)
 // Rotation angles for sprites
 short rotang = 0;
 
-void 
+void
 JAnalyzeSprites(SPRITEp tspr)
     {
     int i, currsprite;
@@ -1082,7 +1082,7 @@ JAnalyzeSprites(SPRITEp tspr)
     DoAutoSize(tspr);
 
     if (getrendermode() == 3 && md_tilehasmodel(tspr->picnum) >= 0 && usemodels) return;
-    
+
     // Check for voxels
     //if (bVoxelsOn)
     if (gs.Voxels)
@@ -1099,7 +1099,7 @@ JAnalyzeSprites(SPRITEp tspr)
         switch (tspr->picnum)
             {
             case 764: // Gun barrel
-            
+
                 if (aVoxelArray[tspr->picnum].Voxel >= 0)
                     {
                     // Turn on voxels
@@ -1171,7 +1171,7 @@ KillOrgTile(OrgTileP tp)
     FreeMem(tp);
     }
 
-OrgTileP 
+OrgTileP
 FindOrgTile(short index, OrgTileListP thelist)
     {
     OrgTileP tp, next_tp;
@@ -1404,7 +1404,7 @@ JS_ToggleLockouts(void)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 UnlockKeyLock(short key_num, short hitsprite)
     {
     SPRITEp sp;
@@ -1473,4 +1473,4 @@ UnlockKeyLock(short key_num, short hitsprite)
             }
 
         }
-    }    
+    }

@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -109,7 +109,7 @@ char DemoName[15][16];
 #if PLOCK_VERSION
 BOOL Global_PLock = TRUE;
 #else
-BOOL Global_PLock = FALSE; 
+BOOL Global_PLock = FALSE;
 #endif
 
 int GameVersion = 13;   // 12 was original source release. For future releases increment by two.
@@ -173,7 +173,7 @@ short Skill = 2;
 short BetaVersion = 900;
 short TotalKillable;
 
-AUTO_NET Auto;    
+AUTO_NET Auto;
 BOOL AutoNet = FALSE;
 BOOL HasAutoColor = FALSE;
 BYTE AutoColor;
@@ -266,7 +266,7 @@ extern unsigned char palette_data[256][3];             // Global palette array
 #define ACT_STATUE 0
 
 int score;
-BOOL QuitFlag = FALSE; 
+BOOL QuitFlag = FALSE;
 BOOL InGame = FALSE;
 
 BOOL CommandSetup = FALSE;
@@ -290,46 +290,46 @@ VOID RunLevel(VOID);
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static FILE *debug_fout = NULL;
-    
+
 VOID DebugWriteString(char *string)
     {
-    
+
     #if BETA || !DEBUG
     return;
     #endif
-    
+
     if (!debug_fout)
         {
         if ((debug_fout = fopen("dbg.foo", "ab+")) == NULL)
             return;
-        }    
-        
-    fprintf(debug_fout, "%s\n", string);    
-    
+        }
+
+    fprintf(debug_fout, "%s\n", string);
+
     //fclose(debug_fout);
     //debug_fout = NULL;
-    
+
     fflush(debug_fout);
     }
 
 VOID DebugWriteLoc(char *fname, int line)
     {
-    
+
     #if BETA || !DEBUG
     return;
     #endif
-    
+
     if (!debug_fout)
         {
         if ((debug_fout = fopen("dbg.foo", "ab+")) == NULL)
             return;
-        }    
-        
-    fprintf(debug_fout, "%s, %d\n", fname, line);    
-    
+        }
+
+    fprintf(debug_fout, "%s, %d\n", fname, line);
+
     //fclose(debug_fout);
     //debug_fout = NULL;
-    
+
     fflush(debug_fout);
     }
 
@@ -383,11 +383,11 @@ CacheAlloc(void **ptr, int size, unsigned char *lock_byte)
         else
             (*lock_byte)++;
        }
-   
+
     return(*ptr);
     }
 
-VOID 
+VOID
 CacheFree(void **ptr, unsigned char *lock_byte)
     {
     if (*ptr == NULL)
@@ -404,7 +404,7 @@ CacheFree(void **ptr, unsigned char *lock_byte)
 /*
 void HeapCheck(char *file, int line)
 {
-    switch( _heapchk() ) 
+    switch( _heapchk() )
         {
         case _HEAPOK:
             //printf( "OK - heap is good\n" );
@@ -416,7 +416,7 @@ void HeapCheck(char *file, int line)
             sprintf(ds, "ERROR - heap is damaged: %s, %d", file, line);
             MONO_PRINT(ds);
             DebugWriteString(ds);
-            setvmode(0x3);     
+            setvmode(0x3);
             printf( "%s\n", ds);
             exit(0);
             break;
@@ -424,14 +424,14 @@ void HeapCheck(char *file, int line)
             sprintf(ds, "ERROR - bad node in heap: %s, %d", file, line);
             MONO_PRINT(ds);
             DebugWriteString(ds);
-            setvmode(0x3);     
+            setvmode(0x3);
             printf( "%s\n", ds);
             exit(0);
             break;
         }
 }
     */
-    
+
 #if DEBUG
 BOOL
 ValidPtr(VOID * ptr)
@@ -570,7 +570,7 @@ CallocMem(int size, int num)
 
     return (bp);
     }
-    
+
 VOID
 FreeMem(VOID * ptr)
     {
@@ -627,7 +627,7 @@ int PointOnLine(int x, int y, int x1, int y1, int x2, int y2)
     // the closer to 0 the closer to the line the point is
     return( ((x2 - x1) * (y - y1)) - ((y2 - y1) * (x - x1)) );
     }
-    
+
 int
 Distance(int x1, int y1, int x2, int y2)
     {
@@ -656,7 +656,7 @@ MapSetAll2D(BYTE fill)
         show2dwall[i] = fill;
     for (i = 0; i < (MAXSPRITES >> 3); i++)
         show2dsprite[i] = fill;
-        
+
     //for (i = 0; i < (MAXSECTORS >> 3); i++)
     for (i = 0; i < MAXSECTORS; i++)
         {
@@ -685,7 +685,7 @@ setup2dscreen(VOID)
     }
 
 
-    
+
 VOID
 TerminateGame(VOID)
     {
@@ -693,11 +693,11 @@ TerminateGame(VOID)
     int oldtotalclock;
 
     DemoTerm();
-    
+
     ErrorCorrectionQuit();
 
                 uninitmultiplayers();
-    
+
     if (CleanExit)
         {
         SybexScreen();
@@ -726,7 +726,7 @@ VOID
 LoadLevel(char *filename)
     {
     int pos;
-    
+
     if (loadboard(filename, SW_SHAREWARE ? 1 : 0, &Player[0].posx, &Player[0].posy, &Player[0].posz, &Player[0].pang, &Player[0].cursectnum) == -1)
         {
         TerminateGame();
@@ -748,7 +748,7 @@ LoadImages(char *filename)
     {
     short ndx;
     FILE *fin;
-    
+
     if (loadpics(filename, 32*1048576) == -1)
         {
         TerminateGame();
@@ -780,7 +780,7 @@ void LoadDemoRun(void)
 
         fclose(fin);
         }
-    
+
     memset(DemoText,'\0',sizeof(DemoText));
     fin = fopen("demotxt.run","r");
     if (fin)
@@ -801,25 +801,25 @@ void DisplayDemoText(void)
     {
     short w,h;
     short i;
-    
+
     for (i = 0; i < 3; i++)
         {
         MNU_MeasureString(DemoText[i], &w, &h);
         PutStringTimer(Player, TEXT_TEST_COL(w), DemoTextYstart+(i*12), DemoText[i], 999);
         }
-    }    
-    
+    }
+
 
 void Set_GameMode(void)
     {
     extern int ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP;
     int result;
     char ch;
-    
+
     //DSPRINTF(ds,"ScreenMode %d, ScreenWidth %d, ScreenHeight %d",ScreenMode, ScreenWidth, ScreenHeight);
     //MONO_PRINT(ds);
     result = COVERsetgamemode(ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP);
-    
+
     if (result < 0)
         {
         buildprintf("Failure setting video mode %dx%dx%d %s! Attempting safer mode...",
@@ -870,10 +870,10 @@ void MultiSharewareCheck(void)
         exit(0);
         }
      }
- 
 
-// Some mem crap for Jim 
-// I reserve 1 meg of heap space for our use out side the cache   
+
+// Some mem crap for Jim
+// I reserve 1 meg of heap space for our use out side the cache
 int TotalMemory = 0;
 int ActualHeap = 0;
 
@@ -881,30 +881,30 @@ VOID InitAutoNet(VOID)
     {
     if (!AutoNet)
         return;
-    
-    gs.NetGameType      = Auto.Rules;    
-    gs.NetLevel         = Auto.Level;    
-    gs.NetMonsters      = Auto.Enemy;    
-    gs.NetSpawnMarkers  = Auto.Markers;    
-    gs.NetTeamPlay      = Auto.Team;    
-    gs.NetHurtTeammate  = Auto.HurtTeam;    
-    gs.NetKillLimit     = Auto.Kill;    
-    gs.NetTimeLimit     = Auto.Time;    
-    gs.NetColor         = Auto.Color;    
-    gs.NetNuke          = Auto.Nuke;    
+
+    gs.NetGameType      = Auto.Rules;
+    gs.NetLevel         = Auto.Level;
+    gs.NetMonsters      = Auto.Enemy;
+    gs.NetSpawnMarkers  = Auto.Markers;
+    gs.NetTeamPlay      = Auto.Team;
+    gs.NetHurtTeammate  = Auto.HurtTeam;
+    gs.NetKillLimit     = Auto.Kill;
+    gs.NetTimeLimit     = Auto.Time;
+    gs.NetColor         = Auto.Color;
+    gs.NetNuke          = Auto.Nuke;
     }
 
 
 void AnimateCacheCursor(void)
-    {    
+    {
 #if 0
     struct rccoord old_pos;
     static short cursor_num = 0;
     static char cache_cursor[] =  {'|','/','-','\\'};
-    
+
     if (GraphicsMode)
         return;
-        
+
     cursor_num++;
     if (cursor_num > 3)
         cursor_num = 0;
@@ -918,12 +918,12 @@ void AnimateCacheCursor(void)
     //_settextposition( old_pos.row, old_pos.col );
 #endif
     }
-    
+
 void COVERsetbrightness(int bright, unsigned char *pal)
 {
 setbrightness(bright, pal, 0);
-}    
-    
+}
+
 
 static int firstnet = 0;    // JBF
 int nextvoxid = 0;  // JBF
@@ -950,7 +950,7 @@ InitGame(VOID)
 
     //initgroupfile("sw.grp");  // JBF: moving this close to start of program to detect shareware
     InitSetup();
-    
+
     InitAutoNet();
 
     inittimer(120);
@@ -960,7 +960,7 @@ InitGame(VOID)
     ////DSPRINTF(ds,"%s, %d",__FILE__,__LINE__);   MONO_PRINT(ds);
 
     //InitFX();
-    
+
     memcpy(palette_data,palette,768);
     InitPalette();
     // sets numplayers, connecthead, connectpoint2, myconnectindex
@@ -978,15 +978,15 @@ InitGame(VOID)
         }
     }
     initsynccrc();
-    
+
     // code to duplicate packets
     if (numplayers > 4 && MovesPerPacket == 1)
         {
         MovesPerPacket = 2;
         }
-    
+
     MultiSharewareCheck();
-    
+
     if (numplayers > 1)
         {
         CommPlayers = numplayers;
@@ -997,7 +997,7 @@ InitGame(VOID)
         else
             gNet.MultiGameType = MULTI_GAME_AI_BOTS;
 
-        #if 0 //def NET_MODE_MASTER_SLAVE    
+        #if 0 //def NET_MODE_MASTER_SLAVE
         if (!NetModeOverride)
             {
             if (numplayers <= 4)
@@ -1005,7 +1005,7 @@ InitGame(VOID)
             else
                 NetBroadcastMode = FALSE;
             }
-        #endif        
+        #endif
         }
 
     LoadDemoRun();
@@ -1014,7 +1014,7 @@ InitGame(VOID)
     //DSPRINTF(ds,"Available Heap before LoadImages =  %d", TotalMemory);
     //MONO_PRINT(ds);
     // Reserve 1.5 megs for normal program use
-    // Generally, SW is consuming about a total of 11 megs including 
+    // Generally, SW is consuming about a total of 11 megs including
     // all the cached in graphics, etc. per level, so even on a 16 meg
     // system, reserving 1.5 megs is fine.
     // Note that on a 16 meg machine, Ken was leaving us about
@@ -1025,12 +1025,12 @@ InitGame(VOID)
     //ReserveMem = AllocMem(1L<<20);
     //if(ReserveMem == 0) MONO_PRINT("Could not allocate 1.5 meg reserve!");
 
-    // LoadImages will now proceed to steal all the remaining heap space    
+    // LoadImages will now proceed to steal all the remaining heap space
     //_outtext("\n\n\n\n\n\n\n\n");
     //AnimateCacheCursor();
     buildputs("Loading sound and graphics...\n");
     LoadImages("tiles000.art");
-    
+
     // Now free it up for later use
     /*
     if(ReserveMem)
@@ -1061,7 +1061,7 @@ InitGame(VOID)
     LoadPLockFromScript( "swplock.txt" ); // Get Parental Lock setup info
     if (!SW_SHAREWARE)
     LoadCustomInfoFromScript( "swcustom.txt" ); // Load user customisation information
-    
+
     if (!loaddefinitionsfile(deffile)) buildputs("Definitions file loaded.\n");
 
     DemoModeMenuInit = TRUE;
@@ -1072,7 +1072,7 @@ InitGame(VOID)
         LoadLevel("$dozer.map");
         AnimateCacheCursor();
         SetupPreCache();
-        DoTheCache();    
+        DoTheCache();
         }
     else
         {
@@ -1080,18 +1080,18 @@ InitGame(VOID)
         LoadLevel(UserMapName);
         AnimateCacheCursor();
         SetupPreCache();
-        DoTheCache();    
-        }    
+        DoTheCache();
+        }
 
-    Set_GameMode();    
+    Set_GameMode();
     GraphicsMode = TRUE;
     SetupAspectRatio();
-    
+
     COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
 
     InitFX();   // JBF: do it down here so we get a hold of the window handle
     InitMusic();
-        
+
     }
 
 
@@ -1179,9 +1179,9 @@ VOID InitNewGame(VOID)
     {
     int i, ready_bak;
     int ver_bak;
-    
+
         //waitforeverybody();           // since ready flag resets after this point, need to carefully sync
-    
+
     for (i = 0; i < MAX_SW_PLAYERS; i++)
         {
         // don't jack with the playerreadyflag
@@ -1218,19 +1218,19 @@ void FindLevelInfo(char *map_name, short *level)
     return;
     }
 
-int ChopTics;    
+int ChopTics;
 VOID InitLevelGlobals(VOID)
     {
     extern char PlayerGravity;
     extern short wait_active_check_offset;
     //extern short Zombies;
     extern int PlaxCeilGlobZadjust, PlaxFloorGlobZadjust;
-    extern BOOL left_foot;  
+    extern BOOL left_foot;
     extern BOOL serpwasseen;
     extern BOOL sumowasseen;
     extern BOOL zillawasseen;
     extern short BossSpriteNum[3];
-    
+
     // A few IMPORTANT GLOBAL RESETS
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     MapSetup();
@@ -1245,11 +1245,11 @@ VOID InitLevelGlobals(VOID)
     pskybits = PlaxBits;
     FinishedLevel = FALSE;
     AnimCnt = 0;
-    left_foot = FALSE;  
+    left_foot = FALSE;
     screenpeek = myconnectindex;
-    
+
     gNet.TimeLimitClock = gNet.TimeLimit;
-    
+
     serpwasseen = FALSE;
     sumowasseen = FALSE;
     zillawasseen = FALSE;
@@ -1265,12 +1265,12 @@ VOID InitLevelGlobals2(VOID)
     TotalKillable = 0;
     Bunny_Count = 0;
     }
-    
+
 VOID
 InitLevel(VOID)
     {
     static int DemoNumber = 0;
-    
+
     MONO_PRINT("InitLevel");
     Terminate3DSounds();
 
@@ -1278,8 +1278,8 @@ InitLevel(VOID)
     InitLevelGlobals();
     MONO_PRINT("InitLevelGlobals");
     if (!DemoMode)
-        StopSong();    
-    
+        StopSong();
+
     if (LoadGameOutsideMoveLoop)
         {
           MONO_PRINT("Returning from InitLevel");
@@ -1314,7 +1314,7 @@ InitLevel(VOID)
             {
             strcpy(UserMapName, DemoLevelName);
             Level = 0;
-            }    
+            }
 
         }
     else
@@ -1324,11 +1324,11 @@ InitLevel(VOID)
 
         if (Level > MAX_LEVELS)
             Level = 1;
-    
+
         // extra code in case something is resetting these values
         if (NewGame)
             {
-            //Level = 1; 
+            //Level = 1;
             //DemoPlaying = FALSE;
             DemoMode = FALSE;
             //DemoRecording = FALSE;
@@ -1358,7 +1358,7 @@ InitLevel(VOID)
         }
 
     PlayingLevel = Level;
-    
+
     if (NewGame)
         InitNewGame();
 
@@ -1366,14 +1366,14 @@ InitLevel(VOID)
     MONO_PRINT("LoadintLevelScreen");
     if (!DemoMode && !DemoInitOnce)
         DemoPlaySetup();
-    
+
     LoadLevel(LevelName);
 
     if (Bstrcasecmp(CacheLastLevel, LevelName) != 0)
         // clears gotpic and does some bit setting
         SetupPreCache();
     else
-        memset(gotpic,0,sizeof(gotpic));    
+        memset(gotpic,0,sizeof(gotpic));
 
     if (sector[0].extra != -1)
         {
@@ -1453,12 +1453,12 @@ InitLevel(VOID)
     initlava();
 
     SongLevelNum = Level;
-    
+
     if (DemoMode)
         {
         DisplayDemoText();
         }
-        
+
 
     if (ArgCheat)
         {
@@ -1468,7 +1468,7 @@ InitLevel(VOID)
         gs.Messages = bak;
         GodMode = TRUE;
         }
-        
+
     // reset NewGame
     NewGame = FALSE;
 
@@ -1479,13 +1479,13 @@ InitLevel(VOID)
     #if DEBUG
     if (!cansee(43594, -92986, 0x3fffffff, 290,
         43180, -91707, 0x3fffffff, 290))
-        {        
+        {
         DSPRINTF(ds,"cansee failed");
         MONO_PRINT(ds);
         }
-    #endif    
     #endif
-        
+    #endif
+
     }
 
 
@@ -1497,7 +1497,7 @@ TerminateLevel(VOID)
     SECT_USERp *sectu;
 
 //HEAP_CHECK();
-    
+
     DemoTerm();
 
     // Free any track points
@@ -1592,7 +1592,7 @@ TerminateLevel(VOID)
 
     JS_UnInitLockouts();
 
-//HEAP_CHECK();    
+//HEAP_CHECK();
     }
 
 VOID
@@ -1605,9 +1605,9 @@ NewLevel(VOID)
     if (DemoPlaying)
         {
         FX_SetVolume(0); // Shut the hell up while game is loading!
-        InitLevel();        
+        InitLevel();
         InitRunLevel();
-        
+
         DemoInitOnce = FALSE;
         if (DemoMode)
             {
@@ -1617,9 +1617,9 @@ NewLevel(VOID)
                 KEY_PRESSED(KEYSC_ESC) = TRUE;
                 }
             }
-            
+
         DemoPlayBack();
-        
+
         if (DemoRecording && DemoEdit)
             {
             RunLevel();
@@ -1648,14 +1648,14 @@ NewLevel(VOID)
 
         StatScreen(&Player[myconnectindex]);
         }
-    
+
     if (LoadGameFromDemo)
         LoadGameFromDemo = FALSE;
-    else    
+    else
         TerminateLevel();
-    
+
     InGame = FALSE;
-    
+
     if (SW_SHAREWARE)
         {
         if (FinishAnim)
@@ -1731,14 +1731,14 @@ LogoLevel(VOID)
     unsigned char *palook_bak = palookup[0];
     UserInput uinfo = { FALSE, FALSE, dir_None };
     int i;
-    
+
 
     DSPRINTF(ds,"LogoLevel...");
     MONO_PRINT(ds);
 
     for (i = 0; i < 256; i++)
         tempbuf[i] = i;
-    palookup[0] = tempbuf;    
+    palookup[0] = tempbuf;
 
     DSPRINTF(ds,"Created palookup...");
     MONO_PRINT(ds);
@@ -1747,7 +1747,7 @@ LogoLevel(VOID)
     PlaySong(LevelInfo[0].SongName, RedBookSong[0], TRUE, TRUE);
 
     DSPRINTF(ds,"After music stuff...");
-    MONO_PRINT(ds);    
+    MONO_PRINT(ds);
 
     //GetPaletteFromVESA(pal);
     //memcpy(backup_pal, pal, PAL_SIZE);
@@ -1787,7 +1787,7 @@ LogoLevel(VOID)
         CONTROL_GetUserInput(&uinfo);
         CONTROL_ClearUserInput(&uinfo);
         if (quitevent) { QuitFlag = TRUE; break; }
-    
+
         // taken from top of faketimerhandler
         // limits checks to max of 40 times a second
         if (totalclock >= ototalclock + synctics)
@@ -1802,7 +1802,7 @@ LogoLevel(VOID)
         }
 
     palookup[0] = palook_bak;
-        
+
     clearview(0);
     nextpage();
     //SetPaletteToVESA(backup_pal);
@@ -1830,7 +1830,7 @@ CreditsLevel(VOID)
     #define CREDITS2_PIC 5118
 
     // put up a blank screen while loading
-    
+
     // get rid of all PERM sprites!
     flushperms();
     save = gs.BorderNum;
@@ -1839,13 +1839,13 @@ CreditsLevel(VOID)
     gs.BorderNum = save;
     clearview(0);
     nextpage();
-    
+
     // Lo Wang feel like singing!
     handle = PlaySound(DIGI_JG95012,&zero,&zero,&zero,v3df_none);
-    
+
     if (handle > 0)
         while(FX_SoundActive(handle));
-    
+
     // try 14 then 2 then quit
     if (!PlaySong(NULL, 14, FALSE, TRUE)) {
         if (!PlaySong(NULL, 2, FALSE, TRUE)) {
@@ -1862,7 +1862,7 @@ CreditsLevel(VOID)
 
     ResetKeys();
     curpic = CREDITS1_PIC;
-    
+
     while (TRUE)
         {
         // taken from top of faketimerhandler
@@ -1876,22 +1876,22 @@ CreditsLevel(VOID)
         rotatesprite(0, 0, RS_SCALE, 0, curpic, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
 
         nextpage();
-        
+
         if (timer > 8*120)
             {
             curpic = CREDITS2_PIC;
             }
-            
+
         if (timer > 16*120)
             {
             timer = 0;
             curpic = CREDITS1_PIC;
             }
-        
+
 
         if (!SongIsPlaying())
             break;
-            
+
         if (KEY_PRESSED(KEYSC_ESC))
             break;
         }
@@ -1914,7 +1914,7 @@ SybexScreen(VOID)
 
     rotatesprite(0, 0, RS_SCALE, 0, 5261, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
     nextpage();
-    
+
     ResetKeys();
     while (!KeyPressed() && !quitevent) handleevents();
     }
@@ -1933,19 +1933,19 @@ TenScreen(VOID)
     int i;
     ULONG bak;
     int bakready2send;
-    
+
     if (CommEnabled)
         return;
 
     bak = totalclock;
-    
+
     flushperms();
     clearview(0);
     nextpage();
 
     for (i = 0; i < 256; i++)
         tempbuf[i] = i;
-    palookup[0] = tempbuf;    
+    palookup[0] = tempbuf;
 
     GetPaletteFromVESA(pal);
     memcpy(backup_pal, pal, PAL_SIZE);
@@ -1956,7 +1956,7 @@ TenScreen(VOID)
         kclose(fin);
         }
 
-    // palette to black    
+    // palette to black
     FadeOut(0, 0);
     bakready2send = ready2send;
     //totalclock = 0;
@@ -1971,11 +1971,11 @@ TenScreen(VOID)
     SetPaletteToVESA(pal);
     //FadeIn(0, 3);
     ResetKeys();
-    
+
     while (!KeyPressed());
 
     palookup[0] = palook_bak;
-        
+
     clearview(0);
     nextpage();
     SetPaletteToVESA(backup_pal);
@@ -1983,13 +1983,13 @@ TenScreen(VOID)
     // put up a blank screen while loading
     clearview(0);
     nextpage();
-    
+
     ready2send = bakready2send;
     totalclock = bak;
     }
 */
 // CTW REMOVED END
-    
+
 VOID
 TitleLevel(VOID)
     {
@@ -2000,10 +2000,10 @@ TitleLevel(VOID)
     unsigned char tempbuf[256];
     unsigned char *palook_bak = palookup[0];
     int i;
-    
+
     for (i = 0; i < 256; i++)
         tempbuf[i] = i;
-    palookup[0] = tempbuf;    
+    palookup[0] = tempbuf;
 
     //GetPaletteFromVESA(pal);
     //memcpy(backup_pal, pal, PAL_SIZE);
@@ -2063,7 +2063,7 @@ TitleLevel(VOID)
         }
 
     palookup[0] = palook_bak;
-    
+
 //    clearview(0);
 //    nextpage();
     //SetPaletteToVESA(backup_pal);
@@ -2087,14 +2087,14 @@ VOID DrawStatScreen(VOID)
     clearview(0);
     rotatesprite(0, 0, RS_SCALE, 0, STAT_SCREEN_PIC, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
     }
-    
+
 VOID DrawLoadLevelScreen(VOID)
     {
     flushperms();
     clearview(0);
     rotatesprite(0, 0, RS_SCALE, 0, TITLE_PIC, 20, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
     }
-    
+
 short PlayerQuitMenuLevel = -1;
 
 VOID
@@ -2104,7 +2104,7 @@ IntroAnimLevel(VOID)
       MONO_PRINT(ds);
       playanm(0);
     }
-    
+
 VOID
 MenuLevel(VOID)
     {
@@ -2120,25 +2120,25 @@ MenuLevel(VOID)
     if (gs.MusicOn)
         {
         PlaySong(LevelInfo[0].SongName, RedBookSong[0], TRUE, FALSE);
-        }    
-    
+        }
+
     if (AutoNet)
         {
         DrawMenuLevelScreen();
-        
+
         if (CommEnabled)
             {
             sprintf(ds,"Lo Wang is waiting for other players...");
             MNU_MeasureString(ds, &w, &h);
             MNU_DrawString(TEXT_TEST_COL(w), 170, ds, 1, 16);
-            
+
             sprintf(ds,"They are afraid!");
             MNU_MeasureString(ds, &w, &h);
             MNU_DrawString(TEXT_TEST_COL(w), 180, ds, 1, 16);
             }
-            
+
         nextpage();
-    
+
         waitforeverybody();
                 FirstTimeIntoGame = TRUE;
         MNU_StartNetGame();
@@ -2152,8 +2152,8 @@ MenuLevel(VOID)
         return;
         }
 
-    // do demos only if not playing multi play    
-    if (!CommEnabled && numplayers <= 1 && !FinishAnim && !NoDemoStartup)    
+    // do demos only if not playing multi play
+    if (!CommEnabled && numplayers <= 1 && !FinishAnim && !NoDemoStartup)
         {
         // demos exist - do demo instead
         if (DemoName[0][0] != '\0')
@@ -2162,11 +2162,11 @@ MenuLevel(VOID)
             DemoPlaying = TRUE;
             return;
             }
-        }    
+        }
 
     DemoMode = FALSE;
     DemoPlaying = FALSE;
-        
+
     clearview(0);
     nextpage();
 
@@ -2178,28 +2178,28 @@ MenuLevel(VOID)
     InMenuLevel = TRUE;
 
     DrawMenuLevelScreen();
-    
+
     if (CommEnabled)
         {
         sprintf(ds,"Lo Wang is waiting for other players...");
         MNU_MeasureString(ds, &w, &h);
         MNU_DrawString(TEXT_TEST_COL(w), 170, ds, 1, 16);
-        
+
         sprintf(ds,"They are afraid!");
         MNU_MeasureString(ds, &w, &h);
         MNU_DrawString(TEXT_TEST_COL(w), 180, ds, 1, 16);
         }
-    
+
     nextpage();
     //FadeIn(0, 3);
-    
+
     waitforeverybody();
 
     // don't allow BorderAdjusting in these menus
     BorderAdjust = FALSE;
-    
+
     ResetKeys();
-    
+
     if (SW_SHAREWARE) {
     // go to ordering menu only if shareware
     if (FinishAnim)
@@ -2211,12 +2211,12 @@ MenuLevel(VOID)
     } else {
     FinishAnim = 0;
     }
-    
+
     while (TRUE)
         {
         handleevents();
         OSD_DispatchQueued();
-    
+
         if (quitevent) QuitFlag = TRUE;
 
         // taken from top of faketimerhandler
@@ -2228,7 +2228,7 @@ MenuLevel(VOID)
             if (CommEnabled)
                 getpackets();
             }
-    
+
         if (CommEnabled)
             {
             if (MultiPlayQuitFlag)
@@ -2240,14 +2240,14 @@ MenuLevel(VOID)
                                 netbroadcastpacket(pbuf, 1);                      // TENSW
                 break;
                 }
-            
-            if (PlayerQuitMenuLevel >= 0)    
+
+            if (PlayerQuitMenuLevel >= 0)
                 {
                 MenuCommPlayerQuit(PlayerQuitMenuLevel);
                 PlayerQuitMenuLevel = -1;
                 }
-            }    
-            
+            }
+
         if (ExitLevel)
             {
             // Quiting Level
@@ -2260,17 +2260,17 @@ MenuLevel(VOID)
             // Quiting Game
             break;
             }
-            
+
         // force the use of menus at all time
         if (!UsingMenus && !ConPanel)
             {
-            KEY_PRESSED(KEYSC_ESC) = TRUE;    
+            KEY_PRESSED(KEYSC_ESC) = TRUE;
             MNU_CheckForMenusAnyKey();
             }
-        
-        // must lock the clock for drawing so animations will happen    
+
+        // must lock the clock for drawing so animations will happen
         totalclocklock = totalclock;
-            
+
         //drawscreen as fast as you can
         DrawMenuLevelScreen();
 
@@ -2282,7 +2282,7 @@ MenuLevel(VOID)
 
     BorderAdjust = TRUE;
     //LoadGameOutsideMoveLoop = FALSE;
-    KEY_PRESSED(KEYSC_ESC) = FALSE;    
+    KEY_PRESSED(KEYSC_ESC) = FALSE;
     KB_ClearKeysDown();
     //ExitMenus();
     UsingMenus = FALSE;
@@ -2329,23 +2329,23 @@ LoadingLevelScreen(char *level_name)
     extern BOOL DemoMode;
     extern char *MNU_LevelName[28];
     DrawLoadLevelScreen();
-    
+
     if (DemoMode)
         sprintf(ds,"DEMO");
-    else    
+    else
         sprintf(ds,"ENTERING");
-        
+
     MNU_MeasureString(ds, &w, &h);
     MNU_DrawString(TEXT_TEST_COL(w), 170, ds,1,16);
-    
+
     if (UserMapName[0])
         sprintf(ds,"%s",UserMapName);
-    else    
+    else
         sprintf(ds,"%s",LevelInfo[Level].Description);
-        
+
     MNU_MeasureString(ds, &w, &h);
     MNU_DrawString(TEXT_TEST_COL(w), 180, ds,1,16);
-    
+
     nextpage();
     }
 
@@ -2361,11 +2361,11 @@ gNextState(STATEp *State)
         *State = (*State)->NextState;
         }
     }
-    
-// Generic state control 
-VOID   
+
+// Generic state control
+VOID
 gStateControl(STATEp *State, int *tics)
-    {    
+    {
     *tics += synctics;
 
     // Skip states if too much time has passed
@@ -2379,29 +2379,29 @@ gStateControl(STATEp *State, int *tics)
     // Call the correct animator
     if ((*State)->Animator)
         (*(*State)->Animator)(0);
-    }    
+    }
 
 int BonusPunchSound(short SpriteNum)
     {
     PLAYERp pp = Player + myconnectindex;
     PlaySound(DIGI_PLAYERYELL3, &pp->posx, &pp->posy, &pp->posz, v3df_none);
     return(0);
-    }    
+    }
 
 int BonusKickSound(short SpriteNum)
     {
     PLAYERp pp = Player + myconnectindex;
     PlaySound(DIGI_PLAYERYELL2, &pp->posx, &pp->posy, &pp->posz, v3df_none);
     return(0);
-    }    
+    }
 
 int BonusGrabSound(short SpriteNum)
     {
     PLAYERp pp = Player + myconnectindex;
     PlaySound(DIGI_BONUS_GRAB, &pp->posx, &pp->posy, &pp->posz, v3df_none);
     return(0);
-    }    
-    
+    }
+
 VOID
 BonusScreen(PLAYERp pp)
     {
@@ -2415,23 +2415,23 @@ BonusScreen(PLAYERp pp)
     int zero=0;
     int handle = 0;
     short LI_Num;
-    
-    
+
+
     #define BONUS_SCREEN_PIC 5120
     #define BONUS_ANIM 5121
     #define BONUS_ANIM_FRAMES (5159-5121)
 
     #define BREAK_LIGHT_RATE 18
-    
+
     #define BONUS_PUNCH 5121
     #define BONUS_KICK 5136
     #define BONUS_GRAB 5151
     #define BONUS_REST 5121
-    
+
     #define BONUS_TICS 8
     #define BONUS_GRAB_TICS 20
     #define BONUS_REST_TICS 50
-    
+
     static STATE s_BonusPunch[] =
         {
         {BONUS_PUNCH + 0, BONUS_TICS, NULL, &s_BonusPunch[1]},
@@ -2496,43 +2496,43 @@ BonusScreen(PLAYERp pp)
         {BONUS_REST + 2, BONUS_REST_TICS, NULL, &s_BonusRest[3]},
         {BONUS_REST + 1, BONUS_REST_TICS, NULL, &s_BonusRest[0]},
         };
-    #else        
+    #else
     static STATE s_BonusRest[] =
         {
         {BONUS_REST + 0, BONUS_REST_TICS, NULL, &s_BonusRest[1]},
         {BONUS_REST + 0, BONUS_REST_TICS, NULL, &s_BonusRest[0]},
         };
-    #endif        
-    
-    static STATEp s_BonusAnim[] = 
+    #endif
+
+    static STATEp s_BonusAnim[] =
         {
         s_BonusPunch,
         s_BonusKick,
         s_BonusGrab
         };
-        
-    STATEp State = s_BonusRest;        
-    
+
+    STATEp State = s_BonusRest;
+
     int Tics = 0;
     int line = 0;
     BOOL BonusDone;
     UserInput uinfo = { FALSE, FALSE, dir_None };
 
     if(Level < 0) Level = 0;
-    
+
     clearview(0);
     nextpage();
-    
+
     KB_ClearKeysDown();
-    
+
     totalclock = ototalclock = 0;
     limit = synctics;
 
     if (gs.MusicOn)
         {
         PlaySong(voc[DIGI_ENDLEV].name, 3, TRUE, TRUE);
-        }    
-        
+        }
+
     // special case code because I don't care any more!
     if (FinishAnim)
         {
@@ -2542,7 +2542,7 @@ BonusScreen(PLAYERp pp)
         nextpage();
         FadeIn(0,0);
         }
-    
+
     BonusDone = FALSE;
     while (!BonusDone)
         {
@@ -2554,7 +2554,7 @@ BonusScreen(PLAYERp pp)
             continue;
             }
         ototalclock += limit;
-        
+
         CONTROL_GetUserInput(&uinfo);
         CONTROL_ClearUserInput(&uinfo);
         if (KEY_PRESSED(KEYSC_SPACE) || KEY_PRESSED(KEYSC_ENTER) || uinfo.button0 || uinfo.button1)
@@ -2565,10 +2565,10 @@ BonusScreen(PLAYERp pp)
                 Tics = 0;
                 }
             }
-        
+
         gStateControl(&State, &Tics);
         rotatesprite(0, 0, RS_SCALE, 0, 5120, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
-        
+
         if (UserMapName[0])
             {
             sprintf(ds,"%s",UserMapName);
@@ -2589,9 +2589,9 @@ BonusScreen(PLAYERp pp)
         MNU_DrawString(TEXT_TEST_COL(w), 30, ds,1,19);
 
         rotatesprite(158<<16, 86<<16, RS_SCALE, 0, State->Pic, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
-        
+
         #define BONUS_LINE(i) (50 + ((i)*20))
-        
+
         line = 0;
         second_tics = (PlayClock/120);
         minutes = (second_tics/60);
@@ -2613,8 +2613,8 @@ BonusScreen(PLAYERp pp)
             MNU_DrawString(40, BONUS_LINE(line), ds,1,16);
             }
 
-        
-        // always read secrets and kills from the first player    
+
+        // always read secrets and kills from the first player
         line++;
         sprintf(ds,"Secrets:  %d / %d", Player->SecretsFound, LevelSecrets);
         MNU_MeasureString(ds, &w, &h);
@@ -2624,7 +2624,7 @@ BonusScreen(PLAYERp pp)
         sprintf(ds,"Kills:  %d / %d", Player->Kills, TotalKillable);
         MNU_MeasureString(ds, &w, &h);
         MNU_DrawString(60, BONUS_LINE(line), ds,1,16);
-        
+
 
         sprintf(ds,"Press SPACE to continue");
         MNU_MeasureString(ds, &w, &h);
@@ -2632,7 +2632,7 @@ BonusScreen(PLAYERp pp)
 
         nextpage();
         ScreenCaptureKeys();
-        
+
         if (State == State->NextState)
             BonusDone = TRUE;
         }
@@ -2649,22 +2649,22 @@ VOID EndGameSequence(VOID)
     if ((gs.ParentalLock || Global_PLock) && FinishAnim == ANIM_SUMO)
         anim_ok = FALSE;
 
-    if (anim_ok)    
+    if (anim_ok)
         playanm(FinishAnim);
-        
+
     BonusScreen(Player + myconnectindex);
 
     ExitLevel = FALSE;
     QuitFlag = FALSE;
     AutoNet = FALSE;
-    
+
     if (FinishAnim == ANIM_ZILLA)
         CreditsLevel();
 
     ExitLevel = FALSE;
     QuitFlag = FALSE;
     AutoNet = FALSE;
-    
+
     if (SW_SHAREWARE) {
         Level = 0;
     } else {
@@ -2675,7 +2675,7 @@ VOID EndGameSequence(VOID)
             Level=0;
             }
         else
-            Level++;        
+            Level++;
     }
     }
 
@@ -2690,29 +2690,29 @@ StatScreen(PLAYERp mpp)
     short w,h;
     int zero=0;
     int handle=0;
-    
+
     short rows,cols,i,j;
     PLAYERp pp = NULL;
     int x,y;
     short death_total[MAX_SW_PLAYERS_REG];
     short kills[MAX_SW_PLAYERS_REG];
     short pal;
-    
+
     #define STAT_START_X 20
     #define STAT_START_Y 85
     #define STAT_OFF_Y 9
     #define STAT_HEADER_Y 14
-    
+
     #define SM_SIZ(num) ((num)*4)
-    
+
     #define STAT_TABLE_X (STAT_START_X + SM_SIZ(15))
     #define STAT_TABLE_XOFF SM_SIZ(6)
 
-    // No stats in bot games    
+    // No stats in bot games
     //if (BotMode) return;
 
     ResetPalette(mpp);
-    COVER_SetReverb(0); // Reset reverb    
+    COVER_SetReverb(0); // Reset reverb
     StopSound();
 
     if (FinishAnim)
@@ -2720,7 +2720,7 @@ StatScreen(PLAYERp mpp)
         EndGameSequence();
         return;
         }
-    
+
     if (gNet.MultiGameType != MULTI_GAME_COMMBAT)
         {
         if (!FinishedLevel)
@@ -2728,49 +2728,49 @@ StatScreen(PLAYERp mpp)
         BonusScreen(mpp);
         return;
         }
-        
+
     flushperms();
     DrawStatScreen();
-        
+
     memset(death_total,0,sizeof(death_total));
     memset(kills,0,sizeof(kills));
 
     sprintf(ds,"MULTIPLAYER TOTALS");
     MNU_MeasureString(ds, &w, &h);
     MNU_DrawString(TEXT_TEST_COL(w), 68, ds, 0, 0);
-    
+
     sprintf(ds,"PRESS SPACE BAR TO CONTINUE");
     MNU_MeasureString(ds, &w, &h);
     MNU_DrawString(TEXT_TEST_COL(w), 189, ds, 0, 0);
-    
+
     x = STAT_START_X;
     y = STAT_START_Y;
-    
+
     sprintf(ds,"  NAME         1     2     3     4     5     6     7    8     KILLS");
     DisplayMiniBarSmString(mpp, x, y, 0, ds);
     rows = OrigCommPlayers;
     cols = OrigCommPlayers;
     mpp = Player + myconnectindex;
-    
+
     y += STAT_HEADER_Y;
 
     for (i = 0; i < rows; i++)
         {
         x = STAT_START_X;
         pp = Player + i;
-        
+
         sprintf(ds,"%d", i+1);
         DisplayMiniBarSmString(mpp, x, y, 0, ds);
 
         sprintf(ds,"  %-13s", pp->PlayerName);
         DisplayMiniBarSmString(mpp, x, y, User[pp->PlayerSprite]->spal, ds);
-        
+
         x = STAT_TABLE_X;
         for (j = 0; j < cols; j++)
             {
             pal = 0;
             death_total[j] += pp->KilledPlayer[j];
-            
+
             if (i == j)
                 {
                 // don't add kill for self or team player
@@ -2787,80 +2787,80 @@ StatScreen(PLAYERp mpp)
                     kills[i] -= pp->KilledPlayer[j];  // subtract self kills
                     } else
                     kills[i] += pp->KilledPlayer[j];  // kills added here
-                } 
-            else    
+                }
+            else
                 {
                 kills[i] += pp->KilledPlayer[j];  // kills added here
                 }
-                   
+
             sprintf(ds,"%d", pp->KilledPlayer[j]);
             DisplayMiniBarSmString(mpp, x, y, pal, ds);
             x += STAT_TABLE_XOFF;
             }
-        
+
         y += STAT_OFF_Y;
         }
 
-        
+
     // Deaths
-    
+
     x = STAT_START_X;
     y += STAT_OFF_Y;
-    
+
     sprintf(ds,"   DEATHS");
     DisplayMiniBarSmString(mpp, x, y, 0, ds);
     x = STAT_TABLE_X;
-    
+
     for (j = 0; j < cols; j++)
         {
         sprintf(ds,"%d",death_total[j]);
         DisplayMiniBarSmString(mpp, x, y, 0, ds);
         x += STAT_TABLE_XOFF;
         }
-    
+
     x = STAT_START_X;
     y += STAT_OFF_Y;
-    
+
     // Kills
     x = STAT_TABLE_X + SM_SIZ(50);
     y = STAT_START_Y + STAT_HEADER_Y;
-    
+
     for (i = 0; i < rows; i++)
         {
         pp = Player + i;
-        
+
         sprintf(ds,"%d", kills[i]);//pp->Kills);
         DisplayMiniBarSmString(mpp, x, y, 0, ds);
-        
+
         y += STAT_OFF_Y;
         }
-    
+
     nextpage();
-    
+
     if (KeyPressed())
         {
         while(KeyPressed());
         }
-    
+
     KEY_PRESSED(KEYSC_SPACE) = 0;
     KEY_PRESSED(KEYSC_ENTER) = 0;
-    
+
     if (gs.MusicOn)
         {
         PlaySong(voc[DIGI_ENDLEV].name, 3, TRUE, TRUE);
         }
-    
+
     while (!KEY_PRESSED(KEYSC_SPACE) && !KEY_PRESSED(KEYSC_ENTER))
         {
         handleevents();
-    
+
         ScreenCaptureKeys();
-        }    
+        }
 
     StopSound();
     Terminate3DSounds();
     }
-    
+
 VOID
 GameIntro(VOID)
     {
@@ -2870,12 +2870,12 @@ GameIntro(VOID)
 
     if (DemoPlaying)
         return;
-        
+
     // this could probably be taken out and you could select skill level
-    // from menu to start the game    
+    // from menu to start the game
     if (!CommEnabled && UserMapName[0])
         return;
-        
+
     Level = 1;
 
 
@@ -2890,7 +2890,7 @@ GameIntro(VOID)
         IntroAnimLevel();
         IntroAnimCount = 0;
         }
-    
+
     MenuLevel();
     }
 
@@ -2916,7 +2916,7 @@ Control(VOID)
         NewLevel();
         }
 
-    CleanExit = TRUE;    
+    CleanExit = TRUE;
     TerminateGame();
     }
 
@@ -2940,11 +2940,11 @@ void
 _ErrMsg(char *strFile, unsigned uLine, char *format, ...)
     {
     va_list arglist;
-    
+
     //DSPRINTF(ds, "Error: %s, line %u", strFile, uLine);
     //MONO_PRINT(ds);
     TerminateGame();
-    
+
 #if 1 //def RENDERTYPEWIN
     {
         char msg[256], *p;
@@ -2957,12 +2957,12 @@ _ErrMsg(char *strFile, unsigned uLine, char *format, ...)
     }
 #else
     printf("Error: %s, line %u\n", strFile, uLine);
-    
+
     va_start( arglist, format );
     vprintf( format, arglist );
     va_end( arglist );
 #endif
-    
+
     exit(0);
     }
 
@@ -2970,7 +2970,7 @@ void
 dsprintf(char *str, char *format, ...)
     {
     va_list arglist;
-    
+
     va_start( arglist, format );
     vsprintf( str, format, arglist );
     va_end( arglist );
@@ -2981,13 +2981,13 @@ dsprintf_null(char *str, char *format, ...)
     {
     va_list arglist;
     }
-    
-void MoveLoop(void)    
+
+void MoveLoop(void)
     {
     int pnum;
-    
+
     getpackets();
-    
+
     if (PredictionOn && CommEnabled)
         {
         while (predictmovefifoplc < Player[myconnectindex].movefifoend)
@@ -2995,9 +2995,9 @@ void MoveLoop(void)
             DoPrediction(ppp);
             }
         }
-    
+
        //While you have new input packets to process...
-    if (!CommEnabled) 
+    if (!CommEnabled)
         bufferjitter = 0;
 
     while (Player[myconnectindex].movefifoend - movefifoplc > bufferjitter)
@@ -3009,34 +3009,34 @@ void MoveLoop(void)
                                 {
                 break;
                                 }
-            }    
-            
+            }
+
            //Pnum is >= 0 only if last loop was broken, meaning a player wasn't caught up
-        if (pnum >= 0)    
+        if (pnum >= 0)
             break;
-        
+
         domovethings();
-        
+
         #if DEBUG
         //if (DemoSyncRecord)
         //    demosync_record();
-        #endif    
-        }        
-        
-    if (!InputMode && !PauseKeySet)    
+        #endif
+        }
+
+    if (!InputMode && !PauseKeySet)
         MNU_CheckForMenus();
-    }    
+    }
 
 
 void InitPlayerGameSettings(void)
     {
     int pnum;
-    
+
     // don't jack with auto aim settings if DemoMode is going
     // what the hell did I do this for?????????
     //if (DemoMode)
     //    return;
-    
+
     if (CommEnabled)
         {
         // everyone gets the same Auto Aim
@@ -3044,29 +3044,29 @@ void InitPlayerGameSettings(void)
             {
             if (gNet.AutoAim)
                 SET(Player[pnum].Flags, PF_AUTO_AIM);
-            else    
+            else
                 RESET(Player[pnum].Flags, PF_AUTO_AIM);
-            }    
+            }
         }
     else
         {
         if (gs.AutoAim)
             SET(Player[myconnectindex].Flags, PF_AUTO_AIM);
-        else    
+        else
             RESET(Player[myconnectindex].Flags, PF_AUTO_AIM);
         }
-    
+
     // everyone had their own Auto Run
     if (gs.AutoRun)
         SET(Player[myconnectindex].Flags, PF_LOCK_RUN);
-    else    
+    else
         RESET(Player[myconnectindex].Flags, PF_LOCK_RUN);
-    
+
     if (gs.MouseAimingOn)
         SET(Player[myconnectindex].Flags, PF_MOUSE_AIMING_ON);
-    else    
+    else
         RESET(Player[myconnectindex].Flags, PF_MOUSE_AIMING_ON);
-    }    
+    }
 
 
 VOID InitRunLevel(VOID)
@@ -3081,7 +3081,7 @@ VOID InitRunLevel(VOID)
         extern int PlayClock;
         LoadGameOutsideMoveLoop = FALSE;
         // contains what is needed from calls below
-        if (gs.Ambient)    
+        if (gs.Ambient)
             StartAmbientSound();
         SetCrosshair();
         PlaySong(LevelSong, -1, TRUE, TRUE);
@@ -3095,34 +3095,34 @@ VOID InitRunLevel(VOID)
         return;
         }
 
-    #if 0    
+    #if 0
         // ensure we are through the initialization code before sending the game
         // version. Otherwise, it is possible to send this too early and have it
         // blown away on the other side.
         waitforeverybody();
     #endif
-    
+
     SendVersion(GameVersion);
 
     waitforeverybody();
 
-    StopSong();    
+    StopSong();
 
     if (Bstrcasecmp(CacheLastLevel, LevelName) != 0)
         DoTheCache();
-    
+
     if (CachePrintMode)
         cachedebug = TRUE;
 
-    // auto aim / auto run / etc    
+    // auto aim / auto run / etc
     InitPlayerGameSettings();
-    
-    // send packets with player info    
+
+    // send packets with player info
     InitNetPlayerOptions();
 
     // Initialize Game part of network code (When ready2send != 0)
     InitNetVars();
-    
+
     {
         int track;
         if (Level == 0) {
@@ -3143,33 +3143,33 @@ VOID InitRunLevel(VOID)
 
 //DebugWriteLoc(__FILE__, __LINE__);
     waitforeverybody();
-        
+
     CheckVersion(GameVersion);
-    
+
     // IMPORTANT - MUST be right before game loop AFTER waitforeverybody
     InitTimingVars();
-    
+
     SetRedrawScreen(Player + myconnectindex);
-    
+
     FX_SetVolume(gs.SoundVolume); // Turn volume back up
-    if (gs.Ambient)    
+    if (gs.Ambient)
         StartAmbientSound();
-    }    
+    }
 
 VOID
 RunLevel(VOID)
     {
     int i;
     InitRunLevel();
-    
+
     FX_SetVolume(gs.SoundVolume);
     SetSongVolume(gs.MusicVolume);
 
-#if 0    
-    waitforeverybody(); 
+#if 0
+    waitforeverybody();
 #endif
     ready2send = 1;
-    
+
     while (TRUE)
         {
         handleevents();
@@ -3197,7 +3197,7 @@ RunLevel(VOID)
     ready2send = 0;
     }
 
-void swexit(int exitval)        
+void swexit(int exitval)
     {
     exit(exitval);
     }
@@ -3244,7 +3244,7 @@ VOID AlphaMessage(VOID)
     "     inside your retail packaging for information about this version.\n\n\n"
     );
     }
-#endif    
+#endif
 
 #if 0 //UK_VERSION
 VOID AlphaMessage(VOID)
@@ -3259,7 +3259,7 @@ VOID AlphaMessage(VOID)
     "     game.  Visit us on the web at www.3drealms.com.\n\n\n"
     );
     }
-#endif    
+#endif
 
 #if 1 //!UK_VERSION && !PLOCK_VERSION
 VOID AlphaMessage(VOID)
@@ -3271,7 +3271,7 @@ VOID AlphaMessage(VOID)
     }
     buildputs("Copyright (c) 1997 3D Realms Entertainment\n\n\n");
     }
-#endif    
+#endif
 
 typedef struct
 {
@@ -3280,7 +3280,7 @@ char    *arg_switch;
 short   arg_match_len;
 char    *arg_fmt;
 char    *arg_descr;
-}CLI_ARG;    
+}CLI_ARG;
 
 #if DEBUG
 CLI_ARG cli_dbg_arg[] =
@@ -3330,7 +3330,7 @@ CLI_ARG cli_arg[] =
 {0, "/debug",              6,      "-debug",               "Debug Help Options"                    },
 #endif
 
-#if 0 //def NET_MODE_MASTER_SLAVE    
+#if 0 //def NET_MODE_MASTER_SLAVE
 {0, "/broadcast",          6,      "-broad<cast>",         "Broadcast network method (default)"    },
 {0, "/masterslave",        7,      "-master<slave>",       "Master/Slave network method"           },
 #endif
@@ -3483,7 +3483,7 @@ int app_main(int argc, char const * const argv[])
             addsearchpath(appdir);
             free(appdir);
         }
-        
+
         // the global support files directory
         if (supportdir) {
             Bsnprintf(dirpath, sizeof(dirpath), "%s/JFShadowWarrior", supportdir);
@@ -3491,7 +3491,7 @@ int app_main(int argc, char const * const argv[])
             free(supportdir);
         }
     }
-    
+
     // default behaviour is to write to the user profile directory, but
     // creating a 'user_profiles_disabled' file in the current working
     // directory where the game was launched makes the installation
@@ -3505,7 +3505,7 @@ int app_main(int argc, char const * const argv[])
         char *supportdir;
         char dirpath[BMAX_PATH+1];
         int asperr;
-        
+
         if ((supportdir = Bgetsupportdir(FALSE))) {
             Bsnprintf(dirpath, sizeof(dirpath), "%s/"
 #if defined(_WIN32) || defined(__APPLE__)
@@ -3528,7 +3528,7 @@ int app_main(int argc, char const * const argv[])
             free(supportdir);
         }
     }
-    
+
     buildsetlogfile("sw.log");
     {
         char *newgrp;
@@ -3562,7 +3562,7 @@ int app_main(int argc, char const * const argv[])
         if (SW_SHAREWARE) buildputs("Detected shareware GRP\n");
         else buildputs("Detected registered GRP\n");
     }
-    
+
     if (SW_SHAREWARE) {
         wm_setapptitle("Shadow Warrior Shareware");
 
@@ -3572,20 +3572,20 @@ int app_main(int argc, char const * const argv[])
     } else {
         wm_setapptitle("Shadow Warrior");
     }
-    
+
     for (i = 0; i < MAX_SW_PLAYERS; i++)
         INITLIST(&Player[i].PanelSpriteList);
 
     DebugOperate = TRUE;
-    
+
     AlphaMessage();
-    
+
     buildputs("\nType 'SW -?' for command line options.\n\n");
 
     UserMapName[0] = '\0';
-    
+
     //LocationInfo = TRUE;
-    
+
     #if 0
     //#if DEBUG && SYNC_TEST
     // automatically record a demo
@@ -3595,25 +3595,25 @@ int app_main(int argc, char const * const argv[])
     DemoRecCnt = 0;
     strcpy(DemoFileName, "DMOTEST.DMO");
     //DemoSyncRecord = TRUE;
-    #endif    
-    
+    #endif
+
     #if DEBUG
     {
     FILE *fout;
     if ((fout = fopen("dbg.foo", "wb")) != NULL)
         {
-        fprintf(fout, "Whoo-oo-ooooo wants some wang?\n");    
+        fprintf(fout, "Whoo-oo-ooooo wants some wang?\n");
         fclose(fout);
         }
-    }    
+    }
     #endif
-    
+
     for (cnt = 1; cnt < argc; cnt++)
         {
         char const *arg = argv[cnt];
-        
+
         if (*arg != '/' && *arg != '-') continue;
-        
+
         if (firstnet > 0) {
             arg++;
             switch (arg[0]) {
@@ -3639,13 +3639,13 @@ int app_main(int argc, char const * const argv[])
             }
             continue;
         }
-    
+
         // Store arg in command line array!
         CON_StoreArg(arg);
         arg++;
 
         if (Bstrncasecmp(arg, "autonet",7) == 0)
-            {   
+            {
             AutoNet = TRUE;
             cnt++;
             sscanf(argv[cnt],"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",&Auto.Rules,&Auto.Level,&Auto.Enemy,&Auto.Markers,
@@ -3660,7 +3660,7 @@ int app_main(int argc, char const * const argv[])
                 sscanf(argv[cnt], "%d",&turn_scale);
                 }
             }
-        else    
+        else
         if (Bstrncasecmp(arg, "movescale",9) == 0)
             {
             if (cnt <= argc-2)
@@ -3669,10 +3669,10 @@ int app_main(int argc, char const * const argv[])
                 sscanf(argv[cnt], "%d",&move_scale);
                 }
             }
-        else    
+        else
         if (Bstrncasecmp(arg, "extcompat",9) == 0)
             {
-            move_scale *= 5; 
+            move_scale *= 5;
             turn_scale *= 5;
             }
         else
@@ -3680,7 +3680,7 @@ int app_main(int argc, char const * const argv[])
             {
             CachePrintMode = TRUE;
             }
-        else    
+        else
         if (Bstrncasecmp(arg, "setupfile",8) == 0)
             {
             // Passed by setup.exe
@@ -3695,8 +3695,8 @@ int app_main(int argc, char const * const argv[])
         firstnet = cnt+1;
             }
             }
-        #if DEBUG    
-        else    
+        #if DEBUG
+        else
         if (Bstrncasecmp(arg, "debug",5) == 0)
             {
 #ifdef RENDERTYPEWIN
@@ -3733,9 +3733,9 @@ int app_main(int argc, char const * const argv[])
                     }
                 }
 #endif
-            swexit(0);    
+            swexit(0);
             }
-        #endif    
+        #endif
         else
         if (Bstrncasecmp(arg, "short",5) == 0)
             {
@@ -3797,7 +3797,7 @@ int app_main(int argc, char const * const argv[])
                         AutoColor = temp;
                         HasAutoColor = TRUE;
             }
-        else 
+        else
         if (Bstrncasecmp(arg, "level", 5) == 0)
             {
             if (strlen(arg) > 5)
@@ -3810,7 +3810,7 @@ int app_main(int argc, char const * const argv[])
             {
             if (strlen(arg) > 1)
                 Skill = atoi(&arg[1])-1;
-            
+
             Skill = max(Skill,0);
             Skill = min(Skill,3);
             }
@@ -3843,7 +3843,7 @@ int app_main(int argc, char const * const argv[])
             {
             NoMeters = TRUE;
             }
-        else 
+        else
         if (Bstrncasecmp(arg, "coop", 4) == 0)
             {
             if (strlen(arg) > 4)
@@ -3866,7 +3866,7 @@ int app_main(int argc, char const * const argv[])
                 strcpy(DemoFileName, &arg[2]);
                 if (strchr(DemoFileName, '.') == 0)
                     strcat(DemoFileName, ".dmo");
-                }    
+                }
             }
         else
         if (FALSE && Bstrncasecmp(arg, "dr", 2) == 0)
@@ -3881,7 +3881,7 @@ int app_main(int argc, char const * const argv[])
                 strcpy(DemoFileName, &arg[2]);
                 if (strchr(DemoFileName, '.') == 0)
                     strcat(DemoFileName, ".dmo");
-                }    
+                }
             }
         else
         if (FALSE && Bstrncasecmp(arg, "dp", 2) == 0)
@@ -3895,11 +3895,11 @@ int app_main(int argc, char const * const argv[])
                 strcpy(DemoFileName, &arg[2]);
                 if (strchr(DemoFileName, '.') == 0)
                     strcat(DemoFileName, ".dmo");
-                }    
+                }
             }
-            
-        #if 0 //def NET_MODE_MASTER_SLAVE    
-        else    
+
+        #if 0 //def NET_MODE_MASTER_SLAVE
+        else
         if (Bstrncasecmp(arg, "masterslave",6) == 0)
             {
             NetModeOverride = TRUE;
@@ -3911,14 +3911,14 @@ int app_main(int argc, char const * const argv[])
             NetModeOverride = TRUE;
             NetBroadcastMode = TRUE;
             }
-        #endif    
+        #endif
 
         else
         if (Bstrncasecmp(arg, "cheat",5) == 0)
             {
             ArgCheat = TRUE;
             }
-        else    
+        else
         if (Bstrncasecmp(arg, "demosynctest",12) == 0)
             {
             NumSyncBytes = 8;
@@ -3932,12 +3932,12 @@ int app_main(int argc, char const * const argv[])
             DemoSyncTest = FALSE;
             DemoSyncRecord = TRUE;
             }
-        else  
+        else
         if (Bstrncasecmp(arg, "cam",3) == 0)
             {
             CameraTestMode = TRUE;
             }
-            
+
         #if DEBUG
         else
         if (FALSE && Bstrncasecmp(arg, "de", 2) == 0)
@@ -3951,7 +3951,7 @@ int app_main(int argc, char const * const argv[])
                 strcpy(DemoFileName, &arg[2]);
                 if (strchr(DemoFileName, '.') == 0)
                     strcat(DemoFileName, ".dmo");
-                }    
+                }
             #else
             DemoEdit = TRUE;
             DemoPlaying = TRUE;
@@ -3962,10 +3962,10 @@ int app_main(int argc, char const * const argv[])
                 strcpy(DemoFileName, &arg[2]);
                 if (strchr(DemoFileName, '.') == 0)
                     strcat(DemoFileName, ".dmo");
-                }    
-            #endif    
+                }
+            #endif
             }
-        else    
+        else
         if (Bstrncasecmp(arg, "randprint",5) == 0)
             {
             RandomPrint = TRUE;
@@ -3984,7 +3984,7 @@ int app_main(int argc, char const * const argv[])
             extern BOOL DebugSecret;
             DebugSecret = TRUE;
             }
-        else    
+        else
         if (Bstrncasecmp(arg, "debugactor", 10) == 0)
             {
             DebugActor = TRUE;
@@ -4028,22 +4028,22 @@ int app_main(int argc, char const * const argv[])
                 strcpy(DemoTmpName, &arg[2]);
                 if (strchr(DemoFileName, '.') == 0)
                     strcat(DemoFileName, ".dmo");
-                }    
+                }
             }
-        else 
+        else
         if (Bstrncasecmp(arg, "nodemo", 6) == 0)
             {
             DemoRecording = FALSE;
             DemoPlaying = FALSE;
             PreCaching = TRUE;
             DemoRecCnt = 0;
-            
+
             DemoSyncTest = FALSE;
             DemoSyncRecord = FALSE;
             }
 
         #endif
-            
+
         else
         if (Bstrncasecmp(arg, "map", 3) == 0 && !SW_SHAREWARE)
             {
@@ -4062,11 +4062,11 @@ int app_main(int argc, char const * const argv[])
 #else
                 printf("ERROR: Could not find user map %s!\n\n",UserMapName);
 #endif
-                kclose(fil);    
+                kclose(fil);
                 swexit(0);
                 }
-            else    
-                kclose(fil);    
+            else
+                kclose(fil);
             }
 
         else
@@ -4120,7 +4120,7 @@ ManualPlayerInsert(PLAYERp pp)
 
         // If IsAI = TRUE, new player will be a bot
         Player[myconnectindex].IsAI = FALSE;
-        
+
         numplayers++;
         }
 
@@ -4152,13 +4152,13 @@ BotPlayerInsert(PLAYERp pp)
 
         // If IsAI = TRUE, new player will be a bot
         Player[numplayers].IsAI = TRUE;
-        
+
         numplayers++;
         }
 
 //    SetFragBar(pp);
     }
-    
+
 VOID
 ManualPlayerDelete(PLAYERp cur_pp)
     {
@@ -4234,7 +4234,7 @@ SinglePlayInput(PLAYERp pp)
     if (!(KEY_PRESSED(KEYSC_ALT) | KEY_PRESSED(KEYSC_RALT)))
         return;
 
-        
+
     if (!SW_SHAREWARE && KEY_PRESSED(KEYSC_M))
         {
         extern BOOL DebugActorFreeze;
@@ -4321,13 +4321,13 @@ SinglePlayInput(PLAYERp pp)
         ResetKeyRange(&KEY_PRESSED(KEYSC_1), &KEY_PRESSED(KEYSC_9));
         }
 
-    #if 0    
+    #if 0
     if (KEY_PRESSED(KEYSC_T))
         {
         KEY_PRESSED(KEYSC_T) = 0;
         PlayerTrackingMode ^= 1;
         }
-    #endif    
+    #endif
 
     if (KEY_PRESSED(KEYSC_H))
         {
@@ -4411,7 +4411,7 @@ DebugKeys(PLAYERp pp)
 
 #endif
 
-VOID 
+VOID
 ConKey( void )
     {
     #if DEBUG
@@ -4447,10 +4447,10 @@ ConKey( void )
             if (!CommEnabled)
                 GamePaused = FALSE;
             memset(MessageInputString, '\0', sizeof(MessageInputString));
-            SetFragBar(Player + myconnectindex);    
+            SetFragBar(Player + myconnectindex);
             }
         }
-    #endif    
+    #endif
     }
 
 char WangBangMacro[10][64];
@@ -4462,7 +4462,7 @@ FunctionKeys(PLAYERp pp)
     extern short QuickLoadNum;
     static int rts_delay = 0;
     int fn_key = 0;
-    
+
     rts_delay++;
 
     if (KEY_PRESSED(sc_F1))   { fn_key = 1; }
@@ -4475,46 +4475,46 @@ FunctionKeys(PLAYERp pp)
     if (KEY_PRESSED(sc_F8))   { fn_key = 8; }
     if (KEY_PRESSED(sc_F9))   { fn_key = 9; }
     if (KEY_PRESSED(sc_F10))  { fn_key = 10; }
-    
+
     if (KEY_PRESSED(KEYSC_ALT) || KEY_PRESSED(KEYSC_RALT))
     {
         if (rts_delay > 16 && fn_key && CommEnabled && !gs.ParentalLock && !Global_PLock)
             {
             KEY_PRESSED(sc_F1 + fn_key - 1) = 0;
-            
+
             rts_delay = 0;
-            
+
             PlaySoundRTS(fn_key);
-            
+
             if (CommEnabled)
                 {
                 short pnum;
                 PACKET_RTS p;
-                
+
                 p.PacketType = PACKET_TYPE_RTS;
                 p.RTSnum = fn_key;
-                
+
                 netbroadcastpacket((BYTEp)(&p), sizeof(p));            // TENSW
                 }
             }
-            
-        return;    
-        }    
+
+        return;
+        }
 
     if (KEY_PRESSED(KEYSC_LSHIFT) || KEY_PRESSED(KEYSC_RSHIFT))
         {
         if (fn_key && CommEnabled)
             {
             KEY_PRESSED(sc_F1 + fn_key - 1) = 0;
-            
+
             if (CommEnabled)
                 {
                 short pnum;
-                
+
                 sprintf(ds,"SENT: %s",WangBangMacro[fn_key-1]);
                 adduserquote(ds);
-                
-                TRAVERSE_CONNECT(pnum)        
+
+                TRAVERSE_CONNECT(pnum)
                     {
                     if (pnum != myconnectindex)
                         {
@@ -4524,12 +4524,12 @@ FunctionKeys(PLAYERp pp)
                     }
                 }
             }
-            
-        return;    
-        }    
 
-    
-    if (numplayers <= 1)    
+        return;
+        }
+
+
+    if (numplayers <= 1)
         {
         // F2 save menu
         if (KEY_PRESSED(KEYSC_F2))
@@ -4541,7 +4541,7 @@ FunctionKeys(PLAYERp pp)
                 ControlPanelType = ct_savemenu;
                 }
             }
-            
+
         // F3 load menu
         if (KEY_PRESSED(KEYSC_F3))
             {
@@ -4552,7 +4552,7 @@ FunctionKeys(PLAYERp pp)
                 ControlPanelType = ct_loadmenu;
                 }
             }
-            
+
         // F6 option menu
         if (KEY_PRESSED(KEYSC_F6))
             {
@@ -4566,11 +4566,11 @@ FunctionKeys(PLAYERp pp)
                 }
             }
 
-        // F9 quick load    
+        // F9 quick load
         if (KEY_PRESSED(KEYSC_F9))
             {
             KEY_PRESSED(KEYSC_F9) = 0;
-            
+
             if (!TEST(pp->Flags, PF_DEAD))
                 {
                 if (QuickLoadNum < 0)
@@ -4582,12 +4582,12 @@ FunctionKeys(PLAYERp pp)
                     KB_ClearKeysDown();
                     KEY_PRESSED(KEYSC_ESC) = 1;
                     ControlPanelType = ct_quickloadmenu;
-                    }    
-                }    
+                    }
+                }
             }
 
-        }    
-        
+        }
+
 
     // F4 sound menu
     if (KEY_PRESSED(KEYSC_F4))
@@ -4597,7 +4597,7 @@ FunctionKeys(PLAYERp pp)
         ControlPanelType = ct_soundmenu;
         }
 
-        
+
     // F7 VIEW control
     if (KEY_PRESSED(KEYSC_F7))
         {
@@ -4621,17 +4621,17 @@ FunctionKeys(PLAYERp pp)
                 }
             }
         }
-        
-    // F8 toggle messages    
+
+    // F8 toggle messages
     if (KEY_PRESSED(KEYSC_F8))
         {
         KEY_PRESSED(KEYSC_F8) = 0;
-        
+
         gs.Messages ^= 1;
-        
+
         if (gs.Messages)
             PutStringInfoLine(pp, "Messages ON");
-        else    
+        else
             PutStringInfoLine(pp, "Messages OFF");
         }
 
@@ -4642,7 +4642,7 @@ FunctionKeys(PLAYERp pp)
         KEY_PRESSED(KEYSC_ESC) = 1;
         ControlPanelType = ct_quitmenu;
         }
-    
+
     // F11 gamma correction
     if (KEY_PRESSED(KEYSC_F11) > 0)
         {
@@ -4651,10 +4651,10 @@ FunctionKeys(PLAYERp pp)
         gs.Brightness++;
         if (gs.Brightness >= SLDR_BRIGHTNESSMAX)
             gs.Brightness = 0;
-           
-        sprintf(ds,"Brightness level (%d)",gs.Brightness+1);   
-        PutStringInfoLine(pp, ds);            
-        
+
+        sprintf(ds,"Brightness level (%d)",gs.Brightness+1);
+        PutStringInfoLine(pp, ds);
+
         if(!pp->NightVision && pp->FadeAmt <= 0)
             {
             COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
@@ -4663,7 +4663,7 @@ FunctionKeys(PLAYERp pp)
         //DoPlayerDivePalette(pp);
         //DoPlayerNightVisionPalette(pp);
         }
-        
+
     }
 
 VOID PauseKey(PLAYERp pp)
@@ -4671,18 +4671,18 @@ VOID PauseKey(PLAYERp pp)
     extern BOOL GamePaused,CheatInputMode;
     extern short QuickLoadNum;
     extern BOOL enabled;
-    
+
     if (KEY_PRESSED(sc_Pause) && !CommEnabled && !InputMode && !UsingMenus && !CheatInputMode && !ConPanel)
         {
         KEY_PRESSED(sc_Pause) = 0;
-        
+
         PauseKeySet ^= 1;
-        
+
         if (PauseKeySet)
             GamePaused = TRUE;
-        else    
+        else
             GamePaused = FALSE;
-            
+
         if (GamePaused)
             {
             short w,h;
@@ -4695,9 +4695,9 @@ VOID PauseKey(PLAYERp pp)
             {
             pClearTextLine(pp, 100);
             PauseSong(FALSE);
-            }    
+            }
         }
-    
+
     if (!CommEnabled && TEST(pp->Flags, PF_DEAD))
         {
         if (ReloadPrompt)
@@ -4706,19 +4706,19 @@ VOID PauseKey(PLAYERp pp)
                 {
                 ReloadPrompt = FALSE;
                 }
-            else    
+            else
                 {
                 KEY_PRESSED(KEYSC_ESC) = 1;
                 ControlPanelType = ct_quickloadmenu;
                 }
             }
-        }    
-    }    
+        }
+    }
 
 
 
 VOID GetMessageInput(PLAYERp pp)
-    {    
+    {
     int pnum = myconnectindex;
     short w,h;
     signed char MNU_InputSmallString(char *, short);
@@ -4729,7 +4729,7 @@ VOID GetMessageInput(PLAYERp pp)
     static char HoldMessageInputString[256];
     int i;
     BOOL IsCommand(char *str);
-    
+
     if (!MessageInputMode && !ConInputMode)
         {
         if (BUTTON(gamefunc_SendMessage))
@@ -4740,7 +4740,7 @@ VOID GetMessageInput(PLAYERp pp)
             InputMode = TRUE;
             TeamSendTeam = FALSE;
             TeamSendAll = FALSE;
-            
+
             if (MessageInputMode)
                 {
                 memset(MessageInputString, '\0', sizeof(MessageInputString));
@@ -4752,7 +4752,7 @@ VOID GetMessageInput(PLAYERp pp)
         {
         if (gs.BorderNum > BORDER_BAR+1)
             SetRedrawScreen(pp);
-        
+
         // get input
         switch(MNU_InputSmallString(MessageInputString, 320-20))
             {
@@ -4776,14 +4776,14 @@ VOID GetMessageInput(PLAYERp pp)
                     {
                     if (gNet.TeamPlay)
                         {
-                        if (memcmp(MessageInputString, TEAM_MENU, sizeof(TEAM_MENU)) != 0)    
+                        if (memcmp(MessageInputString, TEAM_MENU, sizeof(TEAM_MENU)) != 0)
                             {
                             // see if its a command
                             if (IsCommand(MessageInputString))
                                 {
                                 TeamSendAll = TRUE;
                                 }
-                            else    
+                            else
                                 {
                                 strcpy(HoldMessageInputString, MessageInputString);
                                 strcpy(MessageInputString, TEAM_MENU);
@@ -4791,15 +4791,15 @@ VOID GetMessageInput(PLAYERp pp)
                                 }
                             }
                         else
-                        if (memcmp(MessageInputString, TEAM_MENU, sizeof(TEAM_MENU)) == 0)    
+                        if (memcmp(MessageInputString, TEAM_MENU, sizeof(TEAM_MENU)) == 0)
                             {
                             strcpy(MessageInputString, HoldMessageInputString);
                             TeamSendAll = TRUE;
-                            }    
+                            }
                         }
-                    
+
                     SEND_MESSAGE:
-                    
+
                     // broadcast message
                     MessageInputMode = FALSE;
                     InputMode = FALSE;
@@ -4807,13 +4807,13 @@ VOID GetMessageInput(PLAYERp pp)
                     KB_FlushKeyboardQueue();
                     CONTROL_ClearButton(gamefunc_Inventory);
                     CON_ProcessUserCommand();     // Check to see if it's a cheat or command
-                    
+
                     for (i = 0; i < NUMGAMEFUNCTIONS; i++)
                         CONTROL_ClearButton(i);
 
                     // Put who sent this
                     sprintf(ds,"%s: %s",pp->PlayerName,MessageInputString);
-                    
+
                     if (gNet.TeamPlay)
                         {
                         TRAVERSE_CONNECT(pnum)
@@ -4822,13 +4822,13 @@ VOID GetMessageInput(PLAYERp pp)
                                 {
                                 if (TeamSendAll)
                                     SendMessage(pnum, ds);
-                                else    
+                                else
                                 if (User[pp->PlayerSprite]->spal == User[Player[pnum].PlayerSprite]->spal)
                                     SendMessage(pnum, ds);
                                 }
                             }
                         }
-                    else    
+                    else
                     TRAVERSE_CONNECT(pnum)
                         {
                         if (pnum != myconnectindex)
@@ -4841,19 +4841,19 @@ VOID GetMessageInput(PLAYERp pp)
                      quotebotgoal = quotebot;
                     }
                 break;
-                
+
             case TRUE: // Got input
-            
+
                 if (gNet.TeamPlay)
                     {
-                    if (memcmp(MessageInputString, TEAM_MENU"a", sizeof(TEAM_MENU)+1) == 0)    
+                    if (memcmp(MessageInputString, TEAM_MENU"a", sizeof(TEAM_MENU)+1) == 0)
                         {
                         strcpy(MessageInputString, HoldMessageInputString);
                         TeamSendAll = TRUE;
                         goto SEND_MESSAGE;
-                        }    
-                    else    
-                    if (memcmp(MessageInputString, TEAM_MENU"t", sizeof(TEAM_MENU)+1) == 0)    
+                        }
+                    else
+                    if (memcmp(MessageInputString, TEAM_MENU"t", sizeof(TEAM_MENU)+1) == 0)
                         {
                         strcpy(MessageInputString, HoldMessageInputString);
                         TeamSendTeam = TRUE;
@@ -4866,16 +4866,16 @@ VOID GetMessageInput(PLAYERp pp)
                             {
                             strcpy(MessageInputString, TEAM_MENU);
                             }
-                        }        
-                    }    
-            
+                        }
+                    }
+
                 break;
             }
         }
     }
-    
+
 VOID GetConInput(PLAYERp pp)
-    {    
+    {
     int pnum = myconnectindex;
     short w,h;
     signed char MNU_InputSmallString(char *, short);
@@ -4884,9 +4884,9 @@ VOID GetConInput(PLAYERp pp)
 
     if (MessageInputMode || HelpInputMode)
         return;
-    
+
     ConKey();
-    
+
     // Console input commands
     if (ConInputMode && !MessageInputMode)
         {
@@ -4916,7 +4916,7 @@ VOID GetConInput(PLAYERp pp)
                     CONTROL_ClearButton(gamefunc_Inventory);
                     CON_ConMessage("%s", MessageInputString);
                     CON_ProcessUserCommand();     // Check to see if it's a cheat or command
-                    
+
                     conbot += 6;
                     conbotgoal = conbot;
                     //addconquote(MessageInputString);
@@ -4928,22 +4928,22 @@ VOID GetConInput(PLAYERp pp)
                 break;
             }
         }
-    }    
+    }
 
 
 VOID GetHelpInput(PLAYERp pp)
     {
     extern BOOL GamePaused;
-    
+
     if (KEY_PRESSED(KEYSC_ALT) || KEY_PRESSED(KEYSC_RALT))
         return;
-    
+
     if (KEY_PRESSED(KEYSC_LSHIFT) || KEY_PRESSED(KEYSC_RSHIFT))
         return;
-    
+
     if (MessageInputMode || ConInputMode)
         return;
-    
+
     // F1 help menu
     if (!HelpInputMode)
         {
@@ -4972,8 +4972,8 @@ VOID GetHelpInput(PLAYERp pp)
                 GamePaused = FALSE;
             SetRedrawScreen(pp);
             }
-            
-        if (KEY_PRESSED(KEYSC_SPACE) || KEY_PRESSED(KEYSC_ENTER) || KEY_PRESSED(KEYSC_PGDN) || KEY_PRESSED(KEYSC_DOWN) || KEY_PRESSED(KEYSC_RIGHT) || KEY_PRESSED(sc_kpad_3) || KEY_PRESSED(sc_kpad_2) || KEY_PRESSED(sc_kpad_6))    
+
+        if (KEY_PRESSED(KEYSC_SPACE) || KEY_PRESSED(KEYSC_ENTER) || KEY_PRESSED(KEYSC_PGDN) || KEY_PRESSED(KEYSC_DOWN) || KEY_PRESSED(KEYSC_RIGHT) || KEY_PRESSED(sc_kpad_3) || KEY_PRESSED(sc_kpad_2) || KEY_PRESSED(sc_kpad_6))
             {
             KEY_PRESSED(KEYSC_SPACE) = KEY_PRESSED(KEYSC_ENTER) = 0;
             KEY_PRESSED(KEYSC_PGDN) = 0;
@@ -4982,7 +4982,7 @@ VOID GetHelpInput(PLAYERp pp)
             KEY_PRESSED(sc_kpad_3) = 0;
             KEY_PRESSED(sc_kpad_2) = 0;
             KEY_PRESSED(sc_kpad_6) = 0;
-            
+
             HelpPage++;
             if (HelpPage >= (int)SIZ(HelpPagePic))
                 // CTW MODIFICATION
@@ -4991,8 +4991,8 @@ VOID GetHelpInput(PLAYERp pp)
                 HelpPage = 0;
                 // CTW MODIFICATION END
             }
-            
-        if (KEY_PRESSED(KEYSC_PGUP) || KEY_PRESSED(KEYSC_UP) || KEY_PRESSED(KEYSC_LEFT) || KEY_PRESSED(sc_kpad_9) || KEY_PRESSED(sc_kpad_8) || KEY_PRESSED(sc_kpad_4))    
+
+        if (KEY_PRESSED(KEYSC_PGUP) || KEY_PRESSED(KEYSC_UP) || KEY_PRESSED(KEYSC_LEFT) || KEY_PRESSED(sc_kpad_9) || KEY_PRESSED(sc_kpad_8) || KEY_PRESSED(sc_kpad_4))
             {
             KEY_PRESSED(KEYSC_PGUP) = 0;
             KEY_PRESSED(KEYSC_UP) = 0;
@@ -5000,7 +5000,7 @@ VOID GetHelpInput(PLAYERp pp)
             KEY_PRESSED(sc_kpad_8) = 0;
             KEY_PRESSED(sc_kpad_9) = 0;
             KEY_PRESSED(sc_kpad_4) = 0;
-            
+
             HelpPage--;
             if (HelpPage < 0)
                 // CTW MODIFICATION
@@ -5009,11 +5009,11 @@ VOID GetHelpInput(PLAYERp pp)
                 // CTW MODIFICATION END
             }
         }
-    }    
+    }
 
 short MirrorDelay;
 int MouseYAxisMode = -1;
-    
+
 VOID
 getinput(SW_PACKET *loc)
     {
@@ -5045,19 +5045,19 @@ getinput(SW_PACKET *loc)
 
     extern BOOL MenuButtonAutoRun;
     extern BOOL MenuButtonAutoAim;
-    
-    if (Prediction && CommEnabled) 
+
+    if (Prediction && CommEnabled)
         {
         newpp = ppp;
         }
-    
+
     // reset all syncbits
     loc->bits = 0;
     svel = vel = angvel = aimvel = 0;
-    
+
     // MAKE SURE THIS WILL GET SET
     SET_LOC_KEY(loc->bits, SK_QUIT_GAME, MultiPlayQuitFlag);
-        
+
     if (gs.MouseAimingType == 1) // while held
         {
         if (BUTTON(gamefunc_Mouse_Aiming))
@@ -5087,7 +5087,7 @@ getinput(SW_PACKET *loc)
                 SET_LOC_KEY(loc->bits, SK_LOOK_UP, TRUE);
                 PutStringInfo(pp, "Mouse Aiming Off");
                 }
-            else    
+            else
                 {
                 PutStringInfo(pp, "Mouse Aiming On");
                 }
@@ -5107,14 +5107,14 @@ getinput(SW_PACKET *loc)
         CONTROL_MapAnalogAxis(1, mouseaxis, controldevice_mouse);
         MouseYAxisMode = mouseaxis;
         }
-        
+
     CONTROL_GetInput(&info);
 
     info.dz = (info.dz * move_scale)>>8;
     info.dyaw = (info.dyaw * turn_scale)>>8;
 
     PauseKey(pp);
-    
+
     if (PauseKeySet)
         return;
 
@@ -5129,7 +5129,7 @@ getinput(SW_PACKET *loc)
     if (BUTTON(gamefunc_Map))
         {
         CONTROL_ClearButton(gamefunc_Map);
-        
+
         // Init follow coords
         Follow_posx = pp->posx;
         Follow_posy = pp->posy;
@@ -5143,14 +5143,14 @@ getinput(SW_PACKET *loc)
             {
             MirrorDelay = 1;
             dimensionmode = 3;
-            SetFragBar(pp);    
+            SetFragBar(pp);
             ScrollMode2D = FALSE;
             SetRedrawScreen(pp);
             }
         }
-    
+
     // Toggle follow map mode on/off
-    if (dimensionmode == 5 || dimensionmode == 6)    
+    if (dimensionmode == 5 || dimensionmode == 6)
         {
         if (BUTTON(gamefunc_Map_Follow_Mode) && !BUTTONHELD(gamefunc_Map_Follow_Mode))
             {
@@ -5165,25 +5165,25 @@ getinput(SW_PACKET *loc)
     // Note: ScrollMode2D = Follow mode, so this get called only during follow mode
     if (ScrollMode2D && pp == Player + myconnectindex && !Prediction)
         MoveScrollMode2D(Player + myconnectindex);
-        
-    // !JIM! Added UsingMenus so that you don't move at all while using menus    
+
+    // !JIM! Added UsingMenus so that you don't move at all while using menus
     if (MenuInputMode || UsingMenus || ScrollMode2D || InputMode)
         return;
-        
+
     SET_LOC_KEY(loc->bits, SK_SPACE_BAR, ((!!KEY_PRESSED(KEYSC_SPACE)) | BUTTON(gamefunc_Open)));
-        
+
     running = BUTTON(gamefunc_Run) || TEST(pp->Flags, PF_LOCK_RUN);
-        
+
     if (BUTTON(gamefunc_Strafe) && !pp->sop)
         svel = -info.dyaw;
     else
         {
         if (info.dyaw > 0)
             angvel = labs((-info.dyaw));
-        else    
+        else
             angvel = info.dyaw;
         }
-    
+
     aimvel = info.dpitch;
     aimvel = min(127, aimvel);
     aimvel = max(-128, aimvel);
@@ -5199,7 +5199,7 @@ getinput(SW_PACKET *loc)
             turnamount = RUNTURN * 3;
         else
             turnamount = RUNTURN;
-            
+
         keymove = NORMALKEYMOVE << 1;
         }
     else
@@ -5208,7 +5208,7 @@ getinput(SW_PACKET *loc)
             turnamount = NORMALTURN * 3;
         else
             turnamount = NORMALTURN;
-            
+
         keymove = NORMALKEYMOVE;
         }
 
@@ -5243,13 +5243,13 @@ getinput(SW_PACKET *loc)
             turnheldtime = 0;
             }
         }
-        
+
     if (BUTTON(gamefunc_Strafe_Left) && !pp->sop)
         svel += keymove;
 
     if (BUTTON(gamefunc_Strafe_Right) && !pp->sop)
         svel += -keymove;
-        
+
     if (BUTTON(gamefunc_Move_Forward))
         {
         vel += keymove;
@@ -5265,7 +5265,7 @@ getinput(SW_PACKET *loc)
     if (BUTTON(gamefunc_Move_Backward))
         vel += -keymove;
 
-    
+
     if (vel < -MAXVEL)
         vel = -MAXVEL;
     if (vel > MAXVEL)
@@ -5278,7 +5278,7 @@ getinput(SW_PACKET *loc)
         angvel = -MAXANGVEL;
     if (angvel > MAXANGVEL)
         angvel = MAXANGVEL;
-    
+
     momx = mulscale(vel, sintable[NORM_ANGLE(newpp->pang + 512)], 9);
     momy = mulscale(vel, sintable[NORM_ANGLE(newpp->pang)], 9);
 
@@ -5296,9 +5296,9 @@ getinput(SW_PACKET *loc)
         if ((!!TEST(pp->Flags, PF_LOCK_RUN)) != gs.AutoRun)
             SET_LOC_KEY(loc->bits, SK_RUN_LOCK, TRUE);
         }
-        
+
     SET_LOC_KEY(loc->bits, SK_RUN_LOCK, BUTTON(gamefunc_AutoRun));
-    
+
     if (!CommEnabled)
         {
         if (MenuButtonAutoAim)
@@ -5306,17 +5306,17 @@ getinput(SW_PACKET *loc)
             MenuButtonAutoAim = FALSE;
             if ((!!TEST(pp->Flags, PF_AUTO_AIM)) != gs.AutoAim)
                 SET_LOC_KEY(loc->bits, SK_AUTO_AIM, TRUE);
-            }    
-        }    
-    else    
+            }
+        }
+    else
     if (KEY_PRESSED(sc_Pause))
         {
         SET_LOC_KEY(loc->bits, SK_PAUSE, KEY_PRESSED(sc_Pause));
         KEY_PRESSED(sc_Pause) = 0;
         }
-    
+
     SET_LOC_KEY(loc->bits, SK_CENTER_VIEW, BUTTON(gamefunc_Center_View));
-    
+
     SET_LOC_KEY(loc->bits, SK_RUN, BUTTON(gamefunc_Run));
     SET_LOC_KEY(loc->bits, SK_SHOOT, BUTTON(gamefunc_Fire));
 
@@ -5327,8 +5327,8 @@ getinput(SW_PACKET *loc)
     // actually just look
     SET_LOC_KEY(loc->bits, SK_LOOK_UP, BUTTON(gamefunc_Look_Up));
     SET_LOC_KEY(loc->bits, SK_LOOK_DOWN, BUTTON(gamefunc_Look_Down));
-    
-    
+
+
     for (i = 0; i < MAX_WEAPONS_KEYS; i++)
         {
         if (BUTTON(gamefunc_Weapon_1 + i))
@@ -5337,26 +5337,26 @@ getinput(SW_PACKET *loc)
             break;
             }
         }
-    
+
     if (BUTTON(gamefunc_Next_Weapon))
         {
         USERp u = User[pp->PlayerSprite];
         short next_weapon = u->WeaponNum + 1;
         short start_weapon;
-        
+
         CONTROL_ClearButton(gamefunc_Next_Weapon);
-                
+
         start_weapon = u->WeaponNum + 1;
 
-        if (u->WeaponNum == WPN_SWORD)    
+        if (u->WeaponNum == WPN_SWORD)
             start_weapon = WPN_STAR;
 
-        if (u->WeaponNum == WPN_FIST)    
+        if (u->WeaponNum == WPN_FIST)
             {
             next_weapon = 14;
             }
-        else    
-            {    
+        else
+            {
             next_weapon = -1;
             for (i = start_weapon; TRUE; i++)
                 {
@@ -5365,19 +5365,19 @@ getinput(SW_PACKET *loc)
                     next_weapon = 13;
                     break;
                     }
-                    
+
                 if (TEST(pp->WpnFlags, BIT(i)) && pp->WpnAmmo[i])
                     {
                     next_weapon = i;
                     break;
                     }
                 }
-            }    
-        
+            }
+
         SET(loc->bits, next_weapon + 1);
         }
-        
-        
+
+
     if (BUTTON(gamefunc_Previous_Weapon))
         {
         USERp u = User[pp->PlayerSprite];
@@ -5387,17 +5387,17 @@ getinput(SW_PACKET *loc)
         CONTROL_ClearButton(gamefunc_Previous_Weapon);
 
         start_weapon = u->WeaponNum - 1;
-        
-        if (u->WeaponNum == WPN_SWORD)    
+
+        if (u->WeaponNum == WPN_SWORD)
             {
             prev_weapon = 13;
             }
-        else    
-        if (u->WeaponNum == WPN_STAR)    
+        else
+        if (u->WeaponNum == WPN_STAR)
             {
             prev_weapon = 14;
             }
-        else    
+        else
             {
             prev_weapon = -1;
             for (i = start_weapon; TRUE; i--)
@@ -5411,11 +5411,11 @@ getinput(SW_PACKET *loc)
                     break;
                     }
                 }
-            }    
-        
+            }
+
         SET(loc->bits, prev_weapon + 1);
         }
-    
+
     inv_hotkey = 0;
     if (BUTTON(gamefunc_Med_Kit))
         inv_hotkey = INVENTORY_MEDKIT+1;
@@ -5429,9 +5429,9 @@ getinput(SW_PACKET *loc)
         inv_hotkey = INVENTORY_FLASHBOMB+1;
     if (BUTTON(gamefunc_Caltrops))
         inv_hotkey = INVENTORY_CALTROPS+1;
-    
+
     SET(loc->bits, inv_hotkey<<SK_INV_HOTKEY_BIT0);
-        
+
     SET_LOC_KEY(loc->bits, SK_INV_USE, BUTTON(gamefunc_Inventory));
 
     SET_LOC_KEY(loc->bits, SK_OPERATE, BUTTON(gamefunc_Open));
@@ -5442,12 +5442,12 @@ getinput(SW_PACKET *loc)
 
     SET_LOC_KEY(loc->bits, SK_INV_LEFT, BUTTON(gamefunc_Inventory_Left));
     SET_LOC_KEY(loc->bits, SK_INV_RIGHT, BUTTON(gamefunc_Inventory_Right));
-    
+
     SET_LOC_KEY(loc->bits, SK_HIDE_WEAPON, BUTTON(gamefunc_Holster_Weapon));
 
     // need BUTTON
     SET_LOC_KEY(loc->bits, SK_CRAWL_LOCK, KEY_PRESSED(KEYSC_NUM));
-    
+
     if (gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
         {
         if (BUTTON(gamefunc_See_Co_Op_View))
@@ -5458,7 +5458,7 @@ getinput(SW_PACKET *loc)
 
             if (screenpeek < 0)
                 screenpeek = connecthead;
-    
+
             if (dimensionmode != 2 && screenpeek == myconnectindex)
                 {
             // JBF: figure out what's going on here
@@ -5472,15 +5472,15 @@ getinput(SW_PACKET *loc)
 
                 if (tp->FadeAmt<=0)
                     memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
-                else    
+                else
                     memcpy(pp->temp_pal, tp->temp_pal, sizeof(tp->temp_pal));
                 COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
-                DoPlayerDivePalette(tp);  
+                DoPlayerDivePalette(tp);
                 DoPlayerNightVisionPalette(tp);
                 }
             }
-        }   
-    
+        }
+
 #if DEBUG
     DebugKeys(pp);
 
@@ -5519,9 +5519,9 @@ void drawoverheadmap(int cposx, int cposy, int czoom, short cang)
     static int pspr_ndx[8]={0,0,0,0,0,0,0,0};
     BOOL sprisplayer = FALSE;
     short txt_x, txt_y;
-    
+
     // draw location text
-    if (gs.BorderNum <= BORDER_BAR-1)    
+    if (gs.BorderNum <= BORDER_BAR-1)
         {
         txt_x = 7;
         txt_y = 168;
@@ -5530,17 +5530,17 @@ void drawoverheadmap(int cposx, int cposy, int czoom, short cang)
         txt_x = 7;
         txt_y = 147;
         }
-        
+
     if (ScrollMode2D)
         {
         minigametext(txt_x,txt_y-7,"Follow Mode",0,2+8);
         }
-    
+
     if (UserMapName[0])
         sprintf(ds,"%s",UserMapName);
-    else    
+    else
         sprintf(ds,"%s",LevelInfo[Level].Description);
-        
+
     minigametext(txt_x,txt_y,ds,0,2+8);
 
     //////////////////////////////////
@@ -5549,7 +5549,7 @@ void drawoverheadmap(int cposx, int cposy, int czoom, short cang)
     yvect = sintable[(1536 - cang) & 2047] * czoom;
     xvect2 = mulscale(xvect, yxaspect, 16);
     yvect2 = mulscale(yvect, yxaspect, 16);
-    
+
     // Draw red lines
     for (i = 0; i < numsectors; i++)
         {
@@ -5619,7 +5619,7 @@ void drawoverheadmap(int cposx, int cposy, int czoom, short cang)
                     if(sprite[Player[p].PlayerSprite].xvel > 16)
                         pspr_ndx[myconnectindex] = ((totalclock>>4)&3);
                     sprisplayer = TRUE;
-                    
+
                     goto SHOWSPRITE;
                     }
             }
@@ -5627,7 +5627,7 @@ void drawoverheadmap(int cposx, int cposy, int czoom, short cang)
                 {
                 SHOWSPRITE:
                 spr = &sprite[j];
-                
+
                 col = 56;
                 if ((spr->cstat & 1) > 0)
                     col = 248;
@@ -5689,16 +5689,16 @@ void drawoverheadmap(int cposx, int cposy, int czoom, short cang)
                                 y1 = 0;
                                 daang = 0;
                                 }
-                                
+
                             // Special case tiles
                             if (spr->picnum == 3123) break;
-                            
-                            if(sprisplayer)    
+
+                            if(sprisplayer)
                                 {
                                 if (gNet.MultiGameType != MULTI_GAME_COMMBAT || j == Player[screenpeek].PlayerSprite)
                                     rotatesprite((x1 << 4) + (xdim << 15), (y1 << 4) + (ydim << 15), mulscale(czoom * (spr->yrepeat), yxaspect, 16), daang, 1196+pspr_ndx[myconnectindex], spr->shade, spr->pal, (spr->cstat & 2) >> 1, windowx1, windowy1, windowx2, windowy2);
-                                }    
-                            else    
+                                }
+                            else
                                 rotatesprite((x1 << 4) + (xdim << 15), (y1 << 4) + (ydim << 15), mulscale(czoom * (spr->yrepeat), yxaspect, 16), daang, spr->picnum, spr->shade, spr->pal, (spr->cstat & 2) >> 1, windowx1, windowy1, windowx2, windowy2);
                             }
                         }
@@ -5842,7 +5842,7 @@ void drawoverheadmap(int cposx, int cposy, int czoom, short cang)
         }
 
     }
-    
+
 extern int tilefileoffs[MAXTILES];//offset into the
 extern char tilefilenum[MAXTILES];//0-11
 
@@ -5888,85 +5888,85 @@ loadtile (short tilenume)
 #endif
 
 #if RANDOM_DEBUG
-int 
+int
 RandomRange(int range, char *file, unsigned line)
     {
     ULONG rand_num;
     ULONG value;
     extern FILE * fout_err;
     extern ULONG MoveThingsCount;
-    
+
     if (RandomPrint && !Prediction)
-        { 
+        {
         sprintf(ds,"mtc %d, %s, line %d, %d",MoveThingsCount,file,line,randomseed);
         DebugWriteString(ds);
         }
-    
+
     if (range <= 0)
         return(0);
-    
+
     rand_num = krand2();
-    
+
     if (rand_num == 65535U)
         rand_num--;
-    
+
     // shift values to give more precision
     value = (rand_num << 14) / ((65535UL << 14) / range);
-    
+
     if (value >= range)
         value = range - 1;
-        
+
     return(value);
     }
 #else
-int 
+int
 RandomRange(int range)
     {
     ULONG rand_num;
     ULONG value;
-    
+
     if (range <= 0)
         return(0);
-    
+
     rand_num = RANDOM();
-    
+
     if (rand_num == 65535U)
         rand_num--;
-    
+
     // shift values to give more precision
     value = (rand_num << 14) / ((65535UL << 14) / range);
-    
+
     if (value >= (ULONG)range)
         value = range - 1;
-        
+
     return(value);
     }
-#endif    
+#endif
 
-int 
+int
 StdRandomRange(int range)
     {
     ULONG rand_num;
     ULONG value;
-    
+
     if (range <= 0)
         return(0);
-    
+
     rand_num = STD_RANDOM();
-    
+
     if (rand_num == RAND_MAX)
         rand_num--;
-    
+
     // shift values to give more precision
 #if (RAND_MAX > 0x7fff)
     value = rand_num / (((int)RAND_MAX) / range);
 #else
     value = (rand_num << 14) / ((((int)RAND_MAX) << 14) / range);
 #endif
-    
+
     if (value >= (ULONG)range)
         value = range - 1;
-        
+
     return(value);
     }
 

@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -54,21 +54,21 @@ void SectorLightShade(SPRITEp sp, short intensity)
     CHARp wall_shade;
     short base_shade;
     short wallcount;
-    
+
     if (TEST_BOOL8(sp))
         intensity = -intensity;
-    
+
     if (!TEST_BOOL2(sp))
         {
         if (!TEST_BOOL6(sp))
-            sector[sp->sectnum].floorpal = sp->pal;  
+            sector[sp->sectnum].floorpal = sp->pal;
         sector[sp->sectnum].floorshade = LIGHT_FloorShade(sp) + intensity;     // floor change
         }
 
     if (!TEST_BOOL3(sp))
         {
         if (!TEST_BOOL6(sp))
-            sector[sp->sectnum].ceilingpal = sp->pal;  
+            sector[sp->sectnum].ceilingpal = sp->pal;
         sector[sp->sectnum].ceilingshade = LIGHT_CeilingShade(sp) + intensity;   // ceiling change
         }
 
@@ -77,10 +77,10 @@ void SectorLightShade(SPRITEp sp, short intensity)
         {
         ASSERT(User[sp - sprite] && User[sp - sprite]->WallShade);
         wall_shade = User[sp - sprite]->WallShade;
-        
+
         startwall = sector[sp->sectnum].wallptr;
         endwall = startwall + sector[sp->sectnum].wallnum - 1;
-        
+
         for (w = startwall, wallcount = 0; w <= endwall; w++)
             {
             base_shade = wall_shade[wallcount];
@@ -88,7 +88,7 @@ void SectorLightShade(SPRITEp sp, short intensity)
             if (!TEST_BOOL6(sp))
                 wall[w].pal = sp->pal;
             wallcount++;
-            
+
             if (TEST(sp->extra, SPRX_BOOL5) && wall[w].nextwall >= 0)
                 {
                 base_shade = wall_shade[wallcount];
@@ -101,24 +101,24 @@ void SectorLightShade(SPRITEp sp, short intensity)
         }
     }
 
-    
+
 VOID DiffuseLighting(SPRITEp sp)
-    {    
+    {
     short i, nexti;
     short count;
     short shade;
     SPRITEp dsp;
-    
-    // diffused lighting    
+
+    // diffused lighting
     count = 0;
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_LIGHTING_DIFFUSE],i,nexti)
         {
         dsp = &sprite[i];
-        
+
         // make sure matchs match
         if (LIGHT_Match(dsp) != LIGHT_Match(sp))
             continue;
-            
+
         shade = sp->shade + ((LIGHT_DiffuseNum(dsp) + 1) * LIGHT_DiffuseMult(dsp));
 
         if (shade > LIGHT_MaxDark(sp))
@@ -126,36 +126,36 @@ VOID DiffuseLighting(SPRITEp sp)
 
         if (!TEST_BOOL6(dsp))
             dsp->pal = sp->pal;
-            
+
         SectorLightShade(dsp, shade);
-        
+
         count++;
         }
-    }    
-    
+    }
+
 VOID DoLightingMatch(short match, short state)
     {
     short i,nexti;
     SPRITEp sp;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_LIGHTING],i,nexti)
         {
         sp = &sprite[i];
-        
+
         if (LIGHT_Match(sp) != match)
             continue;
-        
+
         switch (LIGHT_Type(sp))
             {
             case LIGHT_CONSTANT:
-            
+
                 // initialized
                 SET_BOOL9(sp);
-                
+
                 // toggle
                 if (state == -1)
                     state = !TEST_BOOL1(sp);
-                    
+
                 if (state == ON)
                     {
                     SET_BOOL1(sp);
@@ -171,18 +171,18 @@ VOID DoLightingMatch(short match, short state)
                     sp->pal = 0; // off
                     SectorLightShade(sp, sp->shade);
                     DiffuseLighting(sp);
-                    }    
-                break;    
-                
+                    }
+                break;
+
             case LIGHT_FLICKER:
             case LIGHT_FADE:
                 // initialized
                 SET_BOOL9(sp);
-                
+
                 // toggle
                 if (state == -1)
                     state = !TEST_BOOL1(sp);
-                    
+
                 if (state == ON)
                     {
                     // allow fade or flicker
@@ -194,18 +194,18 @@ VOID DoLightingMatch(short match, short state)
                     sp->shade = LIGHT_MaxDark(sp);
                     SectorLightShade(sp, sp->shade);
                     DiffuseLighting(sp);
-                    }    
+                    }
                 break;
-                    
+
             case LIGHT_FADE_TO_ON_OFF:
-            
+
                 // initialized
                 SET_BOOL9(sp);
-                
+
                 // toggle
                 //if (state == -1)
                 //    state = !TEST_BOOL1(sp);
-                    
+
                 if (state == ON)
                     {
                     if (LIGHT_Dir(sp) == 1)
@@ -220,21 +220,21 @@ VOID DoLightingMatch(short match, short state)
                         {
                         LIGHT_DirChange(sp);
                         }
-                    }    
-                    
+                    }
+
                 // allow fade or flicker
                 SET_BOOL1(sp);
                 break;
-                
+
             case LIGHT_FLICKER_ON:
-            
+
                 // initialized
                 SET_BOOL9(sp);
-                
+
                 // toggle
                 if (state == -1)
                     state = !TEST_BOOL1(sp);
-                    
+
                 if (state == ON)
                     {
                     // allow fade or flicker
@@ -250,58 +250,58 @@ VOID DoLightingMatch(short match, short state)
                     SectorLightShade(sp, sp->shade);
                     DiffuseLighting(sp);
                     sp->pal = spal;
-                    }    
+                    }
                 break;
-            }    
+            }
         }
-    }    
-    
+    }
+
 VOID InitLighting(VOID)
     {
     short i,nexti;
     SPRITEp sp;
 
-  
+
     // processed on level startup
     // puts lights in correct state
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_LIGHTING],i,nexti)
         {
         sp = &sprite[i];
-        
+
         if (!TEST_BOOL9(sp))
             {
             DoLightingMatch(LIGHT_Match(sp), !!TEST_BOOL1(sp));
             }
         }
-    }    
-    
+    }
+
 VOID DoLighting(VOID)
-    {    
+    {
     short i,nexti;
     SPRITEp sp;
     short count;
-                
+
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_LIGHTING],i,nexti)
         {
         sp = &sprite[i];
-            
-        // on/off test    
+
+        // on/off test
         if (TEST_BOOL1(sp) == OFF)
             continue;
-            
+
         switch (LIGHT_Type(sp))
             {
             case LIGHT_CONSTANT:
-                break;    
-                
+                break;
+
             case LIGHT_FLICKER:
 
                 LIGHT_Tics(sp) += synctics;
                 while (LIGHT_Tics(sp) >= LIGHT_MaxTics(sp))
                     {
                     LIGHT_Tics(sp) -= LIGHT_MaxTics(sp);
-                    
+
                     if ((RANDOM_P2(128 << 8) >> 8) > 64)
                         {
                         sp->shade = -LIGHT_MaxBright(sp) + RANDOM_RANGE(LIGHT_MaxBright(sp) + LIGHT_MaxDark(sp));
@@ -317,13 +317,13 @@ VOID DoLighting(VOID)
                         SectorLightShade(sp, sp->shade);
                         DiffuseLighting(sp);
                         sp->pal = spal;
-                        }    
+                        }
                     }
-                    
-                break;    
-                    
+
+                break;
+
             case LIGHT_FADE:
-                
+
                 LIGHT_Tics(sp) += synctics;
 
                 while (LIGHT_Tics(sp) >= LIGHT_MaxTics(sp))
@@ -333,7 +333,7 @@ VOID DoLighting(VOID)
                     if (LIGHT_Dir(sp) == 1)
                         {
                         sp->shade += LIGHT_ShadeInc(sp);
-                        if (sp->shade >= LIGHT_MaxDark(sp)) 
+                        if (sp->shade >= LIGHT_MaxDark(sp))
                             LIGHT_DirChange(sp);
                         }
                     else
@@ -342,15 +342,15 @@ VOID DoLighting(VOID)
                         if (sp->shade <= -LIGHT_MaxBright(sp))
                             LIGHT_DirChange(sp);
                         }
-                        
+
                     SectorLightShade(sp, sp->shade);
                     DiffuseLighting(sp);
                     }
 
-                break;    
-                
+                break;
+
             case LIGHT_FADE_TO_ON_OFF:
-            
+
                 LIGHT_Tics(sp) += synctics;
 
                 while (LIGHT_Tics(sp) >= LIGHT_MaxTics(sp))
@@ -360,7 +360,7 @@ VOID DoLighting(VOID)
                     if (LIGHT_Dir(sp) == 1)
                         {
                         sp->shade += LIGHT_ShadeInc(sp);
-                        if (sp->shade >= LIGHT_MaxDark(sp)) 
+                        if (sp->shade >= LIGHT_MaxDark(sp))
                             {
                             sp->pal = 0; // off
                             LIGHT_DirChange(sp);
@@ -379,21 +379,21 @@ VOID DoLighting(VOID)
                             RESET_BOOL1(sp);
                             }
                         }
-                        
+
                     SectorLightShade(sp, sp->shade);
                     DiffuseLighting(sp);
                     }
 
                 break;
-                
+
             case LIGHT_FLICKER_ON:
-            
+
                 LIGHT_Tics(sp) += synctics;
-                
+
                 while (LIGHT_Tics(sp) >= LIGHT_MaxTics(sp))
                     {
                     LIGHT_Tics(sp) -= LIGHT_MaxTics(sp);
-                    
+
                     if ((RANDOM_P2(128 << 8) >> 8) > 64)
                         {
                         sp->shade = -LIGHT_MaxBright(sp) + RANDOM_RANGE(LIGHT_MaxBright(sp) + LIGHT_MaxDark(sp));
@@ -409,8 +409,8 @@ VOID DoLighting(VOID)
                         SectorLightShade(sp, sp->shade);
                         DiffuseLighting(sp);
                         sp->pal = spal;
-                        }    
-                    
+                        }
+
                     if ((RANDOM_P2(128 << 8) >> 8) < 8)
                         {
                         // set to full brightness
@@ -422,6 +422,6 @@ VOID DoLighting(VOID)
                         }
                     }
                 break;
-            }                             
+            }
         }
     }

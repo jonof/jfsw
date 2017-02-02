@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -57,9 +57,9 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 void SetupGameButtons( void )
     {
     // processes array from function.h - char * gamefunctions[];
-    
+
     short gamefunc;
-    
+
     for (gamefunc = 0; gamefunc < NUMGAMEFUNCTIONS; gamefunc++)
         {
         CONTROL_DefineFlag(gamefunc,FALSE);
@@ -121,7 +121,7 @@ void InitSetup(void)
    SetupGameButtons();
    CONFIG_SetupMouse();
    CONFIG_SetupJoystick();
-   
+
    CONTROL_JoystickEnabled = (UseJoystick && CONTROL_JoyPresent);
    CONTROL_MouseEnabled = (UseMouse && CONTROL_MousePresent);
 
@@ -131,23 +131,23 @@ void InitSetup(void)
    for(i=0;i<NUMGAMEFUNCTIONS;i++) CONTROL_PrintControlFlag(i);
    CONTROL_PrintAxes();
    }*/
-      
+
    RTS_Init(RTSName);
    }
 
-#if 0   
+#if 0
 void TermSetup(void)
    {
    //FreeKeyDefList();
    }
-#endif   
-   
+#endif
+
 // BELOW IS FROM A TEST SETUP BY MARK DOC
 //******************************************************************************
 //******************************************************************************
 //******************************************************************************
 //******************************************************************************
-   
+
 #if 0
 #include <conio.h>
 #include <stdio.h>
@@ -239,7 +239,7 @@ void SetupGameButtons( void )
    CONTROL_DefineFlag(gamefunc_Inventory_Left,    FALSE );
    CONTROL_DefineFlag(gamefunc_Inventory_Right,   FALSE );
    CONTROL_DefineFlag(gamefunc_Inventory,         FALSE );
-   
+
    }
 
 /*
@@ -333,7 +333,7 @@ void main()
    CONFIG_ReadSetup();
    CONTROL_Startup( 1, &GetTime, 1500 );
    SetupGameButtons();
-      
+
    MusicStartup();
    SoundStartup();
    RTS_Init(RTSName);

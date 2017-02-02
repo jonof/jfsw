@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -422,14 +422,14 @@ STATEp sg_RipperHang[] =
     &s_RipperHang[3][0],
     &s_RipperHang[4][0]
     };
-    
-    
-//////////////////////    
+
+
+//////////////////////
 //
 // RIPPER PAIN
 //
 //////////////////////
-    
+
 #define RIPPER_PAIN_RATE 38
 ANIMATOR DoRipperPain;
 
@@ -450,7 +450,7 @@ STATE s_RipperPain[5][1] =
     {
     {RIPPER_JUMP_R0 + 0, RIPPER_PAIN_RATE, DoRipperPain, &s_RipperPain[4][0]},
     }
-    };    
+    };
 
 STATEp sg_RipperPain[] =
     {
@@ -708,7 +708,7 @@ STATEp sg_RipperDead[] =
     {
     s_RipperDead
     };
-    
+
 STATE s_RipperDeathJump[] =
     {
     {RIPPER_DIE + 0, RIPPER_DIE_RATE, DoActorDeathMove, &s_RipperDeathJump[0]}
@@ -729,7 +729,7 @@ STATEp sg_RipperDeathFall[] =
     {
     s_RipperDeathFall
     };
-    
+
 
 /*
 STATEp *Stand[MAX_WEAPONS];
@@ -768,7 +768,7 @@ ACTOR_ACTION_SET RipperActionSet =
     NULL,                               // sg_RipperSit,
     NULL,                               // sg_RipperLook,
     NULL,                               // climb
-    sg_RipperPain,                     
+    sg_RipperPain,
     sg_RipperDie,
     NULL,                               // sg_RipperHariKari,
     sg_RipperDead,
@@ -842,7 +842,7 @@ SetupRipper(short SpriteNum)
         EnemyDefaults(SpriteNum, &RipperBrownActionSet, &RipperPersonality);
         sp->xrepeat = 106;
         sp->yrepeat = 90;
-        
+
         if (!TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
             u->Health = HEALTH_MOMMA_RIPPER;
 
@@ -858,7 +858,7 @@ SetupRipper(short SpriteNum)
     return (0);
     }
 
-int 
+int
 GetJumpHeight(short jump_speed, short jump_grav)
     {
     int jump_iterations;
@@ -875,7 +875,7 @@ GetJumpHeight(short jump_speed, short jump_grav)
     return (DIV2(height));
     }
 
-int 
+int
 PickJumpSpeed(short SpriteNum, int pix_height)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -900,7 +900,7 @@ PickJumpSpeed(short SpriteNum, int pix_height)
     }
 
 
-int 
+int
 PickJumpMaxSpeed(short SpriteNum, short max_speed)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -908,10 +908,10 @@ PickJumpMaxSpeed(short SpriteNum, short max_speed)
     int zh;
 
     ASSERT(max_speed < 0);
-    
+
     u->jump_speed = max_speed;
     u->jump_grav = 8;
-    
+
     zh = SPRITEp_TOS(sp);
 
     while (TRUE)
@@ -927,13 +927,13 @@ PickJumpMaxSpeed(short SpriteNum, short max_speed)
 
     return (u->jump_speed);
     }
-    
+
 
 //
 // HANGING - Jumping/Falling/Stationary
 //
 
-int 
+int
 InitRipperHang(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -998,7 +998,7 @@ InitRipperHang(short SpriteNum)
     return (0);
     }
 
-int 
+int
 DoRipperHang(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -1013,7 +1013,7 @@ DoRipperHang(short SpriteNum)
     return(0);
     }
 
-int 
+int
 DoRipperMoveHang(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -1053,7 +1053,7 @@ DoRipperMoveHang(short SpriteNum)
     }
 
 
-int 
+int
 DoRipperHangJF(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -1086,7 +1086,7 @@ DoRipperHangJF(short SpriteNum)
 // JUMP ATTACK
 //
 
-int 
+int
 DoRipperBeginJumpAttack(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -1099,8 +1099,8 @@ DoRipperBeginJumpAttack(short SpriteNum)
 #define RANDOM_NEG(x) (RANDOM_P2((x)<<1) - (x))
 
     tang = getangle(psp->x - sp->x, psp->y - sp->y);
-    
-    if (move_sprite(SpriteNum, sintable[NORM_ANGLE(tang+512)] >> 7, sintable[tang] >> 7, 
+
+    if (move_sprite(SpriteNum, sintable[NORM_ANGLE(tang+512)] >> 7, sintable[tang] >> 7,
         0L, u->ceiling_dist, u->floor_dist, CLIPMASK_ACTOR, ACTORMOVETICS))
         sp->ang = NORM_ANGLE((sp->ang + 1024) + (RANDOM_NEG(256 << 6) >> 6));
     else
@@ -1125,7 +1125,7 @@ DoRipperBeginJumpAttack(short SpriteNum)
     return (0);
     }
 
-int 
+int
 DoRipperMoveJump(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -1155,7 +1155,7 @@ DoRipperMoveJump(short SpriteNum)
 // STD MOVEMENT
 //
 
-int 
+int
 DoRipperQuickJump(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -1180,33 +1180,33 @@ DoRipperQuickJump(short SpriteNum)
     return (FALSE);
     }
 
-    
-int 
+
+int
 NullRipper(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
-        
-    DoActorSectorDamage(SpriteNum);        
-    
+
+    DoActorSectorDamage(SpriteNum);
+
     return(0);
     }
-    
+
 
 int DoRipperPain(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     NullRipper(SpriteNum);
-    
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         InitActorDecide(SpriteNum);
     return(0);
-}    
+}
 
 
 // CTW MODIFICATION
@@ -1216,12 +1216,12 @@ int DoRipperRipHeart(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     SPRITEp tsp = u->tgt_sp;
-  
+
     NewStateGroup(SpriteNum, sg_RipperHeart);
     u->WaitTics = 6 * 120;
-    
+
     // player face ripper
     tsp->ang = getangle(sp->x - tsp->x, sp->y - tsp->y);
     return(0);
@@ -1234,18 +1234,18 @@ int DoRipperStandHeart(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-  
+
     NullRipper(SpriteNum);
-    
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         NewStateGroup(SpriteNum, sg_RipperRun);
     return(0);
     }
 
-void RipperHatch(short Weapon)    
+void RipperHatch(short Weapon)
     {
     SPRITEp wp = &sprite[Weapon];
-    
+
     short new,i;
     SPRITEp np;
     USERp nu;
@@ -1254,7 +1254,7 @@ void RipperHatch(short Weapon)
 
     rip_ang[0] = RANDOM_P2(2048);
     //rip_ang[1] = NORM_ANGLE(rip_ang[0] + 1024 + (RANDOM_P2(512) - 256));
-    
+
     for (i = 0; i < MAX_RIPPERS; i++)
         {
         new = COVERinsertsprite(wp->sectnum, STAT_DEFAULT);
@@ -1272,7 +1272,7 @@ void RipperHatch(short Weapon)
         np->pal = 0;
         SetupRipper(new);
         nu = User[new];
-        
+
         // make immediately active
         SET(nu->Flags, SPR_ACTIVE);
 
@@ -1280,7 +1280,7 @@ void RipperHatch(short Weapon)
         nu->ActorActionFunc = DoActorMoveJump;
         DoActorSetSpeed(new, FAST_SPEED);
         PickJumpMaxSpeed(new, -600);
-        
+
         SET(nu->Flags, SPR_JUMPING);
         RESET(nu->Flags, SPR_FALLING);
 
@@ -1291,9 +1291,9 @@ void RipperHatch(short Weapon)
 
         DoJump(new);
         }
-    }    
+    }
 
-int 
+int
 DoRipperMove(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -1303,7 +1303,7 @@ DoRipperMove(short SpriteNum)
         {
         DoScaleSprite(SpriteNum);
         }
-    
+
     if (TEST(u->Flags, SPR_JUMPING | SPR_FALLING))
         {
         if (TEST(u->Flags, SPR_JUMPING))
@@ -1341,7 +1341,7 @@ static saveable_code saveable_ripper_code[] = {
 	SAVE_CODE(GetJumpHeight),
 	SAVE_CODE(PickJumpSpeed),
 	SAVE_CODE(PickJumpMaxSpeed),
-	
+
 	SAVE_CODE(InitRipperHang),
 	SAVE_CODE(DoRipperHang),
 	SAVE_CODE(DoRipperMoveHang),

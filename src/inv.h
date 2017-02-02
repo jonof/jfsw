@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -26,15 +26,15 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 enum InventoryNames
     {
-    INVENTORY_MEDKIT, 
+    INVENTORY_MEDKIT,
     INVENTORY_REPAIR_KIT,
     INVENTORY_CLOAK,        // de-cloak when firing
-    INVENTORY_NIGHT_VISION, 
+    INVENTORY_NIGHT_VISION,
     INVENTORY_CHEMBOMB,
-    INVENTORY_FLASHBOMB, 
-    INVENTORY_CALTROPS,  
+    INVENTORY_FLASHBOMB,
+    INVENTORY_CALTROPS,
     MAX_INVENTORY
-    };    
+    };
 
 typedef struct
     {

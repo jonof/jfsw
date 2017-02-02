@@ -14,7 +14,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -45,7 +45,7 @@ BOOL FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum);
 short ViewSectorInScene(short cursectnum, short type, short level);
 void Message(char *string, char color);
 
-        
+
 void
 _Assert(char *expr, char *strFile, unsigned uLine)
     {
@@ -89,7 +89,7 @@ void ToggleFAF(void)
     if (keystatus[KEYSC_3])
         {
         keystatus[KEYSC_3] = FALSE;
-        
+
         FLIP(FAFon, 1);
         if (FAFon)
             {
@@ -98,13 +98,13 @@ void ToggleFAF(void)
         else
             {
             ResetBuildFAF();
-            }    
+            }
         }
 
-    if (FAFon && qsetmode == 200)    
+    if (FAFon && qsetmode == 200)
         {
         DrawOverlapRoom(posx, posy, posz, ang, horiz, cursectnum);
-        
+
         // make it so that you can edit both areas in 3D
         // back up vars after the first drawrooms
         bak_searchsector = searchsector;
@@ -112,7 +112,7 @@ void ToggleFAF(void)
         bak_searchstat = searchstat;
         searchit = 2;
         }
-    
+
     if (FAFon && qsetmode == 200 && keystatus[KEYSC_4])
         {
         short match;
@@ -120,18 +120,18 @@ void ToggleFAF(void)
         short tsectnum;
         short i;
         keystatus[KEYSC_4] = FALSE;
-        
+
         tx = posx;
         ty = posy;
         tz = posz;
         tsectnum = cursectnum;
-        
+
         save.zcount = 0;
-        
+
         if (sector[cursectnum].ceilingpicnum == FAF_MIRROR_PIC)
             {
             match = ViewSectorInScene(tsectnum, VIEW_THRU_CEILING, VIEW_LEVEL1);
-            
+
             FAF_DontMoveSectors = TRUE;
             FindCeilingView(match, &tx, &ty, tz, &tsectnum);
             FAF_DontMoveSectors = FALSE;
@@ -141,24 +141,24 @@ void ToggleFAF(void)
             cursectnum = tsectnum;
             posz = sector[cursectnum].floorz - Z(20);
             }
-        else    
+        else
         if (sector[cursectnum].floorpicnum == FAF_MIRROR_PIC)
             {
             match = ViewSectorInScene(tsectnum, VIEW_THRU_FLOOR, VIEW_LEVEL2);
-            
+
             FAF_DontMoveSectors = TRUE;
             FindFloorView(match, &tx, &ty, tz, &tsectnum);
             FAF_DontMoveSectors = FALSE;
-            
+
             posx = tx;
             posy = ty;
             cursectnum = tsectnum;
             posz = sector[cursectnum].ceilingz + Z(20);
             }
         }
-    
-        
-    }    
+
+
+    }
 
 
 void FAF_AfterDrawRooms(void)
@@ -166,7 +166,7 @@ void FAF_AfterDrawRooms(void)
     // make it so that you can edit both areas in 3D
     // if your cursor is in the FAF_MIRROR_PIC area use the vars from the first
     // drawrooms instead
-    if ((searchstat == 1 && sector[searchsector].ceilingpicnum == FAF_MIRROR_PIC) || 
+    if ((searchstat == 1 && sector[searchsector].ceilingpicnum == FAF_MIRROR_PIC) ||
         (searchstat == 2 && sector[searchsector].floorpicnum == FAF_MIRROR_PIC))
         {
         searchsector = bak_searchsector;
@@ -175,7 +175,7 @@ void FAF_AfterDrawRooms(void)
         }
     }
 
-VOID 
+VOID
 SetupBuildFAF(VOID)
     {
     short i, nexti;
@@ -183,15 +183,15 @@ SetupBuildFAF(VOID)
     short SpriteNum, NextSprite;
     short vc,nextvc,vf,nextvf,l,nextl;
     int zdiff;
-    
+
     // move every sprite to the correct list
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_DEFAULT], SpriteNum, NextSprite)
         {
         sp = &sprite[SpriteNum];
-        
+
         if (sp->picnum != ST1)
             continue;
-        
+
         switch (sp->hitag)
             {
             case VIEW_THRU_CEILING:
@@ -207,13 +207,13 @@ SetupBuildFAF(VOID)
                         Message(ds,0);
                         }
                     }
-                    
+
                 changespritestat(SpriteNum, STAT_FAF);
                 break;
                 }
-                
+
             case VIEW_LEVEL1:
-            case VIEW_LEVEL2: 
+            case VIEW_LEVEL2:
             case VIEW_LEVEL3:
             case VIEW_LEVEL4:
             case VIEW_LEVEL5:
@@ -222,7 +222,7 @@ SetupBuildFAF(VOID)
                 changespritestat(SpriteNum, STAT_FAF);
                 break;
                 }
-            }    
+            }
         }
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
@@ -235,9 +235,9 @@ SetupBuildFAF(VOID)
             if (sector[sp->sectnum].floorz == sector[sp->sectnum].ceilingz)
                 {
                 sprintf(ds, "Mirror used for non-connect area. Use tile 342. Sect %d, x %d, y %d\n", sp->sectnum, wall[sector[sp->sectnum].wallptr].x, wall[sector[sp->sectnum].wallptr].y);
-                Message(ds,0);    
+                Message(ds,0);
                 }
-            }    
+            }
 
         if (sector[sp->sectnum].floorpicnum == FAF_PLACE_MIRROR_PIC)
             {
@@ -245,28 +245,28 @@ SetupBuildFAF(VOID)
             if (sector[sp->sectnum].floorz == sector[sp->sectnum].ceilingz)
                 {
                 sprintf(ds, "Mirror used for non-connect area. Use tile 342. Sect %d, x %d, y %d\n", sp->sectnum, wall[sector[sp->sectnum].wallptr].x, wall[sector[sp->sectnum].wallptr].y);
-                Message(ds,0);    
+                Message(ds,0);
                 }
-            }    
-            
+            }
+
         if (sector[sp->sectnum].ceilingpicnum == FAF_PLACE_MIRROR_PIC+1)
             sector[sp->sectnum].ceilingpicnum = FAF_MIRROR_PIC+1;
-            
+
         if (sector[sp->sectnum].floorpicnum == FAF_PLACE_MIRROR_PIC+1)
             sector[sp->sectnum].floorpicnum = FAF_MIRROR_PIC+1;
         }
-        
-    
+
+
     for (i = 0; i < numwalls; i++)
         {
         if (wall[i].picnum == FAF_PLACE_MIRROR_PIC)
             wall[i].picnum = FAF_MIRROR_PIC;
-            
+
         if (wall[i].picnum == FAF_PLACE_MIRROR_PIC+1)
             wall[i].picnum = FAF_MIRROR_PIC+1;
-        }    
-        
-    #if 0    
+        }
+
+    #if 0
     // check ceiling and floor heights
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], vc, nextvc)
         {
@@ -281,29 +281,29 @@ SetupBuildFAF(VOID)
                 if (vf_sp->hitag == VIEW_THRU_FLOOR && vf_sp->lotag == vc_sp->lotag)
                     {
                     zdiff = labs(sector[vc_sp->sectnum].ceilingz - sector[vf_sp->sectnum].floorz);
-                    
+
                     //DSPRINTF(ds,"zdiff %d",zdiff);
                     MONO_PRINT(ds);
-                    
+
                     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], l, nextl)
                         {
                         vl_sp = &sprite[l];
-                        
+
                         if (vl_sp->hitag == VIEW_LEVEL1)
                             {
                             if (sector[vl_sp->sectnum].ceilingz < sector[vc_sp->sectnum].ceilingz + zdiff)
                                 {
-                                sprintf(ds,"Sector %d (x %d, y %d) ceiling z to close to VIEW_THRU_CEILING z", 
+                                sprintf(ds,"Sector %d (x %d, y %d) ceiling z to close to VIEW_THRU_CEILING z",
                                     vl_sp->sectnum, wall[sector[vl_sp->sectnum].wallptr].x, wall[sector[vl_sp->sectnum].wallptr].y);
                                 Message(ds,0);
                                 }
                             }
-                        else    
+                        else
                         if (vl_sp->hitag == VIEW_LEVEL2)
                             {
                             if (sector[vl_sp->sectnum].floorz > sector[vf_sp->sectnum].floorz + zdiff)
                                 {
-                                sprintf(ds,"Sector %d (x %d, y %d)floor z to close to VIEW_THRU_FLOOR z", 
+                                sprintf(ds,"Sector %d (x %d, y %d)floor z to close to VIEW_THRU_FLOOR z",
                                     vl_sp->sectnum, wall[sector[vl_sp->sectnum].wallptr].x, wall[sector[vl_sp->sectnum].wallptr].y);
                                 Message(ds,0);
                                 }
@@ -311,13 +311,13 @@ SetupBuildFAF(VOID)
                         }
                     }
                 }
-            }    
+            }
         }
     #endif
-        
+
     }
 
-VOID 
+VOID
 ResetBuildFAF(VOID)
     {
     short i, nexti;
@@ -339,16 +339,16 @@ ResetBuildFAF(VOID)
         if (sector[sp->sectnum].floorpicnum == FAF_MIRROR_PIC+1)
             sector[sp->sectnum].floorpicnum = FAF_PLACE_MIRROR_PIC+1;
         }
-    
+
     for (i = 0; i < numwalls; i++)
         {
         if (wall[i].picnum == FAF_MIRROR_PIC)
             wall[i].picnum = FAF_PLACE_MIRROR_PIC;
-            
+
         if (wall[i].picnum == FAF_MIRROR_PIC+1)
             wall[i].picnum = FAF_PLACE_MIRROR_PIC+1;
-        }    
-        
+        }
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
         {
         changespritestat(i, STAT_DEFAULT);
@@ -356,14 +356,14 @@ ResetBuildFAF(VOID)
     }
 
 
-BOOL 
+BOOL
 PicInView(short tile_num, BOOL reset)
     {
     if (TEST(gotpic[tile_num >> 3], 1 << (tile_num & 7)))
         {
         if (reset)
             RESET(gotpic[tile_num >> 3], 1 << (tile_num & 7));
-            
+
         return (TRUE);
         }
 
@@ -378,7 +378,7 @@ GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
     short sln = 0;
     short SpriteNum, Next;
     SPRITEp sp;
-    
+
     // didn't find it yet so test ALL sectors
     if (sln < 2)
         {
@@ -408,7 +408,7 @@ GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
                 sln++;
                 }
             }
-        }    
+        }
 
     if (sln == 0)
         {
@@ -416,7 +416,7 @@ GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
         *lower = -1;
         return;
         }
-        
+
     // Map rooms have NOT been dragged on top of each other
     if (sln == 1)
         {
@@ -450,7 +450,7 @@ GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
         }
     }
 
-BOOL 
+BOOL
 FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     {
     int xoff = 0;
@@ -481,7 +481,7 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
         {
         sp = &sprite[i];
-        
+
         if (sp->lotag == match)
             {
             // determine x,y position
@@ -499,19 +499,19 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
                 }
             }
         }
-    
-    if (*sectnum < 0)    
+
+    if (*sectnum < 0)
         return(FALSE);
 
-    ASSERT(sp);    
-    ASSERT(sp->hitag == VIEW_THRU_FLOOR);    
-    
+    ASSERT(sp);
+    ASSERT(sp->hitag == VIEW_THRU_FLOOR);
+
     if (FAF_DontMoveSectors)
         return(TRUE);
-    
+
     pix_diff = labs(z - sector[sp->sectnum].floorz) >> 8;
     newz = sector[sp->sectnum].floorz + ((pix_diff / 128) + 1) * Z(128);
-        
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
         {
         sp = &sprite[i];
@@ -526,7 +526,7 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
                 save.zval[save.zcount] = sector[sp->sectnum].floorz;
                 save.pic[save.zcount] = sector[sp->sectnum].floorpicnum;
                 save.slope[save.zcount] = sector[sp->sectnum].floorheinum;
-                
+
                 sector[sp->sectnum].floorz = newz;
                 sector[sp->sectnum].floorpicnum = FAF_MIRROR_PIC+1;
                 sector[sp->sectnum].floorheinum = 0;
@@ -540,7 +540,7 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     return (TRUE);
     }
 
-BOOL 
+BOOL
 FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     {
     int xoff = 0;
@@ -591,19 +591,19 @@ FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
             }
         }
 
-    if (*sectnum < 0)    
+    if (*sectnum < 0)
         return(FALSE);
-        
-    ASSERT(sp);    
-    ASSERT(sp->hitag == VIEW_THRU_CEILING);    
+
+    ASSERT(sp);
+    ASSERT(sp->hitag == VIEW_THRU_CEILING);
 
     if (FAF_DontMoveSectors)
         return(TRUE);
-    
+
     // move ceiling multiple of 128 so that the wall tile will line up
     pix_diff = labs(z - sector[sp->sectnum].ceilingz) >> 8;
     newz = sector[sp->sectnum].ceilingz - ((pix_diff / 128) + 1) * Z(128);
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
         {
         sp = &sprite[i];
@@ -620,7 +620,7 @@ FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
                 save.slope[save.zcount] = sector[sp->sectnum].ceilingheinum;
 
                 sector[sp->sectnum].ceilingz = newz;
-                
+
                 sector[sp->sectnum].ceilingpicnum = FAF_MIRROR_PIC+1;
                 sector[sp->sectnum].ceilingheinum = 0;
 
@@ -633,7 +633,7 @@ FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     return (TRUE);
     }
 
-BOOL 
+BOOL
 SectorInScene(short tile_num)
     {
     if (TEST(gotsector[tile_num >> 3], 1 << (tile_num & 7)))
@@ -645,7 +645,7 @@ SectorInScene(short tile_num)
     return (FALSE);
     }
 
-short 
+short
 ViewSectorInScene(short cursectnum, short type, short level)
     {
     int i, nexti;
@@ -679,7 +679,7 @@ ViewSectorInScene(short cursectnum, short type, short level)
     return (-1);
     }
 
-VOID 
+VOID
 DrawOverlapRoom(int tx, int ty, int tz, short tang, int thoriz, short tsectnum)
     {
     short i;
@@ -691,14 +691,14 @@ DrawOverlapRoom(int tx, int ty, int tz, short tang, int thoriz, short tsectnum)
     if (match != -1)
         {
         FindCeilingView(match, &tx, &ty, tz, &tsectnum);
-        
+
         if (tsectnum < 0)
             {
             sprintf(ds,"COULD NOT FIND TAGGED LEVEL2 SECTOR FROM X %d, Y %d, SECTNUM %d.",posx,posy,cursectnum);
             Message(ds, 0);
             return;
             }
-        
+
         drawrooms(tx, ty, tz, tang, thoriz, tsectnum);
         drawmasks();
 

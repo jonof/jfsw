@@ -51,13 +51,13 @@ static int addSoundQualityItem( struct soundQuality_t * q, HWND hwnd )
 {
     char buf[128];
     const char *ch;
-    
+
     switch (q->channels) {
         case 1: ch = "Mono"; break;
         case 2: ch = "Stereo"; break;
         default: ch = "?"; break;
     }
-     
+
     sprintf(buf, "%dkHz, %d-bit, %s",
             q->frequency / 1000,
             q->samplesize,
@@ -103,14 +103,14 @@ static void PopulateForm(int pgs)
 
 	if (pgs & POPULATE_CONFIG) {
         int curidx = -1;
-        
+
 		Button_SetCheck(GetDlgItem(pages[TAB_CONFIG], IDCALWAYSSHOW), (settings.forcesetup ? BST_CHECKED : BST_UNCHECKED));
 
 		Button_SetCheck(GetDlgItem(pages[TAB_CONFIG], IDCINPUTMOUSE), (settings.usemouse ? BST_CHECKED : BST_UNCHECKED));
 		Button_SetCheck(GetDlgItem(pages[TAB_CONFIG], IDCINPUTJOY), (settings.usejoy ? BST_CHECKED : BST_UNCHECKED));
-		
+
 		hwnd = GetDlgItem(pages[TAB_CONFIG], IDCSOUNDQUAL);
-		
+
 		ComboBox_ResetContent(hwnd);
         for (i = 0; soundQualities[i].frequency > 0; i++) {
             j = addSoundQualityItem(&soundQualities[i], hwnd);
@@ -122,12 +122,12 @@ static void PopulateForm(int pgs)
                 ComboBox_SetCurSel(hwnd, j);
             }
         }
-        
+
         if (curidx < 0) {
             soundQualities[i].frequency = settings.samplerate;
             soundQualities[i].samplesize = settings.bitspersample;
             soundQualities[i].channels = settings.channels;
-            
+
             j = addSoundQualityItem(&soundQualities[i], hwnd);
             ComboBox_SetItemData(hwnd, j, i);
 
@@ -258,7 +258,7 @@ static INT_PTR CALLBACK startup_dlgproc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 {
 	static HBITMAP hbmp = NULL;
 	HDC hdc;
-	
+
 	switch (uMsg) {
 		case WM_INITDIALOG: {
 			HWND hwnd;
@@ -322,7 +322,7 @@ static INT_PTR CALLBACK startup_dlgproc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			// Add tabs to the tab control
 			{
 				TCITEM tab;
-				
+
 				hwnd = GetDlgItem(hwndDlg, WIN_STARTWIN_TABCTL);
 
 				ZeroMemory(&tab, sizeof(tab));
@@ -453,13 +453,13 @@ int startwin_open(void)
             static int soundQualitySampleSizes[] = { 16, 8 };
             static int soundQualityChannels[]    = { 2, 1 };
             unsigned int f, b, c, i;
-            
+
             i = sizeof(soundQualityFrequencies) *
                 sizeof(soundQualitySampleSizes) *
                 sizeof(soundQualityChannels) /
                 sizeof(int) + 2;    // one for the terminator, one for a custom setting
             soundQualities = (struct soundQuality_t *) malloc(i * sizeof(struct soundQuality_t));
-            
+
             i = 0;
             for (c = 0; c < sizeof(soundQualityChannels) / sizeof(int); c++) {
                 for (b = 0; b < sizeof(soundQualitySampleSizes) / sizeof(int); b++) {
@@ -467,15 +467,15 @@ int startwin_open(void)
                         soundQualities[i].frequency = soundQualityFrequencies[f];
                         soundQualities[i].samplesize = soundQualitySampleSizes[b];
                         soundQualities[i].channels = soundQualityChannels[c];
-                        
+
                         i++;
                     }
                 }
             }
-            
+
             soundQualities[i].frequency = -1;
         }
-	
+
 		SetPage(TAB_MESSAGES);
 		EnableConfig(0);
 		return 0;
@@ -502,7 +502,7 @@ int startwin_puts(const char *buf)
 	int vis;
 
 	if (!startupdlg) return 1;
-	
+
 	edctl = pages[TAB_MESSAGES];
 	if (!edctl) return -1;
 
@@ -605,7 +605,7 @@ int startwin_run(void)
 		ScreenBPP = settings.bpp;
         MixRate = settings.samplerate;
         NumBits = settings.bitspersample;
-        NumChannels = settings.channels;        
+        NumChannels = settings.channels;
 		ForceSetup = settings.forcesetup;
 		UseMouse = settings.usemouse;
 		UseJoystick = settings.usejoy;

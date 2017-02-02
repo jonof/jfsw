@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -406,7 +406,7 @@ void CONFIG_SetupMouse( void )
       Bsprintf(str,"MouseButton%d",i);
       if (!SCRIPT_GetString( scripthandle,"Controls", str,temp, sizeof(temp)))
          MouseButtons[i] = CONFIG_FunctionNameToNum(temp);
-	  
+
       Bsprintf(str,"MouseButtonClicked%d",i);
       if (!SCRIPT_GetString( scripthandle,"Controls", str,temp, sizeof(temp)))
          MouseButtonsClicked[i] = CONFIG_FunctionNameToNum(temp);
@@ -433,7 +433,7 @@ void CONFIG_SetupMouse( void )
       MouseAnalogScale[i] = scale;
       }
 
-   // 0 to 65536  
+   // 0 to 65536
    SCRIPT_GetNumber( scripthandle, "Controls","MouseSensitivity",&function);
    gs.MouseSpeed = function;
 
@@ -449,7 +449,7 @@ void CONFIG_SetupMouse( void )
       CONTROL_MapDigitalAxis( i, MouseDigitalAxes[i][1], 1,controldevice_mouse );
       CONTROL_SetAnalogAxisScale( i, MouseAnalogScale[i], controldevice_mouse );
       }
-   
+
    CONTROL_SetMouseSensitivity(gs.MouseSpeed);
    }
 
@@ -475,7 +475,7 @@ void CONFIG_SetupJoystick( void )
       Bsprintf(str,"JoystickButton%d",i);
       if (!SCRIPT_GetString( scripthandle,"Controls", str,temp, sizeof(temp)))
          JoystickButtons[i] = CONFIG_FunctionNameToNum(temp);
-	  
+
       Bsprintf(str,"JoystickButtonClicked%d",i);
       if (!SCRIPT_GetString( scripthandle,"Controls", str,temp, sizeof(temp)))
          JoystickButtonsClicked[i] = CONFIG_FunctionNameToNum(temp);
@@ -487,15 +487,15 @@ void CONFIG_SetupJoystick( void )
       Bsprintf(str,"JoystickAnalogAxes%d",i);
       if (!SCRIPT_GetString(scripthandle, "Controls", str,temp, sizeof(temp)))
          JoystickAnalogAxes[i] = CONFIG_AnalogNameToNum(temp);
-	  
+
       Bsprintf(str,"JoystickDigitalAxes%d_0",i);
       if (!SCRIPT_GetString(scripthandle, "Controls", str,temp, sizeof(temp)))
          JoystickDigitalAxes[i][0] = CONFIG_FunctionNameToNum(temp);
-	  
+
       Bsprintf(str,"JoystickDigitalAxes%d_1",i);
       if (!SCRIPT_GetString(scripthandle, "Controls", str,temp, sizeof(temp)))
          JoystickDigitalAxes[i][1] = CONFIG_FunctionNameToNum(temp);
-	  
+
       Bsprintf(str,"JoystickAnalogScale%d",i);
       scale = JoystickAnalogScale[i];
       SCRIPT_GetNumber(scripthandle, "Controls", str,&scale);
@@ -542,15 +542,15 @@ int32 CONFIG_ReadSetup( void )
    char ret;
    extern char ds[];
    extern char PlayerNameArg[32];
-   
+
    char oggtrackname[MAXOGGTRACKLENGTH] = {0};
 
    CONTROL_ClearAssignments();
    CONFIG_SetDefaults();
-   
+
    if (SafeFileExists(setupfilename))
       scripthandle = SCRIPT_Load(setupfilename);
-   
+
    if (scripthandle < 0) return -1;
 
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenMode",&ScreenMode);
@@ -562,7 +562,7 @@ int32 CONFIG_ReadSetup( void )
 #ifdef RENDERTYPEWIN
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "MaxRefreshFreq", (int32*)&maxrefreshfreq);
 #endif
- 
+
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "GLTextureMode", &gltexfiltermode);
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "GLAnisotropy", &glanisotropy);
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "GLUseTextureCompr", &glusetexcompr);
@@ -573,7 +573,7 @@ int32 CONFIG_ReadSetup( void )
       gs.SoundVolume = dummy;
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "MusicVolume",&dummy);
       gs.MusicVolume = dummy;
- 
+
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "NumVoices",&NumVoices);
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "NumChannels",&NumChannels);
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "NumBits",&NumBits);
@@ -582,7 +582,7 @@ int32 CONFIG_ReadSetup( void )
       gs.FlipStereo = dummy;
       if (gs.FlipStereo) gs.FlipStereo = 1;
       SCRIPT_GetString( scripthandle, "Sound Setup", "MusicParams", MusicParams, sizeof(MusicParams));
-      
+
       SCRIPT_GetString( scripthandle, "Sound Setup", "OggTrackName", oggtrackname, sizeof(oggtrackname));
       if(oggtrackname[0] != '\0')
         memcpy(gs.OggTrackName, oggtrackname, MAXOGGTRACKLENGTH);
@@ -591,16 +591,16 @@ int32 CONFIG_ReadSetup( void )
       SCRIPT_GetNumber( scripthandle, "Controls","UseMouse",&UseMouse);
       SCRIPT_GetNumber( scripthandle, "Controls","UseJoystick",&UseJoystick);
       SCRIPT_GetString( scripthandle, "Comm Setup", "RTSName",RTSName, sizeof(RTSName));
-   
+
       SCRIPT_GetString( scripthandle, "Comm Setup","PlayerName",CommPlayerName, sizeof(CommPlayerName));
-    
+
    ReadGameSetup(scripthandle);
-    
+
    CONFIG_ReadKeys(scripthandle);
 
    //CONFIG_SetupMouse(scripthandle);
    //CONFIG_SetupJoystick(scripthandle);
-   
+
    if (PlayerNameArg[0] != '\0')
       {
       strcpy(CommPlayerName, PlayerNameArg);
@@ -623,7 +623,7 @@ void CONFIG_WriteSetup( void )
 
    if (scripthandle < 0)
 	   scripthandle = SCRIPT_Init(setupfilename);
-      
+
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenWidth", ScreenWidth,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenHeight",ScreenHeight,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenMode",ScreenMode,FALSE,FALSE);
@@ -634,7 +634,7 @@ void CONFIG_WriteSetup( void )
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLTextureMode",gltexfiltermode,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLAnisotropy",glanisotropy,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLUseTextureCompr",glusetexcompr,FALSE,FALSE);
-   
+
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "FXDevice", FXDevice, FALSE, FALSE);
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "MusicDevice", MusicDevice, FALSE, FALSE);
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "NumVoices", NumVoices, FALSE, FALSE);
@@ -646,14 +646,14 @@ void CONFIG_WriteSetup( void )
    dummy = gs.FlipStereo;
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "ReverseStereo",dummy,FALSE,FALSE);
    SCRIPT_PutString( scripthandle, "Sound Setup", "OggTrackName", gs.OggTrackName);
-   
+
    SCRIPT_PutNumber( scripthandle, "Setup", "ForceSetup",ForceSetup,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Controls","UseMouse",UseMouse,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Controls","UseJoystick",UseJoystick,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Controls","MouseSensitivity",gs.MouseSpeed,FALSE,FALSE);
-   
+
    WriteGameSetup(scripthandle);
-   
+
    for (dummy=0;dummy<NUMGAMEFUNCTIONS;dummy++) {
        SCRIPT_PutDoubleString( scripthandle, "KeyDefinitions", CONFIG_FunctionNumToName(dummy),
            KB_ScanCodeToString(KeyboardKeys[dummy][0]), KB_ScanCodeToString(KeyboardKeys[dummy][1]));
@@ -664,7 +664,7 @@ void CONFIG_WriteSetup( void )
        SCRIPT_PutString( scripthandle,"Controls", buf, CONFIG_FunctionNumToName( MouseButtons[dummy] ));
 
        if (dummy >= (MAXMOUSEBUTTONS-2)) continue;	// scroll wheel
-		
+
        Bsprintf(buf,"MouseButtonClicked%d",dummy);
        SCRIPT_PutString( scripthandle,"Controls", buf, CONFIG_FunctionNumToName( MouseButtonsClicked[dummy] ));
    }
@@ -678,7 +678,7 @@ void CONFIG_WriteSetup( void )
 
        Bsprintf(buf,"MouseDigitalAxes%d_1",dummy);
        SCRIPT_PutString(scripthandle, "Controls", buf, CONFIG_FunctionNumToName(MouseDigitalAxes[dummy][1]));
-		
+
        Bsprintf(buf,"MouseAnalogScale%d",dummy);
        SCRIPT_PutNumber(scripthandle, "Controls", buf, MouseAnalogScale[dummy], FALSE, FALSE);
    }
@@ -700,7 +700,7 @@ void CONFIG_WriteSetup( void )
 
        Bsprintf(buf,"JoystickDigitalAxes%d_1",dummy);
        SCRIPT_PutString(scripthandle, "Controls", buf, CONFIG_FunctionNumToName(JoystickDigitalAxes[dummy][1]));
-		
+
        Bsprintf(buf,"JoystickAnalogScale%d",dummy);
        SCRIPT_PutNumber(scripthandle, "Controls", buf, JoystickAnalogScale[dummy], FALSE, FALSE);
 
@@ -710,7 +710,7 @@ void CONFIG_WriteSetup( void )
        Bsprintf(buf,"JoystickAnalogSaturate%d",dummy);
        SCRIPT_PutNumber(scripthandle, "Controls", buf, JoystickAnalogSaturate[dummy], FALSE, FALSE);
    }
-   
+
    SCRIPT_Save (scripthandle, setupfilename);
    SCRIPT_Free (scripthandle);
    }

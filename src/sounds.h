@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -55,7 +55,7 @@ typedef enum
     v3df_intermit   = 32,   // 1 = Intermittant sound
     v3df_init       = 64,   // 1 = First pass of sound, don't play it.
                             // This is mainly used for intermittent sounds
-    v3df_nolookup   = 128   // don't use ambient table lookup                     
+    v3df_nolookup   = 128   // don't use ambient table lookup
 } Voc3D_Flags;
 
 struct VOCstruct;
@@ -141,7 +141,7 @@ struct VOCstruct
     int datalen;                        // length of voc data
     SHORT pitch_lo;                     // lo pitch value
     SHORT pitch_hi;                     // hi pitch value
-    BYTE priority;                      // priority at which vocs are played 
+    BYTE priority;                      // priority at which vocs are played
     SHORT voc_num;                      // Backward reference to parent sound
     int voc_distance;                   // Sound's distance effectiveness
     Voc_Flags voc_flags;                // Various allowable flag settings for voc
@@ -176,7 +176,7 @@ struct VOC3Dstruct
     BOOL deleted;                       // Has sound been marked for deletion?
     BOOL FX_Ok;                         // Did this sound play ok?
     };
-    
+
 extern VOC_INFO voc[];
 
 #endif

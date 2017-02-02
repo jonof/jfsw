@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -80,10 +80,10 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //
 //////////////////////////////////////////////////////////////////////////////////////////
 
-//* Fade effect.  Fades in and out smoothly.  
+//* Fade effect.  Fades in and out smoothly.
 //* Ceiling is minimum darkness.
 //* Floor is maximum darkness.
-//* High byte is speed of flicker.  
+//* High byte is speed of flicker.
 //* The lower the number the faster.  Default is 3.  I recommend 8.
 //* Use TAG_LIGHT_FADE_DIFFUSE tags around the initial torch sector just like light fade.
 //* A good value to use for torches, is a 2 in high tag of TAG_LIGHT_FADE_DIFFUSE

@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -33,7 +33,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define SERVER_GENERATED_BROADCAST                  18
 #define PACKET_TYPE_PROXY                           19
 
-#define PACKET_TYPE_NEW_GAME                        30    
+#define PACKET_TYPE_NEW_GAME                        30
 //#define PACKET_TYPE_NEW_LEVEL                       31
 #define PACKET_TYPE_PLAYER_OPTIONS                  32
 #define PACKET_TYPE_RTS                             33
@@ -104,7 +104,7 @@ typedef struct PACKED
     BYTE PacketType;  // first byte is always packet type
     char PlayerName[32];
     }PACKET_NAME_CHANGE,*PACKET_NAME_CHANGEp;
-    
+
 typedef struct PACKED
     {
     BYTE PacketType;  // first byte is always packet type
@@ -133,7 +133,7 @@ extern short predictangpos[MOVEFIFOSIZ];
 extern int predictmovefifoplc;
 extern BOOL Prediction;
 extern short NumSyncBytes;
-    
+
 void InitPrediction(PLAYERp pp);
 void DoPrediction(PLAYERp ppp);
 void CorrectPrediction(int actualfifoplc);
@@ -187,10 +187,10 @@ typedef struct
         Color,
         Nuke;
     }AUTO_NET, *AUTO_NETp;
-    
+
 extern AUTO_NET Auto;
 extern BOOL AutoNet;
-    
+
 VOID getpackets(VOID);
 VOID SendMulitNameChange(char *new_name);
 VOID InitNetVars(void );

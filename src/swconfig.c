@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -67,17 +67,17 @@ void EncodePassword(char *pw)
 
     DrawScreen = FALSE;
     randomseed = 1234L;
-    
+
     Bstrupr(pw);
 
     len = strlen(pw);
     for (i = 0; i < len; i++)
         pw[i] += RANDOM_RANGE(26);
-    
+
     randomseed = bak_randomseed;
     DrawScreen = bak_DrawScreen;
     }
-   
+
 void DecodePassword(char *pw)
     {
     int bak_DrawScreen = DrawScreen;
@@ -87,13 +87,13 @@ void DecodePassword(char *pw)
 
     DrawScreen = FALSE;
     randomseed = 1234L;
-    
+
     Bstrupr(pw);
 
     len = strlen(pw);
     for (i = 0; i < len; i++)
         pw[i] -= RANDOM_RANGE(26);
-    
+
     randomseed = bak_randomseed;
     DrawScreen = bak_DrawScreen;
     }
@@ -119,13 +119,13 @@ void ReadGameSetup( int32 scripthandle )
         }
 
     SCRIPT_GetString( scripthandle, "Options","Rooster",gs.Password, sizeof(gs.Password));
-    DecodePassword(gs.Password);    
-        
+    DecodePassword(gs.Password);
+
     // option stuff
     dummy = -1;
     ret = SCRIPT_GetNumber( scripthandle, "Options", "BorderNum",&dummy);
     if (dummy != -1) gs.BorderNum = dummy;
-       
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "Brightness",&dummy);
     if (dummy != -1) gs.Brightness = dummy;
@@ -133,47 +133,47 @@ void ReadGameSetup( int32 scripthandle )
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "BorderTile",&dummy);
     if (dummy != -1) gs.BorderTile = dummy;
-        
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "Bobbing",&dummy);
     if (dummy != -1) gs.Bobbing = dummy;
-       
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "Tilting",&dummy);
     if (dummy != -1) gs.Tilting = dummy;
-       
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "Shadows",&dummy);
     if (dummy != -1) gs.Shadows = dummy;
-       
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "AutoRun",&dummy);
     if (dummy != -1) gs.AutoRun = dummy;
-       
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "Crosshair",&dummy);
     if (dummy != -1) gs.Crosshair = dummy;
-       
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "AutoAim",&dummy);
     if (dummy != -1) gs.AutoAim = dummy;
-       
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "Messages",&dummy);
     if (dummy != -1) gs.Messages = dummy;
-       
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "Talking",&dummy);
     if (dummy != -1) gs.Talking = dummy;
-       
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "Ambient",&dummy);
     if (dummy != -1) gs.Ambient = dummy;
-       
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "FxOn",&dummy);
     if (dummy != -1) gs.FxOn = dummy;
-       
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "MusicOn",&dummy);
     if (dummy != -1) gs.MusicOn = dummy;
@@ -233,11 +233,11 @@ void ReadGameSetup( int32 scripthandle )
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "MouseInvert",&dummy);
     if (dummy != -1) gs.MouseInvert = dummy;
-    
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "Kiwi",&dummy);
     if (dummy != -1) gs.ParentalLock = dummy;
-    
+
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "PlayCD",&dummy);
     if (dummy != -1) gs.PlayCD = dummy;
@@ -245,7 +245,7 @@ void ReadGameSetup( int32 scripthandle )
     dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "CDDevice",&dummy);
     if (dummy < 0) dummy = -1;
-   
+
     if (SW_SHAREWARE)
       {
       dummy = -1;
@@ -253,11 +253,11 @@ void ReadGameSetup( int32 scripthandle )
       if (dummy != -1) GamePlays = dummy;
 
 	    buildprintf(
-            "\n"            
+            "\n"
             "You have played Shadow Warrior %d times.  Please call and order the full\n"
             "version at 1(800)-3DREALMS or see the ORDER.FRM file.\n\n"
             ,GamePlays);
-            
+
       GamePlays++;
       }
     }
@@ -273,7 +273,7 @@ void ReadGameSetup( int32 scripthandle )
 void WriteGameSetup( int32 scripthandle)
    {
    int dummy;
-   
+
    dummy = gs.BorderNum;
    SCRIPT_PutNumber( scripthandle, "Options", "BorderNum",dummy,FALSE,FALSE);
    dummy = gs.Brightness;
@@ -302,10 +302,10 @@ void WriteGameSetup( int32 scripthandle)
    SCRIPT_PutNumber( scripthandle, "Options", "FxOn",dummy,FALSE,FALSE);
    dummy = gs.MouseAimingType;
    SCRIPT_PutNumber( scripthandle, "Controls", "MouseAiming",dummy,FALSE,FALSE);
-   
+
    dummy = gs.MusicOn;
    SCRIPT_PutNumber( scripthandle, "Options", "MusicOn",dummy,FALSE,FALSE);
-   
+
    dummy = gs.NetGameType;
    SCRIPT_PutNumber( scripthandle, "Options", "NetGameType",dummy,FALSE,FALSE);
    dummy = gs.NetLevel;
@@ -332,18 +332,18 @@ void WriteGameSetup( int32 scripthandle)
    SCRIPT_PutNumber( scripthandle, "Options", "MouseInvert",dummy,FALSE,FALSE);
    dummy = gs.Stats;
    SCRIPT_PutNumber( scripthandle, "Options", "Stats",dummy,FALSE,FALSE);
-   
-   EncodePassword(gs.Password);    
+
+   EncodePassword(gs.Password);
    SCRIPT_PutString( scripthandle, "Options","Rooster",gs.Password);
-   DecodePassword(gs.Password);    
-   
+   DecodePassword(gs.Password);
+
    dummy = gs.ParentalLock;
    SCRIPT_PutNumber( scripthandle, "Options", "Kiwi",dummy,FALSE,FALSE);
 
    dummy = gs.PlayCD;
    SCRIPT_PutNumber( scripthandle, "Options", "PlayCD",dummy,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Options", "CDDevice",0,FALSE,FALSE);
-   
+
    if (SW_SHAREWARE) {
    dummy = GamePlays;
    SCRIPT_PutNumber( scripthandle, "Options", "Chickens",dummy,FALSE,FALSE);

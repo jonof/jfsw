@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -45,40 +45,40 @@ BOOL ResCheat = FALSE;
 VOID ResCheatOn(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
     {
     ResCheat = TRUE;
-    }    
+    }
 
 VOID VoxCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
     {
     //gs.Voxel ^= 1;
-    }    
+    }
 
 VOID RestartCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
     {
     ExitLevel = TRUE;
-    }    
-        
+    }
+
 VOID RoomCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
-    {        
+    {
     extern BOOL FAF_DebugView;
     FAF_DebugView ^= 1;
-    }    
+    }
 
 VOID SecretCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
-    {        
+    {
     gs.Stats = !gs.Stats;
-    }    
-    
+    }
+
 VOID NextCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
     {
     Level++;
     ExitLevel = TRUE;
-    }    
+    }
 
 VOID PrevCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
     {
     Level--;
     ExitLevel = TRUE;
-    }    
+    }
 
 VOID MapCheat(PLAYERp pp, char * UNUSED(cheat_string))
     {
@@ -92,7 +92,7 @@ VOID MapCheat(PLAYERp pp, char * UNUSED(cheat_string))
     sprintf(ds, "AUTOMAPPING %s", automapping ? "ON" : "OFF" );
     PutStringInfo(pp, ds);
     }
-        
+
 
 VOID LocCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
     {
@@ -100,7 +100,7 @@ VOID LocCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
     LocationInfo++;
     if (LocationInfo > 2)
         LocationInfo = 0;
-    }    
+    }
 
 
 VOID WeaponCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
@@ -149,16 +149,16 @@ VOID ClipCheat(PLAYERp pp, char * UNUSED(cheat_string))
     sprintf(ds, "NO CLIP MODE %s", TEST(pp->Flags, PF_CLIP_CHEAT) ? "ON" : "OFF" );
     PutStringInfo(pp, ds);
     }
-    
+
 VOID WarpCheat(PLAYERp pp, char *cheat_string)
     {
     char *cp = cheat_string;
     int episode_num;
     int level_num;
-    
+
     cp += sizeof("swtrek")-1;
     level_num = atol(cp);
-    
+
     //DSPRINTF(ds,"ep %d, lev %d",episode_num, level_num);
     //MONO_PRINT(ds);
 
@@ -176,7 +176,7 @@ VOID WarpCheat(PLAYERp pp, char *cheat_string)
     sprintf(ds, "ENTERING %1d", Level);
     PutStringInfo(pp, ds);
     }
-    
+
 VOID ItemCheat(PLAYERp pp, char *cheat_string)
     {
     //
@@ -200,12 +200,12 @@ VOID ItemCheat(PLAYERp pp, char *cheat_string)
             SET(p->Flags, PF_PICKED_UP_AN_UZI);
             InitWeaponUzi(p);
             }
-           
-        p->WpnShotgunAuto = 50; 
+
+        p->WpnShotgunAuto = 50;
         p->WpnRocketHeat = 5;
         p->WpnRocketNuke = 1;
         p->Armor = 100;
-        
+
         for (inv = 0; inv < MAX_INVENTORY; inv++)
             {
             p->InventoryPercent[inv] = 100;
@@ -213,18 +213,18 @@ VOID ItemCheat(PLAYERp pp, char *cheat_string)
             p->InventoryAmount[inv] = InventoryData[inv].MaxInv;
             //PlayerUpdateInventory(p, inv);
             }
-            
+
         PlayerUpdateInventory(p, p->InventoryNum);
         //p->InventoryNum = 0;
         }
-    
+
     for(i=0; i<numsectors; i++)
         {
         if (SectUser[i] && SectUser[i]->stag == SECT_LOCK_DOOR)
             SectUser[i]->number = 0;  // unlock all doors of this type
         }
-    
-    WeaponCheat(pp, cheat_string);    
+
+    WeaponCheat(pp, cheat_string);
     PlayerUpdateKeys(pp);
     }
 
@@ -235,7 +235,7 @@ VOID EveryCheatToggle(PLAYERp pp, char *cheat_string)
     WeaponCheat(pp, cheat_string);
     GodCheat(pp, cheat_string);
     ItemCheat(pp, cheat_string);
-    
+
     sprintf(ds, "EVERY CHEAT %s", EveryCheat ? "ON" : "OFF");
     PutStringInfo(pp, ds);
     }
@@ -244,8 +244,8 @@ VOID SaveCheat(PLAYERp pp, char * UNUSED(cheat_string))
     {
     saveboard("swsave.map", &pp->posx, &pp->posy, &pp->posz,
                  &pp->pang, &pp->cursectnum);
-    }             
-                 
+    }
+
 VOID GeorgeFunc(PLAYERp pp, char * UNUSED(cheat_string))
     {
     PlayerSound(DIGI_TAUNTAI9,&pp->posx,&pp->posy,&pp->posz,v3df_dontpan|v3df_doppler|v3df_follow,pp);
@@ -260,7 +260,7 @@ int cheatcmp(char *str1, char *str2, int len)
     {
     char *cp1 = str1;
     char *cp2 = str2;
-    
+
     do
         {
         if (*cp1 != *cp2)
@@ -268,17 +268,17 @@ int cheatcmp(char *str1, char *str2, int len)
             if (! ((*cp1 == '#' && isdigit(*cp2)) || (*cp2 == '#' && isdigit(*cp1))) )
                 return(-1);
             }
-            
-        cp1++;    
-        cp2++;    
+
+        cp1++;
+        cp2++;
         }
     while (--len);
-    
+
     return(0);
     }
 
 
-#define CF_ALL    BIT(0)    
+#define CF_ALL    BIT(0)
 #define CF_NOTSW  BIT(1)
 
 typedef struct
@@ -287,9 +287,9 @@ typedef struct
     void (*CheatInputFunc)(PLAYERp, char *);
     char flags;
     }CHEAT_INFO, *CHEAT_INFOp;
-    
-    
-CHEAT_INFO ci[] = 
+
+
+CHEAT_INFO ci[] =
     {
     {"swchan",      GodCheat, 0},
     {"swgimme",     ItemCheat, 0},
@@ -298,7 +298,7 @@ CHEAT_INFO ci[] =
     {"swghost",      ClipCheat, 0},
 
     {"swstart",     RestartCheat, 0},
-    
+
     {"swres",       ResCheatOn, 0},
     {"swloc",       LocCheat, 0},
     {"swmap",       MapCheat, 0},
@@ -308,10 +308,10 @@ CHEAT_INFO ci[] =
     {"swsecret",    SecretCheat, CF_ALL},
     #endif
     };
-    
+
 
 // !JIM! My simplified version of CheatInput which simply processes MessageInputString
-void CheatInput(void)    
+void CheatInput(void)
 {
     static BOOL cur_show;
     int ret;
@@ -320,25 +320,25 @@ void CheatInput(void)
 
     //if (CommEnabled)
     //    return;
-        
-    strcpy(CheatInputString,MessageInputString);    
-        
+
+    strcpy(CheatInputString,MessageInputString);
+
     // make sure string is lower cased
     Bstrlwr(CheatInputString);
-        
-    // check for at least one single match    
-    for (i = 0; i < SIZ(ci); i++)    
-    {    
-        // compare without the NULL    
-        if (cheatcmp(CheatInputString, ci[i].CheatInputCode, strlen(CheatInputString)) == 0)    
-        {    
-                
-            // if they are equal in length then its a complet match    
-            if (strlen(CheatInputString) == strlen(ci[i].CheatInputCode))    
-            {    
-                match = TRUE;    
-                CheatInputMode = FALSE;    
-                
+
+    // check for at least one single match
+    for (i = 0; i < SIZ(ci); i++)
+    {
+        // compare without the NULL
+        if (cheatcmp(CheatInputString, ci[i].CheatInputCode, strlen(CheatInputString)) == 0)
+        {
+
+            // if they are equal in length then its a complet match
+            if (strlen(CheatInputString) == strlen(ci[i].CheatInputCode))
+            {
+                match = TRUE;
+                CheatInputMode = FALSE;
+
 		if (TEST(ci[i].flags, CF_NOTSW) && SW_SHAREWARE)
 		    return;
 
@@ -346,49 +346,49 @@ void CheatInput(void)
                     {
                     if (CommEnabled)
                         return;
-                
+
                     if (Skill >= 3)
                         {
                         PutStringInfo(Player, "You're too skillful to cheat\n");
                         return;
                         }
-                    }    
+                    }
 
-                if (ci[i].CheatInputFunc)    
-                    (*ci[i].CheatInputFunc)(Player, CheatInputString);    
-                        
-                return;        
-            }    
-            else     
-            {       
-                match = TRUE;    
-                break;    
-            }    
-        }    
-    }    
-        
-    if (!match)      
-    {    
-        ////DSPRINTF(ds,"Lost A Match %s", CheatInputString);    
-        //MONO_PRINT(ds);    
-            
-        CheatInputMode = FALSE;    
-    }     
+                if (ci[i].CheatInputFunc)
+                    (*ci[i].CheatInputFunc)(Player, CheatInputString);
+
+                return;
+            }
+            else
+            {
+                match = TRUE;
+                break;
+            }
+        }
+    }
+
+    if (!match)
+    {
+        ////DSPRINTF(ds,"Lost A Match %s", CheatInputString);
+        //MONO_PRINT(ds);
+
+        CheatInputMode = FALSE;
+    }
 }
 
 /*    OLD CODE
-void CheatInput(void)    
+void CheatInput(void)
     {
     static BOOL cur_show;
     signed char MNU_InputString(char *, short);
     int ret;
     BOOL match = FALSE;
     short i;
-    
+
     // don't use InputMode here - its set for CheatInputMode
     if (MessageInputMode || MenuInputMode)
         return;
-    
+
     if (!CheatInputMode)
         {
         if (KEY_PRESSED(KEYSC_S))
@@ -396,14 +396,14 @@ void CheatInput(void)
             //KEY_PRESSED(KEYSC_S) = FALSE;
             CheatInputMode = TRUE;
             strcpy(CheatInputString,"s");
-            } 
+            }
         }
-        
+
     if (CheatInputMode)
         {
         // get new chars
         ret = MNU_InputString(CheatInputString, 320-20);
-        
+
         // quick check input
         switch (ret)
             {
@@ -412,14 +412,14 @@ void CheatInput(void)
                 CheatInputMode = FALSE;
                 KB_FlushKeyboardQueue();
                 return;
-                
+
             case TRUE: // Got input
                 break;
             }
-            
+
         // make sure string is lower cased
         strlwr(CheatInputString);
-        
+
         // check for at least one single match
         for (i = 0; i < SIZ(ci); i++)
             {
@@ -428,40 +428,40 @@ void CheatInput(void)
                 {
                 ////DSPRINTF(ds,"%s",CheatInputString);
                 //MONO_PRINT(ds);
-                
+
                 // if they are equal in length then its a complet match
                 if (strlen(CheatInputString) == strlen(ci[i].CheatInputCode))
                     {
                     ////DSPRINTF(ds,"Found A Match %s", CheatInputString);
                     //MONO_PRINT(ds);
-                    
+
                     match = TRUE;
-                    
+
                     CheatInputMode = FALSE;
                     KB_FlushKeyboardQueue();
-                    
+
                     if (ci[i].CheatInputFunc)
                         (*ci[i].CheatInputFunc)(Player, CheatInputString);
-                        
-                    return;    
+
+                    return;
                     }
-                else 
-                    {   
+                else
+                    {
                     match = TRUE;
                     break;
                     }
                 }
             }
-        
-        if (!match)  
+
+        if (!match)
             {
             ////DSPRINTF(ds,"Lost A Match %s", CheatInputString);
             //MONO_PRINT(ds);
-            
+
             CheatInputMode = FALSE;
             KB_FlushKeyboardQueue();
-            } 
+            }
         }
     }
-    
+
 */

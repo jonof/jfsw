@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -29,11 +29,11 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define AI_H
 
 // Call functions based on a random range value
-typedef struct 
+typedef struct
     {
     short range;
     ANIMATORp action;
-    } DECISION, *DECISIONp;    
+    } DECISION, *DECISIONp;
 
 // Personality structure
 struct PERSONALITYstruct
@@ -47,15 +47,15 @@ struct PERSONALITYstruct
     DECISIONp CloseRange;
     DECISIONp TouchTarget;
     };
-    
+
 enum ActorStates { SLOW_SPEED, NORM_SPEED, MID_SPEED, FAST_SPEED, MAX_SPEED};
 
 #define MAXATTRIBSNDS   11
 typedef enum {
-    attr_ambient, attr_alert, attr_attack, attr_pain, attr_die, 
+    attr_ambient, attr_alert, attr_attack, attr_pain, attr_die,
     attr_extra1, attr_extra2, attr_extra3,attr_extra4,attr_extra5,
     attr_extra6
-} ATTRIB_SNDS;    
+} ATTRIB_SNDS;
 
 struct ATTRIBUTEstruct
     {
@@ -64,9 +64,9 @@ struct ATTRIBUTEstruct
     BYTE MaxWeapons;
     /*ATTRIB_SNDS*/ int Sounds[MAXATTRIBSNDS];	// JBF: ATTRIB_SNDS? Somehow I don't think this is what was intended...
     };
-    
-extern ATTRIBUTE DefaultAttrib;    
-    
+
+extern ATTRIBUTE DefaultAttrib;
+
 // AI.C functions
 void DebugMoveHit(short SpriteNum);
 BOOL ActorMoveHitReact(short SpriteNum);
@@ -114,7 +114,7 @@ int DoActorReposition(short SpriteNum);
 int InitActorPause(short SpriteNum);
 int DoActorPause(short SpriteNum);
 
-/*    
+/*
 ANIMATOR
 InitActorDecide,
 InitActorMoveCloser,

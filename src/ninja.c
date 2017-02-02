@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -43,7 +43,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 /*
 
  !AIC - Decision tables used in mostly ai.c DoActorActionDecide().
- 
+
 */
 
 DECISION NinjaBattle[] =
@@ -95,10 +95,10 @@ DECISION NinjaCloseRange[] =
     };
 
 /*
-    
+
  !AIC - Collection of decision tables
 
-*/    
+*/
 
 PERSONALITY NinjaPersonality =
     {
@@ -138,12 +138,12 @@ PERSONALITY NinjaSniperPersonality =
     NinjaSniperBattle
     };
 
-    
+
 /*
-    
+
  !AIC - Extra attributes - speeds for running, animation tic adjustments for speeeds, etc
 
-*/    
+*/
 
 ATTRIBUTE NinjaAttrib =
     {
@@ -153,7 +153,7 @@ ATTRIBUTE NinjaAttrib =
     {4, 0, 0, -2},                     // Tic Adjusts
      3,                                 // MaxWeapons;
     {DIGI_NINJAAMBIENT, DIGI_NINJAALERT, DIGI_STAR,
-     DIGI_NINJAPAIN, DIGI_NINJASCREAM,0,0,0,0,0}                
+     DIGI_NINJAPAIN, DIGI_NINJASCREAM,0,0,0,0,0}
     };
 
 ATTRIBUTE InvisibleNinjaAttrib =
@@ -162,7 +162,7 @@ ATTRIBUTE InvisibleNinjaAttrib =
     {4, 0, 0, -2},                     // Tic Adjusts
      3,                                 // MaxWeapons;
     {DIGI_NINJAAMBIENT, DIGI_NINJAALERT, DIGI_STAR,
-     DIGI_NINJAPAIN, DIGI_NINJASCREAM,0,0,0,0,0}                
+     DIGI_NINJAPAIN, DIGI_NINJASCREAM,0,0,0,0,0}
     };
 
 ATTRIBUTE DefaultAttrib =
@@ -170,7 +170,7 @@ ATTRIBUTE DefaultAttrib =
     {60, 80, 100, 130},                 // Speeds
     {3, 0, -2, -3},                     // Tic Adjusts
      3,                                  // MaxWeapons;
-    {0, 0, 0}                           
+    {0, 0, 0}
     };
 
 //////////////////////
@@ -186,7 +186,7 @@ ANIMATOR InitActorDecide;
 
 STATE s_NinjaRun[5][4] =
     {
-    
+
     {
     {NINJA_RUN_R0 + 0, NINJA_RATE | SF_TIC_ADJUST, DoNinjaMove, &s_NinjaRun[0][1]},
     {NINJA_RUN_R0 + 1, NINJA_RATE | SF_TIC_ADJUST, DoNinjaMove, &s_NinjaRun[0][2]},
@@ -217,13 +217,13 @@ STATE s_NinjaRun[5][4] =
     {NINJA_RUN_R4 + 2, NINJA_RATE | SF_TIC_ADJUST, DoNinjaMove, &s_NinjaRun[4][3]},
     {NINJA_RUN_R4 + 3, NINJA_RATE | SF_TIC_ADJUST, DoNinjaMove, &s_NinjaRun[4][0]},
     },
-    
+
     };
 
-#if 0    
+#if 0
 STATE s_NinjaRun[5][6] =
     {
-    
+
     {
     {NINJA_RUN_R0 + 0, NINJA_RATE | SF_TIC_ADJUST, DoNinjaMove, &s_NinjaRun[0][1]},
     {NINJA_RUN_R0 + 1, NINJA_RATE | SF_TIC_ADJUST, DoNinjaMove, &s_NinjaRun[0][2]},
@@ -264,7 +264,7 @@ STATE s_NinjaRun[5][6] =
     {NINJA_RUN_R4 + 4, NINJA_RATE | SF_TIC_ADJUST, DoNinjaMove, &s_NinjaRun[4][5]},
     {NINJA_RUN_R4 + 5, NINJA_RATE | SF_TIC_ADJUST, DoNinjaMove, &s_NinjaRun[4][0]},
     },
-    
+
     };
 #endif
 
@@ -276,7 +276,7 @@ STATEp sg_NinjaRun[] =
     s_NinjaRun[3],
     s_NinjaRun[4]
     };
-    
+
 //////////////////////
 //
 // NINJA STAND
@@ -313,7 +313,7 @@ STATEp sg_NinjaStand[] =
     s_NinjaStand[3],
     s_NinjaStand[4]
     };
-    
+
 //////////////////////
 //
 // NINJA RISE
@@ -349,7 +349,7 @@ STATE s_NinjaRise[5][3] =
     {NINJA_STAND_R4 + 0, NINJA_STAND_RATE, NullNinja, &s_NinjaRise[4][2]},
     {0, 0, NULL, (STATEp)sg_NinjaRun},
     },
-    };    
+    };
 
 
 STATEp sg_NinjaRise[] =
@@ -585,8 +585,8 @@ STATEp sg_NinjaCeiling[] =
     s_NinjaCeiling[3],
     s_NinjaCeiling[4]
     };
-    
-    
+
+
 //////////////////////
 //
 // NINJA JUMP
@@ -708,7 +708,7 @@ STATE s_NinjaSwim[5][3] =
     {NINJA_SWIM_R4 + 3, NINJA_SWIM_RATE, DoNinjaMove, &s_NinjaSwim[4][0]},
     },
     };
-    
+
 
 STATEp sg_NinjaSwim[] =
     {
@@ -848,7 +848,7 @@ STATE s_NinjaFly[5][1] =
     {
     {NINJA_FLY_R4 + 0, NINJA_FLY_RATE, DoNinjaMove, &s_NinjaFly[4][0]},
     },
-    };    
+    };
 
 STATEp sg_NinjaFly[] =
     {
@@ -890,8 +890,8 @@ STATE s_NinjaPain[5][2] =
     {NINJA_STAND_R4 + 0, NINJA_PAIN_RATE, DoNinjaPain, &s_NinjaPain[4][1]},
     {NINJA_STAND_R4 + 0, NINJA_PAIN_RATE, DoNinjaPain, &s_NinjaPain[4][1]},
     },
-    };    
-    
+    };
+
 STATEp sg_NinjaPain[] =
     {
     s_NinjaPain[0],
@@ -1025,7 +1025,7 @@ STATEp sg_NinjaMirv[] =
     s_NinjaMirv[3],
     s_NinjaMirv[4]
     };
-    
+
 //////////////////////
 //
 // NINJA NAPALM
@@ -1088,8 +1088,8 @@ STATEp sg_NinjaNapalm[] =
     s_NinjaNapalm[3],
     s_NinjaNapalm[4]
     };
-    
-    
+
+
 //////////////////////
 //
 // NINJA ROCKET
@@ -1205,8 +1205,8 @@ STATEp sg_NinjaGrenade[] =
     s_NinjaGrenade[3],
     s_NinjaGrenade[4]
     };
-    
-    
+
+
 //////////////////////
 //
 // NINJA FLASHBOMB
@@ -1477,7 +1477,7 @@ STATE s_NinjaDie[] =
 #define NINJA_DIESLICED_RATE 20
 ANIMATOR DoCutInHalf;
 
-STATE s_NinjaDieSliced[] = 
+STATE s_NinjaDieSliced[] =
     {
     {NINJA_SLICED + 0, NINJA_DIESLICED_RATE*6, NullNinja, &s_NinjaDieSliced[1]},
     {NINJA_SLICED + 1, NINJA_DIESLICED_RATE,   NullNinja, &s_NinjaDieSliced[2]},
@@ -1565,10 +1565,10 @@ STATEp sg_NinjaDeathFall[] =
     };
 
 /*
-    
+
  !AIC - Collection of states that connect action to states
 
-*/    
+*/
 
 ACTOR_ACTION_SET NinjaSniperActionSet =
     {
@@ -1597,7 +1597,7 @@ ACTOR_ACTION_SET NinjaSniperActionSet =
     sg_NinjaDuck,
     sg_NinjaDive
     };
-    
+
 ACTOR_ACTION_SET NinjaActionSet =
     {
     sg_NinjaStand,
@@ -1738,7 +1738,7 @@ ACTOR_ACTION_SET NinjaGreenActionSet =
     sg_NinjaDive
     };
 
-    
+
 extern STATEp sg_PlayerNinjaRun[];
 extern STATEp sg_PlayerNinjaStand[];
 extern STATEp sg_PlayerNinjaJump[];
@@ -1775,7 +1775,7 @@ ACTOR_ACTION_SET PlayerNinjaActionSet =
     sg_NinjaDuck,
     sg_PlayerNinjaSwim
     };
-    
+
 int
 DoHariKariBlood(short SpriteNum)
     {
@@ -1785,11 +1785,11 @@ DoHariKariBlood(short SpriteNum)
     }
 
 /*
-    
+
  !AIC - Every actor has a setup where they are initialized
 
-*/    
-    
+*/
+
 int
 SetupNinja(short SpriteNum)
     {
@@ -1832,7 +1832,7 @@ SetupNinja(short SpriteNum)
                 u->ActorActionSet = &NinjaActionSet;
                 u->Personality = &NinjaPersonality;
                 ChangeState(SpriteNum, s_NinjaCeiling[0]);
-                } 
+                }
             else
                 {
                 u->Attrib = &NinjaAttrib;
@@ -1858,7 +1858,7 @@ SetupNinja(short SpriteNum)
                 u->ActorActionSet = &NinjaActionSet;
                 u->Personality = &NinjaPersonality;
                 ChangeState(SpriteNum, s_NinjaCeiling[0]);
-                } 
+                }
             else
                 {
                 u->Attrib = &NinjaAttrib;
@@ -1868,7 +1868,7 @@ SetupNinja(short SpriteNum)
                 }
             }
         }
-    else    
+    else
     if (sp->pal == PAL_XLAT_LT_TAN)
         {
         u->Attrib = &NinjaAttrib;
@@ -1878,7 +1878,7 @@ SetupNinja(short SpriteNum)
         sp->pal = u->spal = PAL_XLAT_LT_TAN;
         u->Attrib = &NinjaAttrib;
         }
-    else    
+    else
     if (sp->pal == PAL_XLAT_LT_GREY)
         {
         u->Attrib = &NinjaAttrib;
@@ -1888,7 +1888,7 @@ SetupNinja(short SpriteNum)
         sp->pal = u->spal = PAL_XLAT_LT_GREY;
         u->Attrib = &NinjaAttrib;
         }
-    else    
+    else
         {
         u->Attrib = &NinjaAttrib;
         sp->pal = u->spal = PALETTE_PLAYER0;
@@ -1901,7 +1901,7 @@ SetupNinja(short SpriteNum)
             ChangeState(SpriteNum, s_NinjaDuck[0]);
             }
         }
-    
+
     ChangeState(SpriteNum, s_NinjaRun[0]);
     DoActorSetSpeed(SpriteNum, NORM_SPEED);
 
@@ -1911,7 +1911,7 @@ SetupNinja(short SpriteNum)
     return (0);
     }
 
-int 
+int
 DoNinjaHariKari(short SpriteNum)
     {
     USERp u = User[SpriteNum];
@@ -1927,22 +1927,22 @@ DoNinjaHariKari(short SpriteNum)
     u->floor_dist = Z(40);
     u->RotNum = 0;
     u->ActorActionFunc = NULL;
-    
+
     SET(sp->extra, SPRX_BREAKABLE);
     SET(sp->cstat, CSTAT_SPRITE_BREAKABLE);
 
     PlaySound(DIGI_NINJAUZIATTACK,&sp->x,&sp->y,&sp->z,v3df_follow);
-    
+
     SpawnBlood(SpriteNum, SpriteNum, -1, -1, -1, -1);
 
     cnt = RANDOM_RANGE(4)+1;
     for(i=0; i<=cnt; i++)
         InitBloodSpray(SpriteNum,TRUE,-2);
-    
+
     return(0);
     }
 
-int 
+int
 DoNinjaGrabThroat(short SpriteNum)
     {
     USERp u = User[SpriteNum];
@@ -1962,7 +1962,7 @@ DoNinjaGrabThroat(short SpriteNum)
         u->floor_dist = Z(40);
         u->RotNum = 0;
         u->ActorActionFunc = NULL;
-    
+
         SET(sp->extra, SPRX_BREAKABLE);
         SET(sp->cstat, CSTAT_SPRITE_BREAKABLE);
 
@@ -1979,12 +1979,12 @@ DoNinjaGrabThroat(short SpriteNum)
     }
 
 /*
-    
+
  !AIC - Most actors have one of these and the all look similar
 
-*/    
-    
-int 
+*/
+
+int
 DoNinjaMove(short SpriteNum)
     {
     USERp u = User[SpriteNum];
@@ -2005,37 +2005,37 @@ DoNinjaMove(short SpriteNum)
             DoActorFall(SpriteNum);
         }
 
-    // sliding    
+    // sliding
     if (TEST(u->Flags, SPR_SLIDING) && !TEST(u->Flags, SPR_CLIMBING))
         DoActorSlide(SpriteNum);
 
-    // !AIC - do track or call current action function - such as DoActorMoveCloser()    
+    // !AIC - do track or call current action function - such as DoActorMoveCloser()
     if (u->track >= 0)
         ActorFollowTrack(SpriteNum, ACTORMOVETICS);
     else
-    {   
+    {
         (*u->ActorActionFunc) (SpriteNum);
     }
 
-    // stay on floor unless doing certain things    
+    // stay on floor unless doing certain things
     if (!TEST(u->Flags, SPR_JUMPING | SPR_FALLING | SPR_CLIMBING))
         {
         KeepActorOnFloor(SpriteNum);
         }
-        
-    // take damage from environment 
+
+    // take damage from environment
     DoActorSectorDamage(SpriteNum);
-    
+
     return(0);
     }
 
-int 
+int
 NinjaJumpActionFunc(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
     int nx, ny;
-    
+
     // Move while jumping
     nx = sp->xvel * (int) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
     ny = sp->xvel * (int) sintable[sp->ang] >> 14;
@@ -2045,7 +2045,7 @@ NinjaJumpActionFunc(short SpriteNum)
         {
         return (0);
         }
-    
+
     if (!TEST(u->Flags, SPR_JUMPING|SPR_FALLING))
         {
         InitActorDecide(SpriteNum);
@@ -2055,20 +2055,20 @@ NinjaJumpActionFunc(short SpriteNum)
     }
 
 /*
-    
+
  !AIC - Short version of DoNinjaMove without the movement code.  For times when
  the actor is doing something but not moving.
 
-*/    
+*/
 
-int 
+int
 NullNinja(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
 
     if(u->WaitTics > 0) u->WaitTics -= ACTORMOVETICS;
-    
+
     if (TEST(u->Flags, SPR_SLIDING) && !TEST(u->Flags, SPR_CLIMBING) && !TEST(u->Flags, SPR_JUMPING|SPR_FALLING))
         DoActorSlide(SpriteNum);
 
@@ -2076,7 +2076,7 @@ NullNinja(short SpriteNum)
         KeepActorOnFloor(SpriteNum);
 
     DoActorSectorDamage(SpriteNum);
-    
+
     return (0);
     }
 
@@ -2087,24 +2087,24 @@ int DoNinjaPain(short SpriteNum)
     USERp u = User[SpriteNum];
 
     NullNinja(SpriteNum);
-    
+
     if (TEST(u->Flags2, SPR2_DYING))
         {
         NewStateGroup(SpriteNum, sg_NinjaGrabThroat);
         return(0);
         }
-        
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         InitActorDecide(SpriteNum);
-        
+
     return(0);
-}    
+}
 
 int DoNinjaSpecial(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     if(u->spal == PALETTE_PLAYER5)
         {
         RESET(sp->cstat,CSTAT_SPRITE_TRANSLUCENT);
@@ -2113,33 +2113,33 @@ int DoNinjaSpecial(short SpriteNum)
         }
 
     return(0);
-    }  
-      
+    }
+
 int CheckFire(short SpriteNum)
     {
     if(!CanSeePlayer(SpriteNum))
         InitActorDuck(SpriteNum);
     return(0);
-    }       
+    }
 
-int 
+int
 DoNinjaCeiling(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
 
     DoActorSectorDamage(SpriteNum);
-    
+
     return (0);
     }
 
-    
+
 //
-// !AIC - Stuff from here down is really Player related.  Should be moved but it was 
+// !AIC - Stuff from here down is really Player related.  Should be moved but it was
 // too convienent to put it here.
 //
 
-VOID 
+VOID
 InitAllPlayerSprites(VOID)
     {
     short i, sp_num;
@@ -2151,19 +2151,19 @@ InitAllPlayerSprites(VOID)
         }
     }
 
-    
-VOID    
+
+VOID
 PlayerLevelReset(PLAYERp pp)
     {
     SPRITEp sp = &sprite[pp->PlayerSprite];
     USERp u = User[pp->PlayerSprite];
-    
+
     if (gNet.MultiGameType == MULTI_GAME_COMMBAT)
         {
         PlayerDeathReset(pp);
         return;
         }
-    
+
     if (TEST(pp->Flags, PF_DIVING))
         DoPlayerStopDiveNoWarp(pp);
 
@@ -2185,7 +2185,7 @@ PlayerLevelReset(PLAYERp pp)
     RESET(sp->cstat, CSTAT_SPRITE_TRANSLUCENT);
     RESET(pp->Flags, PF_WEAPON_DOWN|PF_WEAPON_RETRACT);
     RESET(pp->Flags, PF_DEAD);
-    
+
     pp->sop_control = NULL;
     pp->sop_riding = NULL;
     pp->sop_remote = NULL;
@@ -2194,7 +2194,7 @@ PlayerLevelReset(PLAYERp pp)
     DamageData[u->WeaponNum].Init(pp);
     }
 
-VOID    
+VOID
 PlayerDeathReset(PLAYERp pp)
     {
     SPRITEp sp = &sprite[pp->PlayerSprite];
@@ -2202,16 +2202,16 @@ PlayerDeathReset(PLAYERp pp)
 
     if (TEST(pp->Flags, PF_DIVING))
         DoPlayerStopDiveNoWarp(pp);
-    
+
     COVER_SetReverb(0); // Turn off any echoing that may have been going before
     pp->Reverb = 0;
     // second weapon - whatever it is
     u->WeaponNum = WPN_SWORD;
     pp->WpnFirstType = u->WeaponNum;
-    pp->WpnRocketType = 0; 
+    pp->WpnRocketType = 0;
     pp->WpnRocketHeat = 0;             // 5 to 0 range
     pp->WpnRocketNuke = 0;             // 1, you have it, or you don't
-    pp->WpnFlameType = 0;              // Guardian weapons fire 
+    pp->WpnFlameType = 0;              // Guardian weapons fire
     pp->WpnUziType = 2;
     pp->WpnShotgunType = 0;            // Shotgun has normal or fully automatic fire
     pp->WpnShotgunAuto = 0;            // 50-0 automatic shotgun rounds
@@ -2222,7 +2222,7 @@ PlayerDeathReset(PLAYERp pp)
     pp->nukevochandle = 0;
     pp->NukeInitialized = FALSE;
     pp->BunnyMode = FALSE;
-    
+
     memset(pp->WpnAmmo,0,sizeof(pp->WpnAmmo));
     memset(pp->InventoryTics,0,sizeof(pp->InventoryTics));
     memset(pp->InventoryPercent,0,sizeof(pp->InventoryPercent));
@@ -2237,7 +2237,7 @@ PlayerDeathReset(PLAYERp pp)
     SET(pp->WpnFlags, BIT(WPN_STAR) | BIT(u->WeaponNum));
     RESET(pp->Flags, PF_PICKED_UP_AN_UZI);
     RESET(pp->Flags, PF_TWO_UZI);
-    
+
     u->Health = 100;
     pp->MaxHealth = 100;
     //PlayerUpdateHealth(pp, 500);
@@ -2253,7 +2253,7 @@ PlayerDeathReset(PLAYERp pp)
     RESET(sp->cstat, CSTAT_SPRITE_TRANSLUCENT);
     RESET(pp->Flags, PF_WEAPON_DOWN|PF_WEAPON_RETRACT);
     RESET(pp->Flags, PF_DEAD);
-    
+
     pp->sop_control = NULL;
     pp->sop_riding = NULL;
     pp->sop_remote = NULL;
@@ -2276,7 +2276,7 @@ PlayerPanelSetup(VOID)
     TRAVERSE_CONNECT(pnum)
         {
         pp = Player + pnum;
-        
+
         u = User[pp->PlayerSprite];
 
         ASSERT(u != NULL);
@@ -2287,21 +2287,21 @@ PlayerPanelSetup(VOID)
         PlayerUpdateWeapon(pp, u->WeaponNum);
         }
     }
-    
-VOID    
+
+VOID
 PlayerGameReset(PLAYERp pp)
     {
     SPRITEp sp = &sprite[pp->PlayerSprite];
     USERp u = User[pp->PlayerSprite];
-    
+
     COVER_SetReverb(0); // Turn off any echoing that may have been going before
     pp->Reverb = 0;
     u->WeaponNum = WPN_SWORD;
     pp->WpnFirstType = u->WeaponNum;
-    pp->WpnRocketType = 0; 
+    pp->WpnRocketType = 0;
     pp->WpnRocketHeat = 0; // 5 to 0 range
     pp->WpnRocketNuke = 0; // 1, you have it, or you don't
-    pp->WpnFlameType = 0; // Guardian weapons fire 
+    pp->WpnFlameType = 0; // Guardian weapons fire
     pp->WpnUziType = 2;
     pp->WpnShotgunType = 0;            // Shotgun has normal or fully automatic fire
     pp->WpnShotgunAuto = 0;            // 50-0 automatic shotgun rounds
@@ -2313,7 +2313,7 @@ PlayerGameReset(PLAYERp pp)
     pp->NukeInitialized = FALSE;
     pp->BunnyMode = FALSE;
     pp->SecretsFound = 0;
-    
+
     pp->WpnAmmo[WPN_STAR] = 30;
     pp->WpnAmmo[WPN_SWORD] = pp->WpnAmmo[WPN_FIST] = 30;
     pp->WpnFlags = 0;
@@ -2344,7 +2344,7 @@ PlayerGameReset(PLAYERp pp)
 
     PlayerUpdatePanelInfo(pp);
     RESET(sp->cstat, CSTAT_SPRITE_TRANSLUCENT);
-    
+
     pp->sop_control = NULL;
     pp->sop_riding = NULL;
     pp->sop_remote = NULL;
@@ -2353,20 +2353,20 @@ PlayerGameReset(PLAYERp pp)
     DamageData[u->WeaponNum].Init(pp);
     }
 
-extern ACTOR_ACTION_SET PlayerNinjaActionSet;    
+extern ACTOR_ACTION_SET PlayerNinjaActionSet;
 
-VOID 
-PlayerSpriteLoadLevel(short SpriteNum)    
+VOID
+PlayerSpriteLoadLevel(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     ChangeState(SpriteNum, s_NinjaRun[0]);
     u->Rot = sg_NinjaRun;
     u->ActorActionSet = &PlayerNinjaActionSet;
     }
-    
-VOID 
+
+VOID
 InitPlayerSprite(PLAYERp pp)
     {
     short i, sp_num;
@@ -2393,14 +2393,14 @@ InitPlayerSprite(PLAYERp pp)
     ChangeState(sp_num, s_NinjaRun[0]);
     u->Rot = sg_NinjaRun;
     u->ActorActionSet = &PlayerNinjaActionSet;
-    
+
     u->RotNum = 5;
 
     u->Radius = 400;
     u->PlayerP = pp;
     //u->Health = pp->MaxHealth;
     SET(u->Flags, SPR_XFLIP_TOGGLE);
-    
+
 
     sp->picnum = u->State->Pic;
     sp->shade = -60; // was 15
@@ -2417,7 +2417,7 @@ InitPlayerSprite(PLAYERp pp)
     pp->UnderSpriteP = NULL;
 
     DoPlayerZrange(pp);
-    
+
     if (NewGame)
         {
         PlayerGameReset(pp);
@@ -2441,7 +2441,7 @@ InitPlayerSprite(PLAYERp pp)
             setpalettefade(0,0,0,0);
         memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
         }
-        
+
     pp->NightVision = FALSE;
     pp->StartColor = 0;
     pp->FadeAmt = 0;
@@ -2456,13 +2456,13 @@ SpawnPlayerUnderSprite(PLAYERp pp)
     SPRITEp psp = &sprite[pp->PlayerSprite];
     SPRITEp sp;
     int pnum = pp - Player, sp_num;
-    
-    sp_num = pp->PlayerUnderSprite = SpawnSprite(STAT_PLAYER_UNDER0 + pnum, 
+
+    sp_num = pp->PlayerUnderSprite = SpawnSprite(STAT_PLAYER_UNDER0 + pnum,
         NINJA_RUN_R0, NULL, pp->cursectnum, pp->posx, pp->posy, pp->posz, pp->pang, 0);
 
     sp = &sprite[sp_num];
     u = User[sp_num];
-        
+
     pp->UnderSpriteP = sp;
 
     SET(sp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
@@ -2487,7 +2487,7 @@ SpawnPlayerUnderSprite(PLAYERp pp)
     //sp->pal = psp->pal;
     //u->spal = pu->spal;
     }
-   
+
 #include "saveable.h"
 
 static saveable_code saveable_ninja_code[] = {

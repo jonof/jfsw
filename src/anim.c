@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -57,7 +57,7 @@ unsigned char ANIMpal[3*256];
 unsigned char ANIMnum = 0;
 short SoundState;
 
-char *ANIMname[] = 
+char *ANIMname[] =
 {
 "sw.anm",
 "swend.anm",
@@ -70,24 +70,24 @@ char *ANIMname[] =
 VOID AnimShareIntro(int frame, int numframes)
     {
     int zero=0;
-        
+
     if (frame == numframes-1)
         ototalclock += 120;
-    else    
+    else
     if (frame == 1)
         {
         PlaySound(DIGI_NOMESSWITHWANG,&zero,&zero,&zero,v3df_none);
         ototalclock += 120*3;
         }
-    else    
+    else
         ototalclock += 8;
-    
-    if (frame == 5)    
+
+    if (frame == 5)
         {
         PlaySound(DIGI_INTRO_SLASH,&zero,&zero,&zero,v3df_none);
         }
-    else    
-    if (frame == 15)    
+    else
+    if (frame == 15)
         {
         PlaySound(DIGI_INTRO_WHIRL,&zero,&zero,&zero,v3df_none);
         }
@@ -97,7 +97,7 @@ VOID AnimSerp(int frame, int numframes)
     {
     int zero=0;
     ototalclock += 16;
-    
+
     if (frame == numframes-1)
         ototalclock += 1*120;
 
@@ -105,24 +105,24 @@ VOID AnimSerp(int frame, int numframes)
         {
         PlaySound(DIGI_SERPTAUNTWANG,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 16)
         {
         PlaySound(DIGI_SHAREND_TELEPORT,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 35)
         {
         SoundState++;
         PlaySound(DIGI_WANGTAUNTSERP1,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 51)
         {
         SoundState++;
         PlaySound(DIGI_SHAREND_UGLY1,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 64)
         {
         SoundState++;
@@ -137,26 +137,26 @@ VOID AnimSumo(int frame, int numframes)
 
     if (frame == numframes-1)
         ototalclock += 1*120;
-        
+
     if (frame == 1)
         ototalclock += 30;
-    
+
     if (frame == 2)
         {
         // hungry
         PlaySound(DIGI_JG41012,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 30)
         {
         PlaySound(DIGI_HOTHEADSWITCH,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 42)
         {
         PlaySound(DIGI_HOTHEADSWITCH,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 59)
         {
         PlaySound(DIGI_JG41028,&zero,&zero,&zero,v3df_none);
@@ -167,7 +167,7 @@ VOID AnimZilla(int frame, int numframes)
     {
     int zero=0;
     ototalclock += 16;
-    
+
     if (frame == numframes-1)
         ototalclock += 1*120;
 
@@ -175,89 +175,89 @@ VOID AnimZilla(int frame, int numframes)
         {
         PlaySound(DIGI_ZC1,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 5)
         {
         PlaySound(DIGI_JG94024,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 14)
         {
         PlaySound(DIGI_ZC2,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 30)
         {
         PlaySound(DIGI_ZC3,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 32)
         {
         PlaySound(DIGI_ZC4,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 37)
         {
         PlaySound(DIGI_ZC5,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 63)
         {
         PlaySound(DIGI_Z16043,&zero,&zero,&zero,v3df_none);
         PlaySound(DIGI_ZC6,&zero,&zero,&zero,v3df_none);
         PlaySound(DIGI_ZC7,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 72)
         {
         PlaySound(DIGI_ZC7,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 73)
         {
         PlaySound(DIGI_ZC4,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 77)
         {
         PlaySound(DIGI_ZC5,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 87)
         {
         PlaySound(DIGI_ZC8,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 103)
         {
         PlaySound(DIGI_ZC7,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 108)
         {
         PlaySound(DIGI_ZC9,&zero,&zero,&zero,v3df_none);
         }
-    else    
+    else
     if (frame == 120)
         {
         PlaySound(DIGI_JG94039,&zero,&zero,&zero,v3df_none);
         }
     }
-    
+
 unsigned char * LoadAnm(short anim_num)
     {
     int handle;
     int length;
     unsigned char *animbuf, *palptr;
     int i,j,k;
-    
+
     DSPRINTF(ds,"LoadAnm");
     MONO_PRINT(ds);
 
     // this seperate allows the anim to be precached easily
-    
+
     ANIMnum = anim_num;
-    
+
     // lock it
     walock[ANIM_TILE(ANIMnum)] = 219;
 
@@ -267,22 +267,22 @@ unsigned char * LoadAnm(short anim_num)
         if (handle == -1)
             return(NULL);
         length = kfilelength(handle);
-        
+
         allocache((void **) &anm_ptr[anim_num], length + sizeof(anim_t), &walock[ANIM_TILE(ANIMnum)]);
         animbuf = (unsigned char *) ((intptr_t)anm_ptr[anim_num] + sizeof(anim_t));
-        
+
         kread(handle, animbuf, length);
         kclose(handle);
         }
-    else    
+    else
         {
         animbuf = (unsigned char *) ((intptr_t)anm_ptr[anim_num] + sizeof(anim_t));
         }
-    
-    return(animbuf);
-    }    
 
-void 
+    return(animbuf);
+    }
+
+void
 playanm(short anim_num)
     {
     unsigned char *animbuf, *palptr;
@@ -295,9 +295,9 @@ playanm(short anim_num)
 
     ANIMnum = anim_num;
 
-    KB_FlushKeyboardQueue();    
-    KB_ClearKeysDown();    
-    
+    KB_FlushKeyboardQueue();
+    KB_ClearKeysDown();
+
     DSPRINTF(ds,"PlayAnm");
     MONO_PRINT(ds);
 
@@ -305,20 +305,20 @@ playanm(short anim_num)
     MONO_PRINT(ds);
 
     animbuf = LoadAnm(anim_num);
-    if (!animbuf)    
+    if (!animbuf)
         return;
-    
+
     DSPRINTF(ds,"PlayAnm - Palette Stuff");
     MONO_PRINT(ds);
 
     for (i = 0; i < 256; i++)
         tempbuf[i] = i;
-    palookup[0] = tempbuf;    
-        
+    palookup[0] = tempbuf;
+
     ANIM_LoadAnim(animbuf);
     ANIMnumframes = ANIM_NumFrames();
     numframes = ANIMnumframes;
-    
+
     palptr = ANIM_GetPalette();
     for (i = 0; i < 768; i++)
 	ANIMvesapal[i] = palptr[i]>>2;
@@ -358,27 +358,27 @@ playanm(short anim_num)
                     if (KEY_PRESSED(KEYSC_ESC) || uinfo.button1 || quitevent)
                         goto ENDOFANIMLOOP;
                     break;
-                }    
-                
+                }
+
             getpackets();
             }
 
         switch (ANIMnum)
             {
             case ANIM_INTRO:
-                AnimShareIntro(i,numframes);    
+                AnimShareIntro(i,numframes);
                 break;
             case ANIM_SERP:
-                AnimSerp(i,numframes);    
+                AnimSerp(i,numframes);
                 break;
             case ANIM_SUMO:
-                AnimSumo(i,numframes);    
+                AnimSumo(i,numframes);
                 break;
             case ANIM_ZILLA:
-                AnimZilla(i,numframes);    
+                AnimZilla(i,numframes);
                 break;
-            }    
-            
+            }
+
         waloff[ANIM_TILE(ANIMnum)] = (intptr_t)ANIM_DrawFrame(i);
         invalidatetile(ANIM_TILE(ANIMnum), 0, 1<<4);
 
@@ -386,21 +386,21 @@ playanm(short anim_num)
         nextpage();
         }
 
-    // pause on final frame    
+    // pause on final frame
     while (totalclock < ototalclock) {
 		handleevents();
         getpackets();
 	}
-        
+
 ENDOFANIMLOOP:
 
     clearview(0);
     nextpage();
     palookup[0] = palook_bak;
     setbrightness(gs.Brightness, (unsigned char*)palette_data, 2);
-    
-    KB_FlushKeyboardQueue();    
-    KB_ClearKeysDown();    
+
+    KB_FlushKeyboardQueue();
+    KB_ClearKeysDown();
     ANIM_FreeAnim();
     walock[ANIM_TILE(ANIMnum)] = 1;
     }

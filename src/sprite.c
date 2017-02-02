@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -249,9 +249,9 @@ STATEp s_KeyStatue[] =
     s_GreenKeyStatue,
     s_YellowKeyStatue,
     };
-#endif    
+#endif
 
-#define Red_COIN 2440   
+#define Red_COIN 2440
 #define Yellow_COIN 2450
 #define Green_COIN 2460
 #define RED_COIN_RATE 10
@@ -269,7 +269,7 @@ STATE s_RedCoin[] =
     {Red_COIN + 6, RED_COIN_RATE, DoCoin, &s_RedCoin[7]},
     {Red_COIN + 7, RED_COIN_RATE, DoCoin, &s_RedCoin[0]},
     };
-    
+
 // !JIM! Frank, I made coins go progressively faster
 STATE s_YellowCoin[] =
     {
@@ -282,7 +282,7 @@ STATE s_YellowCoin[] =
     {Yellow_COIN + 6, YELLOW_COIN_RATE, DoCoin, &s_YellowCoin[7]},
     {Yellow_COIN + 7, YELLOW_COIN_RATE, DoCoin, &s_YellowCoin[0]},
     };
-    
+
 STATE s_GreenCoin[] =
     {
     {Green_COIN + 0, GREEN_COIN_RATE, DoCoin, &s_GreenCoin[1]},
@@ -294,7 +294,7 @@ STATE s_GreenCoin[] =
     {Green_COIN + 6, GREEN_COIN_RATE, DoCoin, &s_GreenCoin[7]},
     {Green_COIN + 7, GREEN_COIN_RATE, DoCoin, &s_GreenCoin[0]},
     };
-    
+
 ANIMATOR DoFireFly;
 
 #if 0
@@ -350,7 +350,7 @@ STATE s_IconShotgun[] =
     {
     {ICON_SHOTGUN, 100, DoGet, &s_IconShotgun[0]}
     };
-        
+
     STATE s_IconLgShotshell[] =
         {
         {ICON_LG_SHOTSHELL, 100, DoGet, &s_IconLgShotshell[0]}
@@ -370,21 +370,21 @@ STATE s_IconGrenadeLauncher[] =
         {
         {ICON_LG_GRENADE, 100, DoGet, &s_IconLgGrenade[0]}
         };
-        
-        
+
+
 STATE s_IconLgMine[] =
     {
     {ICON_LG_MINE, 100, DoGet, &s_IconLgMine[0]}
     };
-        
+
 STATE s_IconGuardHead[] =
     {
     {ICON_GUARD_HEAD + 0, 15, DoGet, &s_IconGuardHead[0]},
 //    {ICON_GUARD_HEAD + 1, 15, DoGet, &s_IconGuardHead[2]},
 //    {ICON_GUARD_HEAD + 2, 15, DoGet, &s_IconGuardHead[0]}
     };
-    
-    
+
+
     #define FIREBALL_LG_AMMO_RATE 12
     STATE s_IconFireballLgAmmo[] =
         {
@@ -392,7 +392,7 @@ STATE s_IconGuardHead[] =
         {ICON_FIREBALL_LG_AMMO + 1, FIREBALL_LG_AMMO_RATE, DoGet, &s_IconFireballLgAmmo[2]},
         {ICON_FIREBALL_LG_AMMO + 2, FIREBALL_LG_AMMO_RATE, DoGet, &s_IconFireballLgAmmo[0]},
         };
-        
+
 STATE s_IconHeart[] =
     {
     {ICON_HEART + 0, 25, DoGet, &s_IconHeart[1]},
@@ -405,7 +405,7 @@ STATE s_IconHeart[] =
         {ICON_HEART_LG_AMMO + 0, HEART_LG_AMMO_RATE, DoGet, &s_IconHeartLgAmmo[1]},
         {ICON_HEART_LG_AMMO + 1, HEART_LG_AMMO_RATE, DoGet, &s_IconHeartLgAmmo[0]},
         };
-        
+
 STATE s_IconMicroGun[] =
     {
     {ICON_MICRO_GUN, 100, DoGet, &s_IconMicroGun[0]}
@@ -427,7 +427,7 @@ STATE s_IconRailAmmo[] =
     {ICON_RAIL_AMMO, 100, DoGet, &s_IconRailAmmo[0]}
     };
 
-        
+
 STATE s_IconElectro[] =
     {
     {ICON_ELECTRO + 0, 25, DoGet, &s_IconElectro[1]},
@@ -460,7 +460,7 @@ STATE s_IconArmor[] =
     {
     {ICON_ARMOR + 0, 15, DoGet, &s_IconArmor[0]},
     };
-    
+
 STATE s_IconMedkit[] =
     {
     {ICON_MEDKIT + 0, 15, DoGet, &s_IconMedkit[0]},
@@ -486,13 +486,13 @@ STATE s_IconCaltrops[] =
     {ICON_CALTROPS, 15, DoGet, &s_IconCaltrops[0]},
     };
 
-#define ICON_SM_MEDKIT 1802    
+#define ICON_SM_MEDKIT 1802
 STATE s_IconSmMedkit[] =
     {
     {ICON_SM_MEDKIT + 0, 15, DoGet, &s_IconSmMedkit[0]},
     };
-    
-#define ICON_BOOSTER 1810    
+
+#define ICON_BOOSTER 1810
 STATE s_IconBooster[] =
     {
     {ICON_BOOSTER + 0, 15, DoGet, &s_IconBooster[0]},
@@ -504,7 +504,7 @@ STATE s_IconHeatCard[] =
     {ICON_HEAT_CARD + 0, 15, DoGet, &s_IconHeatCard[0]},
     };
 
-#if 0    
+#if 0
 STATE s_IconEnvironSuit[] =
     {
     {ICON_ENVIRON_SUIT + 0, 20, DoGet, &s_IconEnvironSuit[0]},
@@ -547,13 +547,13 @@ SetOwner(short owner, short child)
     {
     SPRITEp op;
     SPRITEp cp = &sprite[child];
-    
-    if (owner == 0)    
+
+    if (owner == 0)
         {
         ////DSPRINTF(ds, "Set Owner possible problem - owner is 0, child %d", child);
         //MONO_PRINT(ds);
         }
-    
+
     if (owner >= 0)
         {
         op = &sprite[owner];
@@ -564,20 +564,20 @@ SetOwner(short owner, short child)
         {
         ////DSPRINTF(ds,"Owner is -1 !!!!!!!!!!!!!!!!!!!!!");
         //MONO_PRINT(ds);
-        }    
-        
+        }
+
     cp->owner = owner;
     }
-    
+
 VOID
 SetAttach(short owner, short child)
     {
     SPRITEp op = &sprite[owner];
     SPRITEp cp = &sprite[child];
     USERp cu = User[child];
-    
+
     ASSERT(cu);
-    
+
     ASSERT(User[owner]);
     SET(User[owner]->Flags2, SPR2_CHILDREN);
     cu->Attach = owner;
@@ -594,7 +594,7 @@ KillSprite(SHORT SpriteNum)
     //extern short Zombies;
 
     ASSERT(!Prediction);
-    
+
     ASSERT(sp->statnum < MAXSTATUS);
 
     //////////////////////////////////////////////
@@ -607,17 +607,17 @@ KillSprite(SHORT SpriteNum)
     {
     PLAYERp pp;
     short pnum;
-    
+
     if (u->WallShade)
         {
         FreeMem(u->WallShade);
         u->WallShade = NULL;
         }
-    
+
     // doing a MissileSetPos - don't allow killing
-    if (TEST(u->Flags, SPR_SET_POS_DONT_KILL)) 
+    if (TEST(u->Flags, SPR_SET_POS_DONT_KILL))
         return;
-    
+
     // for attached sprites that are getable make sure they don't have
     // any Anims attached
     AnimDelete(&u->sz);
@@ -628,13 +628,13 @@ KillSprite(SHORT SpriteNum)
 
     //if (TEST(u->Flags2, SPR2_DONT_TARGET_OWNER))
     //    Zombies--;
-    
+
     // adjust sprites attached to sector objects
     if (TEST(u->Flags, SPR_SO_ATTACHED))
         {
         SECTOR_OBJECTp sop;
         short sn, FoundSpriteNdx = -1;
-        
+
         for (sop = SectorObject; sop < &SectorObject[MAX_SECTOR_OBJECTS]; sop++)
             {
             for (sn = 0; sop->sp_num[sn] != -1; sn++)
@@ -644,31 +644,31 @@ KillSprite(SHORT SpriteNum)
                     FoundSpriteNdx = sn;
                     }
                 }
-            
-            if (FoundSpriteNdx >= 0)    
+
+            if (FoundSpriteNdx >= 0)
                 {
                 // back up sn so it points to the last valid sprite num
-                sn--;    
+                sn--;
                 ASSERT(sop->sp_num[sn] >= 0);
-                
+
                 // replace the one to be deleted with the last ndx
                 sop->sp_num[FoundSpriteNdx] = sop->sp_num[sn];
                 // the last ndx is not -1
                 sop->sp_num[sn] = -1;
-                
+
                 break;
                 }
             }
-        
-        ASSERT(FoundSpriteNdx >= 0);    
+
+        ASSERT(FoundSpriteNdx >= 0);
         }
-    
+
     // if a player is dead and watching this sprite
     // reset it.
     TRAVERSE_CONNECT(pnum)
         {
         pp = Player + pnum;
-        
+
         if (pp->Killer > -1)
         {
         if (pp->Killer == SpriteNum)
@@ -723,15 +723,15 @@ KillSprite(SHORT SpriteNum)
             {
             sprite[i].owner = -1;
             }
-            
+
             if (User[i] && User[i]->Attach == SpriteNum)
             {
             User[i]->Attach = -1;
             }
             }
         }
-        }    
-    
+        }
+
     if (sp->statnum == STAT_ENEMY)
         {
         TRAVERSE_SPRITE_STAT(headspritestat[STAT_ENEMY], i, nexti)
@@ -739,16 +739,16 @@ KillSprite(SHORT SpriteNum)
             if (User[i]->tgt_sp == sp)
                 {
                 DoActorPickClosePlayer(i);
-                }                       
+                }
              }
         }
-    
-    if (u->flame >= 0)    
+
+    if (u->flame >= 0)
         {
         SetSuicide(u->flame);
         }
-    
-    if (u->rotator)    
+
+    if (u->rotator)
         {
         if (u->rotator->origx)
             FreeMem(u->rotator->origx);
@@ -756,24 +756,24 @@ KillSprite(SHORT SpriteNum)
             FreeMem(u->rotator->origy);
         FreeMem(u->rotator);
         }
-    
+
     FreeMem(User[SpriteNum]);
     User[SpriteNum] = 0;
     }
 
     deletesprite(SpriteNum);
-    // shred your garbage - but not statnum 
-    statnum = sp->statnum;    
-    sectnum = sp->sectnum;    
-    memset(sp, 0xCC, sizeof(SPRITE));    
-    sp->statnum = statnum;    
+    // shred your garbage - but not statnum
+    statnum = sp->statnum;
+    sectnum = sp->sectnum;
+    memset(sp, 0xCC, sizeof(SPRITE));
+    sp->statnum = statnum;
     sp->sectnum = sectnum;
     }
 
 VOID ChangeState(short SpriteNum, STATEp statep)
     {
     USERp u = User[SpriteNum];
-  
+
     u->Tics = 0;
     u->State = u->StateStart = statep;
     // Just in case
@@ -796,8 +796,8 @@ change_sprite_stat(short SpriteNum, short stat)
 
     if (stat >= STAT_SKIP2_START && stat <= STAT_SKIP2_END)
         SET(u->Flags, SPR_SKIP2);
-    
-    switch (stat)    
+
+    switch (stat)
         {
         //case STAT_DEAD_ACTOR:
         //case STAT_ITEM:
@@ -823,7 +823,7 @@ change_sprite_stat(short SpriteNum, short stat)
         SET(u->Flags, SPR_SHADOW);
         break;
         }
-    
+
     }
     }
 
@@ -834,7 +834,7 @@ SpawnUser(short SpriteNum, short id, STATEp state)
     USERp u;
 
     ASSERT(!Prediction);
-    
+
     User[SpriteNum] = u = (USERp) CallocMem(sizeof(USER), 1);
 
     PRODUCTION_ASSERT(u != NULL);
@@ -860,7 +860,7 @@ SpawnUser(short SpriteNum, short id, STATEp state)
     u->WallShade = NULL;
     u->rotator = NULL;
     u->bounce = 0;
-    
+
     u->motion_blur_num = 0;
     u->motion_blur_dist = 256;
 
@@ -869,7 +869,7 @@ SpawnUser(short SpriteNum, short id, STATEp state)
     u->oz = sp->z;
 
     u->active_range = MIN_ACTIVE_RANGE;
-    
+
     // default
 
     // based on clipmove z of 48 pixels off the floor
@@ -955,22 +955,22 @@ SpawnSprite(short stat, short id, STATEp state, short sectnum, int x, int y, int
     sp->xoffset = 0;
     sp->yoffset = 0;
     sp->clipdist = 0;
-    
+
     return (SpriteNum);
     }
 
-VOID 
+VOID
 PicAnimOff(short picnum)
     {
     int i;
-    short anim_type = TEST(picanm[picnum], TILE_ANIM_TYPE);      
+    short anim_type = TEST(picanm[picnum], TILE_ANIM_TYPE);
     short num;
 
     ASSERT(picnum >= 0 && picnum < MAXTILES);
-    
+
     if (!anim_type)
     return;
-    
+
     /*
     num = TEST(picanm[picnum], TILE_ANIM_NUM);
     ASSERT(num < 20);
@@ -979,7 +979,7 @@ PicAnimOff(short picnum)
     {
     RESET(picanm[picnum + i], TILE_ANIM_TYPE);
     }
-    */    
+    */
 
     RESET(picanm[picnum], TILE_ANIM_TYPE);
     }
@@ -1010,7 +1010,7 @@ ActorTestSpawn(SPRITEp sp)
         RESET(sprite[new].cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
         return(FALSE);
         }
-    
+
     #if 1
     if (DebugActor)
         return(FALSE);
@@ -1020,7 +1020,7 @@ ActorTestSpawn(SPRITEp sp)
         RESET(sp->extra, SPRX_BLOCK);  //reset so it can be used elsewhere
         return(FALSE);
         }
-    #endif    
+    #endif
 
     // Skill ranges from -1 (No Monsters) to 3
     if (TEST(sp->extra, SPRX_SKILL) > Skill) {
@@ -1043,11 +1043,11 @@ ActorTestSpawn(SPRITEp sp)
 				"activates something\n", c,sp->x,sp->y,sp->z);
 		return TRUE;
 	}
-        
+
         return(FALSE);
     }
-    
-    return(TRUE);    
+
+    return(TRUE);
     }
 
 
@@ -1068,13 +1068,13 @@ VOID PreCacheHornet(VOID);
 VOID PreCacheSkull(VOID);
 VOID PreCacheBetty(VOID);
 VOID PreCachePachinko(VOID);
-    
+
 BOOL
 ActorSpawn(SPRITEp sp)
     {
     int ret = TRUE;
     short SpriteNum = sp - sprite;
-    
+
     switch (sp->picnum)
         {
         case COOLIE_RUN_R0:
@@ -1082,7 +1082,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupCoolie;
 
             //PreCacheCoolie();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1101,7 +1101,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupNinja;
 
             //PreCacheNinja();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1119,7 +1119,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupGoro;
 
             //PreCacheGuardian();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1137,7 +1137,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupCoolg;
 
             //PreCacheGhost();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1154,7 +1154,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupEel;
 
             //PreCacheEel();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1171,7 +1171,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupSumo;
 
             //PreCacheSumo();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1189,7 +1189,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupZilla;
 
             //PreCacheSumo();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1207,7 +1207,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupToiletGirl;
 
             //PreCacheToiletGirl();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1225,7 +1225,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupWashGirl;
 
             //PreCacheWashGirl();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1243,7 +1243,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupCarGirl;
 
             //PreCacheCarGirl();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1261,7 +1261,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupMechanicGirl;
 
             //PreCacheMechanicGirl();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1279,7 +1279,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupSailorGirl;
 
             //PreCacheSailorGirl();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1297,7 +1297,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupPruneGirl;
 
             //PreCachePruneGirl();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1326,7 +1326,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupBunny;
 
             //PreCacheBunny();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1343,7 +1343,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupRipper;
 
             //PreCacheRipper();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1360,7 +1360,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupRipper2;
 
             //PreCacheRipper2();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1377,7 +1377,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupSerp;
 
             //PreCacheSerpent();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1409,7 +1409,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupSkel;
 
             //PreCacheSkel();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1426,7 +1426,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupHornet;
 
             //PreCacheHornet();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1443,7 +1443,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupSkull;
 
             //PreCacheSkull();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1460,7 +1460,7 @@ ActorSpawn(SPRITEp sp)
             ANIMATOR SetupBetty;
 
             //PreCacheBetty();
-            
+
             if (!ActorTestSpawn(sp))
                 {
                 KillSprite(SpriteNum);
@@ -1471,7 +1471,7 @@ ActorSpawn(SPRITEp sp)
             SetupBetty(SpriteNum);
             break;
             }
-            
+
         case 623:   // Pachinko win light
             {
             ANIMATOR SetupPachinkoLight;
@@ -1521,7 +1521,7 @@ ActorSpawn(SPRITEp sp)
             SetupPachinko4(SpriteNum);
             break;
             }
-            
+
         case GIRLNINJA_RUN_R0:
             {
             ANIMATOR SetupGirlNinja;
@@ -1541,9 +1541,9 @@ ActorSpawn(SPRITEp sp)
         default:
             ret = FALSE;
             break;
-        }        
-    
-    return(ret);    
+        }
+
+    return(ret);
 }
 
 
@@ -1570,71 +1570,71 @@ VOID PreMapCombineFloors(VOID)
     int i, j, k;
     SHORT SpriteNum, NextSprite;
     WALLp wp;
-    int base_offset; 
+    int base_offset;
     PLAYERp pp = &Player[myconnectindex];
     int dx,dy;
     short sectlist[MAXSECTORS];
     short sectlistplc, sectlistend, dasect, startwall, endwall, nextsector;
     short pnum;
 
-    typedef struct 
+    typedef struct
         {
         SPRITEp offset;
         }BOUND_LIST;
-        
-    BOUND_LIST BoundList[MAX_FLOORS];    
-    
+
+    BOUND_LIST BoundList[MAX_FLOORS];
+
     memset(BoundList, 0, MAX_FLOORS * sizeof(BOUND_LIST));
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[0], SpriteNum, NextSprite)
         {
         sp = &sprite[SpriteNum];
-        
+
         if (sp->picnum != ST1)
             continue;
-        
-        if (sp->hitag == BOUND_FLOOR_OFFSET || sp->hitag == BOUND_FLOOR_BASE_OFFSET)    
+
+        if (sp->hitag == BOUND_FLOOR_OFFSET || sp->hitag == BOUND_FLOOR_BASE_OFFSET)
             {
             ASSERT(sp->lotag < MAX_FLOORS);
             BoundList[sp->lotag].offset = sp;
             change_sprite_stat(SpriteNum, STAT_FAF);
             }
         }
-    
+
     for (i = base_offset = 0; i < MAX_FLOORS; i++)
         {
         // blank so continue
         if (!BoundList[i].offset)
             continue;
-            
+
         if (BoundList[i].offset->hitag == BOUND_FLOOR_BASE_OFFSET)
             {
             base_offset = i;
             continue;
             }
-        
+
         dx = BoundList[base_offset].offset->x - BoundList[i].offset->x;
         dy = BoundList[base_offset].offset->y - BoundList[i].offset->y;
-        
+
         sectlist[0] = BoundList[i].offset->sectnum;
         sectlistplc = 0; sectlistend = 1;
         while (sectlistplc < sectlistend)
             {
             dasect = sectlist[sectlistplc++];
-            
+
             for(j=headspritesect[dasect];j>=0;j=nextspritesect[j])
                 {
                 sprite[j].x += dx;
                 sprite[j].y += dy;
                 }
-            
+
             startwall = sector[dasect].wallptr;
             endwall = startwall + sector[dasect].wallnum;
             for(j=startwall;j<endwall;j++)
                 {
                    wall[j].x += dx;
                    wall[j].y += dy;
-                 
+
                    nextsector = wall[j].nextsector;
                    if (nextsector < 0) continue;
 
@@ -1644,9 +1644,9 @@ VOID PreMapCombineFloors(VOID)
                    if (k < 0)
                        sectlist[sectlistend++] = nextsector;
                 }
-                           
+
             }
-        
+
         TRAVERSE_CONNECT(pnum)
             {
             PLAYERp pp = &Player[pnum];
@@ -1661,19 +1661,19 @@ VOID PreMapCombineFloors(VOID)
                     pp->oposy = pp->oldposy = pp->posy;
                     break;
                     }
-                }    
+                }
             }
-                
-        }    
-        
-    // get rid of the sprites used    
+
+        }
+
+    // get rid of the sprites used
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], SpriteNum, NextSprite)
         {
         KillSprite(SpriteNum);
         }
     }
 
-#if 0 
+#if 0
 // example of way to traverse through sectors from closest to farthest
 VOID TraverseSectors(short start_sect)
     {
@@ -1686,31 +1686,31 @@ VOID TraverseSectors(short start_sect)
     while (sectlistplc < sectlistend)
         {
         sect = sectlist[sectlistplc++];
-        
+
         startwall = sector[sect].wallptr;
         endwall = startwall + sector[sect].wallnum;
-        
+
         for(j=startwall;j<endwall;j++)
             {
             nextsector = wall[j].nextsector;
-            
-            if (nextsector < 0) 
+
+            if (nextsector < 0)
                 continue;
 
-            // make sure its not on the list    
+            // make sure its not on the list
             for(k = sectlistend-1; k >= 0; k--)
                 {
                 if (sectlist[k] == nextsector)
                     break;
                 }
-                    
-            // if its not on the list add it to the end        
+
+            // if its not on the list add it to the end
             if (k < 0)
                 sectlist[sectlistend++] = nextsector;
             }
-                       
+
         }
-    
+
     // list is finished - can now traverse it
     #if 0
     sect = pp->cursectnum;
@@ -1721,10 +1721,10 @@ VOID TraverseSectors(short start_sect)
             break;
             }
         }
-    #endif        
+    #endif
     }
-#endif    
-    
+#endif
+
 
 VOID
 SpriteSetupPost(VOID)
@@ -1734,43 +1734,43 @@ SpriteSetupPost(VOID)
     short SpriteNum, NextSprite;
     short i, nexti;
     int cz,fz;
-    
+
     // Post processing of some sprites after gone through the main SpriteSetup()
     // routine
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FLOOR_PAN], SpriteNum, NextSprite)
         {
         TRAVERSE_SPRITE_SECT(headspritesect[sprite[SpriteNum].sectnum],i,nexti)
             {
             ds = &sprite[i];
-            
+
             if (ds->picnum == ST1)
                 continue;
-            
-            if (TEST(ds->cstat, CSTAT_SPRITE_WALL|CSTAT_SPRITE_FLOOR))    
+
+            if (TEST(ds->cstat, CSTAT_SPRITE_WALL|CSTAT_SPRITE_FLOOR))
                 continue;
-                
+
             if (User[i])
                 continue;
-            
+
             getzsofslope(ds->sectnum, ds->x, ds->y, &cz, &fz);
-            if (labs(ds->z - fz) > Z(4))    
+            if (labs(ds->z - fz) > Z(4))
                 continue;
-                
+
             u = SpawnUser(i, 0, NULL);
             change_sprite_stat(i, STAT_NO_STATE);
             u->ceiling_dist = Z(4);
             u->floor_dist = -Z(2);
-            
+
             u->ActorActionFunc = DoActorDebris;
-            
+
             SET(ds->cstat, CSTAT_SPRITE_BREAKABLE);
             SET(ds->extra, SPRX_BREAKABLE);
             }
-        }    
+        }
     }
 
-    
+
 VOID
 SpriteSetup(VOID)
     {
@@ -1801,15 +1801,15 @@ SpriteSetup(VOID)
     {
     sp = &sprite[SpriteNum];
 
-    
+
     // not used yetv
     getzsofslope(sp->sectnum, sp->x, sp->y, &cz, &fz);
-    if (sp->z > DIV2(cz + fz)) 
+    if (sp->z > DIV2(cz + fz))
         {
         // closer to a floor
         SET(sp->cstat, CSTAT_SPRITE_CLOSE_FLOOR);
         }
-    
+
     // CSTAT_SPIN is insupported - get rid of it
     if (TEST(sp->cstat, CSTAT_SPRITE_SLAB) == CSTAT_SPRITE_SLAB)
         RESET(sp->cstat, CSTAT_SPRITE_SLAB);
@@ -1818,26 +1818,26 @@ SpriteSetup(VOID)
     // Hope this doesn't screw up anything
     if (TEST(sp->cstat, CSTAT_SPRITE_BLOCK))
         SET(sp->cstat, CSTAT_SPRITE_BLOCK_HITSCAN);
-    
+
     ////////////////////////////////////////////
     //
     // BREAKABLE CHECK
     //
     ////////////////////////////////////////////
-    
+
     // USER SETUP - TAGGED BY USER
     // Non ST1 sprites that are tagged like them
     if (TEST_BOOL1(sp) && sp->picnum != ST1)
         {
         RESET(sp->extra,
-        SPRX_BOOL4| 
-        SPRX_BOOL5| 
-        SPRX_BOOL6| 
-        SPRX_BOOL7| 
-        SPRX_BOOL8| 
-        SPRX_BOOL9| 
+        SPRX_BOOL4|
+        SPRX_BOOL5|
+        SPRX_BOOL6|
+        SPRX_BOOL7|
+        SPRX_BOOL8|
+        SPRX_BOOL9|
         SPRX_BOOL10);
-        
+
         switch (sp->hitag)
             {
             case BREAKABLE:
@@ -1848,14 +1848,14 @@ SpriteSetup(VOID)
                 SET(sp->cstat, CSTAT_SPRITE_BREAKABLE);
                 break;
             }
-        }    
+        }
     else
         {
         // BREAK SETUP TABLE AUTOMATED
         SetupSpriteForBreak(sp);
-        }    
-    
-    if (sp->lotag == TAG_SPRITE_HIT_MATCH)    
+        }
+
+    if (sp->lotag == TAG_SPRITE_HIT_MATCH)
         {
         // if multi item and not a modem game
         if (TEST(sp->extra, SPRX_MULTI_ITEM))
@@ -1866,8 +1866,8 @@ SpriteSetup(VOID)
                 continue;
                 }
             }
-                
-        
+
+
         // crack sprite
         if (sp->picnum == 80)
             {
@@ -1880,17 +1880,17 @@ SpriteSetup(VOID)
             SET(sp->cstat, CSTAT_SPRITE_BLOCK_HITSCAN|CSTAT_SPRITE_BLOCK_MISSILE);;
             SET(sp->cstat, CSTAT_SPRITE_INVISIBLE);;
             }
-            
-        if (TEST(SP_TAG8(sp), BIT(0)))    
+
+        if (TEST(SP_TAG8(sp), BIT(0)))
             SET(sp->cstat, CSTAT_SPRITE_INVISIBLE);;
-            
-        if (TEST(SP_TAG8(sp), BIT(1)))    
+
+        if (TEST(SP_TAG8(sp), BIT(1)))
             RESET(sp->cstat, CSTAT_SPRITE_INVISIBLE);
-            
-        change_sprite_stat(SpriteNum, STAT_SPRITE_HIT_MATCH);    
+
+        change_sprite_stat(SpriteNum, STAT_SPRITE_HIT_MATCH);
         continue;
         }
-        
+
     if (sprite[SpriteNum].picnum >= TRACK_SPRITE &&
         sprite[SpriteNum].picnum <= TRACK_SPRITE + MAX_TRACKS)
         {
@@ -1899,7 +1899,7 @@ SpriteSetup(VOID)
         // skip this sprite, just for numbering walls/sectors
         if (TEST(sprite[SpriteNum].cstat, CSTAT_SPRITE_WALL))
         continue;
-         
+
         track_num = sprite[SpriteNum].picnum - TRACK_SPRITE + 0;
 
         change_sprite_stat(SpriteNum, STAT_TRACK + track_num);
@@ -1936,7 +1936,7 @@ SpriteSetup(VOID)
     case ST_QUICK_DEFEND:
         change_sprite_stat(SpriteNum, STAT_QUICK_DEFEND);
         break;
-        
+
     case ST1:
         {
         SPRITEp sp = &sprite[SpriteNum];
@@ -1944,15 +1944,15 @@ SpriteSetup(VOID)
         short tag;
         short bit;
 
-        // get rid of defaults                  
+        // get rid of defaults
         if (SP_TAG3(sp) == 32)
             SP_TAG3(sp) = 0;
-         
+
         tag = sp->hitag;
 
         RESET(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
         SET(sp->cstat, CSTAT_SPRITE_INVISIBLE);
-        
+
         // for bounding sector objects
         if ((tag >= 500 && tag < 600) || tag == SECT_SO_CENTER)
             {
@@ -1985,12 +1985,12 @@ SpriteSetup(VOID)
             sectu->ang = sp->ang;
             KillSprite(SpriteNum);
             }
-            else 
+            else
             if (TEST(bit, SECTFX_NO_RIDE))
             {
             change_sprite_stat(SpriteNum, STAT_NO_RIDE);
             }
-            else 
+            else
             if (TEST(bit, SECTFX_DIVE_AREA))
             {
             sectu = GetSectUser(sp->sectnum);
@@ -2023,7 +2023,7 @@ SpriteSetup(VOID)
             case MULTI_COOPERATIVE_START:
                 change_sprite_stat(SpriteNum, STAT_CO_OP_START + sp->lotag);
                 break;
-            #endif    
+            #endif
 
             case SECT_MATCH:
             sectu = GetSectUser(sp->sectnum);
@@ -2039,7 +2039,7 @@ SpriteSetup(VOID)
                 sectu->speed = SP_TAG2(sp);
                 KillSprite(SpriteNum);
             break;
-            
+
             case SECT_DAMAGE:
                 {
                 sectu = GetSectUser(sp->sectnum);
@@ -2063,7 +2063,7 @@ SpriteSetup(VOID)
                 // used for wall info
                 change_sprite_stat(SpriteNum, STAT_BREAKABLE);
                 break;
-                
+
             case SECT_DONT_COPY_PALETTE:
                 {
                 sectu = GetSectUser(sp->sectnum);
@@ -2078,13 +2078,13 @@ SpriteSetup(VOID)
                 short i,nexti;
                 SPRITEp ds;
                 int cz,fz;
-                
+
                 // if moves with SO
                 if (TEST_BOOL1(sp))
                     sp->xvel = 0;
-                else    
+                else
                     sp->xvel = sp->lotag;
-                    
+
                 change_sprite_stat(SpriteNum, STAT_FLOOR_PAN);
                 break;
                 }
@@ -2094,7 +2094,7 @@ SpriteSetup(VOID)
                 // if moves with SO
                 if (TEST_BOOL1(sp))
                     sp->xvel = 0;
-                else    
+                else
                     sp->xvel = sp->lotag;
                 change_sprite_stat(SpriteNum, STAT_CEILING_PAN);
                 break;
@@ -2118,11 +2118,11 @@ SpriteSetup(VOID)
                     break;
                     }
 
-                sp->owner = hitwall;    
+                sp->owner = hitwall;
                 // if moves with SO
                 if (TEST_BOOL1(sp))
                     sp->xvel = 0;
-                else    
+                else
                     sp->xvel = sp->lotag;
                 sp->ang = SP_TAG6(sp);
                 // attach to the sector that contains the wall
@@ -2148,24 +2148,24 @@ SpriteSetup(VOID)
                     break;
                     }
 
-                SET(wall[hitwall].extra, WALLFX_DONT_STICK);    
+                SET(wall[hitwall].extra, WALLFX_DONT_STICK);
                 KillSprite(SpriteNum);
                 break;
                 }
-                
+
             case TRIGGER_SECTOR:
                 {
                 SET(sector[sp->sectnum].extra, SECTFX_TRIGGER);
                 change_sprite_stat(SpriteNum, STAT_TRIGGER);
                 break;
                 }
-                
+
             case DELETE_SPRITE:
                 {
                 change_sprite_stat(SpriteNum, STAT_DELETE_SPRITE);
                 break;
                 }
-                
+
             case SPAWN_ITEMS:
                 {
                 if (TEST(sp->extra, SPRX_MULTI_ITEM))
@@ -2176,12 +2176,12 @@ SpriteSetup(VOID)
                         break;
                         }
                     }
-                    
-                
+
+
                 change_sprite_stat(SpriteNum, STAT_SPAWN_ITEMS);
                 break;
                 }
-         
+
             case CEILING_FLOOR_PIC_OVERRIDE:
                 {
                 // block hitscans depending on translucency
@@ -2189,7 +2189,7 @@ SpriteSetup(VOID)
                     {
                     if (SP_TAG3(sp) == 0)
                         SET(sector[sp->sectnum].ceilingstat, CEILING_STAT_FAF_BLOCK_HITSCAN);
-                    else    
+                    else
                         SET(sector[sp->sectnum].floorstat, FLOOR_STAT_FAF_BLOCK_HITSCAN);
                     }
                 else
@@ -2197,17 +2197,17 @@ SpriteSetup(VOID)
                     {
                     if (SP_TAG3(sp) == 0)
                         SET(sector[sp->sectnum].ceilingstat, CEILING_STAT_FAF_BLOCK_HITSCAN);
-                    else    
+                    else
                         SET(sector[sp->sectnum].floorstat, FLOOR_STAT_FAF_BLOCK_HITSCAN);
                     }
-                
+
                 // copy tag 7 to tag 6 and pre-shift it
                 SP_TAG6(sp) = SP_TAG7(sp);
                 SP_TAG6(sp) <<= 7;
                 change_sprite_stat(SpriteNum, STAT_CEILING_FLOOR_PIC_OVERRIDE);
                 break;
                 }
-                
+
             case QUAKE_SPOT:
                 {
                 change_sprite_stat(SpriteNum, STAT_QUAKE_SPOT);
@@ -2221,8 +2221,8 @@ SpriteSetup(VOID)
                 change_sprite_stat(SpriteNum, STAT_CHANGOR);
                 break;
                 }
-                
-            #if 0    
+
+            #if 0
             case SECT_DEBRIS_SEWER:
                 {
                 ANIMATOR DoGenerateSewerDebris;
@@ -2238,7 +2238,7 @@ SpriteSetup(VOID)
                 change_sprite_stat(SpriteNum, STAT_NO_STATE);
                 break;
                 }
-            #endif    
+            #endif
 
             case SECT_VATOR:
                 {
@@ -2253,15 +2253,15 @@ SpriteSetup(VOID)
                     {
                     sectu = GetSectUser(sp->sectnum);
                     SET(sectu->flags, SECTFU_VATOR_BOTH);
-                    } 
+                    }
                 SET(sectp->extra, SECTFX_VATOR);
                 SetSectorWallBits(sp->sectnum, WALLFX_DONT_STICK, TRUE, TRUE);
                 SET(sector[sp->sectnum].extra, SECTFX_DYNAMIC_AREA);
-                
+
                 // don't step on toes of other sector settings
                 if (sectp->lotag == 0 && sectp->hitag == 0)
                     sectp->lotag = TAG_VATOR;
-                
+
                 type = SP_TAG3(sp);
                 speed = SP_TAG4(sp);
                 vel = SP_TAG5(sp);
@@ -2275,26 +2275,26 @@ SpriteSetup(VOID)
                 u->vel_rate = vel;
                 u->WaitTics = time*15; // 1/8 of a sec
                 u->Tics = 0;
-                
+
                 SET(u->Flags, SPR_ACTIVE);
-                
+
                 switch (type)
                     {
                     case 0:
                         RESET(u->Flags, SPR_ACTIVE);
                         u->ActorActionFunc = DoVator;
-                        break;    
+                        break;
                     case 1:
                         RESET(u->Flags, SPR_ACTIVE);
                         u->ActorActionFunc = DoVator;
-                        break;    
+                        break;
                     case 2:
                         u->ActorActionFunc = DoVatorAuto;
-                        break;    
+                        break;
                     case 3:
                         RESET(u->Flags, SPR_ACTIVE);
                         u->ActorActionFunc = DoVatorAuto;
-                        break;    
+                        break;
                     }
 
                 if (floor_vator)
@@ -2306,20 +2306,20 @@ SpriteSetup(VOID)
                         {
                         int amt;
                         amt = sp->z - sectp->floorz;
-                        
+
                         // start in the on position
                         //sectp->floorz = sp->z;
                         sectp->floorz += amt;
                         u->z_tgt = u->sz;
-                        
+
                         MoveSpritesWithSector(sp->sectnum, amt, 0); // floor
                         }
-                        
+
                     // set orig z
                     u->oz = sectp->floorz;
                     }
-                else 
-                    {   
+                else
+                    {
                     // start off
                     u->sz = sectp->ceilingz;
                     u->z_tgt = sp->z;
@@ -2327,20 +2327,20 @@ SpriteSetup(VOID)
                         {
                         int amt;
                         amt = sp->z - sectp->ceilingz;
-                        
+
                         // starting in the on position
                         //sectp->ceilingz = sp->z;
                         sectp->ceilingz += amt;
                         u->z_tgt = u->sz;
-                        
+
                         MoveSpritesWithSector(sp->sectnum, amt, 1); // ceiling
                         }
-                        
+
                     // set orig z
                     u->oz = sectp->ceilingz;
                     }
-                    
-                    
+
+
                 change_sprite_stat(SpriteNum, STAT_VATOR);
                 break;
                 }
@@ -2350,7 +2350,7 @@ SpriteSetup(VOID)
                 change_sprite_stat(SpriteNum, STAT_ROTATOR_PIVOT);
                 break;
                 }
-            
+
             case SECT_ROTATOR:
                 {
                 ANIMATOR DoRotator;
@@ -2361,24 +2361,24 @@ SpriteSetup(VOID)
                 u = SpawnUser(SpriteNum, 0, NULL);
 
                 SetSectorWallBits(sp->sectnum, WALLFX_DONT_STICK, TRUE, TRUE);
-                
+
                 // need something for this
                 sectp->lotag = TAG_ROTATOR;
                 sectp->hitag = sp->lotag;
-                
+
                 type = SP_TAG3(sp);
                 time = SP_TAG9(sp);
 
                 u->WaitTics = time*15; // 1/8 of a sec
                 u->Tics = 0;
-                
+
                 startwall = sector[sp->sectnum].wallptr;
                 endwall = startwall + sector[sp->sectnum].wallnum - 1;
-                
+
                 // count walls of sector
                 for (w = startwall, wallcount = 0; w <= endwall; w++)
                     wallcount++;
-                
+
                 u->rotator = CallocMem(sizeof(ROTATOR), 1);
                 u->rotator->num_walls = wallcount;
                 u->rotator->open_dest = SP_TAG5(sp);
@@ -2388,28 +2388,28 @@ SpriteSetup(VOID)
                 u->rotator->tgt = u->rotator->open_dest; // closed
                 u->rotator->origx = CallocMem(sizeof(u->rotator->origx) * wallcount, 1);
                 u->rotator->origy = CallocMem(sizeof(u->rotator->origy) * wallcount, 1);
-                
+
                 u->rotator->orig_speed = u->rotator->speed;
-                
+
                 for (w = startwall, wallcount = 0; w <= endwall; w++)
                     {
                     u->rotator->origx[wallcount] = wall[w].x;
                     u->rotator->origy[wallcount] = wall[w].y;
                     wallcount++;
                     }
-                
+
                 SET(u->Flags, SPR_ACTIVE);
-                
+
                 switch (type)
                     {
                     case 0:
                         RESET(u->Flags, SPR_ACTIVE);
                         u->ActorActionFunc = DoRotator;
-                        break;    
+                        break;
                     case 1:
                         RESET(u->Flags, SPR_ACTIVE);
                         u->ActorActionFunc = DoRotator;
-                        break;    
+                        break;
                     }
 
                 change_sprite_stat(SpriteNum, STAT_ROTATOR);
@@ -2428,17 +2428,17 @@ SpriteSetup(VOID)
                 u = SpawnUser(SpriteNum, 0, NULL);
 
                 SetSectorWallBits(sp->sectnum, WALLFX_DONT_STICK, TRUE, TRUE);
-                
+
                 // need something for this
                 sectp->lotag = TAG_SLIDOR;
                 sectp->hitag = sp->lotag;
-                
+
                 type = SP_TAG3(sp);
                 time = SP_TAG9(sp);
 
                 u->WaitTics = time*15; // 1/8 of a sec
                 u->Tics = 0;
-                
+
                 u->rotator = CallocMem(sizeof(ROTATOR), 1);
                 u->rotator->open_dest = SP_TAG5(sp);
                 u->rotator->speed = SP_TAG7(sp);
@@ -2447,23 +2447,23 @@ SpriteSetup(VOID)
                 u->rotator->tgt = u->rotator->open_dest; // closed
                 u->rotator->num_walls = 0;
                 u->rotator->orig_speed = u->rotator->speed;
-                
+
                 SET(u->Flags, SPR_ACTIVE);
-                
+
                 switch (type)
                     {
                     case 0:
                         RESET(u->Flags, SPR_ACTIVE);
                         u->ActorActionFunc = DoSlidor;
-                        break;    
+                        break;
                     case 1:
                         RESET(u->Flags, SPR_ACTIVE);
                         u->ActorActionFunc = DoSlidor;
-                        break;    
+                        break;
                     }
-                
-                
-                if (TEST_BOOL5(sp))    
+
+
+                if (TEST_BOOL5(sp))
                     {
                     DoSlidorInstantClose(SpriteNum);
                     }
@@ -2471,7 +2471,7 @@ SpriteSetup(VOID)
                 change_sprite_stat(SpriteNum, STAT_SLIDOR);
                 break;
                 }
-                
+
             case SECT_SPIKE:
                 {
                 ANIMATOR DoSpike, DoSpikeAuto;
@@ -2481,7 +2481,7 @@ SpriteSetup(VOID)
 
                 SetSectorWallBits(sp->sectnum, WALLFX_DONT_STICK, FALSE, TRUE);
                 SET(sector[sp->sectnum].extra, SECTFX_DYNAMIC_AREA);
-                
+
                 type = SP_TAG3(sp);
                 speed = SP_TAG4(sp);
                 vel = SP_TAG5(sp);
@@ -2495,34 +2495,34 @@ SpriteSetup(VOID)
                 u->vel_rate = vel;
                 u->WaitTics = time*15; // 1/8 of a sec
                 u->Tics = 0;
-                
+
                 SET(u->Flags, SPR_ACTIVE);
-                
+
                 switch (type)
                     {
                     case 0:
                         RESET(u->Flags, SPR_ACTIVE);
                         u->ActorActionFunc = DoSpike;
-                        break;    
+                        break;
                     case 1:
                         RESET(u->Flags, SPR_ACTIVE);
                         u->ActorActionFunc = DoSpike;
-                        break;    
+                        break;
                     case 2:
                         u->ActorActionFunc = DoSpikeAuto;
-                        break;    
+                        break;
                     case 3:
                         RESET(u->Flags, SPR_ACTIVE);
                         u->ActorActionFunc = DoSpikeAuto;
-                        break;    
+                        break;
                     }
 
                 getzrangepoint(sp->x, sp->y, sp->z, sp->sectnum, &ceilingz, &trash, &floorz, &trash);
-                    
+
                 if (floor_vator)
                     {
                     u->zclip = floorz;
-                    
+
                     // start off
                     u->sz = u->zclip;
                     u->z_tgt = sp->z;
@@ -2533,14 +2533,14 @@ SpriteSetup(VOID)
                         u->z_tgt = u->sz;
                         SpikeAlign(SpriteNum);
                         }
-                        
+
                     // set orig z
                     u->oz = u->zclip;
                     }
-                else 
-                    {   
+                else
+                    {
                     u->zclip = ceilingz;
-                    
+
                     // start off
                     u->sz = u->zclip;
                     u->z_tgt = sp->z;
@@ -2551,15 +2551,15 @@ SpriteSetup(VOID)
                         u->z_tgt = u->sz;
                         SpikeAlign(SpriteNum);
                         }
-                        
+
                     // set orig z
                     u->oz = u->zclip;
                     }
-                    
+
                 change_sprite_stat(SpriteNum, STAT_SPIKE);
                 break;
                 }
-                
+
             case LIGHTING:
                 {
                 short w, startwall, endwall;
@@ -2567,19 +2567,19 @@ SpriteSetup(VOID)
                 void *void_ptr;
                 CHARp wall_shade;
                 USERp u;
-                
+
                 LIGHT_Tics(sp) = 0;
-                
+
                 if (LIGHT_ShadeInc(sp) == 0)
                     LIGHT_ShadeInc(sp) = 1;
-                    
+
                 // save off original floor and ceil shades
                 LIGHT_FloorShade(sp) = sector[sp->sectnum].floorshade;
                 LIGHT_CeilingShade(sp) = sector[sp->sectnum].ceilingshade;
 
                 startwall = sector[sp->sectnum].wallptr;
                 endwall = startwall + sector[sp->sectnum].wallnum - 1;
-                
+
                 // count walls of sector
                 for (w = startwall, wallcount = 0; w <= endwall; w++)
                     {
@@ -2590,11 +2590,11 @@ SpriteSetup(VOID)
                             wallcount++;
                         }
                     }
-                
+
                 User[SpriteNum] = u = SpawnUser(SpriteNum, 0, NULL);
-                u->WallCount = wallcount;    
+                u->WallCount = wallcount;
                 wall_shade = u->WallShade = CallocMem(u->WallCount * sizeof(*u->WallShade), 1);
-                
+
                 // save off original wall shades
                 for (w = startwall, wallcount = 0; w <= endwall; w++)
                     {
@@ -2607,16 +2607,16 @@ SpriteSetup(VOID)
                             wall_shade[wallcount] = wall[wall[w].nextwall].shade;
                             wallcount++;
                             }
-                        }    
+                        }
                     }
-                
-                u->spal = sp->pal;    
-                
+
+                u->spal = sp->pal;
+
                 // DON'T USE COVER function
                 changespritestat(SpriteNum, STAT_LIGHTING);
                 break;
                 }
-            
+
             case LIGHTING_DIFFUSE:
                 {
                 short w, startwall, endwall;
@@ -2624,7 +2624,7 @@ SpriteSetup(VOID)
                 void *void_ptr;
                 CHARp wall_shade;
                 USERp u;
-                
+
                 LIGHT_Tics(sp) = 0;
 
                 // save off original floor and ceil shades
@@ -2633,7 +2633,7 @@ SpriteSetup(VOID)
 
                 startwall = sector[sp->sectnum].wallptr;
                 endwall = startwall + sector[sp->sectnum].wallnum - 1;
-                
+
                 // count walls of sector
                 for (w = startwall, wallcount = 0; w <= endwall; w++)
                     {
@@ -2644,13 +2644,13 @@ SpriteSetup(VOID)
                             wallcount++;
                         }
                     }
-                
+
                 // !LIGHT
                 // make an wall_shade array and put it in User
                 User[SpriteNum] = u = SpawnUser(SpriteNum, 0, NULL);
-                u->WallCount = wallcount;    
+                u->WallCount = wallcount;
                 wall_shade = u->WallShade = CallocMem(u->WallCount * sizeof(*u->WallShade), 1);
-                
+
                 // save off original wall shades
                 for (w = startwall, wallcount = 0; w <= endwall; w++)
                     {
@@ -2663,14 +2663,14 @@ SpriteSetup(VOID)
                             wall_shade[wallcount] = wall[wall[w].nextwall].shade;
                             wallcount++;
                             }
-                        }    
+                        }
                     }
-                    
+
                 // DON'T USE COVER function
                 changespritestat(SpriteNum, STAT_LIGHTING_DIFFUSE);
                 break;
                 }
-                
+
             case SECT_VATOR_DEST:
                 change_sprite_stat(SpriteNum, STAT_VATOR);
                 break;
@@ -2678,70 +2678,70 @@ SpriteSetup(VOID)
             case SO_WALL_DONT_MOVE_UPPER:
                 change_sprite_stat(SpriteNum, STAT_WALL_DONT_MOVE_UPPER);
                 break;
-                
+
             case SO_WALL_DONT_MOVE_LOWER:
                 change_sprite_stat(SpriteNum, STAT_WALL_DONT_MOVE_LOWER);
                 break;
-                
+
             case FLOOR_SLOPE_DONT_DRAW:
                 change_sprite_stat(SpriteNum, STAT_FLOOR_SLOPE_DONT_DRAW);
                 break;
-                
+
             case DEMO_CAMERA:
                 sp->yvel = sp->zvel = 100; //attempt horiz control
                 change_sprite_stat(SpriteNum, STAT_DEMO_CAMERA);
                 break;
-    
+
             case LAVA_ERUPT:
                 {
                 ANIMATOR DoLavaErupt;
-                
+
                 u = SpawnUser(SpriteNum, ST1, NULL);
-                
+
                 change_sprite_stat(SpriteNum, STAT_NO_STATE);
                 u->ActorActionFunc = DoLavaErupt;
 
                 // interval between erupts
                 if (SP_TAG10(sp) == 0)
                     SP_TAG10(sp) = 20;
-                    
-                // interval in seconds    
+
+                // interval in seconds
                 u->WaitTics = RANDOM_RANGE(SP_TAG10(sp)) * 120;
-                
+
                 // time to erupt
                 if (SP_TAG9(sp) == 0)
                     SP_TAG9(sp) = 10;
 
                 sp->z += Z(30);
-                
+
                 break;
-                }    
+                }
 
 
             case SECT_EXPLODING_CEIL_FLOOR:
             {
             SECTORp sectp = &sector[sp->sectnum];
-            
+
             SetSectorWallBits(sp->sectnum, WALLFX_DONT_STICK, FALSE, TRUE);
-            
+
             if (TEST(sectp->floorstat, FLOOR_STAT_SLOPE))
                 {
                 SP_TAG5(sp) = sectp->floorheinum;
                 RESET(sectp->floorstat, FLOOR_STAT_SLOPE);
                 sectp->floorheinum = 0;
                 }
-                
+
             if (TEST(sectp->ceilingstat, CEILING_STAT_SLOPE))
                 {
                 SP_TAG6(sp) = sectp->ceilingheinum;
                 RESET(sectp->ceilingstat, CEILING_STAT_SLOPE);
                 sectp->ceilingheinum = 0;
                 }
-                
+
             SP_TAG4(sp) = abs(sectp->ceilingz - sectp->floorz)>>8;
-            
+
             sectp->ceilingz = sectp->floorz;
-            
+
             change_sprite_stat(SpriteNum, STAT_EXPLODING_CEIL_FLOOR);
             break;
             }
@@ -2749,36 +2749,36 @@ SpriteSetup(VOID)
             case SECT_COPY_SOURCE:
                 change_sprite_stat(SpriteNum, STAT_COPY_SOURCE);
                 break;
-            
+
             case SECT_COPY_DEST:
                 {
                 SECTORp sectp = &sector[sp->sectnum];
-                
+
                 SetSectorWallBits(sp->sectnum, WALLFX_DONT_STICK, FALSE, TRUE);
                 change_sprite_stat(SpriteNum, STAT_COPY_DEST);
                 break;
                 }
 
-    
+
             case SECT_WALL_MOVE:
                 change_sprite_stat(SpriteNum, STAT_WALL_MOVE);
-                break;           
+                break;
             case SECT_WALL_MOVE_CANSEE:
                 change_sprite_stat(SpriteNum, STAT_WALL_MOVE_CANSEE);
-                break;           
-                    
+                break;
+
             case SPRI_CLIMB_MARKER:
                 {
                 short ns;
                 SPRITEp np;
-                
+
                 // setup climb marker
                 change_sprite_stat(SpriteNum, STAT_CLIMB_MARKER);
 
                 // make a QUICK_LADDER sprite automatically
                 ns = COVERinsertsprite(sp->sectnum, STAT_QUICK_LADDER);
                 np = &sprite[ns];
-                
+
                 np->cstat = 0;
                 np->extra = 0;
                 np->x = sp->x;
@@ -2786,10 +2786,10 @@ SpriteSetup(VOID)
                 np->z = sp->z;
                 np->ang = NORM_ANGLE(sp->ang + 1024);
                 np->picnum = sp->picnum;
-                
+
                 np->x += MOVEx(256+128, sp->ang);
                 np->y += MOVEy(256+128, sp->ang);
-                
+
                 break;
                 }
 
@@ -2809,9 +2809,9 @@ SpriteSetup(VOID)
                     }
                 #else
                 change_sprite_stat(SpriteNum, STAT_ST1);
-                #endif    
-                break;    
-                
+                #endif
+                break;
+
             case SO_DRIVABLE_ATTRIB:
             case SO_SCALE_XY_MULT:
             case SO_SCALE_INFO:
@@ -2841,29 +2841,29 @@ SpriteSetup(VOID)
                 // NOTE: These will get deleted by the sector
                 // object
                 // setup code
-                
+
                 change_sprite_stat(SpriteNum, STAT_ST1);
                 break;
                 }
-            
+
             case SOUND_SPOT:
                 //SP_TAG13(sp) = SP_TAG4(sp);
 				SET_SP_TAG13(sp, SP_TAG4(sp));
                 change_sprite_stat(SpriteNum, STAT_SOUND_SPOT);
                 break;
-                
+
             case STOP_SOUND_SPOT:
                 change_sprite_stat(SpriteNum, STAT_STOP_SOUND_SPOT);
                 break;
-            
+
             case SPAWN_SPOT:
                 if (!User[SpriteNum])
                     u = SpawnUser(SpriteNum, ST1, NULL);
-                
-                if (SP_TAG14(sp) == ((64<<8)|64))    
+
+                if (SP_TAG14(sp) == ((64<<8)|64))
                     //SP_TAG14(sp) = 0;
 					SET_SP_TAG14(sp, 0);
-                    
+
                 change_sprite_stat(SpriteNum, STAT_SPAWN_SPOT);
                 break;
 
@@ -2884,9 +2884,9 @@ SpriteSetup(VOID)
                 change_sprite_stat(SpriteNum, STAT_FAF);
                 break;
                 }
-                
+
             case VIEW_LEVEL1:
-            case VIEW_LEVEL2: 
+            case VIEW_LEVEL2:
             case VIEW_LEVEL3:
             case VIEW_LEVEL4:
             case VIEW_LEVEL5:
@@ -2912,7 +2912,7 @@ SpriteSetup(VOID)
                 change_sprite_stat(SpriteNum, STAT_ST1);
                 break;
                 }
-                
+
             case FLOOR_Z_ADJUST:
                 {
                 //SET(sector[sp->sectnum].floorstat, FLOOR_STAT_FAF_BLOCK_HITSCAN);
@@ -2920,24 +2920,24 @@ SpriteSetup(VOID)
                 change_sprite_stat(SpriteNum, STAT_ST1);
                 break;
                 }
-    
+
             case WARP_TELEPORTER:
                 {
                 short start_wall, wall_num;
                 short sectnum = sp->sectnum;
-                
+
                 SET(sp->cstat, CSTAT_SPRITE_INVISIBLE);
                 SET(sector[sp->sectnum].extra, SECTFX_WARP_SECTOR);
                 change_sprite_stat(SpriteNum, STAT_WARP);
-                
+
                 // if just a destination teleporter
-                // don't set up flags 
+                // don't set up flags
                 if (SP_TAG10(sp) == 1)
                     break;
-                
+
                 // move the the next wall
                 wall_num = start_wall = sector[sectnum].wallptr;
-                
+
                 // Travel all the way around loop setting wall bits
                 do
                     {
@@ -2946,14 +2946,14 @@ SpriteSetup(VOID)
                         {
                         SET(wall[wall_num].cstat, CSTAT_WALL_WARP_HITSCAN);
                         }
-                        
+
                     wall_num = wall[wall_num].point2;
                     }
                 while(wall_num != start_wall);
-                    
+
                 break;
                 }
-                
+
             case WARP_CEILING_PLANE:
             case WARP_FLOOR_PLANE:
                 {
@@ -2962,7 +2962,7 @@ SpriteSetup(VOID)
                 change_sprite_stat(SpriteNum, STAT_WARP);
                 break;
                 }
-                
+
             case WARP_COPY_SPRITE1:
                 SET(sp->cstat, CSTAT_SPRITE_INVISIBLE);
                 SET(sector[sp->sectnum].extra, SECTFX_WARP_SECTOR);
@@ -3018,7 +3018,7 @@ SpriteSetup(VOID)
                 KillSprite(SpriteNum);
                 break;
                 }
-                
+
             case SO_SLOPE_FLOOR_TO_POINT:
                 {
                 sectu = GetSectUser(sp->sectnum);
@@ -3049,10 +3049,10 @@ SpriteSetup(VOID)
                 {
                 short start_wall, wall_num;
                 short sectnum = sp->sectnum;
-                
+
                 // move the the next wall
                 wall_num = start_wall = sector[sectnum].wallptr;
-                
+
                 // Travel all the way around loop setting wall bits
                 do
                     {
@@ -3106,20 +3106,20 @@ SpriteSetup(VOID)
         goto KeyMain;
     case RED_SKELKEY:
         num = 11;
-    KeyMain:                            
+    KeyMain:
         {
-        
-        if (gNet.MultiGameType == MULTI_GAME_COMMBAT || gNet.MultiGameType == MULTI_GAME_AI_BOTS)    
+
+        if (gNet.MultiGameType == MULTI_GAME_COMMBAT || gNet.MultiGameType == MULTI_GAME_AI_BOTS)
             {
             KillSprite(SpriteNum);
             break;
             }
-        
+
         u = SpawnUser(SpriteNum, 0, NULL);
 
         ASSERT(u != NULL);
         sprite[SpriteNum].picnum = u->ID = sprite[SpriteNum].picnum;
-        
+
         u->spal = sprite[SpriteNum].pal; // Set the palette from build
 
         //SET(sp->cstat, CSTAT_SPRITE_WALL);
@@ -3138,8 +3138,8 @@ SpriteSetup(VOID)
 
         break;
 
-        
-#if 0        
+
+#if 0
     case RED_KEY_STATUE:
         num = 0;
         goto KeyStatueMain;
@@ -3168,7 +3168,7 @@ SpriteSetup(VOID)
 
         DoActorZrange(SpriteNum);
         break;
-#endif        
+#endif
 
     // Used for multiplayer locks
     case 1846:
@@ -3188,16 +3188,16 @@ SpriteSetup(VOID)
 
         /*
          * u = SpawnUser(SpriteNum, FIRE_FLY0, NULL);
-         * 
+         *
          * u->State = u->StateStart = &s_FireFly[0]; u->RotNum = 0;
-         * 
+         *
          * sp->ang = 0; sp->xvel = 4;
-         * 
+         *
          * if (labs(sp->z - sector[sp->sectnum].floorz) < Z(32)) sp->z =
          * sector[sp->sectnum].floorz - Z(32);
-         * 
+         *
          * u->sz = sp->z;
-         * 
+         *
          * change_sprite_stat(SpriteNum, STAT_MISC);
          */
 
@@ -3215,7 +3215,7 @@ SpriteSetup(VOID)
 
         IconDefault(SpriteNum);
         break;
-        
+
     case ICON_STAR:
 
         if (!IconSpawn(sp))
@@ -3241,7 +3241,7 @@ SpriteSetup(VOID)
         IconDefault(SpriteNum);
         break;
 
-        
+
     case ICON_MICRO_GUN:
 
         if (!IconSpawn(sp))
@@ -3256,7 +3256,7 @@ SpriteSetup(VOID)
         break;
 
         case ICON_MICRO_BATTERY:
-        
+
             NUKE_REPLACEMENT:
 
             if (!IconSpawn(sp))
@@ -3269,7 +3269,7 @@ SpriteSetup(VOID)
 
             IconDefault(SpriteNum);
             break;
-        
+
     case ICON_UZI:
 
         if (!IconSpawn(sp))
@@ -3318,7 +3318,7 @@ SpriteSetup(VOID)
 
         IconDefault(SpriteNum);
         break;
-        
+
         case ICON_LG_GRENADE:
 
             if (!IconSpawn(sp))
@@ -3343,7 +3343,7 @@ SpriteSetup(VOID)
 
         IconDefault(SpriteNum);
         break;
-        
+
         case ICON_RAIL_AMMO:
 
             if (!IconSpawn(sp))
@@ -3355,8 +3355,8 @@ SpriteSetup(VOID)
             u = SpawnUser(SpriteNum, ICON_RAIL_AMMO, s_IconRailAmmo);
             IconDefault(SpriteNum);
             break;
-            
-            
+
+
     case ICON_ROCKET:
 
         if (!IconSpawn(sp))
@@ -3369,7 +3369,7 @@ SpriteSetup(VOID)
 
         IconDefault(SpriteNum);
         break;
-        
+
         case ICON_LG_ROCKET:
 
             if (!IconSpawn(sp))
@@ -3391,12 +3391,12 @@ SpriteSetup(VOID)
         }
 
         u = SpawnUser(SpriteNum, ICON_SHOTGUN, s_IconShotgun);
-        
+
         u->Radius = 350; // Shotgun is hard to pick up for some reason.
 
         IconDefault(SpriteNum);
         break;
-            
+
         case ICON_LG_SHOTSHELL:
 
             if (!IconSpawn(sp))
@@ -3420,8 +3420,8 @@ SpriteSetup(VOID)
             u = SpawnUser(SpriteNum, ICON_AUTORIOT, s_IconAutoRiot);
             IconDefault(SpriteNum);
             break;
-            
-            
+
+
     case ICON_GUARD_HEAD:
 
         if (!IconSpawn(sp))
@@ -3445,7 +3445,7 @@ SpriteSetup(VOID)
             u = SpawnUser(SpriteNum, ICON_FIREBALL_LG_AMMO, s_IconFireballLgAmmo);
             IconDefault(SpriteNum);
             break;
-        
+
     case ICON_HEART:
 
         if (!IconSpawn(sp))
@@ -3457,7 +3457,7 @@ SpriteSetup(VOID)
         u = SpawnUser(SpriteNum, ICON_HEART, s_IconHeart);
         IconDefault(SpriteNum);
         break;
-        
+
         case ICON_HEART_LG_AMMO:
 
             if (!IconSpawn(sp))
@@ -3469,8 +3469,8 @@ SpriteSetup(VOID)
             u = SpawnUser(SpriteNum, ICON_HEART_LG_AMMO, s_IconHeartLgAmmo);
             IconDefault(SpriteNum);
             break;
-            
-    #if 0    
+
+    #if 0
     case ICON_ELECTRO:
 
         if (!IconSpawn(sp))
@@ -3482,7 +3482,7 @@ SpriteSetup(VOID)
         u = SpawnUser(SpriteNum, ICON_ELECTRO, s_IconElectro);
         IconDefault(SpriteNum);
         break;
-    #endif    
+    #endif
 
     case ICON_SPELL:
 
@@ -3513,7 +3513,7 @@ SpriteSetup(VOID)
             sp->pal = u->spal = PALETTE_PLAYER3;
         IconDefault(SpriteNum);
         break;
-        
+
     case ICON_MEDKIT:
 
         if (!IconSpawn(sp))
@@ -3537,7 +3537,7 @@ SpriteSetup(VOID)
         u = SpawnUser(SpriteNum, ICON_SM_MEDKIT, s_IconSmMedkit);
         IconDefault(SpriteNum);
         break;
-        
+
     case ICON_CHEMBOMB:
 
         if (!IconSpawn(sp))
@@ -3571,8 +3571,8 @@ SpriteSetup(VOID)
                 goto NUKE_REPLACEMENT;
                 break;
                 }
-            }    
-    
+            }
+
         if (!IconSpawn(sp))
         {
         KillSprite(SpriteNum);
@@ -3620,7 +3620,7 @@ SpriteSetup(VOID)
         IconDefault(SpriteNum);
         break;
 
-#if 0        
+#if 0
     case ICON_ENVIRON_SUIT:
 
         if (!IconSpawn(sp))
@@ -3685,7 +3685,7 @@ SpriteSetup(VOID)
         u = SpawnUser(SpriteNum, ICON_FLAG, s_IconFlag);
         u->spal = sp->pal;
         sector[sp->sectnum].hitag = 9000;       // Put flag's color in sect containing it
-        sector[sp->sectnum].lotag = u->spal;    
+        sector[sp->sectnum].lotag = u->spal;
         IconDefault(SpriteNum);
         PicAnimOff(sp->picnum);
         break;
@@ -3703,14 +3703,14 @@ SpriteSetup(VOID)
     case 3157:
         {
         u = SpawnUser(SpriteNum, sp->picnum, NULL);
-        
+
         change_sprite_stat(SpriteNum, STAT_STATIC_FIRE);
-        
+
         u->ID = FIREBALL_FLAMES;
         u->Radius = 200;
         RESET(sp->cstat, CSTAT_SPRITE_BLOCK);
         RESET(sp->cstat, CSTAT_SPRITE_BLOCK_HITSCAN);
-        
+
         sp->hitag = LUMINOUS; //Always full brightness
         sp->shade = -40;
 
@@ -3724,33 +3724,33 @@ SpriteSetup(VOID)
     case 5011:
         {
         u = SpawnUser(SpriteNum, sp->picnum, NULL);
-        
+
         change_sprite_stat(SpriteNum, STAT_DEFAULT);
-        
+
         RESET(sp->cstat, CSTAT_SPRITE_BLOCK);
         SET(sp->cstat, CSTAT_SPRITE_BLOCK_HITSCAN);
         SET(sp->extra, SPRX_BLADE);
-        
+
         break;
         }
-    
+
     case BREAK_LIGHT:
     case BREAK_BARREL:
     case BREAK_PEDISTAL:
     case BREAK_BOTTLE1:
     case BREAK_BOTTLE2:
     case BREAK_MUSHROOM:
-    
+
         //if (TEST(sp->extra, SPRX_BREAKABLE))
         //    break;
-            
+
         u = SpawnUser(SpriteNum, sp->picnum, NULL);
-        
+
         sp->clipdist = SPRITEp_SIZE_X(sp);
         SET(sp->cstat, CSTAT_SPRITE_BREAKABLE);
         SET(sp->extra, SPRX_BREAKABLE);
-        break;        
-        
+        break;
+
         // switches
     case 581:
     case 582:
@@ -3771,7 +3771,7 @@ SpriteSetup(VOID)
     case 572:
     case 573:
     case 574:
-    
+
     case 551:
     case 552:
     case 575:
@@ -3782,7 +3782,7 @@ SpriteSetup(VOID)
     case 589:
     case 583:
     case 584:
-    
+
     case 553:
     case 554:
         {
@@ -3794,8 +3794,8 @@ SpriteSetup(VOID)
                 break;
                 }
             }
-            
-            
+
+
         SET(sp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
         break;
         }
@@ -3808,8 +3808,8 @@ BOOL ItemSpotClear(SPRITEp sip, short statnum, short id)
     {
     BOOL found = FALSE;
     short i,nexti;
-    
-    if (TEST_BOOL2(sip))    
+
+    if (TEST_BOOL2(sip))
         {
         TRAVERSE_SPRITE_SECT(headspritesect[sip->sectnum],i,nexti)
             {
@@ -3820,15 +3820,15 @@ BOOL ItemSpotClear(SPRITEp sip, short statnum, short id)
                 }
             }
         }
-        
-    return(!found);    
+
+    return(!found);
     }
 
 VOID SetupItemForJump(SPRITEp sip, short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     // setup item for jumping
     if (SP_TAG7(sip))
         {
@@ -3839,12 +3839,12 @@ VOID SetupItemForJump(SPRITEp sip, short SpriteNum)
 
         sp->xvel = (int)SP_TAG7(sip)<<2;
         sp->zvel = -(((int)SP_TAG8(sip))<<5);
-        
+
         u->xchange = MOVEx(sp->xvel, sp->ang);
         u->ychange = MOVEy(sp->xvel, sp->ang);
         u->zchange = sp->zvel;
         }
-    }    
+    }
 
 int ActorCoughItem(short SpriteNum)
     {
@@ -3852,7 +3852,7 @@ int ActorCoughItem(short SpriteNum)
     USERp u = User[SpriteNum];
     short new,choose;
     SPRITEp np;
-    
+
 
     switch (u->ID)
         {
@@ -3867,14 +3867,14 @@ int ActorCoughItem(short SpriteNum)
             np->z = SPRITEp_MID(sp);
             np->ang = 0;
             np->extra = 0;
-            
+
             // vel
             SP_TAG7(np) = 1;
             // zvel
             SP_TAG8(np) = 40;
-            
+
             choose = RANDOM_P2(1024);
-            
+
             if (choose > 854)
                 SP_TAG3(np) = 91; // Match number
             else
@@ -3891,18 +3891,18 @@ int ActorCoughItem(short SpriteNum)
                 SP_TAG3(np) = 62; // Match number
             else
                 SP_TAG3(np) = 68; // Match number
-            
+
             // match
             SP_TAG2(np) = -1;
             // kill
             RESET_BOOL1(np);
             SpawnItemsMatch(-1);
             break;
-            
+
         case GORO_RUN_R0:
             if (RANDOM_P2(1024) < 700)
                 return(0);
-                
+
             ASSERT(sp->sectnum >= 0);
             new = COVERinsertsprite(sp->sectnum, STAT_SPAWN_ITEMS);
             ASSERT(new >= 0);
@@ -3913,14 +3913,14 @@ int ActorCoughItem(short SpriteNum)
             np->z = SPRITEp_MID(sp);
             np->ang = 0;
             np->extra = 0;
-            
+
             // vel
             SP_TAG7(np) = 1;
             // zvel
             SP_TAG8(np) = 40;
-            
+
             SP_TAG3(np) = 69; // Match number
-            
+
             // match
             SP_TAG2(np) = -1;
             // kill
@@ -3931,7 +3931,7 @@ int ActorCoughItem(short SpriteNum)
         case RIPPER2_RUN_R0:
             if (RANDOM_P2(1024) < 700)
                 return(0);
-                
+
             ASSERT(sp->sectnum >= 0);
             new = COVERinsertsprite(sp->sectnum, STAT_SPAWN_ITEMS);
             ASSERT(new >= 0);
@@ -3942,28 +3942,28 @@ int ActorCoughItem(short SpriteNum)
             np->z = SPRITEp_MID(sp);
             np->ang = 0;
             np->extra = 0;
-            
+
             // vel
             SP_TAG7(np) = 1;
             // zvel
             SP_TAG8(np) = 40;
-            
+
             SP_TAG3(np) = 70; // Match number
-            
+
             // match
             SP_TAG2(np) = -1;
             // kill
             RESET_BOOL1(np);
             SpawnItemsMatch(-1);
             break;
-            
+
         case NINJA_RUN_R0:
-        
+
             if (u->PlayerP)
                 {
                 if (RANDOM_P2(1024) > 200)
                     return(0);
-                
+
                 ASSERT(sp->sectnum >= 0);
                 new = COVERinsertsprite(sp->sectnum, STAT_SPAWN_ITEMS);
                 ASSERT(new >= 0);
@@ -3975,12 +3975,12 @@ int ActorCoughItem(short SpriteNum)
                 np->z = SPRITEp_MID(sp);
                 np->ang = 0;
                 np->extra = 0;
-                
+
                 // vel
                 SP_TAG7(np) = 1;
                 // zvel
                 SP_TAG8(np) = 40;
-                
+
                 switch (u->WeaponNum)
                     {
                     case WPN_UZI:
@@ -3991,14 +3991,14 @@ int ActorCoughItem(short SpriteNum)
                         break;
                     case WPN_STAR:
                         if (u->PlayerP->WpnAmmo[WPN_STAR] < 9)
-                            break;            
+                            break;
                         SP_TAG3(np) = 41;
-                        break;    
+                        break;
                     case WPN_MINE:
                         if (u->PlayerP->WpnAmmo[WPN_MINE] < 5)
-                            break;            
+                            break;
                         SP_TAG3(np) = 42;
-                        break;    
+                        break;
                     case WPN_MICRO:
                     case WPN_ROCKET:
                         SP_TAG3(np) = 43;
@@ -4016,7 +4016,7 @@ int ActorCoughItem(short SpriteNum)
                         SP_TAG3(np) = 53;
                         break;
                     }
-                    
+
                 // match
                 SP_TAG2(np) = -1;
                 // kill
@@ -4024,10 +4024,10 @@ int ActorCoughItem(short SpriteNum)
                 SpawnItemsMatch(-1);
                 break;
                 }
-        
+
             if (RANDOM_P2(1024) < 512)
                 return(0);
-                
+
             ASSERT(sp->sectnum >= 0);
             new = COVERinsertsprite(sp->sectnum, STAT_SPAWN_ITEMS);
             ASSERT(new >= 0);
@@ -4038,27 +4038,27 @@ int ActorCoughItem(short SpriteNum)
             np->z = SPRITEp_MID(sp);
             np->ang = 0;
             np->extra = 0;
-            
+
             // vel
             SP_TAG7(np) = 1;
             // zvel
             SP_TAG8(np) = 40;
-            
+
             if (u->spal == PAL_XLAT_LT_TAN)
                 {
                 SP_TAG3(np) = 44;
                 }
-            else    
+            else
             if (u->spal == PAL_XLAT_LT_GREY)
                 {
                 SP_TAG3(np) = 46;
                 }
-            else    
+            else
             if (u->spal == PALETTE_PLAYER5) // Green Ninja
                 {
                 if (RANDOM_P2(1024) < 700)
                     SP_TAG3(np) = 61;
-                else    
+                else
                     SP_TAG3(np) = 60;
                 }
             else
@@ -4067,29 +4067,29 @@ int ActorCoughItem(short SpriteNum)
                 // type
                 if (RANDOM_P2(1024) < 800)
                     SP_TAG3(np) = 68;
-                else    
+                else
                     SP_TAG3(np) = 44;
                 }
             else
                 {
                 if (RANDOM_P2(1024) < 512)
                     SP_TAG3(np) = 41;
-                else    
+                else
                     SP_TAG3(np) = 68;
-                }    
-            
+                }
+
             // match
             SP_TAG2(np) = -1;
             // kill
             RESET_BOOL1(np);
             SpawnItemsMatch(-1);
             break;
-            
+
         case PACHINKO1:
         case PACHINKO2:
         case PACHINKO3:
         case PACHINKO4:
-        
+
             ASSERT(sp->sectnum >= 0);
             new = COVERinsertsprite(sp->sectnum, STAT_SPAWN_ITEMS);
             ASSERT(new >= 0);
@@ -4099,41 +4099,41 @@ int ActorCoughItem(short SpriteNum)
             np->y = sp->y;
             np->z = SPRITEp_LOWER(sp)+Z(10);
             np->ang = sp->ang;
-            
+
             // vel
             SP_TAG7(np) = 10;
             // zvel
             SP_TAG8(np) = 10;
-            
+
             if(u->ID == PACHINKO1)
                 {
                 if (RANDOM_P2(1024) < 600)
                     SP_TAG3(np) = 64; // Small MedKit
-                else    
+                else
                     SP_TAG3(np) = 59; // Fortune Cookie
                 } else
             if(u->ID == PACHINKO2)
                 {
                 if (RANDOM_P2(1024) < 600)
                     SP_TAG3(np) = 52; // Lg Shot Shell
-                else    
+                else
                     SP_TAG3(np) = 68; // Uzi clip
                 } else
             if(u->ID == PACHINKO3)
                 {
                 if (RANDOM_P2(1024) < 600)
                     SP_TAG3(np) = 57;
-                else    
-                    SP_TAG3(np) = 63; 
+                else
+                    SP_TAG3(np) = 63;
                 } else
             if(u->ID == PACHINKO4)
                 {
                 if (RANDOM_P2(1024) < 600)
-                    SP_TAG3(np) = 60; 
-                else    
-                    SP_TAG3(np) = 61; 
-                } 
-            
+                    SP_TAG3(np) = 60;
+                else
+                    SP_TAG3(np) = 61;
+                }
+
             // match
             SP_TAG2(np) = -1;
             // kill
@@ -4141,24 +4141,24 @@ int ActorCoughItem(short SpriteNum)
             SpawnItemsMatch(-1);
             break;
         }
-    
+
     return(0);
     }
-    
+
 int SpawnItemsMatch(short match)
     {
     short SpriteNum;
     short si, nextsi;
     SPRITEp sp,sip;
     BOOL found;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_SPAWN_ITEMS],si,nextsi)
         {
         sip = &sprite[si];
-        
+
         if (SP_TAG2(sip) != match)
             continue;
-        
+
         switch (SP_TAG3(sip))
             {
             case 90:
@@ -4178,311 +4178,311 @@ int SpawnItemsMatch(short match)
                 sp = &sprite[SpriteNum];
                 sp->ang = sip->ang;
                 break;
-                
+
             case 40:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_REPAIR_KIT))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_REPAIR_KIT, s_RepairKit, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_REPAIR_KIT, s_RepairKit, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 41:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_STAR))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_STAR, s_IconStar, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_STAR, s_IconStar, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
 
             case 42:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_LG_MINE))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_LG_MINE, s_IconLgMine, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_LG_MINE, s_IconLgMine, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 43:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_MICRO_GUN))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_MICRO_GUN, s_IconMicroGun, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_MICRO_GUN, s_IconMicroGun, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
 
             case 44:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_MICRO_BATTERY))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_MICRO_BATTERY, s_IconMicroBattery, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_MICRO_BATTERY, s_IconMicroBattery, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 45:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_GRENADE_LAUNCHER))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_GRENADE_LAUNCHER, s_IconGrenadeLauncher, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_GRENADE_LAUNCHER, s_IconGrenadeLauncher, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 46:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_LG_GRENADE))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_LG_GRENADE, s_IconLgGrenade, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_LG_GRENADE, s_IconLgGrenade, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
 
             case 47:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_RAIL_GUN))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_RAIL_GUN, s_IconRailGun, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_RAIL_GUN, s_IconRailGun, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 48:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_RAIL_AMMO))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_RAIL_AMMO, s_IconRailAmmo, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_RAIL_AMMO, s_IconRailAmmo, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                    
+
             case 49:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_ROCKET))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_ROCKET, s_IconRocket, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_ROCKET, s_IconRocket, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 51:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_SHOTGUN))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_SHOTGUN, s_IconShotgun, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_SHOTGUN, s_IconShotgun, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                    
+
             case 52:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_LG_SHOTSHELL))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_LG_SHOTSHELL, s_IconLgShotshell, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_LG_SHOTSHELL, s_IconLgShotshell, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                    
+
             case 53:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_GUARD_HEAD))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_GUARD_HEAD, s_IconGuardHead, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_GUARD_HEAD, s_IconGuardHead, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
 
             case 54:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_FIREBALL_LG_AMMO))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_FIREBALL_LG_AMMO, s_IconFireballLgAmmo, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_FIREBALL_LG_AMMO, s_IconFireballLgAmmo, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 55:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_HEART))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_HEART, s_IconHeart, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_HEART, s_IconHeart, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 56:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_HEART_LG_AMMO))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_HEART_LG_AMMO, s_IconHeartLgAmmo, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_HEART_LG_AMMO, s_IconHeartLgAmmo, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                    
+
             case 57:
                 {
                 USERp u;
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_ARMOR))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_ARMOR, s_IconArmor, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_ARMOR, s_IconArmor, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 sp = &sprite[SpriteNum];
                 u = User[SpriteNum];
                 SET(u->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
-                
+
                 if(sp->pal != PALETTE_PLAYER3)
                     sp->pal = u->spal = PALETTE_PLAYER1;
                 else
                     sp->pal = u->spal = PALETTE_PLAYER3;
                 break;
                 }
-                
+
             case 58:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_MEDKIT))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_MEDKIT, s_IconMedkit, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_MEDKIT, s_IconMedkit, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
 
             case 59:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_SM_MEDKIT))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_SM_MEDKIT, s_IconSmMedkit, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_SM_MEDKIT, s_IconSmMedkit, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 60:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_CHEMBOMB))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_CHEMBOMB, s_IconChemBomb, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_CHEMBOMB, s_IconChemBomb, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
 
             case 61:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_FLASHBOMB))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_FLASHBOMB, s_IconFlashBomb, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_FLASHBOMB, s_IconFlashBomb, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
 
             case 62:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_NUKE))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_NUKE, s_IconNuke, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_NUKE, s_IconNuke, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
 
             case 63:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_CALTROPS))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_CALTROPS, s_IconCaltrops, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_CALTROPS, s_IconCaltrops, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
 
             case 64:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_BOOSTER))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_BOOSTER, s_IconBooster, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_BOOSTER, s_IconBooster, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
 
             case 65:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_HEAT_CARD))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_HEAT_CARD, s_IconHeatCard, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_HEAT_CARD, s_IconHeatCard, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 66:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_CLOAK))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_CLOAK, s_IconCloak, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_CLOAK, s_IconCloak, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
 
             case 67:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_NIGHT_VISION))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_NIGHT_VISION, s_IconNightVision, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_NIGHT_VISION, s_IconNightVision, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
 
@@ -4490,62 +4490,62 @@ int SpawnItemsMatch(short match)
             case 68:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_LG_UZI_AMMO))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_LG_UZI_AMMO, s_IconLgUziAmmo, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_LG_UZI_AMMO, s_IconLgUziAmmo, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 69:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_GUARD_HEAD))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_GUARD_HEAD, s_IconGuardHead, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_GUARD_HEAD, s_IconGuardHead, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 70:
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_HEART))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_HEART, s_IconHeart, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_HEART, s_IconHeart, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 20:
-            
+
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_UZIFLOOR))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_UZIFLOOR, s_IconUziFloor, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_UZIFLOOR, s_IconUziFloor, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
-            
+
+
             case 32:
             case 0:
-            
+
                 if (!ItemSpotClear(sip, STAT_ITEM, ICON_UZI))
                     break;
-                    
-                SpriteNum = SpawnSprite(STAT_ITEM, ICON_UZI, s_IconUzi, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, ICON_UZI, s_IconUzi, sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 SET(User[SpriteNum]->Flags2, SPR2_NEVER_RESPAWN);
                 IconDefault(SpriteNum);
-                
+
                 SetupItemForJump(sip, SpriteNum);
                 break;
-                
+
             case 1:
             case 2:
             case 3:
@@ -4561,8 +4561,8 @@ int SpawnItemsMatch(short match)
                 {
                 short num;
                 USERp u;
-                
-                BYTE KeyPal[] = 
+
+                BYTE KeyPal[] =
                 {
                 PALETTE_PLAYER9,
                 PALETTE_PLAYER7,
@@ -4577,41 +4577,41 @@ int SpawnItemsMatch(short match)
                 PALETTE_PLAYER8,
                 PALETTE_PLAYER9
                 };
-                
-                if (gNet.MultiGameType == MULTI_GAME_COMMBAT || gNet.MultiGameType == MULTI_GAME_AI_BOTS)    
+
+                if (gNet.MultiGameType == MULTI_GAME_COMMBAT || gNet.MultiGameType == MULTI_GAME_AI_BOTS)
                     break;
-                
+
                 num = SP_TAG3(sip) - 1;
-                
+
                 if (!ItemSpotClear(sip, STAT_ITEM, s_Key[num]->Pic))
                     break;
-                
-                SpriteNum = SpawnSprite(STAT_ITEM, s_Key[num]->Pic, s_Key[num], sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);    
+
+                SpriteNum = SpawnSprite(STAT_ITEM, s_Key[num]->Pic, s_Key[num], sip->sectnum, sip->x, sip->y, sip->z, sip->ang, 0);
                 u = User[SpriteNum];
-                
+
                 sp = &sprite[SpriteNum];
 
                 ASSERT(u != NULL);
                 sprite[SpriteNum].picnum = u->ID = s_Key[num]->Pic;
-                
-                
+
+
                 // need to set the palette here - suggest table lookup
-                u->spal = sprite[SpriteNum].pal = KeyPal[num]; 
+                u->spal = sprite[SpriteNum].pal = KeyPal[num];
                 //SET(sp->cstat, CSTAT_SPRITE_WALL);
 
-                
+
                 ChangeState(SpriteNum, s_Key[num]);
 
                 RESET(picanm[sp->picnum], TILE_ANIM_TYPE);
                 RESET(picanm[sp->picnum + 1], TILE_ANIM_TYPE);
-                
+
                 SetupItemForJump(sip, SpriteNum);
-                
-                break;    
+
+                break;
                 }
             }
-        
-        if (!TEST_BOOL1(sip))    
+
+        if (!TEST_BOOL1(sip))
             KillSprite(si);
         }
     return(0);
@@ -4625,7 +4625,7 @@ NewStateGroup(short SpriteNum, STATEp StateGroup[])
     {
     USERp u = User[SpriteNum];
     int i;
-    
+
     //if (Prediction)
     //    return;
 
@@ -4642,9 +4642,9 @@ NewStateGroup(short SpriteNum, STATEp StateGroup[])
     u->Rot = StateGroup;
     u->State = u->StateStart = StateGroup[0];
     //sprite[SpriteNum].picnum = u->State->Pic;
-    
+
     u->Tics = 0;
-    
+
     // turn anims off because people keep setting them in the
     // art file
     RESET(picanm[sprite[SpriteNum].picnum], TILE_ANIM_TYPE);
@@ -4726,7 +4726,7 @@ SpriteOverlapZ(SHORT spritenum_a, SHORT spritenum_b, int z_overlap)
 
     }
 
-VOID 
+VOID
 getzrangepoint(int x, int y, int z, short sectnum,
     LONGp ceilz, LONGp ceilhit, LONGp florz, LONGp florhit)
     {
@@ -4744,7 +4744,7 @@ getzrangepoint(int x, int y, int z, short sectnum,
     *florhit = -1;
     return;
     }
-    
+
     // Initialize z's and hits to the current sector's top&bottom
     getzsofslope(sectnum, x, y, ceilz, florz);
     *ceilhit = sectnum + 16384;
@@ -4963,7 +4963,7 @@ ActorDrop(short SpriteNum, int x, int y, int z, short new_sector, short min_heig
         return(TRUE);
         }
     #endif
-    
+
 
     // ASSERT(florhit >= 0);
     // ASSERT(ceilhit >= 0);
@@ -5035,9 +5035,9 @@ DropAhead(short SpriteNum, short min_height)
   ledges.  If it finds itself in mid air then it restores the last good
   position.  This is a hack because Ken had no good way of doing this from his
   code.  ActorDrop() is called from here.
-  
-*/    
-    
+
+*/
+
 int
 move_actor(short SpriteNum, int xchange, int ychange, int zchange)
     {
@@ -5051,14 +5051,14 @@ move_actor(short SpriteNum, int xchange, int ychange, int zchange)
     short dist;
     int cliptype = CLIPMASK_ACTOR;
 
-    
+
     if (TEST(u->Flags, SPR_NO_SCAREDZ))
         {
         // For COOLG & HORNETS
         // set to actual z before you move
         sp->z = u->sz;
         }
-    
+
     // save off x,y values
     x = sp->x;
     y = sp->y;
@@ -5098,7 +5098,7 @@ move_actor(short SpriteNum, int xchange, int ychange, int zchange)
         changespritesect(SpriteNum, sectnum);
         return(FALSE);
         }
-    
+
     if (ActorDrop(SpriteNum, sp->x, sp->y, sp->z, sp->sectnum, u->lo_step))
         {
         //printf("cancel move 2\n", sp->z, u->loz);
@@ -5172,7 +5172,7 @@ DoGrating(short SpriteNum)
         }
 
     sp->hitag -= GRATE_FACTOR;
-    
+
     if (sp->hitag <= 0)
         {
         change_sprite_stat(SpriteNum, STAT_DEFAULT);
@@ -5182,13 +5182,13 @@ DoGrating(short SpriteNum)
         User[SpriteNum] = 0;
         }
         }
-            
+
     setspritez(SpriteNum, sp->x, sp->y, sp->z);
 
     return (0);
     }
-    
-#if 0    
+
+#if 0
 int
 DoSpriteFade(short SpriteNum)
     {
@@ -5217,7 +5217,7 @@ DoSpriteFade(short SpriteNum)
     }
     return (0);
     }
-#endif    
+#endif
 
 int
 SpearOnFloor(short SpriteNum)
@@ -5275,15 +5275,15 @@ DoCoin(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
     int offset;
-    
+
     u->WaitTics -= ACTORMOVETICS * 2;
-    
+
     if (u->WaitTics <= 0)
         {
         KillSprite(SpriteNum);
         return(0);
         }
-        
+
     if (u->WaitTics < 10*120)
         {
         if (u->StateStart != s_GreenCoin)
@@ -5293,7 +5293,7 @@ DoCoin(short SpriteNum)
             u->State = u->StateStart + offset;
             }
         }
-    else    
+    else
     if (u->WaitTics < 20*120)
         {
         if (u->StateStart != s_YellowCoin)
@@ -5303,18 +5303,18 @@ DoCoin(short SpriteNum)
             u->State = u->StateStart + offset;
             }
         }
-    
-    return(0);    
-    }     
-    
+
+    return(0);
+    }
+
 int
 KillGet(short SpriteNum)
     {
     USERp u = User[SpriteNum],nu;
     SPRITEp sp = User[SpriteNum]->SpriteP,np;
-    
+
     short new;
-    
+
     switch (gNet.MultiGameType)
     {
     case MULTI_GAME_NONE:
@@ -5323,29 +5323,29 @@ KillGet(short SpriteNum)
         break;
     case MULTI_GAME_COMMBAT:
     case MULTI_GAME_AI_BOTS:
-    
+
         if (TEST(u->Flags2, SPR2_NEVER_RESPAWN))
             {
             KillSprite(SpriteNum);
             break;
             }
-            
+
         u->WaitTics = 30*120;
         SET(sp->cstat, CSTAT_SPRITE_INVISIBLE);
-        
+
         // respawn markers
         if (!gNet.SpawnMarkers || sp->hitag == TAG_NORESPAWN_FLAG)  // No coin if it's a special flag
             break;
-            
+
         new = SpawnSprite(STAT_ITEM, Red_COIN, s_RedCoin, sp->sectnum,
             sp->x, sp->y, sp->z, 0, 0);
-    
-        np = &sprite[new];        
-        nu = User[new];   
-        
+
+        np = &sprite[new];
+        nu = User[new];
+
         np->shade = -20;
         nu->WaitTics = u->WaitTics - 12;
-        
+
         break;
     }
     return (0);
@@ -5356,48 +5356,48 @@ KillGetAmmo(short SpriteNum)
     {
     USERp u = User[SpriteNum],nu;
     SPRITEp sp = User[SpriteNum]->SpriteP,np;
-    
+
     short new;
-    
+
     switch (gNet.MultiGameType)
     {
     case MULTI_GAME_NONE:
     case MULTI_GAME_COOPERATIVE:
         KillSprite(SpriteNum);
         break;
-        
+
     case MULTI_GAME_COMMBAT:
     case MULTI_GAME_AI_BOTS:
-    
+
         if (TEST(u->Flags2, SPR2_NEVER_RESPAWN))
             {
             KillSprite(SpriteNum);
             break;
             }
-        
+
         // No Respawn mode - all ammo goes away
-        if (gNet.NoRespawn)    
+        if (gNet.NoRespawn)
             {
             KillSprite(SpriteNum);
             break;
             }
-            
+
         u->WaitTics = 30*120;
         SET(sp->cstat, CSTAT_SPRITE_INVISIBLE);
-        
+
         // respawn markers
         if (!gNet.SpawnMarkers)
             break;
-            
+
         new = SpawnSprite(STAT_ITEM, Red_COIN, s_RedCoin, sp->sectnum,
             sp->x, sp->y, sp->z, 0, 0);
-    
-        np = &sprite[new];        
-        nu = User[new];   
-        
+
+        np = &sprite[new];
+        nu = User[new];
+
         np->shade = -20;
         nu->WaitTics = u->WaitTics - 12;
-        
+
         break;
     }
     return (0);
@@ -5408,18 +5408,18 @@ KillGetWeapon(short SpriteNum)
     {
     USERp u = User[SpriteNum],nu;
     SPRITEp sp = User[SpriteNum]->SpriteP,np;
-    
+
     short new;
-    
+
     switch (gNet.MultiGameType)
     {
     case MULTI_GAME_NONE:
         KillSprite(SpriteNum);
         break;
-        
+
     case MULTI_GAME_COOPERATIVE:
         // don't kill weapons in coop
-        
+
         // unless told too :)
         if (TEST(u->Flags2, SPR2_NEVER_RESPAWN))
             {
@@ -5427,37 +5427,37 @@ KillGetWeapon(short SpriteNum)
             break;
             }
         break;
-        
+
     case MULTI_GAME_COMMBAT:
     case MULTI_GAME_AI_BOTS:
-    
+
         if (TEST(u->Flags2, SPR2_NEVER_RESPAWN))
             {
             KillSprite(SpriteNum);
             break;
             }
-        
+
         // No Respawn mode - all weapons stay
         // but can only get once
-        if (gNet.NoRespawn)    
+        if (gNet.NoRespawn)
             break;
-            
+
         u->WaitTics = 30*120;
         SET(sp->cstat, CSTAT_SPRITE_INVISIBLE);
-        
+
         // respawn markers
         if (!gNet.SpawnMarkers)
             break;
-            
+
         new = SpawnSprite(STAT_ITEM, Red_COIN, s_RedCoin, sp->sectnum,
             sp->x, sp->y, sp->z, 0, 0);
-    
-        np = &sprite[new];        
-        nu = User[new];   
-        
+
+        np = &sprite[new];
+        nu = User[new];
+
         np->shade = -20;
         nu->WaitTics = u->WaitTics - 12;
-        
+
         break;
     }
     return (0);
@@ -5470,9 +5470,9 @@ DoSpawnItemTeleporterEffect(SPRITEp sp)
     short effect;
     USERp eu;
     SPRITEp ep;
-    
+
     effect = SpawnSprite(STAT_MISSILE, 0, s_TeleportEffect, sp->sectnum,
-        sp->x, sp->y, sp->z - Z(12), 
+        sp->x, sp->y, sp->z - Z(12),
         sp->ang, 0);
 
     ep = &sprite[effect];
@@ -5484,18 +5484,18 @@ DoSpawnItemTeleporterEffect(SPRITEp sp)
     RESET(ep->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
     return(0);
     }
- 
+
 void ChoosePlayerGetSound(PLAYERp pp)
 {
     int choose_snd=0;
 
     if(pp != Player+myconnectindex) return;
-    
+
     choose_snd = STD_RANDOM_RANGE((MAX_GETSOUNDS-1)<<8)>>8;
 
     PlayerSound(PlayerGetItemVocs[choose_snd],&pp->posx,&pp->posy,&pp->posz,v3df_follow|v3df_dontpan,pp);
 }
-    
+
 //#define MAX_FORTUNES 16
 // With PLOCK on, max = 11
 char *ReadFortune[MAX_FORTUNES] = {
@@ -5522,38 +5522,38 @@ BOOL CanGetWeapon(PLAYERp pp, short SpriteNum, int WPN)
     {
     USERp u = User[SpriteNum], pu;
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     switch (gNet.MultiGameType)
         {
         case MULTI_GAME_NONE:
             return(TRUE);
-            
+
         case MULTI_GAME_COOPERATIVE:
             if (TEST(u->Flags2, SPR2_NEVER_RESPAWN))
                 return(TRUE);
-        
+
             if (TEST(pp->WpnGotOnceFlags, BIT(WPN)))
                 return(FALSE);
-                
+
             return(TRUE);
-            
+
         case MULTI_GAME_COMMBAT:
         case MULTI_GAME_AI_BOTS:
-        
+
             if (TEST(u->Flags2, SPR2_NEVER_RESPAWN))
                 return(TRUE);
-        
+
             // No Respawn - can't get a weapon again if you already got it
             if (gNet.NoRespawn && TEST(pp->WpnGotOnceFlags, BIT(WPN)))
                 return(FALSE);
-            
-            return(TRUE);    
-        }     
-        
-    return(TRUE);       
-    }    
 
-char *KeyMsg[MAX_KEYS] = {    
+            return(TRUE);
+        }
+
+    return(TRUE);
+    }
+
+char *KeyMsg[MAX_KEYS] = {
 "Got the RED key!",
 "Got the BLUE key!",
 "Got the GREEN key!",
@@ -5577,7 +5577,7 @@ struct InventoryDecl_t InventoryDecls[InvDecl_TOTAL] = {
 	{ "Repair Kit",               100 },
 	{ "Smoke Bomb",               100 },
 };
-    
+
 #define ITEMFLASHAMT  -8
 #define ITEMFLASHCLR  144
 int
@@ -5607,10 +5607,10 @@ DoGet(short SpriteNum)
         u->WaitTics -= ACTORMOVETICS * 2;
         if (u->WaitTics <= 0)
             {
-            PlaySound(DIGI_ITEM_SPAWN, &sp->x, &sp->y, &sp->z, v3df_none);        
+            PlaySound(DIGI_ITEM_SPAWN, &sp->x, &sp->y, &sp->z, v3df_none);
             DoSpawnItemTeleporterEffect(sp);
             RESET(sp->cstat, CSTAT_SPRITE_INVISIBLE);
-            }    
+            }
 
         return (0);
         }
@@ -5623,7 +5623,7 @@ DoGet(short SpriteNum)
             change_sprite_stat(SpriteNum, STAT_ITEM);
             }
         }
-        
+
     TRAVERSE_CONNECT(pnum)
         {
         pp = &Player[pnum];
@@ -5638,26 +5638,26 @@ DoGet(short SpriteNum)
             {
             continue;
             }
-            
+
         if (!SpriteOverlap(SpriteNum, pp->SpriteP - sprite))
             {
             continue;
             }
-        
+
         cstat_bak = sp->cstat;
         SET(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
         can_see = FAFcansee(sp->x, sp->y, sp->z, sp->sectnum,
             pp->posx, pp->posy, pp->posz, pp->cursectnum);
-        sp->cstat = cstat_bak;        
-                    
+        sp->cstat = cstat_bak;
+
         if (!can_see)
             {
             continue;
             }
-            
+
         switch (u->ID)
             {
-        //    
+        //
         // Keys
         //
         case RED_CARD:
@@ -5688,25 +5688,25 @@ DoGet(short SpriteNum)
         case RED_SKELKEY:
             key_num = 7;
             KeyMain:
-            
+
             if (pp->HasKey[key_num])
                 break;
-            
+
             PutStringInfo(Player+pnum, KeyMsg[key_num]);
-            
+
             pp->HasKey[key_num] = TRUE;
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if(pp == Player+myconnectindex)
                 PlaySound(DIGI_KEY, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             PlayerUpdateKeys(pp);
-            
+
             // don't kill keys in coop
             if (gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
                 break;
-                
+
             KillSprite(SpriteNum);
             break;
-            
+
         case ICON_ARMOR:
             if (pp->Armor < InventoryDecls[InvDecl_Kevlar].amount)
                 {
@@ -5724,25 +5724,25 @@ DoGet(short SpriteNum)
                 else
                     break;
                 }
-                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_BIGITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                
+
                 // override for respawn mode
                 if (gNet.MultiGameType == MULTI_GAME_COMMBAT && gNet.NoRespawn)
                     {
                     KillSprite(SpriteNum);
                     break;
                     }
-                    
+
                 KillGet(SpriteNum);
                 }
             break;
-            
-        //    
+
+        //
         // Health - Instant Use
         //
-        
+
         case ICON_SM_MEDKIT:
             if (pu->Health < 100)
                 {
@@ -5759,21 +5759,21 @@ DoGet(short SpriteNum)
 
                 if(putbackmax) pp->MaxHealth = 200;
 
-                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                
+
                 // override for respawn mode
                 if (gNet.MultiGameType == MULTI_GAME_COMMBAT && gNet.NoRespawn)
                     {
                     KillSprite(SpriteNum);
                     break;
                     }
-                    
+
                 KillGet(SpriteNum);
                 }
             break;
-            
+
         case ICON_BOOSTER:   // Fortune cookie
             pp->MaxHealth = 200;
             if (pu->Health < 200)
@@ -5786,76 +5786,76 @@ DoGet(short SpriteNum)
                     {
                     if(gs.ParentalLock || Global_PLock)
                         sprintf(ds,"Fortune Say: %s\n",ReadFortune[STD_RANDOM_RANGE(10)]);
-                    else    
+                    else
                         sprintf(ds,"Fortune Say: %s\n",ReadFortune[STD_RANDOM_RANGE(MAX_FORTUNES)]);
                     CON_Message(ds);
                     }
-                                                    
-                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+
+                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_BIGITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                
+
                 // override for respawn mode
                 if (gNet.MultiGameType == MULTI_GAME_COMMBAT && gNet.NoRespawn)
                     {
                     KillSprite(SpriteNum);
                     break;
                     }
-                    
+
                 KillGet(SpriteNum);
                 }
             break;
 
-        //    
-        // Inventory    
+        //
+        // Inventory
         //
         case ICON_MEDKIT:
-        
+
             if (!pp->InventoryAmount[INVENTORY_MEDKIT] || pp->InventoryPercent[INVENTORY_MEDKIT] < InventoryDecls[InvDecl_Medkit].amount)
                 {
                 PutStringInfo(Player+pnum, InventoryDecls[InvDecl_Medkit].name);
                 pp->InventoryPercent[INVENTORY_MEDKIT] = InventoryDecls[InvDecl_Medkit].amount;
                 pp->InventoryAmount[INVENTORY_MEDKIT] = 1;
                 PlayerUpdateInventory(pp, INVENTORY_MEDKIT);
-                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                
+
                 // override for respawn mode
                 if (gNet.MultiGameType == MULTI_GAME_COMMBAT && gNet.NoRespawn)
                     {
                     KillSprite(SpriteNum);
                     break;
                     }
-                    
+
                 KillGet(SpriteNum);
                 }
             break;
 
         case ICON_CHEMBOMB:
-        
+
             if (pp->InventoryAmount[INVENTORY_CHEMBOMB] < InventoryDecls[InvDecl_ChemBomb].amount)
                 {
                 PutStringInfo(Player+pnum, InventoryDecls[InvDecl_ChemBomb].name);
                 pp->InventoryPercent[INVENTORY_CHEMBOMB] = 0;
                 pp->InventoryAmount[INVENTORY_CHEMBOMB]++;
                 PlayerUpdateInventory(pp, INVENTORY_CHEMBOMB);
-                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
                 KillGet(SpriteNum);
                 }
             break;
-            
+
         case ICON_FLASHBOMB:
-        
+
             if (pp->InventoryAmount[INVENTORY_FLASHBOMB] < InventoryDecls[InvDecl_FlashBomb].amount)
                 {
                 PutStringInfo(Player+pnum, InventoryDecls[InvDecl_FlashBomb].name);
                 pp->InventoryPercent[INVENTORY_FLASHBOMB] = 0;
                 pp->InventoryAmount[INVENTORY_FLASHBOMB]++;
                 PlayerUpdateInventory(pp, INVENTORY_FLASHBOMB);
-                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
                 KillGet(SpriteNum);
@@ -5863,7 +5863,7 @@ DoGet(short SpriteNum)
             break;
 
         case ICON_CALTROPS:
-        
+
             if (pp->InventoryAmount[INVENTORY_CALTROPS] < InventoryDecls[InvDecl_Caltrops].amount)
                 {
                 PutStringInfo(Player+pnum, InventoryDecls[InvDecl_Caltrops].name);
@@ -5872,7 +5872,7 @@ DoGet(short SpriteNum)
                 if(pp->InventoryAmount[INVENTORY_CALTROPS] > InventoryDecls[InvDecl_Caltrops].amount)
                     pp->InventoryAmount[INVENTORY_CALTROPS] = InventoryDecls[InvDecl_Caltrops].amount;
                 PlayerUpdateInventory(pp, INVENTORY_CALTROPS);
-                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
                 KillGet(SpriteNum);
@@ -5886,7 +5886,7 @@ DoGet(short SpriteNum)
                 pp->InventoryPercent[INVENTORY_NIGHT_VISION] = InventoryDecls[InvDecl_NightVision].amount;
                 pp->InventoryAmount[INVENTORY_NIGHT_VISION] = 1;
                 PlayerUpdateInventory(pp, INVENTORY_NIGHT_VISION);
-                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
                 KillGet(SpriteNum);
@@ -5899,14 +5899,14 @@ DoGet(short SpriteNum)
                 pp->InventoryPercent[INVENTORY_REPAIR_KIT] = InventoryDecls[InvDecl_RepairKit].amount;
                 pp->InventoryAmount[INVENTORY_REPAIR_KIT] = 1;
                 PlayerUpdateInventory(pp, INVENTORY_REPAIR_KIT);
-                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
-                    
+
                 // don't kill repair kit in coop
                 if (gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
                     break;
-                    
+
                 KillGet(SpriteNum);
                 }
             break;
@@ -5930,33 +5930,33 @@ DoGet(short SpriteNum)
                 pp->InventoryPercent[INVENTORY_CLOAK] = InventoryDecls[InvDecl_Cloak].amount;
                 pp->InventoryAmount[INVENTORY_CLOAK] = 1;
                 PlayerUpdateInventory(pp, INVENTORY_CLOAK);
-                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
                 KillGet(SpriteNum);
                 }
             break;
-        //    
+        //
         // Weapon
         //
         case ICON_STAR:
-        
+
             if (!CanGetWeapon(pp, SpriteNum, WPN_STAR))
                 break;
-        
+
             SET(pp->WpnGotOnceFlags, BIT(WPN_STAR));
-            
+
             if (pp->WpnAmmo[WPN_STAR] >= DamageData[WPN_STAR].max_ammo)
-                break;            
-                
-            #ifdef UK_VERSION    
+                break;
+
+            #ifdef UK_VERSION
             sprintf(ds,"Darts");
             #else
             //sprintf(ds,"Shurikens");
             #endif
             PutStringInfo(Player+pnum, DamageData[WPN_STAR].weapon_name);
             PlayerUpdateAmmo(pp, WPN_STAR, DamageData[WPN_STAR].weapon_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             KillGetWeapon(SpriteNum);
@@ -5969,18 +5969,18 @@ DoGet(short SpriteNum)
             break;
 
         case ICON_LG_MINE:
-        
+
             if (!CanGetWeapon(pp, SpriteNum, WPN_MINE))
                 break;
-        
+
             SET(pp->WpnGotOnceFlags, BIT(WPN_MINE));
-        
+
             if (pp->WpnAmmo[WPN_MINE] >= DamageData[WPN_MINE].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Sticky Bombs");
             PutStringInfo(Player+pnum, DamageData[WPN_MINE].weapon_name);
             PlayerUpdateAmmo(pp, WPN_MINE, DamageData[WPN_MINE].weapon_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             ChoosePlayerGetSound(pp);
@@ -5998,20 +5998,20 @@ DoGet(short SpriteNum)
 
             if (!CanGetWeapon(pp, SpriteNum, WPN_UZI))
                 break;
-        
+
             SET(pp->WpnGotOnceFlags, BIT(WPN_UZI));
-        
+
             if (TEST(pp->Flags, PF_TWO_UZI) && pp->WpnAmmo[WPN_UZI] >= DamageData[WPN_UZI].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"UZI Submachine Gun");
             PutStringInfo(Player+pnum, DamageData[WPN_UZI].weapon_name);
 //            pp->WpnAmmo[WPN_UZI] += 50;
             PlayerUpdateAmmo(pp, WPN_UZI, DamageData[WPN_UZI].weapon_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             KillGetWeapon(SpriteNum);
-            
+
             if (TEST(pp->WpnFlags, BIT(WPN_UZI)) && TEST(pp->Flags, PF_TWO_UZI))
                 break;
             // flag to help with double uzi powerup - simpler but kludgy
@@ -6028,20 +6028,20 @@ DoGet(short SpriteNum)
                 SET(pp->WpnFlags, BIT(WPN_UZI));
                 ChoosePlayerGetSound(pp);
                 }
-             
+
             if (User[pp->PlayerSprite]->WeaponNum > WPN_UZI && User[pp->PlayerSprite]->WeaponNum != WPN_SWORD)
                 break;
-                
+
             InitWeaponUzi(pp);
             break;
 
         case ICON_LG_UZI_AMMO:
             if (pp->WpnAmmo[WPN_UZI] >= DamageData[WPN_UZI].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"UZI Clip");
             PutStringInfo(Player+pnum, DamageData[WPN_UZI].ammo_name);
             PlayerUpdateAmmo(pp, WPN_UZI, DamageData[WPN_UZI].ammo_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             KillGetAmmo(SpriteNum);
@@ -6051,16 +6051,16 @@ DoGet(short SpriteNum)
 
             if (!CanGetWeapon(pp, SpriteNum, WPN_MICRO))
                 break;
-        
+
             SET(pp->WpnGotOnceFlags, BIT(WPN_MICRO));
-        
+
             if (TEST(pp->WpnFlags, BIT(WPN_MICRO)) && pp->WpnAmmo[WPN_MICRO] >= DamageData[WPN_MICRO].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Missile Launcher");
             PutStringInfo(Player+pnum, DamageData[WPN_MICRO].weapon_name);
 //            pp->WpnAmmo[WPN_MICRO] += 5;
             PlayerUpdateAmmo(pp, WPN_MICRO, DamageData[WPN_MICRO].weapon_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             ChoosePlayerGetSound(pp);
@@ -6075,11 +6075,11 @@ DoGet(short SpriteNum)
 
         case ICON_MICRO_BATTERY:
             if (pp->WpnAmmo[WPN_MICRO] >= DamageData[WPN_MICRO].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Missiles");
             PutStringInfo(Player+pnum, DamageData[WPN_MICRO].ammo_name);
             PlayerUpdateAmmo(pp, WPN_MICRO, DamageData[WPN_MICRO].ammo_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             KillGetAmmo(SpriteNum);
@@ -6091,7 +6091,7 @@ DoGet(short SpriteNum)
                 //sprintf(ds,"Nuclear Warhead");
                 PutStringInfo(Player+pnum, DamageData[DMG_NUCLEAR_EXP].weapon_name);
                 pp->WpnRocketNuke = DamageData[DMG_NUCLEAR_EXP].weapon_pickup;
-                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
                 if(STD_RANDOM_RANGE(1000) > 800 && pp == Player+myconnectindex)
@@ -6106,9 +6106,9 @@ DoGet(short SpriteNum)
                         pp->CurWpn->over[MICRO_SHOT_NUM].State = ps_MicroNukeFlash;
                         // Play Nuke available sound here!
                         }
-                    
+
                     }
-                    
+
                 KillGetAmmo(SpriteNum);
                 }
             break;
@@ -6116,16 +6116,16 @@ DoGet(short SpriteNum)
         case ICON_GRENADE_LAUNCHER:
             if (!CanGetWeapon(pp, SpriteNum, WPN_GRENADE))
                 break;
-        
+
             SET(pp->WpnGotOnceFlags, BIT(WPN_GRENADE));
-            
+
             if (TEST(pp->WpnFlags, BIT(WPN_GRENADE)) && pp->WpnAmmo[WPN_GRENADE] >= DamageData[WPN_GRENADE].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Grenade Launcher");
             PutStringInfo(Player+pnum, DamageData[WPN_GRENADE].weapon_name);
 //            pp->WpnAmmo[WPN_GRENADE] += 6;
             PlayerUpdateAmmo(pp, WPN_GRENADE, DamageData[WPN_GRENADE].weapon_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             //ChoosePlayerGetSound(pp);
@@ -6143,17 +6143,17 @@ DoGet(short SpriteNum)
 
         case ICON_LG_GRENADE:
             if (pp->WpnAmmo[WPN_GRENADE] >= DamageData[WPN_GRENADE].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Grenade Shells");
             PutStringInfo(Player+pnum, DamageData[WPN_GRENADE].ammo_name);
             PlayerUpdateAmmo(pp, WPN_GRENADE, DamageData[WPN_GRENADE].ammo_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             KillGetAmmo(SpriteNum);
             break;
 
-        #if 0    
+        #if 0
         case ICON_ROCKET:
             pp->WpnAmmo[WPN_ROCKET] += 15;
             if (pp == Player+myconnectindex)
@@ -6169,27 +6169,27 @@ DoGet(short SpriteNum)
             sprintf(ds,"20 Missiles");
             PutStringInfo(Player+pnum, ds);
             PlayerUpdateAmmo(pp, WPN_ROCKET, 20);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             KillGet(SpriteNum);
             break;
-        #endif    
+        #endif
 
         case ICON_RAIL_GUN:
 	    if (SW_SHAREWARE) { KillSprite(SpriteNum); break; }
-        
+
             if (!CanGetWeapon(pp, SpriteNum, WPN_RAIL))
                 break;
-        
+
             SET(pp->WpnGotOnceFlags, BIT(WPN_RAIL));
-        
+
             if (TEST(pp->WpnFlags, BIT(WPN_RAIL)) && pp->WpnAmmo[WPN_RAIL] >= DamageData[WPN_RAIL].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Rail Gun");
             PutStringInfo(Player+pnum, DamageData[WPN_RAIL].weapon_name);
             PlayerUpdateAmmo(pp, WPN_RAIL, DamageData[WPN_RAIL].weapon_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             if (pp == Player+myconnectindex)
@@ -6197,10 +6197,10 @@ DoGet(short SpriteNum)
                 if(STD_RANDOM_RANGE(1000) > 700)
                     PlayerSound(DIGI_LIKEBIGWEAPONS, &pp->posx, &pp->posy, &pp->posz,
                          v3df_dontpan|v3df_doppler|v3df_follow,pp);
-                else     
+                else
                     PlayerSound(DIGI_GOTRAILGUN, &pp->posx, &pp->posy, &pp->posz,
                          v3df_dontpan|v3df_doppler|v3df_follow,pp);
-                }     
+                }
             //ChoosePlayerGetSound(pp);
             KillGetWeapon(SpriteNum);
             if (TEST(pp->WpnFlags, BIT(WPN_RAIL)))
@@ -6215,11 +6215,11 @@ DoGet(short SpriteNum)
 	    if (SW_SHAREWARE) { KillSprite(SpriteNum); break; }
 
             if (pp->WpnAmmo[WPN_RAIL] >= DamageData[WPN_RAIL].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Rail Gun Rods");
             PutStringInfo(Player+pnum, DamageData[WPN_RAIL].ammo_name);
             PlayerUpdateAmmo(pp, WPN_RAIL, DamageData[WPN_RAIL].ammo_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             KillGetAmmo(SpriteNum);
@@ -6228,16 +6228,16 @@ DoGet(short SpriteNum)
         case ICON_SHOTGUN:
             if (!CanGetWeapon(pp, SpriteNum, WPN_SHOTGUN))
                 break;
-        
+
             SET(pp->WpnGotOnceFlags, BIT(WPN_SHOTGUN));
-        
+
             if (TEST(pp->WpnFlags, BIT(WPN_SHOTGUN)) && pp->WpnAmmo[WPN_SHOTGUN] >= DamageData[WPN_SHOTGUN].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Riot Gun");
             PutStringInfo(Player+pnum, DamageData[WPN_SHOTGUN].weapon_name);
 //            pp->WpnAmmo[WPN_SHOTGUN] += 10;
             PlayerUpdateAmmo(pp, WPN_SHOTGUN, DamageData[WPN_SHOTGUN].weapon_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             ChoosePlayerGetSound(pp);
@@ -6252,11 +6252,11 @@ DoGet(short SpriteNum)
 
         case ICON_LG_SHOTSHELL:
             if (pp->WpnAmmo[WPN_SHOTGUN] >= DamageData[WPN_SHOTGUN].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Shotshells");
             PutStringInfo(Player+pnum, DamageData[WPN_SHOTGUN].ammo_name);
             PlayerUpdateAmmo(pp, WPN_SHOTGUN, DamageData[WPN_SHOTGUN].ammo_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             KillGetAmmo(SpriteNum);
@@ -6269,7 +6269,7 @@ DoGet(short SpriteNum)
             sprintf(ds,"Riot Gun TurboDrive, +50 12-Gauge Slugs");
             PutStringInfo(Player+pnum, ds);
             pp->WpnShotgunAuto = 50;
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             KillGet(SpriteNum);
@@ -6281,26 +6281,26 @@ DoGet(short SpriteNum)
                     pp->CurWpn->over[SHOTGUN_AUTO_NUM].tics = 0;
                     pp->CurWpn->over[SHOTGUN_AUTO_NUM].State = ps_ShotgunFlash;
                     }
-                
+
                 }
             }
             break;
         #endif
-            
+
         case ICON_GUARD_HEAD:
 	    if (SW_SHAREWARE) { KillSprite(SpriteNum); break; }
-        
+
             if (!CanGetWeapon(pp, SpriteNum, WPN_HOTHEAD))
                 break;
-        
+
             SET(pp->WpnGotOnceFlags, BIT(WPN_HOTHEAD));
-        
+
             if (TEST(pp->WpnFlags, BIT(WPN_HOTHEAD)) && pp->WpnAmmo[WPN_HOTHEAD] >= DamageData[WPN_HOTHEAD].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Guardian Head");
             PutStringInfo(Player+pnum, DamageData[WPN_HOTHEAD].weapon_name);
             PlayerUpdateAmmo(pp, WPN_HOTHEAD, DamageData[WPN_HOTHEAD].weapon_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             //ChoosePlayerGetSound(pp);
@@ -6320,11 +6320,11 @@ DoGet(short SpriteNum)
 	    if (SW_SHAREWARE) { KillSprite(SpriteNum); break; }
 
             if (pp->WpnAmmo[WPN_HOTHEAD] >= DamageData[WPN_HOTHEAD].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Firebursts");
             PutStringInfo(Player+pnum, DamageData[WPN_HOTHEAD].ammo_name);
             PlayerUpdateAmmo(pp, WPN_HOTHEAD, DamageData[WPN_HOTHEAD].ammo_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             KillGetAmmo(SpriteNum);
@@ -6332,18 +6332,18 @@ DoGet(short SpriteNum)
 
         case ICON_HEART:
 	    if (SW_SHAREWARE) { KillSprite(SpriteNum); break; }
-        
+
             if (!CanGetWeapon(pp, SpriteNum, WPN_HEART))
                 break;
-        
+
             SET(pp->WpnGotOnceFlags, BIT(WPN_HEART));
-        
+
             if (TEST(pp->WpnFlags, BIT(WPN_HEART)) && pp->WpnAmmo[WPN_HEART] >= DamageData[WPN_HEART].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Ripper Heart");
             PutStringInfo(Player+pnum, DamageData[WPN_HEART].weapon_name);
             PlayerUpdateAmmo(pp, WPN_HEART, DamageData[WPN_HEART].weapon_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             //ChoosePlayerGetSound(pp);
@@ -6354,10 +6354,10 @@ DoGet(short SpriteNum)
             if (TEST(pp->WpnFlags, BIT(WPN_HEART)))
                 break;
             SET(pp->WpnFlags, BIT(WPN_HEART));
-            
+
             if(User[pp->PlayerSprite]->WeaponNum > WPN_HEART && User[pp->PlayerSprite]->WeaponNum != WPN_SWORD)
                 break;
-                
+
             InitWeaponHeart(pp);
             break;
 
@@ -6365,17 +6365,17 @@ DoGet(short SpriteNum)
 	    if (SW_SHAREWARE) { KillSprite(SpriteNum); break; }
 
             if (pp->WpnAmmo[WPN_HEART] >= DamageData[WPN_HEART].max_ammo)
-                break;            
+                break;
             //sprintf(ds,"Deathcoils");
             PutStringInfo(Player+pnum, DamageData[WPN_HEART].ammo_name);
             PlayerUpdateAmmo(pp, WPN_HEART, DamageData[WPN_HEART].ammo_pickup);
-            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+            SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
             if (pp == Player+myconnectindex)
                 PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
             KillGetAmmo(SpriteNum);
             break;
-        
-        #if 0    
+
+        #if 0
         case ICON_SPELL:
                 {
                 short w, h, select;
@@ -6401,7 +6401,7 @@ DoGet(short SpriteNum)
                 KillGet(SpriteNum);
                 break;
                 }
-        #endif        
+        #endif
 
 
         case ICON_HEAT_CARD:
@@ -6410,25 +6410,25 @@ DoGet(short SpriteNum)
                 //sprintf(ds,"Heat Seeker Card");
                 PutStringInfo(Player+pnum, DamageData[DMG_NUCLEAR_EXP].ammo_name);
                 pp->WpnRocketHeat = DamageData[DMG_NUCLEAR_EXP].ammo_pickup;
-                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup    
+                SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup
                 if (pp == Player+myconnectindex)
                     PlaySound(DIGI_ITEM, &sp->x, &sp->y, &sp->z, v3df_dontpan);
                 KillGet(SpriteNum);
-                
+
                 if (pp->CurWpn == pp->Wpn[WPN_MICRO])
                     {
                     if (pp->WpnRocketType == 0)
                         {
                         pp->WpnRocketType = 1;
                         }
-                    else    
+                    else
                     if (pp->WpnRocketType == 2)
                         {
                         extern PANEL_STATE ps_MicroHeatFlash[];
                         pp->CurWpn->over[MICRO_HEAT_NUM].tics = 0;
                         pp->CurWpn->over[MICRO_HEAT_NUM].State = ps_MicroHeatFlash;
                         }
-                    
+
                     }
                 }
             break;
@@ -6444,16 +6444,16 @@ DoGet(short SpriteNum)
             else
                 new = SpawnSprite(STAT_ITEM, ICON_FLAG, s_CarryFlag, sp->sectnum,
                     sp->x, sp->y, sp->z, 0, 0);
-    
-            np = &sprite[new];        
-            nu = User[new];   
+
+            np = &sprite[new];
+            nu = User[new];
             np->shade = -20;
 
             // Attach flag to player
             nu->Counter = 0;
             RESET(np->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
             SET(np->cstat, CSTAT_SPRITE_WALL);
-            SetAttach(pp->PlayerSprite, new);  
+            SetAttach(pp->PlayerSprite, new);
             nu->sz = SPRITEp_MID(&sprite[pp->PlayerSprite]);  // Set mid way up who it hit
             nu->spal = np->pal = sp->pal;   // Set the palette of the flag
 
@@ -6476,15 +6476,15 @@ DoGet(short SpriteNum)
   !AIC KEY - Set Active and Inactive code is here.  It was tough to make this
   fast.  Just know that the main flag is SPR_ACTIVE.  Should not need to be
   changed except for possibly the u->active_range settings in the future.
-  
-*/    
-    
+
+*/
+
 VOID
 SetEnemyActive(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
-    
+
     SET(u->Flags, SPR_ACTIVE);
     u->inactive_time = 0;
     }
@@ -6494,7 +6494,7 @@ SetEnemyInactive(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
-    
+
     RESET(u->Flags, SPR_ACTIVE);
     }
 
@@ -6507,7 +6507,7 @@ ProcessActiveVars(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     #define TIME_TILL_INACTIVE (4*120)
-        
+
     if (!TEST(u->Flags, SPR_ACTIVE))
         {
         // if actor has been unaware for more than a few seconds
@@ -6520,7 +6520,7 @@ ProcessActiveVars(short SpriteNum)
             u->inactive_time = TIME_TILL_INACTIVE;
             }
         }
-    
+
     u->wait_active_check += ACTORMOVETICS;
     }
 
@@ -6531,23 +6531,23 @@ AdjustActiveRange(PLAYERp pp, short SpriteNum, int dist)
     SPRITEp sp = u->SpriteP;
     SPRITEp psp = pp->SpriteP;
     int look_height;
-    
-        
+
+
     // do no FAFcansee before it is time
     if (u->wait_active_check < ACTIVE_CHECK_TIME)
         return;
 
     u->wait_active_check = 0;
-       
+
     // check aboslute max
     if (dist > MAX_ACTIVE_RANGE)
         return;
-        
+
     // do not do a FAFcansee if your already active
     // Actor only becomes INACTIVE in DoActorDecision
     if (TEST(u->Flags, SPR_ACTIVE))
         return;
-    
+
     //
     // From this point on Actor is INACTIVE
     //
@@ -6558,7 +6558,7 @@ AdjustActiveRange(PLAYERp pp, short SpriteNum, int dist)
         {
         // Player is visible
         // adjust update range of this sprite
-        
+
         // some huge distance
         u->active_range = 75000;
         // sprite is AWARE
@@ -6571,8 +6571,8 @@ AdjustActiveRange(PLAYERp pp, short SpriteNum, int dist)
   !AIC KEY - Main processing loop for sprites.  Sprites are separated and
   traversed by STAT lists.  Note the STAT_MISC, STAT_ENEMY, STAT_VATOR below.
   Most everything here calls StateControl().
-  
-*/    
+
+*/
 
 
 #if DEBUG
@@ -6650,7 +6650,7 @@ AdjustActiveRange(PLAYERp pp, short SpriteNum, int dist)
             if ((u)->State->Animator && (u)->State->Animator != NullAnimator)       \
                 (*(u)->State->Animator) ((SpriteNum));                              \
             }                                                                       \
-        }                                                                           
+        }
 
 
 /*
@@ -6658,9 +6658,9 @@ AdjustActiveRange(PLAYERp pp, short SpriteNum, int dist)
   !AIC KEY - Reads state tables for animation frame transitions and handles
   calling animators, QUICK_CALLS, etc.  This is handled for many types of
   sprites not just actors.
-  
-*/    
-    
+
+*/
+
 int
 StateControl(SHORT SpriteNum)
     {
@@ -6677,7 +6677,7 @@ StateControl(SHORT SpriteNum)
 
     if (sp->statnum >= STAT_SKIP4_START && sp->statnum <= STAT_SKIP4_END)
         u->Tics += ACTORMOVETICS * 2;
-    else    
+    else
         u->Tics += ACTORMOVETICS;
 
     // Skip states if too much time has passed
@@ -6705,9 +6705,9 @@ StateControl(SHORT SpriteNum)
             {
             // Call it once and go to the next state
             (*u->State->Animator) (SpriteNum);
-            
+
             ASSERT(u); //put this in to see if actor was getting killed with in his QUICK_CALL state
-            
+
             if (!u)
                 break;
 
@@ -6717,9 +6717,9 @@ StateControl(SHORT SpriteNum)
                 u->State = u->State->NextState;
             }
 
-        if (!u)    
+        if (!u)
             break;
-            
+
         if (!u->State->Pic)
             {
             NewStateGroup(SpriteNum, (STATEp *) u->State->NextState);
@@ -6741,20 +6741,20 @@ StateControl(SHORT SpriteNum)
             //u->SpriteP->picnum = u->State->Pic;
             if (u->RotNum > 1)
                 sp->picnum = u->Rot[0]->Pic;
-            else    
+            else
                 sp->picnum = u->State->Pic;
-            }    
+            }
 
         // Call the correct animator
         if (u->State->Animator && u->State->Animator != NullAnimator)
             (*u->State->Animator) (SpriteNum);
-        }    
+        }
 
     return (0);
     }
 
 
-    
+
 VOID
 SpriteControl(VOID)
     {
@@ -6766,7 +6766,7 @@ SpriteControl(VOID)
     int tx, ty, tmin, dist;
     extern BOOL DebugActorFreeze;
     short StateTics;
-    
+
     if (DebugActorFreeze)
         return;
 
@@ -6775,7 +6775,7 @@ SpriteControl(VOID)
         #if INLINE_STATE
         ASSERT(User[i]);
         u = User[i];
-        sp = User[i]->SpriteP;    
+        sp = User[i]->SpriteP;
         STATE_CONTROL(i, sp, u, StateTics)
         ASSERT(nexti >= 0 ? User[nexti] != NULL : TRUE);
         #else
@@ -6797,7 +6797,7 @@ SpriteControl(VOID)
                 #if INLINE_STATE
                 ASSERT(User[i]);
                 u = User[i];
-                sp = User[i]->SpriteP;    
+                sp = User[i]->SpriteP;
                 STATE_CONTROL(i, sp, u, StateTics)
                 ASSERT(nexti >= 0 ? User[nexti] != NULL : TRUE);
                 #else
@@ -6825,16 +6825,16 @@ SpriteControl(VOID)
             CloseToPlayer = FALSE;
 
             ProcessActiveVars(i);
-            
+
             TRAVERSE_CONNECT(pnum)
                 {
                 pp = &Player[pnum];
-                
+
                 // Only update the ones closest
                 DISTANCE(pp->posx, pp->posy, sp->x, sp->y, dist, tx, ty, tmin);
-                
+
                 AdjustActiveRange(pp, i, dist);
-                
+
                 if (dist < u->active_range)
                     {
                     CloseToPlayer = TRUE;
@@ -6848,7 +6848,7 @@ SpriteControl(VOID)
                 {
                 #if INLINE_STATE
                 u = User[i];
-                sp = User[i]->SpriteP;    
+                sp = User[i]->SpriteP;
                 STATE_CONTROL(i, sp, u, StateTics)
                 ASSERT(nexti >= 0 ? User[nexti] != NULL : TRUE);
                 #else
@@ -6878,7 +6878,7 @@ SpriteControl(VOID)
                 #if INLINE_STATE
                 ASSERT(User[i]);
                 u = User[i];
-                sp = User[i]->SpriteP;    
+                sp = User[i]->SpriteP;
                 STATE_CONTROL(i, sp, u, StateTics)
                 ASSERT(nexti >= 0 ? User[nexti] != NULL : TRUE);
                 #else
@@ -6916,7 +6916,7 @@ SpriteControl(VOID)
             #if INLINE_STATE
             ASSERT(User[i]);
             u = User[i];
-            sp = User[i]->SpriteP;    
+            sp = User[i]->SpriteP;
             STATE_CONTROL(i, sp, u, StateTics)
             ASSERT(nexti >= 0 ? User[nexti] != NULL : TRUE);
             #else
@@ -6933,92 +6933,92 @@ SpriteControl(VOID)
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_VATOR], i, nexti)
         {
         u = User[i];
-        
+
         if (u->Tics)
             {
-            if ((u->Tics -= synctics) <= 0)    
+            if ((u->Tics -= synctics) <= 0)
                 SetVatorActive(i);
             else
                 continue;
-            }    
-            
+            }
+
         if (!TEST(u->Flags, SPR_ACTIVE))
             continue;
-    
+
         (*User[i]->ActorActionFunc) (i);
         }
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_SPIKE], i, nexti)
         {
         u = User[i];
-        
+
         if (u->Tics)
             {
-            if ((u->Tics -= synctics) <= 0)    
+            if ((u->Tics -= synctics) <= 0)
                 SetSpikeActive(i);
             else
                 continue;
-            }    
-            
+            }
+
         if (!TEST(u->Flags, SPR_ACTIVE))
             continue;
-    
+
         (*User[i]->ActorActionFunc) (i);
         }
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_ROTATOR], i, nexti)
         {
         u = User[i];
-        
+
         if (u->Tics)
             {
-            if ((u->Tics -= synctics) <= 0)    
+            if ((u->Tics -= synctics) <= 0)
                 SetRotatorActive(i);
             else
                 continue;
-            }    
-            
+            }
+
         if (!TEST(u->Flags, SPR_ACTIVE))
             continue;
-    
+
         (*User[i]->ActorActionFunc) (i);
         }
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_SLIDOR], i, nexti)
         {
         u = User[i];
-        
+
         if (u->Tics)
             {
-            if ((u->Tics -= synctics) <= 0)    
+            if ((u->Tics -= synctics) <= 0)
                 SetSlidorActive(i);
             else
                 continue;
-            }    
-            
+            }
+
         if (!TEST(u->Flags, SPR_ACTIVE))
             continue;
-    
+
         (*User[i]->ActorActionFunc) (i);
         }
-        
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_SUICIDE], i, nexti)
         {
         KillSprite(i);
         }
     }
 
-                                                                                   
-//                                                                                 
-// This moves an actor about with FAFgetzrange clip adjustment                     
-//                                                                                 
-                                                                                   
-/*                                                                                 
-                                                                                   
-  !AIC KEY - calls clipmove - Look through and try to understatnd  Should          
+
+//
+// This moves an actor about with FAFgetzrange clip adjustment
+//
+
+/*
+
+  !AIC KEY - calls clipmove - Look through and try to understatnd  Should
   hopefully never have to change this.  Its very delicate.
-  
-*/    
+
+*/
 
 int
 move_sprite(short spritenum, int xchange, int ychange, int zchange, int ceildist, int flordist, ULONG cliptype, int numtics)
@@ -7036,11 +7036,11 @@ move_sprite(short spritenum, int xchange, int ychange, int zchange, int ceildist
 
     // Can't modify sprite sectors
     // directly becuase of linked lists
-    dasectnum = lastsectnum = spr->sectnum;           
+    dasectnum = lastsectnum = spr->sectnum;
 
     // Must do this if not using the new
     // centered centering (of course)
-    daz = spr->z;                       
+    daz = spr->z;
 
     if (TEST(spr->cstat, CSTAT_SPRITE_YCENTER))
         {
@@ -7061,24 +7061,24 @@ move_sprite(short spritenum, int xchange, int ychange, int zchange, int ceildist
     ((xchange * numtics) << 11), ((ychange * numtics) << 11),
     (((int) spr->clipdist) << 2), ceildist, flordist, cliptype);
     clipmoveboxtracenum = 3;
-    
+
     //if (TEST(retval, HIT_MASK) == HIT_WALL)
     //    {
     //    CON_Message("retval = %ld",NORM_WALL(retval));
     //    CON_Message("clipdist = %d",spr->clipdist);
     //    }
-        
+
     if (dasectnum < 0)
         {
         retval = HIT_WALL;
         //ASSERT(TRUE == FALSE);
         return(retval);
         }
-    
+
     if ((dasectnum != spr->sectnum) && (dasectnum >= 0))
         changespritesect(spritenum, dasectnum);
 
-    // took this out - may not be to relevant anymore    
+    // took this out - may not be to relevant anymore
     //ASSERT(inside(spr->x,spr->y,dasectnum));
 
     // Set the blocking bit to 0 temporarly so FAFgetzrange doesn't pick
@@ -7099,7 +7099,7 @@ move_sprite(short spritenum, int xchange, int ychange, int zchange, int ceildist
     // !AIC - puts getzrange results into USER varaible u->loz, u->hiz, u->lo_sectp, u->hi_sectp, etc.
     // Takes info from global variables
     DoActorGlobZ(spritenum);
-    
+
     daz = spr->z + ((zchange * numtics) >> 3);
 
     // test for hitting ceiling or floor
@@ -7121,10 +7121,10 @@ move_sprite(short spritenum, int xchange, int ychange, int zchange, int ceildist
         spr->z = daz;
         }
 
-    // extra processing for Stacks and warping    
+    // extra processing for Stacks and warping
     if (FAF_ConnectArea(spr->sectnum))
         setspritez(spritenum, spr->x, spr->y, spr->z);
-        
+
     if (TEST(sector[spr->sectnum].extra, SECTFX_WARP_SECTOR))
         {
         SPRITEp sp_warp;
@@ -7133,7 +7133,7 @@ move_sprite(short spritenum, int xchange, int ychange, int zchange, int ceildist
             ActorWarpUpdatePos(spritenum, dasectnum);
             ActorWarpType(spr, sp_warp);
             }
-            
+
         if (spr->sectnum != lastsectnum)
             {
             if ((sp_warp = Warp(&spr->x, &spr->y, &spr->z, &dasectnum)))
@@ -7141,36 +7141,36 @@ move_sprite(short spritenum, int xchange, int ychange, int zchange, int ceildist
                 ActorWarpUpdatePos(spritenum, dasectnum);
                 ActorWarpType(spr, sp_warp);
                 }
-            }    
+            }
         }
-        
+
     return (retval);
     }
 
 // not used - SLOW!
-    
-int pushmove_sprite(short SpriteNum)    
+
+int pushmove_sprite(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     short sectnum, ret;
     int daz;
-    
+
     daz = sp->z - u->zclip;
     sectnum = sp->sectnum;
-    ret = pushmove(&sp->x, &sp->y, &daz, &sectnum, 
+    ret = pushmove(&sp->x, &sp->y, &daz, &sectnum,
         (((int)sp->clipdist)<<2)-GETZRANGE_CLIP_ADJ, u->ceiling_dist, u->floor_dist, CLIPMASK_ACTOR);
-    
+
     if (sectnum != sp->sectnum && sectnum >= 0)
         changespritesect(SpriteNum, sectnum);
-    
+
     if (ret < 0)
         {
         //DSPRINTF(ds,"Pushed out!!!!! sp->sectnum %d", sp->sectnum);
         MONO_PRINT(ds);
         }
-        
-    sp->z = daz + u->zclip;    
+
+    sp->z = daz + u->zclip;
     return(0);
     }
 
@@ -7184,7 +7184,7 @@ VOID MissileWarpUpdatePos(short SpriteNum, short sectnum)
     changespritesect(SpriteNum, sectnum);
     MissileZrange(SpriteNum);
     }
-    
+
 VOID ActorWarpUpdatePos(short SpriteNum, short sectnum)
     {
     USERp u = User[SpriteNum];
@@ -7204,13 +7204,13 @@ VOID MissileWarpType(SPRITEp sp, SPRITEp sp_warp)
         case WARP_FLOOR_PLANE:
             return;
         }
-    
+
     switch (SP_TAG3(sp_warp))
         {
         case 1:
             break;
         default:
-            PlaySound(DIGI_ITEM_SPAWN, &sp->x, &sp->y, &sp->z, v3df_none);        
+            PlaySound(DIGI_ITEM_SPAWN, &sp->x, &sp->y, &sp->z, v3df_none);
             //DoSpawnTeleporterEffectPlace(sp);
             DoSpawnItemTeleporterEffect(sp);
             break;
@@ -7224,12 +7224,12 @@ VOID ActorWarpType(SPRITEp sp, SPRITEp sp_warp)
         case 1:
             break;
         default:
-            PlaySound(DIGI_ITEM_SPAWN, &sp->x, &sp->y, &sp->z, v3df_none);        
+            PlaySound(DIGI_ITEM_SPAWN, &sp->x, &sp->y, &sp->z, v3df_none);
             DoSpawnTeleporterEffectPlace(sp);
             break;
         }
     }
-    
+
 //
 // This moves a small projectile with FAFgetzrangepoint
 //
@@ -7239,13 +7239,13 @@ MissileWaterAdjust(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
-    
+
     if (u->lo_sectp)
         {
         SECT_USERp sectu = SectUser[u->lo_sectp - sector];
         if (sectu && sectu->depth)
             u->loz -= Z(sectu->depth);
-        }    
+        }
     return(0);
     }
 
@@ -7255,7 +7255,7 @@ MissileZrange(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     short tempshort;
-    
+
     // Set the blocking bit to 0 temporarly so FAFgetzrange doesn't pick
     // up its own sprite
     tempshort = sp->cstat;
@@ -7270,7 +7270,7 @@ MissileZrange(short SpriteNum)
     return(0);
     }
 
-    
+
 int
 move_missile(short spritenum, int xchange, int ychange, int zchange, int ceildist, int flordist, ULONG cliptype, int numtics)
     {
@@ -7287,11 +7287,11 @@ move_missile(short spritenum, int xchange, int ychange, int zchange, int ceildis
 
     // Can't modify sprite sectors
     // directly becuase of linked lists
-    dasectnum = lastsectnum = sp->sectnum;           
+    dasectnum = lastsectnum = sp->sectnum;
 
     // Can't modify sprite sectors
     // directly becuase of linked lists
-    daz = sp->z;                       
+    daz = sp->z;
 
     if (TEST(sp->cstat, CSTAT_SPRITE_YCENTER))
         {
@@ -7336,16 +7336,16 @@ move_missile(short spritenum, int xchange, int ychange, int zchange, int ceildis
     sp->cstat = tempshort;
 
     DoActorGlobZ(spritenum);
-    
+
     // getzrangepoint moves water down
     // missiles don't need the water to be down
     MissileWaterAdjust(spritenum);
 
     daz = sp->z + ((zchange * numtics) >> 3);
-    
+
     // NOTE: this does not tell you when you hit a floor sprite
     // this case is currently treated like it hit a sector
-    
+
     // test for hitting ceiling or floor
     if (daz - zh <= u->hiz + ceildist)
         {
@@ -7354,7 +7354,7 @@ move_missile(short spritenum, int xchange, int ychange, int zchange, int ceildis
         if (retval == 0)
             retval = dasectnum|HIT_SECTOR;
         }
-    else    
+    else
     if (daz - zh > u->loz - flordist)
         {
         sp->z = u->loz + zh - flordist;
@@ -7365,20 +7365,20 @@ move_missile(short spritenum, int xchange, int ychange, int zchange, int ceildis
         {
         sp->z = daz;
         }
-        
+
     if (FAF_ConnectArea(sp->sectnum))
         setspritez(spritenum, sp->x, sp->y, sp->z);
-        
+
     if (TEST(sector[sp->sectnum].extra, SECTFX_WARP_SECTOR))
         {
         SPRITEp sp_warp;
-        
+
         if ((sp_warp = WarpPlane(&sp->x, &sp->y, &sp->z, &dasectnum)))
             {
             MissileWarpUpdatePos(spritenum, dasectnum);
             MissileWarpType(sp, sp_warp);
             }
-            
+
         if (sp->sectnum != lastsectnum)
             {
             if ((sp_warp = Warp(&sp->x, &sp->y, &sp->z, &dasectnum)))
@@ -7386,9 +7386,9 @@ move_missile(short spritenum, int xchange, int ychange, int zchange, int ceildis
                 MissileWarpUpdatePos(spritenum, dasectnum);
                 MissileWarpType(sp, sp_warp);
                 }
-            }    
+            }
         }
-        
+
     if (retval && TEST(sector[sp->sectnum].ceilingstat, CEILING_STAT_PLAX))
         {
         if (sp->z < sector[sp->sectnum].ceilingz)
@@ -7397,7 +7397,7 @@ move_missile(short spritenum, int xchange, int ychange, int zchange, int ceildis
             SET(retval, HIT_PLAX_WALL);
             }
         }
-        
+
     if (retval && TEST(sector[sp->sectnum].floorstat, FLOOR_STAT_PLAX))
         {
         if (sp->z > sector[sp->sectnum].floorz)
@@ -7406,7 +7406,7 @@ move_missile(short spritenum, int xchange, int ychange, int zchange, int ceildis
             SET(retval, HIT_PLAX_WALL);
             }
         }
-        
+
     return (retval);
     }
 
@@ -7428,11 +7428,11 @@ move_ground_missile(short spritenum, int xchange, int ychange, int zchange, int 
 
     // Can't modify sprite sectors
     // directly becuase of linked lists
-    dasectnum = lastsectnum = sp->sectnum;           
+    dasectnum = lastsectnum = sp->sectnum;
 
-    daz = sp->z;                       
+    daz = sp->z;
     zh = 0;
-    
+
     // climbing a wall
     if (u->z_tgt)
         {
@@ -7447,23 +7447,23 @@ move_ground_missile(short spritenum, int xchange, int ychange, int zchange, int 
                 {
                 sp->z -= Z(30);
                 return(retval);
-                }    
-            }    
+                }
+            }
         else
-            u->z_tgt = 0;    
+            u->z_tgt = 0;
         }
 
-    ox = sp->x;    
-    oy = sp->y;    
-    sp->x += xchange/2;    
-    sp->y += ychange/2;    
-    
+    ox = sp->x;
+    oy = sp->y;
+    sp->x += xchange/2;
+    sp->y += ychange/2;
+
     updatesector(sp->x, sp->y, &dasectnum);
 
     if (dasectnum < 0)
         {
         // back up and try again
-        dasectnum = lastsectnum = sp->sectnum;           
+        dasectnum = lastsectnum = sp->sectnum;
         sp->x = ox;
         sp->y = oy;
         clipmoveboxtracenum = 1;
@@ -7481,39 +7481,39 @@ move_ground_missile(short spritenum, int xchange, int ychange, int zchange, int 
         return(retval);
         }
 
-    
+
     if (retval)  // ran into a white wall
         {
         int new_loz,new_hiz;
-        
+
         // back up and try to clip UP
-        //dasectnum = lastsectnum = sp->sectnum;           
+        //dasectnum = lastsectnum = sp->sectnum;
         //sp->x = ox;
         //sp->y = oy;
-        
+
         #if 0
-        getzsofslope(dasectnum, sp->x, sp->y, &new_hiz, &new_loz);    
-        
+        getzsofslope(dasectnum, sp->x, sp->y, &new_hiz, &new_loz);
+
         if (labs(sp->z - new_hiz) > Z(40))
             {
             u->z_tgt = new_hiz;
             retval = 0;
             return(retval);
             }
-        else 
-        #endif   
+        else
+        #endif
             return(retval);
         }
-    
-        
+
+
     u->z_tgt = 0;
     if ((dasectnum != sp->sectnum) && (dasectnum >= 0))
         {
         int new_loz,new_hiz;
-        getzsofslope(dasectnum, sp->x, sp->y, &new_hiz, &new_loz);    
-        
+        getzsofslope(dasectnum, sp->x, sp->y, &new_hiz, &new_loz);
+
         sp->z = new_loz;
-        
+
         #if 0
         if (labs(sp->z - new_loz) > Z(40))
             {
@@ -7522,8 +7522,8 @@ move_ground_missile(short spritenum, int xchange, int ychange, int zchange, int 
                 // travelling DOWN
                 u->z_tgt = new_loz;
                 changespritesect(spritenum, dasectnum);
-                
-                getzsofslope(sp->sectnum, sp->x, sp->y, &u->hiz, &u->loz);    
+
+                getzsofslope(sp->sectnum, sp->x, sp->y, &u->hiz, &u->loz);
                 u->hi_sectp = u->lo_sectp = &sector[sp->sectnum];
                 u->hi_sp = u->lo_sp = NULL;
                 return(retval);
@@ -7532,29 +7532,29 @@ move_ground_missile(short spritenum, int xchange, int ychange, int zchange, int 
                 {
                 // travelling UP
                 u->z_tgt = new_loz;
-                
+
                 // back up and climb wall
-                dasectnum = lastsectnum = sp->sectnum;           
+                dasectnum = lastsectnum = sp->sectnum;
                 sp->x = ox;
                 sp->y = oy;
                 return(retval);
-                }    
+                }
             }
         else
             {
             u->z_tgt = 0;
             }
-        #endif    
-        
+        #endif
+
         changespritesect(spritenum, dasectnum);
         }
 
-    getzsofslope(sp->sectnum, sp->x, sp->y, &u->hiz, &u->loz);    
-    
+    getzsofslope(sp->sectnum, sp->x, sp->y, &u->hiz, &u->loz);
+
     u->hi_sectp = u->lo_sectp = &sector[sp->sectnum];
     u->hi_sp = u->lo_sp = NULL;
     sp->z = u->loz - Z(8);
-    
+
     if (labs(u->hiz - u->loz) < Z(12))
         {
         // we've gone into a very small place - kill it
@@ -7562,24 +7562,24 @@ move_ground_missile(short spritenum, int xchange, int ychange, int zchange, int 
         SET(retval, HIT_PLAX_WALL);
         return(retval);
         }
-    
+
     // getzrangepoint moves water down
     // missiles don't need the water to be down
     //MissileWaterAdjust(spritenum);
 
     //if (FAF_ConnectArea(sp->sectnum))
     //    setspritez(spritenum, sp->x, sp->y, sp->z);
-        
+
     if (TEST(sector[sp->sectnum].extra, SECTFX_WARP_SECTOR))
         {
         SPRITEp sp_warp;
-        
+
         if ((sp_warp = WarpPlane(&sp->x, &sp->y, &sp->z, &dasectnum)))
             {
             MissileWarpUpdatePos(spritenum, dasectnum);
             MissileWarpType(sp, sp_warp);
             }
-            
+
         if (sp->sectnum != lastsectnum)
             {
             if ((sp_warp = Warp(&sp->x, &sp->y, &sp->z, &dasectnum)))
@@ -7587,14 +7587,14 @@ move_ground_missile(short spritenum, int xchange, int ychange, int zchange, int 
                 MissileWarpUpdatePos(spritenum, dasectnum);
                 MissileWarpType(sp, sp_warp);
                 }
-            }    
+            }
         }
-      
+
     return (retval);
     }
-    
-/*    
-int push_check(short SpriteNum)    
+
+/*
+int push_check(short SpriteNum)
     {
     switch (sprite[SpriteNum].lotag)
         {
@@ -7603,15 +7603,15 @@ int push_check(short SpriteNum)
             SPRITEp sp;
             USERp u;
             short i,nexti,sect;
-            
+
             //DSPRINTF(ds,"Door Closing %d",sectnum);
             MONO_PRINT(ds);
-            
+
             TRAVERSE_SPRITE_SECT(headspritesect[sectnum], i, nexti)
                 {
                 sp = &sprite[i];
                 u = User[i];
-                
+
                 sect = pushmove(&sp->x, &sp->y, &sp->z, &sp->sectnum, (((int)sp->clipdist)<<2)-8, u->ceiling_dist, u->floor_dist, CLIPMASK0);
                 if (sect == -1)
                     {
@@ -7620,8 +7620,8 @@ int push_check(short SpriteNum)
                 }
             }
         }
-    }   
-*/    
+    }
+*/
 
 
 #include "saveable.h"

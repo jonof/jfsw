@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -35,71 +35,71 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "track.h"
 
 
-DECISION EelBattle[] = 
+DECISION EelBattle[] =
     {
     {649,   InitActorMoveCloser         },
     {650,   InitActorAlertNoise         },
     {1024,  InitActorMoveCloser         }
     };
 
-DECISION EelOffense[] = 
+DECISION EelOffense[] =
     {
     {649,   InitActorMoveCloser         },
     {750,   InitActorAlertNoise         },
     {1024,  InitActorMoveCloser         }
     };
 
-DECISION EelBroadcast[] = 
+DECISION EelBroadcast[] =
     {
     {3,    InitActorAlertNoise         },
     {6,    InitActorAmbientNoise       },
     {1024,  InitActorDecide            }
     };
 
-DECISION EelSurprised[] = 
+DECISION EelSurprised[] =
     {
     {701,   InitActorMoveCloser        },
     {1024,  InitActorDecide            }
     };
 
-DECISION EelEvasive[] = 
+DECISION EelEvasive[] =
     {
     { 790,  InitActorRunAway           },
     {1024,  InitActorMoveCloser        },
     };
 
-DECISION EelLostTarget[] = 
+DECISION EelLostTarget[] =
     {
     {900,   InitActorFindPlayer         },
     {1024,  InitActorWanderAround       }
     };
 
-DECISION EelCloseRange[] = 
+DECISION EelCloseRange[] =
     {
     {950,   InitActorAttack            },
     {1024,  InitActorReposition            }
     };
 
 ANIMATOR InitEelFire;
-    
-DECISION EelTouchTarget[] = 
+
+DECISION EelTouchTarget[] =
     {
     {1024,  InitActorAttack            },
     };
-    
-PERSONALITY EelPersonality = 
+
+PERSONALITY EelPersonality =
     {
-    EelBattle, 
-    EelOffense, 
-    EelBroadcast, 
-    EelSurprised, 
-    EelEvasive, 
-    EelLostTarget, 
+    EelBattle,
+    EelOffense,
+    EelBroadcast,
+    EelSurprised,
+    EelEvasive,
+    EelLostTarget,
     EelCloseRange,
     EelTouchTarget
     };
-    
-ATTRIBUTE EelAttrib = 
+
+ATTRIBUTE EelAttrib =
     {
     {100, 110, 120, 130},               // Speeds
     {3, 0, -2, -3},                     // Tic Adjusts
@@ -108,8 +108,8 @@ ATTRIBUTE EelAttrib =
      0, 0, 0,
      0,0,0,0}
     };
-    
-//////////////////////    
+
+//////////////////////
 // EEL RUN
 //////////////////////
 
@@ -150,7 +150,7 @@ STATE s_EelRun[5][4] =
     {EEL_RUN_R4 + 1, EEL_RUN_RATE, DoEelMove, &s_EelRun[4][0]},
     }
     };
-    
+
 STATEp sg_EelRun[] =
     {
     &s_EelRun[0][0],
@@ -160,7 +160,7 @@ STATEp sg_EelRun[] =
     &s_EelRun[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // EEL STAND
 //
@@ -182,10 +182,10 @@ STATE s_EelStand[5][1] =
     {EEL_RUN_R3 + 0, EEL_RUN_RATE, DoEelMove, &s_EelStand[3][0]},
     },
     {
-    {EEL_RUN_R4 + 0, EEL_RUN_RATE, DoEelMove, &s_EelStand[4][0]}, 
+    {EEL_RUN_R4 + 0, EEL_RUN_RATE, DoEelMove, &s_EelStand[4][0]},
     }
     };
-    
+
 STATEp sg_EelStand[] =
     {
     &s_EelStand[0][0],
@@ -195,7 +195,7 @@ STATEp sg_EelStand[] =
     &s_EelStand[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // EEL FIRE
 //
@@ -252,7 +252,7 @@ STATE s_EelAttack[5][7] =
     {EEL_RUN_R0 + 3, EEL_FIRE_RATE,    DoEelMove,             &s_EelAttack[4][6]}
     }
     };
-    
+
 STATEp sg_EelAttack[] =
     {
     &s_EelAttack[0][0],
@@ -261,14 +261,14 @@ STATEp sg_EelAttack[] =
     &s_EelAttack[3][0],
     &s_EelAttack[4][0]
     };
-    
 
-//////////////////////    
+
+//////////////////////
 //
 // EEL DIE
 //
 //////////////////////
-    
+
 #define EEL_DIE_RATE 20
 
 ANIMATOR DoEelDeath;
@@ -298,7 +298,7 @@ STATEp sg_EelDead[] =
     s_EelDead
     };
 
-   
+
 /*
 STATEp *Stand[MAX_WEAPONS];
 STATEp *Run;
@@ -322,16 +322,16 @@ STATEp *Attack[6];
 STATEp *Special[2];
 */
 
-    
+
 ACTOR_ACTION_SET EelActionSet =
   {
   sg_EelStand,
   sg_EelRun,
-  NULL, 
-  NULL, 
-  NULL, 
-  sg_EelRun, 
-  NULL, 
+  NULL,
+  NULL,
+  NULL,
+  sg_EelRun,
+  NULL,
   NULL,
   sg_EelStand,
   NULL,
@@ -355,30 +355,30 @@ int DoEelMatchPlayerZ(short SpriteNum);
 
 
 void
-EelCommon(short SpriteNum)    
+EelCommon(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     sp->clipdist = (100) >> 2;
     u->floor_dist = Z(16);
     u->floor_dist = Z(16);
     u->ceiling_dist = Z(20);
-    
+
     u->sz = sp->z;
-    
+
     sp->xrepeat = 35;
     sp->yrepeat = 27;
     u->Radius = 400;
-}    
+}
 
-int 
-SetupEel(short SpriteNum)    
+int
+SetupEel(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -395,22 +395,22 @@ SetupEel(short SpriteNum)
     DoActorSetSpeed(SpriteNum, NORM_SPEED);
     u->StateEnd = s_EelDie;
     u->Rot = sg_EelRun;
-    
+
     EnemyDefaults(SpriteNum, &EelActionSet, &EelPersonality);
-    
+
     SET(u->Flags, SPR_NO_SCAREDZ|SPR_XFLIP_TOGGLE);
 
     EelCommon(SpriteNum);
-    
+
     RESET(u->Flags, SPR_SHADOW); // Turn off shadows
     u->zclip = Z(8);
 
     return(0);
-}    
+}
 
 #if 0
-int 
-NewEel(short SpriteNum)    
+int
+NewEel(short SpriteNum)
 {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
@@ -419,39 +419,39 @@ NewEel(short SpriteNum)
     ANIMATOR DoActorDecide;
     short new;
 
-    
+
     new = SpawnSprite(STAT_ENEMY, EEL_RUN_R0, &s_EelBirth, sp->sectnum, sp->x, sp->y, sp->z, sp->ang, 50);
-    
+
     nu = User[new];
     np = &sprite[new];
-    
+
     ChangeState(new, &s_EelBirth);
     nu->StateEnd = s_EelDie;
     nu->Rot = sg_EelRun;
     np->pal = nu->spal = u->spal;
-    
+
     nu->ActorActionSet = &EelActionSet;
-    
+
     np->shade = sp->shade;
-    
+
     EelCommon(new);
 
     return(0);
-}    
+}
 #endif
 
 int NullEel(short SpriteNum)
 {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
-        
+
     DoEelMatchPlayerZ(SpriteNum);
-            
+
     DoActorSectorDamage(SpriteNum);
-    
+
     return(0);
 }
 
@@ -463,7 +463,7 @@ int DoEelMatchPlayerZ(short SpriteNum)
     int zdiff,zdist;
     int loz,hiz;
     int dist,a,b,c;
-    
+
     int bound;
 
     if (FAF_ConnectArea(sp->sectnum))
@@ -473,15 +473,15 @@ int DoEelMatchPlayerZ(short SpriteNum)
             u->hiz = sector[sp->sectnum].ceilingz + Z(16);
             u->hi_sectp = &sector[sp->sectnum];
             }
-        else    
+        else
             {
             if (u->hiz < sector[sp->sectnum].ceilingz + Z(16))
                 u->hiz = sector[sp->sectnum].ceilingz + Z(16);
             }
         }
-    
+
     // actor does a sine wave about u->sz - this is the z mid point
-    
+
     zdiff = (SPRITEp_BOS(tsp) - Z(8)) - u->sz;
 
     // check z diff of the player and the sprite
@@ -493,31 +493,31 @@ int DoEelMatchPlayerZ(short SpriteNum)
             u->sz += 160 * ACTORMOVETICS;
         else
             u->sz -= 160 * ACTORMOVETICS;
-        }    
-    
+        }
+
     #define EEL_BOB_AMT (Z(4))
-    
+
     // save off lo and hi z
     loz = u->loz;
     hiz = u->hiz;
-    
+
     // adjust loz/hiz for water depth
     if (u->lo_sectp && SectUser[u->lo_sectp - sector] && SectUser[u->lo_sectp - sector]->depth)
         loz -= Z(SectUser[u->lo_sectp - sector]->depth) - Z(8);
-    
+
     // lower bound
     if (u->lo_sp && u->tgt_sp == u->hi_sp)
         {
         DISTANCE(sp->x, sp->y, u->lo_sp->x, u->lo_sp->y, dist, a, b, c);
         if(dist <= 300)
             bound = u->sz;
-        else    
+        else
             bound = loz - u->floor_dist;
         }
     else
         bound = loz - u->floor_dist - EEL_BOB_AMT;
-        
-    if (u->sz > bound)    
+
+    if (u->sz > bound)
         {
         u->sz = bound;
         }
@@ -528,25 +528,25 @@ int DoEelMatchPlayerZ(short SpriteNum)
         DISTANCE(sp->x, sp->y, u->hi_sp->x, u->hi_sp->y, dist, a, b, c);
         if(dist <= 300)
             bound = u->sz;
-        else    
+        else
             bound = hiz + u->ceiling_dist;
-        }    
+        }
     else
         bound = hiz + u->ceiling_dist + EEL_BOB_AMT;
-        
-    if (u->sz < bound)    
+
+    if (u->sz < bound)
         {
         u->sz = bound;
         }
-    
-    u->sz = min(u->sz, loz - u->floor_dist);    
-    u->sz = max(u->sz, hiz + u->ceiling_dist);    
-    
+
+    u->sz = min(u->sz, loz - u->floor_dist);
+    u->sz = max(u->sz, hiz + u->ceiling_dist);
+
     u->Counter = (u->Counter + (ACTORMOVETICS << 3) + (ACTORMOVETICS << 1)) & 2047;
     sp->z = u->sz + ((EEL_BOB_AMT * (int)sintable[u->Counter]) >> 14);
-    
+
     bound = u->hiz + u->ceiling_dist + EEL_BOB_AMT;
-    if (sp->z < bound)    
+    if (sp->z < bound)
         {
         // bumped something
         sp->z = u->sz = bound + EEL_BOB_AMT;
@@ -555,7 +555,7 @@ int DoEelMatchPlayerZ(short SpriteNum)
     return(0);
 }
 
-int 
+int
 DoEelDeath(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -570,7 +570,7 @@ DoEelDeath(short SpriteNum)
         DoFindGroundPoint(SpriteNum);
         u->floor_dist = 0;
         DoBeginFall(SpriteNum);
-        }    
+        }
 
     if (TEST(u->Flags, SPR_SLIDING))
         DoActorSlide(SpriteNum);
@@ -581,7 +581,7 @@ DoEelDeath(short SpriteNum)
 
     u->ret = move_sprite(SpriteNum, nx, ny, 0L, u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, ACTORMOVETICS);
     DoFindGroundPoint(SpriteNum);
-        
+
     // on the ground
     if (sp->z >= u->loz)
         {
@@ -593,20 +593,20 @@ DoEelDeath(short SpriteNum)
         NewStateGroup(SpriteNum, u->ActorActionSet->Dead);
         return(0);
         }
-    
-    return(0);    
+
+    return(0);
     }
 
 int DoEelMove(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     ASSERT(u->Rot != NULL);
-    
+
     if (SpriteOverlap(SpriteNum, u->tgt_sp - sprite))
         NewStateGroup(SpriteNum, u->ActorActionSet->CloseAttack[0]);
-        
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
 
@@ -615,16 +615,16 @@ int DoEelMove(short SpriteNum)
     else
         (*u->ActorActionFunc)(SpriteNum);
 
-    //if (TEST_SYNC_KEY((Player+myconnectindex), SK_OPERATE))    
+    //if (TEST_SYNC_KEY((Player+myconnectindex), SK_OPERATE))
     //    CON_Message("Stop");
-        
+
     DoEelMatchPlayerZ(SpriteNum);
-    
+
     DoActorSectorDamage(SpriteNum);
-    
+
     return(0);
-    
-}    
+
+}
 
 
 #include "saveable.h"

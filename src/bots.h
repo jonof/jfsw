@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -50,8 +50,8 @@ struct NODEstruct
     BOT_Actions action;         // Action to take if this node is reached
     int tics;                  // Optionally stay in this node for x tics.
     };
-    
-struct NODETREEstruct;    
+
+struct NODETREEstruct;
 typedef struct NODETREEstruct NODETREE, *NODETREEp;
 
 struct NODETREEstruct
@@ -59,10 +59,10 @@ struct NODETREEstruct
     short SpriteNum;        // Sprite number in sprite array of goal item
     NODEp tree;             // This is the node tree used to navigate to goal
     BOOL Locked;            // If list is locked, a bot is using/modifying it and
-                            // other bots cannot modify it while it's locked                            
+                            // other bots cannot modify it while it's locked
     };
 
-// Bots main action variables    
+// Bots main action variables
 typedef struct BOT_BRAIN
     {
     short tgt_inv;      // Inventory item it wants to use
@@ -75,10 +75,10 @@ typedef struct BOT_BRAIN
     } BotBrain, *BotBrain_p;
 
 // NOTE:
-// The following arrays should be saved off with save games!    
-    
+// The following arrays should be saved off with save games!
+
 // 0  = Item not accessible, no item of type was found
-// 1  = Shuriken 
+// 1  = Shuriken
 // 3  = Caltrops
 // 4  = Gas Bomb
 // 5  = Flash Bomb
@@ -104,6 +104,6 @@ typedef struct BOT_BRAIN
 // 25 = Fortune Cookie
 ////////////////////////
 extern NODETREE BOT_TREELIST[25][50]; // There can be up to 50 of each item
-                                      // with a cooresponding search tree for each  
+                                      // with a cooresponding search tree for each
 
 #endif

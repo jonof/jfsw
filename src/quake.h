@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -29,11 +29,11 @@ void ProcessQuakeOn(void);
 void ProcessQuakeSpot(void);
 void QuakeViewChange(PLAYERp pp, int *z_diff, int *x_diff, int *y_diff, short *ang_diff);
 void DoQuake(PLAYERp pp);
-BOOL SetQuake(PLAYERp pp, short tics, short amt); 
+BOOL SetQuake(PLAYERp pp, short tics, short amt);
 int SetExpQuake(SHORT Weapon);
 int SetGunQuake(SHORT SpriteNum);
 int SetPlayerQuake(PLAYERp mpp);
 int SetNuclearQuake(SHORT Weapon);
 int SetSumoQuake(SHORT SpriteNum);
 int SetSumoFartQuake(SHORT SpriteNum);
-    
+

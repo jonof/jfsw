@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -34,7 +34,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "actor.h"
 #include "track.h"
 
-DECISION LavaBattle[] = 
+DECISION LavaBattle[] =
     {
     {600,   InitActorMoveCloser         },
     {700,   InitActorAlertNoise         },
@@ -42,56 +42,56 @@ DECISION LavaBattle[] =
     {1024,  InitActorAttack             }
     };
 
-DECISION LavaOffense[] = 
+DECISION LavaOffense[] =
     {
     {700,   InitActorMoveCloser         },
     {800,   InitActorAlertNoise         },
     {1024,  InitActorAttack             }
     };
 
-DECISION LavaBroadcast[] = 
+DECISION LavaBroadcast[] =
     {
     {21,    InitActorAlertNoise        },
     {51,    InitActorAmbientNoise      },
     {1024,  InitActorDecide            }
     };
 
-DECISION LavaSurprised[] = 
+DECISION LavaSurprised[] =
     {
     {701,   InitActorMoveCloser        },
     {1024,  InitActorDecide            }
     };
 
-DECISION LavaEvasive[] = 
+DECISION LavaEvasive[] =
     {
     {10,   InitActorEvade  },
     {1024, NULL            }
     };
 
-DECISION LavaLostTarget[] = 
+DECISION LavaLostTarget[] =
     {
     {900,   InitActorFindPlayer         },
     {1024,  InitActorWanderAround       }
     };
 
-DECISION LavaCloseRange[] = 
+DECISION LavaCloseRange[] =
     {
     {700,   InitActorAttack             },
     {1024,  InitActorReposition         }
     };
 
-PERSONALITY LavaPersonality = 
+PERSONALITY LavaPersonality =
     {
-    LavaBattle, 
-    LavaOffense, 
-    LavaBroadcast, 
-    LavaSurprised, 
-    LavaEvasive, 
-    LavaLostTarget, 
+    LavaBattle,
+    LavaOffense,
+    LavaBroadcast,
+    LavaSurprised,
+    LavaEvasive,
+    LavaLostTarget,
     LavaCloseRange,
     LavaCloseRange
     };
-    
+
 ATTRIBUTE LavaAttrib =
     {
     {200, 220, 240, 270},                 // Speeds
@@ -114,13 +114,13 @@ ATTRIBUTE LavaPissedAttrib =
      DIGI_LAVABOSSSIZZLE}
     };
 
-//////////////////////    
+//////////////////////
 //
 // LAVA STAND
 //
 //////////////////////
-    
-#define LAVA_STAND_RATE 12    
+
+#define LAVA_STAND_RATE 12
 ANIMATOR DoLavaMove,NullLava,DoActorDebris,NullLava;
 
 STATE s_LavaStand[5][1] =
@@ -151,9 +151,9 @@ STATEp sg_LavaStand[] =
     s_LavaStand[3],
     s_LavaStand[4]
     };
-    
 
-//////////////////////    
+
+//////////////////////
 //
 // LAVA RUN
 //
@@ -206,7 +206,7 @@ STATEp sg_LavaRun[] =
     &s_LavaRun[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // LAVA THROW
 //
@@ -290,8 +290,8 @@ STATEp sg_LavaThrow[] =
     &s_LavaThrow[4][0]
     };
 
-    
-//////////////////////    
+
+//////////////////////
 //
 // LAVA FLAME
 //
@@ -364,12 +364,12 @@ STATEp sg_LavaFlame[] =
     &s_LavaFlame[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // LAVA DIE
 //
 //////////////////////
-    
+
 #define LAVA_DIE_RATE 20
 
 STATE s_LavaDie[] =
@@ -392,7 +392,7 @@ STATEp sg_LavaDead[] =
     {
     s_LavaDead
     };
-    
+
 /*
 STATEp *Stand[MAX_WEAPONS];
 STATEp *Run;
@@ -416,16 +416,16 @@ STATEp *Attack[6];
 STATEp *Special[2];
 */
 
-    
+
 ACTOR_ACTION_SET LavaActionSet =
   {
   sg_LavaStand,
   sg_LavaRun,
-  NULL,//sg_LavaJump,  
-  NULL,//sg_LavaFall, 
-  NULL,//sg_LavaCrawl, 
-  NULL,//sg_LavaSwim, 
-  NULL,//sg_LavaFly, 
+  NULL,//sg_LavaJump,
+  NULL,//sg_LavaFall,
+  NULL,//sg_LavaCrawl,
+  NULL,//sg_LavaSwim,
+  NULL,//sg_LavaFly,
   NULL,//sg_LavaRise,
   NULL,//sg_LavaSit,
   NULL,//sg_LavaLook,
@@ -444,14 +444,14 @@ ACTOR_ACTION_SET LavaActionSet =
   NULL,
   NULL
   };
- 
-int 
-SetupLava(short SpriteNum)    
+
+int
+SetupLava(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -473,31 +473,31 @@ SetupLava(short SpriteNum)
     sp->xrepeat = sp->yrepeat = 110;
     sp->clipdist = (512) >> 2;
     SET(u->Flags, SPR_XFLIP_TOGGLE|SPR_ELECTRO_TOLERANT);
-    
+
     u->loz = sp->z;
-    
+
     return(0);
-}    
+}
 
 int NullLava(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
 
     KeepActorOnFloor(SpriteNum);
-    
+
     DoActorSectorDamage(SpriteNum);
     return(0);
-}    
+}
 
 int DoLavaMove(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
 

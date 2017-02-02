@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -39,7 +39,7 @@ StagInfo[number].flags = flgs;
 STAG_ENTRY(SECT_SINK,                   0,      0)
 STAG_ENTRY(SECT_OPERATIONAL,            1,      0)
 STAG_ENTRY(SECT_CURRENT,                3,      0)
-STAG_ENTRY(SECT_NO_RIDE,                5,      0)      
+STAG_ENTRY(SECT_NO_RIDE,                5,      0)
 STAG_ENTRY(SECT_DIVE_AREA,              7,      STAGF_MATCH_TAG2)
 STAG_ENTRY(SECT_UNDERWATER,             8,      STAGF_MATCH_TAG2)
 STAG_ENTRY(SECT_UNDERWATER2,            9,      STAGF_MATCH_TAG2)
@@ -55,7 +55,7 @@ STAG_ENTRY(SECT_WALL_PAN_ANG,           24,     0)
 STAG_ENTRY(SECT_DEBRIS_SEWER,           25,     0)
 
 STAG_ENTRY(SECT_SO_CENTER,              27,     0)
-                                                                                            
+
 STAG_ENTRY(SECT_MATCH,                  28,     STAGF_MATCH_TAG2)
 STAG_ENTRY(SECT_LOCK_DOOR,              29,     0)
 STAG_ENTRY(SPRI_CLIMB_MARKER,           30,     0)
@@ -137,7 +137,7 @@ STAG_ENTRY(SECT_VATOR_DEST,             94,     0)
 STAG_ENTRY(CEILING_Z_ADJUST,            97,     0)
 STAG_ENTRY(FLOOR_Z_ADJUST,              98,     0)
 STAG_ENTRY(FLOOR_SLOPE_DONT_DRAW,       99,     0)
-                                                        
+
 STAG_ENTRY(SO_SCALE_INFO,               100,    0)
 STAG_ENTRY(SO_SCALE_POINT_INFO,         101,    0)
 STAG_ENTRY(SO_SCALE_XY_MULT,            102,    0)

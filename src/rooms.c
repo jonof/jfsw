@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -64,9 +64,9 @@ int COVERinsertsprite(short sectnum, short stat)
     {
     short spnum;
     spnum = insertsprite(sectnum, stat);
-    
+
     PRODUCTION_ASSERT(spnum >= 0);
-    
+
     sprite[spnum].x = sprite[spnum].y = sprite[spnum].z = 0;
     sprite[spnum].cstat = 0;
     sprite[spnum].picnum = 0;
@@ -81,11 +81,11 @@ int COVERinsertsprite(short sectnum, short stat)
     sprite[spnum].lotag = 0;
     sprite[spnum].hitag = 0;
     sprite[spnum].extra = 0;
-    
+
     return(spnum);
     }
-    
-BOOL 
+
+BOOL
 FAF_Sector(short sectnum)
     {
     short SpriteNum, Next;
@@ -119,7 +119,7 @@ VOID SetWallWarpHitscan(short sectnum)
 
     // move the the next wall
     wall_num = start_wall = sector[sectnum].wallptr;
-    
+
     // Travel all the way around loop setting wall bits
     do
         {
@@ -128,15 +128,15 @@ VOID SetWallWarpHitscan(short sectnum)
         wall_num = wall[wall_num].point2;
         }
     while(wall_num != start_wall);
-    }    
-    
+    }
+
 VOID ResetWallWarpHitscan(short sectnum)
     {
     short start_wall, wall_num;
-    
+
     // move the the next wall
     wall_num = start_wall = sector[sectnum].wallptr;
-    
+
     // Travel all the way around loop setting wall bits
     do
         {
@@ -144,9 +144,9 @@ VOID ResetWallWarpHitscan(short sectnum)
         wall_num = wall[wall_num].point2;
         }
     while(wall_num != start_wall);
-    }    
+    }
 
-VOID 
+VOID
 FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
     LONG xvect, LONG yvect, LONG zvect,
     SHORTp hitsect, SHORTp hitwall, SHORTp hitsprite,
@@ -160,15 +160,15 @@ FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
 
     if (clipmask == CLIPMASK_MISSILE)
         startclipmask = CLIPMASK_WARP_HITSCAN;
-        
+
     hitscan(x, y, z, sectnum, xvect, yvect, zvect,
         hitsect, hitwall, hitsprite,
         hitx, hity, hitz, startclipmask);
 
     if (*hitsect < 0)
         return;
-    
-    if (*hitwall >= 0)    
+
+    if (*hitwall >= 0)
         {
         // hitscan warping
         if (TEST(wall[*hitwall].cstat, CSTAT_WALL_WARP_HITSCAN))
@@ -182,27 +182,27 @@ FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
 
             //DSPRINTF(ds,"sx %d, sy %d, sz %d, xvect %d, yvect %d",sx, sy, sz,xvect,yvect);
             MONO_PRINT(ds);
-            
+
             // back it up a bit to get a correct warp location
             *hitx -= xvect>>9;
             *hity -= yvect>>9;
-            
+
             // warp to new x,y,z, sectnum
             if (Warp(hitx, hity, hitz, hitsect))
                 {
                 dest_sect = *hitsect;
-                
+
                 // hitscan needs to pass through dest sect
                 ResetWallWarpHitscan(dest_sect);
-                
+
                 // NOTE: This could be recursive I think if need be
                 hitscan(*hitx, *hity, *hitz, *hitsect, xvect, yvect, zvect,
                     hitsect, hitwall, hitsprite,
                     hitx, hity, hitz, startclipmask);
-                    
+
                 // reset hitscan block for dest sect
                 SetWallWarpHitscan(dest_sect);
-                
+
                 return;
                 }
             else
@@ -210,7 +210,7 @@ FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
             //DSPRINTF(ds,"hitx %d, hity %d, hitz %d",*hitx, *hity, *hitz);
             MONO_PRINT(ds);
                 ASSERT(TRUE == FALSE);
-                }    
+                }
             }
         }
 
@@ -227,9 +227,9 @@ FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
                     hitscan(*hitx, *hity, *hitz, *hitsect, xvect, yvect, zvect,
                         hitsect, hitwall, hitsprite,
                         hitx, hity, hitz, clipmask);
-                        
-                    return;        
-                    }        
+
+                    return;
+                    }
                 }
             else
                 {
@@ -238,12 +238,12 @@ FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
                     hitscan(*hitx, *hity, *hitz, *hitsect, xvect, yvect, zvect,
                         hitsect, hitwall, hitsprite,
                         hitx, hity, hitz, clipmask);
-                        
-                    return;        
+
+                    return;
                     }
                 }
             }
-            
+
         getzsofslope(*hitsect, *hitx, *hity, &hiz, &loz);
         if (labs(*hitz - loz) < Z(4))
             {
@@ -271,7 +271,7 @@ FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
         }
     }
 
-BOOL 
+BOOL
 FAFcansee(LONG xs, LONG ys, LONG zs, SHORT sects,
     LONG xe, LONG ye, LONG ze, SHORT secte)
     {
@@ -283,9 +283,9 @@ FAFcansee(LONG xs, LONG ys, LONG zs, SHORT sects,
     int hitx, hity, hitz;
     int dist;
     BOOL plax_found = FALSE;
-    
+
     ASSERT(sects >= 0 && secte >= 0);
-    
+
     // early out to regular routine
     if (!FAF_Sector(sects) && !FAF_Sector(secte))
         {
@@ -293,7 +293,7 @@ FAFcansee(LONG xs, LONG ys, LONG zs, SHORT sects,
         }
     else
         {
-        }    
+        }
 
     // get angle
     ang = getangle(xe - xs, ye - ys);
@@ -301,7 +301,7 @@ FAFcansee(LONG xs, LONG ys, LONG zs, SHORT sects,
     // get x,y,z, vectors
     xvect = sintable[NORM_ANGLE(ang + 512)];
     yvect = sintable[NORM_ANGLE(ang)];
-    
+
     // find the distance to the target
     dist = ksqrt(SQ(xe - xs) + SQ(ye - ys));
 
@@ -309,7 +309,7 @@ FAFcansee(LONG xs, LONG ys, LONG zs, SHORT sects,
         {
         if (xe - xs != 0)
             zvect = scale(xvect, ze - zs, xe - xs);
-        else    
+        else
         if (ye - ys != 0)
             zvect = scale(yvect, ze - zs, ye - ys);
         else
@@ -317,14 +317,14 @@ FAFcansee(LONG xs, LONG ys, LONG zs, SHORT sects,
         }
     else
         zvect = 0;
-    
+
     hitscan(xs, ys, zs, sects, xvect, yvect, zvect,
     &hitsect, &hitwall, &hitsprite,
     &hitx, &hity, &hitz, CLIPMASK_MISSILE);
 
     if (hitsect < 0)
         return(FALSE);
-    
+
     // make sure it hit JUST a sector before doing a check
     if (hitwall < 0 && hitsprite < 0)
         {
@@ -349,11 +349,11 @@ FAFcansee(LONG xs, LONG ys, LONG zs, SHORT sects,
     else
         {
         return(cansee(xs,ys,zs,sects,xe,ye,ze,secte));
-        }    
+        }
 
     if (plax_found)
         return (cansee(hitx,hity,hitz,newsectnum,xe,ye,ze,secte));
-    
+
     return(FALSE);
     }
 
@@ -366,7 +366,7 @@ GetZadjustment(short sectnum, short hitag)
 
     if (!TEST(sector[sectnum].extra, SECTFX_Z_ADJUST))
         return(0L);
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_ST1], i, nexti)
         {
         sp = &sprite[i];
@@ -376,17 +376,17 @@ GetZadjustment(short sectnum, short hitag)
             return(Z(sp->lotag));
             }
         }
-    
-    return(0L);    
+
+    return(0L);
     }
-    
+
 BOOL SectorZadjust(int ceilhit, LONGp hiz, short florhit, LONGp loz)
     {
     extern int PlaxCeilGlobZadjust, PlaxFloorGlobZadjust;
     int z_amt = 0;
-    
+
     BOOL SkipFAFcheck = FALSE;
-    
+
     if ((int)florhit != -1)
         {
         switch (TEST(florhit, HIT_MASK))
@@ -394,7 +394,7 @@ BOOL SectorZadjust(int ceilhit, LONGp hiz, short florhit, LONGp loz)
             case HIT_SECTOR:
                 {
                 short hitsector = NORM_SECTOR(florhit);
-                
+
                 // don't jack with connect sectors
                 if (FAF_ConnectFloor(hitsector))
                     {
@@ -406,41 +406,41 @@ BOOL SectorZadjust(int ceilhit, LONGp hiz, short florhit, LONGp loz)
                         {
                         // see if a z adjust ST1 is around
                         z_amt = GetZadjustment(hitsector, FLOOR_Z_ADJUST);
-                        
+
                         if (z_amt)
                             {
                             // explicit z adjust overrides Connect Floor
                             *loz += z_amt;
                             SkipFAFcheck = TRUE;
                             }
-                        }    
-                        
+                        }
+
                     break;
                     }
-                    
+
                 if (!TEST(sector[hitsector].extra, SECTFX_Z_ADJUST))
                     break;
-                
+
                 // see if a z adjust ST1 is around
                 z_amt = GetZadjustment(hitsector, FLOOR_Z_ADJUST);
-                
+
                 if (z_amt)
                     {
                     // explicit z adjust overrides plax default
                     *loz += z_amt;
                     }
                 else
-                // default adjustment for plax    
+                // default adjustment for plax
                 if (TEST(sector[hitsector].floorstat, FLOOR_STAT_PLAX))
                     {
                     *loz += PlaxFloorGlobZadjust;
                     }
-                    
-                break;    
+
+                break;
                 }
             }
-        }    
-        
+        }
+
     if ((int)ceilhit != -1)
         {
         switch (TEST(ceilhit, HIT_MASK))
@@ -448,7 +448,7 @@ BOOL SectorZadjust(int ceilhit, LONGp hiz, short florhit, LONGp loz)
             case HIT_SECTOR:
                 {
                 short hitsector = NORM_SECTOR(ceilhit);
-                
+
                 // don't jack with connect sectors
                 if (FAF_ConnectCeiling(hitsector))
                     {
@@ -456,74 +456,74 @@ BOOL SectorZadjust(int ceilhit, LONGp hiz, short florhit, LONGp loz)
                         {
                         // see if a z adjust ST1 is around
                         z_amt = GetZadjustment(hitsector, CEILING_Z_ADJUST);
-                        
+
                         if (z_amt)
                             {
                             // explicit z adjust overrides Connect Floor
                             *loz += z_amt;
                             SkipFAFcheck = TRUE;
                             }
-                        }    
-                        
+                        }
+
                     break;
                     }
-                    
+
                 if (!TEST(sector[hitsector].extra, SECTFX_Z_ADJUST))
                     break;
-                    
+
                 // see if a z adjust ST1 is around
                 z_amt = GetZadjustment(hitsector, CEILING_Z_ADJUST);
-                
+
                 if (z_amt)
                     {
                     // explicit z adjust overrides plax default
                     *hiz -= z_amt;
                     }
-                else    
-                // default adjustment for plax    
+                else
+                // default adjustment for plax
                 if (TEST(sector[hitsector].ceilingstat, CEILING_STAT_PLAX))
                     {
                     *hiz -= PlaxCeilGlobZadjust;
                     }
-                    
-                break;    
+
+                break;
                 }
             }
-        }    
-    
-    return(SkipFAFcheck);    
+        }
+
+    return(SkipFAFcheck);
     }
 
-VOID WaterAdjust(short florhit, LONGp loz)    
+VOID WaterAdjust(short florhit, LONGp loz)
     {
     switch (TEST(florhit, HIT_MASK))
         {
         case HIT_SECTOR:
             {
             SECT_USERp sectu = SectUser[NORM_SECTOR(florhit)];
-            
+
             if (sectu && sectu->depth)
                 *loz += Z(sectu->depth);
-            }    
+            }
             break;
         case HIT_SPRITE:
-            break;    
+            break;
         }
-    }    
+    }
 
-VOID FAFgetzrange(LONG x, LONG y, LONG z, SHORT sectnum, 
-    LONGp hiz, LONGp ceilhit, 
-    LONGp loz, LONGp florhit, 
+VOID FAFgetzrange(LONG x, LONG y, LONG z, SHORT sectnum,
+    LONGp hiz, LONGp ceilhit,
+    LONGp loz, LONGp florhit,
     LONG clipdist, LONG clipmask)
     {
     int foo1;
     int foo2;
     BOOL SkipFAFcheck;
-    
+
     // IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // This will return invalid FAF ceiling and floor heights inside of analyzesprite
     // because the ceiling and floors get moved out of the way for drawing.
-    
+
     // early out to regular routine
     if (!FAF_ConnectArea(sectnum))
         {
@@ -532,38 +532,38 @@ VOID FAFgetzrange(LONG x, LONG y, LONG z, SHORT sectnum,
         WaterAdjust(*florhit, loz);
         return;
         }
-        
+
     getzrange(x, y, z, sectnum, hiz,  ceilhit, loz,  florhit, clipdist, clipmask);
-    SkipFAFcheck = SectorZadjust(*ceilhit, hiz, *florhit, loz);    
+    SkipFAFcheck = SectorZadjust(*ceilhit, hiz, *florhit, loz);
     WaterAdjust(*florhit, loz);
-    
+
     if (SkipFAFcheck)
         return;
-    
+
     if (FAF_ConnectCeiling(sectnum))
         {
         short uppersect = sectnum;
         int newz = *hiz - Z(2);
-        
+
         switch (TEST(*ceilhit, HIT_MASK))
             {
             case HIT_SPRITE:
                 return;
             }
-            
+
         updatesectorz(x, y, newz, &uppersect);
         if (uppersect < 0)
             _ErrMsg(ERR_STD_ARG, "Did not find a sector at %d, %d, %d", x, y, newz);
         getzrange(x, y, newz, uppersect, hiz,  ceilhit, &foo1,  &foo2, clipdist, clipmask);
         SectorZadjust(*ceilhit, hiz, -1, NULL);
         }
-    else    
+    else
     if (FAF_ConnectFloor(sectnum) && !TEST(sector[sectnum].floorstat, FLOOR_STAT_FAF_BLOCK_HITSCAN))
     //if (FAF_ConnectFloor(sectnum))
         {
         short lowersect = sectnum;
         int newz = *loz + Z(2);
-        
+
         switch (TEST(*florhit, HIT_MASK))
             {
             case HIT_SECTOR:
@@ -574,18 +574,18 @@ VOID FAFgetzrange(LONG x, LONG y, LONG z, SHORT sectnum,
             case HIT_SPRITE:
                 return;
             }
-            
+
         updatesectorz(x, y, newz, &lowersect);
         if (lowersect < 0)
             _ErrMsg(ERR_STD_ARG, "Did not find a sector at %d, %d, %d", x, y, newz);
         getzrange(x, y, newz, lowersect, &foo1,  &foo2, loz,  florhit, clipdist, clipmask);
-        SectorZadjust(-1, NULL, *florhit, loz);    
+        SectorZadjust(-1, NULL, *florhit, loz);
         WaterAdjust(*florhit, loz);
-        }           
+        }
     }
 
-VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum, 
-    LONGp hiz, LONGp ceilhit, 
+VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum,
+    LONGp hiz, LONGp ceilhit,
     LONGp loz, LONGp florhit)
     {
     int foo1;
@@ -595,23 +595,23 @@ VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum,
     // IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // This will return invalid FAF ceiling and floor heights inside of analyzesprite
     // because the ceiling and floors get moved out of the way for drawing.
-    
+
     // early out to regular routine
     if (!FAF_ConnectArea(sectnum))
         {
         getzrangepoint(x, y, z, sectnum, hiz,  ceilhit, loz,  florhit);
-        SectorZadjust(*ceilhit, hiz, *florhit, loz);    
-        WaterAdjust(*florhit, loz);    
+        SectorZadjust(*ceilhit, hiz, *florhit, loz);
+        WaterAdjust(*florhit, loz);
         return;
         }
-        
+
     getzrangepoint(x, y, z, sectnum, hiz,  ceilhit, loz,  florhit);
-    SkipFAFcheck = SectorZadjust(*ceilhit, hiz, *florhit, loz);    
-    WaterAdjust(*florhit, loz);    
-    
+    SkipFAFcheck = SectorZadjust(*ceilhit, hiz, *florhit, loz);
+    WaterAdjust(*florhit, loz);
+
     if (SkipFAFcheck)
         return;
-    
+
     if (FAF_ConnectCeiling(sectnum))
         {
         short uppersect = sectnum;
@@ -642,42 +642,42 @@ VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum,
         if (lowersect < 0)
             _ErrMsg(ERR_STD_ARG, "Did not find a sector at %d, %d, %d, sectnum %d", x, y, newz, sectnum);
         getzrangepoint(x, y, newz, lowersect, &foo1,  &foo2, loz,  florhit);
-        SectorZadjust(-1, NULL, *florhit, loz);    
-        WaterAdjust(*florhit, loz);    
-        }           
+        SectorZadjust(-1, NULL, *florhit, loz);
+        WaterAdjust(*florhit, loz);
+        }
     }
-    
+
 #if 0
-BOOL 
+BOOL
 FAF_ConnectCeiling(short sectnum)
     {
     return(sector[sectnum].ceilingpicnum == FAF_MIRROR_PIC);
     }
 
-BOOL 
+BOOL
 FAF_ConnectFloor(short sectnum)
     {
     return(sector[sectnum].floorpicnum == FAF_MIRROR_PIC);
     }
-#endif    
+#endif
 
 
 // doesn't work for blank pics
-BOOL 
+BOOL
 PicInView(short tile_num, BOOL reset)
     {
     if (TEST(gotpic[tile_num >> 3], 1 << (tile_num & 7)))
         {
         if (reset)
             RESET(gotpic[tile_num >> 3], 1 << (tile_num & 7));
-            
+
         return (TRUE);
         }
 
     return (FALSE);
     }
 
-VOID 
+VOID
 SetupMirrorTiles(VOID)
     {
     short i, nexti;
@@ -716,12 +716,12 @@ SetupMirrorTiles(VOID)
 //   use z's.  Until then, use this.  )
 
 #if 0
-void 
+void
 updatesectorz(int x, int y, int z, short *sectnum)
     {
     walltype *wal;
     int i, j, cz, fz;
-    
+
     ASSERT(*sectnum >=0 && *sectnum <= MAXSECTORS);
 
     getzsofslope(*sectnum, x, y, &cz, &fz);
@@ -730,7 +730,7 @@ updatesectorz(int x, int y, int z, short *sectnum)
         if (inside(x, y, *sectnum) != 0)
             return;
 
-    // Test the sectors immediately around your current sector    
+    // Test the sectors immediately around your current sector
     if ((*sectnum >= 0) && (*sectnum < numsectors))
         {
         wal = &wall[sector[*sectnum].wallptr];
@@ -748,7 +748,7 @@ updatesectorz(int x, int y, int z, short *sectnum)
                         *sectnum = i;
                         return;
                         }
-                    }    
+                    }
                 }
             wal++;
             j--;
@@ -756,7 +756,7 @@ updatesectorz(int x, int y, int z, short *sectnum)
         while (j != 0);
         }
 
-    // didn't find it yet so test ALL sectors    
+    // didn't find it yet so test ALL sectors
     for (i = numsectors - 1; i >= 0; i--)
         {
         getzsofslope(i, x, y, &cz, &fz);
@@ -767,7 +767,7 @@ updatesectorz(int x, int y, int z, short *sectnum)
                 *sectnum = i;
                 return;
                 }
-            }    
+            }
         }
 
     *sectnum = -1;
@@ -784,7 +784,7 @@ GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
     int sln = 0;
     short SpriteNum, Next;
     SPRITEp sp;
-    
+
     // keep a list of the last stacked sectors the view was in and
     // check those fisrt
     sln = 0;
@@ -794,7 +794,7 @@ GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
         if (inside(x, y, GlobStackSect[i]) == 1)
             {
             BOOL found = FALSE;
-            
+
             TRAVERSE_SPRITE_SECT(headspritesect[GlobStackSect[i]], SpriteNum, Next)
                 {
                 sp = &sprite[SpriteNum];
@@ -809,7 +809,7 @@ GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
 
             if (!found)
                 continue;
-                
+
             sectorlist[sln] = GlobStackSect[i];
             sln++;
             }
@@ -846,9 +846,9 @@ GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
                 sln++;
                 }
             }
-        }    
+        }
 
-    // might not find ANYTHING if not tagged right    
+    // might not find ANYTHING if not tagged right
     if (sln == 0)
         {
         *upper = -1;
@@ -857,7 +857,7 @@ GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
         }
     else
     // inside will somtimes find that you are in two different sectors if the x,y
-    // is exactly on a sector line.    
+    // is exactly on a sector line.
     if (sln > 2)
         {
         //DSPRINTF(ds, "TOO MANY SECTORS FOUND: x=%d, y=%d, match=%d, num sectors %d, %d, %d, %d, %d, %d", x, y, match, sln, sectorlist[0], sectorlist[1], sectorlist[2], sectorlist[3], sectorlist[4]);
@@ -884,7 +884,7 @@ GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
         }
     }
 
-BOOL 
+BOOL
 FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     {
     int xoff = 0;
@@ -914,7 +914,7 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
         {
         sp = &sprite[i];
-        
+
         if (sp->lotag == match)
             {
             // determine x,y position
@@ -932,16 +932,16 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
                 }
             }
         }
-    
-    if (*sectnum < 0)    
+
+    if (*sectnum < 0)
         return(FALSE);
 
-    ASSERT(sp);    
-    ASSERT(sp->hitag == VIEW_THRU_FLOOR);    
-    
+    ASSERT(sp);
+    ASSERT(sp->hitag == VIEW_THRU_FLOOR);
+
     pix_diff = labs(z - sector[sp->sectnum].floorz) >> 8;
     newz = sector[sp->sectnum].floorz + ((pix_diff / 128) + 1) * Z(128);
-        
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
         {
         sp = &sprite[i];
@@ -956,7 +956,7 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
                 save.zval[save.zcount] = sector[sp->sectnum].floorz;
                 save.pic[save.zcount] = sector[sp->sectnum].floorpicnum;
                 save.slope[save.zcount] = sector[sp->sectnum].floorheinum;
-                
+
                 sector[sp->sectnum].floorz = newz;
                 // don't change FAF_MIRROR_PIC - ConnectArea
                 if (sector[sp->sectnum].floorpicnum != FAF_MIRROR_PIC)
@@ -972,7 +972,7 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     return (TRUE);
     }
 
-BOOL 
+BOOL
 FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     {
     int xoff = 0;
@@ -998,7 +998,7 @@ FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
             }
         }
 
-                
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
         {
         sp = &sprite[i];
@@ -1020,17 +1020,17 @@ FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
                 }
             }
         }
-    
-    if (*sectnum < 0)    
+
+    if (*sectnum < 0)
         return(FALSE);
 
-    ASSERT(sp);    
-    ASSERT(sp->hitag == VIEW_THRU_CEILING);    
-    
+    ASSERT(sp);
+    ASSERT(sp->hitag == VIEW_THRU_CEILING);
+
     // move ceiling multiple of 128 so that the wall tile will line up
     pix_diff = labs(z - sector[sp->sectnum].ceilingz) >> 8;
     newz = sector[sp->sectnum].ceilingz - ((pix_diff / 128) + 1) * Z(128);
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
         {
         sp = &sprite[i];
@@ -1047,7 +1047,7 @@ FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
                 save.slope[save.zcount] = sector[sp->sectnum].ceilingheinum;
 
                 sector[sp->sectnum].ceilingz = newz;
-                
+
                 // don't change FAF_MIRROR_PIC - ConnectArea
                 if (sector[sp->sectnum].ceilingpicnum != FAF_MIRROR_PIC)
                     sector[sp->sectnum].ceilingpicnum = FAF_MIRROR_PIC+1;
@@ -1062,7 +1062,7 @@ FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     return (TRUE);
     }
 
-short 
+short
 ViewSectorInScene(short cursectnum, short UNUSED(type), short level)
     {
     int i, nexti;
@@ -1085,13 +1085,13 @@ ViewSectorInScene(short cursectnum, short UNUSED(type), short level)
                     continue;
 
                 // only gets to here is sprite is pointing down
-                
+
                 // found a potential match
                 match = sp->lotag;
 
                 if (!PicInView(FAF_MIRROR_PIC, TRUE))
                     return (-1);
-                            
+
                 return(match);
                 }
             }
@@ -1100,7 +1100,7 @@ ViewSectorInScene(short cursectnum, short UNUSED(type), short level)
     return (-1);
     }
 
-VOID 
+VOID
 DrawOverlapRoom(int tx, int ty, int tz, short tang, int thoriz, short tsectnum)
     {
     short i;
@@ -1112,7 +1112,7 @@ DrawOverlapRoom(int tx, int ty, int tz, short tang, int thoriz, short tsectnum)
     if (match != -1)
         {
         FindCeilingView(match, &tx, &ty, tz, &tsectnum);
-        
+
         if (tsectnum < 0)
             return;
 
@@ -1126,7 +1126,7 @@ DrawOverlapRoom(int tx, int ty, int tz, short tang, int thoriz, short tsectnum)
             sector[save.sectnum[i]].floorpicnum = save.pic[i];
             sector[save.sectnum[i]].floorheinum = save.slope[i];
             }
-            
+
         analyzesprites(tx, ty, tz, FALSE);
         post_analyzesprites();
         drawmasks();
@@ -1141,7 +1141,7 @@ DrawOverlapRoom(int tx, int ty, int tz, short tang, int thoriz, short tsectnum)
 
             if (tsectnum < 0)
                 return;
-            
+
             drawrooms(tx, ty, tz, tang, thoriz, tsectnum);
             //FAF_DrawRooms(tx, ty, tz, tang, thoriz, tsectnum);
 
@@ -1152,7 +1152,7 @@ DrawOverlapRoom(int tx, int ty, int tz, short tang, int thoriz, short tsectnum)
                 sector[save.sectnum[i]].ceilingpicnum = save.pic[i];
                 sector[save.sectnum[i]].ceilingheinum = save.slope[i];
                 }
-                
+
             analyzesprites(tx, ty, tz, FALSE);
             post_analyzesprites();
             drawmasks();
@@ -1160,4 +1160,4 @@ DrawOverlapRoom(int tx, int ty, int tz, short tang, int thoriz, short tsectnum)
             }
         }
     }
-    
+

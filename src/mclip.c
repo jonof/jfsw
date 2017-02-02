@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -46,34 +46,34 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
     short min_ndx;
     int min_dist = 999999;
     int dist;
-    
+
     int ret_start;
     int ret[MAX_CLIPBOX];
     int x[MAX_CLIPBOX],y[MAX_CLIPBOX];
-    
+
     for (i = 0; i < sop->clipbox_num; i++)
         {
         ang = NORM_ANGLE(pp->pang + sop->clipbox_ang[i]);
         ox[i] = x[i] = pp->posx + (sop->clipbox_vdist[i] * sintable[NORM_ANGLE(ang + 512)] >> 14);
         oy[i] = y[i] = pp->posy + (sop->clipbox_vdist[i] * sintable[ang] >> 14);
-        
+
         // move the box
         ret[i] = clipmove(&x[i], &y[i], &z, &pp->cursectnum, pp->xvect, pp->yvect, (int)sop->clipbox_dist[i], Z(4), floor_dist, CLIPMASK_PLAYER);
-        
+
         // save the dist moved
         dist = FindDistance2D(x[i] - ox[i], y[i] - oy[i]);
-        
+
         if (dist < min_dist)
             {
             min_dist = dist;
             min_ndx = i;
             }
         }
-    
-    // put posx and y off from offset    
+
+    // put posx and y off from offset
     pp->posx -= ox[min_ndx] - x[min_ndx];
     pp->posy -= oy[min_ndx] - y[min_ndx];
-    
+
     return(ret[min_ndx]);
     }
 #endif
@@ -90,36 +90,36 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
     short min_ndx;
     int min_dist = 999999;
     int dist;
-    
+
     int ret_start;
     int ret[MAX_CLIPBOX];
     int x[MAX_CLIPBOX],y[MAX_CLIPBOX];
-    
+
     for (i = 0; i < sop->clipbox_num; i++)
         {
         ang = NORM_ANGLE(pp->pang + sop->clipbox_ang[i]);
         ox[i] = x[i] = pp->posx + (sop->clipbox_vdist[i] * sintable[NORM_ANGLE(ang + 512)] >> 14);
         oy[i] = y[i] = pp->posy + (sop->clipbox_vdist[i] * sintable[ang] >> 14);
-        
+
         // move the box
         //pushmove(&x[i], &y[i], &z, &pp->cursectnum, (int)sop->clipbox_dist[i], Z(4), floor_dist, CLIPMASK_PLAYER);
         ret[i] = clipmove(&x[i], &y[i], &z, &pp->cursectnum, pp->xvect, pp->yvect, (int)sop->clipbox_dist[i], Z(4), floor_dist, CLIPMASK_PLAYER);
         //pushmove(&x[i], &y[i], &z, &pp->cursectnum, (int)sop->clipbox_dist[i], Z(4), floor_dist, CLIPMASK_PLAYER);
-        
+
         // save the dist moved
         dist = FindDistance2D(x[i] - ox[i], y[i] - oy[i]);
-        
+
         if (dist < min_dist)
             {
             min_dist = dist;
             min_ndx = i;
             }
         }
-    
-    // put posx and y off from offset    
+
+    // put posx and y off from offset
     pp->posx -= ox[min_ndx] - x[min_ndx];
     pp->posy -= oy[min_ndx] - y[min_ndx];
-    
+
     return(ret[min_ndx]);
     }
 #endif
@@ -136,23 +136,23 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
     short min_ndx;
     int min_dist = 999999;
     int dist;
-    
+
     int ret_start;
     int ret[MAX_CLIPBOX];
     int x[MAX_CLIPBOX],y[MAX_CLIPBOX];
-    
+
     int xvect,yvect;
     int xs,ys;
-    
+
     for (i = 0; i < sop->clipbox_num; i++)
         {
         // move the box to position instead of using offset- this prevents small rounding errors
         // allowing you to move through wall
         ang = NORM_ANGLE(pp->pang + sop->clipbox_ang[i]);
-        
+
         xs = pp->posx;
         ys = pp->posy;
-        
+
         xvect = (sop->clipbox_vdist[i] * sintable[NORM_ANGLE(ang + 512)]);
         yvect = (sop->clipbox_vdist[i] * sintable[ang]);
         ret_start = clipmove(&xs, &ys, &z, &pp->cursectnum, xvect, yvect, (int)sop->clipbox_dist[i], Z(4), floor_dist, CLIPMASK_PLAYER);
@@ -160,14 +160,14 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
         // save off the start position
         ox[i] = x[i] = xs;
         oy[i] = y[i] = ys;
-        
+
         // move the box
         ret[i] = clipmove(&x[i], &y[i], &z, &pp->cursectnum, pp->xvect, pp->yvect, (int)sop->clipbox_dist[i], Z(4), floor_dist, CLIPMASK_PLAYER);
-        
+
         // save the dist moved
         dist = ksqrt(SQ(x[i] - ox[i]) + SQ(y[i] - oy[i]));
         //dist = FindDistance2D(x[i] - ox[i], y[i] - oy[i]);
-        
+
         if (ret[i])
             {
             //DSPRINTF(ds,"i %d, ret %d, dist %d",i, ret[i], dist);
@@ -181,11 +181,11 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
             min_ndx = i;
             }
         }
-    
-    // put posx and y off from offset    
+
+    // put posx and y off from offset
     pp->posx -= ox[min_ndx] - x[min_ndx];
     pp->posy -= oy[min_ndx] - y[min_ndx];
-    
+
     return(ret[min_ndx]);
     }
 #endif
@@ -202,23 +202,23 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
     short min_ndx;
     int min_dist = 999999;
     int dist;
-    
+
     int ret_start;
     int ret[MAX_CLIPBOX];
     int x[MAX_CLIPBOX],y[MAX_CLIPBOX];
-    
+
     int xvect,yvect;
     int xs,ys;
-    
+
     for (i = 0; i < sop->clipbox_num; i++)
         {
         // move the box to position instead of using offset- this prevents small rounding errors
         // allowing you to move through wall
         ang = NORM_ANGLE(pp->pang + sop->clipbox_ang[i]);
-        
+
         xs = pp->posx;
         ys = pp->posy;
-        
+
         xvect = (sop->clipbox_vdist[i] * sintable[NORM_ANGLE(ang + 512)]);
         yvect = (sop->clipbox_vdist[i] * sintable[ang]);
         ret_start = clipmove(&xs, &ys, &z, &pp->cursectnum, xvect, yvect, (int)sop->clipbox_dist[i], Z(4), floor_dist, CLIPMASK_PLAYER);
@@ -231,10 +231,10 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
             // ox is where it should be
             ox[i] = x[i] = pp->posx + (sop->clipbox_vdist[i] * sintable[NORM_ANGLE(ang + 512)] >> 14);
             oy[i] = y[i] = pp->posy + (sop->clipbox_vdist[i] * sintable[ang] >> 14);
-            
+
             x[i] = xs;
             y[i] = ys;
-            
+
             dist = ksqrt(SQ(x[i] - ox[i]) + SQ(y[i] - oy[i]));
             //ox[i] = x[i] = oy[i] = y[i] = 0;
             }
@@ -243,14 +243,14 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
             // save off the start position
             ox[i] = x[i] = xs;
             oy[i] = y[i] = ys;
-            
+
             // move the box
             ret[i] = clipmove(&x[i], &y[i], &z, &pp->cursectnum, pp->xvect, pp->yvect, (int)sop->clipbox_dist[i], Z(4), floor_dist, CLIPMASK_PLAYER);
-            
+
             // save the dist moved
             dist = ksqrt(SQ(x[i] - ox[i]) + SQ(y[i] - oy[i]));
             //dist = FindDistance2D(x[i] - ox[i], y[i] - oy[i]);
-            
+
             if (ret[i])
                 {
                 //DSPRINTF(ds,"i %d, ret %d, dist %d",i, ret[i], dist);
@@ -262,13 +262,13 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
                 min_dist = dist;
                 min_ndx = i;
                 }
-            }    
+            }
         }
-    
-    // put posx and y off from offset    
+
+    // put posx and y off from offset
     pp->posx -= ox[min_ndx] - x[min_ndx];
     pp->posy -= oy[min_ndx] - y[min_ndx];
-    
+
     return(ret[min_ndx]);
     }
 #endif
@@ -284,24 +284,24 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
     short min_ndx = 0;
     int min_dist = 999999;
     int dist;
-    
+
     int ret_start;
     int ret;
     int min_ret=0;
     int x[MAX_CLIPBOX],y[MAX_CLIPBOX];
-    
+
     int xvect,yvect;
     int xs,ys;
-    
+
     for (i = 0; i < sop->clipbox_num; i++)
         {
         // move the box to position instead of using offset- this prevents small rounding errors
         // allowing you to move through wall
         ang = NORM_ANGLE(pp->pang + sop->clipbox_ang[i]);
-        
+
         xs = pp->posx;
         ys = pp->posy;
-        
+
         xvect = (sop->clipbox_vdist[i] * sintable[NORM_ANGLE(ang + 512)]);
         yvect = (sop->clipbox_vdist[i] * sintable[ang]);
         clipmoveboxtracenum = 1;
@@ -316,14 +316,14 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
             // ox is where it should be
             ox[i] = x[i] = pp->posx + (sop->clipbox_vdist[i] * sintable[NORM_ANGLE(ang + 512)] >> 14);
             oy[i] = y[i] = pp->posy + (sop->clipbox_vdist[i] * sintable[ang] >> 14);
-            
+
             // xs is where it hit
             x[i] = xs;
             y[i] = ys;
-            
+
             // see the dist moved
             dist = ksqrt(SQ(x[i] - ox[i]) + SQ(y[i] - oy[i]));
-            
+
             // save it off
             if (dist < min_dist)
                 {
@@ -337,13 +337,13 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
             // save off the start position
             ox[i] = x[i] = xs;
             oy[i] = y[i] = ys;
-            
+
             // move the box
             ret = clipmove(&x[i], &y[i], &z, &pp->cursectnum, pp->xvect, pp->yvect, (int)sop->clipbox_dist[i], Z(4), floor_dist, CLIPMASK_PLAYER);
-            
+
             // save the dist moved
             dist = ksqrt(SQ(x[i] - ox[i]) + SQ(y[i] - oy[i]));
-            
+
             if (ret)
                 {
                 }
@@ -354,13 +354,13 @@ int MultiClipMove(PLAYERp pp, int z, int floor_dist)
                 min_ndx = i;
                 min_ret = ret;
                 }
-            }    
+            }
         }
-    
-    // put posx and y off from offset    
+
+    // put posx and y off from offset
     pp->posx += x[min_ndx] - ox[min_ndx];
     pp->posy += y[min_ndx] - oy[min_ndx];
-    
+
     return(min_ret);
     }
 
@@ -373,22 +373,22 @@ short MultiClipTurn(PLAYERp pp, short new_ang, int z, int floor_dist)
     short ang;
     int xvect, yvect;
     short cursectnum = pp->cursectnum;
-    
+
     for (i = 0; i < sop->clipbox_num; i++)
         {
         ang = NORM_ANGLE(new_ang + sop->clipbox_ang[i]);
-        
+
         x = pp->posx;
         y = pp->posy;
-        
+
         xvect = (sop->clipbox_vdist[i] * sintable[NORM_ANGLE(ang + 512)]);
         yvect = (sop->clipbox_vdist[i] * sintable[ang]);
-        
+
         // move the box
         ret = clipmove(&x, &y, &z, &cursectnum, xvect, yvect, (int)sop->clipbox_dist[i], Z(4), floor_dist, CLIPMASK_PLAYER);
-        
+
         ASSERT(cursectnum >= 0);
-        
+
         if (ret)
             {
             // attempt to move a bit when turning against a wall
@@ -398,45 +398,45 @@ short MultiClipTurn(PLAYERp pp, short new_ang, int z, int floor_dist)
             return(FALSE);
             }
         }
-    
+
     return(TRUE);
     }
-    
+
 int testquadinsect(int *point_num, int qx[], int qy[], short sectnum)
     {
     int i,next_i;
-    
+
     *point_num = -1;
-    
+
     for(i=0; i < 4; i++)
         {
         if (!inside(qx[i], qy[i], sectnum))
             {
             ////DSPRINTF(ds,"inside %ld failed",i);
             //MONO_PRINT(ds);
-            
+
             *point_num = i;
-            
+
             return(FALSE);
             }
         }
-        
+
     for(i=0;i<4;i++)
-        {    
+        {
         next_i = MOD4(i+1);
         if (!cansee(qx[i], qy[i],0x3fffffff, sectnum,
             qx[next_i], qy[next_i],0x3fffffff, sectnum))
-            {        
+            {
             DSPRINTF(ds,"cansee %ld failed, x1 %d, y1 %d, x2 %d, y2 %d, sectnum %d",i, qx[i], qy[i], qx[next_i], qy[next_i], sectnum);
             MONO_PRINT(ds);
-            
+
             return(FALSE);
             }
         }
-        
-    return(TRUE);        
-    }    
-    
+
+    return(TRUE);
+    }
+
 
    //Ken gives the tank clippin' a try...
 int RectClipMove(PLAYERp pp, int *qx, int *qy)
@@ -448,13 +448,13 @@ int RectClipMove(PLAYERp pp, int *qx, int *qy)
     int i, x[4], y[4];
     short startwall,endwall;
     int point_num;
-    
+
     for (i = 0; i < 4; i++)
        {
        x[i] = qx[i] + (pp->xvect>>14);
        y[i] = qy[i] + (pp->yvect>>14);
        }
-       
+
     //Given the 4 points: x[4], y[4]
     if (testquadinsect(&point_num, x, y, pp->cursectnum))
         {
@@ -462,8 +462,8 @@ int RectClipMove(PLAYERp pp, int *qx, int *qy)
         pp->posy += (pp->yvect>>14);
         return(TRUE);
         }
-        
-    if (point_num < 0) 
+
+    if (point_num < 0)
         return(FALSE);
 
     if ((point_num == 0) || (point_num == 3))   //Left side bad - strafe right
@@ -478,10 +478,10 @@ int RectClipMove(PLAYERp pp, int *qx, int *qy)
             pp->posx -= (pp->yvect>>15);
             pp->posy += (pp->xvect>>15);
             }
-            
+
         return(FALSE);
         }
-        
+
     if ((point_num == 1) || (point_num == 2))   //Right side bad - strafe left
         {
         for (i = 0; i < 4; i++)
@@ -494,24 +494,24 @@ int RectClipMove(PLAYERp pp, int *qx, int *qy)
             pp->posx += (pp->yvect>>15);
             pp->posy -= (pp->xvect>>15);
             }
-            
+
         return(FALSE);
         }
-        
+
     return(FALSE);
     }
 
 int testpointinquad(int x, int y, int *qx, int *qy)
 {
     int i, cnt, x1, y1, x2, y2;
-    
+
     cnt = 0;
     for(i=0;i<4;i++)
     {
         y1 = qy[i]-y;
         y2 = qy[(i+1)&3]-y;
         if ((y1^y2) >= 0) continue;
-        
+
         x1 = qx[i]-x;
         x2 = qx[(i+1)&3]-x;
         if ((x1^x2) >= 0)
@@ -519,8 +519,8 @@ int testpointinquad(int x, int y, int *qx, int *qy)
         else
             cnt ^= (x1*y2-x2*y1)^y2;
     }
-    return(cnt>>31);    
-}    
+    return(cnt>>31);
+}
 
 short RectClipTurn(PLAYERp pp, short new_ang, int *qx, int *qy, int *ox, int *oy)
     {
@@ -550,8 +550,8 @@ short RectClipTurn(PLAYERp pp, short new_ang, int *qx, int *qy, int *ox, int *oy
             }
         return(TRUE);
         }
-        
-    if (point_num < 0) 
+
+    if (point_num < 0)
         return(FALSE);
 
     return(FALSE);

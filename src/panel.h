@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -86,8 +86,8 @@ struct PANEL_STATEstruct
 #define PANF_CORNER          (BIT(18)) // draw from the corner
 #define PANF_NOT_IN_VIEW     (BIT(19)) // not in view
 #define PANF_UNHIDE_SHOOT    (BIT(20)) // shoot after un-hiding a weapon
-#define PANF_JUMPING         (BIT(21)) 
-#define PANF_FALLING         (BIT(22)) 
+#define PANF_JUMPING         (BIT(21))
+#define PANF_FALLING         (BIT(22))
 #define PANF_DRAW_BEFORE_VIEW (BIT(30)) // draw before drawrooms
 #define PANF_NOT_ALL_PAGES       (BIT(31)) // DONT use permanentwritesprite bit for rotatesprite
 
@@ -138,13 +138,13 @@ struct PANEL_SPRITEstruct
     short WeaponType; // remember my own weapon type for weapons with secondary function
     };
 
-typedef struct 
+typedef struct
     {
     PANEL_STATEp pstate;
     short state_size;
     }PANEL_STATE_TABLE, *PANEL_STATE_TABLEp;
-  
-extern PANEL_STATE_TABLE PanelStateTable[]; 
+
+extern PANEL_STATE_TABLE PanelStateTable[];
 
 // Panel State flags - also used for
 #define psf_Invisible    BIT(16)
@@ -197,5 +197,5 @@ void pKillSprite(PANEL_SPRITEp psp);
 void InitChops(PLAYERp pp);
 void ChopsSetRetract(PLAYERp pp);
 VOID PlayerUpdateTimeLimit(PLAYERp pp);
-	
+
 #endif

@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -52,13 +52,13 @@ extern int DemoRecCnt;                    // Can only record 1-player game
 
 // Demo File - reading from group
 #if DEMO_FILE_TYPE == DEMO_FILE_GROUP
-typedef long DFILE; 
+typedef long DFILE;
 #define DREAD(ptr, size, num, handle) kread((handle),(ptr),(size)*(num))
 #define DOPEN_READ(name) kopen4load(name,0)
 #define DCLOSE(handle) kclose(handle)
 #define DF_ERR -1
 #else
-typedef FILE *DFILE; 
+typedef FILE *DFILE;
 #define DREAD(ptr, size, num,handle) fread((ptr),(size),(num),(handle))
 #define DWRITE(ptr, size, num,handle) fwrite((ptr),(size),(num),(handle))
 #define DOPEN_WRITE(name) fopen(name,"wb")

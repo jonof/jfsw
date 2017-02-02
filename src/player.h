@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -29,7 +29,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define PLAYER_H
 
 #define PLAYER_HORIZ_MAX 299    // !JIM! was 199 and 5
-#define PLAYER_HORIZ_MIN -99    // Had to make plax sky pan up/down like in Duke  
+#define PLAYER_HORIZ_MIN -99    // Had to make plax sky pan up/down like in Duke
                                 // But this is MUCH better!
 
 #define MIN_SWIM_DEPTH 15
@@ -119,11 +119,11 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define PLAYER_NINJA_XREPEAT (47)
 #define PLAYER_NINJA_YREPEAT (33)
 
-int SetVisHigh(void);    
-int SetVisNorm(void);    
+int SetVisHigh(void);
+int SetVisNorm(void);
 VOID DoWeapon(VOID);
 VOID HeadBobStateControl(VOID);
-int DoPickTarget(SPRITEp sp, WORD max_delta_ang, BOOL skip_targets);    
+int DoPickTarget(SPRITEp sp, WORD max_delta_ang, BOOL skip_targets);
 VOID DoPlayer(VOID);
 void domovethings(void );
 void InitAllPlayers(void );

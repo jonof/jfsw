@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -55,7 +55,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //#define PLOCK_VERSION TRUE
 
 
-short TimeLimitTable[9] = {0,3,5,10,15,20,30,45,60}; 
+short TimeLimitTable[9] = {0,3,5,10,15,20,30,45,60};
 
 short QuickLoadNum = -1;
 char QuickLoadDescrDialog[32];
@@ -115,7 +115,7 @@ int slidersettings [sldr_max] =
     0,0,    // video mode
     32767>>12, 32767>>12,  // advanced mouse scale
     };
-    
+
 short buttonsettings[btn_max];
 
 // EXTERNS ////////////////////////////
@@ -144,7 +144,7 @@ static void UpdateValidModes(int bpp, int fs)
 	numvalidresolutions = numvalidbpps = 0;
 	for (i=0; i<validmodecnt; i++) {
 		if ((validmode[i].fs & 1) != fs) continue;
-		
+
 		for (j=0; j<numvalidbpps; j++)
 			if (validbpps[j] == validmode[i].bpp) break;
 		if (j==numvalidbpps) validbpps[numvalidbpps++] = validmode[i].bpp;
@@ -190,11 +190,11 @@ MenuItem sound_i[] =
     {DefButton(btn_music, 0, "Music"), OPT_XS,                OPT_LINE(0), 1, m_defshade, 0, MNU_TryMusicInit, MNU_MusicCheck, NULL},
     {DefSlider(sldr_musicvolume, 0, "Music Volume"), OPT_XS,  OPT_LINE(1), 1, m_defshade, 0, MNU_TryMusicInit, MNU_MusicCheck, NULL},
     {DefInert(0, NULL), OPT_XSIDE,                            OPT_LINE(1), 0, m_defshade, 0, NULL, NULL, NULL},
-    
+
     {DefButton(btn_sound, 0, "Sounds"), OPT_XS,               OPT_LINE(2), 1, m_defshade, 0, NULL, MNU_FxCheck, NULL},
     {DefSlider(sldr_sndfxvolume, 0, "Sound Volume"), OPT_XS,  OPT_LINE(3), 1, m_defshade, 0, NULL, MNU_FxCheck, NULL},
-    {DefInert(0, NULL), OPT_XSIDE,                            OPT_LINE(3), 0, m_defshade, 0, NULL, NULL, NULL}, 
-    
+    {DefInert(0, NULL), OPT_XSIDE,                            OPT_LINE(3), 0, m_defshade, 0, NULL, NULL, NULL},
+
     //{DefButton(btn_talking, 0, "Talking"), OPT_XS,            OPT_LINE(4), 1, m_defshade, 0, NULL, MNU_FxCheck, NULL},
     {DefButton(btn_ambience, 0, "Ambience"), OPT_XS,          OPT_LINE(4), 1, m_defshade, 0, NULL, MNU_FxCheck, NULL},
     {DefButton(btn_flipstereo, 0, "Flip Stereo"), OPT_XS,     OPT_LINE(5), 1, m_defshade, 0, NULL, MNU_FxCheck, NULL},
@@ -213,11 +213,11 @@ MenuItem parental_i[] =
 
 MenuGroup parentalgroup = {65, 5, "^Kid Mode", parental_i, pic_newgametitl, 0, m_defshade, MNU_DoParentalPassword,NULL,0};
 
-MenuItem screen_i[] = 
+MenuItem screen_i[] =
     {
     {DefSlider(sldr_scrsize, 0, "Screen Size"), OPT_XS,          OPT_LINE(0), 1, m_defshade, 0, NULL, NULL, NULL},//, MNU_BorderCheck},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(0), 0, m_defshade, 0, NULL, NULL, NULL},
-    
+
     {DefSlider(sldr_bordertile, 0, "Border Tile"), OPT_XS,       OPT_LINE(1), 1, m_defshade, 0, NULL, NULL, NULL},//, MNU_BorderCheck},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(1), 0, m_defshade, 0, NULL, NULL, NULL},
 
@@ -235,11 +235,11 @@ MenuItem screen_i[] =
 
 MenuGroup screengroup = {65, 5, "^Screen", screen_i, pic_newgametitl, 0, m_defshade, NULL,NULL, 0};
 
-MenuItem mouse_i[] = 
+MenuItem mouse_i[] =
     {
     {DefSlider(sldr_mouse, 0, "Mouse Speed"), OPT_XS,            OPT_LINE(0), 1, m_defshade, 0, NULL, MNU_MouseCheck, NULL},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(0), 0, m_defshade, 0, NULL, NULL, NULL},    // Blank line for mouse
-    
+
     {DefButton(btn_mouse_aim, 0, "Mouse Aiming"), OPT_XS,        OPT_LINE(1), 1, m_defshade, 0, NULL, MNU_MouseCheck, NULL},
     {DefButton(btn_mouse_invert, 0, "Invert Mouse"), OPT_XS,     OPT_LINE(2), 1, m_defshade, 0, NULL, MNU_MouseCheck, NULL},
     {DefNone}
@@ -315,7 +315,7 @@ MenuItem joyaxes_i[] =
 
     {DefSlider(sldr_joyaxisscale, 0, "Axis Scale"),     OPT_XS, OPT_LINE(2), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL),                              OPT_XSIDE, OPT_LINE(2), 0, m_defshade, 0, NULL, NULL, NULL},
-   
+
     {DefSlider(sldr_joyaxisanalog, 0, "Analog"),        OPT_XS, OPT_LINE(4), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL),                              OPT_XSIDE, OPT_LINE(4), 0, m_defshade, 0, NULL, NULL, NULL},
     {DefLayer(0, "Digital +ve", &joyaxesgroup),         OPT_XS, OPT_LINE(5), 1, m_defshade, 1, NULL, NULL, MNU_JoystickAxisPostProcess},
@@ -419,7 +419,7 @@ MenuGroup episodegroup = {100, 5, "^Episode", episode_i, pic_newgametitl, 0, m_d
 
 extern char UserMapName[80];
 
-MenuItem network_extra_i[] = 
+MenuItem network_extra_i[] =
 {
     {DefSlider(sldr_monsters, 0, "Monsters"),OPT_XS, OPT_LINE(0), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL),               OPT_XSIDE,OPT_LINE(0), 0, m_defshade, 0, NULL, NULL, NULL},
@@ -453,12 +453,12 @@ MenuItem network_i[] =
     {DefInert(0, NULL),               OPT_XSIDE,                 OPT_LINE(6), 0, m_defshade, 0, NULL, NULL, NULL},
 
     {DefLayer(0, "Other Options", &networkextragroup),OPT_XS,    OPT_LINE(7), 1, m_defshade,0,NULL, NULL, NULL},
-    
+
     {DefInert(0, UserMapName),         OPT_XSIDE,                OPT_LINE(8), pic_episode1, m_defshade, 0, NULL, NULL, NULL},
     {DefOption(KEYSC_S, "Start Game"),   OPT_XS,                    OPT_LINE(8), pic_episode1, m_defshade, 0, MNU_StartNetGame, NULL, NULL},
-    
+
     {DefNone}
-    
+
     };
 
 MenuGroup networkgroup = {50, 5, "^Network Game", network_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
@@ -578,12 +578,12 @@ BOOL
 MNU_Ten(void)
     {
     TEN_Setup();
-    
+
     return(FALSE);
     }
 */
 // CTW REMOVED END
-BOOL 
+BOOL
 MNU_DoEpisodeSelect(UserCall UNUSED(call), MenuItem * UNUSED(item))
     {
     short w,h;
@@ -599,7 +599,7 @@ MNU_DoEpisodeSelect(UserCall UNUSED(call), MenuItem * UNUSED(item))
 
     return(TRUE);
     }
-    
+
 BOOL
 MNU_DoParentalPassword(UserCall UNUSED(call), MenuItem_p UNUSED(item))
     {
@@ -656,7 +656,7 @@ MNU_DoParentalPassword(UserCall UNUSED(call), MenuItem_p UNUSED(item))
                             if (!InMenuLevel)
                             JS_ToggleLockouts();
                             }
-                            
+
                         if (currentmenu->cursor == 1) // Is it on the password line?
                             {
                             MenuInputMode = TRUE;
@@ -664,7 +664,7 @@ MNU_DoParentalPassword(UserCall UNUSED(call), MenuItem_p UNUSED(item))
                             KB_FlushKeyboardQueue();
                             }
                         //memset(gs.Password, '\0', sizeof(gs.Password));
-                        } 
+                        }
                     } else
                     {
                     if (currentmenu->cursor == 1) // Is it on the password line?
@@ -690,23 +690,23 @@ MNU_DoParentalPassword(UserCall UNUSED(call), MenuItem_p UNUSED(item))
             MNU_MeasureString(TempString, &w, &h);
             MNU_DrawString(TEXT_XCENTER(w), MESSAGE_LINE-10, TempString,1,16);
             }
-        else 
+        else
         if (passwordvalid == TRUE && currentmenu->cursor == 1)
             {
             sprintf(TempString,"Enter New Password");
             MNU_MeasureString(TempString, &w, &h);
             MNU_DrawString(TEXT_XCENTER(w), MESSAGE_LINE-10, TempString,1,16);
-            }   
+            }
         else
             {
             sprintf(TempString,"Enter Password");
             MNU_MeasureString(TempString, &w, &h);
             MNU_DrawString(TEXT_XCENTER(w), MESSAGE_LINE-10, TempString,1,16);
-            }   
-        
+            }
+
         MNU_MeasureString(MessageInputString, &w, &h);
 
-        cur_show ^= 1;    
+        cur_show ^= 1;
         if (cur_show)
             {
             MNU_DrawString(TEXT_XCENTER(w), MESSAGE_LINE, MessageInputString,1,16);
@@ -716,7 +716,7 @@ MNU_DoParentalPassword(UserCall UNUSED(call), MenuItem_p UNUSED(item))
             {
             MNU_DrawString(TEXT_XCENTER(w), MESSAGE_LINE, MessageInputString,1,16);
             rotatesprite((TEXT_XCENTER(w)+w+7)<<16,(MESSAGE_LINE+3)<<16,64<<9,0,COINCURSOR+((totalclock>>3)%7),0,0,MenuDrawFlags,0,0,xdim-1,ydim-1);
-            }    
+            }
 
     }
 
@@ -799,7 +799,7 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 			} else {
 				OSD_CaptureKey(KB_GetLastScanCode());
 			}
-			
+
 			currentmode = 0;
 		}
 
@@ -815,7 +815,7 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 			MNU_DrawString((XDIM - w)/2, y, ds, 0, 16);
 			y += h+3;
 		}
-		
+
 	} else {
 		// key list
 #define PGSIZ 14
@@ -1008,7 +1008,7 @@ static int MNU_SelectButtonFunction(const char *buttonname, int *currentfunc)
     {
         short dx = 0, dy = 8;
         const char *morestr = "More...";
-        
+
         MNU_MeasureSmallString(morestr,&dx,&dy);
         if (topitem > 0)
             MNU_DrawSmallString(XDIM - OPT_XS - dx, OPT_LINE(4), morestr, 8,16);
@@ -1492,7 +1492,7 @@ static BOOL MNU_SetJoystickAxisFunctions(MenuItem_p item)
 }
 
 
-BOOL 
+BOOL
 MNU_OrderCustom(UserCall call, MenuItem * item)
     {
     static signed char on_screen = 0,last_screen = 0;
@@ -1505,7 +1505,7 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
     short choose_snd;
     static int wanghandle;
 
-    static short RegOrderScreen[] = 
+    static short RegOrderScreen[] =
         {
         5262,
         5261,
@@ -1521,7 +1521,7 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
 
         5114    // JBF: for my credits
         };
-    static short SWOrderScreen[] = 
+    static short SWOrderScreen[] =
         {
         5262,
         5110,
@@ -1534,7 +1534,7 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
         5114    // JBF: for my credits
         };
     short *OrderScreen, OrderScreenSiz;
-    
+
     if (SW_SHAREWARE) {
         OrderScreen = SWOrderScreen;
         OrderScreenSiz = SIZ(SWOrderScreen);
@@ -1542,7 +1542,7 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
         OrderScreen = RegOrderScreen;
         OrderScreenSiz = SIZ(RegOrderScreen);
     }
-    
+
     // Ignore the special touchup calls
     if (call == uc_touchup)
         return (TRUE);
@@ -1553,24 +1553,24 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
             return (FALSE);
         }
 
-    if (SW_SHAREWARE && on_screen == 0 && !DidOrderSound)        
-        {        
-        DidOrderSound = TRUE;        
-        choose_snd = STD_RANDOM_RANGE(1000);        
-        if (choose_snd > 500 && !FX_SoundActive(wanghandle))        
-            wanghandle = PlaySound(DIGI_WANGORDER1, &zero, &zero, &zero, v3df_dontpan);        
-        else        
-        if (!FX_SoundActive(wanghandle))            
-            wanghandle = PlaySound(DIGI_WANGORDER2, &zero, &zero, &zero, v3df_dontpan);        
-        }            
-                
+    if (SW_SHAREWARE && on_screen == 0 && !DidOrderSound)
+        {
+        DidOrderSound = TRUE;
+        choose_snd = STD_RANDOM_RANGE(1000);
+        if (choose_snd > 500 && !FX_SoundActive(wanghandle))
+            wanghandle = PlaySound(DIGI_WANGORDER1, &zero, &zero, &zero, v3df_dontpan);
+        else
+        if (!FX_SoundActive(wanghandle))
+            wanghandle = PlaySound(DIGI_WANGORDER2, &zero, &zero, &zero, v3df_dontpan);
+        }
+
     order_input.button0 = order_input.button1 = FALSE;
     order_input.dir = dir_None;
-    
+
     // Zero out the input structure
     tst_input.button0 = tst_input.button1 = FALSE;
     tst_input.dir = dir_None;
-    
+
     if(!select_held)
         {
         CONTROL_GetUserInput(&tst_input);
@@ -1583,15 +1583,15 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
             tst_input.dir = dir_South;
             }
         }
-    
-    if (order_input_buffered.button0 || order_input_buffered.button1 || order_input_buffered.dir != dir_None)    
+
+    if (order_input_buffered.button0 || order_input_buffered.button1 || order_input_buffered.dir != dir_None)
         {
-        if(tst_input.button0 == order_input_buffered.button0 && 
-           tst_input.button1 == order_input_buffered.button1 && 
-           tst_input.dir == order_input_buffered.dir) 
+        if(tst_input.button0 == order_input_buffered.button0 &&
+           tst_input.button1 == order_input_buffered.button1 &&
+           tst_input.dir == order_input_buffered.dir)
             {
             select_held = TRUE;
-            } 
+            }
         else
             {
             if (labs(totalclock - limitmove) > 7)
@@ -1606,11 +1606,11 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
 
                 limitmove = totalclock;
                 }
-            }    
-        } 
+            }
+        }
     else
         {
-        select_held = FALSE;    
+        select_held = FALSE;
         order_input_buffered.button0 = tst_input.button0;
         order_input_buffered.button1 = tst_input.button1;
         order_input_buffered.dir = tst_input.dir;
@@ -1623,7 +1623,7 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
         cust_callback_item = item;
         }
     else
-        {    
+        {
         KEY_PRESSED(KEYSC_ESC) = FALSE;
         cust_callback = NULL;
         DidOrderSound = FALSE;
@@ -1635,17 +1635,17 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
         {
         on_screen--;
         }
-    else 
+    else
     if (order_input.dir == dir_South)
         {
         on_screen++;
         }
-    else 
+    else
     if (order_input.dir == dir_West)
         {
         on_screen--;
         }
-    else    
+    else
     if (order_input.dir == dir_East)
         {
         on_screen++;
@@ -1653,15 +1653,15 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
 
 // CTW MODIFICATION
 // I reversed the logic in here to allow the user to loop around.
-// Yeah... I changed default behavior just because I wanted to. 
+// Yeah... I changed default behavior just because I wanted to.
 // AND YOU CAN'T STOP ME SUCKER!!!
-    if(on_screen < 0) 
+    if(on_screen < 0)
         on_screen = OrderScreenSiz-1;
-        
-    if(on_screen > OrderScreenSiz-1) 
+
+    if(on_screen > OrderScreenSiz-1)
         on_screen = 0;
 // CTW MODIFICATION END
-        
+
     rotatesprite(0,0,RS_SCALE,0,OrderScreen[on_screen],0,0,
         (ROTATE_SPRITE_CORNER|ROTATE_SPRITE_SCREEN_CLIP|ROTATE_SPRITE_NON_MASK|ROTATE_SPRITE_IGNORE_START_MOST),
         0, 0, xdim-1, ydim-1);
@@ -1779,15 +1779,15 @@ BOOL MNU_LoadClassicDefaults(void)
 
 short EpisodeMenuSelection;
 
-void 
+void
 ExitMenus(void)
     {
     ControlPanelType = ct_mainmenu;
     UsingMenus = FALSE;
-    
+
     if (LoadGameOutsideMoveLoop)
         return;
-        
+
     ResumeGame();
     SetRedrawScreen(&Player[myconnectindex]);
     }
@@ -1803,21 +1803,21 @@ MNU_StartGame(void)
 
     ready2send = 0;
     Skill = currentmenu->cursor;
-    
+
     if (EpisodeMenuSelection >= 1)
         Level = 5;
-    else    
+    else
         Level = 1;
-        
+
     ExitMenus();
     DemoPlaying = FALSE;
     ExitLevel = TRUE;
     NewGame = TRUE;
     DemoMode = FALSE;
     CameraTestMode = FALSE;
-    
+
     //InitNewGame();
-    
+
     if(Skill == 0)
         handle = PlaySound(DIGI_TAUNTAI3,&zero,&zero,&zero,v3df_none);
     else
@@ -1833,7 +1833,7 @@ MNU_StartGame(void)
     if (handle >= FX_Ok)
         while(FX_SoundActive(handle))
 			handleevents();
-    
+
     return (TRUE);
     }
 
@@ -1841,7 +1841,7 @@ VOID ResetMenuInput(VOID)
     {
     cust_callback = NULL;
     InputMode = FALSE;
-    }    
+    }
 
 BOOL
 MNU_StartNetGame(void)
@@ -1852,7 +1852,7 @@ MNU_StartNetGame(void)
         //extern int gTenActivated;
         // CTW REMOVED END
     int pnum;
-    
+
     // always assumed that a demo is playing
 
     ready2send = 0;
@@ -1871,7 +1871,7 @@ MNU_StartNetGame(void)
         // TENSW: return if a joiner
         if (/* CTW REMOVED gTenActivated && */!AutoNet && FirstTimeIntoGame)
                 return TRUE;
-    
+
     // need to set gNet vars for self
     // everone else gets a packet to set them
     gNet.AutoAim            = gs.AutoAim;
@@ -1880,31 +1880,31 @@ MNU_StartNetGame(void)
     gNet.Nuke               = gs.NetNuke;
     gNet.KillLimit          = gs.NetKillLimit*10;
     gNet.TimeLimit          = TimeLimitTable[gs.NetTimeLimit]*60*120;
-        
+
     if (ShortGameMode)
         {
         gNet.KillLimit /= 10;
         gNet.TimeLimit /= 2;
         }
-        
+
     gNet.TimeLimitClock     = gNet.TimeLimit;
     gNet.TeamPlay           = gs.NetTeamPlay;
     gNet.MultiGameType      = gs.NetGameType+1;
-    
+
     if (gNet.MultiGameType == MULTI_GAME_COMMBAT_NO_RESPAWN)
         {
         gNet.MultiGameType = MULTI_GAME_COMMBAT;
         gNet.NoRespawn = TRUE;
         }
-    else    
+    else
         {
         gNet.NoRespawn = FALSE;
         }
-    
+
     if (CommEnabled)
         {
         PACKET_NEW_GAME p;
-        
+
         p.PacketType = PACKET_TYPE_NEW_GAME;
         p.Level = Level;
         p.Skill = Skill;
@@ -1916,15 +1916,15 @@ MNU_StartNetGame(void)
         p.KillLimit = gs.NetKillLimit;
         p.TimeLimit = gs.NetTimeLimit;
         p.Nuke = gs.NetNuke;
-        
+
         netbroadcastpacket((BYTEp)(&p), sizeof(p));            // TENSW
         }
 
-        
+
     return (TRUE);
     }
 
-    
+
 BOOL
 MNU_EpisodeCustom(void)
     {
@@ -1953,10 +1953,10 @@ MNU_QuitCustom(UserCall call, MenuItem_p item)
 
         dialog[0] = S_QUITYN;
         }
-    
+
     ret = MNU_Dialog();
-    
-    if (DrawScreen)    
+
+    if (DrawScreen)
         return(TRUE);
 
     if (!ret)
@@ -1968,7 +1968,7 @@ MNU_QuitCustom(UserCall call, MenuItem_p item)
             cust_callback_item = item;
             }
         else
-            {    
+            {
             cust_callback = NULL;
             ExitMenus();
             }
@@ -1983,9 +1983,9 @@ MNU_QuitCustom(UserCall call, MenuItem_p item)
         {
         if (CommPlayers >= 2)
             MultiPlayQuitFlag = TRUE;
-        else    
+        else
             QuitFlag = TRUE;
-        
+
         ExitMenus();
         }
 
@@ -2009,9 +2009,9 @@ MNU_QuickLoadCustom(UserCall call, MenuItem_p item)
         {
         if (call != uc_setup)
             return (FALSE);
-    
+
         memset(dialog, 0, sizeof(dialog));
-    
+
         dialog[0] = "Load saved game";
         sprintf(QuickLoadDescrDialog,"\"%s\" (Y/N)?",SaveGameDescr[QuickLoadNum]);
         dialog[1] = QuickLoadDescrDialog;
@@ -2031,7 +2031,7 @@ MNU_QuickLoadCustom(UserCall call, MenuItem_p item)
     if (ret == FALSE)
         {
         if (KB_KeyPressed(sc_N) || KB_KeyPressed(sc_Space) || KB_KeyPressed(sc_Enter))
-            {    
+            {
             cust_callback = NULL;
             if (ReloadPrompt)
                 {
@@ -2041,7 +2041,7 @@ MNU_QuickLoadCustom(UserCall call, MenuItem_p item)
                 PutStringInfo(pp, "Press SPACE to restart");
                 GlobInfoStringTime = bak;
                 }
-            
+
             KB_ClearKeysDown();
             ExitMenus();
             }
@@ -2056,12 +2056,12 @@ MNU_QuickLoadCustom(UserCall call, MenuItem_p item)
         {
         // Y pressed
         cust_callback = NULL;
-        
+
         KB_ClearKeysDown();
         LoadSaveMsg("Loading...");
 
         PauseAction();
-        
+
         ReloadPrompt = FALSE;
         if (LoadGame(QuickLoadNum) == -1)
             {
@@ -2071,28 +2071,28 @@ MNU_QuickLoadCustom(UserCall call, MenuItem_p item)
 
         ready2send = 1;
         LastSaveNum = -1;
-        
+
         // do a load game here
         KB_ClearKeysDown();
         ExitMenus();
         }
-        
+
     KB_ClearKeysDown();
 
     return (TRUE);
     }
-    
+
 // MENU FUNCTIONS /////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////
 // Set some global menu related defaults
 ////////////////////////////////////////////////
-void 
+void
 MNU_InitMenus(void)
     {
     pClearTextLine(Player + myconnectindex, TEXT_INFO_LINE(0));
-        
+
     slidersettings[sldr_mouse] = gs.MouseSpeed/(MOUSE_SENS_MAX_VALUE/SLDR_MOUSESENSEMAX);
-    
+
     slidersettings[sldr_sndfxvolume] = gs.SoundVolume / (FX_VOL_MAX_VALUE/SLDR_SNDFXVOLMAX);
     slidersettings[sldr_musicvolume] = gs.MusicVolume / (MUSIC_VOL_MAX_VALUE/SLDR_MUSICVOLMAX);
     slidersettings[sldr_scrsize] = gs.BorderNum;
@@ -2108,30 +2108,30 @@ MNU_InitMenus(void)
 	for (i=0; i<numvalidbpps; i++)
 		if (validbpps[i] == bpp)
 			slidersettings[sldr_videobpp] = i;
-	
+
 	i = checkvideomode(&newx, &newy, bpp, fullscreen, 1);
 	if (i != 0x7fffffff && i >= 0)
 		for (i=0; i<numvalidresolutions; i++)
 			if (validresolutions[i].xdim == newx && validresolutions[i].ydim == newy)
 				slidersettings[sldr_videores] = i;
     }
-    
+
     buttonsettings[btn_auto_run] = gs.AutoRun;
     buttonsettings[btn_auto_aim] = gs.AutoAim;
     buttonsettings[btn_messages] = gs.Messages;
     buttonsettings[btn_crosshair] = gs.Crosshair;
     //    buttonsettings[btn_bobbing] = gs.Bobbing;
-    buttonsettings[btn_shadows] = gs.Shadows; 
-    
-    buttonsettings[btn_mouse_aim] = gs.MouseAimingType;      
-    buttonsettings[btn_mouse_invert] = gs.MouseInvert;    
-    buttonsettings[btn_sound] = gs.FxOn;      
-    buttonsettings[btn_music] = gs.MusicOn;   
-    buttonsettings[btn_talking] = gs.Talking; 
-    
-    buttonsettings[btn_voxels] = gs.Voxels;     
-    buttonsettings[btn_ambience] = gs.Ambient;     
-    buttonsettings[btn_playcd] = gs.PlayCD;     
+    buttonsettings[btn_shadows] = gs.Shadows;
+
+    buttonsettings[btn_mouse_aim] = gs.MouseAimingType;
+    buttonsettings[btn_mouse_invert] = gs.MouseInvert;
+    buttonsettings[btn_sound] = gs.FxOn;
+    buttonsettings[btn_music] = gs.MusicOn;
+    buttonsettings[btn_talking] = gs.Talking;
+
+    buttonsettings[btn_voxels] = gs.Voxels;
+    buttonsettings[btn_ambience] = gs.Ambient;
+    buttonsettings[btn_playcd] = gs.PlayCD;
     buttonsettings[btn_flipstereo] = gs.FlipStereo;
     buttonsettings[btn_stats] = gs.Stats;
 
@@ -2141,7 +2141,7 @@ MNU_InitMenus(void)
     slidersettings[sldr_killlimit] = gs.NetKillLimit;
     slidersettings[sldr_timelimit] = gs.NetTimeLimit;
     slidersettings[sldr_playercolor] = gs.NetColor;
-    
+
     buttonsettings[btn_nuke] = gs.NetNuke;
     buttonsettings[btn_markers] = gs.NetSpawnMarkers;
     buttonsettings[btn_teamplay] = gs.NetTeamPlay;
@@ -2161,10 +2161,10 @@ MNU_InitMenus(void)
         main_i[0].child = &networkgroup;
     else
 //        #ifdef SW_SHAREWARE
-        main_i[0].child = &episodegroup;        
+        main_i[0].child = &episodegroup;
 //        #else
-//        main_i[0].child = &skillgroup;        
-//        #endif    
+//        main_i[0].child = &skillgroup;
+//        #endif
     main_i[4].text = (SW_SHAREWARE) ? MAIN_MENU_HOW_TO_ORDER : MAIN_MENU_COOL_STUFF;
     main_i[4].hotkey = (SW_SHAREWARE) ? KEYSC_H : KEYSC_C;
     }
@@ -2193,7 +2193,7 @@ MNU_MeasureStringLarge(const char *string, short *w, short *h)
             c = toupper(c);
             pic = FONT_LARGE_ALPHA + (c - 'A');
             }
-        else    
+        else
         if (isdigit(c))
             {
             pic = FONT_LARGE_DIGIT + lg_xlat_num[(c - '0')];
@@ -2204,11 +2204,11 @@ MNU_MeasureStringLarge(const char *string, short *w, short *h)
             width += 10;                 // Special case for space char
             continue;
             }
-        else        
+        else
             {
             continue;
-            }    
-        
+            }
+
         width += tilesizx[pic]+1;
         if (height < tilesizy[pic])
             height = tilesizy[pic];
@@ -2221,13 +2221,13 @@ MNU_MeasureStringLarge(const char *string, short *w, short *h)
 ////////////////////////////////////////////////
 // Draw a string using a graphic font
 ////////////////////////////////////////////////
-void 
+void
 MNU_DrawStringLarge(short x, short y, const char *string)
     {
     int ndx, offset;
     char c;
     short pic;
-    
+
     offset = x;
 
     for (ndx = 0; (c = string[ndx]) != 0; ndx++)
@@ -2237,7 +2237,7 @@ MNU_DrawStringLarge(short x, short y, const char *string)
             c = toupper(c);
             pic = FONT_LARGE_ALPHA + (c - 'A');
             }
-        else    
+        else
         if (isdigit(c))
             {
             pic = FONT_LARGE_DIGIT + lg_xlat_num[(c - '0')];
@@ -2248,18 +2248,18 @@ MNU_DrawStringLarge(short x, short y, const char *string)
             offset += 10;
             continue;
             }
-        else        
+        else
             {
             continue;
-            }    
-        
+            }
+
         rotatesprite(offset << 16, y << 16, MZ, 0, pic, MenuTextShade, 0, MenuDrawFlags|ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
         offset += tilesizx[pic] + 1;
         }
 
     }
 
-    
+
 ////////////////////////////////////////////////
 // Measure the pixel width of a graphic string
 ////////////////////////////////////////////////
@@ -2269,7 +2269,7 @@ MNU_MeasureString(const char *string, short *w, short *h)
     short ndx, width, height;
     char c;
     short ac;
-    
+
     if (string[0] == '^')
         {
         MNU_MeasureStringLarge(&string[1], w, h);
@@ -2291,7 +2291,7 @@ MNU_MeasureString(const char *string, short *w, short *h)
             if (height < tilesizy[ac])
                 height = tilesizy[ac];
             }
-        else 
+        else
         if (c == asc_Space)
             width += 4;                 // Special case for space char
         }
@@ -2305,7 +2305,7 @@ MNU_MeasureString(const char *string, short *w, short *h)
 //
 // MenuTextShade and MenuDrawFlags
 ////////////////////////////////////////////////
-void 
+void
 MNU_DrawString(short x, short y, const char *string, short shade, short pal)
 {
     int ndx, offset;
@@ -2317,7 +2317,7 @@ MNU_DrawString(short x, short y, const char *string, short shade, short pal)
         MNU_DrawStringLarge(x,y, &string[1]);
         return;
     }
-        
+
     offset = x;
 
     for (ndx = 0; (c = string[ndx]) != 0; ndx++)
@@ -2330,14 +2330,14 @@ MNU_DrawString(short x, short y, const char *string, short shade, short pal)
         {
             rotatesprite(offset<<16,y<<16,MZ,0,ac, shade, pal, MenuDrawFlags, 0, 0, xdim - 1, ydim - 1);
             offset += tilesizx[ac];
-        } else 
+        } else
         if (c == asc_Space)
             offset += 4;                // Special case for space char
     }
 
 }
 /*   Original code
-void 
+void
 MNU_DrawString(short x, short y, char *string)
 {
     int ndx, offset;
@@ -2348,7 +2348,7 @@ MNU_DrawString(short x, short y, char *string)
         MNU_DrawStringLarge(x,y, &string[1]);
         return;
     }
-        
+
     offset = x;
 
     for (ndx = 0; (c = string[ndx]) != 0; ndx++)
@@ -2357,7 +2357,7 @@ MNU_DrawString(short x, short y, char *string)
         {
             rotatesprite(offset << 16, y << 16, MZ, 0, xlatfont[c], MenuTextShade, 0, MenuDrawFlags, 0, 0, xdim - 1, ydim - 1);
             offset += tilesizx[xlatfont[c]];
-        } else 
+        } else
         if (c == asc_Space)
             offset += 4;                // Special case for space char
     }
@@ -2374,7 +2374,7 @@ MNU_MeasureSmallString(const char *string, short *w, short *h)
     short ndx, width, height;
     char c;
     short ac;
-    
+
     width = 0;
     height = *h;
 
@@ -2390,7 +2390,7 @@ MNU_MeasureSmallString(const char *string, short *w, short *h)
             if (height < tilesizy[ac])
                 height = tilesizy[ac];
             }
-        else 
+        else
         if (c == asc_Space)
             width += 4;                 // Special case for space char
         }
@@ -2402,7 +2402,7 @@ MNU_MeasureSmallString(const char *string, short *w, short *h)
 ////////////////////////////////////////////////
 // Draw a string using a small graphic font
 ////////////////////////////////////////////////
-void 
+void
 MNU_DrawSmallString(short x, short y, const char *string, short shade, short pal)
 {
     int ndx;
@@ -2423,8 +2423,8 @@ MNU_DrawSmallString(short x, short y, const char *string, short shade, short pal
             rotatesprite(offset<<16,y<<16,MZ,0,ac, shade, pal, MenuDrawFlags, 0, 0, xdim - 1, ydim - 1);
 
             offset += tilesizx[ac];
-            
-        } else 
+
+        } else
         if (c == asc_Space)
             {
             offset += 4;                // Special case for space char
@@ -2437,7 +2437,7 @@ MNU_DrawSmallString(short x, short y, const char *string, short shade, short pal
 //  Get an input string from user using small font
 ////////////////////////////////////////////////
 
-signed char 
+signed char
 MNU_InputSmallString(char *name, short pix_width)
     {
     char ch;
@@ -2457,7 +2457,7 @@ MNU_InputSmallString(char *name, short pix_width)
             {
             CON_CommandHistory(1);
             }
-        else 
+        else
         if (con_input.dir == dir_South)
             {
             CON_CommandHistory(-1);
@@ -2474,7 +2474,7 @@ MNU_InputSmallString(char *name, short pix_width)
             ch = KB_Getch();
             if (ch == 104) // extended enter
                 ch = ascii_return;
-            else    
+            else
                 continue;
             }
 
@@ -2483,17 +2483,17 @@ MNU_InputSmallString(char *name, short pix_width)
             name[strlen(name) - 1] = '\0';
             continue;
             }
-        else 
+        else
         if (ch == ascii_esc)
             {
             return (-1);
             }
-        else 
+        else
         if (ch == ascii_return)
             {
             return (FALSE);
             }
-        else 
+        else
         if (!isprint(ch))
             continue;
 
@@ -2550,7 +2550,7 @@ MNU_Dialog(void)
 //  Get an input string from user
 ////////////////////////////////////////////////
 
-signed char 
+signed char
 MNU_InputString(char *name, short pix_width)
     {
     char ch;
@@ -2571,13 +2571,13 @@ MNU_InputString(char *name, short pix_width)
         if (ch == 0)
             {
             ch = KB_Getch();
-            
+
             ////DSPRINTF(ds, "extended key %c %d", ch, ch);
             //MONO_PRINT(ds);
-             
+
             if (ch == 104) // extended enter
                 ch = ascii_return;
-            else    
+            else
                 continue;
             }
 
@@ -2586,17 +2586,17 @@ MNU_InputString(char *name, short pix_width)
             name[strlen(name) - 1] = '\0';
             continue;
             }
-        else 
+        else
         if (ch == ascii_esc)
             {
             return (-1);
             }
-        else 
+        else
         if (ch == ascii_return)
             {
             return (FALSE);
             }
-        else 
+        else
         if (!isprint(ch))
             continue;
 
@@ -2618,7 +2618,7 @@ MNU_InputString(char *name, short pix_width)
 VOID LoadSaveMsg(char *msg)
     {
     short w,h;
-    
+
     flushperms();
     DrawMenuLevelScreen();
     strcpy((char*)ds, (char*)msg);
@@ -2626,7 +2626,7 @@ VOID LoadSaveMsg(char *msg)
     MNU_DrawString(TEXT_XCENTER(w), 170, ds, 1, 16);
     nextpage();
     }
-        
+
 
 ////////////////////////////////////////////////
 //  Load Game menu
@@ -2663,10 +2663,10 @@ MNU_GetLoadCustom(void)
         LoadGameOutsideMoveLoop = TRUE;
         if (DemoMode || DemoPlaying)
             LoadGameFromDemo = TRUE;
-    
+
         return(TRUE);
         }
-        
+
     LoadSaveMsg("Loading...");
 
     PauseAction();
@@ -2680,7 +2680,7 @@ MNU_GetLoadCustom(void)
     QuickLoadNum = load_num;
     // the (Quick)Save menu should default to the last loaded game
     SaveGameGroup.cursor = load_num;
-        
+
     ready2send = 1;
     LastSaveNum = -1;
     ExitMenus();
@@ -2710,20 +2710,20 @@ MNU_GetSaveCustom(void)
     extern BOOL InMenuLevel, LoadGameOutsideMoveLoop;
 
     save_num = currentmenu->cursor;
-    
+
     if (InMenuLevel)
         return(FALSE);
 
     if (MenuInputMode)
         {
         PauseAction();
-        
+
         LoadSaveMsg("Saving...");
-        
+
         if (SaveGame(save_num) != -1)
             {
             QuickLoadNum = save_num;
-            
+
             LoadGameGroup.cursor = save_num;
             LastSaveNum = -1;
             }
@@ -2786,7 +2786,7 @@ MNU_LoadSaveMove(UserCall UNUSED(call), MenuItem_p UNUSED(item))
     short tile;
     static short SaveGameEpisode, SaveGameLevel, SaveGameSkill;
     BOOL GotInput = FALSE;
-    
+
     if (!UsingMenus)
         return(TRUE);
 
@@ -2826,7 +2826,7 @@ MNU_LoadSaveMove(UserCall UNUSED(call), MenuItem_p UNUSED(item))
     if (MenuInputMode)
         {
         MenuItem *item = &currentmenu->items[currentmenu->cursor];
-        
+
         if (SavePrompt)
             {
             if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter))
@@ -2837,7 +2837,7 @@ MNU_LoadSaveMove(UserCall UNUSED(call), MenuItem_p UNUSED(item))
                 // use input
                 item->custom();
                 }
-            else    
+            else
             if (KB_KeyPressed(sc_N))
                 {
 		KB_ClearKeyDown(sc_N);
@@ -2846,7 +2846,7 @@ MNU_LoadSaveMove(UserCall UNUSED(call), MenuItem_p UNUSED(item))
                 MenuInputMode = FALSE;
                 }
             }
-        else    
+        else
         // get input
         switch (MNU_InputString(SaveGameDescr[game_num], 114))
             {
@@ -2871,13 +2871,13 @@ MNU_LoadSaveMove(UserCall UNUSED(call), MenuItem_p UNUSED(item))
         case TRUE:                      // Got input
             break;
             }
-        
-        if (GotInput)    
+
+        if (GotInput)
             {
             if (BackupSaveGameDescr[0])
                 SavePrompt = TRUE;
-                
-            if (!SavePrompt)    
+
+            if (!SavePrompt)
                 {
                 // use input
                 item->custom();
@@ -2887,7 +2887,7 @@ MNU_LoadSaveMove(UserCall UNUSED(call), MenuItem_p UNUSED(item))
 
     return (TRUE);
     }
-    
+
 BOOL
 MNU_LoadSaveDraw(UserCall UNUSED(call), MenuItem_p UNUSED(item))
     {
@@ -2920,7 +2920,7 @@ MNU_LoadSaveDraw(UserCall UNUSED(call), MenuItem_p UNUSED(item))
 
             MNU_DrawString(SD_XSTART + 4, SD_YSTART + (i * SD_YOFF) + 2, tmp, 1, 16);
             }
-        else 
+        else
         if (SaveGameDescr[i][0] != '\0')
             {
             MNU_DrawString(SD_XSTART + 4, SD_YSTART + (i * SD_YOFF) + 2, SaveGameDescr[i], 1, 16);
@@ -2936,8 +2936,8 @@ MNU_LoadSaveDraw(UserCall UNUSED(call), MenuItem_p UNUSED(item))
         // draw info string
         MNU_DrawString(SS_XSTART + 13, SS_YSTART + 100 + 10, SaveGameInfo1, 1, 16);
         MNU_DrawString(SS_XSTART + 13, SS_YSTART + 100 + 18, SaveGameInfo2, 1, 16);
-        
-        if (SavePrompt)    
+
+        if (SavePrompt)
             {
             MNU_DrawString(SS_XSTART + SS_BORDER_SIZE + 5, SS_YSTART + SS_BORDER_SIZE + 47, "Overwrite previous", 1, 16);
             MNU_DrawString(SS_XSTART + SS_BORDER_SIZE + 5, SS_YSTART + SS_BORDER_SIZE + 47 + 12, "  saved game (Y/N)", 1, 16);
@@ -2948,14 +2948,14 @@ MNU_LoadSaveDraw(UserCall UNUSED(call), MenuItem_p UNUSED(item))
         // draw 160x100 black pic
         rotatesprite((SS_XSTART + SS_BORDER_SIZE) << 16, (SS_YSTART + SS_BORDER_SIZE) << 16, (1 << 16), 0, pic_loadsavescreenbak,
             0, 0, MenuDrawFlags | ROTATE_SPRITE_CORNER | ROTATE_SPRITE_NON_MASK, 0, 0, xdim - 1, ydim - 1);
-            
+
         MNU_DrawString(SS_XSTART + SS_BORDER_SIZE + 60, SS_YSTART + SS_BORDER_SIZE + 47, "Empty", 1, 16);
         }
-    
+
 
     return (TRUE);
     }
-    
+
 BOOL
 MNU_ShareWareCheck(MenuItem *item)
     {
@@ -2971,11 +2971,11 @@ MNU_CheckUserMap(MenuItem *item)
     {
     if (UserMapName[0] == '\0')
         RESET(item->flags, mf_disabled);
-    else    
+    else
         SET(item->flags, mf_disabled);
     return (TRUE);
     }
-    
+
 BOOL
 MNU_ShareWareMessage(MenuItem *item)
     {
@@ -3005,35 +3005,35 @@ MNU_ShareWareMessage(MenuItem *item)
     }
     return (TRUE);
     }
-    
+
 BOOL
 MNU_SaveGameCheck(MenuItem *item)
     {
     extern BOOL InMenuLevel;
     extern BOOL DemoMode;
-    
+
     if (0) {	// JBF: Until we fix the symbol table dilemma, saving is off limits
         SET(item->flags, mf_disabled);
         return(TRUE);
     }
-    
+
     if (CommEnabled || numplayers > 1 || DemoMode)
         {
         SET(item->flags, mf_disabled);
         return(TRUE);
         }
-    
+
     if (InMenuLevel)
         SET(item->flags, mf_disabled);
     else
         {
-        if (TEST(Player[myconnectindex].Flags, PF_DEAD))    
+        if (TEST(Player[myconnectindex].Flags, PF_DEAD))
             SET(item->flags, mf_disabled);
-        else    
+        else
             RESET(item->flags, mf_disabled);
-        }    
-    
-    
+        }
+
+
     return (TRUE);
     }
 
@@ -3045,10 +3045,10 @@ MNU_TenCheck(MenuItem *item)
         SET(item->flags, mf_disabled);
         return(TRUE);
         }
-    
+
     return (TRUE);
     }
-    
+
 BOOL
 MNU_LoadGameCheck(MenuItem *item)
     {
@@ -3063,7 +3063,7 @@ MNU_LoadGameCheck(MenuItem *item)
         SET(item->flags, mf_disabled);
         return(TRUE);
         }
-    
+
     return (TRUE);
     }
 
@@ -3075,7 +3075,7 @@ MNU_StatCheck(MenuItem *item)
         SET(item->flags, mf_disabled);
         return(TRUE);
         }
-    
+
     return (TRUE);
     }
 
@@ -3092,12 +3092,12 @@ MNU_HurtTeammateCheck(MenuItem *item)
             else
                 SET(item->flags, mf_disabled);
             break;
-        // co-op    
+        // co-op
         case MULTI_GAME_COOPERATIVE:
             RESET(item->flags, mf_disabled);
-            break;        
-        }    
-            
+            break;
+        }
+
     return (TRUE);
     }
 
@@ -3106,15 +3106,15 @@ MNU_TeamPlayCheck(MenuItem *item)
     {
     switch (gs.NetGameType+1)
         {
-        // co-op    
+        // co-op
         case MULTI_GAME_COOPERATIVE:
             SET(item->flags, mf_disabled);
-            break;        
+            break;
         default:
             RESET(item->flags, mf_disabled);
             break;
-        }    
-            
+        }
+
     return (TRUE);
     }
 
@@ -3123,18 +3123,18 @@ MNU_CoopPlayCheck(MenuItem *item)
     {
     switch (gs.NetGameType+1)
         {
-        // co-op    
+        // co-op
         case MULTI_GAME_COOPERATIVE:
             SET(item->flags, mf_disabled);
-            break;        
+            break;
         default:
             RESET(item->flags, mf_disabled);
             break;
-        }    
-            
+        }
+
     return (TRUE);
     }
-    
+
 BOOL
 MNU_TeamPlayChange(void)
     {
@@ -3142,7 +3142,7 @@ MNU_TeamPlayChange(void)
     MNU_ItemPreProcess(currentmenu);
     return (TRUE);
     }
-    
+
 BOOL
 MNU_MouseCheck(MenuItem *item)
     {
@@ -3153,8 +3153,8 @@ MNU_MouseCheck(MenuItem *item)
     else
         {
         RESET(item->flags, mf_disabled);
-        }    
-        
+        }
+
     return (TRUE);
     }
 
@@ -3168,12 +3168,12 @@ MNU_JoystickCheck(MenuItem *item)
     else
         {
         RESET(item->flags, mf_disabled);
-        }    
-        
+        }
+
     return (TRUE);
     }
 
-// This is only called when Enter is pressed    
+// This is only called when Enter is pressed
 static BOOL
 MNU_TryMusicInit(void)
     {
@@ -3186,7 +3186,7 @@ MNU_TryMusicInit(void)
     return (TRUE);
     }
 
-BOOL    
+BOOL
 MNU_MusicCheck(MenuItem *item)
     {
     if (SW_SHAREWARE) {
@@ -3197,7 +3197,7 @@ MNU_MusicCheck(MenuItem *item)
     else
         {
         RESET(item->flags, mf_disabled);
-        }    
+        }
     } else {
     // Redbook audio stuff
     //JBF
@@ -3208,12 +3208,12 @@ MNU_MusicCheck(MenuItem *item)
     //else
         {
         RESET(item->flags, mf_disabled);
-        }    
+        }
     }
-        
+
     return (TRUE);
     }
-    
+
 BOOL
 MNU_FxCheck(MenuItem *item)
     {
@@ -3224,8 +3224,8 @@ MNU_FxCheck(MenuItem *item)
     else
         {
         RESET(item->flags, mf_disabled);
-        }    
-        
+        }
+
     return (TRUE);
     }
 
@@ -3239,15 +3239,15 @@ MNU_MusicFxCheck(MenuItem *item)
     else
         {
         RESET(item->flags, mf_disabled);
-        }    
-        
+        }
+
     return (TRUE);
     }
-    
+
 ////////////////////////////////////////////////
 // Do a toggle button
 ////////////////////////////////////////////////
-void 
+void
 MNU_DoButton(MenuItem_p item, BOOL draw)
     {
     int x, y;
@@ -3262,7 +3262,7 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
     extern BOOL MusicInitialized,FxInitialized;
 
     button_x = OPT_XSIDE;
-    
+
     x = item->x;
     y = item->y;
 
@@ -3271,28 +3271,28 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
         shade = MENU_SHADE_INACTIVE;
         }
 
-    if (!draw)    
+    if (!draw)
         {
         switch (item->button)
             {
         case btn_nuke:
             gs.NetNuke = state = buttonsettings[item->button];
-            break;        
+            break;
         case btn_voxels:
             gs.Voxels = state = buttonsettings[item->button];
-            break;        
+            break;
         case btn_stats:
             gs.Stats = state = buttonsettings[item->button];
-            break;        
+            break;
         case btn_markers:
             gs.NetSpawnMarkers = state = buttonsettings[item->button];
-            break;        
+            break;
         case btn_teamplay:
             gs.NetTeamPlay = state = buttonsettings[item->button];
-            break;        
+            break;
         case btn_friendlyfire:
             gs.NetHurtTeammate = state = buttonsettings[item->button];
-            break;        
+            break;
         case btn_crosshair:
             gs.Crosshair = state = buttonsettings[item->button];
             break;
@@ -3319,7 +3319,7 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
                 //RESET(pp->Flags, PF_MOUSE_AIMING_ON);
                 //gs.MouseAimingOn = FALSE;
                 }
-            //extra_text = gs.MouseAimingType ? "Momentary" : "Toggle";       
+            //extra_text = gs.MouseAimingType ? "Momentary" : "Toggle";
             break;
         case btn_mouse_invert:
             gs.MouseInvert = state = buttonsettings[item->button];
@@ -3338,7 +3338,7 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
                 {
                 if (!gs.FxOn)
                     StopFX();
-                }    
+                }
             break;
         case btn_music:
             last_value = gs.MusicOn;
@@ -3346,11 +3346,11 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
             if (gs.MusicOn != last_value)
                 {
                 BOOL bak;
-                
+
                 if (gs.MusicOn)
                     {
                     bak = DemoMode;
-                    PlaySong(LevelSong, RedBookSong[Level], TRUE, TRUE);    
+                    PlaySong(LevelSong, RedBookSong[Level], TRUE, TRUE);
                     DemoMode = bak;
                     }
                 else
@@ -3368,7 +3368,7 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
                                 handleevents();
                         }
 					}
-                }    
+                }
             break;
         case btn_talking:
             gs.Talking = state = buttonsettings[item->button];
@@ -3386,10 +3386,10 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
                     {
                     if (gs.Ambient)
                         StartAmbientSound();
-                    else    
+                    else
                         StopAmbientSound();
-                    }    
-                }    
+                    }
+                }
             break;
         case btn_flipstereo:
             last_value = gs.FlipStereo;
@@ -3462,22 +3462,22 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
             state = buttonsettings[item->button];
             break;
             }
-        }    
-    
-    if (!draw)    
+        }
+
+    if (!draw)
         return;
-    
+
     switch (item->button)
         {
         case btn_mouse_aim:
-            extra_text = gs.MouseAimingType ? "Momentary" : "Toggle";       
+            extra_text = gs.MouseAimingType ? "Momentary" : "Toggle";
             break;
 	default: break;
         }
-        
-    
+
+
     state = buttonsettings[item->button];
-        
+
     // Draw the button
     if (item->text)
         {
@@ -3491,13 +3491,13 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
             // not set
             rotatesprite(button_x << 16, y << 16, MZ, 0, pic_radiobuttn1, shade, 0, MenuDrawFlags, 0, 0, xdim - 1, ydim - 1);
             }
-            
-        MenuTextShade = shade;    
+
+        MenuTextShade = shade;
         MNU_DrawString(x, y, item->text, MenuTextShade, 16);
-        
+
         if (extra_text)
             MNU_DrawString(OPT_XSIDE + tilesizx[pic_radiobuttn1] + 6, y, extra_text, MenuTextShade, 16);
-        MenuTextShade = MENU_SHADE_DEFAULT;    
+        MenuTextShade = MENU_SHADE_DEFAULT;
         }
     else
         {
@@ -3505,9 +3505,9 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
             rotatesprite(x << 16, y << 16, MZ, 0, pic_radiobuttn2, 2, 0, MenuDrawFlags, 0, 0, xdim - 1, ydim - 1);
         else
             rotatesprite(x << 16, y << 16, MZ, 0, pic_radiobuttn1, 2, 0, MenuDrawFlags, 0, 0, xdim - 1, ydim - 1);
-            
+
         x += tilesizx[pic_radiobuttn1] + 4;
-        
+
         // Draw the menu item text
         rotatesprite(x << 16, y << 16, MZ, 0, item->pic, 2, 0, MenuDrawFlags, 0, 0, xdim - 1, ydim - 1);
         }
@@ -3519,7 +3519,7 @@ char *gametype[] = {"WangBang (spawn)","WangBang (no spawn)","Cooperative"};
 char *playercolors[] = {"Brown","Gray","Purple","Red","Yellow","Olive","Green","Blue"};
 char *monsterskills[] = {"No Monsters","Easy","Normal","Hard","Insane!"};
 
-void 
+void
 MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     {
     short offset, i, barwidth;
@@ -3535,96 +3535,96 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
         shade = MENU_SHADE_INACTIVE;
         dir = 0;
         }
-        
+
     switch (item->slider)
         {
     case sldr_mouse:
         barwidth = SLDR_MOUSESENSEMAX;
         offset = slidersettings[sldr_mouse] += dir;
-        
+
         if (TEST(item->flags, mf_disabled))
             break;
-        
+
         offset = max(offset, 0);
         offset = min(offset, SLDR_MOUSESENSEMAX-1);
-        
+
         slidersettings[sldr_mouse] = offset;
-        
+
         gs.MouseSpeed = offset * (MOUSE_SENS_MAX_VALUE/SLDR_MOUSESENSEMAX);
         CONTROL_SetMouseSensitivity(gs.MouseSpeed);
         break;
-        
+
     case sldr_sndfxvolume:
         barwidth = SLDR_SNDFXVOLMAX;
         offset = slidersettings[sldr_sndfxvolume] += dir;
-        
+
         if (TEST(item->flags, mf_disabled))
             break;
-        
+
         offset = max(offset, 0);
         offset = min(offset, SLDR_SNDFXVOLMAX-1);
-        
+
         slidersettings[sldr_sndfxvolume] = offset;
         gs.SoundVolume = FX_MIN + (offset * VOL_MUL);
         FX_SetVolume(gs.SoundVolume);
         break;
-        
+
     case sldr_musicvolume:
         barwidth = SLDR_MUSICVOLMAX;
         offset = slidersettings[sldr_musicvolume] += dir;
         if (TEST(item->flags, mf_disabled))
             break;
-        
+
         offset = max(offset, 0);
         offset = min(offset, SLDR_MUSICVOLMAX-1);
-        
+
         slidersettings[sldr_musicvolume] = offset;
         gs.MusicVolume = MUSIC_MIN + (offset * VOL_MUL);
 		SetSongVolume(gs.MusicVolume);
         break;
-        
+
     case sldr_scrsize:
         {
         short bnum;
-        
+
         barwidth = SLDR_SCRSIZEMAX;
         slidersettings[sldr_scrsize] = gs.BorderNum;
         slidersettings[sldr_scrsize] -= dir;
         offset = slidersettings[sldr_scrsize];
-        
+
         if (TEST(item->flags, mf_disabled))
             break;
-        
+
     ////DSPRINTF(ds,"BorderNum %d",gs.BorderNum);
     //MONO_PRINT(ds);
-        
+
         offset = max(offset, 0);
         offset = min(offset, SLDR_SCRSIZEMAX - 1);
-        
+
         bnum = offset;
-        
+
         offset = (SLDR_SCRSIZEMAX-1) - offset;
         slidersettings[sldr_scrsize] = offset;
-        
+
         if (!BorderAdjust)
             gs.BorderNum = bnum;
-            
+
         SetBorder(&Player[myconnectindex], bnum);
-        
+
         break;
         }
-        
+
     case sldr_brightness:
         barwidth = SLDR_BRIGHTNESSMAX;
         offset = slidersettings[sldr_brightness] += dir;
-        
+
         if (TEST(item->flags, mf_disabled))
             break;
-            
+
         offset = max(offset, 0);
         offset = min(offset, SLDR_BRIGHTNESSMAX - 1);
         slidersettings[sldr_brightness] = offset;
-        
+
         if (gs.Brightness != offset)
             {
             gs.Brightness = offset;
@@ -3635,14 +3635,14 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     case sldr_bordertile:
         barwidth = SLDR_BORDERTILEMAX;
         offset = slidersettings[sldr_bordertile] += dir;
-        
+
         if (TEST(item->flags, mf_disabled))
             break;
-            
+
         offset = max(offset, 0);
         offset = min(offset, SLDR_BORDERTILEMAX - 1);
         slidersettings[sldr_bordertile] = offset;
-        
+
         if (gs.BorderTile != offset)
             {
             gs.BorderTile = offset;
@@ -3654,14 +3654,14 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     case sldr_gametype:
         barwidth = SLDR_GAMETYPEMAX;
         offset = slidersettings[sldr_gametype] += dir;
-        
+
         if (TEST(item->flags, mf_disabled))
             break;
-            
+
         offset = max(offset, 0);
         offset = min(offset, SLDR_GAMETYPEMAX - 1);
         slidersettings[sldr_gametype] = offset;
-        
+
         extra_text = gametype[offset];
         MNU_DrawString(OPT_XSIDE, item->y, extra_text, 1, 16);
         gs.NetGameType = offset;
@@ -3672,14 +3672,14 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     case sldr_netlevel:
         barwidth = SLDR_NETLEVELMAX;
         offset = slidersettings[sldr_netlevel] += dir;
-        
+
         if (TEST(item->flags, mf_disabled))
             break;
-            
+
         offset = max(offset, 0);
         offset = min(offset, SLDR_NETLEVELMAX - 1);
         slidersettings[sldr_netlevel] = offset;
-        
+
         // Show the currently selected level on next line
         //extra_text = MNU_LevelName[offset];
         //MNU_DrawString(OPT_XS, item->y+10, extra_text, 1, 16);
@@ -3691,14 +3691,14 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     case sldr_monsters:
         barwidth = SLDR_MONSTERSMAX;
         offset = slidersettings[sldr_monsters] += dir;
-        
+
         if (TEST(item->flags, mf_disabled))
             break;
-            
+
         offset = max(offset, 0);
         offset = min(offset, SLDR_MONSTERSMAX - 1);
         slidersettings[sldr_monsters] = offset;
-        
+
         extra_text = monsterskills[offset];
         MNU_DrawString(OPT_XSIDE+54, item->y, extra_text, 1, 16);
         gs.NetMonsters = offset;
@@ -3707,10 +3707,10 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     case sldr_killlimit:
         barwidth = SLDR_KILLLIMITMAX;
         offset = slidersettings[sldr_killlimit] += dir;
-        
+
         if (TEST(item->flags, mf_disabled))
             break;
-            
+
         offset = max(offset, 0);
         offset = min(offset, SLDR_KILLLIMITMAX - 1);
         slidersettings[sldr_killlimit] = offset;
@@ -3719,10 +3719,10 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
             {
             strcpy(tmp_text,"Infinite\n");
             }
-        else 
+        else
             {
             sprintf(tmp_text,"%d",offset*10);
-            //itoa(offset*10,tmp_text,10);        
+            //itoa(offset*10,tmp_text,10);
             }
         MNU_DrawString(OPT_XSIDE+101, item->y, tmp_text, 1, 16);
         gs.NetKillLimit = offset;
@@ -3731,10 +3731,10 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     case sldr_timelimit:
         barwidth = SLDR_TIMELIMITMAX;
         offset = slidersettings[sldr_timelimit] += dir;
-        
+
         if (TEST(item->flags, mf_disabled))
             break;
-            
+
         offset = max(offset, 0);
         offset = min(offset, SLDR_TIMELIMITMAX - 1);
         slidersettings[sldr_timelimit] = offset;
@@ -3743,11 +3743,11 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
             {
             strcpy(tmp_text,"Infinite\n");
             }
-        else 
+        else
             {
             sprintf(tmp_text,"%d Minutes\n",TimeLimitTable[offset]);
             }
-            
+
         MNU_DrawString(OPT_XSIDE+86, item->y, tmp_text, 1, 16);
         gs.NetTimeLimit = offset;
         break;
@@ -3755,14 +3755,14 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     case sldr_playercolor:
         barwidth = SLDR_PLAYERCOLORMAX;
         offset = slidersettings[sldr_playercolor] += dir;
-        
+
         if (TEST(item->flags, mf_disabled))
             break;
-            
+
         offset = max(offset, 0);
         offset = min(offset, SLDR_PLAYERCOLORMAX - 1);
         slidersettings[sldr_playercolor] = offset;
-        
+
         extra_text = playercolors[offset];
         MNU_DrawString(OPT_XSIDE+78, item->y, extra_text, 1, PALETTE_PLAYER0+offset);
         gs.NetColor = offset;
@@ -3792,7 +3792,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
 
 		if (slidersettings[sldr_videobpp] != offset) {
 			int lastx, lasty, newoffset, i;
-			
+
 			slidersettings[sldr_videobpp] = offset;
 
 			// find the nearest resolution to the one last selected
@@ -3816,10 +3816,10 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     case sldr_mousescaley:
         barwidth = 8+1+8;
         offset = slidersettings[item->slider] + dir;
-        
+
         if (TEST(item->flags, mf_disabled))
             break;
-        
+
         offset = max(offset, 0);
         offset = min(offset, barwidth-1);
 
@@ -3828,7 +3828,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
             slidersettings[item->slider] = offset;
             MouseAnalogScale[item->slider - sldr_mousescalex] = offset<<13;
             CONTROL_SetAnalogAxisScale(item->slider - sldr_mousescalex, offset<<13, controldevice_mouse);
-            }        
+            }
 
         sprintf(tmp_text, "%.2f", (float)(slidersettings[item->slider]<<13) / 65535.f);
         MNU_DrawSmallString(OPT_XSIDE+tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(MAX_SLDR_WIDTH+1)*tilesizx[pic_slidebar], item->y+4, tmp_text, 1, 16);
@@ -3849,7 +3849,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
             slidersettings[item->slider] = offset;
             JoystickAnalogScale[JoystickAxisPage] = offset<<13;
             CONTROL_SetAnalogAxisScale(JoystickAxisPage, offset<<13, controldevice_joystick);
-            }        
+            }
 
         sprintf(tmp_text, "%.2f", (float)(slidersettings[item->slider]<<13) / 65535.f);
         MNU_DrawSmallString(OPT_XSIDE+tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(MAX_SLDR_WIDTH+1)*tilesizx[pic_slidebar], item->y+4, tmp_text, 1, 16);
@@ -3873,7 +3873,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
             slidersettings[item->slider] = offset;
             JoystickAnalogAxes[JoystickAxisPage] = MNU_ControlAxisNum(offset);
             CONTROL_MapAnalogAxis(JoystickAxisPage, MNU_ControlAxisNum(offset), controldevice_joystick);
-            }        
+            }
 
         p = CONFIG_AnalogNumToName(MNU_ControlAxisNum(offset));
         while (*p != 0 && *p != '_') p++;
@@ -3906,7 +3906,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
                 JoystickAnalogSaturate[JoystickAxisPage] = min((offset<<10), 32767);
                 CONTROL_SetJoyAxisSaturate(JoystickAxisPage, JoystickAnalogSaturate[JoystickAxisPage]);
                 }
-            }        
+            }
 
         sprintf(tmp_text, "%.2f%%", (float)(slidersettings[item->slider]<<10) / 32767.f);
         MNU_DrawSmallString(OPT_XSIDE+tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(MAX_SLDR_WIDTH+1)*tilesizx[pic_slidebar], item->y+4, tmp_text, 1, 16);
@@ -3915,10 +3915,10 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
     default:
         return;
         }
-    
-    if (!draw)    
+
+    if (!draw)
         return;
-    
+
     // Now draw it
     item++;
     x = item->x;
@@ -3960,7 +3960,7 @@ MNU_SetupMenu(void)
     {
     MenuGroup *rootmenu;
 
-    static MenuGroup *rootmenulist[] = 
+    static MenuGroup *rootmenulist[] =
         {
         &maingroup,
         &SaveGameGroup,
@@ -3972,18 +3972,18 @@ MNU_SetupMenu(void)
         &ordergroup,
         &episodegroup,
         };
-    
+
     rootmenu = rootmenulist[ControlPanelType];
     ASSERT(ControlPanelType < ct_max);
 
     menuarrayptr = 0;
     menuarray[0] = currentmenu = rootmenu;
     if(ControlPanelType == ct_mainmenu)
-    
-    mnu_input_buffered.button0 = mnu_input_buffered.button1 = FALSE;    
-    mnu_input_buffered.dir = dir_None;    
-    order_input_buffered.button0 = order_input_buffered.button1 = FALSE;    
-    order_input_buffered.dir = dir_None;    
+
+    mnu_input_buffered.button0 = mnu_input_buffered.button1 = FALSE;
+    mnu_input_buffered.dir = dir_None;
+    order_input_buffered.button0 = order_input_buffered.button1 = FALSE;
+    order_input_buffered.dir = dir_None;
     ResetKeys();
 
     // custom cust_callback starts out as null
@@ -3998,9 +3998,9 @@ MNU_SetupMenu(void)
 
     if(ControlPanelType == ct_mainmenu)
         currentmenu->cursor = 0;
-            
-    // disable any items necessary    
-    MNU_ItemPreProcess(currentmenu);    
+
+    // disable any items necessary
+    MNU_ItemPreProcess(currentmenu);
     }
 
 ////////////////////////////////////////////////
@@ -4033,9 +4033,9 @@ MNU_PopGroup(void)
         return;
 
     currentmenu = menuarray[--menuarrayptr];
-    
-    SetFragBar(Player + myconnectindex);    
-    //PanelRefresh(Player + myconnectindex);    
+
+    SetFragBar(Player + myconnectindex);
+    //PanelRefresh(Player + myconnectindex);
     }
 
 ////////////////////////////////////////////////
@@ -4048,8 +4048,8 @@ MNU_PushGroup(MenuGroup * node)
         return;
 
     currentmenu = menuarray[++menuarrayptr] = node;
-    
-    SetFragBar(Player + myconnectindex);    
+
+    SetFragBar(Player + myconnectindex);
     }
 
 ////////////////////////////////////////////////
@@ -4062,16 +4062,16 @@ MNU_SetupGroup(void)
     MNU_DrawMenu();
     }
 
-static VOID    
+static VOID
 MNU_ItemPreProcess(MenuGroup * group)
     {
     MenuItem *item;
-    
+
     if (!group->items)
         return;
-    
+
     // process all items when going down a level
-    // to see if anything is disabled    
+    // to see if anything is disabled
     for (item = group->items; item->type != mt_none; item++)
         {
         if (item->preprocess)
@@ -4079,7 +4079,7 @@ MNU_ItemPreProcess(MenuGroup * group)
         }
     }
 
-VOID    
+VOID
 MNU_ItemPostProcess(MenuGroup * group)
     {
     MenuItem *item;
@@ -4087,7 +4087,7 @@ MNU_ItemPostProcess(MenuGroup * group)
 
     if (!group->items)
         return;
-    
+
     item = &currentmenu->items[currentmenu->cursor];
 
     if (item->postprocess)
@@ -4095,14 +4095,14 @@ MNU_ItemPostProcess(MenuGroup * group)
         item->postprocess(item);
         }
     }
-    
+
 ////////////////////////////////////////////////
 // Go to next menu subgroup
 ////////////////////////////////////////////////
 static void
 MNU_DownLevel(MenuGroup * group)
     {
-    
+
     if (!group)
         {
         TerminateGame();
@@ -4118,10 +4118,10 @@ MNU_DownLevel(MenuGroup * group)
             MNU_PopGroup();
         }
 
-    MNU_ItemPreProcess(currentmenu);    
-        
+    MNU_ItemPreProcess(currentmenu);
+
     MNU_SetupGroup();
-    
+
     SetRedrawScreen(&Player[myconnectindex]);
     }
 
@@ -4146,7 +4146,7 @@ MNU_UpLevel(void)
         currentmenu->items[currentmenu->cursor].flags &= ~mf_selected;
     MNU_PopGroup();
     MNU_SetupGroup();
-    
+
     SetRedrawScreen(&Player[myconnectindex]);
     }
 
@@ -4160,18 +4160,18 @@ MNU_DoItem(void)
 
     item = &currentmenu->items[currentmenu->cursor];
     if (!item) return;
-    
+
     if (TEST(item->flags, mf_disabled))
         {
         // Try to process again
         if (item->preprocess)
             item->preprocess(item);
-    
+
         // Check once more
         if (TEST(item->flags, mf_disabled))
             return;
         }
-        
+
     switch (item->type)
         {
         case mt_option:
@@ -4202,7 +4202,7 @@ MNU_DrawItemIcon(MenuItem * item)
     int x = item->x, y = item->y;
     int scale = MZ;
     short w,h;
-    
+
     if (item->text)
         {
         scale /= 2;
@@ -4214,11 +4214,11 @@ MNU_DrawItemIcon(MenuItem * item)
         scale -= (1<<13);
         x -= ((tilesizx[pic_yinyang]) / 2) - 3;
         y += 8;
-        }    
-        
+        }
+
     rotatesprite(x << 16, y << 16,
         scale, 0, pic_yinyang, item->shade, 0, MenuDrawFlags, 0, 0, xdim - 1, ydim - 1);
-        
+
     SetRedrawScreen(&Player[myconnectindex]);
     //BorderRefreshClip(&Player[myconnectindex], x - 24, y - 24, x + 24, y + 24);
     }
@@ -4236,13 +4236,13 @@ MNU_DrawItem(MenuItem * item)
 
     if (!item->pic)
         return;
-    
+
     MNU_DrawItemIcon(item);
 
     // if text string skip this part
     if (item->text)
         return;
-        
+
     if (TEST(item->flags, mf_selected) && !TEST(item->flags, mf_disabled))
         {
         // Highlighted
@@ -4285,7 +4285,7 @@ MNU_DrawMenuContents(void)
         MNU_MeasureStringLarge(currentmenu->text, &w, &h);
         MNU_DrawString(TEXT_XCENTER(w), currentmenu->y, currentmenu->text, 1, 16);
         }
-    else    
+    else
     if (currentmenu->titlepic)
         {
         rotatesprite(currentmenu->x << 16, currentmenu->y << 16, MZ, 0, currentmenu->titlepic,
@@ -4304,7 +4304,7 @@ MNU_DrawMenuContents(void)
                 // all drawing done here also
                 MNU_DoButton(item, TRUE);
                 }
-            else    
+            else
                 {
                 if (item->text)
                     {
@@ -4317,8 +4317,8 @@ MNU_DrawMenuContents(void)
                     {
                     rotatesprite(item->x << 16, item->y << 16, MZ, 0, item->pic,
                         item->shade, 0, MenuDrawFlags, 0, 0, xdim - 1, ydim - 1);
-                    }        
-                }        
+                    }
+                }
             }
 
         // Is there a slider attached to this item?  Draw it.
@@ -4383,7 +4383,7 @@ MNU_PushItem(MenuItem * item, BOOL draw)
         return;
 
     buttonsettings[item->button] ^= 1;
-    
+
 //    if (draw)
         MNU_DoButton(item, draw);
     }
@@ -4460,7 +4460,7 @@ MNU_DoHotkey(void)
 ////////////////////////////////////////////////
 // Setup Menus
 ////////////////////////////////////////////////
-void 
+void
 SetupMenu(void)
     {
     if (!UsingMenus && !ConPanel)       // Doing this check for multiplay
@@ -4492,7 +4492,7 @@ void MNU_DoMenu( CTLType UNUSED(type), PLAYERp UNUSED(pp) )
     static BOOL select_held=FALSE;
 
     resetitem = TRUE;
-    
+
     if (cust_callback != NULL)
         {
         cust_callback(cust_callback_call, cust_callback_item);
@@ -4512,25 +4512,25 @@ void MNU_DoMenu( CTLType UNUSED(type), PLAYERp UNUSED(pp) )
         {
         UserInput tst_input;
         BOOL select_held = FALSE;
-        
-        
+
+
         // Zero out the input structure
         tst_input.button0 = tst_input.button1 = FALSE;
         tst_input.dir = dir_None;
-        
+
         if(!select_held)
             {
             CONTROL_GetUserInput(&tst_input);
             mnu_input_buffered.dir = tst_input.dir;
             }
-    
-        if(mnu_input_buffered.button0 || mnu_input_buffered.button1)    
+
+        if(mnu_input_buffered.button0 || mnu_input_buffered.button1)
             {
-            if(tst_input.button0 == mnu_input_buffered.button0 && 
-               tst_input.button1 == mnu_input_buffered.button1) 
+            if(tst_input.button0 == mnu_input_buffered.button0 &&
+               tst_input.button1 == mnu_input_buffered.button1)
                 {
                 select_held = TRUE;
-                } 
+                }
                 else
                 if(totalclock - limitmove > 7)
                 {
@@ -4542,7 +4542,7 @@ void MNU_DoMenu( CTLType UNUSED(type), PLAYERp UNUSED(pp) )
                 }
             } else
             {
-            select_held = FALSE;    
+            select_held = FALSE;
             mnu_input_buffered.button0 = tst_input.button0;
             mnu_input_buffered.button1 = tst_input.button1;
             }
@@ -4565,13 +4565,13 @@ void MNU_DoMenu( CTLType UNUSED(type), PLAYERp UNUSED(pp) )
         MNU_PrevItem();
         resetitem = TRUE;
         }
-    else 
+    else
     if (mnu_input.dir == dir_South)
         {
         MNU_NextItem();
         resetitem = TRUE;
         }
-    else 
+    else
     if (mnu_input.button0)
         {
         static int handle5=0;
@@ -4581,21 +4581,21 @@ void MNU_DoMenu( CTLType UNUSED(type), PLAYERp UNUSED(pp) )
         MNU_DoItem();
         resetitem = TRUE;
         }
-    else 
+    else
     if (mnu_input.dir == dir_West
         && currentmenu->items[currentmenu->cursor].type == mt_slider)
         {
         MNU_DoSlider(-1, &currentmenu->items[currentmenu->cursor], FALSE);
         resetitem = TRUE;
         }
-    else 
+    else
     if (mnu_input.dir == dir_East
         && currentmenu->items[currentmenu->cursor].type == mt_slider)
         {
         MNU_DoSlider(1, &currentmenu->items[currentmenu->cursor], FALSE);
         resetitem = TRUE;
         }
-    else 
+    else
     if (mnu_input.button1 || BUTTON(gamefunc_Show_Menu))
         {
         static int handle3=0;
@@ -4605,7 +4605,7 @@ void MNU_DoMenu( CTLType UNUSED(type), PLAYERp UNUSED(pp) )
         MNU_UpLevel();
         resetitem = TRUE;
         }
-    else 
+    else
     if (MNU_DoHotkey())
         {
         static int handle4=0;
@@ -4616,7 +4616,7 @@ void MNU_DoMenu( CTLType UNUSED(type), PLAYERp UNUSED(pp) )
         }
     else
         resetitem = FALSE;
-    
+
     // !FRANK! I added this because the old custom was only called for drawing
     // Needed one for drawing and moving.
     if (currentmenu->move_custom)
@@ -4626,13 +4626,13 @@ void MNU_DoMenu( CTLType UNUSED(type), PLAYERp UNUSED(pp) )
         {
         KB_ClearKeysDown();
         ResetKeys();
-        } 
+        }
     }
 
 ////////////////////////////////////////////////
 //  Checks to see if we should be in menus
 ////////////////////////////////////////////////
-void 
+void
 MNU_CheckForMenus(void)
     {
     extern BOOL GamePaused;
@@ -4658,7 +4658,7 @@ MNU_CheckForMenus(void)
         }
     }
 
-void 
+void
 MNU_CheckForMenusAnyKey(void)
     {
     if (UsingMenus)
@@ -4731,13 +4731,13 @@ unsigned char palette_data[256][3];     // Global palette array
 
 
 // These routines are not used and should not be used.  Would interfere with VESA palette
-// cards.    
+// cards.
 #if 0
 /////////////////////////////////////////////////
 // WaitForVsync
 // Waits for a vertical retrace to occur.  If one is in progress, it waits for the next one.
 /////////////////////////////////////////////////
-void 
+void
 WaitForVsync(void)
     {
     while (inp(VGA_INPUT_STATUS_1) & VGA_VSYNC_MASK);
@@ -4747,7 +4747,7 @@ WaitForVsync(void)
     while (!inp(VGA_INPUT_STATUS_1) & VGA_VSYNC_MASK);
     }
 
-void 
+void
 Get_Palette(unsigned char *pal)
     {
     int i;
@@ -4756,7 +4756,7 @@ Get_Palette(unsigned char *pal)
     for (i = 0; i < 768; i++)
         pal[i] = inp(PALETTE_DATA);
     }
-void 
+void
 Set_Palette(unsigned char *buff)
     {
     int i;
@@ -4780,7 +4780,7 @@ Set_Palette(unsigned char *buff)
 // Heres some temp timer junk for this routine.  Replace it with game timer stuff later.
 //unsigned int *clock  = (unsigned int *)0x046C;
 
-void 
+void
 Fade_Timer(int clicks)
     {
 //        unsigned int now;
@@ -4791,7 +4791,7 @@ Fade_Timer(int clicks)
     while (abs(totalclock - now) < clicks) handleevents();
     }
 
-void 
+void
 FadeIn(unsigned char startcolor, unsigned int clicks)
     {
     int i, palreg, usereg, tmpreg1 = 0, tmpreg2 = 0;
@@ -4811,7 +4811,7 @@ FadeIn(unsigned char startcolor, unsigned int clicks)
         {
         if (usereg == 0)
             temp_pal[i] = color.red;
-        else 
+        else
         if (usereg == 1)
             temp_pal[i] = color.green;
         else
@@ -4837,7 +4837,7 @@ FadeIn(unsigned char startcolor, unsigned int clicks)
                 if ((temp_pal[palreg] = tmpreg1) > palette[palreg])
                     temp_pal[palreg] = palette[palreg];
                 }
-            else 
+            else
             if (temp_pal[palreg] > palette[palreg])
                 if ((temp_pal[palreg] = tmpreg2) < palette[palreg])
                     temp_pal[palreg] = palette[palreg];
@@ -4851,7 +4851,7 @@ FadeIn(unsigned char startcolor, unsigned int clicks)
         }
     }
 
-void 
+void
 FadeOut(unsigned char targetcolor, unsigned int clicks)
     {
     int i, palreg, usereg = 0, tmpreg1 = 0, tmpreg2 = 0;
@@ -4884,12 +4884,12 @@ FadeOut(unsigned char targetcolor, unsigned int clicks)
                     if ((temp_pal[palreg] = tmpreg1) > color.red)
                         temp_pal[palreg] = color.red;
                     }
-                else 
+                else
                 if (temp_pal[palreg] > color.red)
                     if ((temp_pal[palreg] = tmpreg2) < color.red)
                         temp_pal[palreg] = color.red;
                 }
-            else 
+            else
             if (usereg == 1)
                 {
                 if (temp_pal[palreg] < color.green)
@@ -4897,12 +4897,12 @@ FadeOut(unsigned char targetcolor, unsigned int clicks)
                     if ((temp_pal[palreg] = tmpreg1) > color.green)
                         temp_pal[palreg] = color.green;
                     }
-                else 
+                else
                 if (temp_pal[palreg] > color.green)
                     if ((temp_pal[palreg] = tmpreg2) < color.green)
                         temp_pal[palreg] = color.green;
                 }
-            else 
+            else
             if (usereg == 2)
                 {
                 if (temp_pal[palreg] < color.blue)
@@ -4910,7 +4910,7 @@ FadeOut(unsigned char targetcolor, unsigned int clicks)
                     if ((temp_pal[palreg] = tmpreg1) > color.blue)
                         temp_pal[palreg] = color.blue;
                     }
-                else 
+                else
                 if (temp_pal[palreg] > color.blue)
                     if ((temp_pal[palreg] = tmpreg2) < color.blue)
                         temp_pal[palreg] = color.blue;
@@ -4940,7 +4940,7 @@ FadeOut(unsigned char targetcolor, unsigned int clicks)
 //  intersections of these lines.
 static int faderamp[32] = {
 	64,60,56,52,48,44,	// y=64-4x
-	
+
 	40,39,38,38,37,		// y=44.8-(16/20)x
 	36,35,34,34,33,
 	32,31,30,30,29,
@@ -4955,7 +4955,7 @@ unsigned char ppalette[MAX_SW_PLAYERS_REG][768];
 // Set the amount of redness for damage
 // the player just took
 //////////////////////////////////////////
-void 
+void
 SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
     {
     int palreg, usereg = 0, tmpreg1 = 0, tmpreg2 = 0;
@@ -4968,9 +4968,9 @@ SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
         return;
 
     // Don't ever over ride flash bomb
-    if (pp->StartColor == 1 && abs(pp->FadeAmt) > 0)    
+    if (pp->StartColor == 1 && abs(pp->FadeAmt) > 0)
         return;
-        
+
     // Reset the palette
     if(pp == Player + screenpeek)
         {
@@ -5034,12 +5034,12 @@ SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
                 if ((pp->temp_pal[palreg] = tmpreg1) > color.red)
                     pp->temp_pal[palreg] = color.red;
                 }
-            else 
+            else
             if (pp->temp_pal[palreg] > color.red)
                 if ((pp->temp_pal[palreg] = tmpreg2) < color.red)
                     pp->temp_pal[palreg] = color.red;
             }
-        else 
+        else
         if (usereg == 1)
             {
             if (pp->temp_pal[palreg] < color.green)
@@ -5047,12 +5047,12 @@ SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
                 if ((pp->temp_pal[palreg] = tmpreg1) > color.green)
                     pp->temp_pal[palreg] = color.green;
                 }
-            else 
+            else
             if (pp->temp_pal[palreg] > color.green)
                 if ((pp->temp_pal[palreg] = tmpreg2) < color.green)
                     pp->temp_pal[palreg] = color.green;
             }
-        else 
+        else
         if (usereg == 2)
             {
             if (pp->temp_pal[palreg] < color.blue)
@@ -5060,7 +5060,7 @@ SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
                 if ((pp->temp_pal[palreg] = tmpreg1) > color.blue)
                     pp->temp_pal[palreg] = color.blue;
                 }
-            else 
+            else
             if (pp->temp_pal[palreg] > color.blue)
                 if ((pp->temp_pal[palreg] = tmpreg2) < color.blue)
                     pp->temp_pal[palreg] = color.blue;
@@ -5084,7 +5084,7 @@ SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
 // Do the screen reddness based on damage
 //////////////////////////////////////////
 #define MAXFADETICS     5
-void 
+void
 DoPaletteFlash(PLAYERp pp)
     {
     int i, palreg, tmpreg1 = 0, tmpreg2 = 0;
@@ -5109,7 +5109,7 @@ DoPaletteFlash(PLAYERp pp)
         return;
         }
 
-        
+
     pp->FadeTics += synctics;           // Add this frame's tic amount to
                                         // counter
 
@@ -5133,14 +5133,14 @@ DoPaletteFlash(PLAYERp pp)
     if (pp->FadeAmt <= 1)
         {
         pp->FadeAmt = 0;
-        pp->StartColor = 0;   
+        pp->StartColor = 0;
         if(pp == Player + screenpeek)
             {
             if (getrendermode() < 3)
                 COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
             else
                 setpalettefade(0,0,0,0);
-            memcpy(pp->temp_pal, palette_data, sizeof(palette_data)); 
+            memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
             DoPlayerDivePalette(pp);  // Check Dive again
             DoPlayerNightVisionPalette(pp);  // Check Night Vision again
             }
@@ -5163,7 +5163,7 @@ DoPaletteFlash(PLAYERp pp)
                 if ((pp->temp_pal[palreg] = tmpreg1) > pal_ptr[palreg])
                     pp->temp_pal[palreg] = pal_ptr[palreg];
                 }
-            else 
+            else
             if (pp->temp_pal[palreg] > pal_ptr[palreg])
                 if ((pp->temp_pal[palreg] = tmpreg2) < pal_ptr[palreg])
                     pp->temp_pal[palreg] = pal_ptr[palreg];

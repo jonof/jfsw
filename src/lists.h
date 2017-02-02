@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -46,12 +46,12 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
       #define INSERT(list, nodep)  ( ((LIST) nodep)->Prev = (LIST) list,         \
                                      ((LIST) nodep)->Next = ((LIST) list)->Next, \
                                      ((LIST)  list)->Next = (LIST) nodep,        \
-                                     ((LIST) nodep)->Next->Prev = (LIST) nodep) 
+                                     ((LIST) nodep)->Next->Prev = (LIST) nodep)
 
         #define INSERT_TAIL(list, nodep)  ( ((LIST) nodep)->Next = (LIST) list,  \
                                  ((LIST) nodep)->Prev = ((LIST) list)->Prev, \
                                  ((LIST)  list)->Prev = (LIST) nodep,        \
-                                 ((LIST) nodep)->Prev->Next = (LIST) nodep) 
+                                 ((LIST) nodep)->Prev->Next = (LIST) nodep)
 
       #define DELETE(nodep)        ( ((LIST) nodep)->Prev->Next = ((LIST) nodep)->Next, \
                                      ((LIST) nodep)->Next->Prev = ((LIST) nodep)->Prev)
@@ -63,6 +63,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
       #define EMPTY(list)          (((LIST) list)->Next == (LIST) list)
 
-#endif      
+#endif
 
 

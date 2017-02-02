@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -77,8 +77,8 @@ PANEL_SPRITEp
 pSpawnFullScreenSpriteBox(PLAYERp pp, short id, short pic, short pri, int x, int y, short x1, short y1, short x2, short y2)
     {
     PANEL_SPRITEp psp;
-    extern BOOL DrawBeforeView;           
-    
+    extern BOOL DrawBeforeView;
+
     psp = pSpawnSprite(pp, NULL, pri, x, y);
 
     psp->ID = id;
@@ -98,7 +98,7 @@ pSpawnFullScreenSpriteBox(PLAYERp pp, short id, short pic, short pri, int x, int
     //SET(psp->flags, PANF_STATUS_AREA | PANF_KILL_AFTER_SHOW | PANF_IGNORE_START_MOST  | PANF_DRAW_BEFORE_VIEW | PANF_NOT_ALL_PAGES);
     SET(psp->flags, PANF_STATUS_AREA | PANF_KILL_AFTER_SHOW | PANF_IGNORE_START_MOST | PANF_DRAW_BEFORE_VIEW);
     //DrawBeforeView = TRUE;
-    
+
     //SET(psp->flags, PANF_SCREEN_CLIP | PANF_KILL_AFTER_SHOW | PANF_IGNORE_START_MOST);
 
     return (psp);
@@ -107,7 +107,7 @@ pSpawnFullScreenSpriteBox(PLAYERp pp, short id, short pic, short pri, int x, int
 VOID SetCrosshair(VOID)
     {
     int wdx,wdy,x,y;
-    
+
     wdx = ((windowx2-windowx1)/2);
     wdy = ((windowy2-windowy1)/2);
     x = windowx1 + wdx;
@@ -120,7 +120,7 @@ VOID SetCrosshair(VOID)
     CrosshairX <<= 16;
     CrosshairY <<= 16;
     }
-    
+
 
 VOID
 SetupAspectRatio(VOID)
@@ -151,14 +151,14 @@ SetConsoleDmost(VOID)
     //
     // Set the whole thing to the size of the bar
     //
-    
+
     ystart = f_ydim - Y_TO_FIXED(BAR_HEIGHT);
 
     if (ydim == 480 && gs.BorderNum == 2)
         adj = 1;
-        
-    //for (i = FIXED(0, 0); i < f_320; i += x_pix_size)   
-    for (i = 0; i < xdim; i++)   
+
+    //for (i = FIXED(0, 0); i < f_320; i += x_pix_size)
+    for (i = 0; i < xdim; i++)
         // define picture
         // boundaries
         {
@@ -169,10 +169,10 @@ SetConsoleDmost(VOID)
 VOID ClearStartMost(VOID)
     {
     int i;
-    
-    for (i = 0; i < xdim; i++)   
+
+    for (i = 0; i < xdim; i++)
         startdmost[i] = ydim;
-    
+
     memset(startumost, 0, sizeof(startumost));
     }
 
@@ -183,35 +183,35 @@ SetFragBar(PLAYERp pp)
     int y;
     extern SHORT OrigCommPlayers;
 
-    if (numplayers <= 1) 
+    if (numplayers <= 1)
         return;
 
-    if (gNet.MultiGameType == MULTI_GAME_COOPERATIVE) 
+    if (gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
         return;
-    
+
     // if player sprite has not been initialized we have no business
     // sticking a frag bar up.  Prevents processing from MenuLevel etc.
-    if (!pp->SpriteP)    
+    if (!pp->SpriteP)
         return;
-    
+
     //num_frag_bars = ((numplayers-1)/4)+1;
     num_frag_bars = ((OrigCommPlayers-1)/4)+1;
-        
+
     for (i = windowx1; i <= windowx2; i++)
         {
         y = (tilesizy[FRAG_BAR] * num_frag_bars) - (2 * (num_frag_bars-1));
         y = y * (ydim/200.0);
-        
+
         if (windowy1 < y)
             startumost[i] = y;
         }
-    
+
      for (i = 0, y = 0; i < num_frag_bars; i++)
         {
         pSpawnFullScreenSprite(pp, FRAG_BAR, PRI_MID, 0, y);
         y += tilesizy[FRAG_BAR] - 2;
         }
-        
+
     // write each persons kill info to everybody
     // for (i = 0; i < numplayers; i++)
     TRAVERSE_CONNECT(i)
@@ -228,8 +228,8 @@ BOOL RectOverlap(short tx1, short ty1, short bx1, short by1, short tx2, short ty
             if (ty1 <= by2)
                 if (by1 >= ty2)
                     return(TRUE);
-                
-    return(FALSE);                    
+
+    return(FALSE);
     }
 
 VOID DrawBorderShade(PLAYERp pp, short shade_num, short wx1, short wy1, short wx2, short wy2)
@@ -238,14 +238,14 @@ VOID DrawBorderShade(PLAYERp pp, short shade_num, short wx1, short wy1, short wx
     PANEL_SPRITEp psp;
     int dark_shade = 27 - (shade_num * 6);
     int light_shade = 20 - (shade_num * 6);
-    
+
     for (i = 0; i < xdim; i += tilesizx[BORDER_TILE])
         {
         for (j = 0; j < ydim; j += tilesizy[BORDER_TILE])
             {
             k = i + tilesizx[BORDER_TILE];
             l = j + tilesizy[BORDER_TILE];
-            
+
             if (RectOverlap(i, j, k, l, wx1 - 1, wy1 - 1, wx2 + 1, wy1))
                 {
                 // draw top box of the border
@@ -253,7 +253,7 @@ VOID DrawBorderShade(PLAYERp pp, short shade_num, short wx1, short wy1, short wx
                 psp->shade = dark_shade;
                 psp->ID = ID_BORDER_SHADE;
                 }
-                
+
             if (RectOverlap(i, j, k, l, wx1 - 1, wy2, wx2 + 1, wy2 + 1))
                 {
                 // draw bottom box of the border
@@ -342,41 +342,41 @@ BORDER_INFO BorderInfoValues[] =
     {0, BAR_HEIGHT, (11 * 16)},
     {0, BAR_HEIGHT, (12 * 16)}
     };
-    
+
 
 VOID DrawBorder(PLAYERp pp, short x, short y, short x2, short y2)
     {
     short i,j,k,l;
     short count = 0;
-    
+
     for (i = 0; i < xdim; i += tilesizx[BORDER_TILE])
         {
         for (j = 0; j < ydim; j += tilesizy[BORDER_TILE])
             {
             k = i + tilesizx[BORDER_TILE];
             l = j + tilesizy[BORDER_TILE];
-            
+
             if (RectOverlap(i, j, k, l, x, y, windowx1-1, y2))
                 {
                 // draw top box of the border
                 pSpawnFullScreenSpriteBox(pp, ID_BORDER_TOP, BORDER_TILE, PRI_BACK, i, j, x, y, windowx1-1, y2);
                 count++;
                 }
-                
+
             if (RectOverlap(i, j, k, l, windowx2+1, y, x2, y2))
                 {
                 // draw bottom box of the border
                 pSpawnFullScreenSpriteBox(pp, ID_BORDER_BOTTOM, BORDER_TILE, PRI_BACK, i, j, windowx2+1, y, x2, y2);
                 count++;
                 }
-                
+
             if (RectOverlap(i, j, k, l, windowx1, y, windowx2, windowy1-1))
                 {
                 // draw left box of the border
                 pSpawnFullScreenSpriteBox(pp, ID_BORDER_LEFT, BORDER_TILE, PRI_BACK, i, j, windowx1, y, windowx2, windowy1-1);
                 count++;
                 }
-                
+
             if (RectOverlap(i, j, k, l, windowx1, windowy2+1, windowx2, y2))
                 {
                 // draw right box of the border
@@ -385,26 +385,26 @@ VOID DrawBorder(PLAYERp pp, short x, short y, short x2, short y2)
                 }
             }
         }
-    }    
+    }
 
 VOID DrawPanelBorderSides(PLAYERp pp, short x, short y, short x2, short y2, short panl, short panr)
     {
     short i,j,k,l;
     short count = 0;
-    
+
     for (i = 0; i < xdim; i += tilesizx[BORDER_TILE])
         {
         for (j = 0; j < ydim; j += tilesizy[BORDER_TILE])
             {
             k = i + tilesizx[BORDER_TILE];
             l = j + tilesizy[BORDER_TILE];
-            
+
             if (RectOverlap(i, j, k, l, x, y, panl, y2))
                 {
                 pSpawnFullScreenSpriteBox(pp, ID_PANEL_BORDER_LEFT, BORDER_TILE, PRI_BACK, i, j, x, y, panl, y2);
                 count++;
                 }
-                
+
             if (RectOverlap(i, j, k, l, panr, y, x2, y2))
                 {
                 pSpawnFullScreenSpriteBox(pp, ID_PANEL_BORDER_RIGHT, BORDER_TILE, PRI_BACK, i, j, panr, y, x2, y2);
@@ -414,13 +414,13 @@ VOID DrawPanelBorderSides(PLAYERp pp, short x, short y, short x2, short y2, shor
         }
     }
 
-static 
+static
 VOID BorderSetView(PLAYERp UNUSED(pp), int *Xdim, int *Ydim, int *ScreenSize)
     {
     void setview(int scrx1, int scry1, int scrx2, int scry2);
     int x, x2, y, y2;
     BORDER_INFO *b;
-    
+
     BorderInfo = BorderInfoValues[gs.BorderNum];
 
     b = &BorderInfo;
@@ -435,7 +435,7 @@ VOID BorderSetView(PLAYERp UNUSED(pp), int *Xdim, int *Ydim, int *ScreenSize)
     x2 = x + *ScreenSize - 1;
     y = DIV2(*Ydim) - DIV2((*ScreenSize * *Ydim) / *Xdim);
     y2 = y + ((*ScreenSize * *Ydim) / *Xdim) - 1;
-    
+
     if (ydim == 480 && gs.BorderNum == 2)
         {
         y2+=2;
@@ -446,10 +446,10 @@ VOID BorderSetView(PLAYERp UNUSED(pp), int *Xdim, int *Ydim, int *ScreenSize)
     SetCrosshair();
     }
 
-//    
+//
 // Redraw the border without changing the view
 //
-    
+
 static VOID
 BorderRefresh(PLAYERp pp)
     {
@@ -459,18 +459,18 @@ BorderRefresh(PLAYERp pp)
 
     if (pp != Player + myconnectindex)
         return;
-    
+
     if (!BorderAdjust)
         return;
-        
+
     if (gs.BorderNum < BORDER_BAR)
         return;
-    
+
     // Redraw the BORDER_TILE only if getting smaller
     BorderInfo = BorderInfoValues[gs.BorderNum];
 
     b = &BorderInfo;
-    
+
     // A refresh does not change the view size so we dont need to do a
     // setview
     // We don't need the calculations for the border drawing boxes - its
@@ -481,16 +481,16 @@ BorderRefresh(PLAYERp pp)
     if (gs.BorderNum >= BORDER_BAR && widescreen)
         {
         int sidew = (xdim - scale(320, ydim, mulscale16(200, pixelaspect))) / 2;
-        
+
         x = 0;
         x2 = xdim - 1;
-        
+
         y = ydim - (Y_TO_FIXED(b->Ydim) >> 16);
         y2 = ydim - 1;
-        
+
         DrawPanelBorderSides(pp, x, y, x2, y2, sidew, xdim-sidew);
         }
-        
+
     // only need a border if border is > BORDER_BAR
     if (gs.BorderNum > BORDER_BAR)
         {
@@ -510,11 +510,11 @@ BorderRefresh(PLAYERp pp)
         BorderShade(pp, TRUE);
         }
     }
-    
+
 //
 // Redraw the whole screen
 //
-    
+
 VOID SetBorder(PLAYERp pp, int value)
     {
     int diff;
@@ -523,7 +523,7 @@ VOID SetBorder(PLAYERp pp, int value)
 
     if (pp != Player + myconnectindex)
         return;
-    
+
     if (!BorderAdjust)
         return;
 
@@ -541,7 +541,7 @@ VOID SetBorder(PLAYERp pp, int value)
         gs.BorderNum = SIZ(BorderInfoValues) - 1;
         return;
         }
-    
+
     BorderSetView(pp, &Xdim, &Ydim, &ScreenSize);
 
     if (gs.BorderNum >= BORDER_BAR)
@@ -554,7 +554,7 @@ VOID SetBorder(PLAYERp pp, int value)
         pSpawnFullScreenSprite(pp, STATUS_BAR, PRI_FRONT, 0, 200 - tilesizy[STATUS_BAR]);
         PlayerUpdatePanelInfo(Player + screenpeek);
         }
-        
+
     SetFragBar(pp);
     }
 
@@ -564,16 +564,16 @@ SetRedrawScreen(PLAYERp pp)
     int i, j;
     //int x, x2, y, y2;
     BORDER_INFO *b;
-    
+
     if (pp != Player + myconnectindex)
         return;
-    
+
     if (!BorderAdjust)
         return;
 
     if (gs.BorderNum < BORDER_NONE)
         gs.BorderNum = BORDER_NONE;
-    
+
     // Redraw the BORDER_TILE only if getting smaller
     BorderInfo = BorderInfoValues[gs.BorderNum];
 

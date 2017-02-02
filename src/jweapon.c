@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -273,18 +273,18 @@ DoWallBloodDrip(short SpriteNum)
             sp->zvel += 300;
             sp->z += sp->zvel;
             }
-        else   
-            { 
+        else
+            {
             sp->zvel = (300+RANDOM_RANGE(2300)) >> 1;
             sp->z += sp->zvel;
             }
         }
-    else    
+    else
         {
         sp->zvel = (300+RANDOM_RANGE(2300)) >> 1;
         sp->z += sp->zvel;
         }
-    
+
     if (sp->z >= u->loz)
         {
         sp->z = u->loz;
@@ -390,7 +390,7 @@ DoBloodSpray(SHORT Weapon)
         u->zchange += u->Counter;
         }
 
-    if (sp->xvel <= 2)    
+    if (sp->xvel <= 2)
         {
         // special stuff for blood worm
         sp->z += (u->zchange >> 1);
@@ -409,7 +409,7 @@ DoBloodSpray(SHORT Weapon)
         {
         u->ret = move_missile(Weapon, u->xchange, u->ychange, u->zchange,
             u->ceiling_dist, u->floor_dist, CLIPMASK_MISSILE, MISSILEMOVETICS);
-        }        
+        }
 
 
     MissileHitDiveArea(Weapon);
@@ -437,7 +437,7 @@ DoBloodSpray(SHORT Weapon)
                     {
                     wall_ang = NORM_ANGLE(hsp->ang);
                     SpawnMidSplash(Weapon);
-                    QueueWallBlood(Weapon, hsp->ang);  
+                    QueueWallBlood(Weapon, hsp->ang);
                     WallBounce(Weapon, wall_ang);
                     ScaleSpriteVector(Weapon, 32000);
                     }
@@ -445,7 +445,7 @@ DoBloodSpray(SHORT Weapon)
                     {
                     u->xchange = u->ychange = 0;
                     SpawnMidSplash(Weapon);
-                    QueueWallBlood(Weapon, hsp->ang);  
+                    QueueWallBlood(Weapon, hsp->ang);
                     KillSprite((short) Weapon);
                     return (TRUE);
                     }
@@ -475,43 +475,43 @@ DoBloodSpray(SHORT Weapon)
                 wall_ang = NORM_ANGLE(getangle(wall[nw].x - wph->x, wall[nw].y - wph->y) + 512);
 
                 SpawnMidSplash(Weapon);
-                wb = QueueWallBlood(Weapon, NORM_ANGLE(wall_ang+1024));  
-                
+                wb = QueueWallBlood(Weapon, NORM_ANGLE(wall_ang+1024));
+
                 if (wb < 0)
                     {
                     KillSprite(Weapon);
                     return(0);
                     }
-                 else   
+                 else
                     {
                     if (FAF_Sector(sprite[wb].sectnum) || FAF_ConnectArea(sprite[wb].sectnum))
                         {
                         KillSprite(Weapon);
                         return(0);
                         }
-                    
+
                     sp->xvel = sp->yvel = u->xchange = u->ychange = 0;
                     sp->xrepeat = sp->yrepeat = 70 - RANDOM_RANGE(25);
                     sp->x = sprite[wb].x;
                     sp->y = sprite[wb].y;
-                    
+
                     // !FRANK! bit of a hack
                     // yvel is the hitwall
                     if (sprite[wb].yvel >= 0)
                         {
                         short wallnum = sprite[wb].yvel;
-                        
+
                         // sy & sz are the ceiling and floor of the sector you are sliding down
                         if (wall[wallnum].nextsector >= 0)
                             getzsofslope(wall[wallnum].nextsector, sp->x, sp->y, &u->sy, &u->sz);
-                        else    
+                        else
                             u->sy = u->sz; // ceiling and floor are equal - white wall
                         }
-                    
+
                     RESET(sp->cstat,CSTAT_SPRITE_INVISIBLE);
                     ChangeState(Weapon, s_BloodSprayDrip);
                     }
-                    
+
                 //WallBounce(Weapon, wall_ang);
                 //ScaleSpriteVector(Weapon, 32000);
                 break;
@@ -532,7 +532,7 @@ DoBloodSpray(SHORT Weapon)
                         SET(u->Flags, SPR_BOUNCE);  // no bouncing on
                                                     // shallow water
 
-                    #if 0                                
+                    #if 0
                     if (!TEST(u->Flags, SPR_BOUNCE))
                         {
                         SpawnFloorSplash(Weapon);
@@ -544,7 +544,7 @@ DoBloodSpray(SHORT Weapon)
                         u->zchange /= 6;
                         }
                     else
-                    #endif    
+                    #endif
                         {
                         u->xchange = u->ychange = 0;
                         SpawnFloorSplash(Weapon);
@@ -1087,15 +1087,15 @@ int
 DoCaltropsStick(SHORT Weapon)
     {
     USERp u = User[Weapon];
-    
+
     u->Counter = !u->Counter;
-    
+
     if (u->Counter)
         DoFlamesDamageTest(Weapon);
 
     return(0);
     }
-    
+
 int
 DoCaltrops(SHORT Weapon)
     {
@@ -1973,7 +1973,7 @@ InitPhosphorus(SHORT SpriteNum)
     nz = sp->z;
 
     daang = NORM_ANGLE(RANDOM_RANGE(2048));
-    
+
     // Spawn a shot
     // Inserting and setting up variables
     w = SpawnSprite(STAT_SKIP4, FIREBALL1, s_Phosphorus, sp->sectnum,
@@ -1996,7 +1996,7 @@ InitPhosphorus(SHORT SpriteNum)
     // !FRANK - clipbox must be <= weapon otherwise can clip thru walls
     if (sp->clipdist > 0)
         wp->clipdist = sp->clipdist-1;
-    else    
+    else
         wp->clipdist = sp->clipdist;
     wu->WeaponNum = u->WeaponNum;
     wu->Radius = 600;
@@ -2032,7 +2032,7 @@ InitBloodSpray(SHORT SpriteNum, BOOL dogib, short velocity)
         cnt = 1;
 
     //if(dogib)
-    //    {    
+    //    {
         rnd = RANDOM_RANGE(1000);
         if(rnd > 650)
             PlaySound(DIGI_GIBS1, &sp->x, &sp->y, &sp->z, v3df_none);
@@ -2041,7 +2041,7 @@ InitBloodSpray(SHORT SpriteNum, BOOL dogib, short velocity)
             PlaySound(DIGI_GIBS2, &sp->x, &sp->y, &sp->z, v3df_none);
         else
             PlaySound(DIGI_GIBS3, &sp->x, &sp->y, &sp->z, v3df_none);
-    //    }    
+    //    }
 
     ang = sp->ang;
     vel = velocity;
@@ -2097,7 +2097,7 @@ InitBloodSpray(SHORT SpriteNum, BOOL dogib, short velocity)
     wu->xchange = MOVEx(wp->xvel, wp->ang);
     wu->ychange = MOVEy(wp->xvel, wp->ang);
     wu->zchange = wp->zvel >> 1;
-    
+
     if (!GlobalSkipZrange)
     DoActorZrange(w);
     }
@@ -2514,9 +2514,9 @@ InitShell(SHORT SpriteNum, SHORT ShellNum)
 
     wp = &sprite[w];
     wu = User[w];
-    
+
     wp->zvel = -(velocity);
-    
+
     if(u->PlayerP)
         {
         wp->z += ((100 - u->PlayerP->horiz) * (HORIZ_MULT/3));
@@ -2548,7 +2548,7 @@ InitShell(SHORT SpriteNum, SHORT ShellNum)
             // Set the shell number
             wu->ShellNum = ShellCount;
             wp->yrepeat = wp->xrepeat = 13;
-            break;   
+            break;
         case SHOT_SHELL:
             wp->z -= Z(13);
             wp->ang = sp->ang;
@@ -2562,7 +2562,7 @@ InitShell(SHORT SpriteNum, SHORT ShellNum)
             // Set the shell number
             wu->ShellNum = ShellCount;
             wp->yrepeat = wp->xrepeat = 18;
-            break;   
+            break;
          }
 
     SetOwner(SpriteNum, w);
@@ -2588,7 +2588,7 @@ InitShell(SHORT SpriteNum, SHORT ShellNum)
 
     return (0);
     }
-    
+
 
 #include "saveable.h"
 

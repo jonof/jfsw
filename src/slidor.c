@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -41,9 +41,9 @@ void ReverseSlidor(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     ROTATORp r;
-    
+
     r = u->rotator;
-    
+
     // if paused go ahead and start it up again
     if (u->Tics)
         {
@@ -51,7 +51,7 @@ void ReverseSlidor(short SpriteNum)
         SetSlidorActive(SpriteNum);
         return;
         }
-    
+
     // moving toward to OFF pos
     if (r->tgt == 0)
         {
@@ -61,8 +61,8 @@ void ReverseSlidor(short SpriteNum)
     if (r->tgt == r->open_dest)
         {
         r->tgt = 0;
-        }        
-        
+        }
+
     r->vel = -r->vel;
     }
 
@@ -73,19 +73,19 @@ SlidorSwitch(short match, short setting)
     SPRITEp sp;
     short i,nexti;
     BOOL found = FALSE;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_DEFAULT], i, nexti)
         {
         sp = &sprite[i];
-        
+
         if (sp->lotag == TAG_SPRITE_SWITCH_VATOR && sp->hitag == match)
             {
             found = TRUE;
             AnimateSwitch(sp, setting);
             }
         }
-    
-    return(found);    
+
+    return(found);
     }
 
 void SetSlidorActive(short SpriteNum)
@@ -94,17 +94,17 @@ void SetSlidorActive(short SpriteNum)
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
     ROTATORp r;
-    
+
     r = u->rotator;
-    
+
     DoSlidorInterp(SpriteNum, setinterpolation);
-    
+
     // play activate sound
     DoSoundSpotMatch(SP_TAG2(sp), 1, SOUND_OBJECT_TYPE);
 
     SET(u->Flags, SPR_ACTIVE);
     u->Tics = 0;
-    
+
     // moving to the OFF position
     if (r->tgt == 0)
         VatorSwitch(SP_TAG2(sp), OFF);
@@ -117,9 +117,9 @@ void SetSlidorInactive(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
-    
+
     DoSlidorInterp(SpriteNum, stopinterpolation);
-    
+
     // play inactivate sound
     DoSoundSpotMatch(SP_TAG2(sp), 2, SOUND_OBJECT_TYPE);
 
@@ -133,22 +133,22 @@ short DoSlidorOperate(PLAYERp pp, short sectnum)
     SPRITEp fsp;
     short match;
     short i,nexti;
-    
+
     match = sector[sectnum].hitag;
-    
-    
+
+
     if (match > 0)
         {
         if (TestSlidorMatchActive(match))
-            return(-1);    
+            return(-1);
         else
             return(DoSlidorMatch(pp, match, TRUE));
         }
-    
-    return(-1);    
+
+    return(-1);
     }
 
-// called from switches and triggers    
+// called from switches and triggers
 // returns first vator found
 short
 DoSlidorMatch(PLAYERp pp, short match, BOOL manual)
@@ -157,19 +157,19 @@ DoSlidorMatch(PLAYERp pp, short match, BOOL manual)
     SPRITEp fsp;
     short sectnum;
     short first_vator = -1;
-    
+
     short i,nexti;
-    
+
     //SlidorSwitch(match, ON);
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_SLIDOR], i, nexti)
         {
         fsp = &sprite[i];
-        
+
         if (SP_TAG1(fsp) == SECT_SLIDOR && SP_TAG2(fsp) == match)
             {
             fu = User[i];
-            
+
             // single play only vator
             // BOOL 8 must be set for message to display
             if (TEST_BOOL4(fsp) && (gNet.MultiGameType == MULTI_GAME_COMMBAT || gNet.MultiGameType == MULTI_GAME_AI_BOTS))
@@ -177,7 +177,7 @@ DoSlidorMatch(PLAYERp pp, short match, BOOL manual)
                 if (pp && TEST_BOOL11(fsp)) PutStringInfo(pp,"This only opens in single play.");
                 continue;
                 }
-                
+
             // switch trigger only
             if (SP_TAG3(fsp) == 1)
                 {
@@ -185,10 +185,10 @@ DoSlidorMatch(PLAYERp pp, short match, BOOL manual)
                 if (manual)
                     continue;
                 }
-                    
+
             if (first_vator == -1)
                 first_vator = i;
-            
+
             sectnum = fsp->sectnum;
 
             if (pp && SectUser[sectnum] && SectUser[sectnum]->stag == SECT_LOCK_DOOR && SectUser[sectnum]->number)
@@ -215,18 +215,18 @@ DoSlidorMatch(PLAYERp pp, short match, BOOL manual)
                     return (-1);
                     }
                 }
-            
+
             if (TEST(fu->Flags, SPR_ACTIVE))
                 {
                 ReverseSlidor(i);
                 continue;
                 }
-            
+
             SetSlidorActive(i);
             }
         }
-    
-    return(first_vator);    
+
+    return(first_vator);
     }
 
 
@@ -236,13 +236,13 @@ TestSlidorMatchActive(short match)
     USERp fu;
     SPRITEp fsp;
     short sectnum;
-    
+
     short i,nexti;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_SLIDOR], i, nexti)
         {
         fsp = &sprite[i];
-        
+
         if (SP_TAG1(fsp) == SECT_SLIDOR && SP_TAG2(fsp) == match)
             {
             fu = User[i];
@@ -250,34 +250,34 @@ TestSlidorMatchActive(short match)
             // Does not have to be inactive to be operated
             if (TEST_BOOL6(fsp))
                 continue;
-            
+
             if (TEST(fu->Flags, SPR_ACTIVE) || fu->Tics)
                 return(TRUE);
             }
         }
-    
-    return(FALSE);    
+
+    return(FALSE);
     }
 
 void DoSlidorInterp(short SpriteNum, INTERP_FUNCp interp_func)
     {
     short w, pw, startwall, endwall;
-    
+
     w = startwall = sector[sprite[SpriteNum].sectnum].wallptr;
     endwall = startwall + sector[sprite[SpriteNum].sectnum].wallnum - 1;
-    
+
     do
         {
         switch (wall[w].lotag)
             {
             case TAG_WALL_SLIDOR_LEFT:
-            
+
                 // prev wall
                 pw = w - 1;
                 if (w < startwall)
                     pw = endwall;
-                    
-                if (wall[w].nextwall < 0)    
+
+                if (wall[w].nextwall < 0)
                     {
                     // white wall - move 4 points
                     interp_func(&wall[w].x);
@@ -292,22 +292,22 @@ void DoSlidorInterp(short SpriteNum, INTERP_FUNCp interp_func)
                     interp_func(&wall[DRAG_WALL(w)].x);
                     interp_func(&wall[wall[w].point2].x);
                     interp_func(&wall[DRAG_WALL(wall[w].point2)].x);
-                    }    
+                    }
 
                 break;
-                
+
             case TAG_WALL_SLIDOR_RIGHT:
 
                 // prev wall
                 pw = w - 1;
                 if (w < startwall)
                     pw = endwall;
-                    
-                if (wall[w].nextwall < 0)    
+
+                if (wall[w].nextwall < 0)
                     {
                     // white wall - move 4 points
                     interp_func(&wall[w].x );
-                    interp_func(&wall[pw].x ); 
+                    interp_func(&wall[pw].x );
                     interp_func(&wall[wall[w].point2].x );
                     interp_func(&wall[wall[wall[w].point2].point2].x );
                     }
@@ -318,21 +318,21 @@ void DoSlidorInterp(short SpriteNum, INTERP_FUNCp interp_func)
                     interp_func(&wall[DRAG_WALL(w)].x);
                     interp_func(&wall[wall[w].point2].x);
                     interp_func(&wall[DRAG_WALL(wall[w].point2)].x);
-                    }    
-            
+                    }
+
                 break;
-                
+
             case TAG_WALL_SLIDOR_UP:
 
                 // prev wall
                 pw = w - 1;
                 if (w < startwall)
                     pw = endwall;
-                    
-                if (wall[w].nextwall < 0)    
+
+                if (wall[w].nextwall < 0)
                     {
                     interp_func(&wall[w].y );
-                    interp_func(&wall[pw].y ); 
+                    interp_func(&wall[pw].y );
                     interp_func(&wall[wall[w].point2].y );
                     interp_func(&wall[wall[wall[w].point2].point2].y );
                     }
@@ -342,8 +342,8 @@ void DoSlidorInterp(short SpriteNum, INTERP_FUNCp interp_func)
                     interp_func(&wall[DRAG_WALL(w)].y);
                     interp_func(&wall[wall[w].point2].y);
                     interp_func(&wall[DRAG_WALL(wall[w].point2)].y);
-                    }    
-            
+                    }
+
                 break;
 
             case TAG_WALL_SLIDOR_DOWN:
@@ -352,11 +352,11 @@ void DoSlidorInterp(short SpriteNum, INTERP_FUNCp interp_func)
                 pw = w - 1;
                 if (w < startwall)
                     pw = endwall;
-                    
-                if (wall[w].nextwall < 0)    
+
+                if (wall[w].nextwall < 0)
                     {
                     interp_func(&wall[w].y );
-                    interp_func(&wall[pw].y ); 
+                    interp_func(&wall[pw].y );
                     interp_func(&wall[wall[w].point2].y );
                     interp_func(&wall[wall[wall[w].point2].point2].y );
                     }
@@ -366,21 +366,21 @@ void DoSlidorInterp(short SpriteNum, INTERP_FUNCp interp_func)
                     interp_func(&wall[DRAG_WALL(w)].y);
                     interp_func(&wall[wall[w].point2].y);
                     interp_func(&wall[DRAG_WALL(wall[w].point2)].y);
-                    }    
-                    
-            
+                    }
+
+
                 break;
             }
-            
+
         w = wall[w].point2;
-        }            
+        }
     while(w != startwall);
     }
-    
+
 int DoSlidorMoveWalls(short SpriteNum, int amt)
     {
     short w, pw, startwall, endwall;
-    
+
     w = startwall = sector[sprite[SpriteNum].sectnum].wallptr;
     endwall = startwall + sector[sprite[SpriteNum].sectnum].wallnum - 1;
 
@@ -389,17 +389,17 @@ int DoSlidorMoveWalls(short SpriteNum, int amt)
         switch (wall[w].lotag)
             {
             case TAG_WALL_SLIDOR_LEFT:
-            
+
                 // prev wall
                 pw = w - 1;
                 if (w < startwall)
                     pw = endwall;
-                    
-                if (wall[w].nextwall < 0)    
+
+                if (wall[w].nextwall < 0)
                     {
                     // white wall - move 4 points
                     wall[w].x -= amt;
-                    wall[pw].x -= amt; 
+                    wall[pw].x -= amt;
                     wall[wall[w].point2].x -= amt;
                     wall[wall[wall[w].point2].point2].x -= amt;
                     }
@@ -408,22 +408,22 @@ int DoSlidorMoveWalls(short SpriteNum, int amt)
                     // red wall - move 2 points
                     dragpoint(w, wall[w].x - amt, wall[w].y);
                     dragpoint(wall[w].point2, wall[wall[w].point2].x - amt, wall[wall[w].point2].y);
-                    }    
+                    }
 
                 break;
-                
+
             case TAG_WALL_SLIDOR_RIGHT:
 
                 // prev wall
                 pw = w - 1;
                 if (w < startwall)
                     pw = endwall;
-                    
-                if (wall[w].nextwall < 0)    
+
+                if (wall[w].nextwall < 0)
                     {
                     // white wall - move 4 points
                     wall[w].x += amt;
-                    wall[pw].x += amt; 
+                    wall[pw].x += amt;
                     wall[wall[w].point2].x += amt;
                     wall[wall[wall[w].point2].point2].x += amt;
                     }
@@ -432,21 +432,21 @@ int DoSlidorMoveWalls(short SpriteNum, int amt)
                     // red wall - move 2 points
                     dragpoint(w, wall[w].x + amt, wall[w].y);
                     dragpoint(wall[w].point2, wall[wall[w].point2].x + amt, wall[wall[w].point2].y);
-                    }    
-            
+                    }
+
                 break;
-                
+
             case TAG_WALL_SLIDOR_UP:
 
                 // prev wall
                 pw = w - 1;
                 if (w < startwall)
                     pw = endwall;
-                    
-                if (wall[w].nextwall < 0)    
+
+                if (wall[w].nextwall < 0)
                     {
                     wall[w].y -= amt;
-                    wall[pw].y -= amt; 
+                    wall[pw].y -= amt;
                     wall[wall[w].point2].y -= amt;
                     wall[wall[wall[w].point2].point2].y -= amt;
                     }
@@ -454,8 +454,8 @@ int DoSlidorMoveWalls(short SpriteNum, int amt)
                     {
                     dragpoint(w, wall[w].x, wall[w].y - amt);
                     dragpoint(wall[w].point2, wall[wall[w].point2].x, wall[wall[w].point2].y - amt);
-                    }    
-            
+                    }
+
                 break;
 
             case TAG_WALL_SLIDOR_DOWN:
@@ -464,11 +464,11 @@ int DoSlidorMoveWalls(short SpriteNum, int amt)
                 pw = w - 1;
                 if (w < startwall)
                     pw = endwall;
-                    
-                if (wall[w].nextwall < 0)    
+
+                if (wall[w].nextwall < 0)
                     {
                     wall[w].y += amt;
-                    wall[pw].y += amt; 
+                    wall[pw].y += amt;
                     wall[wall[w].point2].y += amt;
                     wall[wall[wall[w].point2].point2].y += amt;
                     }
@@ -476,14 +476,14 @@ int DoSlidorMoveWalls(short SpriteNum, int amt)
                     {
                     dragpoint(w, wall[w].x, wall[w].y + amt);
                     dragpoint(wall[w].point2, wall[wall[w].point2].x, wall[wall[w].point2].y + amt);
-                    }    
-                    
-            
+                    }
+
+
                 break;
             }
-            
+
         w = wall[w].point2;
-        }            
+        }
     while(w != startwall);
 
     return(0);
@@ -494,7 +494,7 @@ int DoSlidorInstantClose(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     short w, pw, startwall, endwall;
     int diff;
-    
+
     w = startwall = sector[sprite[SpriteNum].sectnum].wallptr;
     endwall = startwall + sector[sprite[SpriteNum].sectnum].wallnum - 1;
 
@@ -506,12 +506,12 @@ int DoSlidorInstantClose(short SpriteNum)
                 diff = wall[w].x - sp->x;
                 DoSlidorMoveWalls(SpriteNum, diff);
                 break;
-                
+
             case TAG_WALL_SLIDOR_RIGHT:
                 diff = wall[w].x - sp->x;
                 DoSlidorMoveWalls(SpriteNum, -diff);
                 break;
-                
+
             case TAG_WALL_SLIDOR_UP:
                 diff = wall[w].y - sp->y;
                 DoSlidorMoveWalls(SpriteNum, diff);
@@ -522,15 +522,15 @@ int DoSlidorInstantClose(short SpriteNum)
                 DoSlidorMoveWalls(SpriteNum, -diff);
                 break;
             }
-            
+
         w = wall[w].point2;
-        }            
+        }
     while(w != startwall);
 
     return(0);
     }
-    
-    
+
+
 int DoSlidorMove(short SpriteNum)
     {
     USERp u = User[SpriteNum];
@@ -542,20 +542,20 @@ int DoSlidorMove(short SpriteNum)
     int dist,closest;
     int old_pos;
     BOOL kill = FALSE;
-    
+
     r = u->rotator;
-    
+
     // Example - ang pos moves from 0 to 512 <<OR>> from 0 to -512
-    
+
     old_pos = r->pos;
-       
+
     // control SPEED of swinging
     if (r->pos < r->tgt)
         {
         // Increment swing angle
         r->pos += r->speed;
         r->speed += r->vel;
-        
+
         // if the other way make it equal
         if (r->pos > r->tgt)
             r->pos = r->tgt;
@@ -566,12 +566,12 @@ int DoSlidorMove(short SpriteNum)
         // Increment swing angle
         r->pos -= r->speed;
         r->speed += r->vel;
-        
+
         // if the other way make it equal
         if (r->pos < r->tgt)
             r->pos = r->tgt;
         }
-        
+
     if (r->pos == r->tgt)
         {
         // If ang is OPEN
@@ -581,44 +581,44 @@ int DoSlidorMove(short SpriteNum)
             r->tgt = 0;
             r->vel = -r->vel;
             SetSlidorInactive(SpriteNum);
-            
+
             if (SP_TAG6(sp) && !TEST_BOOL8(sp))
                 DoMatchEverything(NULL, SP_TAG6(sp), -1);
-                
-            // wait a bit and close it    
+
+            // wait a bit and close it
             if (u->WaitTics)
                 u->Tics = u->WaitTics;
             }
-        else    
+        else
         // If ang is CLOSED then
         if (r->pos == 0)
             {
             short match = SP_TAG2(sp);
-            
+
             // new tgt is OPEN (open)
             r->speed = r->orig_speed;
             r->vel = labs(r->vel);
-            
+
             r->tgt = r->open_dest;
             SetSlidorInactive(SpriteNum);
 
             RESET_BOOL8(sp);
-            
+
             // set owner swith back to OFF
             // only if ALL vators are inactive
             if (!TestSlidorMatchActive(match))
                 {
                 //SlidorSwitch(match, OFF);
                 }
-            
+
             if (SP_TAG6(sp) && TEST_BOOL8(sp))
                 DoMatchEverything(NULL, SP_TAG6(sp), -1);
             }
-            
+
         if (TEST_BOOL2(sp))
             kill = TRUE;
-        }    
-    else 
+        }
+    else
         {
         // if heading for the OFF (original) position and should NOT CRUSH
         if (TEST_BOOL3(sp) && r->tgt == 0)
@@ -627,12 +627,12 @@ int DoSlidorMove(short SpriteNum)
             SPRITEp bsp;
             USERp bu;
             BOOL found = FALSE;
-            
+
             TRAVERSE_SPRITE_SECT(headspritesect[sp->sectnum], i, nexti)
                 {
                 bsp = &sprite[i];
                 bu = User[i];
-                
+
                 if (bu && TEST(bsp->cstat, CSTAT_SPRITE_BLOCK) && TEST(bsp->extra, SPRX_PLAYER_OR_ENEMY))
                     {
                     // found something blocking so reverse to ON position
@@ -642,8 +642,8 @@ int DoSlidorMove(short SpriteNum)
                     break;
                     }
                 }
-            
-            if (!found)    
+
+            if (!found)
                 {
                 short pnum;
                 PLAYERp pp;
@@ -651,23 +651,23 @@ int DoSlidorMove(short SpriteNum)
                 TRAVERSE_CONNECT(pnum)
                     {
                     pp = Player + pnum;
-                    
-                    if (pp->lo_sectp == &sector[sp->sectnum] || 
+
+                    if (pp->lo_sectp == &sector[sp->sectnum] ||
                         pp->hi_sectp == &sector[sp->sectnum])
                         {
                         ReverseSlidor(SpriteNum);
-                        
+
                         u->vel_rate = -u->vel_rate;
                         found = TRUE;
                         }
                     }
                 }
             }
-        }    
-        
-    
+        }
+
+
     DoSlidorMoveWalls(SpriteNum, r->pos - old_pos);
-    
+
     if (kill)
         {
         SetSlidorInactive(SpriteNum);
@@ -677,7 +677,7 @@ int DoSlidorMove(short SpriteNum)
 
     return(0);
     }
-    
+
 int DoSlidor(short SpriteNum)
     {
     USERp u = User[SpriteNum];
@@ -685,9 +685,9 @@ int DoSlidor(short SpriteNum)
     SECTORp sectp = &sector[sp->sectnum];
     int *lptr;
     int amt;
-    
+
     DoSlidorMove(SpriteNum);
-        
+
     return(0);
     }
 

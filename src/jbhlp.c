@@ -14,7 +14,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -71,7 +71,7 @@ long GetAToken(char *name, char *tc, long length)
     char t,*tmp,tokenfound=0;
     char token[10];
     long count=0;
-    
+
     do{
 
         // Find the token symbol
@@ -81,7 +81,7 @@ long GetAToken(char *name, char *tc, long length)
             count++;
         } while(t!='@' && count < length);
 
-         
+
         if(t=='@')
         {
             tmp = token;
@@ -104,7 +104,7 @@ long GetAToken(char *name, char *tc, long length)
         }
     } while(!tokenfound && count < length);
 
-    
+
     if(!tokenfound) count=0;
     return(count);
 
@@ -120,7 +120,7 @@ void ContextHelp(short spritenum)
     short hitag=0;
     long size=0,tokresult=0;
 
-    
+
     sp = &sprite[spritenum];
 
     clearmidstatbar16();
@@ -132,7 +132,7 @@ void ContextHelp(short spritenum)
     }
 
     // Read in whole file
-    size = kfilelength(fp);    
+    size = kfilelength(fp);
     filebuffer = (char *)malloc(size);
     if (filebuffer == NULL)
     {
@@ -165,13 +165,13 @@ void ContextHelp(short spritenum)
     sprintf(name,"@TAG%d",hitag);
 
     tc = filebuffer;
-    
+
     if(!(tokresult = GetAToken(name,tc,size)))
     {
         // This message should never happen unless something is real wrong!
         Msg("No help available.",M_RED);
         return;
-    }       
+    }
 
     tc += tokresult;
 

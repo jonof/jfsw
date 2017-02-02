@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -36,10 +36,10 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 typedef enum {
         ct_mainmenu, ct_savemenu, ct_loadmenu, ct_soundmenu, ct_optionmenu, ct_quickloadmenu,
         ct_quitmenu, ct_ordermenu, ct_episodemenu, ct_max
-} CTLType;   
+} CTLType;
 
-extern BOOL UsingMenus;   
-extern int SENSITIVITY;     
+extern BOOL UsingMenus;
+extern int SENSITIVITY;
 extern CTLType ControlPanelType;
 extern SHORT MenuTextShade;
 extern SHORT MenuTextPalette;
@@ -78,7 +78,7 @@ VOID ResetMenuInput(VOID);
     (CONTROL_ButtonState1 |= (value<<(x)))\
     )
 
-extern BOOL BorderAdjust;    
+extern BOOL BorderAdjust;
 extern int FXDevice,MusicDevice;
 extern BOOL MultiPlayQuitFlag;
 
@@ -106,51 +106,51 @@ extern BOOL MultiPlayQuitFlag;
 
 
 #define pic_none 0
-#define pic_radiobuttn1 2816 
+#define pic_radiobuttn1 2816
 #define pic_radiobuttn2 2817
-#define pic_newgame 2819 
-#define pic_load 2820 
-#define pic_save 2821 
-#define pic_options 2822 
-#define pic_orderinfo 2823 
-#define pic_todemo 2824 
-#define pic_togame 2825 
+#define pic_newgame 2819
+#define pic_load 2820
+#define pic_save 2821
+#define pic_options 2822
+#define pic_orderinfo 2823
+#define pic_todemo 2824
+#define pic_togame 2825
 #define pic_quit 2826
-#define pic_newgametitl 2827 
-#define pic_training 2828 
-#define pic_easy 2829 
-#define pic_normal 2830 
-#define pic_hard 2831 
+#define pic_newgametitl 2827
+#define pic_training 2828
+#define pic_easy 2829
+#define pic_normal 2830
+#define pic_hard 2831
 #define pic_impossible 2832
-#define pic_optionstitl 2833 
-#define pic_endgame 2834 
-#define pic_detail 2835 
-#define pic_high 2836 
-#define pic_low 2837 
-#define pic_mousesense 2838 
+#define pic_optionstitl 2833
+#define pic_endgame 2834
+#define pic_detail 2835
+#define pic_high 2836
+#define pic_low 2837
+#define pic_mousesense 2838
 #define pic_soundvol 2839
-#define pic_toggles 2845 
-#define pic_togglestitl 2844 
-#define pic_mousenable 2840 
-#define pic_joyenable 2841 
+#define pic_toggles 2845
+#define pic_togglestitl 2844
+#define pic_mousenable 2840
+#define pic_joyenable 2841
 #define pic_bobbing 2842
-#define pic_slidelend 2846 
-#define pic_slidebar 2847 
-#define pic_sliderend 2848 
+#define pic_slidelend 2846
+#define pic_slidebar 2847
+#define pic_sliderend 2848
 #define pic_sliderknob 2849
 #define pic_shuriken1 2850
 #define pic_yinyang 2870
-#define pic_soundtitl 2870 
-#define pic_sndfxvol 2871 
+#define pic_soundtitl 2870
+#define pic_sndfxvol 2871
 #define pic_musicvol 2872
-#define pic_episode1 2873 
-#define pic_episode2 2874 
-#define pic_episode3 2875 
-#define pic_modem 2876 
-#define pic_scrsize 2877 
-#define pic_loadsavecursor 2918 
+#define pic_episode1 2873
+#define pic_episode2 2874
+#define pic_episode3 2875
+#define pic_modem 2876
+#define pic_scrsize 2877
+#define pic_loadsavecursor 2918
 #define pic_loadgame 2915
-#define pic_savegame 2916 
+#define pic_savegame 2916
 #define pic_loading 2917
 #define pic_loadsavescreen 2919
 #define pic_loadsavescreenbak 2922
@@ -158,7 +158,7 @@ extern BOOL MultiPlayQuitFlag;
 #define pic_shadow_warrior 2366
 
 // This is the current values set with all slider bar functions
-#define SENSE_DEFAULT   10  // Default mouse sensitivity ** should be 5!!! 
+#define SENSE_DEFAULT   10  // Default mouse sensitivity ** should be 5!!!
 #define FXVOL_DEFAULT   8   // Default sound fx volume
 #define MUSIC_DEFAULT   8   // Default music volume
 #define SCRSIZE_DEFAULT 9   // Default screen size, max is 10
@@ -169,12 +169,12 @@ extern BOOL MultiPlayQuitFlag;
 #define MONSTERS_DEFAULT 0  // No Monsters
 #define KILLLIMIT_DEFAULT 0 // No kill limit
 #define TIMELIMIT_DEFAULT 0 // None
-#define PLAYERCOLOR_DEFAULT 0 
+#define PLAYERCOLOR_DEFAULT 0
 
 typedef enum
     {
     sldr_none,
-    sldr_mouse, sldr_sndfxvolume, sldr_musicvolume, sldr_scrsize, sldr_brightness, 
+    sldr_mouse, sldr_sndfxvolume, sldr_musicvolume, sldr_scrsize, sldr_brightness,
     sldr_bordertile, sldr_gametype, sldr_netlevel, sldr_monsters, sldr_killlimit,
     sldr_timelimit, sldr_playercolor, sldr_videores, sldr_videobpp,
     sldr_mousescalex, sldr_mousescaley,
@@ -184,14 +184,14 @@ typedef enum
 
 
 #define MAX_SLDR_WIDTH	16	// maximum size of slider before x is compressed
-    
+
 #define SLDR_MOUSESENSEMAX              20
 #define SLDR_SNDFXVOLMAX                16
 #define SLDR_MUSICVOLMAX                16
 #define SLDR_SCRSIZEMAX                 14
 #define SLDR_BRIGHTNESSMAX              8
 #define SLDR_BORDERTILEMAX              (isShareware ? 21 : 38)	// counted from border.c
-#define SLDR_GAMETYPEMAX                3   
+#define SLDR_GAMETYPEMAX                3
 
 #define SLDR_NETLEVELMAX_REG             28
 #define SLDR_NETLEVELMAX_SW              4
@@ -199,20 +199,20 @@ typedef enum
 
 #define SLDR_MONSTERSMAX                5   // Skill Levels
 #define SLDR_KILLLIMITMAX               11  // Increments of 10 up to 100, 1 is no limit
-#define SLDR_TIMELIMITMAX               9  
+#define SLDR_TIMELIMITMAX               9
 #define SLDR_PLAYERCOLORMAX             8   // Up to 8 players different colors
 
 
-#define MOUSE_SENS_MAX_VALUE (1<<16)              
-#define MUSIC_VOL_MAX_VALUE 255              
-#define FX_VOL_MAX_VALUE 255              
+#define MOUSE_SENS_MAX_VALUE (1<<16)
+#define MUSIC_VOL_MAX_VALUE 255
+#define FX_VOL_MAX_VALUE 255
 
 // These are all the toggle button settings
 typedef enum
     {
     btn_none, btn_auto_run, btn_crosshair, btn_auto_aim,
-    btn_mouse_aim, btn_messages, btn_mouse_invert, btn_bobbing, btn_shadows, 
-    btn_sound, btn_music, btn_talking, btn_ambience, btn_flipstereo, 
+    btn_mouse_aim, btn_messages, btn_mouse_invert, btn_bobbing, btn_shadows,
+    btn_sound, btn_music, btn_talking, btn_ambience, btn_flipstereo,
     btn_res0, btn_res1, btn_res2, btn_res3, btn_res4, btn_res5, btn_res6,
     btn_markers, btn_teamplay, btn_friendlyfire,btn_parental,btn_nuke,
     btn_voxels, btn_stats, btn_playcd,
@@ -259,7 +259,7 @@ typedef struct MENU_ITEM
     char shade;                         // Shade of pic
     int tics;                          // Ticcount for item
      BOOL(*custom) (void);              // Work function on item select
-     
+
      BOOL (*preprocess)(struct MENU_ITEM *);
      BOOL (*postprocess)(struct MENU_ITEM *); // Can do things on items select
     } MenuItem, *MenuItem_p;
@@ -326,8 +326,8 @@ BOOL MNU_LoadClassicDefaults(void);
 #define DefDisabled(key,text,child)    mt_layer,mf_disabled,sldr_none,btn_none,key,text,child
 #define DefNone mt_none,0,0,0,0,NULL,NULL,0,0,0,0,0,NULL,NULL,NULL
 
-#define OPT_XS 30   
-#define OPT_YS 30   
+#define OPT_XS 30
+#define OPT_YS 30
 #define OPT_XSIDE (OPT_XS + 120)
 #define OPT_YINC 10
 #define OPT_LINE(line) (OPT_YS + (OPT_YINC * (line)))

@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -66,7 +66,7 @@ BYTE RedBookSong[40] =
     {
     2,4,9,12,10, // Title and ShareWare levels
     5,6,8,11,12,5,10,4,6,9,7,10,8,7,9,10,11,5, // Registered levels
-    11,8,7,13,5,6,  // Deathmatch levels    
+    11,8,7,13,5,6,  // Deathmatch levels
     13 // Fight boss
     };
 
@@ -250,20 +250,20 @@ void CheckSndData( char *file, int line )
     short i;
 
     //return;
-    
+
     for (i = 0; i<DIGI_MAX ; i++)
         {
         if (!globsndata[i] && !globvpdata[i]) continue;
-        
+
         if (memcmp(globsndata[i], globvpdata[i], glength[i]) != 0)
             {
             printf("%s %d\n",file,line);
             printf("CheckSndData: Data is not the same! num = %d",i);
             exit(0);
             }
-        }    
-    }    
-#endif    
+        }
+    }
+#endif
 
 //
 // Routine called when a sound is finished playing
@@ -273,12 +273,12 @@ void
 SoundCallBack(unsigned int num)
     {
     VOC_INFOp vp;
-        
+
     if ((int) num == MUSIC_ID)
         {
         return;
         }
-        
+
     // RTS sounds are negative
     if ((int)num < 0)
         {
@@ -288,15 +288,15 @@ SoundCallBack(unsigned int num)
         }
 
     vp = &voc[num];
-        
+
     // Update counter
     //vp->playing--;
     vp->lock--;
     }
 
-// 
-    
-void 
+//
+
+void
 ClearSoundLocks(void)
 {
     unsigned i;
@@ -305,13 +305,13 @@ ClearSoundLocks(void)
         {
         if(voc[i].lock >= 200)
             voc[i].lock = 199;
-        }    
-            
+        }
+
     for(i = 0; i < 11; i++)
         {
         if(lumplockbyte[i] >= 200)
             lumplockbyte[i] = 199;
-        }    
+        }
 }
 
 VOID
@@ -334,7 +334,7 @@ InitFX(VOID)
         globsndata[i] = globvpdata[i] = NULL;
         glength[i] = 0;
         }
-    #endif    
+    #endif
 
     //ExternalSoundMod();
 
@@ -411,11 +411,11 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
         return FALSE;
     }
 
-    if (DemoMode)    
+    if (DemoMode)
         return FALSE;
 
     if (!restart)
-        {    
+        {
         if (SongType == SongTypeCDA && cdaudio_track == SongTrack)
             {
             return TRUE;
@@ -442,7 +442,7 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
         }
 
     StopSong();
-        
+
     if (!SW_SHAREWARE) {
         if (CD_GetCurrentDriver() != ASS_NoSound && CDInitialized)
         {
@@ -457,19 +457,19 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
 
             buildprintf("CD play error: %s\n", CD_ErrorString(status));
         }
-        
+
         if (cdaudio_track >= 0)
         {
             char oggtrack[MAXOGGTRACKLENGTH];
             memcpy(oggtrack, gs.OggTrackName, MAXOGGTRACKLENGTH);
-            
+
             char* numPos = strstr(oggtrack, "??");
-            
+
             if(numPos && (numPos-oggtrack) < MAXOGGTRACKLENGTH - 1)
             {
                 numPos[0] = '0' + (cdaudio_track / 10) % 10;
                 numPos[1] = '0' + cdaudio_track % 10;
-                
+
                 if (LoadSong(oggtrack)) {
                     SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
                                                   255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
@@ -488,11 +488,11 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
             }
         }
     }
-    
+
     if (!song_file_name || !LoadSong(song_file_name)) {
         return FALSE;
     }
-    
+
     if (!memcmp(SongPtr, "MThd", 4)) {
         MUSIC_PlaySong(SongPtr, SongLength, MUSIC_LoopSong);
         SongType = SongTypeMIDI;
@@ -507,7 +507,7 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
             return TRUE;
         }
     }
-    
+
     return FALSE;
 }
 
@@ -520,9 +520,9 @@ StopFX(VOID)
 void
 StopSong(VOID)
 {
-    if (DemoMode)    
+    if (DemoMode)
         return;
-        
+
     if (SongType == SongTypeVoc && SongVoice >= 0) {
         FX_StopSound(SongVoice);
     } else if (SongType == SongTypeMIDI) {
@@ -537,7 +537,7 @@ StopSong(VOID)
     }
     SongName = 0;
     SongTrack = 0;
-    
+
     if (SongPtr) {
         FreeMem(SongPtr);
         SongPtr = 0;
@@ -591,7 +591,7 @@ SoundDist(int x, int y, int z, int basedist)
 
     #define DECAY_CONST 4000
 
-    
+
     tx = abs(Player[screenpeek].posx - x);
     ty = abs(Player[screenpeek].posy - y);
     tz = abs((Player[screenpeek].posz - z) >> 4);
@@ -609,19 +609,19 @@ SoundDist(int x, int y, int z, int basedist)
 
         for (i=0;i<decay;i++)
             decayshift *= 2;
-            
+
         if(fabs(basedist/decayshift) >= retval)
             retval = 0;
         else
             retval *= decay;
-        } else    
+        } else
         {
         if(basedist > retval)
             retval = 0;
-        else    
+        else
             retval -= basedist;
-        }    
-        
+        }
+
     retval = retval * 256 / MAXLEVLDIST;
 
     if (retval < 0) retval = 0;
@@ -662,16 +662,16 @@ int _PlayerSound(char *file, int line, int num, int *x, int *y, int *z, Voc3D_Fl
     if (Prediction)
         return 0;
 
-    if (pp < Player || pp >= Player + MAX_SW_PLAYERS)   
+    if (pp < Player || pp >= Player + MAX_SW_PLAYERS)
         {
         TerminateGame();
         printf("Player Sound invalid player: file %s, line %d\n",file,line);
         exit(0);
         }
-        
+
     PRODUCTION_ASSERT(pp >= Player && pp < Player+MAX_SW_PLAYERS);
     PRODUCTION_ASSERT(num >= 0 && num < DIGI_MAX);
-        
+
     if (TEST(pp->Flags, PF_DEAD)) return 0; // You're dead, no talking!
 
     // If this is a player voice and he's already yacking, forget it.
@@ -684,7 +684,7 @@ int _PlayerSound(char *file, int line, int num, int *x, int *y, int *z, Voc3D_Fl
         }
 
     // Not a player voice, bail.
-    if(vp->priority != PRI_PLAYERVOICE && vp->priority != PRI_PLAYERDEATH) 
+    if(vp->priority != PRI_PLAYERVOICE && vp->priority != PRI_PLAYERDEATH)
         return 0;
 
     // He wasn't talking, but he will be now.
@@ -693,7 +693,7 @@ int _PlayerSound(char *file, int line, int num, int *x, int *y, int *z, Voc3D_Fl
         pp->PlayerTalking = TRUE;
         pp->TalkVocnum = num;   // Set the voc number
         pp->TalkVocHandle = PlaySound(num, x, y, z, flags); // Play the sound
-        if(pp->TalkVocHandle < 0) 
+        if(pp->TalkVocHandle < 0)
         {
             pp->PlayerTalking = FALSE;
             pp->TalkVocnum = -1;
@@ -726,15 +726,15 @@ void LockSound(int num)
         //ASSERT(vp->lock < CACHE_LOCK_MAX);
         //ASSERT(vp->lock != 0);
         }
-    }    
+    }
 
 BOOL CacheSound(int num, int type)
     {
     VOC_INFOp vp = &voc[num];
     extern char cachedebug;
-    
-    PRODUCTION_ASSERT(num >= 0 && num < DIGI_MAX); 
-    
+
+    PRODUCTION_ASSERT(num >= 0 && num < DIGI_MAX);
+
     // if no data we need to cache it in
     if (!vp->data)
         {
@@ -753,45 +753,45 @@ BOOL CacheSound(int num, int type)
 
             if (cachedebug)
                 printf("Sound %s, %d\n",vp->name,num);
-              
-            /*    
-            if (type == CACHE_SOUND_PLAY)    
+
+            /*
+            if (type == CACHE_SOUND_PLAY)
                 // start it out locked at the min
                 vp->lock = CACHE_LOCK_START;
-            else    
-            if (type == CACHE_SOUND_PRECACHE)    
-                // start it out unlocked at the max    
+            else
+            if (type == CACHE_SOUND_PRECACHE)
+                // start it out unlocked at the max
             */
                 vp->lock = CACHE_UNLOCK_MAX;
-                
+
             allocache((void **)&vp->data, length, &vp->lock);
-            
+
             #if 0
             // DEBUG
             globsndata[num] = AllocMem(length);
             glength[num] = length;
 
             fp = fopen( vp->name, "rb" );
-            if( fp != NULL ) 
+            if( fp != NULL )
                 {
                 fread(globsndata[num], length, 1, fp);
                 ASSERT(globsndata[num] != NULL);
                 fclose( fp );
                 }
-            #endif    
-            ///////    
-            
+            #endif
+            ///////
+
             ASSERT(vp->data);
             ReadSound(handle, vp, length);
-    
+
             #if 0
             //DEBUG
             globvpdata[num] = vp->data;
             CheckSndData( __FILE__, __LINE__ );
             #endif
             }
-        }    
-        
+        }
+
     return(TRUE);
     }
 
@@ -815,33 +815,33 @@ PlaySound(int num, int *x, int *y, int *z, Voc3D_Flags flags)
     // DEBUG
 	//extern BOOL Pachinko_Win_Cheat;
 
-    
+
     // Don't play game sounds when in menus
     //if (UsingMenus && (*x!=0 || *y!=0 || *z!=0)) return(-1);
-    
+
     // Weed out parental lock sounds if PLock is active
     if (gs.ParentalLock || Global_PLock)
         {
         unsigned i;
-        
+
         for (i=0; i<sizeof(PLocked_Sounds); i++)
             {
             if (num == PLocked_Sounds[i])
                 return(-1);
             }
         }
-        
+
     if (Prediction)
         return(-1);
-    
+
     if (!gs.FxOn)
         return(-1);
-    
-    PRODUCTION_ASSERT(num >= 0 && num < DIGI_MAX); 
-    
+
+    PRODUCTION_ASSERT(num >= 0 && num < DIGI_MAX);
+
     // Reset voice
     voice = -1;
-    
+
     // This is used for updating looping sounds in Update3DSounds
     if (Use_SoundSpriteNum && SoundSpriteNum >= 0)
         {
@@ -879,14 +879,14 @@ PlaySound(int num, int *x, int *y, int *z, Voc3D_Flags flags)
             num = ambarray[num].diginame;
         }
 
-    PRODUCTION_ASSERT(num >= 0 && num < DIGI_MAX); 
+    PRODUCTION_ASSERT(num >= 0 && num < DIGI_MAX);
 
 
     // Assign voc to voc pointer
     vp = &voc[num];
     if (UsingMenus && *x==0 && *y==0 && *z==0)  // Menus sound outdo everything
         priority = 100;
-    else    
+    else
         priority = vp->priority;
     v3p->vp = vp;
 
@@ -958,7 +958,7 @@ PlaySound(int num, int *x, int *y, int *z, Voc3D_Flags flags)
             //MONO_PRINT("PlaySound:Reducing sound distance");
             sound_dist += ((sound_dist/2)+(sound_dist/4));  // Play more quietly
             if(sound_dist > 255) sound_dist = 255;
-            
+
             // Special Cases
             if(num == DIGI_WHIPME) sound_dist = 255;
             }
@@ -970,7 +970,7 @@ PlaySound(int num, int *x, int *y, int *z, Voc3D_Flags flags)
         v3p->priority = v3p->vp->priority - (sound_dist / 26);
         priority = v3p->priority;
         }
-    
+
     if (!CacheSound(num, CACHE_SOUND_PLAY))
         {
         v3p->flags = v3df_kill;
@@ -981,7 +981,7 @@ PlaySound(int num, int *x, int *y, int *z, Voc3D_Flags flags)
         }
 
     LockSound(num);
-        
+
     if (sound_dist < 5)
         angle = 0;
 
@@ -991,11 +991,11 @@ PlaySound(int num, int *x, int *y, int *z, Voc3D_Flags flags)
 
     if (vp->pitch_hi == vp->pitch_lo)
         pitch = vp->pitch_lo;
-    else 
+    else
     if (vp->pitch_hi != vp->pitch_lo)
         pitch = vp->pitch_lo + (STD_RANDOM_RANGE(vp->pitch_hi - vp->pitch_lo));
 
-    #if 0    
+    #if 0
     // DEBUG
     if (Pachinko_Win_Cheat)
         {
@@ -1003,47 +1003,47 @@ PlaySound(int num, int *x, int *y, int *z, Voc3D_Flags flags)
         Pachinko_Win_Cheat = FALSE;
         CON_Message("S O U N D S   C H E C K E D");
         }
-    #endif    
+    #endif
 
-    // Request playback and play it as a looping sound if flag is set.    
-    if (vp->voc_flags & vf_loop)    
-        {    
-        short loopvol=0;    
+    // Request playback and play it as a looping sound if flag is set.
+    if (vp->voc_flags & vf_loop)
+        {
+        short loopvol=0;
 
-        if((loopvol = 255-sound_dist) <= 0)    
-            loopvol = 0;    
+        if((loopvol = 255-sound_dist) <= 0)
+            loopvol = 0;
 
         if(sound_dist < 255 || (flags & v3df_init))
             {
-            voice = FX_PlayLoopedAuto((char *)vp->data, vp->datalen, 0, 0,    
-                pitch, loopvol, loopvol, loopvol, priority, num);    
-            } 
-        else
-            voice = -1;        
-    
-        }    
-    else    
-    //if(!flags & v3df_init)  // If not initing sound, play it    
-        if(tx==0 && ty==0 && tz==0) // It's a non-inlevel sound    
-            {
-            voice = FX_PlayAuto( (char *)vp->data, vp->datalen, pitch, 255, 255, 255, priority, num);    
+            voice = FX_PlayLoopedAuto((char *)vp->data, vp->datalen, 0, 0,
+                pitch, loopvol, loopvol, loopvol, priority, num);
             }
-        else // It's a 3d sound    
+        else
+            voice = -1;
+
+        }
+    else
+    //if(!flags & v3df_init)  // If not initing sound, play it
+        if(tx==0 && ty==0 && tz==0) // It's a non-inlevel sound
+            {
+            voice = FX_PlayAuto( (char *)vp->data, vp->datalen, pitch, 255, 255, 255, priority, num);
+            }
+        else // It's a 3d sound
             {
             if (sound_dist < 255)
                 {
-                voice = FX_PlayAuto3D( (char *)vp->data, vp->datalen, pitch, angle, sound_dist, priority, num);    
+                voice = FX_PlayAuto3D( (char *)vp->data, vp->datalen, pitch, angle, sound_dist, priority, num);
                 }
             else
-                voice = -1;    
+                voice = -1;
             }
-         
+
     // If sound played, update our counter
     if (voice >= FX_Ok)
         {
         //vp->playing++;
         v3p->FX_Ok = TRUE;
-        } 
+        }
     else
         {
         vp->lock--;
@@ -1063,22 +1063,22 @@ VOID PlaySoundRTS(int rts_num)
     {
     char *rtsptr;
     int voice=-1;
-    
+
     if (RTS_NumSounds() <= 0 || !gs.FxOn)
         return;
-        
+
     rtsptr = (char *)RTS_GetSound (rts_num - 1);
-    
+
     ASSERT(rtsptr);
-    
+
     voice = FX_PlayAuto3D(rtsptr, RTS_SoundLength(rts_num - 1), 0, 0, 0, 255, -rts_num);
-    
+
     if (voice < FX_Ok)
         {
         lumplockbyte[rts_num]--;
         }
-    }    
-    
+    }
+
 ///////////////////////////////////////////////
 
 BOOL
@@ -1096,7 +1096,7 @@ OpenSound(VOC_INFOp vp, int *handle, int *length)
     return (TRUE);
     }
 
-    
+
 int
 ReadSound(int handle, VOC_INFOp vp, int length)
     {
@@ -1106,7 +1106,7 @@ ReadSound(int handle, VOC_INFOp vp, int length)
         printf("Error reading file '%s'.\n", vp->name);
         exit(0);
         }
-    
+
     vp->datalen = length;
 
     kclose(handle);
@@ -1142,7 +1142,7 @@ LoadSong(const char *filename)
         }
 
     kclose(handle);
-    
+
     SongPtr = ptr;
     SongLength = size;
 
@@ -1153,8 +1153,8 @@ LoadSong(const char *filename)
 void FlipStereo(void)
     {
     FX_SetReverseStereo(gs.FlipStereo);
-    }    
-    
+    }
+
 void
 SoundStartup(void)
     {
@@ -1171,7 +1171,7 @@ SoundStartup(void)
     } else {
         fxdevicetype = FXDevice - 1;
     }
-        
+
 #ifdef WIN32
     initdata = (void *) win_gethwnd();
 #endif
@@ -1184,7 +1184,7 @@ SoundStartup(void)
             FxInitialized = TRUE;
             FX_SetVolume(gs.SoundVolume);
             buildprintf("FX driver is %s\n", FX_GetCurrentDriverName());
-            
+
              if (gs.FlipStereo)
                 FX_SetReverseStereo(!FX_GetReverseStereo());
             }
@@ -1230,7 +1230,7 @@ SoundShutdown(void)
         buildprintf("Sound error: %s\n",FX_ErrorString(FX_Error));
         }
     }
-    
+
 
 /*
 ===================
@@ -1246,9 +1246,9 @@ void loadtmb(void)
     int fil, l;
 
     fil = kopen4load("swtimbr.tmb",0);
-    if(fil == -1) 
+    if(fil == -1)
         return;
-        
+
     l = kfilelength(fil);
     kread(fil,tmb,l);
     MUSIC_RegisterTimbreBank(tmb);
@@ -1259,7 +1259,7 @@ void MusicStartup( void )
     {
     int32 status;
     int devicetype;
-       
+
     // if they chose None lets return
     if (MusicDevice < 0)
         {
@@ -1274,7 +1274,7 @@ void MusicStartup( void )
         {
         devicetype = MusicDevice - 1;
         }
-   
+
     status = CD_Init(devicetype);
 
     if (status != CD_Ok)
@@ -1299,8 +1299,8 @@ void MusicStartup( void )
         buildprintf("Music error: %s\n",MUSIC_ErrorString(MUSIC_ErrorCode));
         gs.MusicOn = FALSE;
         }
-      
-    if (MusicInitialized)   
+
+    if (MusicInitialized)
        loadtmb();
     }
 
@@ -1308,7 +1308,7 @@ void COVER_SetReverb(int amt)
     {
     FX_SetReverb(amt);
     }
-    
+
 /*
 ===================
 =
@@ -1322,7 +1322,7 @@ MusicShutdown(void)
     {
     int32 status;
 
-    if (CDInitialized)        
+    if (CDInitialized)
         CD_Shutdown();
 
     // if they chose None lets return
@@ -1333,7 +1333,7 @@ MusicShutdown(void)
         return;
 
     StopSong();
-    
+
     status = MUSIC_Shutdown();
     if (status != MUSIC_Ok)
         {
@@ -1427,16 +1427,16 @@ DeleteNoSoundOwner(short spritenum)
             // sounds
             if (FX_SoundActive(vp->handle))
                 {
-                FX_StopSound(vp->handle); 
+                FX_StopSound(vp->handle);
                 }
 
-            #if 0    
-            // Clean up the sound active counter for cacheing locks    
+            #if 0
+            // Clean up the sound active counter for cacheing locks
             if (vp->FX_Ok) // Only decrement if sound ever played
-                vp->vp->playing--; // Decrement instance of sound playing          
-            if (vp->vp->playing == 0 && vp->vp->lock > CACHE_UNLOCK_MAX)      
+                vp->vp->playing--; // Decrement instance of sound playing
+            if (vp->vp->playing == 0 && vp->vp->lock > CACHE_UNLOCK_MAX)
                 vp->vp->lock = CACHE_UNLOCK_MAX;
-            #endif    
+            #endif
 
 
             dp = vp;                    // Point to sound to be deleted
@@ -1468,7 +1468,7 @@ DeleteNoSoundOwner(short spritenum)
             FreeMem(dp);                // Return memory to heap
         }
     }
-    
+
 // This is called from KillSprite to kill a follow sound with no valid sprite owner
 // Stops and active sound with the follow bit set, even play once sounds.
 void DeleteNoFollowSoundOwner(short spritenum)
@@ -1488,13 +1488,13 @@ void DeleteNoFollowSoundOwner(short spritenum)
                 {
                 FX_StopSound(vp->handle);
                 }
-                
-            #if 0    
+
+            #if 0
             if (vp->FX_Ok) // Only decrement if sound ever played
-                vp->vp->playing--; // Decrement instance of sound playing          
-            if (vp->vp->playing == 0 && vp->vp->lock > CACHE_UNLOCK_MAX)      
+                vp->vp->playing--; // Decrement instance of sound playing
+            if (vp->vp->playing == 0 && vp->vp->lock > CACHE_UNLOCK_MAX)
                 vp->vp->lock = CACHE_UNLOCK_MAX;
-            #endif    
+            #endif
 
             dp = vp;                    // Point to sound to be deleted
 
@@ -1525,7 +1525,7 @@ void DeleteNoFollowSoundOwner(short spritenum)
             FreeMem(dp);                // Return memory to heap
         }
     }
-    
+
 ///////////////////////////////////////////////
 // Deletes vocs in the 3D sound queue
 ///////////////////////////////////////////////
@@ -1536,7 +1536,7 @@ Delete3DSounds(void)
     PLAYERp pp;
     int cnt=0;
 
-    
+
     vp = voc3dstart;
 
     while (vp)
@@ -1546,15 +1546,15 @@ Delete3DSounds(void)
             {
             #if 0
             if (vp->FX_Ok) // Only decrement if sound ever played
-                vp->vp->playing--; // Decrement instance of sound playing          
-            if (vp->vp->playing == 0 && vp->vp->lock > CACHE_UNLOCK_MAX)      
+                vp->vp->playing--; // Decrement instance of sound playing
+            if (vp->vp->playing == 0 && vp->vp->lock > CACHE_UNLOCK_MAX)
                 vp->vp->lock = CACHE_UNLOCK_MAX;
-            #endif    
+            #endif
 
             //DSPRINTF(ds,"Delete3DSounds: deleting owner %d digi %d\n",vp->owner,vp->num);
             //MONO_PRINT(ds);
             // Reset Player talking flag if a voice was deleted
-            //if(vp->num > DIGI_FIRSTPLAYERVOICE && vp->num < DIGI_LASTPLAYERVOICE) 
+            //if(vp->num > DIGI_FIRSTPLAYERVOICE && vp->num < DIGI_LASTPLAYERVOICE)
             if (!vp->vp)
                 {
                 printf("Delete3DSounds(): NULL vp->vp\n");
@@ -1572,7 +1572,7 @@ Delete3DSounds(void)
                         {
                         pp->PlayerTalking = FALSE;
                         pp->TalkVocnum = -1;
-                        pp->TalkVocHandle = -1;  
+                        pp->TalkVocHandle = -1;
                         //DSPRINTF(ds,"DELETED PLAYER VOICE VOC! NUM=%d\n",vp->num);
                         //MONO_PRINT(ds);
                         }
@@ -1613,7 +1613,7 @@ Delete3DSounds(void)
 // Play a sound
 ////////////////////////////////////////////////////////////////////////////
 
-int 
+int
 RandomizeAmbientSpecials(int handle)
     {
     #define MAXRNDAMB 12
@@ -1622,15 +1622,15 @@ RandomizeAmbientSpecials(int handle)
     };
     short i;
 
-    // If ambient sound is found in the array, randomly pick a new sound    
+    // If ambient sound is found in the array, randomly pick a new sound
     for (i=0;i<MAXRNDAMB;i++)
         {
         if(handle == ambrand[i])
             return(ambrand[STD_RANDOM_RANGE(MAXRNDAMB-1)]);
         }
-        
-    return(handle); // Give back the sound, no new one was found    
-    }    
+
+    return(handle); // Give back the sound, no new one was found
+    }
 
 void
 DoTimedSound(VOC3D_INFOp p)
@@ -1676,13 +1676,13 @@ StopAmbientSound(void)
     extern BOOL InMenuLevel;
 
     if(InMenuLevel) return;
-    
+
     p = voc3dstart;
-    
+
     while (p)
         {
         // kill ambient sounds if Ambient is off
-        if (TEST(p->flags,v3df_ambient))    
+        if (TEST(p->flags,v3df_ambient))
             SET(p->flags, v3df_kill);
 
         if (p->flags & v3df_kill)
@@ -1692,12 +1692,12 @@ StopAmbientSound(void)
 
             p->deleted = TRUE;
             }
-            
+
         p = p->next;
         }
-        
+
     Delete3DSounds();
-    }    
+    }
 
 void
 StartAmbientSound(void)
@@ -1705,19 +1705,19 @@ StartAmbientSound(void)
     VOC3D_INFOp p;
     short i,nexti;
     extern BOOL InMenuLevel;
-    
+
     if(InMenuLevel) return; // Don't restart ambience if no level is active! Will crash game.
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_AMBIENT], i, nexti)
         {
         SPRITEp sp = &sprite[i];
 
-        PlaySound(sp->lotag, &sp->x, &sp->y, &sp->z, v3df_ambient | v3df_init 
+        PlaySound(sp->lotag, &sp->x, &sp->y, &sp->z, v3df_ambient | v3df_init
                 | v3df_doppler | v3df_follow);
         Set3DSoundOwner(i);  // Ambient sounds need this to get sectnum for later processing
         }
-    } 
-    
+    }
+
 ///////////////////////////////////////////////
 // Main function to update 3D sound array
 ///////////////////////////////////////////////
@@ -1737,7 +1737,7 @@ DoUpdateSounds3D(void)
     short dist, angle;
     BOOL deletesound = FALSE;
 
-    TVOC_INFO TmpVocArray[32]; 
+    TVOC_INFO TmpVocArray[32];
     int i;
     static BOOL MoveSkip8 = 0;
 
@@ -1747,7 +1747,7 @@ DoUpdateSounds3D(void)
     MoveSkip8 = (MoveSkip8 + 1) & 15;
 
     //CON_Message("Sounds Playing = %d",FX_SoundsPlaying());
-    
+
     // Zero out the temporary array
     //memset(&TmpVocArray[0],0,sizeof(TmpVocArray));
     for (i=0;i<32;i++)
@@ -1762,7 +1762,7 @@ DoUpdateSounds3D(void)
     while (p)
         {
         ASSERT(p->num >= 0 && p->num < DIGI_MAX);
-        
+
         looping = p->vp->voc_flags & vf_loop;
 
 //      //DSPRINTF(ds,"sound %d FX_SoundActive = %d\n,",p->num,FX_SoundActive(p->handle));
@@ -1773,7 +1773,7 @@ DoUpdateSounds3D(void)
             {
             SET(p->flags, v3df_kill);
             }
-        
+
         // Is the sound slated for death? Kill it, otherwise play it.
         if (p->flags & v3df_kill)
             {
@@ -1799,7 +1799,7 @@ DoUpdateSounds3D(void)
                     p->deleted = TRUE;
                     }
                 }
-            else 
+            else
             if (FX_SoundActive(p->handle))
                 {
                 if (p->flags & v3df_follow)
@@ -1811,7 +1811,7 @@ DoUpdateSounds3D(void)
                     {
                     if (p->fx == 0 && p->fy == 0 && p->fz == 0)
                         dist = 0;
-                    else    
+                    else
                         dist = SoundDist(p->fx, p->fy, p->fz, p->vp->voc_distance);
                     angle = SoundAngle(p->fx, p->fy);
                     }
@@ -1837,7 +1837,7 @@ DoUpdateSounds3D(void)
 
                             }
                         }
-                        
+
                 if (dist >= 255 && p->vp->voc_distance == DIST_NORMAL)
                     {
                     FX_StopSound(p->handle);    // Make sure to stop active
@@ -1902,7 +1902,7 @@ DoUpdateSounds3D(void)
                         for(i=0; i<min((int)SIZ(TmpVocArray), NumVoices); i++)
                         {
                             if(p->priority >= TmpVocArray[i].priority)
-                            {                   
+                            {
                                 if(!TmpVocArray[i].p || dist < TmpVocArray[i].dist)
                                 {
                                     ASSERT(p->num >= 0 && p->num < DIGI_MAX);
@@ -1925,14 +1925,14 @@ DoUpdateSounds3D(void)
 
     // Process all the looping sounds that said they wanted to get back in
     // Only update these sounds 5x per second!  Woo hoo!, aren't we optimized now?
-    //if(MoveSkip8==0)  
+    //if(MoveSkip8==0)
     //    {
         for(i=0; i<min((int)SIZ(TmpVocArray), NumVoices); i++)
             {
             int handle;
 
             p = TmpVocArray[i].p;
-    
+
             //if (FX_SoundsPlaying() >= NumVoices || !p) break;
             if (!p) break;
 
@@ -1976,9 +1976,9 @@ DoUpdateSounds3D(void)
 
                 Use_SoundSpriteNum = TRUE;
                 SoundSpriteNum = p->owner;
-                
+
                 handle = PlaySound(p->num, &p->fx, &p->fy, &p->fz, p->flags);
-                //if(handle >= 0 || TEST(p->flags,v3df_ambient)) 
+                //if(handle >= 0 || TEST(p->flags,v3df_ambient))
                     voc3dend->owner = p->owner; // Transfer the owner
                 p->deleted = TRUE;
 
@@ -2026,20 +2026,20 @@ DumpSounds(void)
         {
         if (TEST(vp->flags,v3df_ambient))
             sprintf(ds,"vp->num=%d, vp->owner=%d, vp->vp->lock=%d",ambarray[vp->num].diginame,vp->owner,vp->vp->lock);
-        else    
+        else
             sprintf(ds,"vp->num=%d, vp->owner=%d, vp->vp->lock=%d",vp->num,vp->owner,vp->vp->lock);
         DebugWriteString(ds);
         if (vp->owner >= 0)
             {
             SPRITEp sp = &sprite[vp->owner];
-            sprintf(ds,"sp->picnum=%d, sp->hitag=%d, sp->lotag=%d, sp->owner=%d\n",sp->picnum,sp->hitag,sp->lotag,sp->owner); 
+            sprintf(ds,"sp->picnum=%d, sp->hitag=%d, sp->lotag=%d, sp->owner=%d\n",sp->picnum,sp->hitag,sp->lotag,sp->owner);
             DebugWriteString(ds);
             }
         vp = vp->next;
         }
     }
 
-    
+
 //////////////////////////////////////////////////
 // Set owner to check when to kill looping sounds
 // Must be called immediately after PlaySound call

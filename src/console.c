@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -96,7 +96,7 @@ void CON_DumpSoundList( void );
 
 // STRUCTURES ////////////////////////////////////////////////////////////////////////////////
 
-typedef struct 
+typedef struct
 {
     const char *command;              // Text string representing the command that calls this function
     void (*function)(void);     // Function assigned to the command, take no parameters
@@ -104,8 +104,8 @@ typedef struct
 } CON_COMMAND, *CON_COMMANDp;
 
 // Contains any commands that don't get added by particular setup functions
-CON_COMMAND pre_commands[] = { 
-#if DEBUG 
+CON_COMMAND pre_commands[] = {
+#if DEBUG
 {"bobbing",     CON_ProcessOptions},
 {"swnext",      CheatInput},
 {"swprev",      CheatInput},
@@ -140,23 +140,23 @@ CON_COMMAND pre_commands[] = {
 {"dumpsounds",  CON_DumpSoundList},
 {"help",        CON_GetHelp},
 //{"quit",        CON_Quit},
-#endif     
-{"swchan",      CheatInput}, 
-{"swgimme",     CheatInput}, 
-{"swtrek##",    CheatInput}, 
-{"swgreed",     CheatInput}, 
-{"swghost",     CheatInput}, 
-{"swstart",     CheatInput}, 
-{"swres",       CheatInput}, 
-{"swloc",       CheatInput}, 
-{"swmap",       CheatInput}, 
-{"swsave",      CheatInput}, 
+#endif
+{"swchan",      CheatInput},
+{"swgimme",     CheatInput},
+{"swtrek##",    CheatInput},
+{"swgreed",     CheatInput},
+{"swghost",     CheatInput},
+{"swstart",     CheatInput},
+{"swres",       CheatInput},
+{"swloc",       CheatInput},
+{"swmap",       CheatInput},
+{"swsave",      CheatInput},
 {"sound",       CON_SoundTest},
 {"winpachinko", CON_WinPachinko},
 {"config",      CON_LoadSetup},
 {"swtrix",      CON_Bunny},
 {"swname",      CON_MultiNameChange},
-{NULL, NULL} 
+{NULL, NULL}
 };
 
 
@@ -187,7 +187,7 @@ BYTE CON_CommandCmp(const char *str1, const char *str2, int len)
 {
     const char *cp1 = str1;
     const char *cp2 = str2;
-    
+
     do
     {
         if (*cp1 != *cp2)
@@ -198,12 +198,12 @@ BYTE CON_CommandCmp(const char *str1, const char *str2, int len)
             if ( (*cp1 == '#' && !isdigit(*cp2)) || (*cp2 == '#' && !isdigit(*cp1)) )
                 return(FALSE);
             }
-            
-        cp1++;    
-        cp2++;    
+
+        cp1++;
+        cp2++;
     }
     while (--len);
-    
+
     return(TRUE);
 }
 
@@ -211,26 +211,26 @@ BOOL IsCommand(char *str)
     {
     int i;
     char first[512];
-    
+
     sscanf(str,"%s",first);
 
     for (i = 0; i < numcommands; i++)
         {
         // Don't even try if they aren't the same length
-        if(strlen(first) != strlen(commandlist[i].command)) 
+        if(strlen(first) != strlen(commandlist[i].command))
             continue;
-        
+
         // See if it's in there
         if (CON_CommandCmp(first, commandlist[i].command, strlen(first)))
             {
             return(TRUE);
             }
         }
-    
-    return(FALSE);    
+
+    return(FALSE);
     }
 
-// 
+//
 // Sends a message to the user quote array
 //
 
@@ -246,7 +246,7 @@ void CON_Message(const char *message, ...)
     adduserquote(&con_message[0]);
 }
 
-// 
+//
 // Sends a message to the console quote array
 //
 
@@ -320,7 +320,7 @@ void CON_AddHistory(const char *commandstr)
 
 //
 // Adds a command name to the command list and assigns the appropriate function pointer
-// 
+//
 BOOL CON_AddCommand(const char *command, void (*function)(void))
 {
     if(command != NULL && function != NULL && numcommands < MAX_CONSOLE_COMMANDS)
@@ -367,7 +367,7 @@ void CON_ProcessUserCommand( void )
             }
         }
     }
-    
+
     if(ConPanel)
        CON_ConMessage("Syntax Error or Command not enabled!");
 }
@@ -460,7 +460,7 @@ void CON_GetHelp( void )
             CON_ConMessage("No help was located on that subject.");
         }
     }
-    
+
 // Modify sprites xrepeat value
 void CON_ModXrepeat( void )
     {
@@ -475,7 +475,7 @@ void CON_ModXrepeat( void )
         CON_GetHelp();
         return;
         }
-    
+
     if (op3 == -1)
         {
         for(i=0; i<MAXSPRITES; i++)
@@ -523,7 +523,7 @@ void CON_ModYrepeat( void )
         return;
         }
 
-    
+
     if (op3 == -1)
         {
         for(i=0; i<MAXSPRITES; i++)
@@ -625,7 +625,7 @@ void CON_Reverb( void )
         CON_GetHelp();
         return;
         }
-    
+
     CON_ConMessage("Reverb is now set to %d.",op1);
     COVER_SetReverb(op1);
     pp->Reverb = op1;
@@ -638,8 +638,8 @@ void CON_Heap( void )
     extern int TotalMemory, ActualHeap;
     int i;
     void *testheap;
-        
-    totalmemory = Z_AvailHeap();    
+
+    totalmemory = Z_AvailHeap();
     CON_ConMessage("Total heap at game startup = %d", TotalMemory);
     CON_ConMessage("ActualHeap reserved for non-cache use = %d", ActualHeap);
     CON_ConMessage("Total unallocated blocks in bytes minus reserved heap = %d", totalmemory);
@@ -661,7 +661,7 @@ void CON_Heap( void )
             i=0; // Beam us out of here Scotty!
             }
         }
-        
+
     if(ActualHeap < 50000L)
         {
         CON_ConMessage("ALERT: Memory is critically low!");
@@ -695,7 +695,7 @@ int TileRangeMem(int start)
         case 960:
          for(i=960; i<=1016; i++) // Serpent God
              total += tilesizx[i]*tilesizy[i];
-         for(i=1300; i<=1314; i++) 
+         for(i=1300; i<=1314; i++)
              total += tilesizx[i]*tilesizy[i];
         break;
         case 1024:
@@ -715,13 +715,13 @@ int TileRangeMem(int start)
         case 1441:
          for(i=1441; i<=1450; i++) // Coolie Ghost
              total += tilesizx[i]*tilesizy[i];
-         for(i=4267; i<=4312; i++) 
+         for(i=4267; i<=4312; i++)
              total += tilesizx[i]*tilesizy[i];
         break;
         case 1469:
          for(i=1469; i<=1497; i++) // Guardian
              total += tilesizx[i]*tilesizy[i];
-         for(i=1504; i<=1518; i++)  
+         for(i=1504; i<=1518; i++)
              total += tilesizx[i]*tilesizy[i];
         break;
         case 1580:
@@ -858,7 +858,7 @@ void CON_Cache( void )
                     totactors+=TileRangeMem(4096);
                     incache[4096]=0;
                break;
-               case 800: 
+               case 800:
                     totactors+=TileRangeMem(800);
                     incache[800]=0;
                break;
@@ -866,7 +866,7 @@ void CON_Cache( void )
                     totactors+=TileRangeMem(817);
                     incache[817]=0;
                break;
-               case 820: 
+               case 820:
                     totactors+=TileRangeMem(820);
                     incache[820]=0;
                break;
@@ -984,7 +984,7 @@ void CON_Cache( void )
     CON_ConMessage("Total Memory       = %d",(tottiles+totsprites+totactors));
     CON_ConMessage("Total with LoWang  = %d",(tottiles+totsprites+totactors+TileRangeMem(1024)));
     CON_ConMessage("/////////////////////////////////////////////");
-    
+
     }
 
 void CON_SpriteInfo( void )
@@ -1022,7 +1022,7 @@ void CON_KillSprite( void )
         for(i=0; i<MAXSPRITES; i++)
             {
             u = User[i];
-            if(!u->PlayerP) 
+            if(!u->PlayerP)
                 SetSuicide(i);
             }
         CON_ConMessage("Killed all sprites except Players.");
@@ -1095,7 +1095,7 @@ void CON_UserDetail( void )
     CON_ConMessage("Attrib = %p",u->Attrib);
     CON_ConMessage("Flags = %d, Flags2 = %d, Tics = %d",u->Flags,u->Flags2,u->Tics);
     CON_ConMessage("RotNum = %d, ID = %d",u->RotNum,u->ID);
-    CON_ConMessage("Health = %d, MaxHealth = %d",u->Health,u->MaxHealth); 
+    CON_ConMessage("Health = %d, MaxHealth = %d",u->Health,u->MaxHealth);
     CON_ConMessage("LastDamage = %d, PainThreshold = %d",u->LastDamage,u->PainThreshold);
     CON_ConMessage("jump_speed = %d, jump_grav = %d",u->jump_speed,u->jump_grav);
     CON_ConMessage("xchange = %d, ychange = %d, zchange = %d",u->xchange,u->ychange,u->zchange);
@@ -1106,7 +1106,7 @@ void CON_Quit( void )
     {
     if (CommPlayers >= 2)
         MultiPlayQuitFlag = TRUE;
-    else    
+    else
         QuitFlag = TRUE;
     }
 
@@ -1117,7 +1117,7 @@ void CON_MultiNameChange( void )
     // Format: swname [name]
     if (sscanf(MessageInputString,"%6s %12s",base,command) < 2)
         return;
-    
+
     SendMulitNameChange(command);
     }
 
@@ -1147,7 +1147,7 @@ void CON_LoadSetup( void )
     CONFIG_ReadSetup();
     CONTROL_Startup( ControllerType, &GetTime, 120 );
     SetupGameButtons();
-   
+
     if (CONTROL_JoystickEnabled)
        {
        CONTROL_CenterJoystick(CenterCenter, UpperLeft, LowerRight, CenterThrottle,
@@ -1166,22 +1166,22 @@ char *damagename[] = {
     "WPN_HOTHEAD","WPN_NAPALM"
     "WPN_RING","WPN_ROCKET",
     "WPN_SWORD","WPN_FIST",
-    "DMG_NAPALM","DMG_MIRV_METEOR",    
-    "DMG_SERP_METEOR","DMG_ELECTRO_SHARD",  
-    "DMG_SECTOR_EXP","DMG_BOLT_EXP",       
-    "DMG_TANK_SHELL_EXP","DMG_FIREBALL_EXP",   
-    "DMG_NAPALM_EXP","DMG_SKULL_EXP",      
-    "DMG_BASIC_EXP","DMG_GRENADE_EXP",    
-    "DMG_MINE_EXP","DMG_MINE_SHRAP",     
-    "DMG_MICRO_EXP","DMG_NUCLEAR_EXP",    
-    "DMG_RADIATION_CLOUD","DMG_FLASHBOMB",      
-    "DMG_FIREBALL_FLAMES","DMG_RIPPER_SLASH",   
-    "DMG_SKEL_SLASH","DMG_COOLG_BASH",     
-    "DMG_COOLG_FIRE","DMG_GORO_CHOP",      
-    "DMG_GORO_FIREBALL","DMG_SERP_SLASH",     
-    "DMG_LAVA_BOULDER","DMG_LAVA_SHARD",     
-    "DMG_HORNET_STING","DMG_EEL_ELECTRO",    
-    "DMG_SPEAR_TRAP","DMG_VOMIT",          
+    "DMG_NAPALM","DMG_MIRV_METEOR",
+    "DMG_SERP_METEOR","DMG_ELECTRO_SHARD",
+    "DMG_SECTOR_EXP","DMG_BOLT_EXP",
+    "DMG_TANK_SHELL_EXP","DMG_FIREBALL_EXP",
+    "DMG_NAPALM_EXP","DMG_SKULL_EXP",
+    "DMG_BASIC_EXP","DMG_GRENADE_EXP",
+    "DMG_MINE_EXP","DMG_MINE_SHRAP",
+    "DMG_MICRO_EXP","DMG_NUCLEAR_EXP",
+    "DMG_RADIATION_CLOUD","DMG_FLASHBOMB",
+    "DMG_FIREBALL_FLAMES","DMG_RIPPER_SLASH",
+    "DMG_SKEL_SLASH","DMG_COOLG_BASH",
+    "DMG_COOLG_FIRE","DMG_GORO_CHOP",
+    "DMG_GORO_FIREBALL","DMG_SERP_SLASH",
+    "DMG_LAVA_BOULDER","DMG_LAVA_SHARD",
+    "DMG_HORNET_STING","DMG_EEL_ELECTRO",
+    "DMG_SPEAR_TRAP","DMG_VOMIT",
     "DMG_BLADE"
     };
 
@@ -1232,7 +1232,7 @@ void CON_DamageData( void )
         {
         DamageData[op1].min_ammo = op2;
         CON_ConMessage("DamageData[%s].min_ammo = %d",damagename[op1],op2);
-        } 
+        }
     if(!strcmp(field,"show"))
         {
         if(op1 == -1)
@@ -1251,7 +1251,7 @@ void CON_DamageData( void )
             CON_ConMessage("min_ammo = %d, max_ammo = %d",DamageData[op1].min_ammo,DamageData[op1].max_ammo);
             CON_ConMessage(" ");
             }
-        } 
+        }
     }
 
 void CON_WinPachinko( void )
@@ -1259,7 +1259,7 @@ void CON_WinPachinko( void )
 	extern BOOL Pachinko_Win_Cheat;
 	PLAYERp pp = Player + myconnectindex;
     extern void CheckSndData( char *file, int line );
-    
+
     if (CommEnabled)
         return;
 
@@ -1298,27 +1298,27 @@ void CON_Tweak( void )
         extern int ADJUSTV;
         ADJUSTV = op1;
         CON_ConMessage("Zvelocity ADJUSTV set to %d.",op1);
-        }     
+        }
     }
 
 void CON_Bunny( void )
     {
     PLAYERp pp = Player + myconnectindex;
-    
+
     if (CommEnabled)
         return;
-    
+
     pp->BunnyMode = !pp->BunnyMode;
     if(pp->BunnyMode)
         PutStringInfo(pp,"Bunny rockets enabled!");
-    else    
+    else
         PutStringInfo(pp,"Bunny rockets disabled!");
     }
 
 void CON_CheckHeap( void )
     {
 	    /*
-    switch( _heapchk() ) 
+    switch( _heapchk() )
         {
         case _HEAPOK:
           CON_ConMessage( "OK - heap is good\n" );
@@ -1375,7 +1375,7 @@ void heap_dump( void )
 
 void CON_DumpHeap( void )
     {
-    //heap_dump(); // Dump it.  
+    //heap_dump(); // Dump it.
     CON_ConMessage("JonoF: Not now");
     }
 
@@ -1397,7 +1397,7 @@ void CON_ShowMirror( void )
         CON_ConMessage("Mirror number is out of range!");
         return;
         }
-    
+
     CON_ConMessage("camera is the ST1 sprite used as the view spot");
     CON_ConMessage("camspite is the SpriteNum of the drawtotile tile in editart");
     CON_ConMessage("camspic is the tile number of the drawtotile in editart");
@@ -1409,14 +1409,14 @@ void CON_ShowMirror( void )
     CON_ConMessage("mirror[%d].camsprite = %d",op1,mirror[op1].camsprite);
     CON_ConMessage("mirror[%d].campic = %d",op1,mirror[op1].campic);
     CON_ConMessage("mirror[%d].iscamera = %d",op1,mirror[op1].ismagic);
-    }    
+    }
 
 void CON_DumpSoundList( void )
     {
     extern void DumpSounds(void);
-    
+
     DumpSounds();
     CON_Message("Sounds dumped to dbg.foo");
 
     }
-    
+

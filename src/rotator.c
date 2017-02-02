@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -47,9 +47,9 @@ void ReverseRotator(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     ROTATORp r;
-    
+
     r = u->rotator;
-    
+
     // if paused go ahead and start it up again
     if (u->Tics)
         {
@@ -57,7 +57,7 @@ void ReverseRotator(short SpriteNum)
         SetRotatorActive(SpriteNum);
         return;
         }
-    
+
     // moving toward to OFF pos
     if (r->tgt == 0)
         {
@@ -67,8 +67,8 @@ void ReverseRotator(short SpriteNum)
     if (r->tgt == r->open_dest)
         {
         r->tgt = 0;
-        }        
-        
+        }
+
     r->vel = -r->vel;
     }
 
@@ -78,19 +78,19 @@ RotatorSwitch(short match, short setting)
     SPRITEp sp;
     short i,nexti;
     BOOL found = FALSE;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_DEFAULT], i, nexti)
         {
         sp = &sprite[i];
-        
+
         if (sp->lotag == TAG_SPRITE_SWITCH_VATOR && sp->hitag == match)
             {
             found = TRUE;
             AnimateSwitch(sp, setting);
             }
         }
-    
-    return(found);    
+
+    return(found);
     }
 
 void SetRotatorActive(short SpriteNum)
@@ -99,11 +99,11 @@ void SetRotatorActive(short SpriteNum)
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
     ROTATORp r;
-    
+
     r = u->rotator;
-    
+
     DoRotatorSetInterp(SpriteNum);
-    
+
     // play activate sound
     DoSoundSpotMatch(SP_TAG2(sp), 1, SOUND_OBJECT_TYPE);
 
@@ -122,9 +122,9 @@ void SetRotatorInactive(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
-    
+
     DoRotatorStopInterp(SpriteNum);
-    
+
     // play inactivate sound
     DoSoundSpotMatch(SP_TAG2(sp), 2, SOUND_OBJECT_TYPE);
 
@@ -138,21 +138,21 @@ short DoRotatorOperate(PLAYERp pp, short sectnum)
     SPRITEp fsp;
     short match;
     short i,nexti;
-    
+
     match = sector[sectnum].hitag;
-    
+
     if (match > 0)
         {
         if (TestRotatorMatchActive(match))
-            return(-1);    
+            return(-1);
         else
             return(DoRotatorMatch(pp, match, TRUE));
         }
-    
-    return(-1);    
+
+    return(-1);
     }
 
-// called from switches and triggers    
+// called from switches and triggers
 // returns first vator found
 short
 DoRotatorMatch(PLAYERp pp, short match, BOOL manual)
@@ -161,19 +161,19 @@ DoRotatorMatch(PLAYERp pp, short match, BOOL manual)
     SPRITEp fsp;
     short sectnum;
     short first_vator = -1;
-    
+
     short i,nexti;
-    
+
     //RotatorSwitch(match, ON);
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_ROTATOR], i, nexti)
         {
         fsp = &sprite[i];
-        
+
         if (SP_TAG1(fsp) == SECT_ROTATOR && SP_TAG2(fsp) == match)
             {
             fu = User[i];
-            
+
             // single play only vator
             // BOOL 8 must be set for message to display
             if (TEST_BOOL4(fsp) && (gNet.MultiGameType == MULTI_GAME_COMMBAT || gNet.MultiGameType == MULTI_GAME_AI_BOTS))
@@ -189,10 +189,10 @@ DoRotatorMatch(PLAYERp pp, short match, BOOL manual)
                 if (manual)
                     continue;
                 }
-            
+
             if (first_vator == -1)
                 first_vator = i;
-            
+
             sectnum = fsp->sectnum;
 
             if (pp && SectUser[sectnum] && SectUser[sectnum]->stag == SECT_LOCK_DOOR && SectUser[sectnum]->number)
@@ -219,18 +219,18 @@ DoRotatorMatch(PLAYERp pp, short match, BOOL manual)
                     return (-1);
                     }
                 }
-            
+
             if (TEST(fu->Flags, SPR_ACTIVE))
                 {
                 ReverseRotator(i);
                 continue;
                 }
-                
+
             SetRotatorActive(i);
             }
         }
-    
-    return(first_vator);    
+
+    return(first_vator);
     }
 
 
@@ -240,27 +240,27 @@ TestRotatorMatchActive(short match)
     USERp fu;
     SPRITEp fsp;
     short sectnum;
-    
+
     short i,nexti;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_ROTATOR], i, nexti)
         {
         fsp = &sprite[i];
-        
+
         if (SP_TAG1(fsp) == SECT_ROTATOR && SP_TAG2(fsp) == match)
             {
             fu = User[i];
-       
+
             // Does not have to be inactive to be operated
             if (TEST_BOOL6(fsp))
                 continue;
-            
+
             if (TEST(fu->Flags, SPR_ACTIVE) || fu->Tics)
                 return(TRUE);
             }
         }
-    
-    return(FALSE);    
+
+    return(FALSE);
     }
 
 
@@ -268,16 +268,16 @@ void DoRotatorSetInterp(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     short w,startwall,endwall;
-    
+
     startwall = sector[sp->sectnum].wallptr;
     endwall = startwall + sector[sp->sectnum].wallnum - 1;
-    
+
     // move points
     for (w = startwall; w <= endwall; w++)
         {
         setinterpolation(&wall[w].x);
         setinterpolation(&wall[w].y);
-        
+
         setinterpolation(&wall[DRAG_WALL(w)].x);
         setinterpolation(&wall[DRAG_WALL(w)].y);
         }
@@ -287,21 +287,21 @@ void DoRotatorStopInterp(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     short w,startwall,endwall;
-    
+
     startwall = sector[sp->sectnum].wallptr;
     endwall = startwall + sector[sp->sectnum].wallnum - 1;
-    
+
     // move points
     for (w = startwall; w <= endwall; w++)
         {
         stopinterpolation(&wall[w].x);
         stopinterpolation(&wall[w].y);
-        
+
         stopinterpolation(&wall[DRAG_WALL(w)].x);
         stopinterpolation(&wall[DRAG_WALL(w)].y);
         }
     }
-    
+
 int DoRotatorMove(short SpriteNum)
     {
     USERp u = User[SpriteNum];
@@ -313,18 +313,18 @@ int DoRotatorMove(short SpriteNum)
     int nx,ny;
     int dist,closest;
     BOOL kill = FALSE;
-    
+
     r = u->rotator;
-    
+
     // Example - ang pos moves from 0 to 512 <<OR>> from 0 to -512
-       
+
     // control SPEED of swinging
     if (r->pos < r->tgt)
         {
         // Increment swing angle
         r->pos += r->speed;
         r->speed += r->vel;
-        
+
         // if the other way make it equal
         if (r->pos > r->tgt)
             r->pos = r->tgt;
@@ -335,12 +335,12 @@ int DoRotatorMove(short SpriteNum)
         // Increment swing angle
         r->pos -= r->speed;
         r->speed += r->vel;
-        
+
         // if the other way make it equal
         if (r->pos < r->tgt)
             r->pos = r->tgt;
         }
-        
+
     if (r->pos == r->tgt)
         {
         // If ang is OPEN
@@ -350,25 +350,25 @@ int DoRotatorMove(short SpriteNum)
             r->tgt = 0;
             r->vel = -r->vel;
             SetRotatorInactive(SpriteNum);
-            
+
             if (SP_TAG6(sp))
                 DoMatchEverything(NULL, SP_TAG6(sp), -1);
-                
-            // wait a bit and close it    
+
+            // wait a bit and close it
             if (u->WaitTics)
                 u->Tics = u->WaitTics;
             }
-        else    
+        else
         // If ang is CLOSED then
         if (r->pos == 0)
             {
             short match = SP_TAG2(sp);
-            
+
             // new tgt is OPEN (open)
             r->tgt = r->open_dest;
             r->speed = r->orig_speed;
             r->vel = labs(r->vel);
-            
+
             SetRotatorInactive(SpriteNum);
 
             // set owner swith back to OFF
@@ -377,17 +377,17 @@ int DoRotatorMove(short SpriteNum)
                 {
                 //RotatorSwitch(match, OFF);
                 }
-            
+
             if (SP_TAG6(sp) && TEST_BOOL5(sp))
                 DoMatchEverything(NULL, SP_TAG6(sp), -1);
             }
-        
-        if (TEST_BOOL2(sp))    
+
+        if (TEST_BOOL2(sp))
             kill = TRUE;
-        }    
-    
-    closest = 99999;    
-    TRAVERSE_SPRITE_STAT(headspritestat[STAT_ROTATOR_PIVOT], i, nexti)    
+        }
+
+    closest = 99999;
+    TRAVERSE_SPRITE_STAT(headspritestat[STAT_ROTATOR_PIVOT], i, nexti)
         {
         if (sprite[i].lotag == sp->lotag)
             {
@@ -399,13 +399,13 @@ int DoRotatorMove(short SpriteNum)
                 }
             }
         }
-    
+
     if (!pivot)
         return(0);
-    
+
     startwall = sector[sp->sectnum].wallptr;
     endwall = startwall + sector[sp->sectnum].wallnum - 1;
-    
+
     // move points
     for (w = startwall, ndx = 0; w <= endwall; w++)
         {
@@ -416,7 +416,7 @@ int DoRotatorMove(short SpriteNum)
         dragpoint(w, nx, ny);
         ndx++;
         }
-    
+
     if (kill)
         {
         SetRotatorInactive(SpriteNum);
@@ -426,7 +426,7 @@ int DoRotatorMove(short SpriteNum)
 
     return(0);
     }
-    
+
 int DoRotator(short SpriteNum)
     {
     USERp u = User[SpriteNum];
@@ -434,10 +434,10 @@ int DoRotator(short SpriteNum)
     SECTORp sectp = &sector[sp->sectnum];
     int *lptr;
     int amt;
-    
+
     // could move this inside sprite control
     DoRotatorMove(SpriteNum);
-        
+
     return(0);
     }
 

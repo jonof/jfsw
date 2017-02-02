@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -34,12 +34,12 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 ////////////////////////////////////////////////////////////////////////////////
 //
 // WARPING - PLANE STYLE
-//    
-////////////////////////////////////////////////////////////////////////////////    
+//
+////////////////////////////////////////////////////////////////////////////////
 
 extern BOOL Prediction;
 
-BOOL 
+BOOL
 WarpPlaneSectorInfo(short sectnum, SPRITEp *sp_ceiling, SPRITEp *sp_floor)
     {
     int i,nexti;
@@ -50,7 +50,7 @@ WarpPlaneSectorInfo(short sectnum, SPRITEp *sp_ceiling, SPRITEp *sp_floor)
 
     if (Prediction)
         return(FALSE);
-    
+
     if (!TEST(sector[sectnum].extra, SECTFX_WARP_SECTOR))
         return(FALSE);
 
@@ -63,33 +63,33 @@ WarpPlaneSectorInfo(short sectnum, SPRITEp *sp_ceiling, SPRITEp *sp_floor)
             // skip - don't teleport
             if (SP_TAG10(sp) == 1)
                 continue;
-                
+
             if (sp->hitag == WARP_CEILING_PLANE)
                 {
                 *sp_ceiling = sp;
                 }
-            else    
+            else
             if (sp->hitag == WARP_FLOOR_PLANE)
                 {
                 *sp_floor = sp;
                 }
-            }    
+            }
         }
-    
-    return(TRUE);    
+
+    return(TRUE);
     }
 
-SPRITEp 
+SPRITEp
 WarpPlane(LONGp x, LONGp y, LONGp z, SHORTp sectnum)
     {
     SPRITEp sp_floor, sp_ceiling;
-    
+
     if (Prediction)
         return(NULL);
-    
+
     if (!WarpPlaneSectorInfo(*sectnum, &sp_ceiling, &sp_floor))
         return(NULL);
-    
+
     if (sp_ceiling)
         {
         if (*z <= sp_ceiling->z)
@@ -97,19 +97,19 @@ WarpPlane(LONGp x, LONGp y, LONGp z, SHORTp sectnum)
             return(WarpToArea(sp_ceiling, x, y, z, sectnum));
             }
         }
-        
+
     if (sp_floor)
         {
         if (*z >= sp_floor->z)
             {
             return(WarpToArea(sp_floor, x, y, z, sectnum));
             }
-        }    
-        
+        }
+
     return(NULL);
     }
 
-SPRITEp    
+SPRITEp
 WarpToArea(SPRITEp sp_from, LONGp x, LONGp y, LONGp z, SHORTp sectnum)
     {
     int xoff;
@@ -126,23 +126,23 @@ WarpToArea(SPRITEp sp_from, LONGp x, LONGp y, LONGp z, SHORTp sectnum)
     yoff = *y - sp->y;
     zoff = *z - sp->z;
     match = sp->lotag;
-    
-#if 0            
+
+#if 0
 TAG 2 = match
 TAG 3 = Type
     Sprite - 0,32 always teleports you to the center at the angle the sprite is facing
     Offset - 1 always teleports you by the offset.  Does not touch the angle
-TAG 4 = angle    
+TAG 4 = angle
 TAG 5 to 8 = random match locations
 #endif
 
     memset(match_rand,0,sizeof(match_rand));
-    
+
     switch (sp->hitag)
         {
         case WARP_TELEPORTER:
             to_tag = WARP_TELEPORTER;
-            
+
             // if tag 5 has something this is a random teleporter
             if (SP_TAG5(sp))
                 {
@@ -155,9 +155,9 @@ TAG 5 to 8 = random match locations
                     match_rand[ndx++] = SP_TAG7(sp);
                 if (SP_TAG8(sp))
                     match_rand[ndx++] = SP_TAG8(sp);
-                
+
                 // reset the match you are looking for
-                match = match_rand[RANDOM_RANGE(ndx)];    
+                match = match_rand[RANDOM_RANGE(ndx)];
                 }
             break;
         case WARP_CEILING_PLANE:
@@ -185,10 +185,10 @@ TAG 5 to 8 = random match locations
                 *x = sp->x + xoff;
                 *y = sp->y + yoff;
                 *z = sp->z + zoff;
-                
+
                 // make sure you warp outside of warp plane
                 *z += z_adj;
-                
+
                 // get new sector
                 *sectnum = sp->sectnum;
                 updatesector(*x, *y, sectnum);
@@ -198,24 +198,24 @@ TAG 5 to 8 = random match locations
                 }
             }
         }
-    
-    return(NULL);    
+
+    return(NULL);
     }
 
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Warp - Teleporter style
-//    
-////////////////////////////////////////////////////////////////////////////////    
+//
+////////////////////////////////////////////////////////////////////////////////
 
-BOOL 
+BOOL
 WarpSectorInfo(short sectnum, SPRITEp *sp_warp)
     {
     int i,nexti;
     SPRITEp sp;
-    
+
     *sp_warp = NULL;
-    
+
     if (!TEST(sector[sectnum].extra, SECTFX_WARP_SECTOR))
         return(FALSE);
 
@@ -228,32 +228,32 @@ WarpSectorInfo(short sectnum, SPRITEp *sp_warp)
             // skip - don't teleport
             if (SP_TAG10(sp) == 1)
                 continue;
-                
+
             if (sp->hitag == WARP_TELEPORTER)
                 {
                 *sp_warp = sp;
                 }
-            }    
+            }
         }
-    
-    return(TRUE);    
+
+    return(TRUE);
     }
 
-SPRITEp 
+SPRITEp
 Warp(LONGp x, LONGp y, LONGp z, SHORTp sectnum)
     {
     SPRITEp sp_warp;
-    
+
     if (Prediction)
         return(NULL);
-    
+
     if (!WarpSectorInfo(*sectnum, &sp_warp))
         return(NULL);
-    
+
     if (sp_warp)
         {
         return(WarpToArea(sp_warp, x, y, z, sectnum));
-        }    
-        
+        }
+
     return(NULL);
     }

@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -32,7 +32,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define FILE_TYPE FILE_KEN
 
 #if FILE_TYPE == FILE_ANSI_STD
-typedef FILE *MFILE; 
+typedef FILE *MFILE;
 #define MREAD(ptr, size, num,handle) fread((ptr),(size),(num),(handle))
 #define MWRITE(ptr, size, num,handle) fwrite((ptr),(size),(num),(handle))
 #define MOPEN_WRITE(name) fopen(name,"wb")
@@ -42,7 +42,7 @@ typedef FILE *MFILE;
 #endif
 
 #if FILE_TYPE == FILE_KEN
-typedef FILE *MFILE; 
+typedef FILE *MFILE;
 size_t dfread( void *, size_t, size_t, FILE * );
 size_t dfwrite( void *, size_t, size_t, FILE * );
 #define MREAD(ptr, size, num,handle) dfread((ptr),(size),(num),(handle))
@@ -54,7 +54,7 @@ size_t dfwrite( void *, size_t, size_t, FILE * );
 #endif
 
 #if FILE_TYPE == FILE_DOS
-typedef long MFILE; 
+typedef long MFILE;
 #define MREAD(ptr, size, num,handle) read((handle),(ptr),(size)*(num))
 #define MWRITE(ptr, size, num,handle) write((handle),(ptr),(size)*(num))
 #define MOPEN_WRITE(name) open(name,O_BINARY|O_TRUNC|O_CREAT|O_WRONLY,S_IREAD|S_IWRITE)

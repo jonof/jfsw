@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -34,68 +34,68 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "track.h"
 
 #define GORO_PAIN_R0 GORO_STAND_R0
-#define GORO_PAIN_R1 GORO_STAND_R1 
-#define GORO_PAIN_R2 GORO_STAND_R2 
-#define GORO_PAIN_R3 GORO_STAND_R3 
-#define GORO_PAIN_R4 GORO_STAND_R4 
-    
-DECISION GoroBattle[] = 
+#define GORO_PAIN_R1 GORO_STAND_R1
+#define GORO_PAIN_R2 GORO_STAND_R2
+#define GORO_PAIN_R3 GORO_STAND_R3
+#define GORO_PAIN_R4 GORO_STAND_R4
+
+DECISION GoroBattle[] =
     {
     {697,   InitActorMoveCloser         },
     {700,   InitActorAmbientNoise         },
     {1024,  InitActorAttack             }
     };
 
-DECISION GoroOffense[] = 
+DECISION GoroOffense[] =
     {
     {797,   InitActorMoveCloser         },
     {800,   InitActorAttackNoise        },
     {1024,  InitActorAttack             }
     };
 
-DECISION GoroBroadcast[] = 
+DECISION GoroBroadcast[] =
     {
     {3,    InitActorAmbientNoise          },
     {1024,  InitActorDecide            }
     };
 
-DECISION GoroSurprised[] = 
+DECISION GoroSurprised[] =
     {
     {701,   InitActorMoveCloser         },
     {1024,  InitActorDecide            }
     };
 
-DECISION GoroEvasive[] = 
+DECISION GoroEvasive[] =
     {
     {10,    InitActorEvade            },
     {1024,  InitActorMoveCloser       }
     };
 
-DECISION GoroLostTarget[] = 
+DECISION GoroLostTarget[] =
     {
     {900,   InitActorFindPlayer         },
     {1024,  InitActorWanderAround       }
     };
 
-DECISION GoroCloseRange[] = 
+DECISION GoroCloseRange[] =
     {
     {700,   InitActorAttack             },
     {1024,  InitActorReposition         }
     };
 
-PERSONALITY GoroPersonality = 
+PERSONALITY GoroPersonality =
     {
-    GoroBattle, 
-    GoroOffense, 
-    GoroBroadcast, 
-    GoroSurprised, 
-    GoroEvasive, 
-    GoroLostTarget, 
+    GoroBattle,
+    GoroOffense,
+    GoroBroadcast,
+    GoroSurprised,
+    GoroEvasive,
+    GoroLostTarget,
     GoroCloseRange,
     GoroCloseRange
     };
 
-ATTRIBUTE GoroAttrib = 
+ATTRIBUTE GoroAttrib =
     {
     {160, 180, 200, 230},               // Speeds
     {3, 0, -2, -3},                     // Tic Adjusts
@@ -104,9 +104,9 @@ ATTRIBUTE GoroAttrib =
      DIGI_GRDPAIN, DIGI_GRDSCREAM, DIGI_GRDSWINGAXE,
      DIGI_GRDFIREBALL,0,0,0}
     };
-    
-    
-//////////////////////    
+
+
+//////////////////////
 //
 // GORO RUN
 //
@@ -160,7 +160,7 @@ STATEp sg_GoroRun[] =
     &s_GoroRun[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // GORO CHOP
 //
@@ -229,8 +229,8 @@ STATEp sg_GoroChop[] =
     &s_GoroChop[4][0]
     };
 
-    
-//////////////////////    
+
+//////////////////////
 //
 // GORO SPELL
 //
@@ -312,14 +312,14 @@ STATEp sg_GoroSpell[] =
     &s_GoroSpell[3][0],
     &s_GoroSpell[4][0]
     };
-    
-//////////////////////    
+
+//////////////////////
 //
 // GORO STAND
 //
 //////////////////////
-    
-#define GORO_STAND_RATE 12    
+
+#define GORO_STAND_RATE 12
 
 STATE s_GoroStand[5][1] =
     {
@@ -350,13 +350,13 @@ STATEp sg_GoroStand[] =
     s_GoroStand[4]
     };
 
-//////////////////////    
+//////////////////////
 //
 // GORO PAIN
 //
 //////////////////////
-    
-#define GORO_PAIN_RATE 12    
+
+#define GORO_PAIN_RATE 12
 ANIMATOR DoGoroPain;
 
 STATE s_GoroPain[5][1] =
@@ -387,14 +387,14 @@ STATEp sg_GoroPain[] =
     s_GoroPain[3],
     s_GoroPain[4]
     };
-    
-//////////////////////    
+
+//////////////////////
 //
 // GORO DIE
 //
 //////////////////////
-    
-#define GORO_DIE_RATE 16    
+
+#define GORO_DIE_RATE 16
 
 STATE s_GoroDie[] =
     {
@@ -425,7 +425,7 @@ STATEp sg_GoroDead[] =
     {
     s_GoroDead
     };
-    
+
 /*
 STATEp *Stand[MAX_WEAPONS];
 STATEp *Run;
@@ -453,11 +453,11 @@ ACTOR_ACTION_SET GoroActionSet =
   {
   sg_GoroStand,
   sg_GoroRun,
-  NULL,//sg_GoroJump,  
-  NULL,//sg_GoroFall, 
-  NULL,//sg_GoroCrawl, 
-  NULL,//sg_GoroSwim, 
-  NULL,//sg_GoroFly, 
+  NULL,//sg_GoroJump,
+  NULL,//sg_GoroFall,
+  NULL,//sg_GoroCrawl,
+  NULL,//sg_GoroSwim,
+  NULL,//sg_GoroFly,
   NULL,//sg_GoroRise,
   NULL,//sg_GoroSit,
   NULL,//sg_GoroLook,
@@ -476,14 +476,14 @@ ACTOR_ACTION_SET GoroActionSet =
   NULL,
   NULL
   };
- 
-int 
-SetupGoro(short SpriteNum)    
+
+int
+SetupGoro(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -500,52 +500,52 @@ SetupGoro(short SpriteNum)
     DoActorSetSpeed(SpriteNum, NORM_SPEED);
     u->StateEnd = s_GoroDie;
     u->Rot = sg_GoroRun;
-    
-    
+
+
     EnemyDefaults(SpriteNum, &GoroActionSet, &GoroPersonality);
     sp->clipdist = 512 >> 2;
     SET(u->Flags, SPR_XFLIP_TOGGLE);
 
     return(0);
-}    
+}
 
 int NullGoro(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     ASSERT(SpriteNum >= 0);
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
 
     KeepActorOnFloor(SpriteNum);
-    
+
     DoActorSectorDamage(SpriteNum);
     return(0);
-}    
+}
 
 int DoGoroPain(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     ASSERT(SpriteNum >= 0);
-    
+
     NullGoro(SpriteNum);
-    
+
     if ((u->WaitTics -= ACTORMOVETICS) <= 0)
         InitActorDecide(SpriteNum);
     return(0);
-}    
+}
 
 int DoGoroMove(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     ASSERT(SpriteNum >= 0);
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
 
@@ -553,14 +553,14 @@ int DoGoroMove(short SpriteNum)
         ActorFollowTrack(SpriteNum, ACTORMOVETICS);
     else
         (*u->ActorActionFunc)(SpriteNum);
-    
+
     ASSERT(User[SpriteNum]);
-                            
+
     KeepActorOnFloor(SpriteNum);
-    
+
     DoActorSectorDamage(SpriteNum);
     return(0);
-}    
+}
 
 
 #include "saveable.h"

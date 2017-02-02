@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -68,7 +68,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
    #define OFF     0
    #define ON     (!OFF)
-   
+
    typedef unsigned char BOOL;
    typedef BOOL     *BOOLp;
    typedef BOOL     *fBOOLp;
@@ -271,18 +271,18 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // A few muls with shifts and adds
 // probably not needed with good compiler
 #define MUL2(x) ((x)*2)
-#define MUL3(x) (((x)<<1) + (x))    
-#define MUL5(x) (((x)<<2) + (x))    
-#define MUL6(x) (((x)<<2) + (x) + (x))    
-#define MUL7(x) (((x)<<2) + (x) + (x) + (x))    
+#define MUL3(x) (((x)<<1) + (x))
+#define MUL5(x) (((x)<<2) + (x))
+#define MUL6(x) (((x)<<2) + (x) + (x))
+#define MUL7(x) (((x)<<2) + (x) + (x) + (x))
 #define MUL8(x) ((x)*8)
-#define MUL9(x) (((x)<<3) + (x))    
-#define MUL10(x) (((x)<<3) + (x) + (x))    
-#define MUL11(x) (((x)<<3) + (x) + (x) + (x))    
-#define MUL12(x) (((x)<<3) + ((x)<<2))    
-#define MUL13(x) (((x)<<3) + ((x)<<2) + (x))    
-#define MUL14(x) (((x)<<3) + ((x)<<2) + (x) + (x))    
-#define MUL15(x) (((x)<<3) + ((x)<<2) + (x) + (x) + (x))    
+#define MUL9(x) (((x)<<3) + (x))
+#define MUL10(x) (((x)<<3) + (x) + (x))
+#define MUL11(x) (((x)<<3) + (x) + (x) + (x))
+#define MUL12(x) (((x)<<3) + ((x)<<2))
+#define MUL13(x) (((x)<<3) + ((x)<<2) + (x))
+#define MUL14(x) (((x)<<3) + ((x)<<2) + (x) + (x))
+#define MUL15(x) (((x)<<3) + ((x)<<2) + (x) + (x) + (x))
 #define MUL16(x) ((x)*16)
 
 

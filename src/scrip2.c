@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -105,7 +105,7 @@ BOOL LoadScriptFile (char *filename)
         return(FALSE);
     }
 
-    size = kfilelength(fp);    
+    size = kfilelength(fp);
 
     scriptbuffer = (char *)AllocMem(size);
 
@@ -281,7 +281,7 @@ BOOL TokenAvailable (void)
 //          # - Comment
 //          spritenumber (in artfile), voxel number, filename
 //          Ex. 1803 0 medkit2.kvx
-//              1804 1 shotgun.kvx 
+//              1804 1 shotgun.kvx
 //              etc....
 
 void LoadKVXFromScript( char *filename )
@@ -331,7 +331,7 @@ void LoadKVXFromScript( char *filename )
 
 	if (lNumber >= nextvoxid)	// JBF: so voxels in the def file append to the list
 		nextvoxid = lNumber + 1;
-	
+
         grabbed++;
         ASSERT(grabbed < MAXSPRITES);
 
@@ -346,7 +346,7 @@ void LoadKVXFromScript( char *filename )
 //          # - Comment
 //          tilenumber (in artfile), replacement tile offset (if any)
 //          Ex. 1803 -1       -1 = No tile replacement
-//              1804 2000 
+//              1804 2000
 //              etc....
 void LoadPLockFromScript( char *filename )
 {
@@ -505,7 +505,7 @@ static int cm_transtok(const char *tok, const struct _tokset *set, const unsigne
 // Load custom map and episode information
 //   level # {
 //      title    "Map Name"
-//      filename "filename.map" 
+//      filename "filename.map"
 //      song     "filename.mid"
 //      cdatrack n
 //      besttime secs

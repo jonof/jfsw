@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -41,13 +41,13 @@ void short_setinterpolation(short *posptr)
 
     if (short_numinterpolations >= SHORT_MAXINTERPOLATIONS)
         return;
-        
+
     for (i = short_numinterpolations - 1; i >= 0; i--)
         {
         if (short_curipos[i] == posptr)
             return;
-        }    
-            
+        }
+
     short_curipos[short_numinterpolations] = posptr;
     short_oldipos[short_numinterpolations] = *posptr;
     short_numinterpolations++;
@@ -66,7 +66,7 @@ void short_stopinterpolation(short *posptr)
             short_bakipos[i] = short_bakipos[short_numinterpolations];
             short_curipos[i] = short_curipos[short_numinterpolations];
             }
-        }    
+        }
     }
 
 void short_updateinterpolations(void)                  // Stick at beginning of domovethings
@@ -85,17 +85,17 @@ void short_dointerpolations(int smoothratio)                      // Stick at be
 
     ndelta = 0;
     j = 0;
-    
+
     for (i = short_numinterpolations - 1; i >= 0; i--)
         {
         short_bakipos[i] = *short_curipos[i];
-        
+
         odelta = ndelta;
         ndelta = (*short_curipos[i]) - short_oldipos[i];
-        
+
         if (odelta != ndelta)
             j = mulscale16(ndelta, smoothratio);
-            
+
         *short_curipos[i] = short_oldipos[i] + j;
         }
     }

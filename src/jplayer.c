@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -24,7 +24,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 
-// JPLAYER.C    
+// JPLAYER.C
 // Copyright (c) 1996 by Jim Norwood
 
 #include "build.h"
@@ -68,7 +68,7 @@ BOOL WeaponOK(PLAYERp pp);
 
 #define NUMPAGES 1
 #define NUMOFFIRSTTIMEACTIVE 100  // You can save up to 100 strings in the message history queue
-                                  
+
 char pus, pub;  // Global text vars
 char fta_quotes[NUMOFFIRSTTIMEACTIVE][64];
 
@@ -144,7 +144,7 @@ int minigametext(int x,int y,char *t,char UNUSED(s),short dabits)
                 newx += tilesizx[ac];
             } else
                 x += 4;
-            
+
             t++;
         }
 
@@ -164,7 +164,7 @@ int minigametext(int x,int y,char *t,char UNUSED(s),short dabits)
         rotatesprite(x<<16,y<<16,65536L,0,ac,-128,17,dabits,0,0,xdim-1,ydim-1);
         x += tilesizx[ac];
         } else
-            x += 4;    
+            x += 4;
 
         t++;
     }
@@ -217,7 +217,7 @@ void adduserquote(char *daquote)
     int i;
 
     SetRedrawScreen(Player+myconnectindex);
-    
+
     for(i=MAXUSERQUOTES-1;i>0;i--)
     {
         strcpy(user_quote[i],user_quote[i-1]);
@@ -234,34 +234,34 @@ void operatefta(void)
      j=MESSAGE_LINE; // Base line position on screen
      quotebot = min(quotebot,j);
      quotebotgoal = min(quotebotgoal,j);
-     if (MessageInputMode) 
+     if (MessageInputMode)
          j -= 6; // Bump all lines up one to make room for new line
-     quotebotgoal = j; 
+     quotebotgoal = j;
      j = quotebot;
 
      for(i=0;i<MAXUSERQUOTES;i++)
      {
-         k = user_quote_time[i]; 
-         if (k <= 0) 
+         k = user_quote_time[i];
+         if (k <= 0)
              break;
 
-         if (gs.BorderNum <= BORDER_BAR+1)    
+         if (gs.BorderNum <= BORDER_BAR+1)
             {
             // dont fade out
              if (k > 4)
                   minigametext(320>>1,j,user_quote[i],0,2+8);
-             else 
-             if (k > 2) 
+             else
+             if (k > 2)
                 minigametext(320>>1,j,user_quote[i],0,2+8+1);
-             else 
+             else
                 minigametext(320>>1,j,user_quote[i],0,2+8+1+32);
-            }    
+            }
         else
             {
             // dont fade out
             minigametext(320>>1,j,user_quote[i],0,2+8);
             }
-            
+
          j -= 6;
      }
 }
@@ -313,13 +313,13 @@ void BOT_UseInventory(PLAYERp p, short targetitem, SW_PACKET *syn)
         syn->bits |= (1<<SK_INV_USE);
     else
         {
-        syn->bits |= (1<<SK_INV_LEFT);  // Scroll to it    
+        syn->bits |= (1<<SK_INV_LEFT);  // Scroll to it
         syn->bits |= (1<<SK_INV_USE); // Use whatever you're on too
         }
     }
 
 void BOT_ChooseWeapon(PLAYERp p, USERp u, SW_PACKET *syn)
-    { 
+    {
     short weap;
 
     // If you have a nuke, fire it
@@ -338,35 +338,35 @@ void BOT_ChooseWeapon(PLAYERp p, USERp u, SW_PACKET *syn)
             break;
             }
         }
-    } 
-       
+    }
+
 int getspritescore(int snum, int dapicnum)
 {
 
     switch(dapicnum)
     {
         case ICON_STAR: return(5);
-        case ICON_UZI: return(20); 
+        case ICON_UZI: return(20);
         case ICON_UZIFLOOR: return(20);
         case ICON_LG_UZI_AMMO: return(15);
         case ICON_HEART: return(160);
         case ICON_HEART_LG_AMMO: return(60);
-        case ICON_GUARD_HEAD: return(170); 
-        case ICON_FIREBALL_LG_AMMO: return(70); 
-        case ICON_ROCKET: return(100);    
-        case ICON_SHOTGUN: return(130);   
-        case ICON_LG_ROCKET: return(100); 
+        case ICON_GUARD_HEAD: return(170);
+        case ICON_FIREBALL_LG_AMMO: return(70);
+        case ICON_ROCKET: return(100);
+        case ICON_SHOTGUN: return(130);
+        case ICON_LG_ROCKET: return(100);
         case ICON_LG_SHOTSHELL: return(30);
-        case ICON_MICRO_GUN: return(200); 
+        case ICON_MICRO_GUN: return(200);
         case ICON_MICRO_BATTERY: return(100);
         case ICON_GRENADE_LAUNCHER: return(150);
-        case ICON_LG_GRENADE: return(50); 
-        case ICON_LG_MINE: return(150); 
-        case ICON_RAIL_GUN: return(180); 
+        case ICON_LG_GRENADE: return(50);
+        case ICON_LG_MINE: return(150);
+        case ICON_RAIL_GUN: return(180);
         case ICON_RAIL_AMMO: return(80);
 
-        case ST_QUICK_EXIT: 
-        case ST_QUICK_SCAN: 
+        case ST_QUICK_EXIT:
+        case ST_QUICK_SCAN:
         case ICON_MEDKIT:
         case ICON_CHEMBOMB:
         case ICON_FLASHBOMB:
@@ -431,7 +431,7 @@ void computergetinput(int snum, SW_PACKET *syn)
     // Copy current weapon number to player struct
     p->WpnNum = u->WeaponNum;
     if (p->WpnNum >= MAX_WEAPONS) p->WpnNum = MAX_WEAPONS-1;
-    
+
     // Init local position variables
     myx = p->posx;
     myy = p->posy;
@@ -449,27 +449,27 @@ void computergetinput(int snum, SW_PACKET *syn)
     x1 = p->posx;
     y1 = p->posy;
     z1 = p->posz;
-    
+
     damyang = p->pang;
     damysect = sprite[p->PlayerSprite].sectnum;
     if ((numplayers >= 2) && (snum == myconnectindex))
         { x1 = myx; y1 = myy; z1 = myz+PLAYER_HEIGHT; damyang = myang; damysect = mycursectnum; }
 
-    // Always operate everything    
+    // Always operate everything
     syn->bits |= (1<<SK_OPERATE);
 
     // If bot can't see the goal enemy, set target to himself so that he
-    // will pick a new target    
+    // will pick a new target
     if (TEST(Player[goalplayer[snum]].Flags, PF_DEAD) || STD_RANDOM_RANGE(1000) > 800)
         goalplayer[snum] = snum;
     else
-        {    
+        {
         x2 = Player[goalplayer[snum]].posx;
         y2 = Player[goalplayer[snum]].posy;
         z2 = Player[goalplayer[snum]].posz;
         if (!FAFcansee(x1,y1,z1-(48<<8),damysect,x2,y2,z2-(48<<8),sprite[Player[goalplayer[snum]].PlayerSprite].sectnum))
             goalplayer[snum] = snum;
-        }    
+        }
 
     // Pick a new target player if goal is dead or target is itself
     if (goalplayer[snum] == snum)
@@ -494,7 +494,7 @@ void computergetinput(int snum, SW_PACKET *syn)
             }
     }
 
-    // Pick a weapon    
+    // Pick a weapon
     BOT_ChooseWeapon(p, u, syn);
 
     // x2,y2,z2 is the coordinates of the target sprite
@@ -518,7 +518,7 @@ void computergetinput(int snum, SW_PACKET *syn)
         BOT_UseInventory(p, INVENTORY_MEDKIT, syn);
 
     // Check the missile stat lists to see what's being fired and
-    // take the appropriate action    
+    // take the appropriate action
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_MISSILE], j, nextj)
     {
         switch (sprite[j].picnum)
@@ -573,13 +573,13 @@ void computergetinput(int snum, SW_PACKET *syn)
         short shootrnd=0;
 
         shootrnd = STD_RANDOM_RANGE(1000);
-        
+
         if ((Skill == 0 && shootrnd > 990) ||
             (Skill == 1 && shootrnd > 550) ||
             (Skill == 2 && shootrnd > 350) ||
             (Skill == 3))
             syn->bits |= (1<<SK_SHOOT);
-        else    
+        else
             syn->bits &= ~(1<<SK_SHOOT);
 
         // Jump sometimes, to try to be evasive
@@ -599,11 +599,11 @@ void computergetinput(int snum, SW_PACKET *syn)
             if ((x4-x1)*(x4-x1)+(y4-y1)*(y4-y1) < 2560*2560) syn->bits &= ~(1<<SK_SHOOT);
         }
 
-        // Get fighting distance based on you and your opponents current weapons    
+        // Get fighting distance based on you and your opponents current weapons
         fightdist = fdmatrix[p->WpnNum][Player[goalplayer[snum]].WpnNum];
         if (fightdist < 128) fightdist = 128;
-            
-        // Figure out your distance from the enemy target sprite    
+
+        // Figure out your distance from the enemy target sprite
         dist = ksqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1)); if (dist == 0) dist = 1;
         daang = NORM_ANGLE(getangle(x2+(Player[goalplayer[snum]].xvect>>14)-x1,y2+(Player[goalplayer[snum]].yvect>>14)-y1));
 
@@ -638,7 +638,7 @@ void computergetinput(int snum, SW_PACKET *syn)
             syn->svel -= syn->svel/2;
             }
         else
-        if (Skill == 1)    
+        if (Skill == 1)
             {
             daang = NORM_ANGLE((daang-128) + STD_RANDOM_RANGE(256));
             syn->vel -= syn->vel/8;
@@ -648,7 +648,7 @@ void computergetinput(int snum, SW_PACKET *syn)
         if (Skill == 2)
             daang = NORM_ANGLE((daang-64) + STD_RANDOM_RANGE(128));
 
-        // Below formula fails in certain cases    
+        // Below formula fails in certain cases
         //syn->angvel = min(max((((daang+1024-damyang)&2047)-1024)>>1,-MAXANGVEL),MAXANGVEL); //was 127
         p->pang = daang;
         syn->aimvel = min(max((zang-p->horiz)>>1,-PLAYER_HORIZ_MAX),PLAYER_HORIZ_MAX);
@@ -656,7 +656,7 @@ void computergetinput(int snum, SW_PACKET *syn)
         syn->bits |= (1<<SK_AUTO_AIM);
         return;
     }
-    
+
     goalsect[snum] = -1;
 
 #if 1
@@ -739,7 +739,7 @@ void computergetinput(int snum, SW_PACKET *syn)
                 }
             }
 
-            #if 0    
+            #if 0
             for(i=headspritesect[searchsect[splc]];i>=0;i=nextspritesect[i])
                 if (sprite[i].lotag == 7)
                 {
@@ -851,7 +851,7 @@ void computergetinput(int snum, SW_PACKET *syn)
 
         // Try to Open
         if ((clipmovecount[snum]&31) == 2) syn->bits |= (1<<SK_OPERATE);
-        // *TODO: In Duke, this is Kick, but I need to select sword then fire in SW 
+        // *TODO: In Duke, this is Kick, but I need to select sword then fire in SW
 //        if ((clipmovecount[snum]&31) == 17) syn->bits |= (1<<22);
         if (clipmovecount[snum] > 32) { goalsect[snum] = -1; goalwall[snum] = -1; clipmovecount[snum] = 0; }
 
@@ -874,8 +874,8 @@ void computergetinput(int snum, SW_PACKET *syn)
     }
 
 
-/*    
-    // Use extended bot logic for navigation through level    
+/*
+    // Use extended bot logic for navigation through level
     goalsect[snum] = -1;
     goalwall[snum] = -1;
     goalsprite[snum] = -1;
@@ -893,6 +893,6 @@ void computergetinput(int snum, SW_PACKET *syn)
         syn->svel += (y2-y1)*2047/dist;
         syn->angvel = min(max((((daang+1024-damyang)&2047)-1024)>>3,-MAXANGVEL),MAXANGVEL);
     }
-*/    
+*/
 }
 

@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -24,7 +24,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 */
 //-------------------------------------------------------------------------
 
-#ifndef GAME_H        
+#ifndef GAME_H
 
 #define GAME_H
 
@@ -54,7 +54,7 @@ extern char isShareware, useDarts;
 
 #if DEBUG
     void HeapCheck(char *, int);
-    #define HEAP_CHECK() HeapCheck(__FILE__, __LINE__)    
+    #define HEAP_CHECK() HeapCheck(__FILE__, __LINE__)
 
     void _Assert(char *, char *, unsigned);
     #define ASSERT(f) \
@@ -62,7 +62,7 @@ extern char isShareware, useDarts;
         do { } while(0);         \
         else          \
         _Assert(#f,ERR_STD_ARG);
-        
+
     #define PRODUCTION_ASSERT(f) ASSERT(f)
 
     void dsprintf(char *, char *, ...);
@@ -74,27 +74,27 @@ extern char isShareware, useDarts;
         #define MONO_PRINT(str) if (DispMono) debugprintf("MONO: %s\n", str);
     #else
         void adduserquote(char *daquote);
-        extern int DispMono;                   
+        extern int DispMono;
         #define MONO_PRINT(str) if (DispMono) CON_ConMessage(str); // Put it in my userquote stuff!
-        //#define MONO_PRINT(str) if (DispMono) printf(str); 
+        //#define MONO_PRINT(str) if (DispMono) printf(str);
     #endif
-    
+
     #define RANDOM_DEBUG 1 // Set this to 1 for network testing.
-#else        
+#else
     #define ASSERT(f) do { } while(0)
     #define MONO_PRINT(str)
-    
+
     void _Assert(char *, char *, unsigned);
     #define PRODUCTION_ASSERT(f) \
         if (f)        \
         do { } while(0);         \
         else          \
         _Assert(#f,ERR_STD_ARG);
-    
+
     void dsprintf_null(char *, char *, ...);
     #define DSPRINTF dsprintf_null
     //#define DSPRINTF()
-    
+
     #define HEAP_CHECK()
     #define RANDOM_DEBUG 0
 #endif
@@ -134,13 +134,13 @@ int krand1(void);
              |
              |            2047
 <---------------------------->
-1024         |              0 
+1024         |              0
 x--          |             x++
              |
              |
              |
              |
-             V 512 
+             V 512
                y++
 
 */
@@ -190,28 +190,28 @@ extern char MessageOutputString[256];
     #define KEYSC_PGUP      sc_PgUp
     #undef  KEYSC_PGDN
     #define KEYSC_PGDN      sc_PgDn
-    
+
     #define KEYSC_RALT      sc_RightAlt
     #define KEYSC_RCTRL     sc_RightControl
     #define KEYSC_KPSLASH   sc_kpad_Slash
     #define KEYSC_KPENTER   sc_kpad_Enter
     #define KEYSC_PRINTSCREEN sc_PrintScreen
     #define KEYSC_LASTSC      sc_LastScanCode
-    
-    #define KEYSC_KP_1      sc_kpad_1     
-    #define KEYSC_KP_2      sc_kpad_2     
-    #define KEYSC_KP_3      sc_kpad_3     
-    #define KEYSC_KP_4      sc_kpad_4     
-    #define KEYSC_KP_6      sc_kpad_6     
-    #define KEYSC_KP_5     sc_kpad_5     
-    #define KEYSC_KP_7      sc_kpad_7     
-    #define KEYSC_KP_8      sc_kpad_8     
-    #define KEYSC_KP_9      sc_kpad_9     
-    #define KEYSC_KP_0      sc_kpad_0     
-    #define KEYSC_KPMINUS  sc_kpad_Minus 
-    #define KEYSC_KPPLUS   sc_kpad_Plus  
+
+    #define KEYSC_KP_1      sc_kpad_1
+    #define KEYSC_KP_2      sc_kpad_2
+    #define KEYSC_KP_3      sc_kpad_3
+    #define KEYSC_KP_4      sc_kpad_4
+    #define KEYSC_KP_6      sc_kpad_6
+    #define KEYSC_KP_5     sc_kpad_5
+    #define KEYSC_KP_7      sc_kpad_7
+    #define KEYSC_KP_8      sc_kpad_8
+    #define KEYSC_KP_9      sc_kpad_9
+    #define KEYSC_KP_0      sc_kpad_0
+    #define KEYSC_KPMINUS  sc_kpad_Minus
+    #define KEYSC_KPPLUS   sc_kpad_Plus
     #define KEYSC_KPPERIOD sc_kpad_Period
-    
+
     #define KEYSC_EUP        sc_UpArrow
     #define KEYSC_EDOWN      sc_DownArrow
     #define KEYSC_ELEFT      sc_LeftArrow
@@ -222,17 +222,17 @@ extern char MessageOutputString[256];
     #define KEYSC_EEND       sc_End
     #define KEYSC_EPGUP      sc_PgUp
     #define KEYSC_EPGDN      sc_PgDn
-    
+
     #undef KB_KeyPressed
     #define KB_KeyPressed( scan ) \
        ( KB_KeyDown[ ( scan ) ])
     #define KEY_PRESSED(sc) KB_KeyPressed((sc))
     #define PKEY_PRESSED(sc) KB_KeyPressed((sc))
-    
+
 //
 // NETWORK - REDEFINABLE SHARED (SYNC) KEYS BIT POSITIONS
 //
-    
+
     // weapons takes up 4 bits
     #define SK_WEAPON_BIT0 0
     #define SK_WEAPON_BIT1 1
@@ -247,18 +247,18 @@ extern char MessageOutputString[256];
     #define SK_INV_HOTKEY_BIT1 5
     #define SK_INV_HOTKEY_BIT2 6
     #define SK_INV_HOTKEY_MASK (BIT(SK_INV_HOTKEY_BIT0)|BIT(SK_INV_HOTKEY_BIT1)|BIT(SK_INV_HOTKEY_BIT2))
-    
+
     #define SK_AUTO_AIM    7
     #define SK_CENTER_VIEW 8
     #define SK_PAUSE       9
     #define SK_RUN_LOCK   10
 
-    #define SK_MESSAGE    11  
+    #define SK_MESSAGE    11
     #define SK_LOOK_UP    12
     #define SK_LOOK_DOWN  13
     #define SK_CRAWL_LOCK 14
     #define SK_FLY        15
-    
+
     #define SK_RUN        16
     #define SK_SHOOT      17
     #define SK_OPERATE    18
@@ -267,18 +267,18 @@ extern char MessageOutputString[256];
     #define SK_SNAP_UP    21
     #define SK_SNAP_DOWN  22
     #define SK_QUIT_GAME  23
-    
+
     #define SK_MULTI_VIEW 24
-    
-    #define SK_TURN_180   25  
-    
-    #define SK_INV_LEFT   26   
+
+    #define SK_TURN_180   25
+
+    #define SK_INV_LEFT   26
     #define SK_INV_RIGHT  27
 
     #define SK_INV_USE   29
     #define SK_HIDE_WEAPON  30
     #define SK_SPACE_BAR  31
-    
+
 
     // REDEFINABLE PLAYER KEYS NUMBERS
 
@@ -294,13 +294,13 @@ extern char MessageOutputString[256];
     #define PK_CRAWL        9
     #define PK_LOOK_UP      10
     #define PK_LOOK_DOWN    11
-    #define PK_STRAFE_LEFT  12 
-    #define PK_STRAFE_RIGHT 13 
-    #define PK_MAP          14  
+    #define PK_STRAFE_LEFT  12
+    #define PK_STRAFE_RIGHT 13
+    #define PK_MAP          14
     #define PK_MULTI_VIEW   15
-    #define PK_ZOOM_IN      16  
+    #define PK_ZOOM_IN      16
     #define PK_ZOOM_OUT     17
-    #define PK_MESSAGE      18  
+    #define PK_MESSAGE      18
 
 //    #define PKEY(num) KEY_PRESSED(keys[num])
 
@@ -364,18 +364,18 @@ extern char MessageOutputString[256];
 // this will get you the other wall moved by dragpoint
 #define DRAG_WALL(w) (wall[wall[(w)].nextwall].point2)
 
-// OVER and UNDER water macros    
-#define SpriteInDiveArea(sp) (TEST(sector[(sp)->sectnum].extra, SECTFX_DIVE_AREA) ? TRUE : FALSE)   
-#define SpriteInUnderwaterArea(sp) (TEST(sector[(sp)->sectnum].extra, SECTFX_UNDERWATER|SECTFX_UNDERWATER2) ? TRUE : FALSE)   
+// OVER and UNDER water macros
+#define SpriteInDiveArea(sp) (TEST(sector[(sp)->sectnum].extra, SECTFX_DIVE_AREA) ? TRUE : FALSE)
+#define SpriteInUnderwaterArea(sp) (TEST(sector[(sp)->sectnum].extra, SECTFX_UNDERWATER|SECTFX_UNDERWATER2) ? TRUE : FALSE)
 
-#define SectorIsDiveArea(sect) (TEST(sector[sect].extra, SECTFX_DIVE_AREA) ? TRUE : FALSE)   
-#define SectorIsUnderwaterArea(sect) (TEST(sector[sect].extra, SECTFX_UNDERWATER|SECTFX_UNDERWATER2) ? TRUE : FALSE)   
-    
+#define SectorIsDiveArea(sect) (TEST(sector[sect].extra, SECTFX_DIVE_AREA) ? TRUE : FALSE)
+#define SectorIsUnderwaterArea(sect) (TEST(sector[sect].extra, SECTFX_UNDERWATER|SECTFX_UNDERWATER2) ? TRUE : FALSE)
+
 // Key Press Flags macros
 #define FLAG_KEY_PRESSED(pp,sync_key) TEST(pp->KeyPressFlags,1<<sync_key)
 #define FLAG_KEY_RELEASE(pp,sync_key) RESET(pp->KeyPressFlags,1<<sync_key)
 #define FLAG_KEY_RESET(pp,sync_key) SET(pp->KeyPressFlags,1<<sync_key)
-    
+
 // syncbit manipulation macros
 // key_test MUST be a boolean - force it to be
 #define SET_SYNC_KEY(player, sync_num, key_test) SET((player)->input.bits, ((!!(key_test)) << (sync_num)))
@@ -417,39 +417,39 @@ int StdRandomRange(int range);
 #define SPRITE_SIZE_X(sp_num)   ((sprite[sp_num].xrepeat == 64) ?                         \
                     tilesizx[sprite[sp_num].picnum] :                   \
                     ((sprite[sp_num].xrepeat * tilesizx[sprite[sp_num].picnum]) >> 6) \
-                )  
-                      
+                )
+
 #define SPRITE_SIZE_Y(sp_num)   ((sprite[sp_num].yrepeat == 64) ?                          \
                     tilesizy[sprite[sp_num].picnum] :                    \
                     ((sprite[sp_num].yrepeat * tilesizy[sprite[sp_num].picnum]) >> 6) \
-                )       
-                    
+                )
+
 #define SPRITE_SIZE_Z(sp_num)   ((sprite[sp_num].yrepeat == 64) ?                          \
                     Z(tilesizy[sprite[sp_num].picnum]) :                 \
                     ((sprite[sp_num].yrepeat * tilesizy[sprite[sp_num].picnum]) << 2) \
-                )      
+                )
 
 #define SPRITEp_SIZE_X(sp)   (((sp)->xrepeat == 64) ?                         \
                     tilesizx[(sp)->picnum] :                   \
                     (((sp)->xrepeat * tilesizx[(sp)->picnum]) >> 6) \
-                )  
-                      
+                )
+
 #define SPRITEp_SIZE_Y(sp)   (((sp)->yrepeat == 64) ?                          \
                     tilesizy[(sp)->picnum] :                    \
                     (((sp)->yrepeat * tilesizy[(sp)->picnum]) >> 6) \
-                )       
-                    
+                )
+
 #define SPRITEp_SIZE_Z(sp)   (((sp)->yrepeat == 64) ?                          \
                     Z(tilesizy[(sp)->picnum]) :                 \
                     (((sp)->yrepeat * tilesizy[(sp)->picnum]) << 2) \
-                )      
+                )
 
-// Given a z height and sprite return the correct x repeat value                 
-#define SPRITEp_SIZE_X_2_XREPEAT(sp, x) (((x)*64)/tilesizx[(sp)->picnum]) 
-// Given a z height and sprite return the correct y repeat value                 
-#define SPRITEp_SIZE_Z_2_YREPEAT(sp, zh) ((zh)/(4*tilesizy[(sp)->picnum])) 
-#define SPRITEp_SIZE_Y_2_YREPEAT(sp, y) (((y)*64)/tilesizy[(sp)->picnum]) 
-                
+// Given a z height and sprite return the correct x repeat value
+#define SPRITEp_SIZE_X_2_XREPEAT(sp, x) (((x)*64)/tilesizx[(sp)->picnum])
+// Given a z height and sprite return the correct y repeat value
+#define SPRITEp_SIZE_Z_2_YREPEAT(sp, zh) ((zh)/(4*tilesizy[(sp)->picnum]))
+#define SPRITEp_SIZE_Y_2_YREPEAT(sp, y) (((y)*64)/tilesizy[(sp)->picnum])
+
 
 // x & y offset of tile
 #define TILE_XOFF(picnum) ((CHAR)TEST(picanm[(picnum)] >> 8, 0xFF))
@@ -471,12 +471,12 @@ int StdRandomRange(int range);
 #define SPRITEp_BOS(sp) (TEST((sp)->cstat, CSTAT_SPRITE_YCENTER) ? \
             ((sp)->z + SPRITEp_SIZE_BOS(sp)) :         \
             (sp)->z)
-            
-// mid and upper/lower sprite caluculations            
+
+// mid and upper/lower sprite caluculations
 #define SPRITEp_MID(sp) (DIV2(SPRITEp_TOS(sp) + SPRITEp_BOS(sp)))
 #define SPRITEp_UPPER(sp) (SPRITEp_TOS(sp) + DIV4(SPRITEp_SIZE_Z(sp)))
 #define SPRITEp_LOWER(sp) (SPRITEp_BOS(sp) - DIV4(SPRITEp_SIZE_Z(sp)))
-                
+
 #define Z(value) ((int)(value) << 8)
 #define PIXZ(value) ((int)(value) >> 8)
 
@@ -491,14 +491,14 @@ int StdRandomRange(int range);
 #define PLAYER_FACING_RANGE(pp,sp,range) (labs(GetDeltaAngle((pp)->pang, NORM_ANGLE(getangle((sp)->x - (pp)->posx, (sp)->y - (pp)->posy)))) < (range))
 #define FACING_RANGE(sp1,sp2,range) (labs(GetDeltaAngle((sp2)->ang, NORM_ANGLE(getangle((sp1)->x - (sp2)->x, (sp1)->y - (sp2)->y)))) < (range))
 
-// two vectors 
+// two vectors
 // can determin direction
 #define DOT_PRODUCT_2D(x1,y1,x2,y2) (mulscale((x1),(x2),16) + mulscale((y1),(y2),16))
 #define DOT_PRODUCT_3D(x1,y1,z1,x2,y2,z2) (mulscale((x1),(x2),16) + mulscale((y1),(y2),16) + mulscale((z1),(z2),16))
 
 // just determine if the player is moving
 #define PLAYER_MOVING(pp) ((pp)->xvect|(pp)->yvect)
-    
+
 #define KEY_EXT(scan) (KEY_PRESSED(scan) | KEY_PRESSED(scan+128))
 
 #define TEST_GOTSECTOR(sect_num) (TEST(gotsector[(sect_num) >> 3], 1 << ((sect_num) & 7)))
@@ -654,18 +654,18 @@ int StdRandomRange(int range);
 // Clip Sprite adjustment
 #define CS(sprite_bit) ((sprite_bit)<<16)
 
-// for players to clip against walls    
+// for players to clip against walls
 #define CLIPMASK_PLAYER (CS(CSTAT_SPRITE_BLOCK) | CSTAT_WALL_BLOCK)
 
-// for actors to clip against walls    
+// for actors to clip against walls
 #define CLIPMASK_ACTOR                   \
     (                                    \
     CS(CSTAT_SPRITE_BLOCK) |             \
     CSTAT_WALL_BLOCK |                   \
     CSTAT_WALL_BLOCK_ACTOR               \
     )
-    
-// for missiles to clip against actors    
+
+// for missiles to clip against actors
 #define CLIPMASK_MISSILE                                            \
     (                                                               \
     CS(CSTAT_SPRITE_BLOCK_HITSCAN|CSTAT_SPRITE_BLOCK_MISSILE) |     \
@@ -678,13 +678,13 @@ int StdRandomRange(int range);
     CSTAT_WALL_BLOCK_HITSCAN |           \
     CSTAT_WALL_WARP_HITSCAN              \
     )
-    
+
 
 
 // break up of picanm[]
-#define TILE_ANIM_NUM (0xF|BIT(4)|BIT(5))                                                       
-#define TILE_ANIM_TYPE (BIT(6)|BIT(7))                                                        
-#define TILE_SPEED (0xF << 20)                                                        
+#define TILE_ANIM_NUM (0xF|BIT(4)|BIT(5))
+#define TILE_ANIM_TYPE (BIT(6)|BIT(7))
+#define TILE_SPEED (0xF << 20)
 
 #define SIZ(array) (sizeof(array)/sizeof(array[0]))
 
@@ -739,7 +739,7 @@ typedef enum Dir8 DIR8;
 // Auto building enumerations
 
 #define DIGI_ENUM
-enum digi 
+enum digi
 {
     #include "digi.h"
     DIGI_MAX
@@ -747,12 +747,12 @@ enum digi
 #undef DIGI_ENUM
 
 #define DAMAGE_ENUM
-enum dam 
+enum dam
 {
     #include "damage.h"
 };
 #undef DAMAGE_ENUM
-          
+
 ////
 //
 // State declarations
@@ -831,8 +831,8 @@ extern BOOL InGame;                                  // Declared in game.c
 extern BOOL Global_PLock;                            // Game.c
 int QueueFloorBlood(short hitsprite);                // Weapon.c
 int QueueFootPrint(short hitsprite);                 // Weapon.c
-int QueueGeneric(short SpriteNum, short pic);        // Weapon.c   
-int QueueLoWangs(short SpriteNum);                   // Weapon.c   
+int QueueGeneric(short SpriteNum, short pic);        // Weapon.c
+int QueueLoWangs(short SpriteNum);                   // Weapon.c
 int SpawnShell(short SpriteNum, short ShellNum);     // Weapon.c
 void UnlockKeyLock(short key_num, short hitsprite);  // JSector.c
 
@@ -930,7 +930,7 @@ void CDAudio_Shutdown(void);
 #define MAX_WEAPONS_EXTRA 4 // extra weapons like the two extra head attacks
 #define MAX_WEAPONS (MAX_WEAPONS_KEYS + MAX_WEAPONS_EXTRA)
 
-// weapons that not missile type sprites    
+// weapons that not missile type sprites
 #define WPN_NM_LAVA (-8)
 #define WPN_NM_SECTOR_SQUISH (-9)
 
@@ -978,7 +978,7 @@ extern VOID (*InitWeapon[MAX_WEAPONS])(PLAYERp);
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //
-// Player 
+// Player
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -993,7 +993,7 @@ typedef struct
     char Episode,Level;
     char LevelSong[16];
     }DEMO_HEADER, *DEMO_HEADERp;
-    
+
 typedef struct
     {
     int x,y,z;
@@ -1030,7 +1030,7 @@ extern char *ReadFortune[MAX_FORTUNES];
 extern char *KeyMsg[MAX_KEYS];
 extern char *KeyDoorMessage[MAX_KEYS];
 
-typedef struct 
+typedef struct
     {
     SHORT vel;
     SHORT svel;
@@ -1038,8 +1038,8 @@ typedef struct
     CHAR aimvel;
     LONG bits;
     }SW_PACKET;
-    
-extern SW_PACKET loc;    
+
+extern SW_PACKET loc;
 
 #define PACK 1
 
@@ -1049,7 +1049,7 @@ enum PlayerDeathTypes
     {
     PLAYER_DEATH_FLIP, PLAYER_DEATH_CRUMBLE, PLAYER_DEATH_EXPLODE, PLAYER_DEATH_RIPPER, PLAYER_DEATH_SQUISH, PLAYER_DEATH_DROWN, MAX_PLAYER_DEATHS
     };
-    
+
 typedef void (*PLAYER_ACTION_FUNCp)(PLAYERp);
 
 #include "inv.h"
@@ -1061,21 +1061,21 @@ int xvect,yvect,oxvect,oyvect,slide_xvect,slide_yvect;
 int posx,posy,posz;
 SECTOR_OBJECTp sop_control;
 }REMOTE_CONTROL, *REMOTE_CONTROLp;
-    
+
 struct PLAYERstruct
     {
     // variable that fit in the sprite or user structure
     int posx, posy, posz;
     // interpolation
-    int 
+    int
     oposx, oposy, oposz;
     short oang;
     short ohoriz;
-    
+
     // holds last valid move position
     short lv_sectnum;
     int lv_x,lv_y,lv_z;
-    
+
     SPRITEp remote_sprite;
     REMOTE_CONTROL remote;
     SECTOR_OBJECTp sop_remote;
@@ -1092,10 +1092,10 @@ struct PLAYERstruct
 
     SPRITEp last_camera_sp;
     int camera_dist; // view mode dist
-    int circle_camera_dist; 
+    int circle_camera_dist;
     int six,siy,siz; // save player interp position for PlayerSprite
     short siang;
-    
+
     int xvect, yvect;
     int oxvect, oyvect;
     int friction;
@@ -1104,18 +1104,18 @@ struct PLAYERstruct
     int slide_dec;
     int drive_angvel;
     int drive_oangvel;
-    
-    
-    
+
+
+
     // scroll 2D mode stuff
     int scr_x, scr_y, oscr_x, oscr_y;
     int scr_xvect, scr_yvect;
     short scr_ang, oscr_ang, scr_sectnum;
-    
+
     short view_outside_dang;  // outside view delta ang
     short circle_camera_ang;
     short camera_check_time_delay;
-        
+
     short pang,cursectnum,lastcursectnum;
     short turn180_target; // 180 degree turn
 
@@ -1125,18 +1125,18 @@ struct PLAYERstruct
     short recoil_speed;
     short recoil_ndx;
     short recoil_horizoff;
-    
+
     int oldposx,oldposy,oldposz;
     int RevolveX, RevolveY;
     short RevolveDeltaAng, RevolveAng;
-    
+
     // under vars are for wading and swimming
     short PlayerSprite, PlayerUnderSprite;
     SPRITEp SpriteP, UnderSpriteP;
-    
-    
+
+
     short pnum; // carry along the player number
-    
+
     short LadderSector,LadderAngle;
     int lx,ly; // ladder x and y
     short JumpDuration;
@@ -1145,15 +1145,15 @@ struct PLAYERstruct
     short bob_ndx;
     short bcnt; // bob count
     int bob_z;
-    
+
     //Multiplayer variables
     SW_PACKET input;
 
     //FIFO queue to hold values while faketimerhandler is called from within the drawing routing
     #define MOVEFIFOSIZ 256
     SW_PACKET inputfifo[MOVEFIFOSIZ];
-    
-    
+
+
     int movefifoend;
     int myminlag;
     int syncvalhead;
@@ -1165,15 +1165,15 @@ struct PLAYERstruct
 
     // must start out as 0
     int playerreadyflag;
-    
+
     PLAYER_ACTION_FUNCp DoPlayerAction;
     int Flags, Flags2;
     int KeyPressFlags;
-    
+
     SECTOR_OBJECTp sop_control; // sector object pointer
     SECTOR_OBJECTp sop_riding; // sector object pointer
 
-    struct 
+    struct
     {
     PANEL_SPRITEp Next, Prev;
     }PanelSpriteList;
@@ -1181,7 +1181,7 @@ struct PLAYERstruct
     // Key stuff
     #define NUM_KEYS 8
     unsigned char HasKey[NUM_KEYS];
-    
+
     // Weapon stuff
     short SwordAng;
     int WpnGotOnceFlags; // for no respawn mode where weapons are allowed grabbed only once
@@ -1194,45 +1194,45 @@ struct PLAYERstruct
     unsigned char WpnRocketType; // rocket type
     unsigned char WpnRocketHeat; // 5 to 0 range
     unsigned char WpnRocketNuke; // 1, you have it, or you don't
-    unsigned char WpnFlameType; // Guardian weapons fire 
+    unsigned char WpnFlameType; // Guardian weapons fire
     unsigned char WpnFirstType; // First weapon type - Sword/Shuriken
-    unsigned char WeaponType; // for weapons with secondary functions 
+    unsigned char WeaponType; // for weapons with secondary functions
     short FirePause; // for sector objects - limits rapid firing
     //
     // Inventory Vars
     //
     short InventoryNum;
     short InventoryBarTics;
-    PANEL_SPRITEp InventorySprite[MAX_INVENTORY]; 
-    PANEL_SPRITEp InventorySelectionBox; 
+    PANEL_SPRITEp InventorySprite[MAX_INVENTORY];
+    PANEL_SPRITEp InventorySelectionBox;
     PANEL_SPRITEp MiniBarHealthBox, MiniBarAmmo;
     PANEL_SPRITEp MiniBarHealthBoxDigit[3], MiniBarAmmoDigit[3];
     short InventoryTics[MAX_INVENTORY];
     short InventoryPercent[MAX_INVENTORY];
     CHAR InventoryAmount[MAX_INVENTORY];
     BOOL InventoryActive[MAX_INVENTORY];
-    
+
     short DiveTics;
     short DiveDamageTics;
-    
+
     // Death stuff
     short DeathType;
     short Kills;
     short Killer;  //who killed me
     short KilledPlayer[MAX_SW_PLAYERS_REG];
     short SecretsFound;
-    
+
     // Health
     short Armor;
     short MaxHealth;
-    
+
     //char RocketBarrel;
     char PlayerName[32];
-    
+
     unsigned char UziShellLeftAlt;
     unsigned char UziShellRightAlt;
     unsigned char TeamColor;  // used in team play and also used in regular mulit-play for show
-    
+
     // palette fading up and down for player hit and get items
     short FadeTics;                 // Tics between each fade cycle
     short FadeAmt;                  // Current intensity of fade
@@ -1264,14 +1264,14 @@ struct PLAYERstruct
     short Heads;                    // Number of Accursed Heads orbiting player
     int PlayerVersion;
     };
-    
+
 extern PLAYER Player[MAX_SW_PLAYERS_REG+1];
 
 
 //
 // Player Flags
-//    
-    
+//
+
 #define PF_DEAD             (BIT(1))
 #define PF_JUMPING          (BIT(2))
 #define PF_FALLING          (BIT(3))
@@ -1298,9 +1298,9 @@ extern PLAYER Player[MAX_SW_PLAYERS_REG+1];
 #define PF_HEAD_CONTROL     (BIT(23)) // have control of turning when a head?
 #define PF_CLIP_CHEAT       (BIT(24)) // cheat for wall clipping
 #define PF_SLIDING          (BIT(25)) // cheat for wall clipping
-#define PF_VIEW_FROM_OUTSIDE   (BIT(26)) 
-#define PF_VIEW_OUTSIDE_WEAPON (BIT(27)) 
-#define PF_VIEW_FROM_CAMERA   (BIT(28)) 
+#define PF_VIEW_FROM_OUTSIDE   (BIT(26))
+#define PF_VIEW_OUTSIDE_WEAPON (BIT(27))
+#define PF_VIEW_FROM_CAMERA   (BIT(28))
 #define PF_TANK             (BIT(29)) // Doin the tank thang
 #define PF_MOUSE_AIMING_ON (BIT(30))
 #define PF_WEAPON_DOWN       (BIT(31))
@@ -1369,7 +1369,7 @@ STATEp *Duck;
 STATEp *Dive;
 }ACTOR_ACTION_SET,*ACTOR_ACTION_SETp;
 
-typedef struct 
+typedef struct
 {
 int pos;           // current position - always moves toward tgt
 int open_dest;     // destination of open position
@@ -1386,17 +1386,17 @@ int *origy;
 // User Extension record
 //
 
-typedef struct 
+typedef struct
 {
     //
     // Variables that can be used by actors and Player
     //
     ROTATORp rotator;
-    
+
     // wall vars for lighting
     int WallCount;
     CHARp WallShade; // malloced - save off wall shades for lighting
-    
+
     WALLp WallP; // operate on wall instead of sprite
     STATEp State;
     STATEp *Rot;
@@ -1408,30 +1408,30 @@ typedef struct
     ACTOR_ACTION_SETp ActorActionSet;
     PERSONALITYp Personality;
     ATTRIBUTEp Attrib;
-    SECTOR_OBJECTp sop_parent;  // denotes that this sprite is a part of the 
+    SECTOR_OBJECTp sop_parent;  // denotes that this sprite is a part of the
                                 // sector object - contains info for the SO
-    
+
     int ox, oy, oz;
-    
+
     int Flags;
     int Flags2;
     int Tics;
-    
+
     short RotNum;
     short ID;
-    
+
     // Health/Pain related
     short Health;
     short MaxHealth;
-    
+
     short LastDamage;           // last damage amount taken
     short PainThreshold;       // amount of damage that can be taken before
                 // going into pain frames.
-    
+
     // jump & fall
     short jump_speed;
     short jump_grav;
-    
+
     // clipmove
     short ceiling_dist;
     short floor_dist;
@@ -1440,79 +1440,79 @@ typedef struct
     int zclip; // z height to move up for clipmove
     SECTORp hi_sectp, lo_sectp;
     SPRITEp hi_sp, lo_sp;
-    
+
     int active_range;
-    
+
     short   SpriteNum;
     short   Attach;  // attach to sprite if needed - electro snake
     SPRITEp SpriteP;
 
     // if a player's sprite points to player structure
-    PLAYERp PlayerP; 
+    PLAYERp PlayerP;
     short Sibling;
 
-    
+
     //
     // Possibly used by both.
     //
-    
+
     // precalculated vectors
     int xchange,ychange,zchange;
-    
+
     int  z_tgt;
-    
+
     // velocity
     int  vel_tgt;
     short vel_rate;
     BYTE speed; // Ordinal Speed Range 0-3 from slow to fast
-    
+
     short Counter;
     short Counter2;
     short Counter3;
     short DamageTics;
     short BladeDamageTics;
-    
+
     short WpnGoal;
     unsigned int Radius;    // for distance checking
     int  OverlapZ;  // for z overlap variable
-    
-    // 
+
+    //
     // Only have a place for actors
     //
-    
+
     // For actors on fire
     short flame;
-    
+
     // target player for the enemy - can only handle one player at at time
     //PLAYERp tgt_player;
     SPRITEp tgt_sp;
-    
+
     // scaling
     short scale_speed;
     unsigned short scale_value;
     short scale_tgt;
-    
+
     // zig zagging
     short DistCheck;
     //short ZigZagDist;
     //short ZigZagAng;
     //short ZigZagDir;
-    
+
     short Dist;
     short TargetDist;
     short WaitTics;
-    
+
     // track
     short track;
     short point;
     short track_dir;
     int  track_vel;
-    
+
     // sliding variables - slide backwards etc
-    short slide_ang;     
-    int  slide_vel;     
+    short slide_ang;
+    int  slide_vel;
     short slide_dec;
-    
+
     short motion_blur_dist;
     short motion_blur_num;
 
@@ -1521,19 +1521,19 @@ typedef struct
     int  sx,sy,sz;
     short sang;
     char spal;  // save off default palette number
-    
+
     int ret; //holder for move_sprite return value
-    
+
     // Need to get rid of these flags
     int  Flag1;
-    
+
     CHAR  LastWeaponNum;
     CHAR  WeaponNum;
-    
+
     short bounce;           // count bounces off wall for killing shrap stuff
     // !JIM! my extensions
     int ShellNum;          // This is shell no. 0 to whatever
-                            // Shell gets deleted when ShellNum < (ShellCount - MAXSHELLS) 
+                            // Shell gets deleted when ShellNum < (ShellCount - MAXSHELLS)
     short FlagOwner;        // The spritenum of the original flag
     short Vis;              // Shading upgrade, for shooting, etc...
     BOOL DidAlert;          // Has actor done his alert noise before?
@@ -1541,34 +1541,34 @@ typedef struct
 
 // sprite->extra flags
 // BUILD AND GAME - DO NOT MOVE THESE
-#define SPRX_SKILL              (BIT(0) | BIT(1) | BIT(2)) 
+#define SPRX_SKILL              (BIT(0) | BIT(1) | BIT(2))
 
                                             // BIT(4) ST1 BUILD AND GAME
 #define SPRX_STAY_PUT_VATOR     (BIT(5))    // BUILD AND GAME - will not move with vators etc
                                             // DO NOT MOVE THIS
-                                            
+
 #define SPRX_STAG               (BIT(6))    // BUILD AND GAME - NON-ST1 sprite with ST1 type tagging
                                             // DO NOT MOVE
-                                            
+
 #define SPRX_QUEUE_SPRITE       (BIT(7))    // Queue sprite -check queue when deleting
 #define SPRX_MULTI_ITEM         (BIT(9))    // BUILD AND GAME - multi player item
-                                            
+
 // have users - could be moved
-#define SPRX_PLAYER_OR_ENEMY    (BIT(11))   // for checking quickly if sprite is a 
+#define SPRX_PLAYER_OR_ENEMY    (BIT(11))   // for checking quickly if sprite is a
                                             // player or actor
 // do not need Users
 #define SPRX_FOUND              (BIT(12))   // BUILD ONLY INTERNAL - used for finding sprites
-#define SPRX_BLADE              (BIT(12))   // blade sprite 
+#define SPRX_BLADE              (BIT(12))   // blade sprite
 #define SPRX_BREAKABLE          (BIT(13))   // breakable items
 #define SPRX_BURNABLE           (BIT(14))   // used for burnable sprites in the game
 
 // temp use
-#define SPRX_BLOCK              (BIT(15))   // BUILD AND GAME 
+#define SPRX_BLOCK              (BIT(15))   // BUILD AND GAME
                                             // BUILD - tell which actors should not spawn
                                             // GAME - used for internal game code
                                             // ALT-M debug mode
 
-// !LIGHT                                            
+// !LIGHT
 // all three bits set - should never happen with skill
 // #define SPRX_USER_NON_STANDARD  (BIT(0)|BIT(1)|BIT(2))   // used for lighting
 
@@ -1630,7 +1630,7 @@ typedef struct
 #define SPR_JUMPING             BIT(5) // Actor is jumping
 #define SPR_FALLING             BIT(6) // Actor is falling
 #define SPR_CLIMBING            BIT(7) // Actor is falling
-#define SPR_DEAD               BIT(8) // Actor is dying 
+#define SPR_DEAD               BIT(8) // Actor is dying
 
 #define SPR_ZDIFF_MODE          BIT(10) // For following tracks at different z heights
 #define SPR_SPEED_UP            BIT(11) // For following tracks at different speeds
@@ -1658,9 +1658,9 @@ typedef struct
 #define SPR_SKIP4               BIT(28) // 10 moves ps
 
 #define SPR_BOUNCE              BIT(29) // For shrapnel types that can bounce once
-#define SPR_UNDERWATER          BIT(30) // For missiles etc 
+#define SPR_UNDERWATER          BIT(30) // For missiles etc
 
-#define SPR_SHADOW              BIT(31) // Sprites that have shadows 
+#define SPR_SHADOW              BIT(31) // Sprites that have shadows
 
 // User->Flags2 flags
 #define SPR2_BLUR_TAPER         (BIT(13)|BIT(14))   // taper type
@@ -1668,9 +1668,9 @@ typedef struct
 #define SPR2_BLUR_TAPER_SLOW    (BIT(14))   // taper slow
 #define SPR2_SPRITE_FAKE_BLOCK  (BIT(15))   // fake blocking bit for damage
 #define SPR2_NEVER_RESPAWN      (BIT(16))   // for item respawning
-#define SPR2_ATTACH_WALL        (BIT(17))   
-#define SPR2_ATTACH_FLOOR       (BIT(18))   
-#define SPR2_ATTACH_CEILING     (BIT(19))   
+#define SPR2_ATTACH_WALL        (BIT(17))
+#define SPR2_ATTACH_FLOOR       (BIT(18))
+#define SPR2_ATTACH_CEILING     (BIT(19))
 #define SPR2_CHILDREN           (BIT(20))   // sprite OWNS children
 #define SPR2_SO_MISSILE         (BIT(21))   // this is a missile from a SO
 #define SPR2_DYING              (BIT(22))   // Sprite is currently dying
@@ -1683,7 +1683,7 @@ extern USERp User[MAXSPRITES];
 typedef struct
     {
     short Xdim, Ydim, ScreenSize;
-    }BORDER_INFO,*BORDER_INFOp;        
+    }BORDER_INFO,*BORDER_INFOp;
 
 
 typedef struct
@@ -1691,7 +1691,7 @@ typedef struct
     short high;
     }RANGE,*RANGEp;
 
-    
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 //
 // Sector Stuff - Sector Objects and Tracks
@@ -1717,7 +1717,7 @@ typedef struct
 #define SECTFX_SECTOR_OBJECT         BIT(12)  // for collision detection
 #define SECTFX_VATOR                 BIT(13)  // denotes that this is a vertical moving sector
                                               // vator type
-#define SECTFX_TRIGGER               BIT(14)  // trigger type to replace tags.h trigger types                                              
+#define SECTFX_TRIGGER               BIT(14)  // trigger type to replace tags.h trigger types
 
 // flags in sector USER structure
 #define SECTFU_SO_DONT_BOB          BIT(0)
@@ -1751,13 +1751,13 @@ typedef enum stag_id STAG_ID;
 #define WALLFX_DONT_SCALE                BIT(8) // for sector object
 #define WALLFX_LOOP_OUTER_SECONDARY      BIT(9) // for sector object
 
-enum ShrapType 
+enum ShrapType
 {
-SHRAP_NONE              = 0,                                                           
-SHRAP_GLASS             = 1,  // 
+SHRAP_NONE              = 0,
+SHRAP_GLASS             = 1,  //
 SHRAP_TREE_BARK         = 2,  // (NEED) outside tree bark
 SHRAP_SO_SMOKE          = 3,  // only used for damaged SO's
-SHRAP_PAPER             = 4,  // 
+SHRAP_PAPER             = 4,  //
 SHRAP_BLOOD             = 5,  // std blood from gibs
 SHRAP_EXPLOSION         = 6,  // small explosion
 SHRAP_LARGE_EXPLOSION   = 7,  // large explosion
@@ -1765,7 +1765,7 @@ SHRAP_METAL             = 8,  //
 SHRAP_STONE             = 9,  // what we have might be ok
 SHRAP_PLANT             = 10, // (NEED)
 SHRAP_GIBS              = 11, // std blood and guts
-SHRAP_WOOD              = 12, // 
+SHRAP_WOOD              = 12, //
 SHRAP_GENERIC           = 13, // what we have might be ok - sort of gray brown rock look
 SHRAP_TREE_PULP         = 14, // (NEED) inside tree wood
 SHRAP_COIN              = 15,
@@ -1775,47 +1775,47 @@ SHRAP_MARBELS           = 18,
 SHRAP_PAPERMIX          = 19,
 SHRAP_USER_DEFINED      = 99
 };
-                                                           
+
 typedef struct
     {
     int dist, flags;
     short depth_fract, depth; // do NOT change this, doubles as a long FIXED point number
     short stag,    // ST? tag number - for certain things it helps to know it
-        ang,     
-        height, 
-        speed, 
-        damage, 
+        ang,
+        height,
+        speed,
+        damage,
         number;  // usually used for matching number
-    BYTE    flags2;            
-    }SECT_USER, *SECT_USERp;   
-    
-extern SECT_USERp SectUser[MAXSECTORS];    
+    BYTE    flags2;
+    }SECT_USER, *SECT_USERp;
+
+extern SECT_USERp SectUser[MAXSECTORS];
 SECT_USERp SpawnSectUser(short sectnum);
 
-    
+
 typedef struct
     {
     unsigned int size, checksum;
     }MEM_HDR,*MEM_HDRp;
-    
+
 BOOL ValidPtr(VOID *ptr);
 VOID * AllocMem(int size);
 VOID * CallocMem(int size, int num);
 VOID * ReAllocMem(VOID *ptr, int size);
 VOID FreeMem(VOID *ptr);
-    
-typedef struct 
+
+typedef struct
   {
   short sprite_num;
   short dang;
   int dist;
   int weight;
-  }TARGET_SORT, *TARGET_SORTp;    
-    
-#define MAX_TARGET_SORT 16    
+  }TARGET_SORT, *TARGET_SORTp;
+
+#define MAX_TARGET_SORT 16
 extern TARGET_SORT TargetSort[MAX_TARGET_SORT];
 extern unsigned TargetSortCount;
-    
+
 enum DoorType
     {
     OPERATE_TYPE,
@@ -1879,9 +1879,9 @@ typedef struct
 
 extern SPIN Spin[17];
 extern DOOR_AUTO_CLOSE DoorAutoClose[MAX_DOOR_AUTO_CLOSE];
-extern int x_min_bound, y_min_bound, x_max_bound, y_max_bound; 
+extern int x_min_bound, y_min_bound, x_max_bound, y_max_bound;
 
-#define MAXANIM 256   
+#define MAXANIM 256
 typedef void ANIM_CALLBACK(ANIMp, void *);
 typedef ANIM_CALLBACK *ANIM_CALLBACKp;
 typedef void *ANIM_DATAp;
@@ -1895,7 +1895,7 @@ struct ANIMstruct
     ANIM_DATAp callbackdata;
     };
 
-extern ANIM Anim[MAXANIM];   
+extern ANIM Anim[MAXANIM];
 extern short AnimCnt;
 
 
@@ -1912,19 +1912,19 @@ typedef struct
     short flags;
     short NumPoints;
     }TRACK, *TRACKp;
-    
-// Most track type flags are in tags.h    
+
+// Most track type flags are in tags.h
 
 // Regular track flags
 #define TF_TRACK_OCCUPIED BIT(0)
-    
-typedef struct 
+
+typedef struct
     {
     BYTE FromRange,ToRange,FromColor,ToColor;
     }COLOR_MAP, *COLOR_MAPp;
-    
+
 #define MAX_TRACKS 100
-    
+
 extern TRACK Track[MAX_TRACKS];
 
 struct SECTOR_OBJECTstruct
@@ -1939,9 +1939,9 @@ struct SECTOR_OBJECTstruct
     soANIMATORp PostMoveAnimator;
     soANIMATORp Animator;
     SPRITEp controller;
-    
+
     SPRITEp sp_child;  // child sprite that holds info for the sector object
-    
+
     int    xmid,ymid,zmid, // midpoints of the sector object
         vel,            // velocity
         vel_tgt,        // target velocity
@@ -1969,16 +1969,16 @@ struct SECTOR_OBJECTstruct
         drive_slide,
         crush_z,
         flags;
-        
+
     short   sector[MAX_SO_SECTOR],     // hold the sector numbers of the sector object
         sp_num[MAX_SO_SPRITE],     // hold the sprite numbers of the object
         xorig[MAX_SO_POINTS],   // save the original x & y location of each wall so it can be
-        yorig[MAX_SO_POINTS],   // refreshed 
+        yorig[MAX_SO_POINTS],   // refreshed
         sectnum,        // current secnum of midpoint
         mid_sector,     // middle sector
         max_damage,     // max damage
         ram_damage,     // damage taken by ramming
-        wait_tics,      // 
+        wait_tics,      //
         num_sectors,    // number of sectors
         num_walls,      // number of sectors
         track,          // the track # 0 to 20
@@ -2011,7 +2011,7 @@ struct SECTOR_OBJECTstruct
         // SO Scaling Vector Info
         scale_type,         // type of scaling - enum controled
         scale_active_type,  // activated by a switch or trigger
-        
+
         // values for whole SO
         scale_dist,         // distance from center
         scale_speed,        // speed of scaling
@@ -2029,7 +2029,7 @@ struct SECTOR_OBJECTstruct
 
         scale_x_mult,           // x multiplyer for scaling
         scale_y_mult,           // y multiplyer for scaling
-        
+
         // Used for center point movement
         morph_wall_point,       // actual wall point to drag
         morph_ang,              // angle moving from CENTER
@@ -2040,32 +2040,32 @@ struct SECTOR_OBJECTstruct
         morph_z_speed,          // z speed for morph point
         morph_xoff,             // save xoff from center
         morph_yoff,             // save yoff from center
-        
+
         //scale_rand_reverse,            // random at random interval
         // limit rotation angle
         limit_ang_center,// for limiting the angle of turning - turrets etc
-        limit_ang_delta; // 
+        limit_ang_delta; //
     };
-    
+
 #define MAX_SECTOR_OBJECTS 20
 
 #define SOBJ_SPEED_UP           BIT(0)
 #define SOBJ_SLOW_DOWN          BIT(1)
 #define SOBJ_ZUP                BIT(2)
 #define SOBJ_ZDOWN              BIT(3)
-#define SOBJ_ZDIFF_MODE         BIT(4) 
+#define SOBJ_ZDIFF_MODE         BIT(4)
 #define SOBJ_MOVE_VERTICAL      BIT(5) // for sprite objects - move straight up/down
-#define SOBJ_ABSOLUTE_ANGLE     BIT(7) 
-#define SOBJ_SPRITE_OBJ         BIT(8) 
-#define SOBJ_DONT_ROTATE        BIT(9) 
-#define SOBJ_WAIT_FOR_EVENT     BIT(10) 
-#define SOBJ_HAS_WEAPON         BIT(11) 
+#define SOBJ_ABSOLUTE_ANGLE     BIT(7)
+#define SOBJ_SPRITE_OBJ         BIT(8)
+#define SOBJ_DONT_ROTATE        BIT(9)
+#define SOBJ_WAIT_FOR_EVENT     BIT(10)
+#define SOBJ_HAS_WEAPON         BIT(11)
 #define SOBJ_SYNC1              BIT(12) // for syncing up several SO's perfectly
 #define SOBJ_SYNC2              BIT(13) // for syncing up several SO's perfectly
 #define SOBJ_DYNAMIC            BIT(14) // denotes scaling or morphing object
 #define SOBJ_ZMID_FLOOR         BIT(15) // can't remember which sector objects need this
                                         // think its the bobbing and sinking ones
-#define SOBJ_SLIDE              BIT(16)                                        
+#define SOBJ_SLIDE              BIT(16)
 
 #define SOBJ_OPERATIONAL        BIT(17)
 #define SOBJ_KILLABLE           BIT(18)
@@ -2084,7 +2084,7 @@ struct SECTOR_OBJECTstruct
 #define SO_TANK 98
 #define SO_SPEED_BOAT 99
 
-extern SECTOR_OBJECT SectorObject[MAX_SECTOR_OBJECTS];    
+extern SECTOR_OBJECT SectorObject[MAX_SECTOR_OBJECTS];
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -2141,8 +2141,8 @@ int move_missile(short spritenum, int xchange, int ychange, int zchange, int cei
 int DoPickTarget(SPRITEp sp, WORD max_delta_ang, BOOL skip_targets);
 
 VOID change_sprite_stat(short, short);
-VOID SetOwner(short, short);  
-VOID SetAttach(short, short);  
+VOID SetOwner(short, short);
+VOID SetAttach(short, short);
 VOID analyzesprites(int,int,int,BOOL);
 VOID ChangeState(short SpriteNum, STATEp statep);
 
@@ -2163,33 +2163,33 @@ VOID FAF_ConnectPlayerFloor(PLAYERp pp);
 BOOL PlayerCeilingHit(PLAYERp pp, int zlimit);
 BOOL PlayerFloorHit(PLAYERp pp, int zlimit);
 
-VOID FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum, 
-                LONG xvect, LONG yvect, LONG zvect, 
+VOID FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
+                LONG xvect, LONG yvect, LONG zvect,
                 SHORTp hitsect, SHORTp hitwall, SHORTp hitsprite,
                 LONGp hitx, LONGp hity, LONGp hitz, LONG clipmask);
-                
+
 BOOL FAFcansee(LONG xs, LONG ys, LONG zs, SHORT sects, LONG xe, LONG ye, LONG ze, SHORT secte);
 
-VOID FAFgetzrange(LONG x, LONG y, LONG z, SHORT sectnum, 
-    LONGp hiz, LONGp ceilhit, 
-    LONGp loz, LONGp florhit, 
+VOID FAFgetzrange(LONG x, LONG y, LONG z, SHORT sectnum,
+    LONGp hiz, LONGp ceilhit,
+    LONGp loz, LONGp florhit,
     LONG clipdist, LONG clipmask);
-    
-VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum, 
-    LONGp hiz, LONGp ceilhit, 
+
+VOID FAFgetzrangepoint(LONG x, LONG y, LONG z, SHORT sectnum,
+    LONGp hiz, LONGp ceilhit,
     LONGp loz, LONGp florhit);
-    
+
 VOID COVERupdatesector(LONG x, LONG y, SHORTp newsector);
 
 void updatesectorz(int,int,int,SHORTp);
-    
+
 extern int clipmoveboxtracenum;
 
 
 void short_setinterpolation(short *posptr);
 void short_stopinterpolation(short *posptr);
 void short_updateinterpolations(void);
-void short_dointerpolations(int smoothratio); 
+void short_dointerpolations(int smoothratio);
 void short_restoreinterpolations(void);
 
 enum SoundType
@@ -2197,7 +2197,7 @@ enum SoundType
 SOUND_OBJECT_TYPE,
 SOUND_EVERYTHING_TYPE
 };
-    
+
 VOID DoSoundSpotMatch(short match, short sound_num, short sound_type);
 
 #define ACTOR_GRAVITY 8
@@ -2221,7 +2221,7 @@ extern char ds[];
 extern short Skill;
 extern int GodMode;
 
-extern int x_min_bound, y_min_bound, x_max_bound, y_max_bound; 
+extern int x_min_bound, y_min_bound, x_max_bound, y_max_bound;
 
 //extern unsigned char synctics, lastsynctics;
 extern BORDER_INFO BorderInfo;
@@ -2327,7 +2327,7 @@ int _PlayerSound(char *file, int line, int num, int *x, int *y, int *z, Voc3D_Fl
 #define PlayerSound(num, x, y, z, flags, pp) _PlayerSound(__FILE__, __LINE__, (num), (x), (y), (z), (flags), (pp))
 
 #define MAXSO (MAXLONG)
-    
+
 ///////////////////////////////////////////////////////////////
 //
 // Stuff added by JonoF. These should get put into their own

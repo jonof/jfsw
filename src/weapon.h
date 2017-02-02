@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -82,8 +82,8 @@ int DoShrapVelocity(SHORT SpriteNum);
 int ShrapKillSprite(short SpriteNum);
 BOOL MissileSetPos(short Weapon,ANIMATORp DoWeapon,int dist);
 int ActorPain(short SpriteNum);
-    
-// 
+
+//
 // Damage Amounts defined in damage.h
 //
 extern DAMAGE_DATA DamageData[];
@@ -91,38 +91,38 @@ extern DAMAGE_DATA DamageData[];
 // Damage Times - takes damage after this many tics
 #define DAMAGE_BLADE_TIME       (10)
 
-// Player Missile Speeds 
-#define STAR_VELOCITY           (1800)   
-#define BOLT_VELOCITY           (900)   
-#define ROCKET_VELOCITY         (1350)   
-#define BOLT_SEEKER_VELOCITY    (820)   
-#define FIREBALL_VELOCITY       (2000)   
-#define ELECTRO_VELOCITY        (800)   
-#define PLASMA_VELOCITY         (1000)   
+// Player Missile Speeds
+#define STAR_VELOCITY           (1800)
+#define BOLT_VELOCITY           (900)
+#define ROCKET_VELOCITY         (1350)
+#define BOLT_SEEKER_VELOCITY    (820)
+#define FIREBALL_VELOCITY       (2000)
+#define ELECTRO_VELOCITY        (800)
+#define PLASMA_VELOCITY         (1000)
 #define UZI_BULLET_VELOCITY     (2500)
 #define TRACER_VELOCITY         (1200)
 #define TANK_SHELL_VELOCITY     (1200)
-#define GRENADE_VELOCITY        (900)   
-#define MINE_VELOCITY           (520)   // Was 420   
+#define GRENADE_VELOCITY        (900)
+#define MINE_VELOCITY           (520)   // Was 420
 #define CHEMBOMB_VELOCITY       (420)
 
-// Player Spell Missile Speeds 
+// Player Spell Missile Speeds
 #define BLOOD_WORM_VELOCITY   (800)
-#define NAPALM_VELOCITY         (800)   
+#define NAPALM_VELOCITY         (800)
 #define MIRV_VELOCITY          (600)
-#define SPIRAL_VELOCITY         (600)   
+#define SPIRAL_VELOCITY         (600)
 
-// Trap Speeds 
-#define BOLT_TRAP_VELOCITY      (950)   
-#define SPEAR_TRAP_VELOCITY     (650)   
-#define FIREBALL_TRAP_VELOCITY  (750)   
+// Trap Speeds
+#define BOLT_TRAP_VELOCITY      (950)
+#define SPEAR_TRAP_VELOCITY     (650)
+#define FIREBALL_TRAP_VELOCITY  (750)
 
-// NPC Missile Speeds 
-#define NINJA_STAR_VELOCITY     (1800)   
+// NPC Missile Speeds
+#define NINJA_STAR_VELOCITY     (1800)
 #define NINJA_BOLT_VELOCITY     (500)
 #define GORO_FIREBALL_VELOCITY  (800)
 #define SKEL_ELECTRO_VELOCITY   (850)
-#define COOLG_FIRE_VELOCITY     (400)   
+#define COOLG_FIRE_VELOCITY     (400)
 
 #define GRENADE_RECOIL_AMT      (12)
 #define ROCKET_RECOIL_AMT       (7)
@@ -143,7 +143,7 @@ extern int WeaponIsAmmo;
 #define MISSILEMOVETICS 6
 
 #define CLOSE_RANGE_DIST_FUDGE(sp1, sp2, fudge) \
-    (((int)(sp1)->clipdist<<2) + ((int)(sp2)->clipdist<<2) + (fudge))    
+    (((int)(sp1)->clipdist<<2) + ((int)(sp2)->clipdist<<2) + (fudge))
 
 #define CLOSE_RANGE_DIST(sp1, sp2) CLOSE_RANGE_DIST_FUDGE(sp1, sp2, 400)
 
@@ -191,8 +191,8 @@ typedef struct
     // random_disperse, ang_range
     } SHRAP, *SHRAPp;
 
-enum ShrapPos 
-{    
+enum ShrapPos
+{
 Z_TOP,
 Z_MID,
 Z_BOT

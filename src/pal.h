@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -30,7 +30,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //
 ////
 
-    #define LT_GREY         (16 * 0 + 1) 
+    #define LT_GREY         (16 * 0 + 1)
     #define DK_GREY         (16 * 1)
     #define LT_BROWN        (16 * 2)
     #define DK_BROWN        (16 * 3)
@@ -38,9 +38,9 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
     #define DK_TAN          (16 * 5)
     #define RUST_RED        (16 * 6)
     #define RED             (16 * 7)
-    #define YELLOW          (16 * 8)   
+    #define YELLOW          (16 * 8)
     #define BRIGHT_GREEN    (16 * 9)
-    #define DK_GREEN        (16 * 10) 
+    #define DK_GREEN        (16 * 10)
     #define GREEN           (16 * 11)
     #define LT_BLUE         (16 * 12)
     #define DK_BLUE         (16 * 13)
@@ -50,7 +50,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
     //
     // Palette numbers and meanings
     //
-    
+
     #define PALETTE_DEFAULT             0
     #define PALETTE_FOG                 1
     // blue sword blade test
@@ -76,13 +76,13 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
     #define PALETTE_GREEN_LIGHTING      11
     #define PALETTE_BLUE_LIGHTING       13
     #define PALETTE_RED_LIGHTING        14
-    
+
     // for brown bubbling sludge
     #define PALETTE_SLUDGE              15
 
-    
-    
-    
+
+
+
     // Player 0 uses default palette - others use these
     // turns ninja's vests (when we get them) into different color ranges
     #define PALETTE_PLAYER0             16
@@ -107,7 +107,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
     #define PAL_XLAT_RED                25
     #define PALETTE_PLAYER10            26
     #define PAL_XLAT_DK_GREY            26
-    #define PALETTE_PLAYER11            27    
+    #define PALETTE_PLAYER11            27
     #define PAL_XLAT_BRIGHT_GREEN       27
     #define PALETTE_PLAYER12            28
     #define PAL_XLAT_DK_BLUE            28
@@ -115,7 +115,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
     #define PAL_XLAT_FIRE               29
     #define PALETTE_PLAYER14            30
     #define PALETTE_PLAYER15            31
-    
+
     #define PALETTE_ILLUMINATE          32  // Used to make sprites bright green in night vision
 
- 
+

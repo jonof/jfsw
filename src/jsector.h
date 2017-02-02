@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -28,7 +28,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define JSECTOR_H
 
 #include "reserve.h"
-        
+
 #define MAXMIRRORDIST       3300    // At this distance, or less, the magic mirrors activate.
 #define MAXMIRRORMONSTERS   4       // Max monsters any one magic mirror can spawn
 

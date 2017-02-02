@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -29,7 +29,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
 #include "function.h"
 
 #define SETUPNAMEPARM "SETUPFILE"

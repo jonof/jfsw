@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -46,18 +46,18 @@ SYNC BUG NOTES:
     1.  Look at Prediction code first when player movement is involved.  If the
     prediction code changes any variable not in the Player or Players
     Sprite/User structure that effects movement then there will be a Out Of Sync
-    problem.  
-    
+    problem.
+
     EXAMPLE:  Prediction player was updating a sop->drive_oangvel making it
     invalid for movement.  Look at DoPlayerBoatTurn for comment.
-    
-    2.  Changing movement variables in the draw code.  Because the draw code is 
+
+    2.  Changing movement variables in the draw code.  Because the draw code is
     called at a variable rate this don't work.  This includes using RANDOM_RANGE
     or RANDOM_P2 in the draw code.  This updates the random seed variable and is
     only for movement code.  Use STD_RANDOM_RANGE for draw code.
-    
+
     3.  Plain old bugs such as using uninitialized local variables.
-    
+
 */
 
 //#undef MAXSYNCBYTES
@@ -95,7 +95,7 @@ extern int sync_found;
 //
 // Tic Duplication - so you can move multiple times per packet
 //
-typedef struct 
+typedef struct
     {
     LONG vel;
     LONG svel;
@@ -103,7 +103,7 @@ typedef struct
     LONG aimvel;
     LONG bits;
     }SW_AVERAGE_PACKET;
-    
+
 int MovesPerPacket = 1;
 SW_AVERAGE_PACKET AveragePacket;
 
@@ -142,7 +142,7 @@ void netsendpacket(int ind, BYTEp buf, int len)
 		for (i=0; i<len; i++)
 			buildprintf(" %02x", buf[i]);
 		buildputs("\n");
-		
+
 		prx->PacketType = PACKET_TYPE_PROXY;
 		prx->PlayerIndex = (BYTE)ind;
 		memcpy(&prx[1], buf, len);	// &prx[1] == (char*)prx + sizeof(PACKET_PROXY)
@@ -238,7 +238,7 @@ int netgetpacket(int *ind, BYTEp buf)
 				buildprintf("netgetpacket(): distributing to %d\n", i);
 				sendpacket(i, buf, len);
 			}
-			
+
 			// Return the packet payload to the caller
 			len -= sizeof(PACKET_PROXY);
 			memmove(buf, &prx[1], len);
@@ -279,11 +279,11 @@ int EncodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
     {
     BYTEp base_ptr = buf;
     unsigned i;
-    
+
     // skipping the bits field sync test fake byte (Ed. Ken)
     *buf = 0;
     buf++;
-    
+
     if (pak->vel != old_pak->vel)
         {
         *((short*)buf) = pak->vel;
@@ -304,7 +304,7 @@ int EncodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
         buf += sizeof(pak->angvel);
         SET(*base_ptr, BIT(2));
         }
-        
+
     if (pak->aimvel != old_pak->aimvel)
         {
         *((char*)buf) = pak->aimvel;
@@ -321,21 +321,21 @@ int EncodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
             buf++;
             SET(*base_ptr, BIT(i+4));
             }
-        }    
+        }
 
     return(buf - base_ptr);
-    }    
+    }
 
 int DecodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
     {
     BYTEp base_ptr = buf;
     unsigned i;
-    
+
     // skipping the bits field sync test fake byte (Ed. Ken)
     buf++;
-    
+
     *pak = *old_pak;
-    
+
     if (TEST(*base_ptr, BIT(0)))
         {
         pak->vel = *(short*)buf;
@@ -353,7 +353,7 @@ int DecodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
         pak->angvel = *(char*)buf;
         buf += sizeof(pak->angvel);
         }
-        
+
     if (TEST(*base_ptr, BIT(3)))
         {
         pak->aimvel = *(char*)buf;
@@ -369,17 +369,17 @@ int DecodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
             SET(pak->bits, ((int)(*buf))<<(i<<3));
             buf++;
             }
-        }    
+        }
 
-    return( buf - base_ptr );    
+    return( buf - base_ptr );
     }
-    
-VOID 
+
+VOID
 PauseGame(VOID)
     {
     if (PauseKeySet)
         return;
-        
+
     if (DemoPlaying || DemoRecording)
         return;
 
@@ -390,12 +390,12 @@ PauseGame(VOID)
         GamePaused = TRUE;
     }
 
-VOID 
+VOID
 ResumeGame(VOID)
     {
     if (PauseKeySet)
         return;
-        
+
     if (DemoPlaying || DemoRecording)
         return;
 
@@ -403,32 +403,32 @@ ResumeGame(VOID)
         GamePaused = FALSE;
     }
 
-VOID 
+VOID
 PauseAction(VOID)
     {
     ready2send = 0;
     save_totalclock = totalclock;
     }
 
-VOID 
+VOID
 ResumeAction(VOID)
     {
     ready2send = 1;
     totalclock = save_totalclock;
     }
 
-VOID    
+VOID
 SendMessage(short pnum, char *text)
     {
     if (!CommEnabled)
         return;
-        
+
     tempbuf[0] = PACKET_TYPE_MESSAGE;
     strcpy((char *)&tempbuf[1], text);
-    netsendpacket(pnum, tempbuf, strlen(text) + 2); 
+    netsendpacket(pnum, tempbuf, strlen(text) + 2);
     }
-    
-    
+
+
 VOID
 InitNetPlayerOptions(VOID)
     {
@@ -442,12 +442,12 @@ InitNetPlayerOptions(VOID)
 
     Bstrupr(CommPlayerName);
     strcpy(pp->PlayerName, CommPlayerName);
-    
+
     // myconnectindex palette
     pp->TeamColor = gs.NetColor;
     pp->SpriteP->pal = PALETTE_PLAYER0 + pp->TeamColor;
     User[pp->SpriteP - sprite]->spal = pp->SpriteP->pal;
-    
+
     if (CommEnabled)
         {
         p.PacketType = PACKET_TYPE_PLAYER_OPTIONS;
@@ -475,12 +475,12 @@ SendMulitNameChange(char *new_name)
 
     if (!CommEnabled)
         return;
-    
+
     Bstrupr(new_name);
     strcpy(pp->PlayerName, new_name);
     strcpy(CommPlayerName, new_name);
     SetRedrawScreen(pp);
-    
+
     //TRAVERSE_CONNECT(pnum)
         {
         //if (pnum != myconnectindex)
@@ -492,19 +492,19 @@ SendMulitNameChange(char *new_name)
             }
         }
     }
-    
+
 VOID
 SendVersion(int version)
     {
     short pnum;
     PLAYERp pp = Player + myconnectindex;
     PACKET_VERSION p;
-    
+
     if (!CommEnabled)
         return;
-    
+
     pp->PlayerVersion = version;
-    
+
     //TRAVERSE_CONNECT(pnum)
         {
         //if (pnum != myconnectindex)
@@ -523,7 +523,7 @@ CheckVersion(int GameVersion)
     short pnum;
     PACKET_VERSION p;
     #define VERSION_MSG "You cannot play with different versions!"
-    
+
     if (!CommEnabled)
         return;
 
@@ -542,7 +542,7 @@ CheckVersion(int GameVersion)
                 adduserquote(VERSION_MSG);
                 adduserquote(VERSION_MSG);
                 adduserquote(VERSION_MSG);
-                
+
                 if (!Player[pnum].PlayerVersion)
                     {
                     SendMessage(pnum, VERSION_MSG);
@@ -556,7 +556,7 @@ CheckVersion(int GameVersion)
             }
         }
     }
-    
+
 VOID
 Connect(VOID)
     {
@@ -587,7 +587,7 @@ Connect(VOID)
 
 int wfe_Clock;
 BOOL (*wfe_ExitCallback)(VOID);
-    
+
 void
 waitforeverybody(void)
     {
@@ -595,7 +595,7 @@ waitforeverybody(void)
     short other;
 
     if (!CommEnabled)
-        return; 
+        return;
 
     buildprintf("waitforeverybody() #%d\n", Player[myconnectindex].playerreadyflag + 1);
 
@@ -610,7 +610,7 @@ waitforeverybody(void)
 	netsendpacket(connecthead, tempbuf, size);
     else
 	netbroadcastpacket(tempbuf, size);
-    
+
     #if 0
     for (i = connecthead; i >= 0; i = connectpoint2[i])
         {
@@ -619,26 +619,26 @@ waitforeverybody(void)
             DSPRINTF(ds,"Ready packet sent to %d", i);
             DebugWriteString(ds);
             }
-        }    
-    #endif    
+        }
+    #endif
 
     //KEY_PRESSED(KEYSC_ESC) = FALSE;
     Player[myconnectindex].playerreadyflag++;
 
     while (TRUE)
         {
-        if (PlayerQuitMenuLevel >= 0)    
+        if (PlayerQuitMenuLevel >= 0)
             {
             //DSPRINTF(ds,"%d, Player Quit Menu Level %d", myconnectindex, PlayerQuitMenuLevel);
             //DebugWriteString(ds);
-            
+
             MenuCommPlayerQuit(PlayerQuitMenuLevel);
             PlayerQuitMenuLevel = -1;
             }
 
 		handleevents();
         getpackets();
-        
+
         if (quitevent || (wfe_ExitCallback && wfe_ExitCallback()))
             {
             // allow exit
@@ -666,8 +666,8 @@ waitforeverybody(void)
             DSPRINTF(ds,"myindex %d, myready %d, Player %d, Ready %d", myconnectindex, Player[myconnectindex].playerreadyflag, i, Player[i].playerreadyflag);
             DebugWriteString(ds);
             }
-        #endif        
-        
+        #endif
+
         for (i = connecthead; i >= 0; i = connectpoint2[i])
             {
             if (Player[i].playerreadyflag < Player[myconnectindex].playerreadyflag)
@@ -681,7 +681,7 @@ waitforeverybody(void)
             }
         }
     }
-    
+
 
 BOOL MyCommPlayerQuit(void)
 {
@@ -691,31 +691,31 @@ BOOL MyCommPlayerQuit(void)
     extern BOOL QuitFlag;
     short found = FALSE;
     short quit_player_index = 0;
-    
+
     TRAVERSE_CONNECT(i)
         {
         if (TEST_SYNC_KEY(Player + i, SK_QUIT_GAME))
             {
             short pnum;
             found = TRUE;
-                
+
             quit_player_index = i;
-                              
+
             if (i != myconnectindex)
                 {
                 sprintf(ds,"%s has quit the game.",Player[i].PlayerName);
                 adduserquote(ds);
                 }
-            }    
+            }
         }
-    
+
     if (found)
         {
         TRAVERSE_CONNECT(i)
             {
             pp = Player + i;
 
-            if (i == quit_player_index)    
+            if (i == quit_player_index)
                 {
                 PLAYERp qpp = Player + quit_player_index;
                 SET(qpp->SpriteP->cstat, CSTAT_SPRITE_INVISIBLE);
@@ -726,44 +726,44 @@ BOOL MyCommPlayerQuit(void)
                 InitBloodSpray(qpp->PlayerSprite,FALSE,-1);
                 InitBloodSpray(qpp->PlayerSprite,TRUE,-1);
                 }
-                
+
             // have to reorder the connect list
             if (!TEST_SYNC_KEY(pp, SK_QUIT_GAME))
                 {
                 prev_player = i;
                 continue;
                 }
-            
-            // if I get my own messages get out to DOS QUICKLY!!!    
+
+            // if I get my own messages get out to DOS QUICKLY!!!
             if (i == myconnectindex)
                 {
                 QuitFlag = TRUE;
                 ready2send = 0;
                 return(TRUE);
                 }
-            
-            // for COOP mode    
+
+            // for COOP mode
             if (screenpeek == i)
                 {
                 screenpeek = connectpoint2[i];
-                if (screenpeek < 0) 
+                if (screenpeek < 0)
                     screenpeek = connecthead;
                 }
-     
+
             DSPRINTF(ds,"MyCommPlayerQuit %d", quit_player_index);
             DebugWriteString(ds);
-                
+
             if (i == connecthead)
                 connecthead = connectpoint2[connecthead];
             else
                 connectpoint2[prev_player] = connectpoint2[i];
-                
+
             numplayers--;
             CommPlayers--;
-            }   
-        }    
-    
-    return(FALSE);    
+            }
+        }
+
+    return(FALSE);
 }
 
 BOOL MenuCommPlayerQuit(short quit_player)
@@ -772,7 +772,7 @@ BOOL MenuCommPlayerQuit(short quit_player)
     short i;
     short prev_player = 0;
     short pnum;
-    
+
     // tell everyone else you left the game
     TRAVERSE_CONNECT(pnum)
         {
@@ -782,7 +782,7 @@ BOOL MenuCommPlayerQuit(short quit_player)
             SendMessage(pnum, ds);
             }
         }
-    
+
     TRAVERSE_CONNECT(i)
         {
         pp = Player + i;
@@ -793,35 +793,35 @@ BOOL MenuCommPlayerQuit(short quit_player)
             prev_player = i;
             continue;
             }
-        
-        // for COOP mode    
+
+        // for COOP mode
         if (screenpeek == i)
             {
             screenpeek = connectpoint2[i];
-            if (screenpeek < 0) 
+            if (screenpeek < 0)
                 screenpeek = connecthead;
             }
 
         DSPRINTF(ds,"MenuPlayerQuit %d", quit_player);
         DebugWriteString(ds);
-            
+
         if (i == connecthead)
             connecthead = connectpoint2[connecthead];
         else
             connectpoint2[prev_player] = connectpoint2[i];
-            
+
         numplayers--;
         CommPlayers--;
-        }   
-    
-    return(FALSE);    
+        }
+
+    return(FALSE);
 }
-    
+
 VOID ErrorCorrectionQuit(VOID)
     {
     int oldtotalclock;
     short i,j;
-    
+
     if (CommPlayers > 1)
         {
         for (j = 0; j < MAX_SW_PLAYERS; j++)
@@ -832,13 +832,13 @@ VOID ErrorCorrectionQuit(VOID)
 				handleevents();
                 getpackets();
                 }
-            
+
             tempbuf[0] = PACKET_TYPE_NULL_PACKET;
             netbroadcastpacket(tempbuf, 1);
             }
         }
-    }    
-    
+    }
+
 VOID
 InitNetVars(VOID)
     {
@@ -864,12 +864,12 @@ InitNetVars(VOID)
     syncstate = 0;
     memset(sync_first, 0, sizeof(sync_first));
     sync_found = FALSE;
-    
+
     TRAVERSE_CONNECT(pnum)
         {
         Player[pnum].myminlag = 0;
         }
-        
+
     otherminlag = mymaxlag = 0;
     }
 
@@ -877,7 +877,7 @@ VOID
 InitTimingVars(VOID)
     {
     PlayClock = 0;
-    
+
     // resettiming();
     totalsynctics = 0;
     totalclock = 0;
@@ -899,7 +899,7 @@ InitTimingVars(VOID)
     }
 
 
-void 
+void
 AddSyncInfoToPacket(int *j)
     {
     int sb;
@@ -924,7 +924,7 @@ faketimerhandler(void)
     short pnum;
     void getinput(SW_PACKET *);
     extern BOOL BotMode;
-    
+
     #if 0
     if (KEY_PRESSED(KEYSC_PERIOD))
         {
@@ -933,7 +933,7 @@ faketimerhandler(void)
         MoveThingsCount--;
         return;
         }
-    #endif    
+    #endif
 
 	sampletimer();
     if ((totalclock < ototalclock + synctics))
@@ -954,23 +954,23 @@ faketimerhandler(void)
         return;
 
     getinput(&loc);
-    
+
     AveragePacket.vel += loc.vel;
     AveragePacket.svel += loc.svel;
     AveragePacket.angvel += loc.angvel;
     AveragePacket.aimvel += loc.aimvel;
     SET(AveragePacket.bits, loc.bits);
-    
+
     pp = Player + myconnectindex;
-    
+
     if (pp->movefifoend & (MovesPerPacket-1))
         {
         memcpy(&pp->inputfifo[pp->movefifoend & (MOVEFIFOSIZ - 1)],
                &pp->inputfifo[(pp->movefifoend-1) & (MOVEFIFOSIZ - 1)],
                sizeof(SW_PACKET));
-               
+
         pp->movefifoend++;
-        return;       
+        return;
         }
 
     loc.vel = AveragePacket.vel / MovesPerPacket;
@@ -978,9 +978,9 @@ faketimerhandler(void)
     loc.angvel = AveragePacket.angvel / MovesPerPacket;
     loc.aimvel = AveragePacket.aimvel / MovesPerPacket;
     loc.bits = AveragePacket.bits;
-    
+
     memset(&AveragePacket, 0, sizeof(AveragePacket));
-    
+
     pp->inputfifo[Player[myconnectindex].movefifoend & (MOVEFIFOSIZ - 1)] = loc;
     pp->movefifoend++;
 
@@ -1015,15 +1015,15 @@ faketimerhandler(void)
                 if (BotMode && Player[i].IsAI == 1)
                 {
                     computergetinput(i,&Player[i].inputfifo[Player[i].movefifoend&(MOVEFIFOSIZ-1)]);
-                } 
-                else        
+                }
+                else
                     memset(&Player[i].inputfifo[Player[i].movefifoend & (MOVEFIFOSIZ - 1)], 0, sizeof(Player[i].inputfifo[0]));
                 Player[i].movefifoend++;
                 }
             }
         return;
         }
-    
+
     TRAVERSE_CONNECT(i)
         {
         if (i != myconnectindex)
@@ -1032,7 +1032,7 @@ faketimerhandler(void)
             Player[i].myminlag = min(Player[i].myminlag, k);
             mymaxlag = max(mymaxlag, k);
             }
-        }    
+        }
 
 	if (((Player[myconnectindex].movefifoend - 1) & (TIMERUPDATESIZ - 1)) == 0)
         {
@@ -1063,7 +1063,7 @@ faketimerhandler(void)
                     {
                     ////DSPRINTF(ds,"lag correction: %d,%d,%d",i,Player[connecthead].myminlag,otherminlag);
                     //MONO_PRINT(ds);
-                    
+
                     if (labs(i) > 8)
                         {
                         if (i < 0)
@@ -1092,17 +1092,17 @@ faketimerhandler(void)
         memcpy(&packbuf[j], &pp->inputfifo[(Player[myconnectindex].movefifoend - 1) & (MOVEFIFOSIZ - 1)], sizeof(SW_PACKET));
         j += sizeof(SW_PACKET);
         #else
-        j += EncodeBits(&pp->inputfifo[(Player[myconnectindex].movefifoend - 1) & (MOVEFIFOSIZ - 1)], 
+        j += EncodeBits(&pp->inputfifo[(Player[myconnectindex].movefifoend - 1) & (MOVEFIFOSIZ - 1)],
                    &pp->inputfifo[(Player[myconnectindex].movefifoend - 2) & (MOVEFIFOSIZ - 1)],
                    &packbuf[j]);
         #endif
-		
+
         #if SYNC_TEST
         AddSyncInfoToPacket(&j);
         #endif
 
 		netbroadcastpacket(packbuf, j);
-                
+
         return;
         } // NetBroadcastMode
 
@@ -1130,7 +1130,7 @@ faketimerhandler(void)
                 totalclock -= synctics * i;
                 otherminlag += i;
                 }
-                
+
             for (i = connecthead; i >= 0; i = connectpoint2[i])
                 {
                 Player[i].myminlag = 0x7fffffff;
@@ -1144,10 +1144,10 @@ faketimerhandler(void)
         memcpy(&packbuf[j], &pp->inputfifo[(pp->movefifoend - 1) & (MOVEFIFOSIZ - 1)], sizeof(SW_PACKET));
         j += sizeof(SW_PACKET);
         #else
-        j += EncodeBits(&pp->inputfifo[(pp->movefifoend - 1) & (MOVEFIFOSIZ - 1)], 
+        j += EncodeBits(&pp->inputfifo[(pp->movefifoend - 1) & (MOVEFIFOSIZ - 1)],
                    &pp->inputfifo[(pp->movefifoend - 2) & (MOVEFIFOSIZ - 1)],
                    &packbuf[j]);
-        #endif    
+        #endif
 
         #if SYNC_TEST
         AddSyncInfoToPacket(&j);
@@ -1169,7 +1169,7 @@ faketimerhandler(void)
     //            }
     //        return;
     //        }
-    //    }    
+    //    }
 
     // I am MASTER...
     while (1)
@@ -1178,7 +1178,7 @@ faketimerhandler(void)
             {
             if ( /* (!playerquitflag[i]) && */ (Player[i].movefifoend <= movefifosendplc))
                 return;
-            }    
+            }
 
         packbuf[0] = PACKET_TYPE_MASTER_TO_SLAVE;
         j = 1;
@@ -1205,10 +1205,10 @@ faketimerhandler(void)
             memcpy(&packbuf[j], &pp->inputfifo[movefifosendplc & (MOVEFIFOSIZ - 1)], sizeof(SW_PACKET));
             j += sizeof(SW_PACKET);
             #else
-            j += EncodeBits(&pp->inputfifo[(movefifosendplc) & (MOVEFIFOSIZ - 1)], 
+            j += EncodeBits(&pp->inputfifo[(movefifosendplc) & (MOVEFIFOSIZ - 1)],
                        &pp->inputfifo[(movefifosendplc - 1) & (MOVEFIFOSIZ - 1)],
                        &packbuf[j]);
-            #endif    
+            #endif
             //pp->movefifoend++;
             }
 
@@ -1245,7 +1245,7 @@ getpackets(VOID)
     SW_PACKET tempinput;
 
 	sampletimer();
-    
+
     if (!CommEnabled)
         return;
 
@@ -1274,8 +1274,8 @@ getpackets(VOID)
                             otherminlag = (int) ((signed char) packbuf[j]);
                         j++;
                         }
-                    }    
-                }        
+                    }
+                }
 
             pp = Player + otherconnectindex;
 
@@ -1283,13 +1283,13 @@ getpackets(VOID)
             memcpy(&pp->inputfifo[pp->movefifoend & (MOVEFIFOSIZ - 1)], &packbuf[j], sizeof(SW_PACKET));
             j += sizeof(SW_PACKET);
             #else
-            j += DecodeBits(&pp->inputfifo[(pp->movefifoend) & (MOVEFIFOSIZ - 1)], 
+            j += DecodeBits(&pp->inputfifo[(pp->movefifoend) & (MOVEFIFOSIZ - 1)],
                        &pp->inputfifo[(pp->movefifoend - 1) & (MOVEFIFOSIZ - 1)],
                        &packbuf[j]);
-            #endif           
-            
+            #endif
+
             pp->movefifoend++;
-            
+
             // Packet Duplication
             for (i = 1; i < MovesPerPacket; i++)
                 {
@@ -1297,19 +1297,19 @@ getpackets(VOID)
                 &pp->inputfifo[pp->movefifoend & (MOVEFIFOSIZ - 1)],
                 &pp->inputfifo[(pp->movefifoend-1) & (MOVEFIFOSIZ - 1)],
                 sizeof(SW_PACKET));
-        
+
                 pp->movefifoend++;
                 }
 
             #if SYNC_TEST
             GetSyncInfoFromPacket(packbuf, packbufleng, &j, otherconnectindex);
             #endif
-            
+
         //DSPRINTF(ds,"Receive packet size %d",j);
         //MONO_PRINT(ds);
 
             break;
-            
+
         case PACKET_TYPE_MASTER_TO_SLAVE:
             // Here slave is receiving
             j = 1;
@@ -1323,13 +1323,13 @@ getpackets(VOID)
                         otherminlag = (int) ((signed char) packbuf[j]);
                     j++;
                     }
-                }    
+                }
 
             for (i = connecthead; i >= 0; i = connectpoint2[i])
                 {
                 /* if (playerquitflag[i]) continue;) */
                 pp = Player + i;
-                
+
                 #if !BIT_CODEC
                 if (i != myconnectindex)
                     memcpy(&pp->inputfifo[pp->movefifoend & (MOVEFIFOSIZ - 1)], &packbuf[j], sizeof(SW_PACKET));
@@ -1337,18 +1337,18 @@ getpackets(VOID)
                 #else
                 if (i == myconnectindex)
                     {
-                    j += DecodeBits(&tempinput, 
+                    j += DecodeBits(&tempinput,
                                     &pp->inputfifo[(pp->movefifoend - 1) & (MOVEFIFOSIZ - 1)],
                                     &packbuf[j]);
-                    }       
+                    }
                 else
                     {
-                    j += DecodeBits(&pp->inputfifo[(pp->movefifoend) & (MOVEFIFOSIZ - 1)], 
+                    j += DecodeBits(&pp->inputfifo[(pp->movefifoend) & (MOVEFIFOSIZ - 1)],
                                     &pp->inputfifo[(pp->movefifoend - 1) & (MOVEFIFOSIZ - 1)],
                                     &packbuf[j]);
                     }
                 #endif
-                
+
                 pp->movefifoend++;
                 }
 
@@ -1362,29 +1362,29 @@ getpackets(VOID)
                             {
                             Player[i].syncval[Player[i].syncvalhead & (SYNCFIFOSIZ - 1)][sb] = packbuf[j + sb];
                             }
-                            
+
                         Player[i].syncvalhead++;
                         }
                     }
-                        
+
                 j += NumSyncBytes;
                 }
 
             // #if SYNC_TEST   //This doesn't work right in this case
             // GetSyncInfoFromPacket(packbufleng, &j, otherconnectindex);
             // #endif
-            
+
             for(i=connecthead;i>=0;i=connectpoint2[i])
                 if (i != myconnectindex)
                     for(j=1;j<MovesPerPacket;j++)
                         {
                             pp = Player + i;
-                            
+
                             memcpy(
                             &pp->inputfifo[pp->movefifoend & (MOVEFIFOSIZ - 1)],
                             &pp->inputfifo[(pp->movefifoend-1) & (MOVEFIFOSIZ - 1)],
                             sizeof(SW_PACKET));
-         
+
                             pp->movefifoend++;
                         }
 
@@ -1394,27 +1394,27 @@ getpackets(VOID)
             // Here master is receiving
             pp = Player + otherconnectindex;
             j = 1;
-            
+
             #if !BIT_CODEC
             memcpy(&pp->inputfifo[Player[otherconnectindex].movefifoend & (MOVEFIFOSIZ - 1)], &packbuf[j], sizeof(SW_PACKET));
             j += sizeof(SW_PACKET);
             #else
-            j += DecodeBits(&pp->inputfifo[(Player[otherconnectindex].movefifoend) & (MOVEFIFOSIZ - 1)], 
+            j += DecodeBits(&pp->inputfifo[(Player[otherconnectindex].movefifoend) & (MOVEFIFOSIZ - 1)],
                        &pp->inputfifo[(Player[otherconnectindex].movefifoend - 1) & (MOVEFIFOSIZ - 1)],
                        &packbuf[j]);
             #endif
-                       
+
             Player[otherconnectindex].movefifoend++;
-            
+
             #if SYNC_TEST
             GetSyncInfoFromPacket(packbuf, packbufleng, &j, otherconnectindex);
             #endif
-            
+
             // Tic duping
             for (i = 1; i < MovesPerPacket; i++)
                 {
                 memcpy(&pp->inputfifo[(Player[otherconnectindex].movefifoend) & (MOVEFIFOSIZ - 1)],
-                       &pp->inputfifo[(Player[otherconnectindex].movefifoend - 1) & (MOVEFIFOSIZ - 1)], 
+                       &pp->inputfifo[(Player[otherconnectindex].movefifoend - 1) & (MOVEFIFOSIZ - 1)],
                        sizeof(SW_PACKET));
                 Player[otherconnectindex].movefifoend++;
                 }
@@ -1424,7 +1424,7 @@ getpackets(VOID)
         case PACKET_TYPE_MESSAGE:
             {
             PLAYERp tp = Player + myconnectindex;
-            
+
             pp = Player + otherconnectindex;
 
 	    // retransmit if master and the message is not addressed to us
@@ -1433,47 +1433,47 @@ getpackets(VOID)
 		netsendpacket(packbuf[1], packbuf, packbufleng);
 		break;
 	        }
-            
+
             PlaySound(DIGI_PMESSAGE,&tp->posx,&tp->posy,&tp->posz,v3df_dontpan);
-            
+
 	    memcpy(ds,&packbuf[3],packbufleng-3);
 	    ds[packbufleng-3] = 0;
             //sprintf(ds, "%s",&packbuf[3]);
             adduserquote(ds);
             break;
             }
-            
+
         case PACKET_TYPE_RTS:
             {
             PACKET_RTSp p;
 
             p = (void *)&packbuf[0];
-            
+
             PlaySoundRTS(p->RTSnum);
-            
+
             break;
             }
-            
-            
+
+
         case PACKET_TYPE_NEW_GAME:
             {
             extern BOOL NewGame, ShortGameMode, DemoInitOnce;
             PACKET_NEW_GAMEp p;
             extern short TimeLimitTable[];
-            
+
             pp = Player + otherconnectindex;
-            
+
             // Dukes New Game Packet
             //level_number //volume_number //player_skill //monsters_off //respawn_monsters
             //respawn_items //respawn_inventory //coop //marker //friendlyfire //boardname
-            
+
             p = (void *)&packbuf[0];
-            
+
             ready2send = 0;
-            
+
             Level = p->Level;
             Skill = p->Skill;
-            
+
             gNet.HurtTeammate = p->HurtTeammate;
             gNet.SpawnMarkers = p->SpawnMarkers;
             gNet.TeamPlay   = p->TeamPlay;
@@ -1481,40 +1481,40 @@ getpackets(VOID)
             gNet.Nuke       = p->Nuke;
             gNet.KillLimit          = p->KillLimit*10;
             gNet.TimeLimit          = TimeLimitTable[p->TimeLimit]*60*120;
-            
+
             if (ShortGameMode)
                 {
                 gNet.KillLimit /= 10;
                 gNet.TimeLimit /= 2;
                 }
-                
+
             gNet.TimeLimitClock = gNet.TimeLimit;
             gNet.MultiGameType = p->GameType+1;
-            
+
             // settings for No Respawn Commbat mode
             if (gNet.MultiGameType == MULTI_GAME_COMMBAT_NO_RESPAWN)
                 {
                 gNet.MultiGameType = MULTI_GAME_COMMBAT;
                 gNet.NoRespawn = TRUE;
                 }
-            else    
+            else
                 {
                 gNet.NoRespawn = FALSE;
                 }
-            
+
             ExitLevel = TRUE;
             NewGame = TRUE;
             // restart demo for multi-play mode
             DemoInitOnce = FALSE;
             ResetMenuInput();
-            
+
             // send a dummy packet to see when it arrives
             //tempbuf[0] = PACKET_TYPE_DUMMY;
-            //sendpacket(otherconnectindex, tempbuf, 1); 
-            
+            //sendpacket(otherconnectindex, tempbuf, 1);
+
             ////DSPRINTF(ds,"Level %d, Skill %d, AutoAim %d",Level, Skill, gs.AutoAim);
             //MONO_PRINT(ds);
-            
+
             break;
             }
 
@@ -1526,63 +1526,63 @@ getpackets(VOID)
         case PACKET_TYPE_VERSION:
             {
             PACKET_VERSIONp p;
-            
+
             pp = Player + otherconnectindex;
             p = (void *)&packbuf[0];
-            
+
 			//tenDbLprintf(gTenLog, 3, "rcv pid %d version %lx", (int) otherconnectindex, (int) p->Version);
             pp->PlayerVersion = p->Version;
             break;
             }
-            
+
         case PACKET_TYPE_PLAYER_OPTIONS:
             {
             PACKET_OPTIONSp p;
-            
+
             pp = Player + otherconnectindex;
             p = (void *)&packbuf[0];
-            
+
             // auto run
             if (p->AutoRun)
                 SET(pp->Flags, PF_LOCK_RUN);
-            else    
+            else
                 RESET(pp->Flags, PF_LOCK_RUN);
-            
+
             // palette
             pp->TeamColor = p->Color;
             pp->SpriteP->pal = PALETTE_PLAYER0 + pp->TeamColor;
             User[pp->SpriteP - sprite]->spal = pp->SpriteP->pal;
-            
+
             // names
             strcpy(pp->PlayerName, p->PlayerName);
-            
+
             break;
             }
- 
+
         case PACKET_TYPE_NAME_CHANGE:
             {
             PACKET_NAME_CHANGEp p;
             pp = Player + otherconnectindex;
             p = (void *)&packbuf[0];
-            
+
             // someone else has changed their name
-            
+
             DSPRINTF(ds,"Recieved name: %s",p->PlayerName);
             MONO_PRINT(ds);
-            
+
             strcpy(pp->PlayerName, p->PlayerName);
             //strcpy(CommPlayerName, p->PlayerName);
             SetRedrawScreen(Player+myconnectindex);
             break;
             }
-            
-            
+
+
         case PACKET_TYPE_MENU_LEVEL_QUIT:
             {
             PlayerQuitMenuLevel = otherconnectindex;
             break;
             }
-            
+
         case PACKET_TYPE_PLAYER_READY:
             Player[otherconnectindex].playerreadyflag++;
 			// It's important to return from getpackets() when a ready packet comes in and
@@ -1594,7 +1594,7 @@ getpackets(VOID)
 
         case PACKET_TYPE_DONT_USE:
             break;
-            
+
         case PACKET_TYPE_NULL_PACKET:
             break;
 

@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -67,16 +67,16 @@ DisplaySummaryString(PLAYERp pp, short xs, short ys, short color, short shade, c
     PANEL_SPRITEp nsp;
     short font_pic;
     static short font_base[] = {PANEL_SM_FONT_G, PANEL_SM_FONT_Y, PANEL_SM_FONT_R};
-    
+
     for (ptr = buffer, x = xs; *ptr; ptr++, x += size)
         {
-        ch = *ptr;        
+        ch = *ptr;
         if (ch == ' ')
             {
             size = 4;
             continue;
             }
-            
+
         switch (ch)
             {
             case '\\':
@@ -85,8 +85,8 @@ DisplaySummaryString(PLAYERp pp, short xs, short ys, short color, short shade, c
             case ':':
                 ch = '9' + 1; // one pic after nine
                 break;
-            }    
-        
+            }
+
         ASSERT(color < 3);
         font_pic = font_base[color] + (ch - '0');
         nsp = pSpawnFullScreenSprite(pp, font_pic, PRI_FRONT_MAX, x, ys);
@@ -94,7 +94,7 @@ DisplaySummaryString(PLAYERp pp, short xs, short ys, short color, short shade, c
         size = tilesizx[font_pic] + 1;
         }
     }
-    
+
 PANEL_SPRITEp
 pClearTextLineID(PLAYERp pp, short id, long y, short pri)
     {
@@ -149,7 +149,7 @@ pClearTextLine(PLAYERp pp, long y)
     SetRedrawScreen(pp);
     pClearTextLineID(pp, ID_TEXT, y, PRI_FRONT_MAX);
     }
-    
+
 void
 StringTimer(PANEL_SPRITEp psp)
     {
@@ -172,7 +172,7 @@ PutStringTimer(PLAYERp pp, short x, short y, const char *string, short seconds)
     long kill_tics;
     short id, ac;
     void *func;
-    
+
 
     offset = x;
 
@@ -189,7 +189,7 @@ PutStringTimer(PLAYERp pp, short x, short y, const char *string, short seconds)
         func = StringTimer;
         kill_tics = seconds * 120;
         id = ID_TEXT;
-        }    
+        }
 
     for (ndx = 0; (c = string[ndx]) != 0; ndx++)
         {
@@ -245,7 +245,7 @@ pClearSpriteID(PLAYERp pp, short id)
 
     return (NULL);
     }
-    
+
 
 VOID
 DisplayPanelNumber(PLAYERp pp, short xs, short ys, int number)
@@ -289,11 +289,11 @@ DisplayMiniBarNumber(PLAYERp pp, short xs, short ys, int number)
             }
 
         pic = PANEL_FONT_G + (*ptr - '0');
-        
+
         rotatesprite((long)x << 16, (long)ys << 16, (1 << 16), 0,
             pic, 0, 0,
             ROTATE_SPRITE_SCREEN_CLIP | ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
-        
+
         size = tilesizx[PANEL_FONT_G + (*ptr - '0')] + 1;
         }
     }
@@ -305,19 +305,19 @@ DisplayMiniBarSmString(PLAYERp pp, short xs, short ys, short pal, const char *bu
     const char *ptr;
     PANEL_SPRITEp nsp;
     short pic;
-    
+
     #define FRAG_FIRST_ASCII ('!') //exclamation point
     #define FRAG_FIRST_TILE 2930 //exclamation point
-    
+
     for (ptr = buffer, x = xs; *ptr; ptr++, x += size)
         {
         if (*ptr == ' ')
             continue;
-            
+
         ASSERT(*ptr >= '!' && *ptr <= '}');
-        
+
         pic = FRAG_FIRST_TILE + (*ptr - FRAG_FIRST_ASCII);
-        
+
         rotatesprite((long)x << 16, (long)ys << 16, (1 << 16), 0,
             pic, 0, pal,
             ROTATE_SPRITE_SCREEN_CLIP | ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
@@ -332,17 +332,17 @@ DisplaySmString(PLAYERp pp, short xs, short ys, short pal, const char *buffer)
     PANEL_SPRITEp nsp;
     // ID is base + (0-3)
     //short id = ID_TEXT + MOD4(pp->pnum);
-    
+
     #define FRAG_FIRST_ASCII ('!') //exclamation point
     #define FRAG_FIRST_TILE 2930 //exclamation point
-    
+
     for (ptr = buffer, x = xs; *ptr; ptr++, x += size)
         {
         if (*ptr == ' ')
             continue;
-            
+
         ASSERT(*ptr >= '!' && *ptr <= '}');
-        
+
         nsp = pSpawnFullScreenSprite(pp, FRAG_FIRST_TILE + (*ptr - FRAG_FIRST_ASCII), PRI_FRONT_MAX, x, ys);
         nsp->pal = pal;
         //nsp->ID = id;
@@ -359,19 +359,19 @@ DisplayFragString(PLAYERp pp, short xs, short ys, const char *buffer)
     short id = ID_TEXT + MOD4(pp->pnum);
 
     PLAYERp my_pp = Player + myconnectindex;
-    
+
     #define FRAG_FIRST_ASCII ('!') //exclamation point
     #define FRAG_FIRST_TILE 2930 //exclamation point
-    
+
     //pClearTextLineID(my_pp, id, ys, PRI_FRONT_MAX);
-    
+
     for (ptr = buffer, x = xs; *ptr; ptr++, x += size)
         {
         if (*ptr == ' ')
             continue;
-            
+
         ASSERT(*ptr >= '!' && *ptr <= '}');
-        
+
         nsp = pSpawnFullScreenSprite(my_pp, FRAG_FIRST_TILE + (*ptr - FRAG_FIRST_ASCII), PRI_FRONT_MAX, x, ys);
         nsp->ID = id;
         //nsp->pal = PALETTE_PLAYER0 + pp->TeamColor;
@@ -379,7 +379,7 @@ DisplayFragString(PLAYERp pp, short xs, short ys, const char *buffer)
         nsp->pal = User[pp->SpriteP - sprite]->spal;
         }
     }
-    
+
 VOID
 DisplayFragNumbers(PLAYERp pp)
     {
@@ -388,35 +388,35 @@ DisplayFragNumbers(PLAYERp pp)
     short x, xs, ys, size;
     short frag_bar;
     short pnum = pp - Player;
-    
-    static int xoffs[] = 
+
+    static int xoffs[] =
         {
         69, 147, 225, 303
         };
-    
+
     PLAYERp my_pp = Player + myconnectindex;
 
     // black tile to erase frag count
     #define FRAG_ERASE_NAME 2375
     #define FRAG_ERASE_NUMBER 2376
     #define FRAG_YOFF 2
-    
+
         //xs = FRAG_XOFF;
         ys = FRAG_YOFF;
-        
+
         // frag bar 0 or 1
         frag_bar = ((pnum)/4);
         // move y down according to frag bar number
         ys = ys + (tilesizy[FRAG_BAR]-2) * frag_bar;
-        
+
         // move x over according to the number of players
         xs = xoffs[MOD4(pnum)];
 
         sprintf(buffer, "%03d", pp->Kills);
-        
+
         // erase old kill count
         pSpawnFullScreenSprite(my_pp, FRAG_ERASE_NUMBER, PRI_MID+1, xs-1, ys);
-        
+
         DisplayFragString(pp, xs, ys, buffer);
     }
 
@@ -427,25 +427,25 @@ DisplayFragNames(PLAYERp pp)
     short x, xs, ys, size;
     short frag_bar;
     short pnum = pp - Player;
-    
-    static int xoffs[] = 
+
+    static int xoffs[] =
         {
         7, 85, 163, 241
         };
 
     PLAYERp my_pp = Player + myconnectindex;
-        
+
         //xs = FRAG_XOFF;
         ys = FRAG_YOFF;
-        
+
         // frag bar 0 or 1
         frag_bar = ((pnum)/4);
         // move y down according to frag bar number
         ys = ys + (tilesizy[FRAG_BAR]-2) * frag_bar;
-        
+
         // move x over according to the number of players
         xs = xoffs[MOD4(pnum)];
-        
+
         // erase old kill count
         pSpawnFullScreenSprite(my_pp, FRAG_ERASE_NAME, PRI_MID+1, xs-1, ys);
 
@@ -457,14 +457,14 @@ VOID PutStringInfo(PLAYERp pp, const char *string)
     {
     if (pp-Player != myconnectindex)
         return;
-    
+
     if (!gs.Messages)
         return;
-    
+
     CON_ConMessage("%s", string); // Put it in the console too
-    PutStringInfoLine(pp, string);    
+    PutStringInfoLine(pp, string);
     }
-    
+
 VOID PutStringInfoLine(PLAYERp pp, const char *string)
     {
     short x,y;
@@ -472,23 +472,23 @@ VOID PutStringInfoLine(PLAYERp pp, const char *string)
 
     if (pp-Player != myconnectindex)
         return;
-        
+
     MNU_MeasureString(string, &w, &h);
-    
+
     x = TEXT_XCENTER(w);
     y = TEXT_INFO_LINE(0);
-    
+
     // Move lower on this level because of boss meters
-    //if ((Level == 20 && numplayers > 1) || numplayers > 4) 
+    //if ((Level == 20 && numplayers > 1) || numplayers > 4)
     //    y += 20;
-    //if (numplayers > 1 && numplayers <= 4) 
+    //if (numplayers > 1 && numplayers <= 4)
     //    y+= 10;
-    
+
     PutStringTimer(pp, x, y, string, GlobInfoStringTime);
     // when printing info line clear the second line
     //PutStringInfoLine2(pp, "");
     }
-    
+
 VOID PutStringInfoLine2(PLAYERp pp, const char *string)
     {
     short x,y;
@@ -496,12 +496,12 @@ VOID PutStringInfoLine2(PLAYERp pp, const char *string)
 
     if (pp-Player != myconnectindex)
         return;
-    
+
     MNU_MeasureString(string, &w, &h);
-    
+
     x = TEXT_XCENTER(w);
     y = TEXT_INFO_LINE(1);
-    
+
     PutStringTimer(pp, x, y, string, GlobInfoStringTime);
     }
 
@@ -519,17 +519,17 @@ VOID PutStringPlayerInfo(PLAYERp pp, const char *string)
     {
     short x,y;
     short w,h;
-    
+
     if (pp-Player != myconnectindex)
         return;
-        
+
     if (!gs.Messages)
         return;
-        
+
     MNU_MeasureString(string, &w, &h);
-    
+
     x = TEXT_XCENTER(w);
     y = TEXT_PLAYER_INFO_Y;
-    
+
     PutStringTimer(pp, x, y, string, GlobInfoStringTime);
     }

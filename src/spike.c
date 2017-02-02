@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -41,7 +41,7 @@ void ReverseSpike(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
-    
+
     // if paused go ahead and start it up again
     if (u->Tics)
         {
@@ -49,13 +49,13 @@ void ReverseSpike(short SpriteNum)
         SetSpikeActive(SpriteNum);
         return;
         }
-    
+
     // moving toward to OFF pos
     if (u->z_tgt == u->oz)
         {
         if (sp->z == u->oz)
             u->z_tgt = u->sz;
-        else    
+        else
         if (u->sz == u->oz)
             u->z_tgt = sp->z;
         }
@@ -64,11 +64,11 @@ void ReverseSpike(short SpriteNum)
         {
         if (sp->z == u->oz)
             u->z_tgt = sp->z;
-        else    
+        else
         if (u->sz == u->oz)
             u->z_tgt = u->sz;
-        }        
-        
+        }
+
     u->vel_rate = -u->vel_rate;
     }
 
@@ -78,19 +78,19 @@ SpikeSwitch(short match, short setting)
     SPRITEp sp;
     short i,nexti;
     BOOL found = FALSE;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_DEFAULT], i, nexti)
         {
         sp = &sprite[i];
-        
+
         if (sp->lotag == TAG_SPRITE_SWITCH_VATOR && sp->hitag == match)
             {
             found = TRUE;
             AnimateSwitch(sp, setting);
             }
         }
-    
-    return(found);    
+
+    return(found);
     }
 
 void SetSpikeActive(short SpriteNum)
@@ -98,24 +98,24 @@ void SetSpikeActive(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_YFLIP))
         short_setinterpolation(&sectp->ceilingheinum);
-    else    
+    else
         short_setinterpolation(&sectp->floorheinum);
-    
+
     InterpSectorSprites(sp->sectnum, ON);
-    
+
     // play activate sound
     DoSoundSpotMatch(SP_TAG2(sp), 1, SOUND_OBJECT_TYPE);
-    
+
     SET(u->Flags, SPR_ACTIVE);
     u->Tics = 0;
-    
+
     // moving to the ON position
     if (u->z_tgt == sp->z)
         VatorSwitch(SP_TAG2(sp), ON);
-    else 
+    else
     // moving to the OFF position
     if (u->z_tgt == u->sz)
         VatorSwitch(SP_TAG2(sp), OFF);
@@ -129,17 +129,17 @@ void SetSpikeInactive(short SpriteNum)
 
     if (TEST(sp->cstat, CSTAT_SPRITE_YFLIP))
         short_stopinterpolation(&sectp->ceilingheinum);
-    else    
+    else
         short_stopinterpolation(&sectp->floorheinum);
-        
+
     InterpSectorSprites(sp->sectnum, OFF);
-    
+
     // play activate sound
     DoSoundSpotMatch(SP_TAG2(sp), 2, SOUND_OBJECT_TYPE);
-    
+
     RESET(u->Flags, SPR_ACTIVE);
     }
-    
+
 // called for operation from the space bar
 short DoSpikeOperate(PLAYERp pp, short sectnum)
     {
@@ -147,35 +147,35 @@ short DoSpikeOperate(PLAYERp pp, short sectnum)
     SPRITEp fsp;
     short match;
     short i,nexti;
-    
+
     TRAVERSE_SPRITE_SECT(headspritesect[sectnum], i, nexti)
         {
         fsp = &sprite[i];
-        
+
         if (fsp->statnum == STAT_SPIKE && SP_TAG1(fsp) == SECT_SPIKE && SP_TAG3(fsp) == 0)
             {
             fu = User[i];
-            
+
             sectnum = fsp->sectnum;
-            
+
             match = SP_TAG2(fsp);
             if (match > 0)
                 {
                 if (TestSpikeMatchActive(match))
-                    return(-1);    
+                    return(-1);
                 else
                     return(DoSpikeMatch(pp, match));
                 }
-            
+
             SetSpikeActive(i);
             break;
             }
         }
-    
-    return(i);    
+
+    return(i);
     }
 
-// called from switches and triggers    
+// called from switches and triggers
 // returns first spike found
 short
 DoSpikeMatch(PLAYERp UNUSED(pp), short match)
@@ -184,35 +184,35 @@ DoSpikeMatch(PLAYERp UNUSED(pp), short match)
     SPRITEp fsp;
     short sectnum;
     short first_spike = -1;
-    
+
     short i,nexti;
-    
+
     //SpikeSwitch(match, ON);
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_SPIKE], i, nexti)
         {
         fsp = &sprite[i];
-        
+
         if (SP_TAG1(fsp) == SECT_SPIKE && SP_TAG2(fsp) == match)
             {
             fu = User[i];
-            
+
             if (first_spike == -1)
                 first_spike = i;
-            
+
             sectnum = fsp->sectnum;
-            
+
             if (TEST(fu->Flags, SPR_ACTIVE))
                 {
                 ReverseSpike(i);
                 continue;
                 }
-                
+
             SetSpikeActive(i);
             }
         }
-    
-    return(first_spike);    
+
+    return(first_spike);
     }
 
 
@@ -222,13 +222,13 @@ TestSpikeMatchActive(short match)
     USERp fu;
     SPRITEp fsp;
     short sectnum;
-    
+
     short i,nexti;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_SPIKE], i, nexti)
         {
         fsp = &sprite[i];
-        
+
         if (SP_TAG1(fsp) == SECT_SPIKE && SP_TAG2(fsp) == match)
             {
             fu = User[i];
@@ -236,13 +236,13 @@ TestSpikeMatchActive(short match)
             // door war
             if (TEST_BOOL6(fsp))
                 continue;
-            
+
             if (TEST(fu->Flags, SPR_ACTIVE) || fu->Tics)
                 return(TRUE);
             }
         }
-    
-    return(FALSE);    
+
+    return(FALSE);
     }
 
 int DoSpikeMove(short SpriteNum, int *lptr)
@@ -251,17 +251,17 @@ int DoSpikeMove(short SpriteNum, int *lptr)
     SPRITEp sp = u->SpriteP;
     SECTORp sectp = &sector[sp->sectnum];
     int zval;
-        
+
     zval = *lptr;
-    
-    // if LESS THAN goal       
+
+    // if LESS THAN goal
     if (zval < u->z_tgt)
         {
         // move it DOWN
         zval += (synctics * u->jump_speed);
 
         u->jump_speed += u->vel_rate * synctics;
-        
+
         // if the other way make it equal
         if (zval > u->z_tgt)
             zval = u->z_tgt;
@@ -274,13 +274,13 @@ int DoSpikeMove(short SpriteNum, int *lptr)
         zval -= (synctics * u->jump_speed);
 
         u->jump_speed += u->vel_rate * synctics;
-        
+
         if (zval < u->z_tgt)
             zval = u->z_tgt;
         }
 
     *lptr = zval;
-    
+
     return(0);
     }
 
@@ -288,46 +288,46 @@ VOID SpikeAlign(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
-    
+
     // either work on single sector or all tagged in SOBJ
-    if ((CHAR)SP_TAG7(sp) < 0)    
+    if ((CHAR)SP_TAG7(sp) < 0)
         {
         if (TEST(sp->cstat, CSTAT_SPRITE_YFLIP))
             alignceilslope(sp->sectnum, sp->x, sp->y, u->zclip);
-        else    
+        else
             alignflorslope(sp->sectnum, sp->x, sp->y, u->zclip);
         }
-    else 
-        {   
+    else
+        {
         if (TEST(sp->cstat, CSTAT_SPRITE_YFLIP))
             SOBJ_AlignCeilingToPoint(&SectorObject[SP_TAG7(sp)], sp->x, sp->y, u->zclip);
-        else    
+        else
             SOBJ_AlignFloorToPoint(&SectorObject[SP_TAG7(sp)], sp->x, sp->y, u->zclip);
-        }    
-    }    
-    
+        }
+    }
+
 VOID MoveSpritesWithSpike(short sectnum)
     {
     SECTORp sectp = &sector[sectnum];
     SPRITEp sp;
     short i,nexti;
     int cz,fz;
-    
+
     TRAVERSE_SPRITE_SECT(headspritesect[sectnum], i, nexti)
         {
         sp = &sprite[i];
-        
+
         if (User[i])
             continue;
-        
-        if (TEST(sp->extra, SPRX_STAY_PUT_VATOR))    
+
+        if (TEST(sp->extra, SPRX_STAY_PUT_VATOR))
             continue;
-        
+
         getzsofslope(sectnum, sp->x, sp->y, &cz, &fz);
         sp->z = fz;
         }
-    }    
-    
+    }
+
 int DoSpike(short SpriteNum)
     {
     USERp u = User[SpriteNum];
@@ -335,18 +335,18 @@ int DoSpike(short SpriteNum)
     SECTORp sectp = &sector[sp->sectnum];
     int *lptr;
     int amt;
-    
+
     // zclip = floor or ceiling z
     // oz = original z
     // z_tgt = target z - on pos
     // sz = starting z - off pos
-    
+
     lptr = &u->zclip;
-        
+
     DoSpikeMove(SpriteNum, lptr);
     MoveSpritesWithSpike(sp->sectnum);
     SpikeAlign(SpriteNum);
-    
+
     // EQUAL this entry has finished
     if (*lptr == u->z_tgt)
         {
@@ -356,36 +356,36 @@ int DoSpike(short SpriteNum)
             // change target
             u->z_tgt = u->sz;
             u->vel_rate = -u->vel_rate;
-            
+
             SetSpikeInactive(SpriteNum);
-            
+
             if (SP_TAG6(sp))
                 DoMatchEverything(NULL, SP_TAG6(sp), -1);
             }
-        else 
+        else
         // in the OFF position
         if (u->z_tgt == u->sz)
-            {   
+            {
             short match = SP_TAG2(sp);
-            
+
             // change target
             u->jump_speed = u->vel_tgt;
             u->vel_rate = labs(u->vel_rate);
             u->z_tgt = sp->z;
-            
+
             SetSpikeInactive(SpriteNum);
-            
+
             // set owner swith back to OFF
             // only if ALL spikes are inactive
             if (!TestSpikeMatchActive(match))
                 {
                 //SpikeSwitch(match, OFF);
                 }
-                
+
             if (SP_TAG6(sp) && TEST_BOOL5(sp))
                 DoMatchEverything(NULL, SP_TAG6(sp), -1);
             }
-        
+
         // operate only once
         if (TEST_BOOL2(sp))
             {
@@ -393,14 +393,14 @@ int DoSpike(short SpriteNum)
             KillSprite(SpriteNum);
             return(0);
             }
-        
+
         // setup to go back to the original z
         if (*lptr != u->oz)
             {
             if (u->WaitTics)
                 u->Tics = u->WaitTics;
-            }    
-        }    
+            }
+        }
     else // if (*lptr == u->z_tgt)
         {
         // if heading for the OFF (original) position and should NOT CRUSH
@@ -410,12 +410,12 @@ int DoSpike(short SpriteNum)
             SPRITEp bsp;
             USERp bu;
             BOOL found = FALSE;
-            
+
             TRAVERSE_SPRITE_SECT(headspritesect[sp->sectnum], i, nexti)
                 {
                 bsp = &sprite[i];
                 bu = User[i];
-                
+
                 if (bu && TEST(bsp->cstat, CSTAT_SPRITE_BLOCK) && TEST(bsp->extra, SPRX_PLAYER_OR_ENEMY))
                     {
                     ReverseSpike(SpriteNum);
@@ -423,8 +423,8 @@ int DoSpike(short SpriteNum)
                     break;
                     }
                 }
-            
-            if (!found)    
+
+            if (!found)
                 {
                 short pnum;
                 PLAYERp pp;
@@ -432,8 +432,8 @@ int DoSpike(short SpriteNum)
                 TRAVERSE_CONNECT(pnum)
                     {
                     pp = Player + pnum;
-                    
-                    if (pp->lo_sectp == &sector[sp->sectnum] || 
+
+                    if (pp->lo_sectp == &sector[sp->sectnum] ||
                         pp->hi_sectp == &sector[sp->sectnum])
                         {
                         ReverseSpike(SpriteNum);
@@ -442,8 +442,8 @@ int DoSpike(short SpriteNum)
                     }
                 }
             }
-        }    
-        
+        }
+
     return(0);
     }
 
@@ -455,13 +455,13 @@ int DoSpikeAuto(short SpriteNum)
     int zval;
     int *lptr;
     int amt;
-    
+
     lptr = &u->zclip;
-        
+
     DoSpikeMove(SpriteNum, lptr);
     MoveSpritesWithSpike(sp->sectnum);
     SpikeAlign(SpriteNum);
-    
+
     // EQUAL this entry has finished
     if (*lptr == u->z_tgt)
         {
@@ -472,27 +472,27 @@ int DoSpikeAuto(short SpriteNum)
             u->z_tgt = u->sz;
             u->vel_rate = -u->vel_rate;
             u->Tics = u->WaitTics;
-            
+
             if (SP_TAG6(sp))
                 DoMatchEverything(NULL, SP_TAG6(sp), -1);
             }
-        else 
+        else
         // in the DOWN position
         if (u->z_tgt == u->sz)
-            {   
+            {
             // change target
             u->jump_speed = u->vel_tgt;
             u->vel_rate = labs(u->vel_rate);
             u->z_tgt = sp->z;
             u->Tics = u->WaitTics;
-            
+
             if (SP_TAG6(sp) && TEST_BOOL5(sp))
                 DoMatchEverything(NULL, SP_TAG6(sp), -1);
             }
         }
-    
+
     return(0);
-    }    
+    }
 
 
 #include "saveable.h"

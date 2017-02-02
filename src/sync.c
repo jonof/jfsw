@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -89,7 +89,7 @@ PlayerSync2(VOID)
     for (i = connecthead; i >= 0; i = connectpoint2[i])
         {
         pp = Player + i;
-        
+
         updatecrc(crc, pp->horiz & 255);
         updatecrc(crc, User[pp->PlayerSprite]->Health & 255);
         updatecrc(crc, pp->bcnt & 255);
@@ -186,7 +186,7 @@ MissileSync(VOID)
 
     return ((BYTE) crc & 255);
     }
-    
+
 BYTE
 MissileSkip4Sync(VOID)
     {
@@ -251,7 +251,7 @@ RandomSync(VOID)
 
     updatecrc(crc, randomseed & 255);
     updatecrc(crc, (randomseed >> 8) & 255);
-    
+
     if (NumSyncBytes == 1)
         {
         updatecrc(crc,PlayerSync() & 255);
@@ -304,7 +304,7 @@ static BYTE(*SyncFunc[MAXSYNCBYTES + 1]) (VOID) =
     MissileSkip4Sync,
     NULL
     };
-    
+
 void
 getsyncstat(void)
     {
@@ -334,24 +334,24 @@ getsyncstat(void)
 ////////////////////////////////////////////////////////////////////////
 //
 // Sync Message print
-//    
-////////////////////////////////////////////////////////////////////////    
+//
+////////////////////////////////////////////////////////////////////////
 
-    
+
 void
 SyncStatMessage(void)
     {
     int i, j, count = 0;
     static unsigned int MoveCount = 0;
     extern unsigned int MoveThingsCount;
-    
+
     if (!CommEnabled)
         return;
-    
-    if (!SyncPrintMode)    
+
+    if (!SyncPrintMode)
         return;
-    
-    if (numplayers <= 1)    
+
+    if (numplayers <= 1)
         return;
 
     for (i = 0; i < NumSyncBytes; i++)
@@ -359,7 +359,7 @@ SyncStatMessage(void)
         // syncstat is NON 0 - out of sync
         if (syncstat[i] != 0)
             {
-            if (NumSyncBytes > 1) 
+            if (NumSyncBytes > 1)
                 {
                 sprintf(ds, "GAME OUT OF SYNC - %s", SyncNames[i]);
                 printext256(68L, 68L + (i * 8), 1, 31, ds, 0);
@@ -372,7 +372,7 @@ SyncStatMessage(void)
 
                 // save off loop count
                 MoveCount = MoveThingsCount;
-                
+
                 for (j = 0; j < NumSyncBytes; j++)
                     {
                     if (syncstat[j] != 0 && sync_first[j][0] == '\0')
@@ -391,7 +391,7 @@ SyncStatMessage(void)
         if (sync_first[i][0] != '\0')
             {
             if (NumSyncBytes > 1)
-                { 
+                {
                 sprintf(ds, "FIRST %s", sync_first[i]);
                 printext256(50L, 0L, 1, 31, ds, 0);
                 sprintf(ds, "MoveCount %u",MoveCount);
@@ -401,7 +401,7 @@ SyncStatMessage(void)
                 {
                 short w,h;
                 // production out of sync error
-                
+
                 sprintf(ds,"GAME OUT OF SYNC!");
                 MNU_MeasureString(ds, &w, &h);
                 MNU_DrawString(TEXT_TEST_COL(w), 20, ds, 0, 19);
@@ -409,7 +409,7 @@ SyncStatMessage(void)
                 sprintf(ds,"Restart the game.");
                 MNU_MeasureString(ds, &w, &h);
                 MNU_DrawString(TEXT_TEST_COL(w), 30, ds, 0, 19);
-                }    
+                }
             }
         }
 
@@ -418,37 +418,37 @@ SyncStatMessage(void)
     }
 
 
-void 
+void
 GetSyncInfoFromPacket(char *packbuf, int packbufleng, int *j, int otherconnectindex)
     {
     int sb, i;
     extern int syncvaltail, syncvaltottail;
     PLAYERp ppo = &Player[otherconnectindex];
     BOOL found = FALSE;
-    
-    // have had problems with this routine crashing when players quit 
-    // games.  
-    
+
+    // have had problems with this routine crashing when players quit
+    // games.
+
     // if ready2send is not set then don't try to get sync info
-    
+
     if (!ready2send)
         return;
 
-    // Suspect that its trying to traverse the connect list 
+    // Suspect that its trying to traverse the connect list
     // for a player that does not exist.  This tries to take care of that
-    
+
     TRAVERSE_CONNECT(i)
         {
         if (otherconnectindex == i)
             found = TRUE;
         }
-    
+
     if (!found)
         return;
 
     // sync testing
     //while ((*j) != packbufleng) // changed this on Kens suggestion
-    while ((*j) < packbufleng)  
+    while ((*j) < packbufleng)
         {
         for (sb = 0; sb < NumSyncBytes; sb++)
             {
@@ -464,11 +464,11 @@ GetSyncInfoFromPacket(char *packbuf, int packbufleng, int *j, int otherconnectin
         if (Player[i].syncvalhead == syncvaltottail)
             return;
         }
-            
+
     //for (sb = 0; sb < NumSyncBytes; sb++)
     //    syncstat[sb] = 0;
-    
-    while (TRUE)    
+
+    while (TRUE)
         {
         for (i = connectpoint2[connecthead]; i >= 0; i = connectpoint2[i])
             {
@@ -478,25 +478,25 @@ GetSyncInfoFromPacket(char *packbuf, int packbufleng, int *j, int otherconnectin
                     {
                     syncstat[sb] = 1;
                     }
-                }    
+                }
             }
-                     
+
         syncvaltottail++;
 
         TRAVERSE_CONNECT(i)
             {
             if (Player[i].syncvalhead == syncvaltottail)
                 return;
-            }    
+            }
         }
     }
 
-    
+
 ////////////////////////////////////////////////////////////////////////
 //
 // Demo Sync recording and testing
-//    
-////////////////////////////////////////////////////////////////////////    
+//
+////////////////////////////////////////////////////////////////////////
 
 extern FILE *DemoSyncFile;
 
@@ -533,7 +533,7 @@ demosync_test(int cnt)
         }
     }
 
-    
+
 
 /*
 getsyncbyte()

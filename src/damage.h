@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -63,8 +63,8 @@ DAMAGE_ENTRY(WPN_SWORD,           InitWeaponSword,      50,    80,   0,  -1,  -1
 DAMAGE_ENTRY(DMG_NAPALM,          NULL,                90,   150, 0, -1, -1, -1 )
 DAMAGE_ENTRY(DMG_MIRV_METEOR,     NULL,                35,    65, 0, -1, -1, -1 )
 DAMAGE_ENTRY(DMG_SERP_METEOR,     NULL,                 7,    15, 0, -1, -1, -1     )
-                                                                           
-// radius damage                                                           
+
+// radius damage
 DAMAGE_ENTRY(DMG_ELECTRO_SHARD,   NULL,                 2,     6,      0, -1, -1, -1 )
 DAMAGE_ENTRY(DMG_SECTOR_EXP,      NULL,                50,   100,   3200, -1, -1, -1 )
 DAMAGE_ENTRY(DMG_BOLT_EXP,        NULL,                80,   160,   3200, -1, -1, -1 )
@@ -96,13 +96,13 @@ DAMAGE_ENTRY(DMG_LAVA_SHARD,      NULL,                25,    25,   0, -1, -1, -
 DAMAGE_ENTRY(DMG_HORNET_STING,    NULL,                5,     10,    0, -1, -1, -1 )
 DAMAGE_ENTRY(DMG_EEL_ELECTRO,     NULL,                10,    40, 3400, -1, -1, -1 )
 
-// misc                                                                     
+// misc
 DAMAGE_ENTRY(DMG_SPEAR_TRAP,      NULL,                15,   20,    0, -1, -1, -1 )
 DAMAGE_ENTRY(DMG_VOMIT,           NULL,                 5,    15,   0, -1, -1, -1 )
-                                                                    
-// inanimate objects                                                
+
+// inanimate objects
 DAMAGE_ENTRY(DMG_BLADE,           NULL,                10,    20,   0, -1, -1, -1 )
 DAMAGE_ENTRY(MAX_WEAPONS,         NULL,                10,    20,   0, -1, -1, -1 )
-              
+
 #undef DAMAGE_ENTRY
 #undef DAMAGE_ENTRY_WPN

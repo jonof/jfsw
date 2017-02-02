@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -42,7 +42,7 @@ not load" error messages.
 #include "sounds.h"
 #include "net.h"
 
-// Run the game with the -CACHEPRINT option and redirect to a file. 
+// Run the game with the -CACHEPRINT option and redirect to a file.
 // It will save out the tile and sound number every time one caches.
 //
 // sw -map $bullet -cacheprint > foofile
@@ -51,8 +51,8 @@ extern BOOL PreCaching;
 // player weaponry, item usage, etc. Precache every time.
 short Player_SCTable[] =
 {
-1,2,3,4,5,6,7,8,9,10, // weapons       
-11,12,14,16,18,20,        
+1,2,3,4,5,6,7,8,9,10, // weapons
+11,12,14,16,18,20,
 22,23,24,25,26,27,28,30,
 31,32,33,34,35,40,145,291,445,362,269,
 158,476, // underwater
@@ -167,9 +167,9 @@ SetupPreCache(void)
     if (PreCaching)
         {
         precache();
-        
+
         PreCacheSoundList(Player_SCTable, SIZ(Player_SCTable));
-        
+
         // actors cache ranges are called from SpriteSetup
         // only caches the actor if its on the level
 
@@ -211,7 +211,7 @@ SetupPreCache(void)
         PreCacheRange(1850,1859);
         // bullet smoke
         PreCacheRange(1748,1753);
-        // small blue font        
+        // small blue font
         PreCacheRange(2930,3023);
         // gas can
         PreCacheRange(3038,3042);
@@ -245,12 +245,12 @@ SetupPreCache(void)
         PreCacheRange(396,399);
         PreCacheRange(443,446);
         // bubbles
-        PreCacheRange(716,720);        
+        PreCacheRange(716,720);
         // bullet splashes
-        PreCacheRange(772,776);        
+        PreCacheRange(772,776);
         }
-    }   
-    
+    }
+
 VOID PreCacheRipper(VOID)
     {
     PreCacheSoundList(Ripper_SCTable, SIZ(Ripper_SCTable));
@@ -301,7 +301,7 @@ VOID PreCacheNinjaGirl(VOID)
     //PreCacheSoundList(NinjaGirl_SCTable, SIZ(NinjaGirl_SCTable));
     PreCacheRange(5162, 5260);
     }
-    
+
 VOID PreCacheSumo(VOID)
     {
     PreCacheSoundList(Sumo_SCTable, SIZ(Sumo_SCTable));
@@ -330,25 +330,25 @@ VOID PreCacheWashGirl(VOID)
     PreCacheSoundList(Toilet_SCTable, SIZ(Toilet_SCTable));
     PreCacheRange(5032, 5035);
     }
-    
+
 VOID PreCacheCarGirl(VOID)
     {
     PreCacheSoundList(Toilet_SCTable, SIZ(Toilet_SCTable));
     PreCacheRange(4594,4597);
     }
-    
+
 VOID PreCacheMechanicGirl(VOID)
     {
     PreCacheSoundList(Toilet_SCTable, SIZ(Toilet_SCTable));
     PreCacheRange(4590,4593);
     }
-    
+
 VOID PreCacheSailorGirl(VOID)
     {
     PreCacheSoundList(Toilet_SCTable, SIZ(Toilet_SCTable));
     PreCacheRange(4600,4602);
     }
-    
+
 VOID PreCachePruneGirl(VOID)
     {
     PreCacheSoundList(Toilet_SCTable, SIZ(Toilet_SCTable));
@@ -371,7 +371,7 @@ VOID PreCacheSkel(VOID)
     {
     PreCacheRange(1320, 1396);
     }
-    
+
 VOID PreCacheHornet(VOID)
     {
     PreCacheSoundList(Hornet_SCTable, SIZ(Hornet_SCTable));
@@ -388,7 +388,7 @@ VOID PreCacheBetty(VOID)
     {
     PreCacheRange(817, 819);
     }
-    
+
 VOID PreCachePachinko(VOID)
     {
     PreCacheRange(618,623);
@@ -410,7 +410,7 @@ void PreCacheSoundList(short table[], int num)
         AnimateCacheCursor();
         }
     }
-    
+
 void
 PreCacheTable(short table[], int num)
     {
@@ -421,7 +421,7 @@ PreCacheTable(short table[], int num)
         SET(gotpic[table[j]>>3], 1<<(table[j]&7));
         }
     }
-    
+
 void
 PreCacheRange(short start_pic, short end_pic)
     {
@@ -433,78 +433,78 @@ PreCacheRange(short start_pic, short end_pic)
         }
     }
 
-VOID PreCacheAmbient(VOID)    
+VOID PreCacheAmbient(VOID)
     {
     int i,nexti;
     int num;
     SPRITEp sp;
     extern AMB_INFO ambarray[];
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_AMBIENT], i, nexti)
         {
         sp = &sprite[i];
-        
+
         num = sp->lotag;
         num = ambarray[num].diginame;
-        
+
         CacheSound(num, CACHE_SOUND_PRECACHE);
         }
-    }    
+    }
 
-VOID PreCacheOverride(VOID)    
+VOID PreCacheOverride(VOID)
     {
     int i,nexti;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_CEILING_FLOOR_PIC_OVERRIDE], i, nexti)
         {
         ASSERT(SPRITE_TAG2(i) >= 0 && SPRITE_TAG2(i) <= MAXTILES);
         SET_GOTPIC(SPRITE_TAG2(i));
         }
-    }    
-    
+    }
 
-VOID PreCacheSoundSpot(VOID)    
+
+VOID PreCacheSoundSpot(VOID)
     {
     int i,nexti;
     int num;
     SPRITEp sp;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_SOUND_SPOT], i, nexti)
         {
         sp = &sprite[i];
-        
+
         num = SP_TAG13(sp); // tag4 is copied to tag13
         if (num > 0 && num < DIGI_MAX)
             CacheSound(num, CACHE_SOUND_PRECACHE);
-            
-        num = SP_TAG5(sp); 
+
+        num = SP_TAG5(sp);
         if (num > 0 && num < DIGI_MAX)
             CacheSound(num, CACHE_SOUND_PRECACHE);
-            
-        num = SP_TAG6(sp); 
+
+        num = SP_TAG6(sp);
         if (num > 0 && num < DIGI_MAX)
             CacheSound(num, CACHE_SOUND_PRECACHE);
-        
+
         CacheSound(num, CACHE_SOUND_PRECACHE);
         }
-    }    
+    }
 
 VOID
 PreCacheActor(VOID)
     {
     int i;
     short pic;
-    
+
     for (i=0; i < MAXSPRITES; i++)
         {
         if (sprite[i].statnum >= MAXSTATUS)
             continue;
-            
+
         if (User[i])
             pic = User[i]->ID;
         else
             pic = sprite[i].picnum;
-                
+
         switch (pic)
             {
             case COOLIE_RUN_R0:
@@ -548,15 +548,15 @@ PreCacheActor(VOID)
             case CARGIRL_R0:
                 PreCacheCarGirl();
                 break;
-                
+
             case MECHANICGIRL_R0:
                 PreCacheMechanicGirl();
                 break;
-                
+
             case SAILORGIRL_R0:
                 PreCacheSailorGirl();
                 break;
-                
+
             case PRUNEGIRL_R0:
                 PreCachePruneGirl();
                 break;
@@ -599,11 +599,11 @@ PreCacheActor(VOID)
             case BETTY_R0:
                 PreCacheBetty();
                 break;
-                
+
             case GIRLNINJA_RUN_R0:
                 PreCacheNinjaGirl();
                 break;
-                
+
             case 623:   // Pachinko win light
             case PACHINKO1:
             case PACHINKO2:
@@ -611,28 +611,28 @@ PreCacheActor(VOID)
             case PACHINKO4:
                 PreCachePachinko();
                 break;
-            }        
-        }    
+            }
+        }
     }
 
-    
+
 void DoTheCache(void)
     {
     extern char CacheLastLevel[32],LevelName[20];
     int i, cnt=0;
-    
+
     PreCacheAmbient();
     PreCacheSoundSpot();
     PreCacheActor();
-    PreCacheOverride(); 
-    
+    PreCacheOverride();
+
     for (i = 0; i < MAXTILES; i++)
         {
         if ((TEST(gotpic[i>>3], 1<<(i&7))) && (!waloff[i]))
             {
             loadtile(i);
             cnt++;
-            if (!(cnt&7)) 
+            if (!(cnt&7))
                 {
                 AnimateCacheCursor();
 				handleevents();
@@ -640,7 +640,7 @@ void DoTheCache(void)
                 }
             }
         }
-        
+
     memset(gotpic,0,sizeof(gotpic));
     strcpy(CacheLastLevel, LevelName);
     }
@@ -655,13 +655,13 @@ precache(void)
     SPRITEp sp;
 
     memset(gotpic,0,sizeof(gotpic));
-    
+
     for (sectp = sector; sectp < &sector[numsectors]; sectp++)
         {
         j = sectp->ceilingpicnum;
 
         SET(gotpic[j>>3], 1<<(j&7));
-        
+
         if (TEST(picanm[j],TILE_ANIM_TYPE))
             {
             for (i = 1; i <= TEST(picanm[j],TILE_ANIM_NUM); i++)
@@ -671,9 +671,9 @@ precache(void)
             }
 
         j = sectp->floorpicnum;
-        
+
         SET(gotpic[j>>3], 1<<(j&7));
-        
+
         if (TEST(picanm[j],TILE_ANIM_TYPE))
             {
             for (i = 1; i <= TEST(picanm[j],TILE_ANIM_NUM); i++)
@@ -681,7 +681,7 @@ precache(void)
                 SET(gotpic[(j+i)>>3], 1<<((j+i)&7));
                 }
             }
-        
+
         }
 
     for (wp = wall; wp < &wall[numwalls]; wp++)
@@ -689,7 +689,7 @@ precache(void)
         j = wp->picnum;
 
         SET(gotpic[j>>3], 1<<(j&7));
-        
+
         if (TEST(picanm[j],TILE_ANIM_TYPE))
             {
             for (i = 1; i <= TEST(picanm[j],TILE_ANIM_NUM); i++)
@@ -697,12 +697,12 @@ precache(void)
                 SET(gotpic[(j+i)>>3], 1<<((j+i)&7));
                 }
             }
-        
+
         if (wp->overpicnum > 0 && wp->overpicnum < MAXTILES)
             {
             j = wp->overpicnum;
             SET(gotpic[j>>3], 1<<(j&7));
-            
+
             if (TEST(picanm[j],TILE_ANIM_TYPE))
                 {
                 for (i = 1; i <= TEST(picanm[j],TILE_ANIM_NUM); i++)
@@ -710,19 +710,19 @@ precache(void)
                     SET(gotpic[(j+i)>>3], 1<<((j+i)&7));
                     }
                 }
-            
+
             }
         }
 
     for (sp = sprite; sp < &sprite[MAXSPRITES]; sp++)
         {
         if (sp->statnum < MAXSTATUS)
-            {        
+            {
             j = sp->picnum;
-            
+
             SET(gotpic[j>>3], 1<<(j&7));
             }
         }
     }
 
-    
+

@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -109,7 +109,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
    #define KEYSC_F8     66
    #define KEYSC_F9     67
    #define KEYSC_F10    68
-   
+
    #define KEYSC_F11    0x57
    #define KEYSC_F12    0x58
 
@@ -129,7 +129,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
    #define KEYSC_PGDN   81
    #define KEYSC_INS    82
    #define KEYSC_DEL    83
-   
+
     #define asc_Esc         27
     #define asc_Enter       13
     #define asc_Space       32

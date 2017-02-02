@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -45,11 +45,11 @@ void ProcessVisOn(void)
     {
     short i, nexti;
     SPRITEp sp;
-    
+
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_VIS_ON], i, nexti)
         {
         sp = &sprite[i];
-        
+
         if (VIS_VisDir(sp))
             {
             // get brighter
@@ -77,7 +77,7 @@ void ProcessVisOn(void)
                     }
                 KillSprite(i);
                 }
-            }    
+            }
         }
     }
 
@@ -88,30 +88,30 @@ void VisViewChange(PLAYERp pp, int *vis)
     short BrightestVis = NormalVisibility;
     int x,y,z;
     short sectnum;
-    
-    if (GamePaused)    
+
+    if (GamePaused)
         return;
-    
+
     // find the closest quake - should be a strength value
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_VIS_ON], i, nexti)
         {
         sp = &sprite[i];
-        
+
         if (sp->owner >= 0)
             {
-            x = sprite[sp->owner].x;    
-            y = sprite[sp->owner].y;    
-            z = sprite[sp->owner].z;    
+            x = sprite[sp->owner].x;
+            y = sprite[sp->owner].y;
+            z = sprite[sp->owner].z;
             sectnum = sprite[sp->owner].sectnum;
             }
         else
-            {    
-            x = sp->x;    
-            y = sp->y;    
-            z = sp->z;    
+            {
+            x = sp->x;
+            y = sp->y;
+            z = sp->z;
             sectnum = sp->sectnum;
             }
-        
+
         // save off the brightest vis that you can see
         if (FAFcansee(pp->posx, pp->posy, pp->posz, pp->cursectnum, x, y, z, sectnum))
             {
@@ -119,16 +119,16 @@ void VisViewChange(PLAYERp pp, int *vis)
                 BrightestVis = VIS_VisCur(sp);
             }
         }
-    
-    *vis = BrightestVis;    
+
+    *vis = BrightestVis;
     }
-    
-int SpawnVis(short Parent, short sectnum, int x, int y, int z, int amt)    
+
+int SpawnVis(short Parent, short sectnum, int x, int y, int z, int amt)
     {
     short SpriteNum;
     SPRITEp sp;
     short i,nexti;
-    
+
     if (Parent >= 0)
         {
         if (sector[sprite[Parent].sectnum].floorpal == PALETTE_FOG)
@@ -136,7 +136,7 @@ int SpawnVis(short Parent, short sectnum, int x, int y, int z, int amt)
 
         if (sector[sprite[Parent].sectnum].floorpal == PALETTE_DIVE_LAVA)
             return(-1);
-        
+
         // kill any others with the same parent
         TRAVERSE_SPRITE_STAT(headspritestat[STAT_VIS_ON], i, nexti)
             {
@@ -146,42 +146,42 @@ int SpawnVis(short Parent, short sectnum, int x, int y, int z, int amt)
                 KillSprite(i);
                 }
             }
-        
+
         SpriteNum = COVERinsertsprite(sprite[Parent].sectnum, STAT_VIS_ON);
         sp = &sprite[SpriteNum];
-        
+
         sp->owner = Parent;
-        
+
         ASSERT(User[Parent]);
         SET(User[Parent]->Flags2, SPR2_CHILDREN);
-        
+
         sp->x = sprite[Parent].x;
         sp->y = sprite[Parent].y;
         sp->z = sprite[Parent].z;
-        
+
         SET(User[Parent]->Flags2, SPR2_VIS_SHADING);
         }
-    else    
+    else
         {
         if (sector[sectnum].floorpal == PALETTE_FOG)
             return(-1);
-        
+
         SpriteNum = COVERinsertsprite(sectnum, STAT_VIS_ON);
         sp = &sprite[SpriteNum];
-        
+
         sp->x = x;
         sp->y = y;
         sp->z = z - Z(20);
         sp->owner = -1;
         }
-        
+
     sp->cstat = 0;
     sp->extra = 0;
-    
+
     VIS_VisDir(sp) = 1;
     VIS_VisCur(sp) = NormalVisibility;
     VIS_VisGoal(sp) = amt;
 
     return(SpriteNum);
     }
-    
+

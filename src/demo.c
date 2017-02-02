@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -86,19 +86,19 @@ extern char LevelSong[16];
 extern BYTE FakeMultiNumPlayers;
 extern BOOL QuitFlag;
 
-///////////////////////////////////////////    
+///////////////////////////////////////////
 //
 // Demo File Manipulation
-//    
-///////////////////////////////////////////    
+//
+///////////////////////////////////////////
 
 char *DemoSyncFileName(VOID)
     {
     static char file_name[32];
     char *ptr;
-    
+
     strcpy(file_name, DemoFileName);
-    
+
     if ((ptr = strchr(file_name, '.')) == 0)
         strcat(file_name, ".dms");
     else
@@ -106,10 +106,10 @@ char *DemoSyncFileName(VOID)
         *ptr = '\0';
         strcat(file_name, ".dms");
         }
-    
-    return(file_name);    
+
+    return(file_name);
     }
-    
+
 VOID
 DemoSetup(VOID)
     {
@@ -117,7 +117,7 @@ DemoSetup(VOID)
         {
         if (DemoSyncRecord)
             DemoSyncFile = fopen(DemoSyncFileName(),"wb");
-            
+
         DemoWriteHeader();
         memset(&DemoBuffer, -1, sizeof(DemoBuffer));
         }
@@ -134,7 +134,7 @@ DemoSetup(VOID)
         DemoReadBuffer();
         }
     }
-    
+
 VOID
 DemoRecordSetup(VOID)
     {
@@ -142,7 +142,7 @@ DemoRecordSetup(VOID)
         {
         if (DemoSyncRecord)
             DemoSyncFile = fopen(DemoSyncFileName(),"wb");
-            
+
         DemoWriteHeader();
         memset(&DemoBuffer, -1, sizeof(DemoBuffer));
         }
@@ -163,7 +163,7 @@ DemoPlaySetup(VOID)
         DemoReadBuffer();
         }
     }
-    
+
 VOID
 DemoWriteHeader(VOID)
     {
@@ -196,11 +196,11 @@ DemoWriteHeader(VOID)
         fwrite(&pp->Flags, sizeof(pp->Flags), 1, DemoFileOut);
         fwrite(&pp->pang, sizeof(pp->pang), 1, DemoFileOut);
         }
-        
-    fwrite(&Skill, sizeof(Skill), 1, DemoFileOut);    
+
+    fwrite(&Skill, sizeof(Skill), 1, DemoFileOut);
     fwrite(&gNet, sizeof(gNet), 1, DemoFileOut);
-    
-    if (DemoDebugMode)    
+
+    if (DemoDebugMode)
         {
         DemoDebugBufferMax = numplayers;
         fclose(DemoFileOut);
@@ -220,7 +220,7 @@ DemoReadHeader(VOID)
         DemoFileIn = fopen(DemoFileName, "rb+");
         }
     else
-    #endif    
+    #endif
         {
         //DemoFileIn = fopen(DemoFileName, "rb");
         DemoFileIn = DOPEN_READ(DemoFileName);
@@ -257,8 +257,8 @@ DemoReadHeader(VOID)
         DREAD(&pp->Flags, sizeof(pp->Flags), 1, DemoFileIn);
         DREAD(&pp->pang, sizeof(pp->pang), 1, DemoFileIn);
         }
-    
-    DREAD(&Skill, sizeof(Skill), 1, DemoFileIn);    
+
+    DREAD(&Skill, sizeof(Skill), 1, DemoFileIn);
     DREAD(&gNet, sizeof(gNet), 1, DemoFileIn);
     }
 
@@ -266,18 +266,18 @@ VOID
 DemoDebugWrite(VOID)
     {
     int size;
-    
+
     DemoFileOut = fopen(DemoFileName, "ab");
 
     ASSERT(DemoFileOut);
-    
+
     size = sizeof(SW_PACKET) * DemoDebugBufferMax;
     fwrite(&DemoBuffer, size, 1, DemoFileOut);
     memset(&DemoBuffer, -1, size);
-    
+
     fclose(DemoFileOut);
     }
-    
+
 VOID
 DemoWriteBuffer(VOID)
     {
@@ -332,13 +332,13 @@ DemoTerm(VOID)
         // if already closed
         if (DemoFileOut == NULL)
             return;
-            
+
         if (DemoDebugMode)
             {
             DemoFileOut = fopen(DemoFileName, "ab");
             ASSERT(DemoFileOut);
             }
-        else 
+        else
             {
             // paste on a -1 record to the current buffer
             if (DemoRecCnt < DEMO_BUFFER_MAX)
@@ -360,7 +360,7 @@ DemoTerm(VOID)
         {
         if (DemoFileIn == DF_ERR)
             return;
-            
+
         DCLOSE(DemoFileIn);
         DemoFileIn = DF_ERR;
         }
@@ -372,11 +372,11 @@ DemoTerm(VOID)
         }
     }
 
-///////////////////////////////////////////    
+///////////////////////////////////////////
 //
 // Demo Play Back
-//    
-///////////////////////////////////////////    
+//
+///////////////////////////////////////////
 
 
 VOID
@@ -392,24 +392,24 @@ DemoPlayBack(VOID)
     // code here needs to be similar to RunLevel startup code
     PlaySong(LevelSong, -1, TRUE, TRUE);
     }
-    
-    
+
+
     // Initialize Game part of network code (When ready2send != 0)
     InitNetVars();
-        
+
     // IMPORTANT - MUST be right before game loop
     InitTimingVars();
 
     // THIS STUFF DEPENDS ON MYCONNECTINDEX BEING SET RIGHT
     pp = Player + myconnectindex;
     SetRedrawScreen(pp);
-    
+
     if (!DemoInitOnce)
         buf_ndx = 0;
-    
+
     // everything has been inited at least once for PLAYBACK
     DemoInitOnce = TRUE;
-    
+
     cnt = 0;
     ready2send = 0;
     DemoDone = FALSE;
@@ -447,29 +447,29 @@ DemoPlayBack(VOID)
             cnt++;
 
             CONTROL_GetInput(&info);
-            
+
             domovethings();
-            
+
             MNU_CheckForMenus();
-            
+
             // fast forward and slow mo
             if (DemoEdit)
                 {
-                if (KEY_PRESSED(KEYSC_F)) 
+                if (KEY_PRESSED(KEYSC_F))
                     {
-                    if (KEY_PRESSED(KEYSC_LSHIFT) || KEY_PRESSED(KEYSC_RSHIFT)) 
+                    if (KEY_PRESSED(KEYSC_LSHIFT) || KEY_PRESSED(KEYSC_RSHIFT))
                         totalclock += synctics;
                     else
                         totalclock += synctics-1;
-                    }    
-                    
-                if (KEY_PRESSED(KEYSC_S)) 
+                    }
+
+                if (KEY_PRESSED(KEYSC_S))
                     totalclock += 1-synctics;
                 }
-            else    
+            else
                 {
                 #if DEBUG
-                if (KEY_PRESSED(KEYSC_ALT) && KEY_PRESSED(KEYSC_CTRL) && KEY_PRESSED(KEYSC_S)) 
+                if (KEY_PRESSED(KEYSC_ALT) && KEY_PRESSED(KEYSC_CTRL) && KEY_PRESSED(KEYSC_S))
                     {
                     KEY_PRESSED(KEYSC_ALT) = KEY_PRESSED(KEYSC_CTRL) = KEY_PRESSED(KEYSC_S) = 0;
                     saveboard("demosave.map", &Player->posx, &Player->posy, &Player->posz, &Player->pang, &Player->cursectnum);
@@ -485,19 +485,19 @@ DemoPlayBack(VOID)
                     if (screenpeek < 0)
                         screenpeek = connecthead;
                     }
-                    
-                #if DEBUG    
-                if (KEY_PRESSED(KEYSC_RIGHT) || KEY_PRESSED(KEYSC_UP)) 
+
+                #if DEBUG
+                if (KEY_PRESSED(KEYSC_RIGHT) || KEY_PRESSED(KEYSC_UP))
                     {
-                    if (KEY_PRESSED(KEYSC_LSHIFT) || KEY_PRESSED(KEYSC_RSHIFT)) 
+                    if (KEY_PRESSED(KEYSC_LSHIFT) || KEY_PRESSED(KEYSC_RSHIFT))
                         totalclock += synctics;
                     else
                         totalclock += synctics-1;
                     }
-                    
-                if (KEY_PRESSED(KEYSC_LEFT) || KEY_PRESSED(KEYSC_DOWN)) 
+
+                if (KEY_PRESSED(KEYSC_LEFT) || KEY_PRESSED(KEYSC_DOWN))
                     totalclock += 1-synctics;
-                #endif    
+                #endif
                 }
 
 
@@ -546,7 +546,7 @@ DemoPlayBack(VOID)
         if (DemoDone)
             break;
 
-        if (QuitFlag)    
+        if (QuitFlag)
             {
             DemoMode = FALSE;
             break;
@@ -562,7 +562,7 @@ DemoPlayBack(VOID)
                 DemoMode = FALSE;
                 }
             break;
-            }    
+            }
 
         drawscreen(Player + screenpeek);
         }
@@ -574,12 +574,12 @@ DemoPlayBack(VOID)
         TerminateGame();
         exit(0);
         }
-    
+
     }
 
 //
 // Still using old method of playback - this was for opening demo
-//    
+//
 
 VOID
 ScenePlayBack(VOID)
@@ -638,7 +638,7 @@ ScenePlayBack(VOID)
 
             //movethings();
             domovethings();
-            
+
             MNU_CheckForMenus();
             }
 
@@ -651,4 +651,4 @@ ScenePlayBack(VOID)
     }
 
 
-    
+

@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -43,8 +43,8 @@ int OperateSector(short sectnum,short player_is_operating);
 int OperateSprite(short SpriteNum, short player_is_operating);
 int OperateWall(short wallnum, short player_is_operating);
 void OperateTripTrigger(PLAYERp pp);
-    
-enum SO_SCALE_TYPE 
+
+enum SO_SCALE_TYPE
     {
     SO_SCALE_NONE,
     SO_SCALE_HOLD,
@@ -53,14 +53,14 @@ enum SO_SCALE_TYPE
     SO_SCALE_CYCLE,
     SO_SCALE_RANDOM_POINT
     };
-    
+
 #define SCALE_POINT_SPEED (4 + RANDOM_RANGE(8))
 
 typedef struct
 {
 int dist;
 short sectnum, wallnum, spritenum;
-}NEAR_TAG_INFO, *NEAR_TAG_INFOp;    
+}NEAR_TAG_INFO, *NEAR_TAG_INFOp;
 extern short nti_cnt;
 
 VOID DoSpawnSpotsForKill(short match);
@@ -73,8 +73,8 @@ short AnimateSwitch(SPRITEp sp,short tgt_value);
 void ShootableSwitch(short SpriteNum,short Weapon);
 BOOL TestKillSectorObject(SECTOR_OBJECTp sop);
 void WeaponExplodeSectorInRange(short weapon);
-    
+
 void initlava(void );
 void movelava(char *dapic);
 
-#endif    
+#endif

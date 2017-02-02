@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -49,7 +49,7 @@ MapColors(short num, COLOR_MAP cm, short create)
         {
         return;
         }
-    
+
     inc = cm.ToRange/((float)cm.FromRange);
 
     for (i = 0; i < cm.FromRange; i++)
@@ -101,8 +101,8 @@ MapColors(short num, COLOR_MAP cm, short create)
             tempbuf[cm.FromColor+31] = 0; // Set to black
         }
     }
-#endif    
-    
+#endif
+
 #define PLAYER_COLOR_MAPS 15
 static COLOR_MAP PlayerColorMap[PLAYER_COLOR_MAPS][1] =
     {
@@ -279,7 +279,7 @@ InitPalette(VOID)
         tempbuf[i] = i;
     // palette for underwater
     makepalookup(PALETTE_DIVE, tempbuf, 0, 0, 15, TRUE);
-    
+
 #define FOG_AMT 15
     for (i = 0; i < 256; i++)
         tempbuf[i] = i;
@@ -351,7 +351,7 @@ InitPalette(VOID)
         MapColors(PALETTE_PLAYER0 + play, PlayerColorMap[play][0], FALSE);
         makepalookup(PALETTE_PLAYER0 + play, tempbuf, 0, 0, 0, TRUE);
         }
-    
+
     //
     // Special Brown sludge
     //

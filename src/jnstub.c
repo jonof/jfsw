@@ -14,7 +14,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -64,7 +64,7 @@ short siNextTag = 1;                    // Shows next available tag if there
 short siNextEndTag = 1;                 // Shows the hightest possible next
                                         // tag
 
-int loaded_numwalls;                                        
+int loaded_numwalls;
 // Boolean flags used for sprite searching
 BOOL bFindPicNum = TRUE;                // Default
 BOOL bFindHiTag = FALSE;
@@ -227,7 +227,7 @@ void ExtPreCheckKeys(void)
 // Toggle sprites on/off.  Good for frame rate checks.
 BOOL DebugActorFreeze = 0;
 
-void 
+void
 ToggleSprites()
     {
     spritetype *tspr;
@@ -307,7 +307,7 @@ ToggleSprites()
     }
 
 
-void 
+void
 DoAutoSize(spritetype * tspr)
     {
     short i;
@@ -649,7 +649,7 @@ ExtInit(void)
 
 char *startwin_labeltext = "Starting Build Editor for Shadow Warrior...";
 
-int 
+int
 ExtInit(void)
     {
 	int rv = 0;
@@ -657,7 +657,7 @@ ExtInit(void)
 
 #ifndef BUILD_DEV_VER
     char ch;
-    
+
     printf("\n------------------------------------------------------------------------------\n");
     printf("BUILD.EXE for Shadow Warrior\n\n");
     printf("Copyright (c) 1993 - 1997, 3D Realms Entertainment.\n");
@@ -724,7 +724,7 @@ ExtInit(void)
 			free(homedir);
 		}
 	}
-	
+
     if (getenv("SWGRP")) {
 	    swgrp = getenv("SWGRP");
 	    buildprintf("Using %s as main GRP file\n", swgrp);
@@ -786,7 +786,7 @@ SetSpriteExtra(VOID)
     {
     SPRITEp sp;
     int i;
-    
+
 #define DEFAULT_SKILL 2
 
     // for (sp = sprite; sp < &sprite[MAXSPRITES]; sp++)
@@ -796,12 +796,12 @@ SetSpriteExtra(VOID)
             {
             if (sp->owner == -1)
                 sp->owner = 0;
-            }    
+            }
         else
             {
             sp->owner = -1;
             }
-            
+
         if (sp->extra == -1)
             {
             sp->extra = 0;
@@ -810,7 +810,7 @@ SetSpriteExtra(VOID)
         }
 
     // loaded_numwalls is what numwalls is after a load
-    // only new walls get their extra's set    
+    // only new walls get their extra's set
     if (loaded_numwalls != numwalls)
         {
         for (i = 0; i < numwalls; i++)
@@ -818,8 +818,8 @@ SetSpriteExtra(VOID)
             if (wall[i].extra != 0)
                 wall[i].extra = 0;
             }
-        }    
-    loaded_numwalls = numwalls;    
+        }
+    loaded_numwalls = numwalls;
     }
 
 VOID
@@ -1326,12 +1326,12 @@ Keys3D(VOID)
         for (i = 0; i < highlightsectorcnt; i++)
             {
             currsector = highlightsector[i];
-            
+
             if((sector[currsector].ceilingpal == temppal && temppal != 0) || (temppal == 0 && sector[currsector].ceilingpal != 0))
                 sector[currsector].ceilingshade = 127;
             if((sector[currsector].floorpal == temppal && temppal != 0) || (temppal == 0 && sector[currsector].ceilingpal != 0))
                 sector[currsector].floorshade = 127;
-                
+
             // Do all the walls in the sector
             start_wall = sector[currsector].wallptr;
             end_wall = start_wall + sector[currsector].wallnum;
@@ -1348,7 +1348,7 @@ Keys3D(VOID)
     }                                   // end Keys3D()
 
 // Used to help print out the item status list
-void 
+void
 PrintStatus(char *string, int num, char x, char y, char color)
     {
     sprintf(tempbuf, "%s %d", string, num);
@@ -2038,7 +2038,7 @@ MoreKeys(short searchstat, short searchwall, short searchsector, short pointhigh
 #define COINCURSOR 2440
 
 int intro;
-void 
+void
 ExtCheckKeysNotice(void)
     {
     #if 0
@@ -2053,7 +2053,7 @@ ExtCheckKeysNotice(void)
             rotatesprite((320 - 8) << 16, (200 - 8) << 16, 64 << 9, 0, COINCURSOR + (((4 - totalclock >> 3)) & 7), 0, 0, 0, 0, 0, xdim - 1, ydim - 1);
             }
         }
-    #endif    
+    #endif
     }                                   // end
 
 void
@@ -2644,7 +2644,7 @@ ExtGetSpriteCaption(short spritenum)
             DrawClipBox(spritenum);
         if (sp->hitag == SECT_SO_CLIP_DIST)
             DrawClipBox(spritenum);
-    
+
         if ((sprite[spritenum].lotag | sprite[spritenum].hitag) == 0)
             sprintf(tempbuf, "S:%d,%s%s", data, p, multi_str);
         else
@@ -2731,7 +2731,7 @@ DrawClipBox(short spritenum)
         SectorMidPoint(sprite[spritenum].sectnum,&x, &y, &z);
         x = mulscale14(x - posx, zoom);
         y = mulscale14(y - posy, zoom);
-        }    
+        }
 
     x += 320;
     y += 200;
@@ -3655,7 +3655,7 @@ ShowMessage(void)
     printext256(1 * 4, 1 * 8, 1, 0, messagebuf, 1);
     }
 
-void 
+void
 ResetSprites()
     {
     short i;
@@ -3690,7 +3690,7 @@ void
 dsprintf(char *str, char *format, ...)
     {
     va_list arglist;
-    
+
     va_start( arglist, format );
     vsprintf( str, format, arglist );
     va_end( arglist );
@@ -3703,7 +3703,7 @@ dsprintf_null(char *str, char *format, ...)
     }
 
 
-VOID 
+VOID
 BuildStagTable(VOID)
     {
 #define MAKE_STAG_TABLE

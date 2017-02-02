@@ -14,7 +14,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -96,7 +96,7 @@ BOOL LoadScriptFile (char *filename)
 		return FALSE;
 	}
 
-    size = kfilelength(fp);    
+    size = kfilelength(fp);
 
     scriptbuffer = (char *)malloc(size);
 
@@ -393,7 +393,7 @@ extern int nextvoxid;
 //			# - Comment
 //			spritenumber (in artfile), voxel number, filename
 //			Ex. 1803 0 medkit2.kvx
-//			    1804 1 shotgun.kvx 
+//			    1804 1 shotgun.kvx
 //				etc....
 
 void LoadKVXFromScript( char *filename )
@@ -435,13 +435,13 @@ void LoadKVXFromScript( char *filename )
 
 		if (lNumber >= nextvoxid)	// JBF: so voxels in the def file append to the list
 			nextvoxid = lNumber + 1;
-	
+
 		grabbed++;
 		ASSERT(grabbed < MAXSPRITES);
 
 	} while (script_p < scriptend_p);
 
-	free(scriptbuffer); 
+	free(scriptbuffer);
 	script_p = NULL;
 }
 
@@ -479,7 +479,7 @@ void LogUserTime( BOOL bIsLoggingIn )
 	system("dir > serid.bld");
 	LoadScriptFile("serid.bld");
 
-	// Go to the serial number	
+	// Go to the serial number
 	for (i=0; i<11; i++)
 	{
 		GetToken (TRUE);
@@ -560,7 +560,7 @@ void LogUserTime( BOOL bIsLoggingIn )
 			fprintf(fp, "Time - idleclock : %ld Hours %ld Mins %ld Secs\n",tothours,totmins,totsecs);
 #endif
 		}
-	
+
 	    fclose( fp );
 	}
 
@@ -569,10 +569,10 @@ void LogUserTime( BOOL bIsLoggingIn )
 	{
 		// Compute total time for file
 		LoadScriptFile(filetemp);
-	
+
 		do {
 			GetToken (TRUE);
-	
+
 			if (endofscript)
 				break;
 
@@ -581,53 +581,53 @@ void LogUserTime( BOOL bIsLoggingIn )
 				GetToken(TRUE);
 				gtotalclock += atol(token);
 			}
-#if 0	
+#if 0
 			if(!strcmpi(token,"idleclock:"))
 			{
 				GetToken(TRUE);
 				gidleclock += atol(token);
 			}
 #endif
-	
+
 		} while (script_p < scriptend_p);
-	
+
 		// Free the script memory when done
 		free(scriptbuffer);
 		script_p = NULL;
 
 		// Open the file
 		fp = fopen( filetemp, "a+" );
-	
-		// Now compute the grand total		
+
+		// Now compute the grand total
 		if(fp != NULL)
 		{
-			totsecs = gtotalclock/120;	// Convert totalclock to seconds.		
-	
-			mins_secs = ldiv( totsecs, 60L );		
-			totmins = mins_secs.quot;		
-			totsecs = mins_secs.rem;		
-	
-			hrs_mins = ldiv( totmins, 60L);		
-			tothours = hrs_mins.quot;		
-			totmins = hrs_mins.rem;		
+			totsecs = gtotalclock/120;	// Convert totalclock to seconds.
+
+			mins_secs = ldiv( totsecs, 60L );
+			totmins = mins_secs.quot;
+			totsecs = mins_secs.rem;
+
+			hrs_mins = ldiv( totmins, 60L);
+			tothours = hrs_mins.quot;
+			totmins = hrs_mins.rem;
 
 			fprintf(fp, "\nTotal time so far  : %ld Hours %ld Mins %ld Secs\n",tothours,totmins,totsecs);
 
 #if 0
-			totsecs = (gtotalclock-gidleclock)/120;	// Convert totalclock to seconds.		
+			totsecs = (gtotalclock-gidleclock)/120;	// Convert totalclock to seconds.
 			if(totsecs<=0) totsecs = 0;
-	
-			mins_secs = ldiv( totsecs, 60L );		
-			totmins = mins_secs.quot;		
-			totsecs = mins_secs.rem;		
-	
-			hrs_mins = ldiv( totmins, 60L);		
-			tothours = hrs_mins.quot;		
-			totmins = hrs_mins.rem;		
+
+			mins_secs = ldiv( totsecs, 60L );
+			totmins = mins_secs.quot;
+			totsecs = mins_secs.rem;
+
+			hrs_mins = ldiv( totmins, 60L);
+			tothours = hrs_mins.quot;
+			totmins = hrs_mins.rem;
 
 			fprintf(fp, "\nTotal actual time  : %ld Hours %ld Mins %ld Secs\n",tothours,totmins,totsecs);
 #endif
-			
+
 			fclose(fp);
 		}
 	}
@@ -635,6 +635,6 @@ void LogUserTime( BOOL bIsLoggingIn )
 
 	_dos_setfileattr(filename,_A_HIDDEN);
 
-	
+
 }
 */

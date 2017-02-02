@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -38,7 +38,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 ANIMATOR DoHornetCircle, InitHornetCircle;
 
 
-DECISION HornetBattle[] = 
+DECISION HornetBattle[] =
     {
     {50,    InitHornetCircle          },
     {798,   InitActorMoveCloser         },
@@ -46,65 +46,65 @@ DECISION HornetBattle[] =
     {1024,  InitActorRunAway            }
     };
 
-DECISION HornetOffense[] = 
+DECISION HornetOffense[] =
     {
     {1022,  InitActorMoveCloser        },
     {1024,  InitActorAlertNoise        }
     };
 
-DECISION HornetBroadcast[] = 
+DECISION HornetBroadcast[] =
     {
     {3,    InitActorAlertNoise        },
     {6,    InitActorAmbientNoise          },
     {1024,  InitActorDecide             }
     };
 
-DECISION HornetSurprised[] = 
+DECISION HornetSurprised[] =
     {
     {100,   InitHornetCircle           },
     {701,   InitActorMoveCloser         },
     {1024,  InitActorDecide             }
     };
 
-DECISION HornetEvasive[] = 
+DECISION HornetEvasive[] =
     {
     {20,     InitHornetCircle          },
     {1024,   NULL                      },
     };
 
-DECISION HornetLostTarget[] = 
+DECISION HornetLostTarget[] =
     {
     {900,   InitActorFindPlayer         },
     {1024,  InitActorWanderAround       }
     };
 
-DECISION HornetCloseRange[] = 
+DECISION HornetCloseRange[] =
     {
     {900,   InitActorMoveCloser         },
     {1024,  InitActorReposition         }
     };
-    
-ANIMATOR InitHornetSting;    
 
-DECISION HornetTouchTarget[] = 
+ANIMATOR InitHornetSting;
+
+DECISION HornetTouchTarget[] =
     {
     {500,   InitHornetCircle            },
     {1024,  InitHornetSting             }
     };
 
-PERSONALITY HornetPersonality = 
+PERSONALITY HornetPersonality =
     {
-    HornetBattle, 
-    HornetOffense, 
-    HornetBroadcast, 
-    HornetSurprised, 
-    HornetEvasive, 
-    HornetLostTarget, 
+    HornetBattle,
+    HornetOffense,
+    HornetBroadcast,
+    HornetSurprised,
+    HornetEvasive,
+    HornetLostTarget,
     HornetCloseRange,
     HornetTouchTarget
     };
-    
-ATTRIBUTE HornetAttrib = 
+
+ATTRIBUTE HornetAttrib =
     {
     {300, 350, 375, 400}, // Speeds
     {0,  0, 0,  0}, // Tic Adjusts
@@ -112,8 +112,8 @@ ATTRIBUTE HornetAttrib =
     {0, 0, DIGI_HORNETSTING, DIGI_HORNETSTING, DIGI_HORNETDEATH,
      0,0,0,0,0}
     };
-    
-//////////////////////    
+
+//////////////////////
 //
 // HORNET RUN
 //////////////////////
@@ -145,7 +145,7 @@ STATE s_HornetRun[5][2] =
     {HORNET_RUN_R4 + 1, HORNET_RUN_RATE, DoHornetMove, &s_HornetRun[4][0]},
     }
     };
-    
+
 STATEp sg_HornetRun[] =
     {
     &s_HornetRun[0][0],
@@ -155,7 +155,7 @@ STATEp sg_HornetRun[] =
     &s_HornetRun[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // HORNET STAND
 //
@@ -182,11 +182,11 @@ STATE s_HornetStand[5][2] =
     {HORNET_RUN_R3 + 1, HORNET_STAND_RATE, DoHornetMove, &s_HornetStand[3][0]}
     },
     {
-    {HORNET_RUN_R4 + 0, HORNET_STAND_RATE, DoHornetMove, &s_HornetStand[4][1]}, 
-    {HORNET_RUN_R4 + 1, HORNET_STAND_RATE, DoHornetMove, &s_HornetStand[4][0]} 
+    {HORNET_RUN_R4 + 0, HORNET_STAND_RATE, DoHornetMove, &s_HornetStand[4][1]},
+    {HORNET_RUN_R4 + 1, HORNET_STAND_RATE, DoHornetMove, &s_HornetStand[4][0]}
     }
     };
-    
+
 STATEp sg_HornetStand[] =
     {
     &s_HornetStand[0][0],
@@ -196,12 +196,12 @@ STATEp sg_HornetStand[] =
     &s_HornetStand[4][0]
     };
 
-//////////////////////    
+//////////////////////
 //
 // HORNET DIE
 //
 //////////////////////
-    
+
 #define HORNET_DIE_RATE 20
 ANIMATOR DoHornetDeath;
 STATE s_HornetDie[] =
@@ -256,11 +256,11 @@ ACTOR_ACTION_SET HornetActionSet =
   {
   sg_HornetStand,
   sg_HornetRun,
-  NULL, 
-  NULL, 
-  NULL, 
-  NULL, 
-  NULL, 
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
   NULL,
   NULL,
   NULL,
@@ -283,13 +283,13 @@ ACTOR_ACTION_SET HornetActionSet =
 int DoHornetMatchPlayerZ(short SpriteNum);
 
 
-int 
-SetupHornet(short SpriteNum)    
+int
+SetupHornet(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u;
     ANIMATOR DoActorDecide;
-    
+
     if (TEST(sp->cstat, CSTAT_SPRITE_RESTORE))
         {
         u = User[SpriteNum];
@@ -306,40 +306,40 @@ SetupHornet(short SpriteNum)
     DoActorSetSpeed(SpriteNum, NORM_SPEED);
     u->StateEnd = s_HornetDie;
     u->Rot = sg_HornetRun;
-    
+
     EnemyDefaults(SpriteNum, &HornetActionSet, &HornetPersonality);
-    
+
     SET(u->Flags, SPR_NO_SCAREDZ|SPR_XFLIP_TOGGLE);
     SET(sp->cstat, CSTAT_SPRITE_YCENTER);
 
     sp->clipdist = (100) >> 2;
     u->floor_dist = Z(16);
     u->ceiling_dist = Z(16);
-    
+
     u->sz = sp->z;
 
     sp->xrepeat = 37;
     sp->yrepeat = 32;
-    
+
     // Special looping buzz sound attached to each hornet spawned
     PlaySound(DIGI_HORNETBUZZ,&sp->x,&sp->y,&sp->z,v3df_follow|v3df_init);
     Set3DSoundOwner(SpriteNum);
-    
+
     return(0);
-}    
+}
 
 int NullHornet(short SpriteNum)
 {
     USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
-        
+
     DoHornetMatchPlayerZ(SpriteNum);
-            
+
     DoActorSectorDamage(SpriteNum);
-    
+
     return(0);
 }
 
@@ -350,11 +350,11 @@ int DoHornetMatchPlayerZ(short SpriteNum)
     SPRITEp tsp = User[SpriteNum]->tgt_sp;
     long zdiff,zdist;
     long loz,hiz;
-    
+
     long bound;
-    
+
     // actor does a sine wave about u->sz - this is the z mid point
-    
+
     //zdiff = (SPRITEp_LOWER(tsp) - Z(8)) - u->sz;
     zdiff = (SPRITEp_MID(tsp)) - u->sz;
 
@@ -368,25 +368,25 @@ int DoHornetMatchPlayerZ(short SpriteNum)
             u->sz += 1024 * ACTORMOVETICS;
         else
             u->sz -= 256 * ACTORMOVETICS;
-        }    
-    
+        }
+
     #define HORNET_BOB_AMT (Z(16))
-    
+
     // save off lo and hi z
     loz = u->loz;
     hiz = u->hiz;
-    
+
     // adjust loz/hiz for water depth
     if (u->lo_sectp && SectUser[u->lo_sectp - sector] && SectUser[u->lo_sectp - sector]->depth)
         loz -= Z(SectUser[u->lo_sectp - sector]->depth) - Z(8);
-    
+
     // lower bound
     if (u->lo_sp)
         bound = loz - u->floor_dist;
     else
         bound = loz - u->floor_dist - HORNET_BOB_AMT;
-        
-    if (u->sz > bound)    
+
+    if (u->sz > bound)
         {
         u->sz = bound;
         }
@@ -396,20 +396,20 @@ int DoHornetMatchPlayerZ(short SpriteNum)
         bound = hiz + u->ceiling_dist;
     else
         bound = hiz + u->ceiling_dist + HORNET_BOB_AMT;
-        
-    if (u->sz < bound)    
+
+    if (u->sz < bound)
         {
         u->sz = bound;
         }
-    
-    u->sz = min(u->sz, loz - u->floor_dist);    
-    u->sz = max(u->sz, hiz + u->ceiling_dist);    
-    
+
+    u->sz = min(u->sz, loz - u->floor_dist);
+    u->sz = max(u->sz, hiz + u->ceiling_dist);
+
     u->Counter = (u->Counter + (ACTORMOVETICS << 3) + (ACTORMOVETICS << 1)) & 2047;
     sp->z = u->sz + ((HORNET_BOB_AMT * (long)sintable[u->Counter]) >> 14);
-    
+
     bound = u->hiz + u->ceiling_dist + HORNET_BOB_AMT;
-    if (sp->z < bound)    
+    if (sp->z < bound)
         {
         // bumped something
         sp->z = u->sz = bound + HORNET_BOB_AMT;
@@ -422,27 +422,27 @@ int InitHornetCircle(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     u->ActorActionFunc = DoHornetCircle;
 
     NewStateGroup(SpriteNum, u->ActorActionSet->Run);
-    
+
     // set it close
     DoActorSetSpeed(SpriteNum, FAST_SPEED);
-    
+
     // set to really fast
     sp->xvel = 400;
-    // angle adjuster 
+    // angle adjuster
     u->Counter2 = sp->xvel/3;
     // random angle direction
     if (RANDOM_P2(1024) < 512)
         u->Counter2 = -u->Counter2;
-    
+
     // z velocity
-    u->jump_speed = 200 + RANDOM_P2(128);    
+    u->jump_speed = 200 + RANDOM_P2(128);
     if (labs(u->sz - u->hiz) < labs(u->sz - u->loz))
-        u->jump_speed = -u->jump_speed;    
-    
+        u->jump_speed = -u->jump_speed;
+
     u->WaitTics = (RANDOM_RANGE(3)+1) * 60;
 
     (*u->ActorActionFunc) (SpriteNum);
@@ -456,54 +456,54 @@ int DoHornetCircle(short SpriteNum)
     USERp u = User[SpriteNum];
     SPRITEp tsp = User[SpriteNum]->tgt_sp;
     long nx,ny,bound;
-    
+
     sp->ang = NORM_ANGLE(sp->ang + u->Counter2);
-    
+
     nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
     ny = sp->xvel * (long) sintable[sp->ang] >> 14;
-    
+
     if (!move_actor(SpriteNum, nx, ny, 0L))
         {
         //ActorMoveHitReact(SpriteNum);
-        
+
         // try moving in the opposite direction
         u->Counter2 = -u->Counter2;
         sp->ang = NORM_ANGLE(sp->ang + 1024);
         nx = sp->xvel * (long) sintable[NORM_ANGLE(sp->ang + 512)] >> 14;
         ny = sp->xvel * (long) sintable[sp->ang] >> 14;
-        
+
         if (!move_actor(SpriteNum, nx, ny, 0L))
             {
             InitActorReposition(SpriteNum);
             return (0);
             }
         }
-    
+
     // move in the z direction
     u->sz -= u->jump_speed * ACTORMOVETICS;
-    
+
     bound = u->hiz + u->ceiling_dist + HORNET_BOB_AMT;
-    if (u->sz < bound)    
+    if (u->sz < bound)
         {
         // bumped something
         u->sz = bound;
         InitActorReposition(SpriteNum);
         return (0);
         }
-    
+
     // time out
-    if ((u->WaitTics -= ACTORMOVETICS) < 0)    
+    if ((u->WaitTics -= ACTORMOVETICS) < 0)
         {
         InitActorReposition(SpriteNum);
         u->WaitTics = 0;
         return (0);
         }
-    
+
     return(0);
 }
 
 
-int 
+int
 DoHornetDeath(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
@@ -533,7 +533,7 @@ DoHornetDeath(short SpriteNum)
     ny = sp->xvel * (long) sintable[sp->ang] >> 14;
 
     u->ret = move_sprite(SpriteNum, nx, ny, 0L, u->ceiling_dist, u->floor_dist, 1, ACTORMOVETICS);
-        
+
     // on the ground
     if (sp->z >= u->loz)
         {
@@ -543,11 +543,11 @@ DoHornetDeath(short SpriteNum)
         DeleteNoSoundOwner(SpriteNum);
         return(0);
         }
-    
-    return(0);    
+
+    return(0);
     }
 
-// Hornets can swarm around other hornets or whatever is tagged as swarm target    
+// Hornets can swarm around other hornets or whatever is tagged as swarm target
 int DoCheckSwarm(short SpriteNum)
     {
     short i,nexti;
@@ -562,47 +562,47 @@ int DoCheckSwarm(short SpriteNum)
 
     // Who's the closest meat!?
     DoActorPickClosePlayer(SpriteNum);
-    
+
     if (User[u->tgt_sp - sprite]->PlayerP)
         {
         pp = User[u->tgt_sp - sprite]->PlayerP;
         DISTANCE(sp->x, sp->y, pp->posx, pp->posy, pdist, a, b, c);
         } else
             return(0);
-            
-    // all enemys    
+
+    // all enemys
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_ENEMY], i, nexti)
         {
         tsp = &sprite[i];
         tu = User[i];
-        
+
         if (!tu) continue;
-        
+
         if (tsp->hitag != TAG_SWARMSPOT || tsp->lotag != 2) continue;
 
         DISTANCE(sp->x, sp->y, tsp->x, tsp->y, dist, a, b, c);
-        
+
         if (dist < pdist && u->ID == tu->ID) // Only flock to your own kind
             {
             u->tgt_sp = tsp; // Set target to swarm center
             }
-        }  
-        
+        }
+
     return(TRUE);
-    
+
     }
-    
+
 int DoHornetMove(short SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    
+
     // Check for swarming
     // lotag of 1 = Swarm around lotags of 2
     // lotag of 0 is normal
     if (sp->hitag == TAG_SWARMSPOT && sp->lotag == 1)
         DoCheckSwarm(SpriteNum);
-    
+
     if (TEST(u->Flags,SPR_SLIDING))
         DoActorSlide(SpriteNum);
 
@@ -610,13 +610,13 @@ int DoHornetMove(short SpriteNum)
         ActorFollowTrack(SpriteNum, ACTORMOVETICS);
     else
         (*u->ActorActionFunc)(SpriteNum);
-    
+
     DoHornetMatchPlayerZ(SpriteNum);
-    
+
     DoActorSectorDamage(SpriteNum);
-    
+
     return(0);
-    }    
+    }
 
 
 #include "saveable.h"

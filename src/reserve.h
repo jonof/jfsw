@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -33,7 +33,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define MAXMIRRORS          8
 // This is just some, high, blank tile number not used
 // by real graphics to put the MAXMIRRORS mirrors in
-#define MIRRORLABEL         6000    
+#define MIRRORLABEL         6000
 
 #define TILT_TILE           6016
 

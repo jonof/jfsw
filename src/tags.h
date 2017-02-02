@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -27,9 +27,9 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #ifndef TAGS_H
 #define TAGS_H
 
-#include "jtags.h" 
+#include "jtags.h"
 
-// NOTE: Switches are always sprites and are usually on walls, triggers are on the floor.  
+// NOTE: Switches are always sprites and are usually on walls, triggers are on the floor.
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -47,11 +47,11 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define TAG_LADDER              30
 
 //Shoots a fireball from a ST1 FIREBALL_TRAP (or BOLT) sprite with a matching number.
-//High tag = match number to match with ST1 sprite 
+//High tag = match number to match with ST1 sprite
 #define TAG_TRIGGER_MISSILE_TRAP 43
 
 //Explodes wall sector
-//High tag = match number  
+//High tag = match number
 #define TAG_TRIGGER_EXPLODING_SECTOR 44
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +85,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define TAG_WALL_SLIDING_DOOR 10
 
 // Tag for exiting current level and starting up another one.
-// High Tag - Destination level number - 
+// High Tag - Destination level number -
 // 0 - Title screen
 // 1 - e1l1
 // 2 - e1l2
@@ -108,8 +108,8 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 // toggles ST1 SCALE sector objects
 // TAG1 = match tag
-#define TAG_SO_SCALE_SWITCH 208        
-#define TAG_SO_SCALE_TRIGGER 208        
+#define TAG_SO_SCALE_SWITCH 208
+#define TAG_SO_SCALE_TRIGGER 208
 
 // toggles ST1 SCALE sector objects
 // TAG1 = match tag
@@ -118,16 +118,16 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 // TAG1 = match tag
 #define TAG_LIGHT_SWITCH 210
-#define TAG_LIGHT_TRIGGER 210        
+#define TAG_LIGHT_TRIGGER 210
 
 // EVERTHING tags will trigger everything with a match tag
 // TAG1 = match tag
 #define TAG_SWITCH_EVERYTHING 211
-#define TAG_TRIGGER_EVERYTHING 211        
+#define TAG_TRIGGER_EVERYTHING 211
 
 // TAG1 = match tag
 #define TAG_SWITCH_EVERYTHING_ONCE 212
-#define TAG_TRIGGER_EVERYTHING_ONCE 212        
+#define TAG_TRIGGER_EVERYTHING_ONCE 212
 
 #define TAG_COMBO_SWITCH_EVERYTHING 213
 #define TAG_COMBO_SWITCH_EVERYTHING_ONCE 214
@@ -161,18 +161,18 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // Sine wave floor effect - max 5 per level
 //
 // Tag the first sector with 400, the next with 401, and so on up to 419.
-// The WAVE will actually flow from the opposite end.  The WAVE direction is what is 
+// The WAVE will actually flow from the opposite end.  The WAVE direction is what is
 // refered to when BEGINNING and END are referred to below.
 //
 // 1st Sector High Tag = the range in pixels the floor will undulate in the Z direction
 // 2rd Sector High Tag = range decrement - takes the range from the 1st sector high tag and
-//                       adjusts all the rest by this decrement - makes the WAVE start off 
-//                       small and get LARGER toward the end - THIS IS IN Z COORDINATES 
+//                       adjusts all the rest by this decrement - makes the WAVE start off
+//                       small and get LARGER toward the end - THIS IS IN Z COORDINATES
 //                       *NOT* PIXELS
-// 3nd Sector High Tag = speed of the motion - a shift value - default to 3 
+// 3nd Sector High Tag = speed of the motion - a shift value - default to 3
 // 4th Sector High Tag = a distance from one peak (top of curve) to the next - default is the
 //                       number of sectors in the SINE WAVE (max of 20)
-// Last Sector High Tag= special tag to make a realistic ocean wave - modifies the range 
+// Last Sector High Tag= special tag to make a realistic ocean wave - modifies the range
 //                       toward the END (greatest range is usually here) of the WAVE
 //                       so that it dissapates quickly. Without this it would just continue
 //                       to get bigger toward the end of the WAVE.
@@ -191,12 +191,12 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // All SOs must have at a minimum:
 //      1. Bounding sprites (upper left and lower right) that contains all sectors to be moved.
 //      2. A sector marked as the center of the SO.
-// 
-// Tags 500-600 are set reserved for SOs.  There is a maximum of 20 SOs per level.  
+//
+// Tags 500-600 are set reserved for SOs.  There is a maximum of 20 SOs per level.
 //
 // Tags 500-504 correspond to object 1, 505-509 to object 2, 510-514 to object 3, etc ...
-// 
-// Bounding sprite tags are set up similar.  
+//
+// Bounding sprite tags are set up similar.
 //      Upper left tag of object 1 is 500, lower right is 501
 //      Upper left tag of object 2 is 505, lower right is 506
 //      Etc...
@@ -216,10 +216,10 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //      1. A TRACK_START.
 //      2. A TRACK_END.
 //
-// Tracks are set up by the program by connecting sprites placed by the map-maker in the BUILD 
+// Tracks are set up by the program by connecting sprites placed by the map-maker in the BUILD
 // editor.  The track sprites start at location 1900 and end at 1999 so there are 100 available
 // tracks.  Tracks automatically loop back to the beginning when the TRACK_END sprite is
-// detected.  Track tags listed below can be set to modify the behavior of objects moving along 
+// detected.  Track tags listed below can be set to modify the behavior of objects moving along
 // them.
 //
 // Look at the tracks in example maps to see how they are placed.
@@ -237,10 +237,10 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // Every track can have a type set in the high tag of TRACK_START.
 //////////////////////////////////////////////////////////////////////////////////////////
 
-    
+
 // Mark first track sprite with this
 // High tag = Type of track (defined next)
-#define TRACK_START             700 
+#define TRACK_START             700
 
     //
     // TRACK TYPES - only valid for sprites only NOT for SOs
@@ -248,7 +248,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
     // Used to attach a name to a track purpose.  The actors will "look around" for
     // tracks to know what actions are available to them.
     //
-    
+
     // All tracks are assumed to be SEGMENTS (non-circular, generally leading in a certain
     // direction) unless otherwise noted.  SEGMENTS are generally kept short with a few
     // exceptions.
@@ -256,7 +256,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
     // Follow a circular route available for sprites to hop on and off.
     // Generally covers a larger area than TT_WANDER.
     #define TT_ROUTE            1
-        
+
     // Jump up only
     #define TT_JUMP_UP          2
     // Jump down only
@@ -267,27 +267,27 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
     #define TT_LADDER           5
     // Stair track.  Hard for sprites to maneuver narrow stairs well without tracks.
     #define TT_STAIRS           6
-    
+
     // Traverse a complex route - generally thought of to move you from point A to point B
     // in complex map situations.
     #define TT_TRAVERSE         7
-    
+
     // Duck behind cover and attack
     #define TT_DUCK_N_SHOOT     8
     // Hide behind cover and attack
     #define TT_HIDE_N_SHOOT     9
-    
+
     // Exit tracks to exit a room/area.  Probably should lead to a door alot of the time.
     #define TT_EXIT             10
 
     // Wander track. Wander about general area until you come upon a player.
     #define TT_WANDER           11
-    
-    // Scan for other tracks.  Generally a VERY short track put these in places where 
+
+    // Scan for other tracks.  Generally a VERY short track put these in places where
     // other tracks can be seen easily.  Good "vantage points".
     #define TT_SCAN             12
-    
-    // Super Jump 
+
+    // Super Jump
     #define TT_SUPER_JUMP_UP    13
 
     // Operate Stuff
@@ -302,24 +302,24 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // Stop for (seconds) in high tag
 #define TRACK_STOP              703
 // Reverse the direction
-#define TRACK_REVERSE           704    
+#define TRACK_REVERSE           704
 
 // Note that the next two tags have the opposite effect when traveling the REVERSE direction
 
 // Sets up a target speed by a delta (amt) in high tag
 // velocity = (current target velocity) + (speed up amount in high tag)
 // Valid values for target speed are 2 to 128
-#define TRACK_SPEED_UP          705    
+#define TRACK_SPEED_UP          705
 
 // Sets up a target speed by a delta (amt) in high tag
 // velocity = (current target velocity) - (speed up amount in high tag)
 // Valid values for target speed are 2 to 128
-#define TRACK_SLOW_DOWN         706    
+#define TRACK_SLOW_DOWN         706
 
 // The rate at which the velocity approaches the target speed.
 // This is defined as a shift value (for processing speed) and defaults to 6.  The valid range
 // is 1 to 12.
-#define TRACK_VEL_RATE          707   
+#define TRACK_VEL_RATE          707
 
 
 // Moves the floor of the object by a delta PIXEL position (amt) in high tag
@@ -329,7 +329,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // Sets the rate at which the ZUP/ZDOWN moves. Defaults to 256.
 #define TRACK_ZRATE             711
 // Special mode where the object looks at the zcoord of the next track point and moves
-// to achieve the destination.  In high tag is a negative delta Z from the placement of 
+// to achieve the destination.  In high tag is a negative delta Z from the placement of
 // the track sprites z value.
 #define TRACK_ZDIFF_MODE        712
 
@@ -340,12 +340,12 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // Object stops spining.  Angle to finish at in high tag.
 #define TRACK_SPIN_STOP         716
 
-// Bobbing for SO's. 
+// Bobbing for SO's.
 // High tag = Bob amt in pixels.
 #define TRACK_BOB_START         717
 // High tag = Bob speed - shift amt pixels.
 #define TRACK_BOB_SPEED         718
-// Bobbing for SO's. 
+// Bobbing for SO's.
 #define TRACK_BOB_STOP          719
 // Start object spinning in the opposite direction.
 #define TRACK_SPIN_REVERSE      720
@@ -358,7 +358,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // For boats - lower whirlpool sector - tagged with ST1 SECT_SO_FORM_WHIRLPOOL
 #define TRACK_SO_FORM_WHIRLPOOL   724
 
-// Move Sprite Objects (not sector objects) straight up or down in the z 
+// Move Sprite Objects (not sector objects) straight up or down in the z
 // direction to the next points z height then continues along the track
 // High tag = speed of movement - default is 256
 #define TRACK_MOVE_VERTICAL    725
@@ -367,21 +367,21 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // flipped.  Use TAG_SO_EVENT_SWITCH and TRIGGER to free the SO to
 // continue. In addition the these switches and triggers, others that have
 // have MATCHing tags will work with this tag.  The following is a list.
-// 
+//
 // TAG_SPRITE_HIT_MATCH
 // TAG_OPEN_DOOR_SWITCH
 // TAG_OPEN_DOOR_TRIGGER
-// 
+//
 // Basically anthing that has a match tag that operates on sectors can also
 // operate a TRACK_WAIT_FOR_EVENT.
-// 
+//
 
-// High tag = match number 
+// High tag = match number
 #define TRACK_WAIT_FOR_EVENT   726
 
 // does a DoMatchEverything
 // TAG1 = match tag
-#define TRACK_MATCH_EVERYTHING 728        
+#define TRACK_MATCH_EVERYTHING 728
 #define TRACK_MATCH_EVERYTHING_ONCE 729
 
 ///////////////
@@ -396,24 +396,24 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // Stop for (seconds) in high tag
 #define TRACK_ACTOR_STOP              751
 // Reverse the direction
-#define TRACK_ACTOR_REVERSE           752    
+#define TRACK_ACTOR_REVERSE           752
 
 // Note that the next two tags have the opposite effect when traveling the REVERSE direction
 
 // Sets up a target speed by a delta (amt) in high tag
 // velocity = (current target velocity) + (speed up amount in high tag)
 // Valid values for target speed are 2 to 128
-#define TRACK_ACTOR_SPEED_UP          753    
+#define TRACK_ACTOR_SPEED_UP          753
 
 // Sets up a target speed by a delta (amt) in high tag
 // velocity = (current target velocity) - (speed up amount in high tag)
 // Valid values for target speed are 2 to 128
-#define TRACK_ACTOR_SLOW_DOWN         754    
+#define TRACK_ACTOR_SLOW_DOWN         754
 
 // The rate at which the velocity approaches the target speed.
 // This is defined as a shift value (for processing speed) and defaults to 6.  The valid range
 // is 1 to 12.
-#define TRACK_ACTOR_VEL_RATE          755   
+#define TRACK_ACTOR_VEL_RATE          755
 
 // Special mode where the object looks at the zcoord of the next track point and moves
 // to achieve the destination.  Should not be set when jumping/climbing etc.
@@ -460,7 +460,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define TRACK_ACTOR_LOOK            790
 // High tag = seconds to pause
 // Point of the sprite angle in the direction of the operatable sector/wall/switch
-// Actor presses the space bar to operate sector/wall/switch. 
+// Actor presses the space bar to operate sector/wall/switch.
 #define TRACK_ACTOR_OPERATE         791
 // High tag = height to go up before jumping to next point
 // Sprite angle must be facing the ladder
@@ -495,7 +495,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define TRACK_ACTOR_QUICK_LADDER     806
 #define TRACK_ACTOR_QUICK_OPERATE    807
 #define TRACK_ACTOR_QUICK_DUCK       808
-#define TRACK_ACTOR_QUICK_DEFEND     809 
+#define TRACK_ACTOR_QUICK_DEFEND     809
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -549,27 +549,27 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 // Smashable walls
 // High Tag is SPAWN_SPOT match tag
 #define TAG_WALL_BREAK       307
-  
+
 // For SO's that rotate - tag ONE wall of the loop to make loop NOT rotate with the rest of the
 // SO.  Does not matter if you tag the inside or outside wall.
 // Exp - drill bit
-#define TAG_WALL_LOOP_DONT_SPIN 500                                             
+#define TAG_WALL_LOOP_DONT_SPIN 500
 // Reverse spin for this wall loop and sector.  Tag same as DONT_SPIN.
 // Exp - pit with teath
-#define TAG_WALL_LOOP_REVERSE_SPIN 501                                             
+#define TAG_WALL_LOOP_REVERSE_SPIN 501
 // Spin twice as fast as SO.  Tag same as DONT_SPIN.
 // Exp - whirlpool
-#define TAG_WALL_LOOP_SPIN_2X 502                                             
+#define TAG_WALL_LOOP_SPIN_2X 502
 // Spin 4X as fast as SO.  Tag same as DONT_SPIN.
 // Exp - whirlpool
-#define TAG_WALL_LOOP_SPIN_4X 503                                             
+#define TAG_WALL_LOOP_SPIN_4X 503
 // Tag the outer loop of a SO with this.
-#define TAG_WALL_LOOP_OUTER 504                                             
-// Just tag one wall so it does not move.  My attempt to fix sector splitting for the 
+#define TAG_WALL_LOOP_OUTER 504
+// Just tag one wall so it does not move.  My attempt to fix sector splitting for the
 // SO outer loop.  Not working real well.
-#define TAG_WALL_DONT_MOVE 505                                             
+#define TAG_WALL_DONT_MOVE 505
 
-// Just tag one wall of closed loop teleporter.  
+// Just tag one wall of closed loop teleporter.
 // High byte is speed - shift value 0-6
 #define TAG_WALL_LOOP_TELEPORTER_PAN 506
 

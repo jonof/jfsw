@@ -1,20 +1,20 @@
 //-------------------------------------------------------------------------
 /*
  Copyright (C) 2007 Jonathon Fowler <jf@jonof.id.au>
- 
+
  This file is part of JFShadowWarrior
- 
+
  Shadow Warrior is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
  of the License, or (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- 
+
  See the GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -98,7 +98,7 @@ int ScanGroups(void)
 	struct Bstat st;
 
 	buildputs("Scanning for GRP files...\n");
-	
+
 	LoadGroupsCache();
 
 	srch = klistpath("/", "*.grp", CACHE1D_FIND_FILE);
@@ -141,7 +141,7 @@ int ScanGroups(void)
 			if (fstat(fh, &st)) continue;
 
 			buildprintf(" Checksumming %s...", sidx->name);
-			crc32init(&crcval);			
+			crc32init(&crcval);
 			do {
 				b = read(fh, buf, sizeof(buf));
 				if (b > 0) crc32block(&crcval, buf, b);
@@ -149,7 +149,7 @@ int ScanGroups(void)
 			crc32finish(&crcval);
 			close(fh);
 			buildputs(" Done\n");
-		
+
 			grp = (struct grpfile *)calloc(1, sizeof(struct grpfile));
 			grp->name = strdup(sidx->name);
 			grp->crcval = crcval;

@@ -68,11 +68,10 @@ extern char isShareware, useDarts;
     void dsprintf(char *, char *, ...);
     #define DSPRINTF dsprintf
 
-    VOID PokeStringMono(BYTE Attr, BYTEp String);
-    
+
     #if 1  // !JIM! Frank, I redirect this for me you'll want to set this back for you
         extern int DispMono;
-        #define MONO_PRINT(str) if (DispMono) PokeStringMono(/*MDA_NORMAL*/0, str)
+        #define MONO_PRINT(str) if (DispMono) debugprintf("MONO: %s\n", str);
     #else
         void adduserquote(char *daquote);
         extern int DispMono;                   
@@ -125,7 +124,7 @@ int krand1(void);
 // Map directions/degrees
 //
 
-#if FALSE
+/*
            y--
              ^ 1536
              |
@@ -144,13 +143,13 @@ x--          |             x++
              V 512 
                y++
 
-#endif              
-          
-//////////////////////////////////////////////////////    
-//    
-// KEYBOARD    
-//    
-//////////////////////////////////////////////////////    
+*/
+
+//////////////////////////////////////////////////////
+//
+// KEYBOARD
+//
+//////////////////////////////////////////////////////
 
 extern BOOL MenuInputMode;
 extern BOOL MessageInputMode;

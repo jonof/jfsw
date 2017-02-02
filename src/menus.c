@@ -559,7 +559,6 @@ MenuItem_p cust_callback_item;
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////////////
 
-static void MNU_ClearDialog(void);
 static BOOL MNU_Dialog(void);
 VOID LoadSaveMsg(char *msg);
 static VOID MNU_ItemPreProcess(MenuGroup *group);
@@ -585,7 +584,7 @@ MNU_Ten(void)
 */
 // CTW REMOVED END
 BOOL 
-MNU_DoEpisodeSelect(UserCall call, MenuItem * item)
+MNU_DoEpisodeSelect(UserCall UNUSED(call), MenuItem * UNUSED(item))
     {
     short w,h;
     char TempString[80];
@@ -602,7 +601,7 @@ MNU_DoEpisodeSelect(UserCall call, MenuItem * item)
     }
     
 BOOL
-MNU_DoParentalPassword(UserCall call, MenuItem_p item)
+MNU_DoParentalPassword(UserCall UNUSED(call), MenuItem_p UNUSED(item))
     {
     short w,h;
     signed char MNU_InputString(char *, short);
@@ -1189,7 +1188,7 @@ static BOOL MNU_SetAdvancedMouseFunctions(MenuItem_p item)
 
 static MenuItem_p joystick_button_item = NULL;
 
-static BOOL MNU_JoystickButtonsInitialise(MenuItem_p mitem)
+static BOOL MNU_JoystickButtonsInitialise(MenuItem_p UNUSED(mitem))
 {
     MenuItem_p item;
     MenuItem templayer = { DefLayer(0, JoystickButtonNames[0], &joybuttonsgroup), OPT_XS, OPT_LINE(0), 1, m_defshade, 0, NULL, NULL, MNU_JoystickButtonPostProcess };
@@ -1393,7 +1392,7 @@ static BOOL MNU_SetJoystickButtonFunctions(MenuItem_p item)
 
 static MenuItem_p joystick_axis_item = NULL;
 
-static BOOL MNU_JoystickAxesInitialise(MenuItem_p mitem)
+static BOOL MNU_JoystickAxesInitialise(MenuItem_p UNUSED(mitem))
 {
     if (!CONTROL_JoyPresent) {
         return TRUE;
@@ -2780,7 +2779,7 @@ static char SaveGameInfo1[80];
 static char SaveGameInfo2[80];
 
 BOOL
-MNU_LoadSaveMove(UserCall call, MenuItem_p item)
+MNU_LoadSaveMove(UserCall UNUSED(call), MenuItem_p UNUSED(item))
     {
     short i;
     short game_num;
@@ -2890,7 +2889,7 @@ MNU_LoadSaveMove(UserCall call, MenuItem_p item)
     }
     
 BOOL
-MNU_LoadSaveDraw(UserCall call, MenuItem_p item)
+MNU_LoadSaveDraw(UserCall UNUSED(call), MenuItem_p UNUSED(item))
     {
     short i;
     short game_num;
@@ -4007,6 +4006,7 @@ MNU_SetupMenu(void)
 ////////////////////////////////////////////////
 // Draw an item
 ////////////////////////////////////////////////
+/*
 static void
 MNU_ClearFlags(MenuGroup * node)
     {
@@ -4022,7 +4022,7 @@ MNU_ClearFlags(MenuGroup * node)
             MNU_ClearFlags((MenuGroup *) i->child);
         }
     }
-
+*/
 ////////////////////////////////////////////////
 // Pop a group off the menu stack
 ////////////////////////////////////////////////
@@ -4482,7 +4482,7 @@ SetupMenu(void)
 ////////////////////////////////////////////////
 #define MNU_SENSITIVITY 10              // The menu's mouse sensitivity, should be real low
 
-void MNU_DoMenu( CTLType type, PLAYERp pp )
+void MNU_DoMenu( CTLType UNUSED(type), PLAYERp UNUSED(pp) )
     {
     BOOL resetitem;
     UCHAR key;

@@ -45,7 +45,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "control.h"
 #include "trigger.h"
 
-#include "savedef.h"
 #include "menus.h"
 #include "net.h"
 #include "pal.h"
@@ -122,7 +121,7 @@ int gametext(int x,int y,char *t,char s,short dabits)
     return (x);
 }
 
-int minigametext(int x,int y,char *t,char s,short dabits)
+int minigametext(int x,int y,char *t,char UNUSED(s),short dabits)
 {
     short ac,newx;
     char centre, *oldt;

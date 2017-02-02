@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -34,7 +34,7 @@
 		AB4909DC1748658600C7A068 /* GameListSource.game.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4909DB1748658600C7A068 /* GameListSource.game.m */; };
 		AB8F60750C658D3400202E11 /* grpscan.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8F60740C658D3400202E11 /* grpscan.c */; };
 		AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
-		AB8F60D80C65924000202E11 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
+		AB8F60D80C65924000202E11 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
 		AB8F60D90C65924800202E11 /* bldscript.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB6F0C64C4D000F28920 /* bldscript.c */; };
 		AB8F60DA0C65924800202E11 /* brooms.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB720C64C4D000F28920 /* brooms.c */; };
 		AB8F60DB0C65924900202E11 /* jbhlp.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB870C64C4D000F28920 /* jbhlp.c */; };
@@ -43,8 +43,8 @@
 		AB8F60DE0C65925F00202E11 /* build.osxmain.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4AB5E0C64C40200F28920 /* build.osxmain.nib */; };
 		AB8F60DF0C65926200202E11 /* build_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = ABB4AB680C64C43F00F28920 /* build_icon.icns */; };
 		AB8F60E00C65926400202E11 /* startwin.editor.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4AB5F0C64C42000F28920 /* startwin.editor.nib */; };
-		AB8F610B0C65928C00202E11 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
-		AB8F61B00C6592A600202E11 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
+		AB8F610B0C65928C00202E11 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
+		AB8F61B00C6592A600202E11 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
 		AB8F61B50C65932600202E11 /* keyboard.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE40C64C6F100F28920 /* keyboard.c */; };
 		AB8F61B70C65936000202E11 /* colormap.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB770C64C4D000F28920 /* colormap.c */; };
 		ABB4ABDA0C64C69900F28920 /* game.osxmain.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4ABB80C64C4EF00F28920 /* game.osxmain.nib */; };
@@ -89,7 +89,6 @@
 		ABB4AC100C64C6FE00F28920 /* lava.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB8B0C64C4D000F28920 /* lava.c */; };
 		ABB4AC110C64C6FE00F28920 /* light.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB8C0C64C4D000F28920 /* light.c */; };
 		ABB4AC120C64C6FE00F28920 /* mclip.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB8D0C64C4D000F28920 /* mclip.c */; };
-		ABB4AC130C64C6FE00F28920 /* mdastr.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB8E0C64C4D000F28920 /* mdastr.c */; };
 		ABB4AC140C64C6FE00F28920 /* menus.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB8F0C64C4D000F28920 /* menus.c */; };
 		ABB4AC150C64C6FE00F28920 /* miscactr.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB900C64C4D000F28920 /* miscactr.c */; };
 		ABB4AC160C64C6FE00F28920 /* morph.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB910C64C4D000F28920 /* morph.c */; };
@@ -129,7 +128,7 @@
 		ABB4AC390C64C6FE00F28920 /* weapon.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB40C64C4D000F28920 /* weapon.c */; };
 		ABB4AC3A0C64C6FE00F28920 /* zilla.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB50C64C4D000F28920 /* zilla.c */; };
 		ABB4AC3B0C64C6FE00F28920 /* zombie.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB60C64C4D000F28920 /* zombie.c */; };
-		ABB4AC3E0C64C72C00F28920 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL.framework */; };
+		ABB4AC3E0C64C72C00F28920 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
 		ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
 		ABD91FA417375E9300394607 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD91FA317375E9300394607 /* AudioToolbox.framework */; };
 /* End PBXBuildFile section */
@@ -240,6 +239,13 @@
 			remoteGlobalIDString = AB8F60C90C6591F300202E11;
 			remoteInfo = "Build Editor for JFShadowWarrior";
 		};
+		ABB688461D645C2500CCC1C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ABD03E211A5189E00012B9D1;
+			remoteInfo = transpal;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -249,7 +255,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AB8F610B0C65928C00202E11 /* SDL.framework in CopyFiles */,
+				AB8F610B0C65928C00202E11 /* SDL2.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,7 +266,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				AB2140C0101D56CC00E844AE /* vorbis.framework in CopyFiles */,
-				AB8F61B00C6592A600202E11 /* SDL.framework in CopyFiles */,
+				AB8F61B00C6592A600202E11 /* SDL2.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,7 +320,6 @@
 		AB214382101EF04D00E844AE /* reserve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = reserve.h; sourceTree = "<group>"; };
 		AB214383101EF14900E844AE /* rts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rts.h; sourceTree = "<group>"; };
 		AB214384101EF14900E844AE /* saveable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = saveable.h; sourceTree = "<group>"; };
-		AB214385101EF14900E844AE /* savedef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = savedef.h; sourceTree = "<group>"; };
 		AB214386101EF14900E844AE /* sector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sector.h; sourceTree = "<group>"; };
 		AB214387101EF14900E844AE /* settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = settings.h; sourceTree = "<group>"; };
 		AB214388101EF14900E844AE /* slidor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slidor.h; sourceTree = "<group>"; };
@@ -375,7 +380,6 @@
 		ABB4AB8B0C64C4D000F28920 /* lava.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lava.c; sourceTree = "<group>"; };
 		ABB4AB8C0C64C4D000F28920 /* light.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = light.c; sourceTree = "<group>"; };
 		ABB4AB8D0C64C4D000F28920 /* mclip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mclip.c; sourceTree = "<group>"; };
-		ABB4AB8E0C64C4D000F28920 /* mdastr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mdastr.c; sourceTree = "<group>"; };
 		ABB4AB8F0C64C4D000F28920 /* menus.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = menus.c; sourceTree = "<group>"; };
 		ABB4AB900C64C4D000F28920 /* miscactr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = miscactr.c; sourceTree = "<group>"; };
 		ABB4AB910C64C4D000F28920 /* morph.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = morph.c; sourceTree = "<group>"; };
@@ -429,10 +433,10 @@
 		ABB4ABE60C64C6F100F28920 /* mouse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mouse.c; sourceTree = "<group>"; };
 		ABB4ABE70C64C6F100F28920 /* scriplib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scriplib.c; sourceTree = "<group>"; };
 		ABB4ABE80C64C6F100F28920 /* util_lib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util_lib.c; sourceTree = "<group>"; };
-		ABB4AC3D0C64C72C00F28920 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Users/jonof/Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
+		ABB4AC3D0C64C72C00F28920 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = /Users/jonof/Library/Frameworks/SDL2.framework; sourceTree = "<absolute>"; };
 		ABB4AC3F0C64C73A00F28920 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		ABBD3FAF10205ACF00F32F37 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
-		ABD91FA317375E9300394607 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = ../../../../../System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<group>"; };
+		ABD91FA317375E9300394607 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		ABFF0CF410F1A4910043FD8E /* _control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _control.h; sourceTree = "<group>"; };
 		ABFF0CF510F1A4910043FD8E /* _scrplib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _scrplib.h; sourceTree = "<group>"; };
 		ABFF0CF610F1A4910043FD8E /* animlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = animlib.h; sourceTree = "<group>"; };
@@ -456,7 +460,7 @@
 				AB0FFB33172B573C00400B2B /* libeditor.a in Frameworks */,
 				AB0FFB38172B575000400B2B /* libeditorsupp.a in Frameworks */,
 				AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */,
-				AB8F60D80C65924000202E11 /* SDL.framework in Frameworks */,
+				AB8F60D80C65924000202E11 /* SDL2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,7 +470,7 @@
 			files = (
 				AB0FFB26172B56AD00400B2B /* libengine.a in Frameworks */,
 				AB0FFB27172B56BD00400B2B /* libjfaudiolib.a in Frameworks */,
-				ABB4AC3E0C64C72C00F28920 /* SDL.framework in Frameworks */,
+				ABB4AC3E0C64C72C00F28920 /* SDL2.framework in Frameworks */,
 				ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */,
 				AB2140B3101D56BC00E844AE /* vorbis.framework in Frameworks */,
 				ABD91FA417375E9300394607 /* AudioToolbox.framework in Frameworks */,
@@ -486,6 +490,7 @@
 				AB0FFAD2172B54E100400B2B /* arttool */,
 				AB0FFAD4172B54E100400B2B /* kextract */,
 				AB0FFAD6172B54E100400B2B /* kgroup */,
+				ABB688471D645C2500CCC1C4 /* transpal */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -502,7 +507,6 @@
 		ABB4AB250C64C36100F28920 = {
 			isa = PBXGroup;
 			children = (
-				ABD91FA317375E9300394607 /* AudioToolbox.framework */,
 				AB2140A6101D567A00E844AE /* jfaudiolib.xcodeproj */,
 				ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */,
 				ABB4AB580C64C38C00F28920 /* Editor */,
@@ -622,7 +626,6 @@
 				AB214373101EF04C00E844AE /* lists.h */,
 				ABB4AB8D0C64C4D000F28920 /* mclip.c */,
 				AB214374101EF04C00E844AE /* mclip.h */,
-				ABB4AB8E0C64C4D000F28920 /* mdastr.c */,
 				AB214382101EF04D00E844AE /* reserve.h */,
 				ABB4AB8F0C64C4D000F28920 /* menus.c */,
 				AB214375101EF04C00E844AE /* menus.h */,
@@ -655,7 +658,6 @@
 				ABB4AB9D0C64C4D000F28920 /* save.c */,
 				ABB4AB9E0C64C4D000F28920 /* saveable.c */,
 				AB214384101EF14900E844AE /* saveable.h */,
-				AB214385101EF14900E844AE /* savedef.h */,
 				ABB4AB9F0C64C4D000F28920 /* scrip2.c */,
 				ABB4ABA00C64C4D000F28920 /* sector.c */,
 				AB214386101EF14900E844AE /* sector.h */,
@@ -751,9 +753,10 @@
 			isa = PBXGroup;
 			children = (
 				AB21411B101D5B8F00E844AE /* AudioUnit.framework */,
+				ABD91FA317375E9300394607 /* AudioToolbox.framework */,
 				AB2140B1101D56BC00E844AE /* vorbis.framework */,
 				ABB4AC3F0C64C73A00F28920 /* AppKit.framework */,
-				ABB4AC3D0C64C72C00F28920 /* SDL.framework */,
+				ABB4AC3D0C64C72C00F28920 /* SDL2.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -807,8 +810,11 @@
 /* Begin PBXProject section */
 		ABB4AB270C64C36100F28920 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+			};
 			buildConfigurationList = ABB4AB280C64C36100F28920 /* Build configuration list for PBXProject "sw" */;
-			compatibilityVersion = "Xcode 3.0";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -896,6 +902,13 @@
 			remoteRef = AB0FFAE1172B54FE00400B2B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		ABB688471D645C2500CCC1C4 /* transpal */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = transpal;
+			remoteRef = ABB688461D645C2500CCC1C4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -971,7 +984,6 @@
 				ABB4AC100C64C6FE00F28920 /* lava.c in Sources */,
 				ABB4AC110C64C6FE00F28920 /* light.c in Sources */,
 				ABB4AC120C64C6FE00F28920 /* mclip.c in Sources */,
-				ABB4AC130C64C6FE00F28920 /* mdastr.c in Sources */,
 				ABB4AC140C64C6FE00F28920 /* menus.c in Sources */,
 				ABB4AC150C64C6FE00F28920 /* miscactr.c in Sources */,
 				ABB4AC160C64C6FE00F28920 /* morph.c in Sources */,
@@ -1069,6 +1081,7 @@
 		AB8F60CE0C6591F300202E11 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Build Editor-Info.plist";
 				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_NAME = "Build Editor for JFShadowWarrior";
@@ -1079,6 +1092,7 @@
 		AB8F60CF0C6591F300202E11 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Build Editor-Info.plist";
 				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_NAME = "Build Editor for JFShadowWarrior";
@@ -1089,17 +1103,12 @@
 		ABB4AB290C64C36100F28920 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-					ppc,
-				);
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"../jfaudiolib/third-party",
 					"$(HOME)/Library/Frameworks",
 				);
-				GCC_CHAR_IS_UNSIGNED_CHAR = NO;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1112,13 +1121,13 @@
 					NOASM,
 					RENDERTYPESDL,
 				);
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = (
 					../src,
 					../jfbuild/include,
 					../jfaudiolib/include,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
@@ -1130,17 +1139,12 @@
 		ABB4AB2A0C64C36100F28920 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-					ppc,
-				);
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"../jfaudiolib/third-party",
 					"$(HOME)/Library/Frameworks",
 				);
-				GCC_CHAR_IS_UNSIGNED_CHAR = NO;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1152,13 +1156,13 @@
 					NOASM,
 					RENDERTYPESDL,
 				);
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = (
 					../src,
 					../jfbuild/include,
 					../jfaudiolib/include,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
@@ -1170,10 +1174,6 @@
 		ABB4ABD20C64C52A00F28920 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = all;
 			};
 			name = Debug;
@@ -1181,17 +1181,15 @@
 		ABB4ABD30C64C52A00F28920 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				PRODUCT_NAME = all;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
 		ABB4ABD50C64C52A00F28920 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "JFShadowWarrior-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				OTHER_LDFLAGS = "-lstdc++";
@@ -1204,6 +1202,7 @@
 		ABB4ABD60C64C52A00F28920 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "JFShadowWarrior-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				OTHER_LDFLAGS = "-lstdc++";

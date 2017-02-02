@@ -592,9 +592,9 @@ SoundDist(int x, int y, int z, int basedist)
     #define DECAY_CONST 4000
 
     
-    tx = fabs(Player[screenpeek].posx - x);
-    ty = fabs(Player[screenpeek].posy - y);
-    tz = fabs((Player[screenpeek].posz - z) >> 4);
+    tx = abs(Player[screenpeek].posx - x);
+    ty = abs(Player[screenpeek].posy - y);
+    tz = abs((Player[screenpeek].posz - z) >> 4);
 
     // Use the Pythagreon Theorem to compute the magnitude of a 3D vector
     sqrdist = fabs(tx*tx + ty*ty + tz*tz);
@@ -610,7 +610,7 @@ SoundDist(int x, int y, int z, int basedist)
         for (i=0;i<decay;i++)
             decayshift *= 2;
             
-        if(labs(basedist/decayshift) >= retval)
+        if(fabs(basedist/decayshift) >= retval)
             retval = 0;
         else
             retval *= decay;
@@ -743,8 +743,7 @@ BOOL CacheSound(int num, int type)
 
         if (!OpenSound(vp, &handle, &length))
             {
-            sprintf(ds,"Could not open sound %s, num %d, priority %d\n",vp->name,num,vp->priority);
-            CON_ConMessage(ds);
+            CON_ConMessage("Could not open sound %s, num %d, priority %d\n",vp->name,num,vp->priority);
             return(FALSE);
             }
 

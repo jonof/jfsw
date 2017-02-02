@@ -1742,7 +1742,7 @@ VOID DrawMessageInput(PLAYERp pp)
         }
     }    
 #else    
-VOID DrawMessageInput(PLAYERp pp)
+VOID DrawMessageInput(PLAYERp UNUSED(pp))
     {
     short w,h;
     static BOOL cur_show;
@@ -1770,7 +1770,7 @@ VOID DrawMessageInput(PLAYERp pp)
     }    
 #endif
     
-VOID DrawConInput(PLAYERp pp)
+VOID DrawConInput(PLAYERp UNUSED(pp))
     {
     #define PANELINPUTX 30
     #define PANELINPUTY 100
@@ -2689,7 +2689,7 @@ VOID ScreenTileUnLock(void)
     }
 
 int
-ScreenLoadSaveSetup(PLAYERp pp)
+ScreenLoadSaveSetup(PLAYERp UNUSED(pp))
     {
     int tx, ty, tz,thoriz,pp_siz;
     short tang,tsectnum;
@@ -2709,7 +2709,7 @@ ScreenLoadSaveSetup(PLAYERp pp)
     }
     
 int
-ScreenSaveSetup(PLAYERp pp)
+ScreenSaveSetup(PLAYERp UNUSED(pp))
     {
     short i;
     

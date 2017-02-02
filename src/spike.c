@@ -178,7 +178,7 @@ short DoSpikeOperate(PLAYERp pp, short sectnum)
 // called from switches and triggers    
 // returns first spike found
 short
-DoSpikeMatch(PLAYERp pp, short match)
+DoSpikeMatch(PLAYERp UNUSED(pp), short match)
     {
     USERp fu;
     SPRITEp fsp;

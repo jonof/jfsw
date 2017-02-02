@@ -42,7 +42,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "control.h"
 #include "trigger.h"
 
-#include "savedef.h"
 #include "menus.h"
 #include "net.h"
 #include "pal.h"
@@ -1137,7 +1136,7 @@ SetVisNorm(void)
     return (0);
     }
 
-void pSetVisNorm(PANEL_SPRITEp psp)
+void pSetVisNorm(PANEL_SPRITEp UNUSED(psp))
     {
 //    SetVisNorm();
     }
@@ -4142,7 +4141,7 @@ DoPlayerWadeSuperJump(PLAYERp pp)
     return (FALSE);
     }
 
-BOOL PlayerFlyKey(PLAYERp pp)    
+BOOL PlayerFlyKey(PLAYERp UNUSED(pp))
     {
     BOOL key;
     

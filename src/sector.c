@@ -730,7 +730,7 @@ SectorMidPoint(short sectnum, int *xmid, int *ymid, int *zmid)
 
 
 VOID
-DoSpringBoard(PLAYERp pp, short sectnum)
+DoSpringBoard(PLAYERp pp, short UNUSED(sectnum))
     {
     int sb;
     int i;
@@ -1013,7 +1013,7 @@ OperateSector(short sectnum, short player_is_operating)
     }
 
 int
-OperateWall(short wallnum, short player_is_operating)
+OperateWall(short wallnum, short UNUSED(player_is_operating))
     {
     WALLp wallp = &wall[wallnum];
 
@@ -1297,7 +1297,7 @@ DoSpawnSpotsForDamage(short match)
     }                             
 
 VOID    
-DoSoundSpotMatch(short match, short sound_num, short sound_type)
+DoSoundSpotMatch(short match, short sound_num, short UNUSED(sound_type))
     {
     short sn, next_sn;
     SPRITEp sp;
@@ -1543,7 +1543,7 @@ WeaponExplodeSectorInRange(short weapon)
 
 
 VOID
-ShootableSwitch(short SpriteNum, short Weapon)
+ShootableSwitch(short SpriteNum, short UNUSED(Weapon))
     {
     SPRITEp sp = &sprite[SpriteNum];
 
@@ -3221,7 +3221,7 @@ UPDATE TO NEW CODE
 #endif
     }
 
-void movelava(char *dapic)
+void movelava(char * UNUSED(dapic))
     {
 #if 0    
 //    #define COLOR_OFFSET 192

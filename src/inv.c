@@ -229,7 +229,7 @@ KillPanelInv(PLAYERp pp, short InventoryNum)
     }
 
 VOID
-KillPlayerIcon(PLAYERp pp, PANEL_SPRITEp *pspp)
+KillPlayerIcon(PLAYERp UNUSED(pp), PANEL_SPRITEp *pspp)
     {
     SET((*pspp)->flags, PANF_SUICIDE);
     (*pspp) = NULL;

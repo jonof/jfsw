@@ -46,7 +46,6 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "control.h"
 #include "trigger.h"
 
-#include "savedef.h"
 #include "menus.h"
 #include "net.h"
 #include "pal.h"

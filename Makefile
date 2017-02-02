@@ -112,7 +112,6 @@ GAMEOBJS= \
 	$(SRC)/lava.$o \
 	$(SRC)/light.$o \
 	$(SRC)/mclip.$o \
-	$(SRC)/mdastr.$o \
 	$(SRC)/menus.$o \
 	$(SRC)/miscactr.$o \
 	$(SRC)/morph.$o \

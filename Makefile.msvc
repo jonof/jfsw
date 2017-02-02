@@ -93,7 +93,6 @@ GAMEOBJS=$(OBJ)\actor.$o \
 	$(OBJ)\lava.$o \
 	$(OBJ)\light.$o \
 	$(OBJ)\mclip.$o \
-	$(OBJ)\mdastr.$o \
 	$(OBJ)\menus.$o \
 	$(OBJ)\miscactr.$o \
 	$(OBJ)\morph.$o \

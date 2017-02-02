@@ -8,10 +8,8 @@
 *.grp
 *.cfg
 *~
-/xcode/*.xcodeproj/*.mode1v3
-/xcode/*.xcodeproj/*.pbxuser
-/xcode/*.xcodeproj/project.xcworkspace
-/xcode/*.xcodeproj/xcuserdata
+/xcode/*.xcodeproj/*
+!/xcode/*.xcodeproj/project.pbxproj
 /xcode/build
 /Makefile.user
 /sw

@@ -1063,7 +1063,7 @@ FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     }
 
 short 
-ViewSectorInScene(short cursectnum, short type, short level)
+ViewSectorInScene(short cursectnum, short UNUSED(type), short level)
     {
     int i, nexti;
     int j, nextj;

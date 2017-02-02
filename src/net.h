@@ -51,7 +51,11 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define MAXSYNCBYTES 16
 
 #ifdef __GNUC__
-# define PACKED __attribute__ ((packed))
+#  if __GNUC__ == 4 && __GNUC_MINOR__ >= 7
+#    define PACKED __attribute__ ((packed, gcc_struct))
+#  else
+#    define PACKED __attribute__ ((packed))
+#  endif
 #else
 # define PACKED
 # ifdef _MSC_VER

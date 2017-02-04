@@ -696,7 +696,7 @@ TerminateGame(VOID)
 
     ErrorCorrectionQuit();
 
-                uninitmultiplayers();
+    uninitmultiplayers();
 
     if (CleanExit)
         {
@@ -859,9 +859,9 @@ void MultiSharewareCheck(void)
 "\n\nTo play a Network game with more than 4 players you must purchase the\n"
 "full version.  Read the Ordering Info screens for details.\n\n");
 #endif
-                        uninitmultiplayers();
+        uninitmultiplayers();
         //uninitkeys();
-    KB_Shutdown();
+        KB_Shutdown();
         uninitengine();
         TermSetup();
         UnInitSound();
@@ -925,7 +925,9 @@ setbrightness(bright, pal, 0);
 }
 
 
-static int firstnet = 0;    // JBF
+static int netparamcount = 0;
+static char const * *netparam = NULL;
+
 int nextvoxid = 0;  // JBF
 static const char *deffile = "sw.def";
 
@@ -963,11 +965,9 @@ InitGame(VOID)
 
     memcpy(palette_data,palette,768);
     InitPalette();
-    // sets numplayers, connecthead, connectpoint2, myconnectindex
 
-    if (!firstnet)
-        initmultiplayers(0, NULL);
-    else if (initmultiplayersparms(_buildargc - firstnet, &_buildargv[firstnet])) {
+    // sets numplayers, connecthead, connectpoint2, myconnectindex
+    if (initmultiplayersparms(netparamcount, netparam)) {
         buildputs("Waiting for players...\n");
         while (initmultiplayerscycle()) {
             handleevents();
@@ -977,6 +977,9 @@ InitGame(VOID)
             }
         }
     }
+    if (netparam) free(netparam);
+    netparam = NULL; netparamcount = 0;
+
     initsynccrc();
 
     // code to duplicate packets
@@ -3437,6 +3440,7 @@ int app_main(int argc, char const * const argv[])
     VOID DoSector(VOID);
     VOID gameinput(VOID);
     int cnt = 0;
+    int firstnet = 0;
     ULONG TotalMemory;
 
     for (i=1;i<argc;i++) {
@@ -3612,33 +3616,28 @@ int app_main(int argc, char const * const argv[])
         {
         char const *arg = argv[cnt];
 
-        if (*arg != '/' && *arg != '-') continue;
-
         if (firstnet > 0) {
-            arg++;
-            switch (arg[0]) {
-                case 'n':
-                case 'N':
-                    if (arg[1] == '0') {
-                        NetBroadcastMode = FALSE;
-                        buildputs("Network mode: master/slave\n");
-                        wm_msgbox("Multiplayer Option Error",
-                            "This release unfortunately does not support a master-slave networking "
-                            "mode because of certain bugs we have not been able to locate and fix "
-                            "at this time. However, peer-to-peer networking has been found to be "
-                            "playable, so we suggest attempting to use that for now. Details can be "
-                            "found in the release notes. Sorry for the inconvenience.");
-                        return 0;
-                    } else if (arg[1] == '1') {
-                        NetBroadcastMode = TRUE;
-                        buildputs("Network mode: peer-to-peer\n");
-                    }
-                    break;
-                default:
-                    break;
+            if (arg[0] == '-' || arg[0] == '/') {
+                switch (arg[1]) {
+                    case 'n':
+                    case 'N':
+                        if (arg[2] == '0') {
+                            NetBroadcastMode = FALSE;
+                            buildputs("Network mode: master/slave\n");
+                        } else if (arg[2] == '1') {
+                            NetBroadcastMode = TRUE;
+                            buildputs("Network mode: peer-to-peer\n");
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
+            netparam[cnt - firstnet - 1] = argv[cnt];
             continue;
         }
+
+        if (*arg != '/' && *arg != '-') continue;
 
         // Store arg in command line array!
         CON_StoreArg(arg);
@@ -3690,10 +3689,9 @@ int app_main(int argc, char const * const argv[])
         else
         if (Bstrncasecmp(arg, "net",3) == 0)
             {
-        if (cnt+1 < argc)
-            {
-        firstnet = cnt+1;
-            }
+            firstnet = cnt;
+            netparamcount = argc - cnt - 1;
+            netparam = calloc(netparamcount, sizeof(char**));
             }
         #if DEBUG
         else

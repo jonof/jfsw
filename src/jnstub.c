@@ -689,46 +689,50 @@ ExtInit(void)
         //LogUserTime(TRUE);              // Send true because user is logging
                                         // in.
 
-#ifdef _WIN32
-	if (!access("user_profiles_enabled", F_OK))
-#endif
-	{
-		char cwd[BMAX_PATH];
-		char *homedir;
-		int asperr;
+        // default behaviour is to write to the user profile directory, but
+        // creating a 'user_profiles_disabled' file in the current working
+        // directory where the game was launched makes the installation
+        // "portable" by writing into the working directory
+        if (access("user_profiles_disabled", F_OK) == 0) {
+            char cwd[BMAX_PATH+1];
+            if (getcwd(cwd, sizeof(cwd))) {
+                addsearchpath(cwd);
+            }
+        } else {
+            char *supportdir;
+            char dirpath[BMAX_PATH+1];
+            int asperr;
 
-#if defined(__linux) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
-		addsearchpath("/usr/share/games/jfsw");
-		addsearchpath("/usr/local/share/games/jfsw");
-#elif defined(__APPLE__)
-		addsearchpath("/Library/Application Support/JFShadowWarrior");
-#endif
-		if (getcwd(cwd,BMAX_PATH)) addsearchpath(cwd);
-		if ((homedir = Bgethomedir())) {
-			Bsnprintf(cwd,sizeof(cwd),"%s/"
-#if defined(_WIN32)
-				"JFShadowWarrior"
-#elif defined(__APPLE__)
-				"Library/Application Support/JFShadowWarrior"
+            if ((supportdir = Bgetsupportdir(FALSE))) {
+#if defined(_WIN32) || defined(__APPLE__)
+                const char *confdir = "JFShadowWarrior";
 #else
-				".jfsw"
+                const char *confdir = ".jfsw";
 #endif
-			,homedir);
-			asperr = addsearchpath(cwd);
-			if (asperr == -2) {
-				if (Bmkdir(cwd,S_IRWXU) == 0) asperr = addsearchpath(cwd);
-				else asperr = -1;
-			}
-			if (asperr == 0)
-				chdir(cwd);
-			free(homedir);
-		}
-	}
+                Bsnprintf(dirpath, sizeof(dirpath), "%s/%s", supportdir, confdir);
+                asperr = addsearchpath(dirpath);
+                if (asperr == -2) {
+                    if (Bmkdir(dirpath, S_IRWXU) == 0) {
+                        asperr = addsearchpath(dirpath);
+                    } else {
+                        asperr = -1;
+                    }
+                }
+                if (asperr == 0) {
+                    chdir(dirpath);
+                }
+                free(supportdir);
+            }
+        }
 
-    if (getenv("SWGRP")) {
-	    swgrp = getenv("SWGRP");
-	    buildprintf("Using %s as main GRP file\n", swgrp);
-    }
+        {
+            char *newgrp;
+            newgrp = getenv("SWGRP");
+            if (newgrp) {
+                swgrp = newgrp;
+                buildprintf("Using alternative GRP file: %s\n", swgrp);
+            }
+        }
         initgroupfile(swgrp);
 	/*
         if ((fil = open("setup.dat", O_BINARY | O_RDWR, S_IREAD)) != -1)

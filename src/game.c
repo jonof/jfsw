@@ -3511,13 +3511,12 @@ int app_main(int argc, char const * const argv[])
         int asperr;
 
         if ((supportdir = Bgetsupportdir(FALSE))) {
-            Bsnprintf(dirpath, sizeof(dirpath), "%s/"
 #if defined(_WIN32) || defined(__APPLE__)
-                "JFShadowWarrior"
+            const char *confdir = "JFShadowWarrior";
 #else
-                ".jfsw"
+            const char *confdir = ".jfsw";
 #endif
-            , supportdir);
+            Bsnprintf(dirpath, sizeof(dirpath), "%s/%s", supportdir, confdir);
             asperr = addsearchpath(dirpath);
             if (asperr == -2) {
                 if (Bmkdir(dirpath, S_IRWXU) == 0) {

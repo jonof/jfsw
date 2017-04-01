@@ -67,7 +67,7 @@ OURCFLAGS=$(debug) -W -Wall -Wimplicit -Wno-unused \
 	-fno-pic -fno-strict-aliasing -DNO_GCC_BUILTINS \
 	-I$(INC) -I$(EINC) -I$(MACTROOT) -I$(AUDIOLIBROOT)/include
 OURCXXFLAGS=-fno-exceptions -fno-rtti
-LIBS=-lm
+LIBS=-lm -ldl
 GAMELIBS=
 NASMFLAGS=-s #-g
 EXESUFFIX=

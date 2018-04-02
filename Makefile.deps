@@ -22,7 +22,7 @@ $(SRC)/copysect.$o: $(SRC)/copysect.c $(build_h) $(names2_h) $(game_h) $(tags_h)
 $(SRC)/demo.$o: $(SRC)/demo.c $(build_h) $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/net.h $(INC)/mytypes.h $(MACTROOT)/control.h $(INC)/function.h $(INC)/demo.h $(INC)/player.h $(INC)/menus.h
 $(SRC)/draw.$o: $(SRC)/draw.c $(build_h) $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(INC)/quake.h $(INC)/vis.h $(INC)/jsector.h $(INC)/reserve.h $(INC)/mytypes.h $(MACTROOT)/control.h $(INC)/function.h $(INC)/net.h $(INC)/pal.h $(INC)/player.h $(INC)/jtags.h $(INC)/parent.h $(INC)/cache.h $(INC)/text.h $(INC)/menus.h $(INC)/interp.h $(INC)/sector.h
 $(SRC)/eel.$o: $(SRC)/eel.c $(build_h) $(INC)/keys.h $(names2_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/actor.h $(INC)/weapon.h $(INC)/track.h $(INC)/saveable.h
-$(SRC)/game.$o: $(SRC)/game.c $(build_h) $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/sector.h $(INC)/sprite.h $(INC)/weapon.h $(INC)/player.h $(INC)/lists.h $(INC)/net.h $(INC)/pal.h $(AUDIOLIBROOT)/include/fx_man.h $(INC)/mytypes.h $(INC)/menus.h $(MACTROOT)/control.h $(INC)/function.h $(INC)/demo.h $(INC)/cache.h $(INC)/anim.h $(INC)/colormap.h $(INC)/break.h $(INC)/ninja.h $(INC)/light.h $(INC)/track.h $(INC)/jsector.h $(MACTROOT)/keyboard.h $(INC)/text.h $(AUDIOLIBROOT)/include/music.h $(INC)/saveable.h
+$(SRC)/game.$o: $(SRC)/game.c $(build_h) $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/sector.h $(INC)/sprite.h $(INC)/weapon.h $(INC)/player.h $(INC)/lists.h $(INC)/net.h $(INC)/pal.h $(AUDIOLIBROOT)/include/fx_man.h $(INC)/mytypes.h $(INC)/menus.h $(MACTROOT)/control.h $(INC)/function.h $(INC)/demo.h $(INC)/cache.h $(INC)/anim.h $(INC)/colormap.h $(INC)/break.h $(INC)/ninja.h $(INC)/light.h $(INC)/track.h $(INC)/jsector.h $(MACTROOT)/keyboard.h $(INC)/text.h $(AUDIOLIBROOT)/include/music.h $(INC)/saveable.h $(INC)/version.h $(INC)/grpscan.h
 $(SRC)/girlninj.$o: $(SRC)/girlninj.c $(build_h) $(INC)/keys.h $(names2_h) $(panel_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/pal.h $(INC)/player.h $(INC)/net.h $(INC)/actor.h $(INC)/track.h $(INC)/sprite.h $(INC)/saveable.h
 $(SRC)/goro.$o: $(SRC)/goro.c $(build_h) $(INC)/keys.h $(names2_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/actor.h $(INC)/track.h $(INC)/saveable.h
 $(SRC)/hornet.$o: $(SRC)/hornet.c $(build_h) $(INC)/keys.h $(names2_h) $(game_h) $(tags_h) $(INC)/ai.h $(INC)/actor.h $(INC)/weapon.h $(INC)/track.h $(INC)/sprite.h $(INC)/saveable.h
@@ -80,14 +80,21 @@ $(SRC)/brooms.$o: $(SRC)/brooms.c $(build_h) $(INC)/keys.h $(names2_h) $(game_h)
 $(SRC)/bldscript.$o: $(SRC)/bldscript.c $(build_h) $(names2_h) $(game_h) $(INC)/parse.h $(EINC)/editor.h $(EINC)/cache1d.h
 $(SRC)/jbhlp.$o: $(SRC)/jbhlp.c $(build_h) $(INC)/keys.h $(names2_h) $(game_h) $(EINC)/editor.h $(EINC)/cache1d.h
 
-$(SRC)/game_icon.$o: $(RSRC)/game_icon.c
-$(SRC)/build_icon.$o: $(RSRC)/build_icon.c
-
 $(SRC)/grpscan.$o: $(SRC)/grpscan.c $(EINC)/compat.h $(EINC)/baselayer.h $(EINC)/scriptfile.h $(EINC)/cache1d.h $(EINC)/crc32.h $(INC)/grpscan.h
-$(SRC)/gameres.$o: $(SRC)/misc/gameres.rc $(SRC)/startwin.game.h $(RSRC)/game.bmp $(RSRC)/game_icon.ico
-$(SRC)/buildres.$o: $(SRC)/misc/buildres.rc $(RSRC)/build.bmp $(RSRC)/build_icon.ico
-$(SRC)/startwin.game.$o: $(SRC)/startwin.game.c $(build_h) $(EINC)/winlayer.h $(INC)/grpscan.h
-$(SRC)/startgtk.game.$o: $(SRC)/startgtk.game.c $(build_h) $(EINC)/dynamicgtk.h $(EINC)/baselayer.h $(INC)/grpscan.h
+$(SRC)/gameres.$o: $(SRC)/gameres.rc $(INC)/gameres.h $(INC)/version.h $(RSRC)/game.bmp $(RSRC)/game_icon.ico
+$(SRC)/buildres.$o: $(SRC)/buildres.rc $(EINC)/buildres.h $(RSRC)/build.bmp $(RSRC)/build_icon.ico
+$(SRC)/startwin_game.$o: $(SRC)/startwin_game.c $(EINC)/build.h $(EINC)/winlayer.h $(EINC)/compat.h $(INC)/grpscan.h $(INC)/startwin.h $(INC)/gameres.h
+$(SRC)/startgtk_game.$o: $(SRC)/startgtk_game.c $(EINC)/build.h $(EINC)/baselayer.h $(SRC)/grpscan.h $(INC)/startwin.h $(EINC)/compat.h
+
+# Derived source files from art assets
+$(RSRC)/startgtk_game_gresource.c: $(RSRC)/startgtk_game.gresource.xml $(RSRC)/game.png $(RSRC)/startgtk_game.glade
+$(RSRC)/startgtk_game_gresource.h: $(RSRC)/startgtk_game.gresource.xml
+$(RSRC)/startgtk_build_gresource.c: $(RSRC)/startgtk_build.gresource.xml $(RSRC)/build.png $(RSRC)/startgtk_build.glade
+$(RSRC)/startgtk_build_gresource.h: $(RSRC)/startgtk_build.gresource.xml
+$(RSRC)/sdlappicon_game.c: $(RSRC)/game.png
+$(RSRC)/sdlappicon_game.$o: $(RSRC)/sdlappicon_game.c
+$(RSRC)/sdlappicon_build.c: $(RSRC)/build.png
+$(RSRC)/sdlappicon_build.$o: $(RSRC)/sdlappicon_build.c
 
 # jMACT objects
 $(MACTROOT)/util_lib.$o: $(MACTROOT)/util_lib.c $(MACTROOT)/util_lib.h $(MACTROOT)/types.h $(EINC)/compat.h

@@ -91,6 +91,9 @@ Things required to make savegames work:
 
 #include "crc32.h"
 
+#include "startwin.h"
+#include "version.h"
+
 #if DEBUG
 #define BETA 0
 #endif
@@ -925,13 +928,10 @@ setbrightness(bright, pal, 0);
 }
 
 
-static int netparamcount = 0;
-static char const * *netparam = NULL;
+static int netsuccess = 0;
 
 int nextvoxid = 0;  // JBF
 static const char *deffile = "sw.def";
-
-extern int startwin_run(void);
 
 VOID
 InitGame(VOID)
@@ -967,7 +967,7 @@ InitGame(VOID)
     InitPalette();
 
     // sets numplayers, connecthead, connectpoint2, myconnectindex
-    if (initmultiplayersparms(netparamcount, netparam)) {
+    if (netsuccess) {
         buildputs("Waiting for players...\n");
         while (initmultiplayerscycle()) {
             handleevents();
@@ -976,9 +976,9 @@ InitGame(VOID)
                 return;
             }
         }
+    } else {
+        initsingleplayers();
     }
-    if (netparam) free(netparam);
-    netparam = NULL; netparamcount = 0;
 
     initsynccrc();
 
@@ -3232,49 +3232,15 @@ VOID DosScreen(VOID)
 #endif
     }
 
-#if 0 //PLOCK_VERSION
-VOID AlphaMessage(VOID)
-    {
-    Global_PLock = TRUE; // Set the hardwired parental lock mode!
-    buildputs(""
-    "                          SHADOW WARRIOR(tm) Version 1.2                      \n"
-    "Copyright (c) 1997 3D Realms Entertainment\n"
-    "\n\n"
-    "     NOTE: This version of Shadow Warrior has been modified from it's\n"
-    "     original form.  All of the violent and mature content has been\n"
-    "     removed.  To download a patch to restore this version to its\n"
-    "     original form visit www.3drealms.com, www.gtinteractive.com, or look\n"
-    "     inside your retail packaging for information about this version.\n\n\n"
-    );
-    }
-#endif
-
-#if 0 //UK_VERSION
-VOID AlphaMessage(VOID)
-    {
-    buildputs(""
-    "                    SHADOW WARRIOR(tm) Version 1.2 (UK Version)               \n"
-    "Copyright (c) 1997 3D Realms Entertainment\n"
-    "\n\n"
-    "     NOTE: This is a modified version of Shadow Warrior created for the UK.\n"
-    "     It has been altered from its original version to replace \"shurikens\" \n"
-    "     with darts.  We apologize for the inconvenience and hope you enjoy the\n"
-    "     game.  Visit us on the web at www.3drealms.com.\n\n\n"
-    );
-    }
-#endif
-
-#if 1 //!UK_VERSION && !PLOCK_VERSION
 VOID AlphaMessage(VOID)
     {
     if (SW_SHAREWARE) {
-        buildputs("SHADOW WARRIOR(tm) Version 1.2 (Shareware Version)\n");
+        buildputs("SHADOW WARRIOR(tm) (Shareware Version)\n");
     } else {
-        buildputs("SHADOW WARRIOR(tm) Version 1.2\n");
+        buildputs("SHADOW WARRIOR(tm)\n");
     }
-    buildputs("Copyright (c) 1997 3D Realms Entertainment\n\n\n");
+    buildputs("Copyright (c) 1997 3D Realms Entertainment\n");
     }
-#endif
 
 typedef struct
 {
@@ -3430,7 +3396,8 @@ void CommandLineHelp(void)
 #endif
 }
 
-char *grpfile = "sw.grp";
+char grpfile[BMAX_PATH+1] = "sw.grp";
+
 int app_main(int argc, char const * const argv[])
     {
     int i;
@@ -3440,25 +3407,11 @@ int app_main(int argc, char const * const argv[])
     VOID DoSector(VOID);
     VOID gameinput(VOID);
     int cnt = 0;
-    int firstnet = 0;
+    int netparam = 0;
     ULONG TotalMemory;
-
-    for (i=1;i<argc;i++) {
-        if (argv[i][0] != '-'
-#ifdef _WIN32
-            && argv[i][0] != '/'
-#endif
-            ) {
-            continue;
-        }
-        if (!Bstrcasecmp(argv[i]+1, "setup")) {
-            CommandSetup = TRUE;
-        }
-        else if (!Bstrcasecmp(argv[i]+1, "?")) {
-            CommandLineHelp();
-            return(0);
-        }
-    }
+    int configloaded;
+    struct grpfile *gamegrp = NULL;
+    const char *gamegrptitle = NULL;
 
 #ifdef RENDERTYPEWIN
     if (win_checkinstance()) {
@@ -3493,6 +3446,27 @@ int app_main(int argc, char const * const argv[])
             Bsnprintf(dirpath, sizeof(dirpath), "%s/JFShadowWarrior", supportdir);
             addsearchpath(dirpath);
             free(supportdir);
+        }
+    }
+
+    for (i=1;i<argc;i++) {
+#ifdef _WIN32
+        if (argv[i][0] != '-' && argv[i][0] != '/') {
+#else
+        if (argv[i][0] != '-') {
+#endif
+            continue;
+        }
+        if (!Bstrcasecmp(argv[i]+1, "setup")) {
+            CommandSetup = TRUE;
+        }
+        else if (!Bstrcasecmp(argv[i]+1, "net")) {
+            netparam = i + 1;
+            break;
+        }
+        else if (!Bstrcasecmp(argv[i]+1, "?")) {
+            CommandLineHelp();
+            return(0);
         }
     }
 
@@ -3533,57 +3507,143 @@ int app_main(int argc, char const * const argv[])
     }
 
     buildsetlogfile("sw.log");
-    {
-        char *newgrp;
-        newgrp = getenv("SWGRP");
-        if (newgrp) {
-            grpfile = newgrp;
-            buildprintf("Using alternative GRP file: %s\n", newgrp);
-        }
-    }
 
-    wm_setapptitle("Shadow Warrior");
+    wm_setapptitle("JFShadowWarrior");
+    buildprintf("\nJFShadowWarrior v" VERSION_STRING "\n");
+    buildprintf("Built " __DATE__ " " __TIME__ "\n");
+    buildprintf("See GPL.TXT for license terms.\n");
+
     if (preinitengine()) {
        wm_msgbox("Build Engine Initialisation Error",
                "There was a problem initialising the Build engine: %s", engineerrstr);
        exit(1);
     }
 
-    i = CONFIG_ReadSetup();
+    configloaded = CONFIG_ReadSetup();
+    if (getenv("SWGRP")) {
+        strncpy(grpfile, getenv("SWGRP"), BMAX_PATH);
+    }
 
-#if defined RENDERTYPEWIN || (defined RENDERTYPESDL && (defined __APPLE__ || defined HAVE_GTK2))
-    if (i < 0 || ForceSetup || CommandSetup) {
-        if (quitevent || !startwin_run()) {
-            uninitengine();
-            exit(0);
+    ScanGroups();
+    {
+        // Try and identify grpfile in the set of GRPs.
+        struct grpfile *first = NULL;
+        for (gamegrp = foundgrps; gamegrp; gamegrp = gamegrp->next) {
+            if (!gamegrp->ref) continue;     // Not a recognised game file.
+            if (!first) first = gamegrp;
+            if (!Bstrcasecmp(gamegrp->name, grpfile)) {
+                // Found it.
+                break;
+            }
+        }
+        if (!gamegrp && first) {
+            // It wasn't found, so use the first recognised one scanned.
+            gamegrp = first;
+        }
+    }
+
+    if (netparam) { // -net parameter on command line.
+        netsuccess = initmultiplayersparms(argc - netparam, &argv[netparam]);
+    }
+
+#if defined RENDERTYPEWIN || (defined RENDERTYPESDL && (defined __APPLE__ || defined HAVE_GTK))
+    {
+        struct startwin_settings settings;
+
+        memset(&settings, 0, sizeof(settings));
+        settings.fullscreen = ScreenMode;
+        settings.xdim3d = ScreenWidth;
+        settings.ydim3d = ScreenHeight;
+        settings.bpp3d = ScreenBPP;
+        settings.forcesetup = ForceSetup;
+        settings.usemouse = UseMouse;
+        settings.usejoy = UseJoystick;
+        settings.samplerate = MixRate;
+        settings.bitspersample = NumBits;
+        settings.channels = NumChannels;
+        settings.selectedgrp = gamegrp;
+
+        if (configloaded < 0 || ForceSetup || CommandSetup) {
+            if (startwin_run(&settings) == STARTWIN_CANCEL) {
+                uninitengine();
+                exit(0);
+            }
+        }
+
+        ScreenMode = settings.fullscreen;
+        ScreenWidth = settings.xdim3d;
+        ScreenHeight = settings.ydim3d;
+        ScreenBPP = settings.bpp3d;
+        ForceSetup = settings.forcesetup;
+        UseMouse = settings.usemouse;
+        UseJoystick = settings.usejoy;
+        MixRate = settings.samplerate;
+        NumBits = settings.bitspersample;
+        NumChannels = settings.channels;
+        gamegrp = settings.selectedgrp;
+
+        if (!netparam) {
+            char modeparm[8];
+            const char *parmarr[3] = { modeparm, NULL, NULL };
+            int parmc = 0;
+
+            if (settings.joinhost) {
+                strcpy(modeparm, "-nm");
+                parmarr[1] = settings.joinhost;
+                parmc = 2;
+            } else if (settings.numplayers > 1 && settings.numplayers <= MAXPLAYERS) {
+                sprintf(modeparm, "-nm:%d", settings.numplayers);
+                parmc = 1;
+            }
+
+            if (parmc > 0) {
+                netsuccess = initmultiplayersparms(parmc, parmarr);
+            }
+
+            if (settings.joinhost) {
+                free(settings.joinhost);
+            }
         }
     }
 #endif
 
-    initgroupfile(grpfile);
-    if (!DetectShareware()) {
-        if (SW_SHAREWARE) buildputs("Detected shareware GRP\n");
-        else buildputs("Detected registered GRP\n");
+    if (gamegrp) {
+        Bstrcpy(grpfile, gamegrp->name);
+        gamegrptitle = gamegrp->ref->name;  // Points to static data, so won't be lost in FreeGroups().
     }
 
-    if (SW_SHAREWARE) {
-        wm_setapptitle("Shadow Warrior Shareware");
+    FreeGroups();
 
+    buildprintf("GRP file: %s\n", grpfile);
+    initgroupfile(grpfile);
+    if (!DetectShareware()) {
+        if (SW_SHAREWARE) {
+            buildputs("Detected shareware GRP\n");
+        } else {
+            buildputs("Detected registered GRP\n");
+        }
+    }
+
+    if (gamegrptitle) {
+        char buf[128];
+        sprintf(buf, "JFShadowWarrior: %s", gamegrptitle);
+        wm_setapptitle(buf);
+    }
+
+    buildputs("\n");
+    AlphaMessage();
+    buildputs("\n");
+
+    if (SW_SHAREWARE) {
         // Zero out the maps that aren't in shareware version
         memset(&LevelInfo[MAX_LEVELS_SW+1], 0, sizeof(LEVEL_INFO)*(MAX_LEVELS_REG-MAX_LEVELS_SW));
         GameVersion++;
-    } else {
-        wm_setapptitle("Shadow Warrior");
     }
 
     for (i = 0; i < MAX_SW_PLAYERS; i++)
         INITLIST(&Player[i].PanelSpriteList);
 
     DebugOperate = TRUE;
-
-    AlphaMessage();
-
-    buildputs("\nType 'SW -?' for command line options.\n\n");
 
     UserMapName[0] = '\0';
 
@@ -3615,32 +3675,20 @@ int app_main(int argc, char const * const argv[])
         {
         char const *arg = argv[cnt];
 
-        if (firstnet > 0) {
-            if (arg[0] == '-' || arg[0] == '/') {
-                switch (arg[1]) {
-                    case 'n':
-                    case 'N':
-                        if (arg[2] == '0') {
-                            NetBroadcastMode = FALSE;
-                            buildputs("Network mode: master/slave\n");
-                        } else if (arg[2] == '1') {
-                            NetBroadcastMode = TRUE;
-                            buildputs("Network mode: peer-to-peer\n");
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-            netparam[cnt - firstnet - 1] = argv[cnt];
-            continue;
-        }
-
+#ifdef _WIN32
         if (*arg != '/' && *arg != '-') continue;
+#else
+        if (*arg != '-') continue;
+#endif
 
         // Store arg in command line array!
         CON_StoreArg(arg);
         arg++;
+
+        if (Bstrcasecmp(arg, "net") == 0)
+            {
+            break;
+            }
 
         if (Bstrncasecmp(arg, "autonet",7) == 0)
             {
@@ -3684,13 +3732,6 @@ int app_main(int argc, char const * const argv[])
             // Passed by setup.exe
             // skip setupfile name
             cnt++;
-            }
-        else
-        if (Bstrncasecmp(arg, "net",3) == 0)
-            {
-            firstnet = cnt;
-            netparamcount = argc - cnt - 1;
-            netparam = calloc(netparamcount, sizeof(char**));
             }
         #if DEBUG
         else

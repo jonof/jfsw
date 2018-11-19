@@ -28,6 +28,11 @@ MACTROOT ?= jfmact
 # JFAudioLib source path
 AUDIOLIBROOT ?= jfaudiolib
 
+# Don't use x86 assembly on ARM
+ifneq (,$(shell uname -a | egrep 'arm|aarch64'))
+  NOASM ?= 1
+endif
+
 # Engine options
 SUPERBUILD ?= 1
 POLYMOST ?= 1
@@ -64,7 +69,7 @@ include $(AUDIOLIBROOT)/Makefile.shared
 CC=gcc
 CXX=g++
 OURCFLAGS=$(debug) -W -Wall -Wimplicit -Wno-unused \
-	-fno-pic -fno-strict-aliasing -DNO_GCC_BUILTINS \
+	-fPIC -fno-strict-aliasing -DNO_GCC_BUILTINS \
 	-I$(INC) -I$(EINC) -I$(MACTROOT) -I$(AUDIOLIBROOT)/include
 OURCXXFLAGS=-fno-exceptions -fno-rtti
 LIBS=-lm
@@ -209,6 +214,10 @@ alldarwin:
 endif
 
 all: sw$(EXESUFFIX) build$(EXESUFFIX)
+
+# from jfbuild/Makefile, ideally should be moved to jfbuild/Makefile.shared:
+OURCFLAGS+= $(SDLCONFIG_CFLAGS)
+LIBS+= $(SDLCONFIG_LIBS)
 
 sw$(EXESUFFIX): $(GAMEOBJS) $(ELIB)/$(ENGINELIB) $(AUDIOLIBROOT)/$(JFAUDIOLIB)
 	$(CXX) $(CXXFLAGS) $(OURCXXFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) $(GAMELIBS) -Wl,-Map=$@.map

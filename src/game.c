@@ -931,7 +931,7 @@ static char const * *netparam = NULL;
 int nextvoxid = 0;  // JBF
 static const char *deffile = "sw.def";
 
-extern int startwin_run(void);
+extern int startwin_run(struct startwin_settings *settings);
 
 VOID
 InitGame(VOID)
@@ -3553,7 +3553,7 @@ int app_main(int argc, char const * const argv[])
 
 #if defined RENDERTYPEWIN || (defined RENDERTYPESDL && (defined __APPLE__ || defined HAVE_GTK2))
     if (i < 0 || ForceSetup || CommandSetup) {
-        if (quitevent || !startwin_run()) {
+        if (quitevent || !startwin_run(NULL)) {
             uninitengine();
             exit(0);
         }

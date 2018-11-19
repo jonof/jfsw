@@ -1208,7 +1208,7 @@ static BOOL MNU_JoystickButtonsInitialise(MenuItem_p UNUSED(mitem))
     joybuttonssetupgroup.items = joybuttons_i[0];
     item = &joybuttons_i[0][0];
 
-    for (button = 0; button < joynumbuttons * 2 + (joynumhats > 0) * 4; ) {
+    for (button = 0; button < joynumbuttons * 2; ) {
         if (button < joynumbuttons * 2) {
             int dbutton = button / 2;
 
@@ -1269,10 +1269,10 @@ static BOOL MNU_JoystickButtonsInitialise(MenuItem_p UNUSED(mitem))
             button++;
         }
 
-        if (pageitem == JOYSTICKITEMSPERPAGE || button == joynumbuttons * 2 + (joynumhats > 0) * 4) {
+        if (pageitem == JOYSTICKITEMSPERPAGE || button == joynumbuttons * 2) {
             // next page
             sprintf(JoystickButtonPageName[page], "Page %d / %d", page+1,
-                ((joynumbuttons * 2 + (joynumhats > 0) * 4) / JOYSTICKITEMSPERPAGE) + 1);
+                ((joynumbuttons * 2) / JOYSTICKITEMSPERPAGE) + 1);
 
             temppagename.text = JoystickButtonPageName[page];
             memcpy(item, &temppagename, sizeof(MenuItem));
@@ -1356,7 +1356,7 @@ static BOOL MNU_JoystickButtonSetupCustom(UserCall call, MenuItem *item)
 
 static BOOL MNU_JoystickButtonNextPage(void)
 {
-    JoystickButtonPage = (JoystickButtonPage + 1) % (((joynumbuttons * 2 + (joynumhats > 0) * 4) / JOYSTICKITEMSPERPAGE) + 1);
+    JoystickButtonPage = (JoystickButtonPage + 1) % (((joynumbuttons * 2) / JOYSTICKITEMSPERPAGE) + 1);
     joybuttonssetupgroup.items = &joybuttons_i[JoystickButtonPage][0];
     joybuttonssetupgroup.cursor = 0;
     MNU_ItemPreProcess(&joybuttonssetupgroup);

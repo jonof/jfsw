@@ -708,7 +708,7 @@ int startwin_idle(void *s)
 extern int32 ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP, ForceSetup, UseMouse, UseJoystick;
 extern char *grpfile;   // game.c
 
-int startwin_run(void)
+int startwin_run(struct startwin_settings *settings)
 {
     if (!gtkenabled) return 0;
     if (!startwin) return 1;

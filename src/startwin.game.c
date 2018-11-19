@@ -559,7 +559,7 @@ int startwin_idle(void *v)
 
 extern char *grpfile;	// game.c
 
-int startwin_run(struct startwin_settings *settings)
+int startwin_run(struct startwin_settings *settingsignored)
 {
 	MSG msg;
 	if (!startupdlg) return 1;

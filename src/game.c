@@ -931,7 +931,7 @@ static char const * *netparam = NULL;
 int nextvoxid = 0;  // JBF
 static const char *deffile = "sw.def";
 
-extern int startwin_run(struct startwin_settings *settings);
+extern int startwin_run(struct startwin_settings *settingsignored);
 
 VOID
 InitGame(VOID)

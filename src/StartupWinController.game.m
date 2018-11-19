@@ -415,7 +415,7 @@ int startwin_idle(void *v)
 extern char* grpfile;
 extern int32 ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP, ForceSetup, UseMouse, UseJoystick;
 
-int startwin_run(struct startwin_settings *settings)
+int startwin_run(struct startwin_settings *settingsignored)
 {
 	int retval;
 	

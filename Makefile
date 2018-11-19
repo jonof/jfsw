@@ -181,6 +181,8 @@ ifeq ($(PLATFORM),WINDOWS)
 endif
 
 ifeq ($(RENDERTYPE),SDL)
+	OURCFLAGS+= $(SDLCONFIG_CFLAGS)
+	LIBS+= $(SDLCONFIG_LIBS)
 	ifeq (1,$(HAVE_GTK2))
 		OURCFLAGS+= -DHAVE_GTK2 $(shell pkg-config --cflags gtk+-2.0)
 		GAMEOBJS+= $(SRC)/game_banner.$o $(SRC)/grpscan.$o $(SRC)/startgtk.game.$o
@@ -214,10 +216,6 @@ alldarwin:
 endif
 
 all: sw$(EXESUFFIX) build$(EXESUFFIX)
-
-# from jfbuild/Makefile, ideally should be moved to jfbuild/Makefile.shared:
-OURCFLAGS+= $(SDLCONFIG_CFLAGS)
-LIBS+= $(SDLCONFIG_LIBS)
 
 sw$(EXESUFFIX): $(GAMEOBJS) $(ELIB)/$(ENGINELIB) $(AUDIOLIBROOT)/$(JFAUDIOLIB)
 	$(CXX) $(CXXFLAGS) $(OURCXXFLAGS) $(OURCFLAGS) -o $@ $^ $(LIBS) $(GAMELIBS) -Wl,-Map=$@.map

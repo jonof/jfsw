@@ -3,7 +3,7 @@
 	url = ../jfmact.git
 [submodule "jfaudiolib"]
 	path = jfaudiolib
-	url = https://github.com/jonof/jfaudiolib.git
+	url = ../jfaudiolib.git
 [submodule "jfbuild"]
 	path = jfbuild
-	url = https://github.com/jonof/jfbuild.git
+	url = ../jfbuild.git

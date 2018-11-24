@@ -81,9 +81,9 @@ $(SRC)/bldscript.$o: $(SRC)/bldscript.c $(build_h) $(names2_h) $(game_h) $(INC)/
 $(SRC)/jbhlp.$o: $(SRC)/jbhlp.c $(build_h) $(INC)/keys.h $(names2_h) $(game_h) $(EINC)/editor.h $(EINC)/cache1d.h
 
 $(SRC)/grpscan.$o: $(SRC)/grpscan.c $(EINC)/compat.h $(EINC)/baselayer.h $(EINC)/scriptfile.h $(EINC)/cache1d.h $(EINC)/crc32.h $(INC)/grpscan.h
-$(SRC)/gameres.$o: $(SRC)/gameres.rc $(INC)/gameres.h $(INC)/version.h $(RSRC)/game.bmp $(RSRC)/game_icon.ico
-$(SRC)/buildres.$o: $(SRC)/buildres.rc $(EINC)/buildres.h $(RSRC)/build.bmp $(RSRC)/build_icon.ico
-$(SRC)/startwin_game.$o: $(SRC)/startwin_game.c $(EINC)/build.h $(EINC)/winlayer.h $(EINC)/compat.h $(INC)/grpscan.h $(INC)/startwin.h $(INC)/gameres.h
+$(SRC)/gameres.$(res): $(SRC)/gameres.rc $(INC)/gameres.h $(INC)/version.h $(RSRC)/game.bmp $(RSRC)/game_icon.ico
+$(SRC)/buildres.$(res): $(SRC)/buildres.rc $(EINC)/buildres.h $(RSRC)/build.bmp $(RSRC)/build_icon.ico
+$(SRC)/startwin_game.$o: $(SRC)/startwin_game.c $(EINC)/build.h $(EINC)/winlayer.h $(EINC)/compat.h $(INC)/grpscan.h $(INC)/startwin.h $(INC)/gameres.h $(INC)/version.h
 $(SRC)/startgtk_game.$o: $(SRC)/startgtk_game.c $(EINC)/build.h $(EINC)/baselayer.h $(SRC)/grpscan.h $(INC)/startwin.h $(EINC)/compat.h
 
 # Derived source files from art assets

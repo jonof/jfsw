@@ -49,6 +49,7 @@ EINC=$(EROOT)/include
 ELIB=$(EROOT)
 INC=$(SRC)
 o=o
+res=o
 
 ifneq (0,$(RELEASE))
   # debugging disabled
@@ -169,8 +170,8 @@ endif
 ifeq ($(PLATFORM),WINDOWS)
 	OURCFLAGS+= -I$(DXROOT)/include
 	NASMFLAGS+= -f win32 --prefix _
-	GAMEOBJS+= $(SRC)/gameres.$o $(SRC)/startwin_game.$o
-	EDITOROBJS+= $(SRC)/buildres.$o
+	GAMEOBJS+= $(SRC)/gameres.$(res) $(SRC)/startwin_game.$o
+	EDITOROBJS+= $(SRC)/buildres.$(res)
 	GAMELIBS+= -ldsound \
 	       $(AUDIOLIBROOT)/third-party/mingw32/lib/libvorbisfile.a \
 	       $(AUDIOLIBROOT)/third-party/mingw32/lib/libvorbis.a \
@@ -249,7 +250,7 @@ $(SRC)/%.$o: $(SRC)/%.cpp
 $(MACTROOT)/%.$o: $(MACTROOT)/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@
 
-$(SRC)/%.$o: $(SRC)/%.rc
+$(SRC)/%.$(res): $(SRC)/%.rc
 	$(RC) -i $< -o $@ --include-dir=$(EINC) --include-dir=$(SRC)
 
 $(SRC)/%.$o: $(SRC)/util/%.c

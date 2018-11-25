@@ -16,9 +16,6 @@ RELEASE ?= 1
 # Base path of app installation
 PREFIX ?= /usr/local/share/games/jfsw
 
-# DirectX SDK location
-DXROOT ?= $(USERPROFILE)/sdks/directx/dx81
-
 # Engine source code path
 EROOT ?= jfbuild
 
@@ -29,12 +26,15 @@ MACTROOT ?= jfmact
 AUDIOLIBROOT ?= jfaudiolib
 
 # Engine options
+#  SUPERBUILD     - enables voxels
+#  POLYMOST       - enables Polymost renderer
+#  USE_OPENGL     - enables OpenGL support in Polymost
+#     Define as 1 or 2 for GL 2.1 profile
+#  NOASM          - disables the use of assembly code
 SUPERBUILD ?= 1
 POLYMOST ?= 1
 USE_OPENGL ?= 1
-DYNAMIC_OPENGL ?= 1
 NOASM ?= 0
-LINKED_GTK ?= 0
 
 
 ##
@@ -50,6 +50,7 @@ EINC=$(EROOT)/include
 ELIB=$(EROOT)
 INC=$(SRC)
 o=o
+res=o
 
 ifneq (0,$(RELEASE))
   # debugging disabled
@@ -61,10 +62,12 @@ endif
 
 include $(AUDIOLIBROOT)/Makefile.shared
 
-CC=gcc
-CXX=g++
+CC?=gcc
+CXX?=g++
+NASM?=nasm
+RC?=windres
 OURCFLAGS=$(debug) -W -Wall -Wimplicit -Wno-unused \
-	-fno-pic -fno-strict-aliasing -DNO_GCC_BUILTINS \
+	-fno-strict-aliasing -DNO_GCC_BUILTINS \
 	-I$(INC) -I$(EINC) -I$(MACTROOT) -I$(AUDIOLIBROOT)/include
 OURCXXFLAGS=-fno-exceptions -fno-rtti
 LIBS=-lm
@@ -102,6 +105,7 @@ GAMEOBJS= \
 	$(SRC)/game.$o \
 	$(SRC)/girlninj.$o \
 	$(SRC)/goro.$o \
+	$(SRC)/grpscan.$o \
 	$(SRC)/hornet.$o \
 	$(SRC)/interp.$o \
 	$(SRC)/interpsh.$o \
@@ -167,8 +171,8 @@ endif
 ifeq ($(PLATFORM),WINDOWS)
 	OURCFLAGS+= -I$(DXROOT)/include
 	NASMFLAGS+= -f win32 --prefix _
-	GAMEOBJS+= $(SRC)/gameres.$o $(SRC)/grpscan.$o $(SRC)/startwin.game.$o
-	EDITOROBJS+= $(SRC)/buildres.$o
+	GAMEOBJS+= $(SRC)/gameres.$(res) $(SRC)/startwin_game.$o
+	EDITOROBJS+= $(SRC)/buildres.$(res)
 	GAMELIBS+= -ldsound \
 	       $(AUDIOLIBROOT)/third-party/mingw32/lib/libvorbisfile.a \
 	       $(AUDIOLIBROOT)/third-party/mingw32/lib/libvorbis.a \
@@ -176,14 +180,27 @@ ifeq ($(PLATFORM),WINDOWS)
 endif
 
 ifeq ($(RENDERTYPE),SDL)
-	ifeq (1,$(HAVE_GTK2))
-		OURCFLAGS+= -DHAVE_GTK2 $(shell pkg-config --cflags gtk+-2.0)
-		GAMEOBJS+= $(SRC)/game_banner.$o $(SRC)/grpscan.$o $(SRC)/startgtk.game.$o
-		EDITOROBJS+= $(SRC)/editor_banner.$o
+	OURCFLAGS+= $(SDLCONFIG_CFLAGS)
+	LIBS+= $(SDLCONFIG_LIBS)
+
+	ifeq (1,$(HAVE_GTK))
+		OURCFLAGS+= $(GTKCONFIG_CFLAGS)
+		LIBS+= $(GTKCONFIG_LIBS)
+		GAMEOBJS+= $(SRC)/startgtk_game.$o $(RSRC)/startgtk_game_gresource.$o
+		EDITOROBJS+= $(RSRC)/startgtk_build_gresource.$o
 	endif
 
-	GAMEOBJS+= $(SRC)/game_icon.$o
-	EDITOROBJS+= $(SRC)/build_icon.$o
+	GAMEOBJS+= $(RSRC)/sdlappicon_game.$o
+	EDITOROBJS+= $(RSRC)/sdlappicon_build.$o
+endif
+
+# Source-control version stamping
+ifneq (no,$(shell git --version || echo no))
+GAMEOBJS+= $(SRC)/version-auto.$o
+EDITOROBJS+= $(SRC)/version-auto.$o
+else
+GAMEOBJS+= $(SRC)/version.$o
+EDITOROBJS+= $(SRC)/version.$o
 endif
 
 OURCFLAGS+= $(BUILDCFLAGS)
@@ -222,8 +239,10 @@ include Makefile.deps
 enginelib editorlib:
 	$(MAKE) -C $(EROOT) \
 		SUPERBUILD=$(SUPERBUILD) POLYMOST=$(POLYMOST) \
-		USE_OPENGL=$(USE_OPENGL) DYNAMIC_OPENGL=$(DYNAMIC_OPENGL) \
-		NOASM=$(NOASM) RELEASE=$(RELEASE) $@
+		USE_OPENGL=$(USE_OPENGL) NOASM=$(NOASM) \
+		RELEASE=$(RELEASE) $@
+$(EROOT)/generatesdlappicon$(EXESUFFIX):
+	$(MAKE) -C $(EROOT) generatesdlappicon$(EXESUFFIX)
 
 $(ELIB)/$(ENGINELIB): enginelib
 $(ELIB)/$(EDITORLIB): editorlib
@@ -241,23 +260,21 @@ $(SRC)/%.$o: $(SRC)/%.cpp
 $(MACTROOT)/%.$o: $(MACTROOT)/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@
 
-$(SRC)/%.$o: $(SRC)/misc/%.rc
-	windres -i $< -o $@ --include-dir=$(EINC) --include-dir=$(SRC)
+$(SRC)/%.$(res): $(SRC)/%.rc
+	$(RC) -i $< -o $@ --include-dir=$(EINC) --include-dir=$(SRC)
 
 $(SRC)/%.$o: $(SRC)/util/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@
 
-$(SRC)/%.$o: $(RSRC)/%.c
+$(RSRC)/%.$o: $(RSRC)/%.c
 	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@
 
-$(SRC)/game_banner.$o: $(RSRC)/game_banner.c
-$(SRC)/editor_banner.$o: $(RSRC)/editor_banner.c
-$(RSRC)/game_banner.c: $(RSRC)/game.bmp
-	echo "#include <gdk-pixbuf/gdk-pixdata.h>" > $@
-	gdk-pixbuf-csource --extern --struct --rle --name=startbanner_pixdata $^ | sed '/pixel_data:/ a (guint8*)' >> $@
-$(RSRC)/editor_banner.c: $(RSRC)/build.bmp
-	echo "#include <gdk-pixbuf/gdk-pixdata.h>" > $@
-	gdk-pixbuf-csource --extern --struct --rle --name=startbanner_pixdata $^ | sed '/pixel_data:/ a (guint8*)' >> $@
+$(RSRC)/%_gresource.c: $(RSRC)/%.gresource.xml
+	glib-compile-resources --generate --manual-register --c-name=startgtk --target=$@ --sourcedir=$(RSRC) $<
+$(RSRC)/%_gresource.h: $(RSRC)/%.gresource.xml
+	glib-compile-resources --generate --manual-register --c-name=startgtk --target=$@ --sourcedir=$(RSRC) $<
+$(RSRC)/sdlappicon_%.c: $(RSRC)/%.png $(EROOT)/generatesdlappicon$(EXESUFFIX)
+	$(EROOT)/generatesdlappicon$(EXESUFFIX) $< > $@
 
 # PHONIES
 clean:
@@ -275,6 +292,12 @@ else
 	-rm -f sw$(EXESUFFIX) build$(EXESUFFIX) core*
 	$(MAKE) -C $(EROOT) veryclean
 endif
+
+.PHONY: $(SRC)/version-auto.c
+$(SRC)/version-auto.c:
+	printf "const char *game_version = \"%s\";\n" $(shell git describe --always || echo git error) > $@
+	echo "const char *game_date = __DATE__;" >> $@
+	echo "const char *game_time = __TIME__;" >> $@
 
 ifeq ($(PLATFORM),WINDOWS)
 .PHONY: datainst

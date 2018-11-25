@@ -1,204 +1,240 @@
-# Shadow Warrior Makefile for Watcom Make
+# Shadow Warrior Makefile for Microsoft Make
+
+RELEASE=1
+
+# Engine options
+#  SUPERBUILD     - enables voxels
+#  POLYMOST       - enables Polymost renderer
+#  USE_OPENGL     - enables OpenGL support in Polymost
+#     Define as 1 or 2 for GL 2.1 profile
+#  NOASM          - disables the use of assembly code
+SUPERBUILD=1
+POLYMOST=1
+USE_OPENGL=1
+NOASM=0
+
+EROOT=jfbuild
+MACTROOT=jfmact
+AUDIOLIBROOT=jfaudiolib
+
+# Create Makefile.msvcuser yourself to provide your own overrides
+# for configurable values
+!if EXIST(Makefile.msvcuser)
+!include Makefile.msvcuser
+!endif
 
 SRC=src
-OBJ=obj
-EROOT=engine
+RSRC=rsrc
 EINC=$(EROOT)\include
-ELIB=$(EROOT)\obj.msc
+ELIB=$(EROOT)\src
 INC=$(SRC)
+
 o=obj
+res=res
 
 ENGINELIB=engine.lib
 EDITORLIB=build.lib
 
-!ifdef DEBUG
-# debugging options
-flags_cl=/G6Fy /Od /Z7
-flags_link=/DEBUG
+flags_cl=
+flags_rc=
+!if "$(PLATFORM)" == "X64"
+NOASM=1
+flags_cl=
+flags_rc=/d_M_AMD64
 !else
-# release options
-flags_cl=/G6Fy /Ox #/Ob1gity
-flags_link=/RELEASE
+flags_cl=/arch:IA32
 !endif
 
+!if $(RELEASE)
+# release options
+flags_cl=$(flags_cl) /Ox
+flags_link=/RELEASE
+!else
+# debugging options
+flags_cl=$(flags_cl) /Ot /Z7
+flags_link=/DEBUG
+!endif
 
-DXROOT=c:\sdks\directx\dx81
+ENGINEOPTS=/DRENDERTYPEWIN=1
+!if $(SUPERBUILD)
+ENGINEOPTS=$(ENGINEOPTS) /DSUPERBUILD
+!endif
+!if $(POLYMOST)
+ENGINEOPTS=$(ENGINEOPTS) /DPOLYMOST
+!endif
+!if $(USE_OPENGL)
+ENGINEOPTS=$(ENGINEOPTS) /DUSE_OPENGL=$(USE_OPENGL)
+!endif
+!if $(NOASM)
+ENGINEOPTS=$(ENGINEOPTS) /DNOASM
+!endif
 
-ENGINEOPTS=/DSUPERBUILD /DPOLYMOST /DUSE_OPENGL /DDYNAMIC_OPENGL
+!include $(AUDIOLIBROOT)/Makefile.msvcshared
 
 CC=cl
-AS=ml
-LINK=link /opt:nowin98 /nologo /opt:ref
-CFLAGS= /MD /J /nologo $(flags_cl)  \
-	/I$(INC) /I$(EINC) /I$(SRC)\jmact /I$(SRC)\jaudiolib \
-	$(ENGINEOPTS) \
-	/I$(DXROOT)\include /DRENDERTYPEWIN=1
-LIBS=user32.lib gdi32.lib shell32.lib dxguid.lib winmm.lib wsock32.lib #opengl32.lib
-ASFLAGS=/nologo /coff
+RC=rc
+LINK=link
+OURCFLAGS=/nologo /MD /J $(flags_cl)  \
+	/I$(INC) /I$(EINC) /I$(MACTROOT) /I$(AUDIOLIBROOT)\include \
+	$(ENGINEOPTS)
+LIBS=user32.lib gdi32.lib shell32.lib ws2_32.lib comctl32.lib comdlg32.lib uxtheme.lib xinput9_1_0.lib
+LINKFLAGS=/opt:ref /nologo $(flags_link)
+RFLAGS=/nologo /i$(EINC) /i$(SRC) $(flags_rc)
 EXESUFFIX=.exe
 
-JMACTOBJ=$(OBJ)\util_lib.$o \
-	$(OBJ)\file_lib.$o \
-	$(OBJ)\control.$o \
-	$(OBJ)\keyboard.$o \
-	$(OBJ)\mouse.$o \
-	$(OBJ)\mathutil.$o \
-	$(OBJ)\scriplib.$o \
-	$(OBJ)\animlib.$o
+JMACTOBJ=$(MACTROOT)\util_lib.$o \
+	$(MACTROOT)\file_lib.$o \
+	$(MACTROOT)\control.$o \
+	$(MACTROOT)\keyboard.$o \
+	$(MACTROOT)\mouse.$o \
+	$(MACTROOT)\mathutil.$o \
+	$(MACTROOT)\scriplib.$o \
+	$(MACTROOT)\animlib.$o
 
-#JAUDIOLIB_FX=$(OBJ)\jaudiolib_fxstub.$o
-#JAUDIOLIB_MUSIC=$(OBJ)\jaudiolib_musicstub.$o
-#JAUDIOLIB_FX=$(OBJ)\jaudiolib_fx_fmod.$o
-JAUDIOLIB_FX=$(OBJ)\mv_mix.$o \
-	  $(OBJ)\mv_mix16.$o \
-	  $(OBJ)\mvreverb.$o \
-	  $(OBJ)\pitch.$o \
-	  $(OBJ)\multivoc.$o \
-	  $(OBJ)\ll_man.$o \
-	  $(OBJ)\fx_man.$o \
-	  $(OBJ)\dsoundout.$o
-JAUDIOLIB_MUSIC=$(OBJ)\midi.$o \
-	  $(OBJ)\mpu401.$o \
-	  $(OBJ)\music.$o
-JAUDIOLIBOBJ=$(JAUDIOLIB_MUSIC) $(JAUDIOLIB_FX)
+GAMEOBJS=$(SRC)\actor.$o \
+	$(SRC)\ai.$o \
+	$(SRC)\anim.$o \
+	$(SRC)\border.$o \
+	$(SRC)\break.$o \
+	$(SRC)\bunny.$o \
+	$(SRC)\cache.$o \
+	$(SRC)\cheats.$o \
+	$(SRC)\colormap.$o \
+	$(SRC)\config.$o \
+	$(SRC)\console.$o \
+	$(SRC)\coolg.$o \
+	$(SRC)\coolie.$o \
+	$(SRC)\copysect.$o \
+	$(SRC)\demo.$o \
+	$(SRC)\draw.$o \
+	$(SRC)\eel.$o \
+	$(SRC)\game.$o \
+	$(SRC)\girlninj.$o \
+	$(SRC)\goro.$o \
+	$(SRC)\grpscan.$o \
+	$(SRC)\hornet.$o \
+	$(SRC)\interp.$o \
+	$(SRC)\interpsh.$o \
+	$(SRC)\inv.$o \
+	$(SRC)\jplayer.$o \
+	$(SRC)\jsector.$o \
+	$(SRC)\jweapon.$o \
+	$(SRC)\lava.$o \
+	$(SRC)\light.$o \
+	$(SRC)\mclip.$o \
+	$(SRC)\menus.$o \
+	$(SRC)\miscactr.$o \
+	$(SRC)\morph.$o \
+	$(SRC)\net.$o \
+	$(SRC)\ninja.$o \
+	$(SRC)\panel.$o \
+	$(SRC)\player.$o \
+	$(SRC)\predict.$o \
+	$(SRC)\quake.$o \
+	$(SRC)\ripper.$o \
+	$(SRC)\ripper2.$o \
+	$(SRC)\rooms.$o \
+	$(SRC)\rotator.$o \
+	$(SRC)\rts.$o \
+	$(SRC)\save.$o \
+	$(SRC)\scrip2.$o \
+	$(SRC)\sector.$o \
+	$(SRC)\serp.$o \
+	$(SRC)\setup.$o \
+	$(SRC)\skel.$o \
+	$(SRC)\skull.$o \
+	$(SRC)\slidor.$o \
+	$(SRC)\sounds.$o \
+	$(SRC)\spike.$o \
+	$(SRC)\sprite.$o \
+	$(SRC)\sumo.$o \
+	$(SRC)\swconfig.$o \
+	$(SRC)\sync.$o \
+	$(SRC)\text.$o \
+	$(SRC)\track.$o \
+	$(SRC)\vator.$o \
+	$(SRC)\vis.$o \
+	$(SRC)\wallmove.$o \
+	$(SRC)\warp.$o \
+	$(SRC)\weapon.$o \
+	$(SRC)\zilla.$o \
+	$(SRC)\zombie.$o \
+	$(SRC)\saveable.$o \
+	$(SRC)\gameres.$(res) \
+	$(SRC)\startwin_game.$o \
+	$(JMACTOBJ)
 
-GAMEOBJS=$(OBJ)\actor.$o \
-	$(OBJ)\ai.$o \
-	$(OBJ)\anim.$o \
-	$(OBJ)\border.$o \
-	$(OBJ)\break.$o \
-	$(OBJ)\bunny.$o \
-	$(OBJ)\cache.$o \
-	$(OBJ)\cd.$o \
-	$(OBJ)\cheats.$o \
-	$(OBJ)\colormap.$o \
-	$(OBJ)\config.$o \
-	$(OBJ)\console.$o \
-	$(OBJ)\coolg.$o \
-	$(OBJ)\coolie.$o \
-	$(OBJ)\copysect.$o \
-	$(OBJ)\demo.$o \
-	$(OBJ)\draw.$o \
-	$(OBJ)\eel.$o \
-	$(OBJ)\game.$o \
-	$(OBJ)\girlninj.$o \
-	$(OBJ)\goro.$o \
-	$(OBJ)\hornet.$o \
-	$(OBJ)\interp.$o \
-	$(OBJ)\interpsh.$o \
-	$(OBJ)\inv.$o \
-	$(OBJ)\jplayer.$o \
-	$(OBJ)\jsector.$o \
-	$(OBJ)\jweapon.$o \
-	$(OBJ)\lava.$o \
-	$(OBJ)\light.$o \
-	$(OBJ)\mclip.$o \
-	$(OBJ)\menus.$o \
-	$(OBJ)\miscactr.$o \
-	$(OBJ)\morph.$o \
-	$(OBJ)\net.$o \
-	$(OBJ)\ninja.$o \
-	$(OBJ)\panel.$o \
-	$(OBJ)\player.$o \
-	$(OBJ)\predict.$o \
-	$(OBJ)\quake.$o \
-	$(OBJ)\ripper.$o \
-	$(OBJ)\ripper2.$o \
-	$(OBJ)\rooms.$o \
-	$(OBJ)\rotator.$o \
-	$(OBJ)\rts.$o \
-	$(OBJ)\save.$o \
-	$(OBJ)\scrip2.$o \
-	$(OBJ)\sector.$o \
-	$(OBJ)\serp.$o \
-	$(OBJ)\setup.$o \
-	$(OBJ)\skel.$o \
-	$(OBJ)\skull.$o \
-	$(OBJ)\slidor.$o \
-	$(OBJ)\sounds.$o \
-	$(OBJ)\spike.$o \
-	$(OBJ)\sprite.$o \
-	$(OBJ)\sumo.$o \
-	$(OBJ)\swconfig.$o \
-	$(OBJ)\sync.$o \
-	$(OBJ)\text.$o \
-	$(OBJ)\track.$o \
-	$(OBJ)\usrhooks.$o \
-	$(OBJ)\vator.$o \
-	$(OBJ)\vis.$o \
-	$(OBJ)\wallmove.$o \
-	$(OBJ)\warp.$o \
-	$(OBJ)\weapon.$o \
-	$(OBJ)\zilla.$o \
-	$(OBJ)\zombie.$o \
-	$(OBJ)\saveable.$o \
-	$(JMACTOBJ) \
-	$(JAUDIOLIBOBJ) \
-	$(OBJ)\cda_win32.$o $(OBJ)\gameres.res 
+EDITOROBJS=$(SRC)\jnstub.$o \
+	$(SRC)\brooms.$o \
+	$(SRC)\bldscript.$o \
+	$(SRC)\jbhlp.$o \
+	$(SRC)\colormap.$o \
+	$(SRC)\buildres.$(res)
 
-EDITOROBJS=$(OBJ)\jnstub.$o \
-	$(OBJ)\brooms.$o \
-	$(OBJ)\bldscript.$o \
-	$(OBJ)\jbhlp.$o \
-	$(OBJ)\colormap.$o \
-	$(OBJ)\buildres.res
-	
+# Source-control version stamping
+!if [git --version >nul] == 0
+GAMEOBJS=$(GAMEOBJS) $(SRC)\version-auto.$o
+EDITOROBJS=$(EDITOROBJS) $(SRC)\version-auto.$o
+!else
+GAMEOBJS=$(GAMEOBJS) $(SRC)\version.$o
+EDITOROBJS=$(EDITOROBJS) $(SRC)\version.$o
+!endif
 
 # RULES
-.SUFFIXES: .masm
+{$(MACTROOT)}.c{$(MACTROOT)}.$o:
+	$(CC) /c $(CFLAGS) $(OURCFLAGS) /Fo$@ $<
 
-{$(SRC)}.masm{$(OBJ)}.$o:
-	$(AS) /c $(ASFLAGS) /Fo$@ $<
+{$(SRC)}.c{$(SRC)}.$o:
+	$(CC) /c $(CFLAGS) $(OURCFLAGS) /Fo$@ $<
 
-{$(SRC)\jaudiolib}.masm{$(OBJ)}.$o:
-	$(AS) /c $(ASFLAGS) /Fo$@ $<
+{$(SRC)}.cpp{$(SRC)}.$o:
+	$(CC) /c $(CFLAGS) $(OURCFLAGS) /Fo$@ $<
 
-{$(SRC)\jmact}.c{$(OBJ)}.$o:
-	$(CC) /c $(CFLAGS) /Fo$@ $<
-
-{$(SRC)\jaudiolib}.c{$(OBJ)}.$o:
-	$(CC) /c $(CFLAGS) /Fo$@ $<
-
-{$(SRC)\util}.c{$(OBJ)}.$o:
-	$(CC) /c $(CFLAGS) /Fo$@ $<
-
-{$(SRC)}.c{$(OBJ)}.$o:
-	$(CC) /c $(CFLAGS) /Fo$@ $<
-
-{$(SRC)\misc}.rc{$(OBJ)}.res:
-	$(RC) /i$(EINC) /i$(SRC) /fo$@ /r $<
+{$(SRC)}.rc{$(SRC)}.$(res):
+	$(RC) $(RFLAGS) /fo$@ /r $<
 
 
 # TARGETS
 all: sw$(EXESUFFIX) build$(EXESUFFIX) ;
 
-sw$(EXESUFFIX): $(GAMEOBJS) $(ELIB)\$(ENGINELIB)
-	$(LINK) /OUT:$@ /SUBSYSTEM:WINDOWS /LIBPATH:$(DXROOT)\lib $(flags_link) /MAP $** $(LIBS) msvcrt.lib
-	
+sw$(EXESUFFIX): $(GAMEOBJS) $(ELIB)\$(ENGINELIB) $(AUDIOLIBROOT)\$(JFAUDIOLIB)
+	$(LINK) /OUT:$@ /SUBSYSTEM:WINDOWS $(LINKFLAGS) /MAP $** $(LIBS) $(JFAUDIOLIB_LINKFLAGS) msvcrt.lib
+
 build$(EXESUFFIX): $(EDITOROBJS) $(ELIB)\$(ENGINELIB) $(ELIB)\$(EDITORLIB)
-	$(LINK) /OUT:$@ /SUBSYSTEM:WINDOWS /LIBPATH:$(DXROOT)\lib $(flags_link) /MAP $** $(LIBS) msvcrt.lib
+	$(LINK) /OUT:$@ /SUBSYSTEM:WINDOWS $(LINKFLAGS) /MAP $** $(LIBS) msvcrt.lib
 
 !include Makefile.deps
 
 enginelib editorlib: AlwaysBuild
-	echo CFLAGS=$(ENGINEOPTS) > engineoverrides.mak
-	cd $(EROOT)
-	nmake /f Makefile.msvc "OVERRIDES=$(MAKEDIR)\engineoverrides.mak" $@
-	cd $(MAKEDIR)
+	cd "$(EROOT)"
+	$(MAKE) /f Makefile.msvc /$(MAKEFLAGS) SUPERBUILD=$(SUPERBUILD) POLYMOST=$(POLYMOST) USE_OPENGL=$(USE_OPENGL) NOASM=$(NOASM) $@
+	cd "$(MAKEDIR)"
+
+jfaudiolib: AlwaysBuild
+	cd "$(AUDIOLIBROOT)"
+	$(MAKE) /f Makefile.msvc /$(MAKEFLAGS) RELEASE=$(RELEASE)
+	cd "$(MAKEDIR)"
+
+$(SRC)\version-auto.c: AlwaysBuild
+	powershell tools\generateversion.ps1 > $@
 
 AlwaysBuild: ;
 $(ELIB)\$(EDITORLIB): editorlib ;
 $(ELIB)\$(ENGINELIB): enginelib ;
+$(AUDIOLIBROOT)\$(JFAUDIOLIB): jfaudiolib ;
 
-# PHONIES	
+# PHONIES
 clean:
-	-del /q $(OBJ)\*
-	cd $(EROOT)
-	nmake /f Makefile.msvc $@
-	cd $(MAKEDIR)
-	
+	-del /q $(GAMEOBJS) $(EDITOROBJS)
+	cd "$(EROOT)"
+	$(MAKE) /f Makefile.msvc $@
+	cd "$(MAKEDIR)"
+	cd "$(AUDIOLIBROOT)"
+	$(MAKE) /f Makefile.msvc $@
+	cd "$(MAKEDIR)"
+
 veryclean: clean
 	-del /q sw$(EXESUFFIX) build$(EXESUFFIX)
-	cd $(EROOT)
-	nmake /f Makefile.msvc $@
-	cd $(MAKEDIR)
+	cd "$(EROOT)"
+	$(MAKE) /f Makefile.msvc $@
+	cd "$(MAKEDIR)"

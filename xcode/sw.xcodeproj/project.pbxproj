@@ -19,6 +19,17 @@
 			name = all;
 			productName = all;
 		};
+		ABD2DF6321AA3F3000BDB555 /* Version stamp */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = ABD2DF6D21AA3F3000BDB555 /* Build configuration list for PBXAggregateTarget "Version stamp" */;
+			buildPhases = (
+				ABD2DF7221AA3F4800BDB555 /* Generate version-auto.c */,
+			);
+			dependencies = (
+			);
+			name = "Version stamp";
+			productName = "Version stamp";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -121,6 +132,8 @@
 		ABB4AC3B0C64C6FE00F28920 /* zombie.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB60C64C4D000F28920 /* zombie.c */; };
 		ABB4AC3E0C64C72C00F28920 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
 		ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
+		ABD2DF7421AA3F8D00BDB555 /* version-auto.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD2DF7321AA3F8D00BDB555 /* version-auto.c */; };
+		ABD2DF7521AA3F8D00BDB555 /* version-auto.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD2DF7321AA3F8D00BDB555 /* version-auto.c */; };
 		ABD91FA417375E9300394607 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD91FA317375E9300394607 /* AudioToolbox.framework */; };
 		ABD9E95720720AC200F1B9B3 /* Build Editor-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ABD9E95620720AC200F1B9B3 /* Build Editor-Info.plist */; };
 		ABD9E96120720C0800F1B9B3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABD9E95A20720C0800F1B9B3 /* Images.xcassets */; };
@@ -246,6 +259,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = ABE362492144CA6500BA44B3;
 			remoteInfo = bin2c;
+		};
+		ABD2DF6E21AA3F3D00BDB555 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABB4AB270C64C36100F28920 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ABD2DF6321AA3F3000BDB555;
+			remoteInfo = "Version stamp";
+		};
+		ABD2DF7021AA3F4200BDB555 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABB4AB270C64C36100F28920 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ABD2DF6321AA3F3000BDB555;
+			remoteInfo = "Version stamp";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -428,6 +455,7 @@
 		ABB4AC3F0C64C73A00F28920 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		ABBD3FAF10205ACF00F32F37 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
 		ABD2DF2A21A58A0600BDB555 /* gamecontrollerdb.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = gamecontrollerdb.txt; path = ../rsrc/gamecontrollerdb.txt; sourceTree = "<group>"; };
+		ABD2DF7321AA3F8D00BDB555 /* version-auto.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "version-auto.c"; sourceTree = "<group>"; };
 		ABD91FA317375E9300394607 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		ABD9E95620720AC200F1B9B3 /* Build Editor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Build Editor-Info.plist"; sourceTree = "<group>"; };
 		ABD9E95A20720C0800F1B9B3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -678,6 +706,7 @@
 				AB214390101EF14900E844AE /* track.h */,
 				AB214391101EF14900E844AE /* trigger.h */,
 				ABB4ABB00C64C4D000F28920 /* vator.c */,
+				ABD2DF7321AA3F8D00BDB555 /* version-auto.c */,
 				ABB4ABB10C64C4D000F28920 /* vis.c */,
 				AB214392101EF14900E844AE /* vis.h */,
 				ABB4ABB20C64C4D000F28920 /* wallmove.c */,
@@ -767,6 +796,7 @@
 				AB0FFB2D172B572000400B2B /* PBXTargetDependency */,
 				AB0FFB32172B573200400B2B /* PBXTargetDependency */,
 				AB0FFB37172B574B00400B2B /* PBXTargetDependency */,
+				ABD2DF7121AA3F4200BDB555 /* PBXTargetDependency */,
 			);
 			name = "Build Editor for JFShadowWarrior";
 			productName = "Build Editor for JFShadowWarrior";
@@ -787,6 +817,7 @@
 			dependencies = (
 				AB0FFB23172B569E00400B2B /* PBXTargetDependency */,
 				AB0FFB25172B569E00400B2B /* PBXTargetDependency */,
+				ABD2DF6F21AA3F3D00BDB555 /* PBXTargetDependency */,
 			);
 			name = JFShadowWarrior;
 			productName = JFShadowWarrior;
@@ -800,6 +831,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0610;
+				TargetAttributes = {
+					ABD2DF6321AA3F3000BDB555 = {
+						CreatedOnToolsVersion = 10.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = ABB4AB280C64C36100F28920 /* Build configuration list for PBXProject "sw" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -827,6 +864,7 @@
 			projectRoot = "";
 			targets = (
 				ABB4ABC40C64C51300F28920 /* all */,
+				ABD2DF6321AA3F3000BDB555 /* Version stamp */,
 				ABB4ABCC0C64C52900F28920 /* JFShadowWarrior */,
 				AB8F60C90C6591F300202E11 /* Build Editor for JFShadowWarrior */,
 			);
@@ -928,6 +966,28 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		ABD2DF7221AA3F4800BDB555 /* Generate version-auto.c */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate version-auto.c";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SOURCE_ROOT)/../src/version-auto.c",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd $PROJECT_DIR/..\ngitdescribe=$(git describe --always 2>/dev/null || echo git error)\n\ncat >src/version-auto.c <<EOT\nconst char *game_version = \"$gitdescribe\";\nconst char *game_date = __DATE__;\nconst char *game_time = __TIME__;\nEOT\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AB8F60C70C6591F300202E11 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -938,6 +998,7 @@
 				AB8F60DB0C65924900202E11 /* jbhlp.c in Sources */,
 				AB8F60DC0C65924900202E11 /* jnstub.c in Sources */,
 				AB8F61B50C65932600202E11 /* keyboard.c in Sources */,
+				ABD2DF7521AA3F8D00BDB555 /* version-auto.c in Sources */,
 				AB8F61B70C65936000202E11 /* colormap.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -989,6 +1050,7 @@
 				ABB4AC1E0C64C6FE00F28920 /* ripper2.c in Sources */,
 				ABB4AC1F0C64C6FE00F28920 /* rooms.c in Sources */,
 				ABB4AC200C64C6FE00F28920 /* rotator.c in Sources */,
+				ABD2DF7421AA3F8D00BDB555 /* version-auto.c in Sources */,
 				ABB4AC210C64C6FE00F28920 /* rts.c in Sources */,
 				ABB4AC220C64C6FE00F28920 /* save.c in Sources */,
 				ABB4AC230C64C6FE00F28920 /* saveable.c in Sources */,
@@ -1065,6 +1127,16 @@
 			isa = PBXTargetDependency;
 			target = AB8F60C90C6591F300202E11 /* Build Editor for JFShadowWarrior */;
 			targetProxy = AB8F61C60C6593F900202E11 /* PBXContainerItemProxy */;
+		};
+		ABD2DF6F21AA3F3D00BDB555 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ABD2DF6321AA3F3000BDB555 /* Version stamp */;
+			targetProxy = ABD2DF6E21AA3F3D00BDB555 /* PBXContainerItemProxy */;
+		};
+		ABD2DF7121AA3F4200BDB555 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ABD2DF6321AA3F3000BDB555 /* Version stamp */;
+			targetProxy = ABD2DF7021AA3F4200BDB555 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1208,6 +1280,22 @@
 			};
 			name = Release;
 		};
+		ABD2DF6421AA3F3000BDB555 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		ABD2DF6521AA3F3000BDB555 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1243,6 +1331,15 @@
 			buildConfigurations = (
 				ABB4ABD50C64C52A00F28920 /* Debug */,
 				ABB4ABD60C64C52A00F28920 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ABD2DF6D21AA3F3000BDB555 /* Build configuration list for PBXAggregateTarget "Version stamp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABD2DF6421AA3F3000BDB555 /* Debug */,
+				ABD2DF6521AA3F3000BDB555 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

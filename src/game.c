@@ -1728,10 +1728,7 @@ LogoLevel(VOID)
     {
     char called;
     int fin;
-    unsigned char backup_pal[256*3];
     unsigned char pal[PAL_SIZE];
-    unsigned char tempbuf[256];
-    unsigned char *palook_bak = palookup[0];
     UserInput uinfo = { FALSE, FALSE, dir_None };
     int i;
 
@@ -1739,23 +1736,10 @@ LogoLevel(VOID)
     DSPRINTF(ds,"LogoLevel...");
     MONO_PRINT(ds);
 
-    for (i = 0; i < 256; i++)
-        tempbuf[i] = i;
-    palookup[0] = tempbuf;
-
-    DSPRINTF(ds,"Created palookup...");
-    MONO_PRINT(ds);
-
     // start music at logo
     PlaySong(LevelInfo[0].SongName, RedBookSong[0], TRUE, TRUE);
 
     DSPRINTF(ds,"After music stuff...");
-    MONO_PRINT(ds);
-
-    //GetPaletteFromVESA(pal);
-    //memcpy(backup_pal, pal, PAL_SIZE);
-
-    DSPRINTF(ds,"Got Palette from VESA...");
     MONO_PRINT(ds);
 
     // PreCache Anim
@@ -1778,14 +1762,15 @@ LogoLevel(VOID)
     DSPRINTF(ds,"About to display 3drealms pic...");
     MONO_PRINT(ds);
 
-    clearview(0);
-    rotatesprite(0, 0, RS_SCALE, 0, THREED_REALMS_PIC, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
-    nextpage();
     //FadeIn(0, 3);
 
     ResetKeys();
     while (TRUE)
         {
+        clearview(0);
+        rotatesprite(0, 0, RS_SCALE, 0, THREED_REALMS_PIC, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
+        nextpage();
+        
         handleevents();
         CONTROL_GetUserInput(&uinfo);
         CONTROL_ClearUserInput(&uinfo);
@@ -1804,11 +1789,8 @@ LogoLevel(VOID)
             }
         }
 
-    palookup[0] = palook_bak;
-
     clearview(0);
     nextpage();
-    //SetPaletteToVESA(backup_pal);
     setbrightness(gs.Brightness, &palette_data[0][0], 2);
 
     // put up a blank screen while loading

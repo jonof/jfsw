@@ -2331,10 +2331,16 @@ PlayerGameReset(PLAYERp pp)
 
     if(pp == Player+screenpeek)
         {
-        if (getrendermode() < 3)
-            COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
-        else
+#if USE_POLYMOST && USE_OPENGL
+        if (getrendermode() >= 3)
+            {
             setpalettefade(0,0,0,0);
+            }
+        else
+#endif
+            {
+            COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
+            }
         memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
         }
     pp->NightVision = FALSE;
@@ -2435,10 +2441,16 @@ InitPlayerSprite(PLAYERp pp)
 
     if(pp == Player+screenpeek)
         {
-        if (getrendermode() < 3)
-            COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
-        else
+#if USE_POLYMOST && USE_OPENGL
+        if (getrendermode() >= 3)
+            {
             setpalettefade(0,0,0,0);
+            }
+        else
+#endif
+            {
+            COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
+            }
         memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
         }
 

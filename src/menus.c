@@ -4798,7 +4798,9 @@ FadeIn(unsigned char startcolor, unsigned int clicks)
     RGB_color color;
     unsigned char temp_pal[768], *palette;
 
+#if USE_POLYMOST && USE_OPENGL
     if (getrendermode() >= 3) return;
+#endif
 
     palette = &palette_data[0][0];
 
@@ -4858,7 +4860,9 @@ FadeOut(unsigned char targetcolor, unsigned int clicks)
     RGB_color color;
     unsigned char temp_pal[768];
 
+#if USE_POLYMOST && USE_OPENGL
     if (getrendermode() >= 3) return;
+#endif
 
     color.red = palette_data[targetcolor][0];
     color.green = palette_data[targetcolor][1];
@@ -4974,10 +4978,16 @@ SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
     // Reset the palette
     if(pp == Player + screenpeek)
         {
-        if (getrendermode() < 3)
-            COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
-        else
+#if USE_POLYMOST && USE_OPENGL
+        if (getrendermode() >= 3)
+            {
             setpalettefade(0,0,0,0);
+            }
+        else
+#endif
+            {
+            COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
+            }
         if (pp->FadeAmt <= 0)
             GetPaletteFromVESA(&ppalette[screenpeek][0]);
         }
@@ -5073,8 +5083,16 @@ SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
     // Do initial palette set
     if(pp == Player + screenpeek)
         {
-	if (getrendermode() < 3) set_pal(pp->temp_pal);
-	else setpalettefade(color.red, color.green, color.blue, faderamp[ min(31,max(0,32-abs(pp->FadeAmt))) ] );
+#if USE_POLYMOST && USE_OPENGL
+        if (getrendermode() >= 3)
+            {
+            setpalettefade(color.red, color.green, color.blue, faderamp[ min(31,max(0,32-abs(pp->FadeAmt))) ] );
+            }
+    	else
+#endif
+            {
+            set_pal(pp->temp_pal);
+            }
         if (damage < -1000)
             pp->FadeAmt = 1000;  // Don't call DoPaletteFlash for underwater stuff
         }
@@ -5097,10 +5115,16 @@ DoPaletteFlash(PLAYERp pp)
         pp->StartColor = 0;
         if(pp == Player + screenpeek)
             {
-            if (getrendermode() < 3)
-                COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
-            else
+#if USE_POLYMOST && USE_OPENGL
+            if (getrendermode() >= 3)
+                {
                 setpalettefade(0,0,0,0);
+                }
+            else
+#endif
+                {
+                COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
+                }
             memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
             DoPlayerDivePalette(pp);  // Check Dive again
             DoPlayerNightVisionPalette(pp);  // Check Night Vision again
@@ -5136,10 +5160,16 @@ DoPaletteFlash(PLAYERp pp)
         pp->StartColor = 0;
         if(pp == Player + screenpeek)
             {
-            if (getrendermode() < 3)
-                COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
-            else
+#if USE_POLYMOST && USE_OPENGL
+            if (getrendermode() >= 3)
+                {
                 setpalettefade(0,0,0,0);
+                }
+            else
+#endif
+                {
+                COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
+                }
             memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
             DoPlayerDivePalette(pp);  // Check Dive again
             DoPlayerNightVisionPalette(pp);  // Check Night Vision again
@@ -5173,15 +5203,21 @@ DoPaletteFlash(PLAYERp pp)
         // Only hard set the palette if this is currently the player's view
         if(pp == Player + screenpeek)
             {
-	    if (getrendermode() < 3) set_pal(pp->temp_pal);
-	    else {
-		    setpalettefade(
-			palette_data[pp->StartColor][0],
-			palette_data[pp->StartColor][1],
-			palette_data[pp->StartColor][2],
-			faderamp[ min(31,max(0,32-abs(pp->FadeAmt))) ]
-			      );
-		}
+#if USE_POLYMOST && USE_OPENGL
+    	    if (getrendermode() >= 3)
+                {
+                setpalettefade(
+                    palette_data[pp->StartColor][0],
+                    palette_data[pp->StartColor][1],
+                    palette_data[pp->StartColor][2],
+                    faderamp[ min(31,max(0,32-abs(pp->FadeAmt))) ]
+                    );
+                }
+            else
+#endif
+                {
+                set_pal(pp->temp_pal);
+                }
             }
 
         }
@@ -5190,10 +5226,16 @@ DoPaletteFlash(PLAYERp pp)
 
 VOID ResetPalette(PLAYERp pp)
     {
-    if (getrendermode() < 3)
-        COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
-    else
+#if USE_POLYMOST && USE_OPENGL
+    if (getrendermode() >= 3)
+        {
         setpalettefade(0,0,0,0);
+        }
+    else
+#endif
+        {
+        COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
+        }
     memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
     //DoPlayerDivePalette(pp);  // Check Dive again
     //DoPlayerNightVisionPalette(pp);  // Check Night Vision again

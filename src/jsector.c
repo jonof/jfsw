@@ -502,7 +502,9 @@ void drawroomstotile(int daposx, int daposy, int daposz,
 
 	squarerotatetile(tilenume);
 
+#if USE_POLYMOST && USE_OPENGL
 	invalidatetile(tilenume, -1, -1);
+#endif
 }
 #else
 void
@@ -1081,7 +1083,9 @@ JAnalyzeSprites(SPRITEp tspr)
     // Take care of autosizing
     DoAutoSize(tspr);
 
+#if USE_POLYMOST && USE_OPENGL
     if (getrendermode() == 3 && md_tilehasmodel(tspr->picnum) >= 0 && usemodels) return;
+#endif
 
     // Check for voxels
     //if (bVoxelsOn)

@@ -2300,8 +2300,12 @@ drawscreen(PLAYERp pp)
         }
     #endif
 
+#if USE_POLYMOST
     if (getrendermode() >= 3)
-	RedrawScreen = TRUE;
+#endif
+        {
+        RedrawScreen = TRUE;
+        }
 
     DrawScreen = TRUE;
     PreDraw();

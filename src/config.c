@@ -563,9 +563,11 @@ int32 CONFIG_ReadSetup( void )
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "MaxRefreshFreq", (int32*)&maxrefreshfreq);
 #endif
 
+#if USE_POLYMOST && USE_OPENGL
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "GLTextureMode", &gltexfiltermode);
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "GLAnisotropy", &glanisotropy);
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "GLUseTextureCompr", &glusetexcompr);
+#endif
 
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "FXDevice",&FXDevice);
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "MusicDevice",&MusicDevice);
@@ -628,12 +630,16 @@ void CONFIG_WriteSetup( void )
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenHeight",ScreenHeight,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenMode",ScreenMode,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenBPP",ScreenBPP,FALSE,FALSE);
+
 #ifdef RENDERTYPEWIN
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "MaxRefreshFreq",maxrefreshfreq,FALSE,FALSE);
 #endif
+
+#if USE_POLYMOST && USE_OPENGL
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLTextureMode",gltexfiltermode,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLAnisotropy",glanisotropy,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLUseTextureCompr",glusetexcompr,FALSE,FALSE);
+#endif
 
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "FXDevice", FXDevice, FALSE, FALSE);
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "MusicDevice", MusicDevice, FALSE, FALSE);

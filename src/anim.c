@@ -333,7 +333,9 @@ playanm(short anim_num)
         {
         // draw the first frame
         waloff[ANIM_TILE(ANIMnum)] = (intptr_t)ANIM_DrawFrame(1);
+#if USE_POLYMOST && USE_OPENGL
         invalidatetile(ANIM_TILE(ANIMnum), 0, 1<<4);
+#endif
         rotatesprite(0 << 16, 0 << 16, 65536L, 512, ANIM_TILE(ANIMnum), 0, 0, 2 + 4 + 8 + 16 + 64, 0, 0, xdim - 1, ydim - 1);
         }
 
@@ -380,7 +382,9 @@ playanm(short anim_num)
             }
 
         waloff[ANIM_TILE(ANIMnum)] = (intptr_t)ANIM_DrawFrame(i);
+#if USE_POLYMOST && USE_OPENGL
         invalidatetile(ANIM_TILE(ANIMnum), 0, 1<<4);
+#endif
 
         rotatesprite(0 << 16, 0 << 16, 65536L, 512, ANIM_TILE(ANIMnum), 0, 0, 2 + 4 + 8 + 16 + 64, 0, 0, xdim - 1, ydim - 1);
         nextpage();

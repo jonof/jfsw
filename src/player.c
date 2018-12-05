@@ -5086,10 +5086,16 @@ DoPlayerDivePalette(PLAYERp pp)
             {
             memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
             memcpy(palookup[PALETTE_DEFAULT], DefaultPalette, 256 * 32);
-            if (getrendermode() < 3)
-                COVERsetbrightness(gs.Brightness, &palette_data[0][0]);
-            else
+#if USE_POLYMOST && USE_OPENGL
+            if (getrendermode() >= 3)
+                {
                 setpalettefade(0,0,0,0);
+                }
+            else
+#endif
+                {
+                COVERsetbrightness(gs.Brightness, &palette_data[0][0]);
+                }
             pp->FadeAmt = 0;
             }
         }
@@ -6952,10 +6958,16 @@ VOID DoPlayerDeathCheckKeys(PLAYERp pp)
 
         if(pp == Player + screenpeek)
             {
-            if (getrendermode() < 3)
-                COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
-            else
+#if USE_POLYMOST && USE_OPENGL
+            if (getrendermode() >= 3)
+                {
                 setpalettefade(0,0,0,0);
+                }
+            else
+#endif
+                {
+                COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
+                }
             //memcpy(&palette_data[0][0],&palette_data[0][0],768);
             memcpy(&pp->temp_pal[0],&palette_data[0][0],768);
             }

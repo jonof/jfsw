@@ -629,10 +629,16 @@ DoPlayerNightVisionPalette(PLAYERp pp)
             memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
             memcpy(palookup[PALETTE_DEFAULT], DefaultPalette, 256 * 32);
             pp->FadeAmt = 0;
-            if (getrendermode() < 3)
-                COVERsetbrightness(gs.Brightness, &palette_data[0][0]);
-            else
+#if USE_POLYMOST && USE_OPENGL
+            if (getrendermode() >= 3)
+                {
                 setpalettefade(0,0,0,0);
+                }
+            else
+#endif
+                {
+                COVERsetbrightness(gs.Brightness, &palette_data[0][0]);
+                }
             }
             pp->NightVision = FALSE;
         }

@@ -2300,7 +2300,7 @@ extern BOOL MoveSkip4, MoveSkip2, MoveSkip8;
 #define MASTER_SWITCHING 1
 
 extern char option[];
-extern char keys[];
+extern int keys[];
 
 extern short screenpeek;
 

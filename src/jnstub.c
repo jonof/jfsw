@@ -114,7 +114,7 @@ void PrintStatus(char *string, int num, char x, char y, char color);
 
 #define NUMOPTIONS 8
 char option[NUMOPTIONS] = {0, 0, 0, 0, 0, 0, 1, 0};
-char keys[NUMBUILDKEYS] =
+int keys[NUMBUILDKEYS] =
     {
     0xc8, 0xd0, 0xcb, 0xcd, 0x2a, 0x9d, 0x1d, 0x39,
     0x1e, 0x2c, 0xd1, 0xc9, 0x33, 0x34,
@@ -1401,7 +1401,7 @@ MoreKeys(short searchstat, short searchwall, short searchsector, short pointhigh
 
 
 
-    if (KEY_PRESSED(KEYSC_RALT + 128) && KEY_PRESSED(KEYSC_RCTRL + 128))
+    if (KEY_PRESSED(KEYSC_RALT) && KEY_PRESSED(KEYSC_RCTRL))
         {
         if (KEY_PRESSED(KEYSC_KPMINUS))
             {
@@ -2169,7 +2169,7 @@ ExtCheckKeys(void)
     }
 
 void
-ExtLoadMap(const char *mapname)
+ExtLoadMap(const char *UNUSED(mapname))
     {
     SPRITEp sp;
     int i;
@@ -2179,7 +2179,7 @@ ExtLoadMap(const char *mapname)
     SetSpriteExtra();
 
 
-#if 0
+/*
     Old visibility New visibility
      8->16384
      9->8192
@@ -2189,7 +2189,7 @@ ExtLoadMap(const char *mapname)
      13->512
      14->256
      15->128
-#endif
+*/
 
     // if in valid range set visiblity for the map
     if (sector[0].extra != -1 && sector[0].extra > 0 && sector[0].extra < 16384)
@@ -2205,7 +2205,7 @@ ExtLoadMap(const char *mapname)
     }
 
 void
-ExtSaveMap(const char *mapname)
+ExtSaveMap(const char *UNUSED(mapname))
     {
     SPRITEp sp;
     int i;
@@ -2736,9 +2736,10 @@ DrawClipBox(short spritenum)
         x = mulscale14(x - posx, zoom);
         y = mulscale14(y - posy, zoom);
         }
+	else return;
 
-    x += 320;
-    y += 200;
+    x += halfxdim16;
+    y += midydim16;
 
     radius = mulscale14(sprite[spritenum].lotag, zoom);
 
@@ -2754,7 +2755,7 @@ DrawClipBox(short spritenum)
     }
 
 void
-ExtShowSectorData(short sectnum)        // F5
+ExtShowSectorData(short UNUSED(sectnum))        // F5
     {
     int i, x, y, x2;
 
@@ -2927,7 +2928,7 @@ ExtShowSpriteData(short spritenum)      // F6
     }
 
 void
-ExtEditSectorData(short sectnum)        // F7
+ExtEditSectorData(short UNUSED(sectnum))        // F7
     {
     short key_num;
     SPRITEp sp;
@@ -2956,7 +2957,7 @@ ExtEditSectorData(short sectnum)        // F7
     }
 
 void
-ExtEditWallData(short wallnum)          // F8
+ExtEditWallData(short UNUSED(wallnum))          // F8
     {
 //    short nickdata;
 
@@ -3688,22 +3689,6 @@ void ExtPreSaveMap(void)
     {
     ResetBuildFAF();
     ResetSprites();
-    }
-
-void
-dsprintf(char *str, char *format, ...)
-    {
-    va_list arglist;
-
-    va_start( arglist, format );
-    vsprintf( str, format, arglist );
-    va_end( arglist );
-    }
-
-void
-dsprintf_null(char *str, char *format, ...)
-    {
-    va_list arglist;
     }
 
 

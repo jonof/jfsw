@@ -534,6 +534,7 @@ CTLType ControlPanelType;
 short       menuarrayptr;       // Index into menuarray
 MenuGroup   *menuarray[MaxLayers], *currentmenu;
 BOOL UsingMenus = FALSE;
+BOOL ForceMenus = FALSE;
 
 #define MAXDIALOG       2       // Maximum number of dialog strings allowed
 char *dialog[MAXDIALOG];
@@ -559,7 +560,13 @@ MenuItem_p cust_callback_item;
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////////////
 
-static BOOL MNU_Dialog(void);
+typedef enum {
+    dialog_NoAnswer = 0,
+    dialog_Yes = 1,
+    dialog_No = 2
+} DialogResponse;
+
+static DialogResponse MNU_Dialog(void);
 VOID LoadSaveMsg(char *msg);
 static VOID MNU_ItemPreProcess(MenuGroup *group);
 static void MNU_SelectItem(MenuGroup * group, short index, BOOL draw);
@@ -584,11 +591,14 @@ MNU_Ten(void)
 */
 // CTW REMOVED END
 BOOL
-MNU_DoEpisodeSelect(UserCall UNUSED(call), MenuItem * UNUSED(item))
+MNU_DoEpisodeSelect(UserCall call, MenuItem * UNUSED(item))
     {
     short w,h;
     char TempString[80];
     char *extra_text;
+
+    if (call != uc_touchup)
+        return(TRUE);
 
     extra_text = EpisodeSubtitles[0];
     MNU_MeasureString(extra_text, &w, &h);
@@ -1495,7 +1505,7 @@ static BOOL MNU_SetJoystickAxisFunctions(MenuItem_p item)
 BOOL
 MNU_OrderCustom(UserCall call, MenuItem * item)
     {
-    static signed char on_screen = 0,last_screen = 0;
+    static signed char on_screen = 0;
     UserInput order_input;
     static int limitmove=0;
     UserInput tst_input;
@@ -1551,6 +1561,10 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
         {
         if (call != uc_setup)
             return (FALSE);
+        cust_callback = MNU_OrderCustom;
+        cust_callback_call = uc_draw;
+        cust_callback_item = item;
+        return (TRUE);
         }
 
     if (SW_SHAREWARE && on_screen == 0 && !DidOrderSound)
@@ -1616,19 +1630,14 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
         order_input_buffered.dir = tst_input.dir;
         }
 
-    if (!KEY_PRESSED(KEYSC_ESC) && !order_input_buffered.button1)
-        {
-        cust_callback = MNU_OrderCustom;
-        cust_callback_call = call;
-        cust_callback_item = item;
-        }
-    else
+    if (order_input_buffered.button1)
         {
         KEY_PRESSED(KEYSC_ESC) = FALSE;
         cust_callback = NULL;
         DidOrderSound = FALSE;
         on_screen = 0;
         ExitMenus();
+        return(TRUE);
         }
 
     if (order_input.dir == dir_North)
@@ -1939,7 +1948,7 @@ BOOL
 MNU_QuitCustom(UserCall call, MenuItem_p item)
     {
     int select;
-    int ret;
+    DialogResponse ret;
     extern BOOL DrawScreen;
 
     // Ignore the special touchup calls
@@ -1954,41 +1963,28 @@ MNU_QuitCustom(UserCall call, MenuItem_p item)
         memset(dialog, 0, sizeof(dialog));
 
         dialog[0] = S_QUITYN;
+
+        cust_callback = MNU_QuitCustom;
+        cust_callback_call = uc_draw;
+        cust_callback_item = item;
+
+		return(TRUE);
         }
 
     ret = MNU_Dialog();
 
-    if (DrawScreen)
+    if (DrawScreen || ret == dialog_NoAnswer)
         return(TRUE);
 
-    if (!ret)
-        {
-        if (!mnu_input.button1 && !KB_KeyPressed(sc_N))
-            {
-            cust_callback = MNU_QuitCustom;
-            cust_callback_call = call;
-            cust_callback_item = item;
-            }
-        else
-            {
-            cust_callback = NULL;
-            ExitMenus();
-            }
-        }
-    else
-        {
-        cust_callback = NULL;
-        ExitMenus();
-        }
+    cust_callback = NULL;
+    ExitMenus();
 
-    if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter) || mnu_input.button0)
+    if (ret == dialog_Yes)
         {
         if (CommPlayers >= 2)
             MultiPlayQuitFlag = TRUE;
         else
             QuitFlag = TRUE;
-
-        ExitMenus();
         }
 
     KB_ClearKeysDown();
@@ -2005,7 +2001,7 @@ MNU_QuickLoadCustom(UserCall call, MenuItem_p item)
     PLAYERp pp = Player + myconnectindex;
     extern short GlobInfoStringTime;
     extern BOOL DrawScreen;
-    int ret;
+    DialogResponse ret;
 
     if (cust_callback == NULL)
         {
@@ -2017,6 +2013,12 @@ MNU_QuickLoadCustom(UserCall call, MenuItem_p item)
         dialog[0] = "Load saved game";
         sprintf(QuickLoadDescrDialog,"\"%s\" (Y/N)?",SaveGameDescr[QuickLoadNum]);
         dialog[1] = QuickLoadDescrDialog;
+
+        cust_callback = MNU_QuickLoadCustom;
+        cust_callback_call = uc_draw;
+        cust_callback_item = item;
+
+		return(TRUE);
         }
 
     // Ignore the special touchup calls
@@ -2025,34 +2027,25 @@ MNU_QuickLoadCustom(UserCall call, MenuItem_p item)
 
     ret = MNU_Dialog();
 
-    if (DrawScreen)
+    if (DrawScreen || ret == dialog_NoAnswer)
         {
         return(TRUE);
         }
 
-    if (ret == FALSE)
+    if (ret == dialog_No)
         {
-        if (KB_KeyPressed(sc_N) || KB_KeyPressed(sc_Space) || KB_KeyPressed(sc_Enter))
+        cust_callback = NULL;
+        if (ReloadPrompt)
             {
-            cust_callback = NULL;
-            if (ReloadPrompt)
-                {
-                ReloadPrompt = FALSE;
-                bak = GlobInfoStringTime;
-                GlobInfoStringTime = 999;
-                PutStringInfo(pp, "Press SPACE to restart");
-                GlobInfoStringTime = bak;
-                }
+            ReloadPrompt = FALSE;
+            bak = GlobInfoStringTime;
+            GlobInfoStringTime = 999;
+            PutStringInfo(pp, "Press SPACE to restart");
+            GlobInfoStringTime = bak;
+            }
 
-            KB_ClearKeysDown();
-            ExitMenus();
-            }
-        else
-            {
-            cust_callback = MNU_QuickLoadCustom;
-            cust_callback_call = call;
-            cust_callback_item = item;
-            }
+        KB_ClearKeysDown();
+        ExitMenus();
         }
     else
         {
@@ -2514,7 +2507,7 @@ MNU_InputSmallString(char *name, short pix_width)
 ////////////////////////////////////////////////
 // Draw dialog text on screen
 ////////////////////////////////////////////////
-static BOOL
+static DialogResponse
 MNU_Dialog(void)
     {
     short ndx, linecnt, w[MAXDIALOG], h, x, y;
@@ -2543,9 +2536,11 @@ MNU_Dialog(void)
     CONTROL_GetUserInput(&mnu_input);
 
     if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter) || mnu_input.button0)
-        return (TRUE);
+        return dialog_Yes;
+    else if (KB_KeyPressed(sc_N) || KB_KeyPressed(sc_Escape) || mnu_input.button1)
+        return dialog_No;
     else
-        return (FALSE);
+        return dialog_NoAnswer;
     }
 
 ////////////////////////////////////////////////
@@ -2891,11 +2886,14 @@ MNU_LoadSaveMove(UserCall UNUSED(call), MenuItem_p UNUSED(item))
     }
 
 BOOL
-MNU_LoadSaveDraw(UserCall UNUSED(call), MenuItem_p UNUSED(item))
+MNU_LoadSaveDraw(UserCall call, MenuItem_p UNUSED(item))
     {
     short i;
     short game_num;
     short tile;
+
+    if (call != uc_touchup)
+        return(TRUE);
 
     game_num = currentmenu->cursor;
 
@@ -4499,7 +4497,6 @@ void MNU_DoMenu( CTLType UNUSED(type), PLAYERp UNUSED(pp) )
     int zero = 0;
     static int handle2 = 0;
     static int limitmove=0;
-    static BOOL select_held=FALSE;
 
     resetitem = TRUE;
 
@@ -4654,7 +4651,7 @@ MNU_CheckForMenus(void)
         }
     else
         {
-        if ((KEY_PRESSED(KEYSC_ESC) || BUTTON(gamefunc_Show_Menu)) && dimensionmode == 3 && !ConPanel)
+        if ((ForceMenus || KEY_PRESSED(KEYSC_ESC) || BUTTON(gamefunc_Show_Menu)) && dimensionmode == 3 && !ConPanel)
             {
             KEY_PRESSED(KEYSC_ESC) = 0;
             CONTROL_ClearButton(gamefunc_Show_Menu);
@@ -4666,6 +4663,8 @@ MNU_CheckForMenus(void)
             PauseGame();
             }
         }
+
+    ForceMenus = FALSE;
     }
 
 void
@@ -4678,7 +4677,7 @@ MNU_CheckForMenusAnyKey(void)
         }
     else
         {
-        if (KeyPressed())
+        if (KeyPressed() || ForceMenus)
             {
             ResetKeys();
             KB_ClearKeysDown();
@@ -4687,6 +4686,8 @@ MNU_CheckForMenusAnyKey(void)
             pMenuClearTextLine(Player + myconnectindex);
             }
         }
+
+    ForceMenus = FALSE;
     }
 
 static int MNU_ControlAxisOffset(int num)

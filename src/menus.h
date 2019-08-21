@@ -39,6 +39,7 @@ typedef enum {
 } CTLType;
 
 extern BOOL UsingMenus;
+extern BOOL ForceMenus;     // Force menus to be opened in lieu of user instigation.
 extern int SENSITIVITY;
 extern CTLType ControlPanelType;
 extern SHORT MenuTextShade;
@@ -240,7 +241,10 @@ typedef enum
 
 typedef enum
     {
-    uc_setup, uc_draw, uc_touchup, uc_hit
+    uc_setup,
+    uc_draw,        // Draw the menu from scratch.
+    uc_touchup,     // Draw adornments on a conventional menu.
+    uc_hit
     } UserCall;
 
 typedef struct MENU_ITEM

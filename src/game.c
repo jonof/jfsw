@@ -1850,6 +1850,8 @@ CreditsLevel(VOID)
 
     while (TRUE)
         {
+        handleevents();
+
         // taken from top of faketimerhandler
         // limits checks to max of 40 times a second
         if (totalclock >= ototalclock + synctics)

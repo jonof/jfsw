@@ -2531,8 +2531,6 @@ MNU_Dialog(void)
         y += (h + 3);
         }
 
-    mnu_input.button0 = mnu_input.button1 = FALSE;
-    CONTROL_ClearUserInput(&mnu_input);
     CONTROL_GetUserInput(&mnu_input);
 
     if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter) || mnu_input.button0)
@@ -3986,7 +3984,10 @@ MNU_SetupMenu(void)
 
     menuarrayptr = 0;
     menuarray[0] = currentmenu = rootmenu;
-    if(ControlPanelType == ct_mainmenu)
+
+    // Get currently held input state and invalidate it.
+    CONTROL_GetUserInput(&mnu_input);
+    CONTROL_ClearUserInput(&mnu_input);
 
     mnu_input_buffered.button0 = mnu_input_buffered.button1 = FALSE;
     mnu_input_buffered.dir = dir_None;

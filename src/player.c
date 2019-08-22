@@ -6581,6 +6581,8 @@ DoPlayerBeginDie(PLAYERp pp)
         GlobInfoStringTime = bak;
         }
 
+    FLAG_KEY_RELEASE(pp, SK_SPACE_BAR);
+
     if (pp->sop_control)
         DoPlayerStopOperate(pp);
 
@@ -6904,8 +6906,13 @@ VOID DoPlayerDeathCheckKeys(PLAYERp pp)
     extern BOOL InputMode;
 
     //if (TEST_SYNC_KEY(pp, SK_OPERATE))
-    if (TEST_SYNC_KEY(pp, SK_SPACE_BAR))
+    if (!TEST_SYNC_KEY(pp, SK_SPACE_BAR))
+        FLAG_KEY_RESET(pp, SK_SPACE_BAR);
+    else
+    if (FLAG_KEY_PRESSED(pp, SK_SPACE_BAR))
         {
+        FLAG_KEY_RELEASE(pp, SK_SPACE_BAR);
+
         // Spawn a dead LoWang body for non-head deaths
         // Hey Frank, if you think of a better check, go ahead and put it in.
         if (PlayerFloorHit(pp, pp->loz - PLAYER_HEIGHT))

@@ -248,13 +248,13 @@ void CONFIG_SetDefaults( void )
 
    memset(JoystickButtons, -1, sizeof(JoystickButtons));
    memset(JoystickButtonsClicked, -1, sizeof(JoystickButtonsClicked));
-   for (i=0; i < (int32)(sizeof(joystickdefaults)/sizeof(char*)); i++) {
+   for (i=0; i < MAXJOYBUTTONS; i++) {
       JoystickButtons[i] = CONFIG_FunctionNameToNum( joystickdefaults[i] );
       JoystickButtonsClicked[i] = CONFIG_FunctionNameToNum( joystickclickeddefaults[i] );
    }
 
    memset(JoystickDigitalAxes, -1, sizeof(JoystickDigitalAxes));
-   for (i=0; i < (int32)(sizeof(joystickanalogdefaults)/sizeof(char*)); i++) {
+   for (i=0; i < MAXJOYAXES; i++) {
       JoystickAnalogScale[i] = 65536;
       JoystickAnalogDead[i] = 1024;
       JoystickAnalogSaturate[i] = 32767-1024;
@@ -297,23 +297,20 @@ void SetDefaultKeyDefinitions(int style)
 
 void SetMouseDefaults(int style)
 {
-   int nummousedefaults;
    char **mousedefaultset, **mouseclickeddefaultset;
    int i;
 
    if (style) {
-      nummousedefaults = sizeof(mousedefaults_modern) / sizeof(char *);
       mousedefaultset = mousedefaults_modern;
       mouseclickeddefaultset = mouseclickeddefaults_modern;
    } else {
-      nummousedefaults = sizeof(mousedefaults) / sizeof(char *);
       mousedefaultset = mousedefaults;
       mouseclickeddefaultset = mouseclickeddefaults;
    }
 
    memset(MouseButtons, -1, sizeof(MouseButtons));
    memset(MouseButtonsClicked, -1, sizeof(MouseButtonsClicked));
-   for (i=0; i < nummousedefaults; i++) {
+   for (i=0; i < MAXMOUSEBUTTONS; i++) {
       MouseButtons[i] = CONFIG_FunctionNameToNum( mousedefaultset[i] );
       CONTROL_MapButton( MouseButtons[i], i, FALSE, controldevice_mouse );
 

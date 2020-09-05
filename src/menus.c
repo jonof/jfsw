@@ -1466,7 +1466,7 @@ static BOOL MNU_JoystickAxisSetupCustom(UserCall call, MenuItem *item)
 
 static BOOL MNU_JoystickAxisNextPage(void)
 {
-    JoystickAxisPage = (JoystickAxisPage + 1) % MNU_ControlAxisOffset(analog_maxtype);
+    JoystickAxisPage = (JoystickAxisPage + 1) % joynumaxes;
     joyaxessetupgroup.cursor = 1;
     MNU_ItemPreProcess(&joyaxessetupgroup);
     MNU_JoystickAxesInitialise(NULL);
@@ -1764,15 +1764,17 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
 
 BOOL MNU_LoadModernDefaults(void)
     {
-    SetDefaultKeyDefinitions(1);
-    SetMouseDefaults(1);
+    CONFIG_SetDefaultKeyDefinitions(CONFIG_DEFAULTS_MODERN);
+    CONFIG_SetMouseDefaults(CONFIG_DEFAULTS_MODERN);
+    CONFIG_SetJoystickDefaults(CONFIG_DEFAULTS_MODERN);
     return TRUE;
     }
 
 BOOL MNU_LoadClassicDefaults(void)
     {
-    SetDefaultKeyDefinitions(0);
-    SetMouseDefaults(0);
+    CONFIG_SetDefaultKeyDefinitions(CONFIG_DEFAULTS_CLASSIC);
+    CONFIG_SetMouseDefaults(CONFIG_DEFAULTS_CLASSIC);
+    CONFIG_SetJoystickDefaults(CONFIG_DEFAULTS_CLASSIC);
     return TRUE;
     }
 
@@ -3876,8 +3878,16 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
             }
 
         p = CONFIG_AnalogNumToName(MNU_ControlAxisNum(offset));
-        while (*p != 0 && *p != '_') p++;
-        if (*p == '_') p++;
+        if (!p)
+            {
+            p = "-";
+            }
+        else
+            {
+            // Skip past the "analog_" prefix.
+            while (*p != 0 && *p != '_') p++;
+            if (*p == '_') p++;
+            }
         MNU_DrawSmallString(OPT_XSIDE+tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(barwidth+1)*tilesizx[pic_slidebar], item->y+4, p, 1, 16);
         }
         break;
@@ -4682,11 +4692,12 @@ MNU_CheckForMenusAnyKey(void)
 static int MNU_ControlAxisOffset(int num)
 {
     switch (num) {
-        case analog_turning: return 0;
-        case analog_strafing: return 1;
-        case analog_moving: return 2;
-        case analog_lookingupanddown: return 3;
-        case analog_maxtype: return 4;
+        case -1: return 0;
+        case analog_turning: return 1;
+        case analog_strafing: return 2;
+        case analog_moving: return 3;
+        case analog_lookingupanddown: return 4;
+        case analog_maxtype: return 5;
         default: return 0;
     }
 }
@@ -4694,11 +4705,12 @@ static int MNU_ControlAxisOffset(int num)
 static int MNU_ControlAxisNum(int offset)
 {
     switch (offset) {
-        case 0: return analog_turning;
-        case 1: return analog_strafing;
-        case 2: return analog_moving;
-        case 3: return analog_lookingupanddown;
-        default: return analog_turning;
+        case 0: return -1;
+        case 1: return analog_turning;
+        case 2: return analog_strafing;
+        case 3: return analog_moving;
+        case 4: return analog_lookingupanddown;
+        default: return -1;
     }
 }
 

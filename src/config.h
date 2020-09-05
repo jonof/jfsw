@@ -110,11 +110,13 @@ extern int32 JoystickDigitalAxes[MAXJOYAXES][2];
 extern char setupfilename[64];
 extern char ExternalControlFilename[64];
 
-//style=0: classic
-//style=1: modern
-void SetMouseDefaults(int style);
-void SetJoystickDefaults( void );
-void SetDefaultKeyDefinitions(int style);
+enum {
+    CONFIG_DEFAULTS_CLASSIC,
+    CONFIG_DEFAULTS_MODERN
+};
+void CONFIG_SetMouseDefaults(int style);
+void CONFIG_SetJoystickDefaults(int style);
+void CONFIG_SetDefaultKeyDefinitions(int style);
 
 int32 CONFIG_ReadSetup( void );
 void CONFIG_SetupMouse( void );

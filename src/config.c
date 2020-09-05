@@ -232,42 +232,37 @@ void CONFIG_SetDefaults( void )
    Bstrcpy(WangBangMacro[8], MACRO9);
    Bstrcpy(WangBangMacro[9], MACRO10);
 
-   SetDefaultKeyDefinitions(0);
-   SetMouseDefaults(0);
+   CONFIG_SetDefaultKeyDefinitions(CONFIG_DEFAULTS_CLASSIC);
+   CONFIG_SetMouseDefaults(CONFIG_DEFAULTS_CLASSIC);
+   CONFIG_SetJoystickDefaults(CONFIG_DEFAULTS_CLASSIC);
 
    memset(MouseDigitalAxes, -1, sizeof(MouseDigitalAxes));
    for (i=0; i<MAXMOUSEAXES; i++) {
       MouseAnalogScale[i] = 65536;
+      CONTROL_SetAnalogAxisScale( i, MouseAnalogScale[i], controldevice_mouse );
 
       MouseDigitalAxes[i][0] = CONFIG_FunctionNameToNum( mousedigitaldefaults[i*2] );
       MouseDigitalAxes[i][1] = CONFIG_FunctionNameToNum( mousedigitaldefaults[i*2+1] );
+      CONTROL_MapDigitalAxis( i, MouseDigitalAxes[i][0], 0,controldevice_mouse );
+      CONTROL_MapDigitalAxis( i, MouseDigitalAxes[i][1], 1,controldevice_mouse );
 
       MouseAnalogAxes[i] = CONFIG_AnalogNameToNum( mouseanalogdefaults[i] );
+      CONTROL_MapAnalogAxis( i, MouseAnalogAxes[i], controldevice_mouse);
    }
    CONTROL_SetMouseSensitivity(gs.MouseSpeed);
 
-   memset(JoystickButtons, -1, sizeof(JoystickButtons));
-   memset(JoystickButtonsClicked, -1, sizeof(JoystickButtonsClicked));
-   for (i=0; i < MAXJOYBUTTONS; i++) {
-      JoystickButtons[i] = CONFIG_FunctionNameToNum( joystickdefaults[i] );
-      JoystickButtonsClicked[i] = CONFIG_FunctionNameToNum( joystickclickeddefaults[i] );
-   }
-
-   memset(JoystickDigitalAxes, -1, sizeof(JoystickDigitalAxes));
    for (i=0; i < MAXJOYAXES; i++) {
       JoystickAnalogScale[i] = 65536;
       JoystickAnalogDead[i] = 1024;
       JoystickAnalogSaturate[i] = 32767-1024;
-
-      JoystickDigitalAxes[i][0] = CONFIG_FunctionNameToNum( joystickdigitaldefaults[i*2] );
-      JoystickDigitalAxes[i][1] = CONFIG_FunctionNameToNum( joystickdigitaldefaults[i*2+1] );
-
-      JoystickAnalogAxes[i] = CONFIG_AnalogNameToNum( joystickanalogdefaults[i] );
+      CONTROL_SetAnalogAxisScale( i, JoystickAnalogScale[i], controldevice_joystick );
+      CONTROL_SetJoyAxisDead(i, JoystickAnalogDead[i]);
+      CONTROL_SetJoyAxisSaturate(i, JoystickAnalogSaturate[i]);
    }
 }
 
 
-void SetDefaultKeyDefinitions(int style)
+void CONFIG_SetDefaultKeyDefinitions(int style)
 {
    int numkeydefaults;
    char **keydefaultset;
@@ -295,7 +290,7 @@ void SetDefaultKeyDefinitions(int style)
    }
 }
 
-void SetMouseDefaults(int style)
+void CONFIG_SetMouseDefaults(int style)
 {
    char **mousedefaultset, **mouseclickeddefaultset;
    int i;
@@ -303,9 +298,11 @@ void SetMouseDefaults(int style)
    if (style) {
       mousedefaultset = mousedefaults_modern;
       mouseclickeddefaultset = mouseclickeddefaults_modern;
+      gs.MouseInvert = 1;
    } else {
       mousedefaultset = mousedefaults;
       mouseclickeddefaultset = mouseclickeddefaults;
+      gs.MouseInvert = 0;
    }
 
    memset(MouseButtons, -1, sizeof(MouseButtons));
@@ -318,6 +315,45 @@ void SetMouseDefaults(int style)
 
       MouseButtonsClicked[i] = CONFIG_FunctionNameToNum( mouseclickeddefaultset[i] );
       CONTROL_MapButton( MouseButtonsClicked[i], i, TRUE,  controldevice_mouse );
+   }
+}
+
+void CONFIG_SetJoystickDefaults(int style)
+{
+   char **joydefaultset, **joyclickeddefaultset;
+   char **joydigitaldefaultset, **joyanalogdefaultset;
+   int i;
+
+   if (style) {
+      joydefaultset = joystickdefaults_modern;
+      joyclickeddefaultset = joystickclickeddefaults_modern;
+      joydigitaldefaultset = joystickdigitaldefaults_modern;
+      joyanalogdefaultset = joystickanalogdefaults_modern;
+   } else {
+      joydefaultset = joystickdefaults;
+      joyclickeddefaultset = joystickclickeddefaults;
+      joydigitaldefaultset = joystickdigitaldefaults;
+      joyanalogdefaultset = joystickanalogdefaults;
+   }
+
+   memset(JoystickButtons, -1, sizeof(JoystickButtons));
+   memset(JoystickButtonsClicked, -1, sizeof(JoystickButtonsClicked));
+   for (i=0; i < MAXJOYBUTTONS; i++) {
+      JoystickButtons[i] = CONFIG_FunctionNameToNum( joydefaultset[i] );
+      JoystickButtonsClicked[i] = CONFIG_FunctionNameToNum( joyclickeddefaultset[i] );
+      CONTROL_MapButton( JoystickButtons[i], i, FALSE, controldevice_joystick );
+      CONTROL_MapButton( JoystickButtonsClicked[i], i, TRUE,  controldevice_joystick );
+   }
+
+   memset(JoystickDigitalAxes, -1, sizeof(JoystickDigitalAxes));
+   for (i=0; i < MAXJOYAXES; i++) {
+      JoystickDigitalAxes[i][0] = CONFIG_FunctionNameToNum( joydigitaldefaultset[i*2] );
+      JoystickDigitalAxes[i][1] = CONFIG_FunctionNameToNum( joydigitaldefaultset[i*2+1] );
+      CONTROL_MapDigitalAxis( i, JoystickDigitalAxes[i][0], 0, controldevice_joystick );
+      CONTROL_MapDigitalAxis( i, JoystickDigitalAxes[i][1], 1, controldevice_joystick );
+
+      JoystickAnalogAxes[i] = CONFIG_AnalogNameToNum( joyanalogdefaultset[i] );
+      CONTROL_MapAnalogAxis(i, JoystickAnalogAxes[i], controldevice_joystick);
    }
 }
 

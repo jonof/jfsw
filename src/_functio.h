@@ -314,6 +314,80 @@ static char * joystickclickeddefaults[MAXJOYBUTTONS] =
    };
 
 
+static char * joystickdefaults_modern[MAXJOYBUTTONS] =
+   {
+   "Jump",        // A
+   "Crouch",      // B
+   "Open",        // X
+   "",            // Y
+   "Map",         // Back
+   "",            // Guide
+   "Show_Menu",   // Start
+   "",            // L thumb
+   "",            // R thumb
+   "Previous_Weapon", // L shoulder
+   "Next_Weapon", // R shoulder
+   "Inventory",   // DP up
+   "Med_Kit",     // DP down
+   "Inventory_Left", // DP left
+   "Inventory_Right", // DP right
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   };
+
+
+static char * joystickclickeddefaults_modern[MAXJOYBUTTONS] =
+   {
+   "",            // A
+   "",            // B
+   "",            // X
+   "",            // Y
+   "",            // Back
+   "",            // Guide
+   "",            // Start
+   "",            // L thumb
+   "",            // R thumb
+   "",            // L shoulder
+   "",            // R shoulder
+   "",            // DP up
+   "",            // DP down
+   "",            // DP left
+   "",            // DP right
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   };
+
+
 static char * mouseanalogdefaults[MAXMOUSEAXES] =
    {
    "analog_turning",
@@ -361,6 +435,52 @@ static char * joystickdigitaldefaults[MAXJOYAXES*2] =
    "",
    "",
    "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   };
+
+
+static char * joystickanalogdefaults_modern[MAXJOYAXES] =
+   {
+   "analog_strafing",
+   "analog_moving",
+   "analog_turning",
+   "analog_lookingupanddown",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   };
+
+
+static char * joystickdigitaldefaults_modern[MAXJOYAXES*2] =
+   {
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "Fire",
    "",
    "",
    "",

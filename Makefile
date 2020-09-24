@@ -168,6 +168,10 @@ ifeq ($(PLATFORM),LINUX)
 	NASMFLAGS+= -f elf
 	GAMELIBS+= $(JFAUDIOLIB_LDFLAGS)
 endif
+ifeq ($(PLATFORM),BSD)
+	NASMFLAGS+= -f elf
+	GAMELIBS+= $(JFAUDIOLIB_LDFLAGS) -pthread
+endif
 ifeq ($(PLATFORM),WINDOWS)
 	OURCFLAGS+= -I$(DXROOT)/include
 	NASMFLAGS+= -f win32 --prefix _

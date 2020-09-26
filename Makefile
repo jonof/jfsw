@@ -13,8 +13,8 @@
 # Debugging options
 RELEASE ?= 1
 
-# Base path of app installation
-PREFIX ?= /usr/local/share/games/jfsw
+# Path where game data is installed
+DATADIR ?= /usr/local/share/games/jfsw
 
 # Engine source code path
 EROOT ?= jfbuild
@@ -211,7 +211,7 @@ OURCFLAGS+= $(BUILDCFLAGS)
 LIBS+= $(BUILDLIBS)
 
 ifneq ($(PLATFORM),WINDOWS)
-	OURCFLAGS+= -DPREFIX=\"$(PREFIX)\"
+	OURCFLAGS+= -DDATADIR=\"$(DATADIR)\"
 endif
 
 .PHONY: clean all engine $(ELIB)/$(ENGINELIB) $(ELIB)/$(EDITORLIB) $(AUDIOLIBROOT)/$(JFAUDIOLIB)

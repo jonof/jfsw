@@ -737,7 +737,7 @@ LoadLevel(char *filename)
     {
         char msg[256];
         Bsnprintf(msg, 256, "Level not found: %s", filename);
-        wm_msgbox(apptitle, msg);
+        wm_msgbox(NULL, msg);
     }
 #else
         printf("Level Not Found: %s\n", filename);
@@ -757,7 +757,7 @@ LoadImages(char *filename)
         TerminateGame();
 #ifdef RENDERTYPEWIN
     {
-        wm_msgbox(apptitle, "Art not found. Please check your GRP file.");
+        wm_msgbox(NULL, "Art not found. Please check your GRP file.");
     }
 #else
         printf("Art not found. Please check your GRP file.\n");
@@ -855,7 +855,7 @@ void MultiSharewareCheck(void)
     if (numplayers > 4)
         {
 #ifdef RENDERTYPEWIN
-    wm_msgbox(apptitle,"To play a Network game with more than 4 players you must purchase "
+    wm_msgbox(NULL,"To play a Network game with more than 4 players you must purchase "
         "the full version.  Read the Ordering Info screens for details.");
 #else
         printf(
@@ -1371,6 +1371,19 @@ InitLevel(VOID)
         DemoPlaySetup();
 
     LoadLevel(LevelName);
+
+    if (!DemoMode)
+        {
+        char windowtitle[256];
+
+        if (UserMapName[0])
+            Bsnprintf(windowtitle, sizeof(windowtitle), "User map: %s - %s", UserMapName, gameeditionname);
+        else
+            Bsnprintf(windowtitle, sizeof(windowtitle), "%s - %s", LevelInfo[Level].Description, gameeditionname);
+
+        windowtitle[sizeof(windowtitle)-1] = 0;
+        wm_setwindowtitle(windowtitle);
+        }
 
     if (Bstrcasecmp(CacheLastLevel, LevelName) != 0)
         // clears gotpic and does some bit setting
@@ -2855,6 +2868,8 @@ GameIntro(VOID)
     DSPRINTF(ds,"GameIntro...");
     MONO_PRINT(ds);
 
+    wm_setwindowtitle(gameeditionname);
+
     if (DemoPlaying)
         return;
 
@@ -2915,7 +2930,7 @@ _Assert(char *expr, char *strFile, unsigned uLine)
     MONO_PRINT(ds);
     TerminateGame();
 #if 1 //def RENDERTYPEWIN
-    wm_msgbox(apptitle, "%s", ds);
+    wm_msgbox(NULL, "%s", ds);
 #else
     printf("Assertion failed: %s\n %s, line %u\n", expr, strFile, uLine);
 #endif
@@ -2940,7 +2955,7 @@ _ErrMsg(char *strFile, unsigned uLine, char *format, ...)
         va_start( arglist, format );
         Bvsnprintf(msg, sizeof(msg) - (p-msg), format, arglist);
         va_end(arglist);
-        wm_msgbox(apptitle, "%s", msg);
+        wm_msgbox(NULL, "%s", msg);
     }
 #else
     printf("Error: %s, line %u\n", strFile, uLine);
@@ -3381,6 +3396,7 @@ void CommandLineHelp(void)
 }
 
 char grpfile[BMAX_PATH+1] = "sw.grp";
+const char *gameeditionname = "Unknown edition";
 
 int app_main(int argc, char const * const argv[])
     {
@@ -3395,7 +3411,6 @@ int app_main(int argc, char const * const argv[])
     ULONG TotalMemory;
     int configloaded;
     struct grpfile *gamegrp = NULL;
-    const char *gamegrptitle = NULL;
 
 #ifdef RENDERTYPEWIN
     if (win_checkinstance()) {
@@ -3595,7 +3610,7 @@ int app_main(int argc, char const * const argv[])
 
     if (gamegrp) {
         Bstrcpy(grpfile, gamegrp->name);
-        gamegrptitle = gamegrp->ref->name;  // Points to static data, so won't be lost in FreeGroups().
+        gameeditionname = gamegrp->ref->name;  // Points to static data, so won't be lost in FreeGroups().
     }
 
     FreeGroups();
@@ -3608,12 +3623,6 @@ int app_main(int argc, char const * const argv[])
         } else {
             buildputs("Detected registered GRP\n");
         }
-    }
-
-    if (gamegrptitle) {
-        char buf[128];
-        sprintf(buf, "JFShadowWarrior: %s", gamegrptitle);
-        wm_setapptitle(buf);
     }
 
     buildputs("\n");
@@ -4082,7 +4091,7 @@ int app_main(int argc, char const * const argv[])
 #ifdef RENDERTYPEWIN
                 char msg[256];
                 Bsnprintf(msg, 256, "ERROR: Could not find user map %s!",UserMapName);
-                wm_msgbox(apptitle, msg);
+                wm_msgbox(NULL, msg);
 #else
                 printf("ERROR: Could not find user map %s!\n\n",UserMapName);
 #endif

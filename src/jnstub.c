@@ -647,8 +647,6 @@ ExtInit(void)
 
 #endif
 
-char *startwin_labeltext = "Starting Build Editor for Shadow Warrior...";
-
 int
 ExtInit(void)
     {
@@ -2169,10 +2167,12 @@ ExtCheckKeys(void)
     }
 
 void
-ExtLoadMap(const char *UNUSED(mapname))
+ExtLoadMap(const char *mapname)
     {
     SPRITEp sp;
     int i;
+
+    wm_setwindowtitle(mapname);
 
     BuildStagTable();
 
@@ -2205,10 +2205,12 @@ ExtLoadMap(const char *UNUSED(mapname))
     }
 
 void
-ExtSaveMap(const char *UNUSED(mapname))
+ExtSaveMap(const char *mapname)
     {
     SPRITEp sp;
     int i;
+
+    wm_setwindowtitle(mapname);
 
     SetSpriteExtra();
     ResetSpriteFound();

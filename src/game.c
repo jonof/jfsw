@@ -1770,7 +1770,7 @@ LogoLevel(VOID)
         clearview(0);
         rotatesprite(0, 0, RS_SCALE, 0, THREED_REALMS_PIC, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
         nextpage();
-        
+
         handleevents();
         CONTROL_GetUserInput(&uinfo);
         CONTROL_ClearUserInput(&uinfo);
@@ -3407,9 +3407,9 @@ int app_main(int argc, char const * const argv[])
 
 #if defined(DATADIR)
     {
-        const char *prefixdir = DATADIR;
-        if (prefixdir && prefixdir[0]) {
-            addsearchpath(prefixdir);
+        const char *datadir = DATADIR;
+        if (datadir && datadir[0]) {
+            addsearchpath(datadir);
         }
     }
 #endif

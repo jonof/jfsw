@@ -689,6 +689,34 @@ ExtInit(void)
         //LogUserTime(TRUE);              // Send true because user is logging
                                         // in.
 
+#if defined(DATADIR)
+        {
+            const char *datadir = DATADIR;
+            if (datadir && datadir[0]) {
+                addsearchpath(datadir);
+            }
+        }
+#endif
+
+        {
+            char *supportdir = Bgetsupportdir(TRUE);
+            char *appdir = Bgetappdir();
+            char dirpath[BMAX_PATH+1];
+
+            // the OSX app bundle, or on Windows the directory where the EXE was launched
+            if (appdir) {
+                addsearchpath(appdir);
+                free(appdir);
+            }
+
+            // the global support files directory
+            if (supportdir) {
+                Bsnprintf(dirpath, sizeof(dirpath), "%s/JFShadowWarrior", supportdir);
+                addsearchpath(dirpath);
+                free(supportdir);
+            }
+        }
+
         // default behaviour is to write to the user profile directory, but
         // creating a 'user_profiles_disabled' file in the current working
         // directory where the game was launched makes the installation

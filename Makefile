@@ -13,7 +13,7 @@
 # Debugging options
 RELEASE ?= 1
 
-# Base path of app installation
+# Path where game data is installed
 DATADIR ?= /usr/local/share/games/jfsw
 
 # Engine source code path

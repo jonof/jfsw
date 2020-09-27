@@ -2117,6 +2117,8 @@ MenuLevel(VOID)
     DSPRINTF(ds,"MenuLevel...");
     MONO_PRINT(ds);
 
+    wm_setwindowtitle(gameeditionname);
+
     if (gs.MusicOn)
         {
         PlaySong(LevelInfo[0].SongName, RedBookSong[0], TRUE, FALSE);

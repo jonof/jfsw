@@ -114,6 +114,7 @@ int slidersettings [sldr_max] =
         MONSTERS_DEFAULT, KILLLIMIT_DEFAULT, TIMELIMIT_DEFAULT, PLAYERCOLOR_DEFAULT,
     0,0,    // video mode
     32767>>12, 32767>>12,  // advanced mouse scale
+    0, 0, 0, 0,   // joystick axis configuration
     };
 
 short buttonsettings[btn_max];
@@ -315,7 +316,7 @@ MenuItem joyaxes_i[] =
 
     {DefSlider(sldr_joyaxisscale, 0, "Axis Scale"),     OPT_XS, OPT_LINE(2), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL),                              OPT_XSIDE, OPT_LINE(2), 0, m_defshade, 0, NULL, NULL, NULL},
-
+    {DefButton(btn_joyaxis_invert, 0, "Invert"),        OPT_XS, OPT_LINE(3), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefSlider(sldr_joyaxisanalog, 0, "Analog"),        OPT_XS, OPT_LINE(4), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL),                              OPT_XSIDE, OPT_LINE(4), 0, m_defshade, 0, NULL, NULL, NULL},
     {DefLayer(0, "Digital +ve", &joyaxesgroup),         OPT_XS, OPT_LINE(5), 1, m_defshade, 1, NULL, NULL, MNU_JoystickAxisPostProcess},
@@ -1414,7 +1415,16 @@ static BOOL MNU_JoystickAxesInitialise(MenuItem_p UNUSED(mitem))
     strcpy(JoystickAxisName, getjoyname(0, JoystickAxisPage));
     sprintf(JoystickAxisPageName, "Page %d / %d", JoystickAxisPage+1, joynumaxes);
     slidersettings[sldr_joyaxisanalog] = MNU_ControlAxisOffset(JoystickAnalogAxes[JoystickAxisPage]);
-    slidersettings[sldr_joyaxisscale] = JoystickAnalogScale[JoystickAxisPage] >> 13;
+    if (JoystickAnalogScale[JoystickAxisPage] < 0)
+        {
+        slidersettings[sldr_joyaxisscale] = klabs(JoystickAnalogScale[JoystickAxisPage]) >> 13;
+        buttonsettings[btn_joyaxis_invert] = 1;
+        }
+    else
+        {
+        slidersettings[sldr_joyaxisscale] = JoystickAnalogScale[JoystickAxisPage] >> 13;
+        buttonsettings[btn_joyaxis_invert] = 0;
+        }
     slidersettings[sldr_joyaxisdead] = JoystickAnalogDead[JoystickAxisPage] >> 10;
     slidersettings[sldr_joyaxissatur] = JoystickAnalogSaturate[JoystickAxisPage] >> 10;
 
@@ -2147,6 +2157,7 @@ MNU_InitMenus(void)
     slidersettings[sldr_mousescaley] = MouseAnalogScale[1]>>13;
 
     slidersettings[sldr_joyaxisscale] = 0;
+    buttonsettings[btn_joyaxis_invert] = 0;
     slidersettings[sldr_joyaxisanalog] = 0;
     slidersettings[sldr_joyaxisdead] = 0;
     slidersettings[sldr_joyaxissatur] = 0;
@@ -3456,6 +3467,19 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
 		slidersettings[sldr_videores] = newoffset;
 	    } break;
 
+        case btn_joyaxis_invert:
+            {
+            int newscale;
+
+            state = buttonsettings[item->button];
+            newscale = klabs(JoystickAnalogScale[JoystickAxisPage]);
+            if (state)
+                newscale = -newscale;
+            JoystickAnalogScale[JoystickAxisPage] = newscale;
+            CONTROL_SetAnalogAxisScale(JoystickAxisPage, newscale, controldevice_joystick);
+            break;
+            }
+
         default:
             state = buttonsettings[item->button];
             break;
@@ -3844,9 +3868,14 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
 
         if (slidersettings[item->slider] != offset)
             {
+            int newscale;
+
             slidersettings[item->slider] = offset;
-            JoystickAnalogScale[JoystickAxisPage] = offset<<13;
-            CONTROL_SetAnalogAxisScale(JoystickAxisPage, offset<<13, controldevice_joystick);
+            newscale = offset<<13;
+            if (buttonsettings[btn_joyaxis_invert])
+                newscale = -newscale;
+            JoystickAnalogScale[JoystickAxisPage] = newscale;
+            CONTROL_SetAnalogAxisScale(JoystickAxisPage, newscale, controldevice_joystick);
             }
 
         sprintf(tmp_text, "%.2f", (float)(slidersettings[item->slider]<<13) / 65535.f);
@@ -3914,7 +3943,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
                 }
             }
 
-        sprintf(tmp_text, "%.2f%%", (float)(slidersettings[item->slider]<<10) / 32767.f);
+        sprintf(tmp_text, "%.2f", (float)(slidersettings[item->slider]<<10) / 32767.f);
         MNU_DrawSmallString(OPT_XSIDE+tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(MAX_SLDR_WIDTH+1)*tilesizx[pic_slidebar], item->y+4, tmp_text, 1, 16);
         break;
 

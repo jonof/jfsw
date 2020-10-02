@@ -218,6 +218,7 @@ typedef enum
     btn_markers, btn_teamplay, btn_friendlyfire,btn_parental,btn_nuke,
     btn_voxels, btn_stats, btn_playcd,
     btn_videofs,
+    btn_joyaxis_invert,
     btn_max
     } BTNType;
 

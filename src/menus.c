@@ -250,42 +250,39 @@ MenuGroup mousegroup = {65, 5, "^Mouse", mouse_i, pic_newgametitl, 0, m_defshade
 
 MenuGroup keysetupgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_KeySetupCustom, NULL, 0};
 
-static char MouseButtonFunctions[10][MAXFUNCTIONLENGTH];
+static char MouseButtonFunctions[MAXMOUSEBUTTONS][2][MAXFUNCTIONLENGTH];
 static BOOL MNU_SetMouseButtonFunctions(MenuItem_p item);
 static BOOL MNU_MouseButtonPostProcess(MenuItem_p item);
 static BOOL MNU_MouseButtonSetupCustom(UserCall call, MenuItem_p item);
 MenuGroup mousebuttongroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_MouseButtonSetupCustom, NULL, 0};
 MenuItem mousesetup_i[] =
     {
-    {DefLayer(0, "Left", &mousebuttongroup),          OPT_XS, OPT_LINE(0), 1, m_defshade, 0,   NULL, NULL, MNU_MouseButtonPostProcess},
-    {DefInert(0, MouseButtonFunctions[0]),         OPT_XSIDE, OPT_LINE(0), 1, m_defshade, 0,   NULL, MNU_SetMouseButtonFunctions, NULL},
-    {DefLayer(0, "Double Left", &mousebuttongroup),   OPT_XS, OPT_LINE(1), 1, m_defshade, 6+0, NULL, NULL, MNU_MouseButtonPostProcess},
-    {DefInert(0, MouseButtonFunctions[6+0]),       OPT_XSIDE, OPT_LINE(1), 1, m_defshade, 6+0, NULL, MNU_SetMouseButtonFunctions, NULL},
-    {DefLayer(0, "Right", &mousebuttongroup),         OPT_XS, OPT_LINE(2), 1, m_defshade, 1,   NULL, NULL, MNU_MouseButtonPostProcess},
-    {DefInert(0, MouseButtonFunctions[1]),         OPT_XSIDE, OPT_LINE(2), 1, m_defshade, 1,   NULL, MNU_SetMouseButtonFunctions, NULL},
-    {DefLayer(0, "Double Right", &mousebuttongroup),  OPT_XS, OPT_LINE(3), 1, m_defshade, 6+1, NULL, NULL, MNU_MouseButtonPostProcess},
-    {DefInert(0, MouseButtonFunctions[6+1]),       OPT_XSIDE, OPT_LINE(3), 1, m_defshade, 6+1, NULL, MNU_SetMouseButtonFunctions, NULL},
-    {DefLayer(0, "Middle", &mousebuttongroup),        OPT_XS, OPT_LINE(4), 1, m_defshade, 2,   NULL, NULL, MNU_MouseButtonPostProcess},
-    {DefInert(0, MouseButtonFunctions[2]),         OPT_XSIDE, OPT_LINE(4), 1, m_defshade, 2,   NULL, MNU_SetMouseButtonFunctions, NULL},
-    {DefLayer(0, "Double Middle", &mousebuttongroup), OPT_XS, OPT_LINE(5), 1, m_defshade, 6+2, NULL, NULL, MNU_MouseButtonPostProcess},
-    {DefInert(0, MouseButtonFunctions[6+2]),       OPT_XSIDE, OPT_LINE(5), 1, m_defshade, 6+2, NULL, MNU_SetMouseButtonFunctions, NULL},
-    {DefLayer(0, "Thumb", &mousebuttongroup),         OPT_XS, OPT_LINE(6), 1, m_defshade, 3,   NULL, NULL, MNU_MouseButtonPostProcess},
-    {DefInert(0, MouseButtonFunctions[3]),         OPT_XSIDE, OPT_LINE(6), 1, m_defshade, 3,   NULL, MNU_SetMouseButtonFunctions, NULL},
-    {DefLayer(0, "Double Thumb", &mousebuttongroup),  OPT_XS, OPT_LINE(7), 1, m_defshade, 6+3, NULL, NULL, MNU_MouseButtonPostProcess},
-    {DefInert(0, MouseButtonFunctions[6+3]),       OPT_XSIDE, OPT_LINE(7), 1, m_defshade, 6+3, NULL, MNU_SetMouseButtonFunctions, NULL},
-    {DefLayer(0, "Wheel Up", &mousebuttongroup),      OPT_XS, OPT_LINE(8), 1, m_defshade, 4,   NULL, NULL, MNU_MouseButtonPostProcess},
-    {DefInert(0, MouseButtonFunctions[4]),         OPT_XSIDE, OPT_LINE(8), 1, m_defshade, 4,   NULL, MNU_SetMouseButtonFunctions, NULL},
-    {DefLayer(0, "Wheel Down", &mousebuttongroup),    OPT_XS, OPT_LINE(9), 1, m_defshade, 5,   NULL, NULL, MNU_MouseButtonPostProcess},
-    {DefInert(0, MouseButtonFunctions[5]),         OPT_XSIDE, OPT_LINE(9), 1, m_defshade, 5,   NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Left", &mousebuttongroup),                         OPT_XS, OPT_LINE(0), 1, m_defshade, mousebutton_Left,       NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[mousebutton_Left][0]),      OPT_XSIDE, OPT_LINE(0), 1, m_defshade, mousebutton_Left,       NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Double Left", &mousebuttongroup),                  OPT_XS, OPT_LINE(1), 1, m_defshade, 128+mousebutton_Left,   NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[mousebutton_Left][1]),      OPT_XSIDE, OPT_LINE(1), 1, m_defshade, 128+mousebutton_Left,   NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Right", &mousebuttongroup),                        OPT_XS, OPT_LINE(2), 1, m_defshade, mousebutton_Right,      NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[mousebutton_Right][0]),     OPT_XSIDE, OPT_LINE(2), 1, m_defshade, mousebutton_Right,      NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Double Right", &mousebuttongroup),                 OPT_XS, OPT_LINE(3), 1, m_defshade, 128+mousebutton_Right,  NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[mousebutton_Right][1]),     OPT_XSIDE, OPT_LINE(3), 1, m_defshade, 128+mousebutton_Right,  NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Middle", &mousebuttongroup),                       OPT_XS, OPT_LINE(4), 1, m_defshade, mousebutton_Middle,     NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[mousebutton_Middle][0]),    OPT_XSIDE, OPT_LINE(4), 1, m_defshade, mousebutton_Middle,     NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Double Middle", &mousebuttongroup),                OPT_XS, OPT_LINE(5), 1, m_defshade, 128+mousebutton_Middle, NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[mousebutton_Middle][1]),    OPT_XSIDE, OPT_LINE(5), 1, m_defshade, 128+mousebutton_Middle, NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Thumb", &mousebuttongroup),                        OPT_XS, OPT_LINE(6), 1, m_defshade, mousebutton_Thumb,      NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[mousebutton_Thumb][0]),     OPT_XSIDE, OPT_LINE(6), 1, m_defshade, mousebutton_Thumb,      NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Double Thumb", &mousebuttongroup),                 OPT_XS, OPT_LINE(7), 1, m_defshade, 128+mousebutton_Thumb,  NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[mousebutton_Thumb][1]),     OPT_XSIDE, OPT_LINE(7), 1, m_defshade, 128+mousebutton_Thumb,  NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Wheel Up", &mousebuttongroup),                     OPT_XS, OPT_LINE(8), 1, m_defshade, mousebutton_WheelUp,    NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[mousebutton_WheelUp][0]),   OPT_XSIDE, OPT_LINE(8), 1, m_defshade, mousebutton_WheelUp,    NULL, MNU_SetMouseButtonFunctions, NULL},
+    {DefLayer(0, "Wheel Down", &mousebuttongroup),                   OPT_XS, OPT_LINE(9), 1, m_defshade, mousebutton_WheelDown,  NULL, NULL, MNU_MouseButtonPostProcess},
+    {DefInert(0, MouseButtonFunctions[mousebutton_WheelDown][0]), OPT_XSIDE, OPT_LINE(9), 1, m_defshade, mousebutton_WheelDown,  NULL, MNU_SetMouseButtonFunctions, NULL},
     {DefNone}
     };
 MenuGroup mousesetupgroup = {65, 5, "^Mouse Setup", mousesetup_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
 
-#define JOYSTICKITEMSPERPAGE 12
-#define MAXJOYSTICKBUTTONPAGES (MAXJOYBUTTONS*2 / JOYSTICKITEMSPERPAGE)
-static char JoystickButtonPageName[MAXJOYSTICKBUTTONPAGES][64];
-static char JoystickButtonFunctions[MAXJOYBUTTONS*2][MAXFUNCTIONLENGTH];
-static char JoystickButtonNames[MAXJOYBUTTONS*2][64];
+#define MAXJOYSTICKBUTTONPAGES 4
+static char JoystickButtonFunctions[MAXJOYBUTTONS][2][MAXFUNCTIONLENGTH];
 static int JoystickButtonPage = 0;
 static BOOL MNU_JoystickButtonsInitialise(MenuItem_p item);
 static BOOL MNU_SetJoystickButtonFunctions(MenuItem_p item);
@@ -293,12 +290,97 @@ static BOOL MNU_JoystickButtonPostProcess(MenuItem_p item);
 static BOOL MNU_JoystickButtonSetupCustom(UserCall call, MenuItem_p item);
 static BOOL MNU_JoystickButtonNextPage(void);
 MenuGroup joybuttonsgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_JoystickButtonSetupCustom, NULL, 0};
-MenuItem joybuttons_i[MAXJOYSTICKBUTTONPAGES][JOYSTICKITEMSPERPAGE*2+3] =    // itemsperpage * Layer/Inert + Pagetext + Next + DefNone
+MenuItem joybuttons_i[MAXJOYSTICKBUTTONPAGES][20] =
     {
-    // this menu gets defined by the call to MNU_JoystickButtonsInitialise
-    { {DefNone} },
+        {
+        {DefLayer(0, "A", &joybuttonsgroup),                           OPT_XS, OPT_LINE(0), 1, m_defshade, joybutton_A,         NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_A][0]),      OPT_XSIDE, OPT_LINE(0), 1, m_defshade, joybutton_A,         NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Double A", &joybuttonsgroup),                    OPT_XS, OPT_LINE(1), 1, m_defshade, 128+joybutton_A,     NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_A][1]),      OPT_XSIDE, OPT_LINE(1), 1, m_defshade, 128+joybutton_A,     NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "B", &joybuttonsgroup),                           OPT_XS, OPT_LINE(2), 1, m_defshade, joybutton_B,         NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_B][0]),      OPT_XSIDE, OPT_LINE(2), 1, m_defshade, joybutton_B,         NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Double B", &joybuttonsgroup),                    OPT_XS, OPT_LINE(3), 1, m_defshade, 128+joybutton_B,     NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_B][1]),      OPT_XSIDE, OPT_LINE(3), 1, m_defshade, 128+joybutton_B,     NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "X", &joybuttonsgroup),                           OPT_XS, OPT_LINE(4), 1, m_defshade, joybutton_X,         NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_X][0]),      OPT_XSIDE, OPT_LINE(4), 1, m_defshade, joybutton_X,         NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Double X", &joybuttonsgroup),                    OPT_XS, OPT_LINE(5), 1, m_defshade, 128+joybutton_X,     NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_X][1]),      OPT_XSIDE, OPT_LINE(5), 1, m_defshade, 128+joybutton_X,     NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Y", &joybuttonsgroup),                           OPT_XS, OPT_LINE(6), 1, m_defshade, joybutton_Y,         NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_Y][0]),      OPT_XSIDE, OPT_LINE(6), 1, m_defshade, joybutton_Y,         NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Double Y", &joybuttonsgroup),                    OPT_XS, OPT_LINE(7), 1, m_defshade, 128+joybutton_Y,     NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_Y][1]),      OPT_XSIDE, OPT_LINE(7), 1, m_defshade, 128+joybutton_Y,     NULL, MNU_SetJoystickButtonFunctions, NULL},
+
+        {DefInert(0, "Page 1 / 4"),                          OPT_XS, OPT_LINE(10), 1, m_defshade, 0, NULL, NULL, NULL },
+        {DefOption(0, "Next..."),                         OPT_XSIDE, OPT_LINE(10), 1, m_defshade, 0, MNU_JoystickButtonNextPage, NULL, NULL },
+        {DefNone}
+        },
+
+        {
+        {DefLayer(0, "Left stick", &joybuttonsgroup),                         OPT_XS, OPT_LINE(0), 1, m_defshade, joybutton_LeftStick,         NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_LeftStick][0]),     OPT_XSIDE, OPT_LINE(0), 1, m_defshade, joybutton_LeftStick,         NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dbl Left stick", &joybuttonsgroup),                     OPT_XS, OPT_LINE(1), 1, m_defshade, 128+joybutton_LeftStick,     NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_LeftStick][1]),     OPT_XSIDE, OPT_LINE(1), 1, m_defshade, 128+joybutton_LeftStick,     NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Right stick", &joybuttonsgroup),                        OPT_XS, OPT_LINE(2), 1, m_defshade, joybutton_RightStick,        NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_RightStick][0]),    OPT_XSIDE, OPT_LINE(2), 1, m_defshade, joybutton_RightStick,        NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dbl Right stick", &joybuttonsgroup),                    OPT_XS, OPT_LINE(3), 1, m_defshade, 128+joybutton_RightStick,    NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_RightStick][1]),    OPT_XSIDE, OPT_LINE(3), 1, m_defshade, 128+joybutton_RightStick,    NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Left shoulder", &joybuttonsgroup),                      OPT_XS, OPT_LINE(4), 1, m_defshade, joybutton_LeftShoulder,      NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_LeftShoulder][0]),  OPT_XSIDE, OPT_LINE(4), 1, m_defshade, joybutton_LeftShoulder,      NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dbl Lt shoulder", &joybuttonsgroup),                    OPT_XS, OPT_LINE(5), 1, m_defshade, 128+joybutton_LeftShoulder,  NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_LeftShoulder][1]),  OPT_XSIDE, OPT_LINE(5), 1, m_defshade, 128+joybutton_LeftShoulder,  NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Right shoulder", &joybuttonsgroup),                     OPT_XS, OPT_LINE(6), 1, m_defshade, joybutton_RightShoulder,     NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_RightShoulder][0]), OPT_XSIDE, OPT_LINE(6), 1, m_defshade, joybutton_RightShoulder,     NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dbl Rt shoulder", &joybuttonsgroup),                    OPT_XS, OPT_LINE(7), 1, m_defshade, 128+joybutton_RightShoulder, NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_RightShoulder][1]), OPT_XSIDE, OPT_LINE(7), 1, m_defshade, 128+joybutton_RightShoulder, NULL, MNU_SetJoystickButtonFunctions, NULL},
+
+        {DefInert(0, "Page 2 / 4"),                          OPT_XS, OPT_LINE(10), 1, m_defshade, 0, NULL, NULL, NULL },
+        {DefOption(0, "Next..."),                         OPT_XSIDE, OPT_LINE(10), 1, m_defshade, 0, MNU_JoystickButtonNextPage, NULL, NULL },
+        {DefNone}
+        },
+
+        {
+        {DefLayer(0, "Dpad up", &joybuttonsgroup),                        OPT_XS, OPT_LINE(0), 1, m_defshade, joybutton_DpadUp,        NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_DpadUp][0]),    OPT_XSIDE, OPT_LINE(0), 1, m_defshade, joybutton_DpadUp,        NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dbl Dpad up", &joybuttonsgroup),                    OPT_XS, OPT_LINE(1), 1, m_defshade, 128+joybutton_DpadUp,    NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_DpadUp][1]),    OPT_XSIDE, OPT_LINE(1), 1, m_defshade, 128+joybutton_DpadUp,    NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dpad down", &joybuttonsgroup),                      OPT_XS, OPT_LINE(2), 1, m_defshade, joybutton_DpadDown,      NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_DpadDown][0]),  OPT_XSIDE, OPT_LINE(2), 1, m_defshade, joybutton_DpadDown,      NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dbl Dpad down", &joybuttonsgroup),                  OPT_XS, OPT_LINE(3), 1, m_defshade, 128+joybutton_DpadDown,  NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_DpadDown][1]),  OPT_XSIDE, OPT_LINE(3), 1, m_defshade, 128+joybutton_DpadDown,  NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dpad left", &joybuttonsgroup),                      OPT_XS, OPT_LINE(4), 1, m_defshade, joybutton_DpadLeft,      NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_DpadLeft][0]),  OPT_XSIDE, OPT_LINE(4), 1, m_defshade, joybutton_DpadLeft,      NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dbl Dpad left", &joybuttonsgroup),                  OPT_XS, OPT_LINE(5), 1, m_defshade, 128+joybutton_DpadLeft,  NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_DpadLeft][1]),  OPT_XSIDE, OPT_LINE(5), 1, m_defshade, 128+joybutton_DpadLeft,  NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dpad right", &joybuttonsgroup),                     OPT_XS, OPT_LINE(6), 1, m_defshade, joybutton_DpadRight,     NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_DpadRight][0]), OPT_XSIDE, OPT_LINE(6), 1, m_defshade, joybutton_DpadRight,     NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dbl Dpad right", &joybuttonsgroup),                 OPT_XS, OPT_LINE(7), 1, m_defshade, 128+joybutton_DpadRight, NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_DpadRight][1]), OPT_XSIDE, OPT_LINE(7), 1, m_defshade, 128+joybutton_DpadRight, NULL, MNU_SetJoystickButtonFunctions, NULL},
+
+        {DefInert(0, "Page 3 / 4"),                          OPT_XS, OPT_LINE(10), 1, m_defshade, 0, NULL, NULL, NULL },
+        {DefOption(0, "Next..."),                         OPT_XSIDE, OPT_LINE(10), 1, m_defshade, 0, MNU_JoystickButtonNextPage, NULL, NULL },
+        {DefNone}
+        },
+
+        {
+        {DefLayer(0, "Back", &joybuttonsgroup),                       OPT_XS, OPT_LINE(0), 1, m_defshade, joybutton_Back,      NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_Back][0]),  OPT_XSIDE, OPT_LINE(0), 1, m_defshade, joybutton_Back,      NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dbl Back", &joybuttonsgroup),                   OPT_XS, OPT_LINE(1), 1, m_defshade, 128+joybutton_Back,  NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_Back][1]),  OPT_XSIDE, OPT_LINE(1), 1, m_defshade, 128+joybutton_Back,  NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Guide", &joybuttonsgroup),                      OPT_XS, OPT_LINE(2), 1, m_defshade, joybutton_Guide,     NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_Guide][0]), OPT_XSIDE, OPT_LINE(2), 1, m_defshade, joybutton_Guide,     NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dbl Guide", &joybuttonsgroup),                  OPT_XS, OPT_LINE(3), 1, m_defshade, 128+joybutton_Guide, NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_Guide][1]), OPT_XSIDE, OPT_LINE(3), 1, m_defshade, 128+joybutton_Guide, NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Start", &joybuttonsgroup),                      OPT_XS, OPT_LINE(4), 1, m_defshade, joybutton_Start,     NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_Start][0]), OPT_XSIDE, OPT_LINE(4), 1, m_defshade, joybutton_Start,     NULL, MNU_SetJoystickButtonFunctions, NULL},
+        {DefLayer(0, "Dbl Start", &joybuttonsgroup),                  OPT_XS, OPT_LINE(5), 1, m_defshade, 128+joybutton_Start, NULL, NULL, MNU_JoystickButtonPostProcess},
+        {DefInert(0, JoystickButtonFunctions[joybutton_Start][1]), OPT_XSIDE, OPT_LINE(5), 1, m_defshade, 128+joybutton_Start, NULL, MNU_SetJoystickButtonFunctions, NULL},
+
+        {DefInert(0, "Page 4 / 4"),                          OPT_XS, OPT_LINE(10), 1, m_defshade, 0, NULL, NULL, NULL },
+        {DefOption(0, "Next..."),                         OPT_XSIDE, OPT_LINE(10), 1, m_defshade, 0, MNU_JoystickButtonNextPage, NULL, NULL },
+        {DefNone}
+        },
     };
-MenuGroup joybuttonssetupgroup = {65, 5, "^Joystick Setup", NULL, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
+MenuGroup joybuttonssetupgroup = {65, 5, "^Joystick Setup", &joybuttons_i[0], pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
 
 static char JoystickAxisName[64];
 static char JoystickAxisPageName[64];
@@ -337,7 +419,7 @@ MenuItem joyaxes_i[] =
 MenuGroup joyaxessetupgroup = {65, 5, "^Joystick Axes", joyaxes_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 1};
 
 
-static char AdvancedMouseAxisFunctions[4][MAXAXISFUNCTIONLENGTH] = { "", "", "", "" };
+static char AdvancedMouseAxisFunctions[MAXMOUSEAXES][2][MAXAXISFUNCTIONLENGTH] = { {"", ""}, {"", ""} };
 static BOOL MNU_SetAdvancedMouseFunctions(MenuItem_p item);
 static BOOL MNU_MouseDigitalPostProcess(MenuItem_p item);
 static BOOL MNU_MouseDigitalSetupCustom(UserCall call, MenuItem_p item);
@@ -348,14 +430,14 @@ MenuItem advancedmouse_i[] =
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(0), 0, m_defshade, 0, NULL, NULL, NULL},
     {DefSlider(sldr_mousescaley, 0, "Y-Axis Scale"), OPT_XS,     OPT_LINE(1), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(1), 0, m_defshade, 0, NULL, NULL, NULL},
-    {DefLayer(0, "Digital Up", &advancedmousedigigroup), OPT_XS, OPT_LINE(3), 1, m_defshade, 0, NULL, NULL, MNU_MouseDigitalPostProcess},
-    {DefInert(0, AdvancedMouseAxisFunctions[0]), OPT_XSIDE,      OPT_LINE(3), 1, m_defshade, 0, NULL, MNU_SetAdvancedMouseFunctions, NULL},
-    {DefLayer(0, "Digital Down", &advancedmousedigigroup), OPT_XS, OPT_LINE(4), 1, m_defshade, 1, NULL, NULL, MNU_MouseDigitalPostProcess},
-    {DefInert(0, AdvancedMouseAxisFunctions[1]), OPT_XSIDE,      OPT_LINE(4), 1, m_defshade, 1, NULL, MNU_SetAdvancedMouseFunctions, NULL},
-    {DefLayer(0, "Digital Left", &advancedmousedigigroup), OPT_XS, OPT_LINE(5), 1, m_defshade, 2, NULL, NULL, MNU_MouseDigitalPostProcess},
-    {DefInert(0, AdvancedMouseAxisFunctions[2]), OPT_XSIDE,      OPT_LINE(5), 1, m_defshade, 2, NULL, MNU_SetAdvancedMouseFunctions, NULL},
-    {DefLayer(0, "Digital Right", &advancedmousedigigroup), OPT_XS, OPT_LINE(6), 1, m_defshade, 3, NULL, NULL, MNU_MouseDigitalPostProcess},
-    {DefInert(0, AdvancedMouseAxisFunctions[3]), OPT_XSIDE,      OPT_LINE(6), 1, m_defshade, 3, NULL, MNU_SetAdvancedMouseFunctions, NULL},
+    {DefLayer(0, "Digital Left", &advancedmousedigigroup),     OPT_XS, OPT_LINE(3), 1, m_defshade, 0+0, NULL, NULL, MNU_MouseDigitalPostProcess},
+    {DefInert(0, AdvancedMouseAxisFunctions[0][0]),         OPT_XSIDE, OPT_LINE(3), 1, m_defshade, 0+0, NULL, MNU_SetAdvancedMouseFunctions, NULL},
+    {DefLayer(0, "Digital Right", &advancedmousedigigroup),    OPT_XS, OPT_LINE(4), 1, m_defshade, 0+1, NULL, NULL, MNU_MouseDigitalPostProcess},
+    {DefInert(0, AdvancedMouseAxisFunctions[0][1]),         OPT_XSIDE, OPT_LINE(4), 1, m_defshade, 0+1, NULL, MNU_SetAdvancedMouseFunctions, NULL},
+    {DefLayer(0, "Digital Up", &advancedmousedigigroup),       OPT_XS, OPT_LINE(5), 1, m_defshade, 2+0, NULL, NULL, MNU_MouseDigitalPostProcess},
+    {DefInert(0, AdvancedMouseAxisFunctions[1][0]),         OPT_XSIDE, OPT_LINE(5), 1, m_defshade, 2+0, NULL, MNU_SetAdvancedMouseFunctions, NULL},
+    {DefLayer(0, "Digital Down", &advancedmousedigigroup),     OPT_XS, OPT_LINE(6), 1, m_defshade, 2+1, NULL, NULL, MNU_MouseDigitalPostProcess},
+    {DefInert(0, AdvancedMouseAxisFunctions[1][1]),         OPT_XSIDE, OPT_LINE(6), 1, m_defshade, 2+1, NULL, MNU_SetAdvancedMouseFunctions, NULL},
     {DefNone}
     };
 MenuGroup mouseadvancedgroup = {65, 5, "^Adv'd Mouse", advancedmouse_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
@@ -1041,25 +1123,29 @@ static BOOL MNU_MouseButtonPostProcess(MenuItem_p item)
 
 BOOL MNU_MouseButtonSetupCustom(UserCall call, MenuItem_p item)
 {
+    int button, clicked, selection;
     static int currentfunc = 0;
 
     if (call == uc_touchup)
-            return (TRUE);
+        return (TRUE);
 
-    if (cust_callback == NULL) {
+    clicked = !!(mouse_button_item->tics & 128);
+    button = (mouse_button_item->tics & 127);
+
+    if (cust_callback == NULL)
+        {
         if (call != uc_setup)
             return (FALSE);
-        if (mouse_button_item->tics >= 6) {
-            currentfunc = MouseButtonsClicked[mouse_button_item->tics % 6];
-        } else {
-            currentfunc = MouseButtons[mouse_button_item->tics % 6];
-        }
+        if (clicked)
+            currentfunc = MouseButtonsClicked[button];
+        else
+            currentfunc = MouseButtons[button];
         currentfunc++;
 
         cust_callback = MNU_MouseButtonSetupCustom;
         cust_callback_call = call;
         cust_callback_item = item;
-    }
+        }
 
     {
         short w, h = 0;
@@ -1071,25 +1157,24 @@ BOOL MNU_MouseButtonSetupCustom(UserCall call, MenuItem_p item)
         MNU_DrawStringLarge(TEXT_XCENTER(w), 5, s);
     }
 
-    int selection = MNU_SelectButtonFunction(mouse_button_item->text, &currentfunc);
-    switch (selection) {
+    selection = MNU_SelectButtonFunction(mouse_button_item->text, &currentfunc);
+    switch (selection)
+        {
         case -1:    //cancel
             cust_callback = NULL;
             break;
         case 1:     //acknowledge
             currentfunc--;
-            if (mouse_button_item->tics >= 6) {
-                MouseButtonsClicked[mouse_button_item->tics % 6] = currentfunc;
-                CONTROL_MapButton(currentfunc, mouse_button_item->tics % 6, 1, controldevice_mouse);
-            } else {
-                MouseButtons[mouse_button_item->tics % 6] = currentfunc;
-                CONTROL_MapButton(currentfunc, mouse_button_item->tics % 6, 0, controldevice_mouse);
-            }
+            if (clicked)
+                MouseButtonsClicked[button] = currentfunc;
+            else
+                MouseButtons[button] = currentfunc;
+            CONTROL_MapButton(currentfunc, button, clicked, controldevice_mouse);
             MNU_SetMouseButtonFunctions(mouse_button_item);
             cust_callback = NULL;
             break;
         default: break;
-    }
+        }
 
     return TRUE;
 }
@@ -1099,25 +1184,24 @@ static BOOL MNU_SetMouseButtonFunctions(MenuItem_p item)
     int button, clicked, function;
     char *p;
 
-    clicked = item->tics >= 6;
-    button = item->tics % 6;
-    ASSERT(button >= 0 && button <= 5);
+    clicked = !!(item->tics & 128);
+    button = (item->tics & 127);
+    ASSERT(button >= 0 && button < MAXMOUSEBUTTONS);
 
-    if (clicked) {
+    if (clicked)
         function = MouseButtonsClicked[button];
-    } else {
+    else
         function = MouseButtons[button];
-    }
 
-    if (function < 0) {
-        strcpy(MouseButtonFunctions[item->tics], "  -");
-    } else {
-        strcpy(MouseButtonFunctions[item->tics], CONFIG_FunctionNumToName(function));
-        for (p = MouseButtonFunctions[item->tics]; *p; p++) {
+    if (function < 0)
+        strcpy(MouseButtonFunctions[button][clicked], "  -");
+    else
+        {
+        strcpy(MouseButtonFunctions[button][clicked], CONFIG_FunctionNumToName(function));
+        for (p = MouseButtonFunctions[button][clicked]; *p; p++)
             if (*p == '_')
                 *p = ' ';
         }
-    }
     return TRUE;
 }
 
@@ -1132,15 +1216,19 @@ static BOOL MNU_MouseDigitalPostProcess(MenuItem_p item)
 
 static BOOL MNU_MouseDigitalSetupCustom(UserCall call, MenuItem_p item)
 {
+    int axis, direction;
     static int currentfunc = 0;
 
     if (call == uc_touchup)
             return (TRUE);
 
+    axis = !!(mouse_digital_item->tics & 2);
+    direction = (mouse_digital_item->tics & 1);
+
     if (cust_callback == NULL) {
         if (call != uc_setup)
             return (FALSE);
-        currentfunc = MouseDigitalAxes[mouse_digital_item->tics/2][mouse_digital_item->tics%2];
+        currentfunc = MouseDigitalAxes[axis][direction];
         currentfunc++;
 
         cust_callback = MNU_MouseDigitalSetupCustom;
@@ -1165,8 +1253,8 @@ static BOOL MNU_MouseDigitalSetupCustom(UserCall call, MenuItem_p item)
             break;
         case 1:     //acknowledge
             currentfunc--;
-            MouseDigitalAxes[mouse_digital_item->tics/2][mouse_digital_item->tics%2] = currentfunc;
-            CONTROL_MapDigitalAxis(mouse_digital_item->tics/2, currentfunc, mouse_digital_item->tics%2, controldevice_mouse);
+            MouseDigitalAxes[axis][direction] = currentfunc;
+            CONTROL_MapDigitalAxis(axis, currentfunc, direction, controldevice_mouse);
             MNU_SetAdvancedMouseFunctions(mouse_digital_item);
             cust_callback = NULL;
             break;
@@ -1178,17 +1266,19 @@ static BOOL MNU_MouseDigitalSetupCustom(UserCall call, MenuItem_p item)
 
 static BOOL MNU_SetAdvancedMouseFunctions(MenuItem_p item)
 {
-    int axis;
+    int axis, direction;
     char *p;
 
-    axis = item->tics;
-    ASSERT(axis >= 0 && axis < 4);
+    axis = !!(item->tics & 2);
+    direction = (item->tics & 1);
+    ASSERT(axis >= 0 && axis < MAXMOUSEAXES);
 
-    if (MouseDigitalAxes[axis/2][axis%2] < 0) {
-        strcpy(AdvancedMouseAxisFunctions[axis], "  -");
+    if (MouseDigitalAxes[axis][direction] < 0) {
+        strcpy(AdvancedMouseAxisFunctions[axis][direction], "  -");
     } else {
-        strcpy(AdvancedMouseAxisFunctions[axis], CONFIG_FunctionNumToName(MouseDigitalAxes[axis/2][axis%2]));
-        for (p = AdvancedMouseAxisFunctions[axis]; *p; p++) {
+        strcpy(AdvancedMouseAxisFunctions[axis][direction],
+            CONFIG_FunctionNumToName(MouseDigitalAxes[axis][direction]));
+        for (p = AdvancedMouseAxisFunctions[axis][direction]; *p; p++) {
             if (*p == '_')
                 *p = ' ';
         }
@@ -1201,105 +1291,9 @@ static MenuItem_p joystick_button_item = NULL;
 
 static BOOL MNU_JoystickButtonsInitialise(MenuItem_p UNUSED(mitem))
 {
-    MenuItem_p item;
-    MenuItem templayer = { DefLayer(0, JoystickButtonNames[0], &joybuttonsgroup), OPT_XS, OPT_LINE(0), 1, m_defshade, 0, NULL, NULL, MNU_JoystickButtonPostProcess };
-    MenuItem tempinert = { DefInert(0, JoystickButtonFunctions[0]), OPT_XSIDE, OPT_LINE(0), 1, m_defshade, 0, NULL, MNU_SetJoystickButtonFunctions, NULL };
-    MenuItem temppagename = { DefInert(0, JoystickButtonPageName[0]), OPT_XS, OPT_LINE(JOYSTICKITEMSPERPAGE+1), 1, m_defshade, 0, NULL, NULL, NULL };
-    MenuItem tempnextpage = { DefOption(0, "Next..."), OPT_XSIDE, OPT_LINE(JOYSTICKITEMSPERPAGE+1), 1, m_defshade, 0, MNU_JoystickButtonNextPage, NULL, NULL };
-    MenuItem tempnone = { DefNone };
-    const char *hatdirs[] = { " Up", " Right", " Down", " Left" };
-    int button, page, pageitem;
-
-    if (joybuttonssetupgroup.items != NULL) {
-        return TRUE;
-    }
-
-    page = 0;
-    pageitem = 0;
-    joybuttonssetupgroup.items = joybuttons_i[0];
-    item = &joybuttons_i[0][0];
-
-    for (button = 0; button < joynumbuttons * 2; ) {
-        if (button < joynumbuttons * 2) {
-            int dbutton = button / 2;
-
-            strcpy(JoystickButtonNames[dbutton], getjoyname(1, dbutton));
-
-            templayer.text = JoystickButtonNames[dbutton];
-            templayer.y = OPT_LINE(pageitem);
-            templayer.tics = dbutton;
-            memcpy(item, &templayer, sizeof(MenuItem));
-            item++;
-
-            tempinert.text = JoystickButtonFunctions[dbutton];
-            tempinert.y = OPT_LINE(pageitem);
-            tempinert.tics = dbutton;
-            memcpy(item, &tempinert, sizeof(MenuItem));
-            item++;
-
-            pageitem++;
-
-            strcpy(JoystickButtonNames[dbutton + MAXJOYBUTTONS], "Double ");
-            strcat(JoystickButtonNames[dbutton + MAXJOYBUTTONS], getjoyname(1, dbutton));
-
-            templayer.text = JoystickButtonNames[dbutton + MAXJOYBUTTONS];
-            templayer.y = OPT_LINE(pageitem);
-            templayer.tics = 128 | dbutton;
-            memcpy(item, &templayer, sizeof(MenuItem));
-            item++;
-
-            tempinert.text = JoystickButtonFunctions[dbutton + MAXJOYBUTTONS];
-            tempinert.y = OPT_LINE(pageitem);
-            tempinert.tics = 128 | dbutton;
-            memcpy(item, &tempinert, sizeof(MenuItem));
-            item++;
-
-            pageitem++;
-
-            button += 2;
-        } else {
-            int dir = button - joynumbuttons * 2;
-            int dbutton = joynumbuttons + dir;
-
-            strcpy(JoystickButtonNames[dbutton], getjoyname(2, 0));
-            strcat(JoystickButtonNames[dbutton], hatdirs[dir]);
-
-            templayer.text = JoystickButtonNames[dbutton];
-            templayer.y = OPT_LINE(pageitem);
-            templayer.tics = dbutton;
-            memcpy(item, &templayer, sizeof(MenuItem));
-            item++;
-
-            tempinert.text = JoystickButtonFunctions[dbutton];
-            tempinert.y = OPT_LINE(pageitem);
-            tempinert.tics = dbutton;
-            memcpy(item, &tempinert, sizeof(MenuItem));
-            item++;
-
-            pageitem++;
-            button++;
-        }
-
-        if (pageitem == JOYSTICKITEMSPERPAGE || button == joynumbuttons * 2) {
-            // next page
-            sprintf(JoystickButtonPageName[page], "Page %d / %d", page+1,
-                ((joynumbuttons * 2) / JOYSTICKITEMSPERPAGE) + 1);
-
-            temppagename.text = JoystickButtonPageName[page];
-            memcpy(item, &temppagename, sizeof(MenuItem));
-            item++;
-
-            memcpy(item, &tempnextpage, sizeof(MenuItem));
-            item++;
-
-            memcpy(item, &tempnone, sizeof(MenuItem));
-
-            page++;
-            pageitem = 0;
-            item = &joybuttons_i[page][0];
-        }
-    }
-
+    JoystickButtonPage = 0;
+    joybuttonssetupgroup.items = &joybuttons_i[JoystickButtonPage][0];
+    joybuttonssetupgroup.cursor = 0;
     return TRUE;
 }
 
@@ -1311,26 +1305,31 @@ static BOOL MNU_JoystickButtonPostProcess(MenuItem_p item)
 
 static BOOL MNU_JoystickButtonSetupCustom(UserCall call, MenuItem *item)
 {
+    int button, clicked, selection;
     static int currentfunc = 0;
 
     if (call == uc_touchup)
             return (TRUE);
 
-    if (cust_callback == NULL) {
+    clicked = !!(joystick_button_item->tics & 128);
+    button = joystick_button_item->tics & 127;
+
+    if (cust_callback == NULL)
+        {
         if (call != uc_setup)
             return (FALSE);
 
-        if (joystick_button_item->tics & 128) {
-            currentfunc = JoystickButtonsClicked[joystick_button_item->tics & 127];
+        if (clicked) {
+            currentfunc = JoystickButtonsClicked[button];
         } else {
-            currentfunc = JoystickButtons[joystick_button_item->tics & 127];
+            currentfunc = JoystickButtons[button];
         }
         currentfunc++;
 
         cust_callback = MNU_JoystickButtonSetupCustom;
         cust_callback_call = call;
         cust_callback_item = item;
-    }
+        }
 
     {
         short w, h = 0;
@@ -1342,20 +1341,18 @@ static BOOL MNU_JoystickButtonSetupCustom(UserCall call, MenuItem *item)
         MNU_DrawStringLarge(TEXT_XCENTER(w), 5, s);
     }
 
-    int selection = MNU_SelectButtonFunction(joystick_button_item->text, &currentfunc);
+    selection = MNU_SelectButtonFunction(joystick_button_item->text, &currentfunc);
     switch (selection) {
         case -1:    //cancel
             cust_callback = NULL;
             break;
         case 1:     //acknowledge
             currentfunc--;
-            if (joystick_button_item->tics & 128) {
-                JoystickButtonsClicked[joystick_button_item->tics & 127] = currentfunc;
-                CONTROL_MapButton(currentfunc, joystick_button_item->tics & 127, 1, controldevice_joystick);
-            } else {
-                JoystickButtons[joystick_button_item->tics & 127] = currentfunc;
-                CONTROL_MapButton(currentfunc, joystick_button_item->tics & 127, 0, controldevice_joystick);
-            }
+            if (clicked)
+                JoystickButtonsClicked[button] = currentfunc;
+            else
+                JoystickButtons[button] = currentfunc;
+            CONTROL_MapButton(currentfunc, button, clicked, controldevice_joystick);
             MNU_SetJoystickButtonFunctions(joystick_button_item);
             cust_callback = NULL;
             break;
@@ -1367,7 +1364,7 @@ static BOOL MNU_JoystickButtonSetupCustom(UserCall call, MenuItem *item)
 
 static BOOL MNU_JoystickButtonNextPage(void)
 {
-    JoystickButtonPage = (JoystickButtonPage + 1) % (((joynumbuttons * 2) / JOYSTICKITEMSPERPAGE) + 1);
+    JoystickButtonPage = (JoystickButtonPage + 1) % MAXJOYSTICKBUTTONPAGES;
     joybuttonssetupgroup.items = &joybuttons_i[JoystickButtonPage][0];
     joybuttonssetupgroup.cursor = 0;
     MNU_ItemPreProcess(&joybuttonssetupgroup);
@@ -1379,7 +1376,7 @@ static BOOL MNU_SetJoystickButtonFunctions(MenuItem_p item)
     int button, clicked, function;
     char *p;
 
-    clicked = (item->tics & 128) > 0;
+    clicked = !!(item->tics & 128);
     button = item->tics & 127;
     ASSERT(button >= 0 && button < MAXJOYBUTTONS);
 
@@ -1389,10 +1386,10 @@ static BOOL MNU_SetJoystickButtonFunctions(MenuItem_p item)
         function = JoystickButtons[button];
     }
     if (function < 0) {
-        strcpy(JoystickButtonFunctions[button + clicked*MAXJOYBUTTONS], "  -");
+        strcpy(JoystickButtonFunctions[button][clicked], "  -");
     } else {
-        strcpy(JoystickButtonFunctions[button + clicked*MAXJOYBUTTONS], CONFIG_FunctionNumToName(function));
-        for (p = JoystickButtonFunctions[button + clicked*MAXJOYBUTTONS]; *p; p++) {
+        strcpy(JoystickButtonFunctions[button][clicked], CONFIG_FunctionNumToName(function));
+        for (p = JoystickButtonFunctions[button][clicked]; *p; p++) {
             if (*p == '_')
                 *p = ' ';
         }

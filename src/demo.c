@@ -446,7 +446,8 @@ DemoPlayBack(VOID)
 
             cnt++;
 
-            CONTROL_GetInput(&info);
+            if (!UsingMenus)
+                CONTROL_GetInput(&info);
 
             domovethings();
 

@@ -1907,6 +1907,8 @@ CreditsLevel(VOID)
 VOID
 SybexScreen(VOID)
     {
+    UserInput uinfo;
+
     if (!SW_SHAREWARE) return;
 
     if (CommEnabled)
@@ -1915,8 +1917,17 @@ SybexScreen(VOID)
     rotatesprite(0, 0, RS_SCALE, 0, 5261, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
     nextpage();
 
+    CONTROL_GetUserInput(&uinfo);
+    CONTROL_ClearUserInput(&uinfo);
     ResetKeys();
-    while (!KeyPressed() && !quitevent) handleevents();
+    while (TRUE)
+        {
+        handleevents();
+        CONTROL_GetUserInput(&uinfo);
+        CONTROL_ClearUserInput(&uinfo);
+        if (KeyPressed() || quitevent || uinfo.button0 || uinfo.button1)
+            break;
+        }
     }
 
 // CTW REMOVED

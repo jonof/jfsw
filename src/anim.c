@@ -326,7 +326,8 @@ playanm(short anim_num)
     tilesizx[ANIM_TILE(ANIMnum)] = 200;
     tilesizy[ANIM_TILE(ANIMnum)] = 320;
 
-    clearview(0);
+	flushperms();
+    clearallviews(0);
 
     setbrightness(gs.Brightness,ANIMvesapal,2);
     if (ANIMnum == 1)
@@ -386,6 +387,7 @@ playanm(short anim_num)
         invalidatetile(ANIM_TILE(ANIMnum), 0, 1<<4);
 #endif
 
+		clearallviews(0);
         rotatesprite(0 << 16, 0 << 16, 65536L, 512, ANIM_TILE(ANIMnum), 0, 0, 2 + 4 + 8 + 16 + 64, 0, 0, xdim - 1, ydim - 1);
         nextpage();
         }
@@ -398,7 +400,7 @@ playanm(short anim_num)
 
 ENDOFANIMLOOP:
 
-    clearview(0);
+    clearallviews(0);
     nextpage();
     palookup[0] = palook_bak;
     setbrightness(gs.Brightness, (unsigned char*)palette_data, 2);

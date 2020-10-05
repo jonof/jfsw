@@ -1780,7 +1780,7 @@ LogoLevel(VOID)
     ResetKeys();
     while (TRUE)
         {
-        clearview(0);
+        clearallviews(0);
         rotatesprite(0, 0, RS_SCALE, 0, THREED_REALMS_PIC, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
         nextpage();
 
@@ -1802,7 +1802,7 @@ LogoLevel(VOID)
             }
         }
 
-    clearview(0);
+    clearallviews(0);
     nextpage();
     setbrightness(gs.Brightness, &palette_data[0][0], 2);
 
@@ -1835,7 +1835,7 @@ CreditsLevel(VOID)
     SetBorder(Player + myconnectindex,0);
     ClearStartMost();
     gs.BorderNum = save;
-    clearview(0);
+    clearallviews(0);
     nextpage();
 
     // Lo Wang feel like singing!
@@ -1897,7 +1897,7 @@ CreditsLevel(VOID)
         }
 
     // put up a blank screen while loading
-    clearview(0);
+    clearallviews(0);
     nextpage();
     ResetKeys();
     StopSong();
@@ -1951,7 +1951,7 @@ TenScreen(VOID)
     bak = totalclock;
 
     flushperms();
-    clearview(0);
+    clearallviews(0);
     nextpage();
 
     for (i = 0; i < 256; i++)
@@ -1987,12 +1987,12 @@ TenScreen(VOID)
 
     palookup[0] = palook_bak;
 
-    clearview(0);
+    clearallviews(0);
     nextpage();
     SetPaletteToVESA(backup_pal);
 
     // put up a blank screen while loading
-    clearview(0);
+    clearallviews(0);
     nextpage();
 
     ready2send = bakready2send;
@@ -2019,7 +2019,7 @@ TitleLevel(VOID)
     //GetPaletteFromVESA(pal);
     //memcpy(backup_pal, pal, PAL_SIZE);
 
-    clearview(0);
+    clearallviews(0);
     nextpage();
 
 //    if ((fin = kopen4load("title.pal", 0)) != -1)
@@ -2029,7 +2029,7 @@ TitleLevel(VOID)
 //        SetPaletteToVESA(pal);
 //        }
 
-//    clearview(0);
+//    clearallviews(0);
 //    nextpage();
 
     //FadeOut(0, 0);
@@ -2075,12 +2075,12 @@ TitleLevel(VOID)
 
     palookup[0] = palook_bak;
 
-//    clearview(0);
+//    clearallviews(0);
 //    nextpage();
     //SetPaletteToVESA(backup_pal);
 
     // put up a blank screen while loading
-//    clearview(0);
+//    clearallviews(0);
 //    nextpage();
     }
 
@@ -2088,21 +2088,21 @@ TitleLevel(VOID)
 VOID DrawMenuLevelScreen(VOID)
     {
     flushperms();
-    clearview(0);
+    clearallviews(0);
     rotatesprite(0, 0, RS_SCALE, 0, TITLE_PIC, 20, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
     }
 
 VOID DrawStatScreen(VOID)
     {
     flushperms();
-    clearview(0);
+    clearallviews(0);
     rotatesprite(0, 0, RS_SCALE, 0, STAT_SCREEN_PIC, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
     }
 
 VOID DrawLoadLevelScreen(VOID)
     {
     flushperms();
-    clearview(0);
+    clearallviews(0);
     rotatesprite(0, 0, RS_SCALE, 0, TITLE_PIC, 20, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
     }
 
@@ -2180,7 +2180,7 @@ MenuLevel(VOID)
     DemoMode = FALSE;
     DemoPlaying = FALSE;
 
-    clearview(0);
+    clearallviews(0);
     nextpage();
 
     //FadeOut(0, 0);
@@ -2300,7 +2300,7 @@ MenuLevel(VOID)
     //ExitMenus();
     UsingMenus = FALSE;
     InMenuLevel = FALSE;
-    clearview(0);
+    clearallviews(0);
     nextpage();
     }
 
@@ -2533,7 +2533,8 @@ BonusScreen(PLAYERp pp)
 
     if(Level < 0) Level = 0;
 
-    clearview(0);
+	flushperms();
+    clearallviews(0);
     nextpage();
 
     KB_ClearKeysDown();
@@ -2549,7 +2550,6 @@ BonusScreen(PLAYERp pp)
     // special case code because I don't care any more!
     if (FinishAnim)
         {
-        flushperms();
         rotatesprite(0, 0, RS_SCALE, 0, 5120, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
         rotatesprite(158<<16, 86<<16, RS_SCALE, 0, State->Pic, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
         nextpage();
@@ -2580,6 +2580,7 @@ BonusScreen(PLAYERp pp)
             }
 
         gStateControl(&State, &Tics);
+		clearallviews(0);
         rotatesprite(0, 0, RS_SCALE, 0, 5120, 0, 0, TITLE_ROT_FLAGS, 0, 0, xdim - 1, ydim - 1);
 
         if (UserMapName[0])

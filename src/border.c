@@ -280,7 +280,7 @@ VOID DrawBorderShade(PLAYERp pp, short shade_num, short wx1, short wy1, short wx
     }
 
 VOID
-BorderShade(PLAYERp pp, BOOL refresh)
+BorderShade(PLAYERp pp, BOOL UNUSED(refresh))
     {
     int i, j, k, l, wx1, wx2, wy1, wy2;
     PANEL_SPRITEp psp;
@@ -298,19 +298,7 @@ BorderShade(PLAYERp pp, BOOL refresh)
         wx1 = max(wx1, 0);
         wx2 = min(wx2, xdim - 1);
         wy1 = max(wy1, 0);
-
-        if (refresh)
-            {
-            // silly thing seems off by 1
-            wy2 = min(wy2, ydim - (Y_TO_FIXED(BAR_HEIGHT) >> 16) - 2);
-            }
-        else
-            {
-            if (gs.BorderNum >= BORDER_BAR+1 && gs.BorderNum <= BORDER_BAR+2)
-                wy2 = min(wy2, ydim - 1);
-            else
-                wy2 = min(wy2, ydim - (Y_TO_FIXED(BAR_HEIGHT) >> 16) - 1);
-            }
+        wy2 = min(wy2, MSW(f_ydim - Y_TO_FIXED(BAR_HEIGHT)) - 1);
 
         DrawBorderShade(pp, lines, wx1, wy1, wx2, wy2);
         // increase view size by one - dont do a set view though
@@ -419,6 +407,7 @@ VOID BorderSetView(PLAYERp UNUSED(pp), int *Xdim, int *Ydim, int *ScreenSize)
     {
     void setview(int scrx1, int scry1, int scrx2, int scry2);
     int x, x2, y, y2;
+    int xd, yd, sc;
     BORDER_INFO *b;
 
     BorderInfo = BorderInfoValues[gs.BorderNum];
@@ -426,23 +415,21 @@ VOID BorderSetView(PLAYERp UNUSED(pp), int *Xdim, int *Ydim, int *ScreenSize)
     b = &BorderInfo;
 
     // figure out the viewing window x and y dimensions
-    *Xdim = MSW(f_xdim - X_TO_FIXED(b->Xdim));
-    *Ydim = MSW(f_ydim - Y_TO_FIXED(b->Ydim));
-    *ScreenSize = MSW(f_xdim - X_TO_FIXED(b->ScreenSize));
+    xd = f_xdim - X_TO_FIXED(b->Xdim);
+    yd = f_ydim - Y_TO_FIXED(b->Ydim);
+    sc = f_xdim - X_TO_FIXED(b->ScreenSize);
+    *Xdim = MSW(xd);
+    *Ydim = MSW(yd);
+    *ScreenSize = MSW(sc);
 
     // figure out the viewing window x and y coordinates
-    x = DIV2(*Xdim) - DIV2(*ScreenSize);
-    x2 = x + *ScreenSize - 1;
-    y = DIV2(*Ydim) - DIV2((*ScreenSize * *Ydim) / *Xdim);
-    y2 = y + ((*ScreenSize * *Ydim) / *Xdim) - 1;
-
-    if (ydim == 480 && gs.BorderNum == 2)
-        {
-        y2+=2;
-        }
+    x = MSW(DIV2(xd - sc));
+    x2 = MSW(DIV2(xd + sc));
+    y = MSW(DIV2(yd - scale(sc, yd, xd)));
+    y2 = MSW_ROUND(DIV2(yd + scale(sc, yd, xd)) + 32768);
 
     // global windowx1, windowx2, windowy1, windowy2 coords set here
-    setview(x, y, x2, y2);
+    setview(x, y, x2-1, y2-1);
     SetCrosshair();
     }
 
@@ -480,15 +467,19 @@ BorderRefresh(PLAYERp pp)
     // fill in the sides of the panel when the screen is wide
     if (gs.BorderNum >= BORDER_BAR && widescreen)
         {
-        int sidew = (xdim - scale(320, ydim, mulscale16(200, pixelaspect))) / 2;
+        int barw = scale(f_320, f_ydim, 200 * pixelaspect);
+        int sidel, sider;
 
         x = 0;
         x2 = xdim - 1;
 
-        y = ydim - (Y_TO_FIXED(b->Ydim) >> 16);
+        y = MSW_ROUND(f_ydim - Y_TO_FIXED(b->Ydim) + 32768);
         y2 = ydim - 1;
 
-        DrawPanelBorderSides(pp, x, y, x2, y2, sidew, xdim-sidew);
+        sidel = MSW_ROUND(DIV2(f_xdim - barw));
+        sider = MSW(DIV2(f_xdim + barw));
+
+        DrawPanelBorderSides(pp, x, y, x2, y2, sidel, sider);
         }
 
     // only need a border if border is > BORDER_BAR
@@ -499,7 +490,7 @@ BorderRefresh(PLAYERp pp)
         x2 = xdim - 1;
 
         y = 0;
-        y2 = ydim - (Y_TO_FIXED(b->Ydim) >> 16) - 1;
+        y2 = MSW_ROUND(f_ydim - Y_TO_FIXED(b->Ydim));
 
         DrawBorder(pp, x, y, x2, y2);
 

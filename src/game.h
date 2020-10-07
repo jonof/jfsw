@@ -323,7 +323,8 @@ extern char MessageOutputString[256];
 #endif
 
 #define MSW(fixed) ((fixed)>>16)
-#define LSW(fixed) (((SHORT)(fixed)))
+#define LSW(fixed) (((USHORT)(fixed)))
+#define MSW_ROUND(fixed) (((fixed)>>16)+(((fixed)&0x8000)>>15))
 
 // Defines for reading in ST1 sprite tagging
 #define SP_TAG1(sp) ((sp)->hitag)

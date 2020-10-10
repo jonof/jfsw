@@ -3023,7 +3023,7 @@ ExtEditSpriteData(short spritenum)      // F8
     printext16(8, ydim16+32 + 8, 11, -1, "(2)  Multi-Player Item Toggle", 0);
     printext16(8, ydim16+32 + 16, 11, -1, "(3)  Find Sprite", 0);
     printext16(8, ydim16+32 + 24, 11, -1, "(4)  Dbug Toggle (* Programming use only *) ", 0);
-    showframe(1);
+    showframe();
 
     while (KEY_PRESSED(KEYSC_F8)) handleevents();
 
@@ -3080,7 +3080,7 @@ ExtEditSpriteData(short spritenum)      // F8
                 printext16(8 + 240, ydim16+32 + 32, 11, -1, "TRUE", 0);
             else
                 printext16(8 + 240, ydim16+32 + 32, 11, -1, "FALSE", 0);
-	    showframe(1);
+            showframe();
 
             // Disallow invalid settings
             if (!bFindPicNum && !bFindHiTag && !bFindLowTag)

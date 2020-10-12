@@ -115,6 +115,7 @@ int slidersettings [sldr_max] =
     0,0,    // video mode
     32767>>12, 32767>>12,  // advanced mouse scale
     0, 0, 0, 0,   // joystick axis configuration
+    PANELSCALE_DEFAULT
     };
 
 short buttonsettings[btn_max];
@@ -225,12 +226,15 @@ MenuItem screen_i[] =
     {DefSlider(sldr_brightness, KEYSC_B, "Brightness"), OPT_XS,  OPT_LINE(2), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(2), 0, m_defshade, 0, NULL, NULL, NULL},
 
-    {DefButton(btn_videofs, 0, "Fullscreen"), OPT_XS,            OPT_LINE(4), 1, m_defshade, 0, NULL, NULL, NULL},
-    {DefSlider(sldr_videobpp, 0, "Colour"), OPT_XS,              OPT_LINE(5), 1, m_defshade, 0, NULL, NULL, NULL},
-    {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(5), 0, m_defshade, 0, NULL, NULL, NULL},
-    {DefSlider(sldr_videores, 0, "Resolution"), OPT_XS,          OPT_LINE(6), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefSlider(sldr_panelscale, 0, "Panel Scale"), OPT_XS,       OPT_LINE(3), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(3), 0, m_defshade, 0, NULL, NULL, NULL},
+
+    {DefButton(btn_videofs, 0, "Fullscreen"), OPT_XS,            OPT_LINE(5), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefSlider(sldr_videobpp, 0, "Colour"), OPT_XS,              OPT_LINE(6), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(6), 0, m_defshade, 0, NULL, NULL, NULL},
-    {DefOption(0, "Apply Settings"), OPT_XSIDE,                  OPT_LINE(8), 1, m_defshade, 0, ApplyModeSettings, NULL, NULL},
+    {DefSlider(sldr_videores, 0, "Resolution"), OPT_XS,          OPT_LINE(7), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(7), 0, m_defshade, 0, NULL, NULL, NULL},
+    {DefOption(0, "Apply Settings"), OPT_XSIDE,                  OPT_LINE(9), 1, m_defshade, 0, ApplyModeSettings, NULL, NULL},
     {DefNone}
     };
 
@@ -2101,6 +2105,7 @@ MNU_InitMenus(void)
     slidersettings[sldr_musicvolume] = gs.MusicVolume / (MUSIC_VOL_MAX_VALUE/SLDR_MUSICVOLMAX);
     slidersettings[sldr_scrsize] = gs.BorderNum;
     slidersettings[sldr_brightness] = gs.Brightness;
+    slidersettings[sldr_panelscale] = gs.PanelScale - 1;
     slidersettings[sldr_bordertile] = gs.BorderTile;
 
     {
@@ -3669,6 +3674,24 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
             gs.BorderTile = offset;
 
             SetRedrawScreen(&Player[myconnectindex]);
+            }
+        break;
+
+    case sldr_panelscale:
+        barwidth = SLDR_PANELSCALEMAX;
+        offset = slidersettings[sldr_panelscale] += dir;
+
+        if (TEST(item->flags, mf_disabled))
+            break;
+
+        offset = max(offset, 0);
+        offset = min(offset, SLDR_PANELSCALEMAX - 1);
+        slidersettings[sldr_panelscale] = offset;
+
+        if (gs.PanelScale != offset+1)
+            {
+            gs.PanelScale = offset+1;
+            PanelScale = gs.PanelScale<<13;
             }
         break;
 

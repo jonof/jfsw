@@ -1016,13 +1016,13 @@ PlayerUpdateInventory(PLAYERp pp, short InventoryNum)
     {
     USERp u = User[pp->PlayerSprite];
     short w,h;
+    PANEL_SPRITEp psp;
 
     // Check for items that need to go translucent from use
     if (pp->InventoryBarTics)
         {
         short inv = 0;
         INVENTORY_DATAp id;
-        PANEL_SPRITEp psp;
 
         // Go translucent if used
         for (id = InventoryData; id->Name; id++, inv++)
@@ -1078,7 +1078,8 @@ PlayerUpdateInventory(PLAYERp pp, short InventoryNum)
         InventoryDisplayString = DisplaySmString;
 
         // erase old info
-        pSpawnFullScreenSprite(pp, INVENTORY_BOX_ERASE, PRI_MID, INVENTORY_BOX_X, INVENTORY_BOX_Y);
+        psp = pSpawnFullScreenSprite(pp, INVENTORY_BOX_ERASE, PRI_MID, INVENTORY_BOX_X, INVENTORY_BOX_Y);
+        SET(psp->flags, PANF_SCALE_BOTTOM);
 
         // put pic
         if (pp->InventoryAmount[pp->InventoryNum])
@@ -1131,6 +1132,7 @@ PlayerUpdateInventoryPic(PLAYERp pp)
     pic = id->State->picndx;
 
     psp = pSpawnFullScreenSprite(pp, pic, PRI_FRONT_MAX, x, y);
+    SET(psp->flags, PANF_SCALE_BOTTOM);
 
     psp->scale = id->Scale;
     }

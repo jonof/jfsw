@@ -2673,7 +2673,7 @@ DrawCompass(PLAYERp pp)
     for (i = 0, x = COMPASS_X; i < 10; i++)
         {
         psp = pSpawnFullScreenSprite(pp, CompassPic[NORM_CANG(start_ang + i)], PRI_FRONT_MAX, x, COMPASS_Y);
-        SET(psp->flags, PANF_NON_MASKED);
+        SET(psp->flags, PANF_NON_MASKED|PANF_SCALE_BOTTOM);
         psp->shade = CompassShade[i];
         x += x_size;
         }

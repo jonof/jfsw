@@ -89,6 +89,8 @@ struct PANEL_STATEstruct
 #define PANF_JUMPING         (BIT(21))
 #define PANF_FALLING         (BIT(22))
 #define PANF_NON_MASKED      (BIT(23)) // tile should be drawn without transparency masking
+#define PANF_SCALE_BOTTOM    (BIT(24)) // scale coordinates and align to the bottom of the screen
+#define PANF_SCALE_TOP       (BIT(25)) // scale coordinates and align to the top of the screen
 #define PANF_DRAW_BEFORE_VIEW (BIT(30)) // draw before drawrooms
 #define PANF_NOT_ALL_PAGES       (BIT(31)) // DONT use permanentwritesprite bit for rotatesprite
 
@@ -182,6 +184,8 @@ BORDER_BAR = 2
 
 #define SHOTGUN_AUTO_NUM 0
 #define SHOTGUN_AUTO 2078
+
+extern int PanelScale;
 
 PANEL_SPRITEp pSpawnSprite(PLAYERp pp, PANEL_STATEp state, BYTE priority, int x, int y);
 PANEL_SPRITEp pSpawnFullScreenSprite(PLAYERp pp, short pic, short pri, int x, int y);

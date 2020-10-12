@@ -135,6 +135,14 @@ void ReadGameSetup( int32 scripthandle )
     if (dummy != -1) gs.BorderTile = dummy;
 
     dummy = -1;
+    SCRIPT_GetNumber( scripthandle, "Options", "PanelScale",&dummy);
+    if (dummy != -1)
+        {
+        gs.PanelScale = max(1, min(8, dummy));
+        PanelScale = gs.PanelScale << 13;
+        }
+
+    dummy = -1;
     SCRIPT_GetNumber( scripthandle, "Options", "Bobbing",&dummy);
     if (dummy != -1) gs.Bobbing = dummy;
 
@@ -280,6 +288,8 @@ void WriteGameSetup( int32 scripthandle)
    SCRIPT_PutNumber( scripthandle, "Options", "Brightness",dummy,FALSE,FALSE);
    dummy = gs.BorderTile;
    SCRIPT_PutNumber( scripthandle, "Options", "BorderTile",dummy,FALSE,FALSE);
+   dummy = gs.PanelScale;
+   SCRIPT_PutNumber( scripthandle, "Options", "PanelScale",dummy,FALSE,FALSE);
    dummy = gs.Bobbing;
    SCRIPT_PutNumber( scripthandle, "Options", "Bobbing",dummy,FALSE,FALSE);
    dummy = gs.Tilting;

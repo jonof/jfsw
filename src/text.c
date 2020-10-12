@@ -91,6 +91,7 @@ DisplaySummaryString(PLAYERp pp, short xs, short ys, short color, short shade, c
         font_pic = font_base[color] + (ch - '0');
         nsp = pSpawnFullScreenSprite(pp, font_pic, PRI_FRONT_MAX, x, ys);
         nsp->shade = shade;
+        SET(nsp->flags, PANF_SCALE_BOTTOM);
         size = tilesizx[font_pic] + 1;
         }
     }
@@ -253,6 +254,7 @@ DisplayPanelNumber(PLAYERp pp, short xs, short ys, int number)
     char buffer[32];
     char *ptr;
     short x, size;
+    PANEL_SPRITEp psp;
 
     sprintf(buffer, "%03d", number);
 
@@ -264,7 +266,8 @@ DisplayPanelNumber(PLAYERp pp, short xs, short ys, int number)
             continue;
             }
 
-        pSpawnFullScreenSprite(pp, PANEL_FONT_G + (*ptr - '0'), PRI_FRONT_MAX, x, ys);
+        psp = pSpawnFullScreenSprite(pp, PANEL_FONT_G + (*ptr - '0'), PRI_FRONT_MAX, x, ys);
+        SET(psp->flags, PANF_SCALE_BOTTOM);
 
         size = tilesizx[PANEL_FONT_G + (*ptr - '0')] + 1;
         }
@@ -344,6 +347,7 @@ DisplaySmString(PLAYERp pp, short xs, short ys, short pal, const char *buffer)
         ASSERT(*ptr >= '!' && *ptr <= '}');
 
         nsp = pSpawnFullScreenSprite(pp, FRAG_FIRST_TILE + (*ptr - FRAG_FIRST_ASCII), PRI_FRONT_MAX, x, ys);
+        SET(nsp->flags, PANF_SCALE_BOTTOM);
         nsp->pal = pal;
         //nsp->ID = id;
         }
@@ -377,6 +381,7 @@ DisplayFragString(PLAYERp pp, short xs, short ys, const char *buffer)
         //nsp->pal = PALETTE_PLAYER0 + pp->TeamColor;
         //if (pp->SpriteP)
         nsp->pal = User[pp->SpriteP - sprite]->spal;
+        SET(nsp->flags, PANF_SCALE_TOP);
         }
     }
 
@@ -395,6 +400,7 @@ DisplayFragNumbers(PLAYERp pp)
         };
 
     PLAYERp my_pp = Player + myconnectindex;
+    PANEL_SPRITEp psp;
 
     // black tile to erase frag count
     #define FRAG_ERASE_NAME 2375
@@ -415,7 +421,8 @@ DisplayFragNumbers(PLAYERp pp)
         sprintf(buffer, "%03d", pp->Kills);
 
         // erase old kill count
-        pSpawnFullScreenSprite(my_pp, FRAG_ERASE_NUMBER, PRI_MID+1, xs-1, ys);
+        psp = pSpawnFullScreenSprite(my_pp, FRAG_ERASE_NUMBER, PRI_MID+1, xs-1, ys);
+        SET(psp->flags, PANF_NON_MASKED|PANF_SCALE_TOP);
 
         DisplayFragString(pp, xs, ys, buffer);
     }
@@ -434,6 +441,7 @@ DisplayFragNames(PLAYERp pp)
         };
 
     PLAYERp my_pp = Player + myconnectindex;
+    PANEL_SPRITEp psp;
 
         //xs = FRAG_XOFF;
         ys = FRAG_YOFF;
@@ -447,7 +455,8 @@ DisplayFragNames(PLAYERp pp)
         xs = xoffs[MOD4(pnum)];
 
         // erase old kill count
-        pSpawnFullScreenSprite(my_pp, FRAG_ERASE_NAME, PRI_MID+1, xs-1, ys);
+        psp = pSpawnFullScreenSprite(my_pp, FRAG_ERASE_NAME, PRI_MID+1, xs-1, ys);
+        SET(psp->flags, PANF_NON_MASKED|PANF_SCALE_TOP);
 
         DisplayFragString(pp, xs, ys, pp->PlayerName);
     }

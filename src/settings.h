@@ -69,6 +69,7 @@ BOOL Stats;
 BOOL MouseAimingOn; // whether it was on or off - NOT the type of mouse aiming
 BOOL PlayCD;
 char OggTrackName[MAXOGGTRACKLENGTH];
+int PanelScale;
 }GAME_SET, *GAME_SETp;
 
 extern const GAME_SET gs_defaults;

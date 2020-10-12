@@ -210,7 +210,7 @@ SetFragBar(PLAYERp pp)
      for (i = 0, y = 0; i < num_frag_bars; i++)
         {
         psp = pSpawnFullScreenSprite(pp, FRAG_BAR, PRI_MID, 0, y);
-        SET(psp->flags, PANF_NON_MASKED);
+        SET(psp->flags, PANF_NON_MASKED|PANF_SCALE_TOP);
         y += tilesizy[FRAG_BAR] - 2;
         }
 
@@ -304,7 +304,7 @@ BorderShade(PLAYERp pp, BOOL UNUSED(refresh))
         wx1 = max(wx1, 0);
         wx2 = min(wx2, xdim - 1);
         wy1 = max(wy1, 0);
-        wy2 = min(wy2, MSW(f_ydim - Y_TO_FIXED(BAR_HEIGHT)) - 1);
+        wy2 = min(wy2, MSW(f_ydim - mulscale16(Y_TO_FIXED(BAR_HEIGHT), PanelScale)) - 1);
 
         DrawBorderShade(pp, lines, wx1, wy1, wx2, wy2);
         // increase view size by one - dont do a set view though
@@ -430,7 +430,7 @@ VOID BorderSetView(PLAYERp UNUSED(pp), int *Xdim, int *Ydim, int *ScreenSize)
 
     // figure out the viewing window x and y dimensions
     xd = f_xdim - X_TO_FIXED(b->Xdim);
-    yd = f_ydim - Y_TO_FIXED(b->Ydim);
+    yd = f_ydim - mulscale16(Y_TO_FIXED(b->Ydim), PanelScale);
     sc = f_xdim - X_TO_FIXED(b->ScreenSize);
     *Xdim = MSW(xd);
     *Ydim = MSW(yd);
@@ -479,7 +479,7 @@ BorderRefresh(PLAYERp pp)
     // minus the border if necessary
 
     // fill in the sides of the panel when the screen is wide
-    if (gs.BorderNum >= BORDER_BAR && widescreen)
+    if (gs.BorderNum >= BORDER_BAR && (widescreen || PanelScale < FIXED(1,0)))
         {
         int barw = scale(f_320, f_ydim, 200 * pixelaspect);
         int sidel, sider;
@@ -487,11 +487,11 @@ BorderRefresh(PLAYERp pp)
         x = 0;
         x2 = xdim - 1;
 
-        y = MSW_ROUND(f_ydim - Y_TO_FIXED(b->Ydim) + 32768);
+        y = MSW_ROUND(f_ydim - mulscale16(Y_TO_FIXED(b->Ydim), PanelScale) + 32768);
         y2 = ydim - 1;
 
-        sidel = MSW_ROUND(DIV2(f_xdim - barw));
-        sider = MSW(DIV2(f_xdim + barw));
+        sidel = MSW_ROUND(DIV2(f_xdim - mulscale16(barw, PanelScale)));
+        sider = MSW(DIV2(f_xdim + mulscale16(barw, PanelScale)));
 
         DrawPanelBorderSides(pp, x, y, x2, y2, sidel, sider);
         }
@@ -504,7 +504,7 @@ BorderRefresh(PLAYERp pp)
         x2 = xdim - 1;
 
         y = 0;
-        y2 = MSW_ROUND(f_ydim - Y_TO_FIXED(b->Ydim));
+        y2 = MSW_ROUND(f_ydim - mulscale16(Y_TO_FIXED(b->Ydim), PanelScale));
 
         DrawBorder(pp, x, y, x2, y2);
 
@@ -554,11 +554,8 @@ VOID SetBorder(PLAYERp pp, int value)
         {
         BorderRefresh(pp);
 
-        if (gs.BorderNum == BORDER_BAR)
-            SetConsoleDmost();
-
         psp = pSpawnFullScreenSprite(pp, STATUS_BAR, PRI_BACK, 0, 200 - tilesizy[STATUS_BAR]);
-        SET(psp->flags, PANF_NON_MASKED);
+        SET(psp->flags, PANF_NON_MASKED|PANF_SCALE_BOTTOM);
         PlayerUpdatePanelInfo(Player + screenpeek);
         }
 

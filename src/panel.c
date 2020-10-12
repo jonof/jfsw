@@ -96,6 +96,8 @@ int ChangeWeapon(PLAYERp);
 
 ANIMATOR InitFire;
 
+int PanelScale = FIXED(1,0);
+
 int
 NullAnimator(short SpriteNum)
     {
@@ -398,7 +400,7 @@ PlayerUpdateHealth(PLAYERp pp, short value)
 
     // erase old info
     psp = pSpawnFullScreenSprite(pp, HEALTH_ERASE, PRI_MID, PANEL_HEALTH_BOX_X, PANEL_BOX_Y);
-    SET(psp->flags, PANF_NON_MASKED);
+    SET(psp->flags, PANF_NON_MASKED|PANF_SCALE_BOTTOM);
 
     x = PANEL_HEALTH_BOX_X + PANEL_HEALTH_XOFF;
     y = PANEL_BOX_Y + PANEL_HEALTH_YOFF;
@@ -429,7 +431,7 @@ PlayerUpdateAmmo(PLAYERp pp, short UpdateWeaponNum, short value)
 
         // erase old info
         psp = pSpawnFullScreenSprite(pp, AMMO_ERASE, PRI_MID, PANEL_AMMO_BOX_X, PANEL_BOX_Y);
-        SET(psp->flags, PANF_NON_MASKED);
+        SET(psp->flags, PANF_NON_MASKED|PANF_SCALE_BOTTOM);
         //pSpawnFullScreenSprite(pp, AMMO_ERASE, PRI_FRONT_MAX+1, PANEL_AMMO_BOX_X, PANEL_BOX_Y);
         return;
         }
@@ -468,7 +470,7 @@ PlayerUpdateAmmo(PLAYERp pp, short UpdateWeaponNum, short value)
 
     // erase old info
     psp = pSpawnFullScreenSprite(pp, AMMO_ERASE, PRI_MID, PANEL_AMMO_BOX_X, PANEL_BOX_Y);
-    SET(psp->flags, PANF_NON_MASKED);
+    SET(psp->flags, PANF_NON_MASKED|PANF_SCALE_BOTTOM);
 
     x = PANEL_AMMO_BOX_X + PANEL_AMMO_XOFF;
     y = PANEL_BOX_Y + PANEL_AMMO_YOFF;
@@ -518,7 +520,7 @@ PlayerUpdateWeaponSummary(PLAYERp pp, short UpdateWeaponNum)
 
     // erase old info
     psp = pSpawnFullScreenSprite(pp, wsum_back_pic[column], PRI_MID, x, y);
-    SET(psp->flags, PANF_NON_MASKED);
+    SET(psp->flags, PANF_NON_MASKED|PANF_SCALE_BOTTOM);
 
     if (UpdateWeaponNum == u->WeaponNum)
         {
@@ -655,7 +657,7 @@ PlayerUpdateArmor(PLAYERp pp, short value)
 
     // erase old info
     psp = pSpawnFullScreenSprite(pp, ARMOR_ERASE, PRI_MID, PANEL_ARMOR_BOX_X, PANEL_BOX_Y);
-    SET(psp->flags, PANF_NON_MASKED);
+    SET(psp->flags, PANF_NON_MASKED|PANF_SCALE_BOTTOM);
 
     x = PANEL_ARMOR_BOX_X + PANEL_ARMOR_XOFF;
     y = PANEL_BOX_Y + PANEL_ARMOR_YOFF;
@@ -712,7 +714,7 @@ PlayerUpdateKeys(PLAYERp pp)
 
     // erase old info
     psp = pSpawnFullScreenSprite(pp, KEYS_ERASE, PRI_MID, PANEL_KEYS_BOX_X, PANEL_BOX_Y);
-    SET(psp->flags, PANF_NON_MASKED);
+    SET(psp->flags, PANF_NON_MASKED|PANF_SCALE_BOTTOM);
 
     i = 0;
     for (row = 0; row < 2; row++)
@@ -723,7 +725,8 @@ PlayerUpdateKeys(PLAYERp pp)
                 {
                 x = PANEL_KEYS_BOX_X + PANEL_KEYS_XOFF + (row * xsize);
                 y = PANEL_BOX_Y + PANEL_KEYS_YOFF + (col * ysize);
-                pSpawnFullScreenSprite(pp, StatusKeyPics[i], PRI_FRONT_MAX, x, y);
+                psp = pSpawnFullScreenSprite(pp, StatusKeyPics[i], PRI_FRONT_MAX, x, y);
+                SET(psp->flags, PANF_SCALE_BOTTOM);
                 }
 
             i++;
@@ -740,7 +743,8 @@ PlayerUpdateKeys(PLAYERp pp)
                 {
                 x = PANEL_KEYS_BOX_X + PANEL_KEYS_XOFF + (row * xsize);
                 y = PANEL_BOX_Y + PANEL_KEYS_YOFF + (col * ysize);
-                pSpawnFullScreenSprite(pp, StatusKeyPics[i+4], PRI_FRONT_MAX, x, y);
+                psp = pSpawnFullScreenSprite(pp, StatusKeyPics[i+4], PRI_FRONT_MAX, x, y);
+                SET(psp->flags, PANF_SCALE_BOTTOM);
                 }
 
             i++;
@@ -7232,7 +7236,7 @@ pDisplaySprites(PLAYERp pp)
     PANEL_SPRITEp psp=NULL, next=NULL;
     short shade, picnum, overlay_shade = 0;
     char KenFlags;
-    int x, y;
+    int x, y, sc;
     int smoothratio;
     unsigned i;
 
@@ -7249,12 +7253,13 @@ pDisplaySprites(PLAYERp pp)
         KenFlags = 0;
         shade = 0;
         flags = 0;
-        x = psp->x;
-        y = psp->y;
+        x = psp->x << 16;
+        y = psp->y << 16;
+        sc = psp->scale;
         // initilize pal here - jack with it below
         pal = psp->pal;
 
-                if (DrawBeforeView)
+        if (DrawBeforeView)
             if (!TEST(psp->flags, PANF_DRAW_BEFORE_VIEW))
                 continue;
 
@@ -7341,10 +7346,10 @@ pDisplaySprites(PLAYERp pp)
                 break;
 
                 case STAR_REST:
-		    if (!useDarts)
-                    picnum = 2138;
-		    else
-                    picnum = 2518; // Bloody Dart Hand
+                    if (!useDarts)
+                        picnum = 2138;
+                    else
+                        picnum = 2518; // Bloody Dart Hand
                     break;
                 }
             }
@@ -7439,6 +7444,20 @@ pDisplaySprites(PLAYERp pp)
             if (TEST(psp->flags, PANF_IGNORE_START_MOST))
                 SET(flags, ROTATE_SPRITE_IGNORE_START_MOST);
 
+            if (TEST(psp->flags, PANF_SCALE_TOP))
+                {
+                sc = mulscale16(sc, PanelScale);
+                x = (160l<<16) - mulscale16((160l<<16) - x, PanelScale);
+                y = mulscale16(y, PanelScale);
+                }
+            else
+            if (TEST(psp->flags, PANF_SCALE_BOTTOM))
+                {
+                sc = mulscale16(sc, PanelScale);
+                x = (160l<<16) - mulscale16((160l<<16) - x, PanelScale);
+                y = (200l<<16) - mulscale16((200l<<16) - y, PanelScale);
+                }
+
             x1 = psp->x1;
             y1 = psp->y1;
             x2 = psp->x2;
@@ -7489,8 +7508,8 @@ pDisplaySprites(PLAYERp pp)
             SET(flags, ROTATE_SPRITE_ALL_PAGES);
             }
 
-                rotatesprite(x << 16, y << 16,
-            psp->scale, ang,
+        rotatesprite(x, y,
+            sc, ang,
             picnum, shade, pal,
             flags, x1, y1, x2, y2);
 
@@ -7512,8 +7531,19 @@ pDisplaySprites(PLAYERp pp)
 
             if (picnum)
                 {
-                rotatesprite((x + psp->over[i].xoff) << 16, (y + psp->over[i].yoff) << 16,
-                    psp->scale, ang,
+                int ox, oy;
+
+                ox = psp->over[i].xoff << 16;
+                oy = psp->over[i].yoff << 16;
+
+                if (TEST(psp->flags, PANF_SCALE_TOP|PANF_SCALE_BOTTOM))
+                    {
+                    ox = mulscale16(ox, PanelScale);
+                    oy = mulscale16(oy, PanelScale);
+                    }
+
+                rotatesprite(x + ox, y + oy,
+                    sc, ang,
                     picnum, overlay_shade, pal,
                     flags, x1, y1, x2, y2);
                 }

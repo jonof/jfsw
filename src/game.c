@@ -222,6 +222,7 @@ FALSE, // stats
 FALSE, // mouse aiming on
 FALSE, // play cd
 "track??.ogg", // ogg track name
+8, // panel scale
 };
 GAME_SET gs;
 

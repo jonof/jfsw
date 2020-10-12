@@ -171,6 +171,7 @@ extern BOOL MultiPlayQuitFlag;
 #define KILLLIMIT_DEFAULT 0 // No kill limit
 #define TIMELIMIT_DEFAULT 0 // None
 #define PLAYERCOLOR_DEFAULT 0
+#define PANELSCALE_DEFAULT (8-1)
 
 typedef enum
     {
@@ -180,6 +181,7 @@ typedef enum
     sldr_timelimit, sldr_playercolor, sldr_videores, sldr_videobpp,
     sldr_mousescalex, sldr_mousescaley,
     sldr_joyaxisscale, sldr_joyaxisanalog, sldr_joyaxisdead, sldr_joyaxissatur,
+    sldr_panelscale,
     sldr_max
     } SLDRType;
 
@@ -193,6 +195,7 @@ typedef enum
 #define SLDR_BRIGHTNESSMAX              8
 #define SLDR_BORDERTILEMAX              (isShareware ? 21 : 38)	// counted from border.c
 #define SLDR_GAMETYPEMAX                3
+#define SLDR_PANELSCALEMAX              8
 
 #define SLDR_NETLEVELMAX_REG             28
 #define SLDR_NETLEVELMAX_SW              4

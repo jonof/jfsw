@@ -182,6 +182,7 @@ SetFragBar(PLAYERp pp)
     short i, num_frag_bars;
     int y;
     extern SHORT OrigCommPlayers;
+    PANEL_SPRITEp psp;
 
     if (numplayers <= 1)
         return;
@@ -208,7 +209,8 @@ SetFragBar(PLAYERp pp)
 
      for (i = 0, y = 0; i < num_frag_bars; i++)
         {
-        pSpawnFullScreenSprite(pp, FRAG_BAR, PRI_MID, 0, y);
+        psp = pSpawnFullScreenSprite(pp, FRAG_BAR, PRI_MID, 0, y);
+        SET(psp->flags, PANF_NON_MASKED);
         y += tilesizy[FRAG_BAR] - 2;
         }
 
@@ -250,6 +252,7 @@ VOID DrawBorderShade(PLAYERp pp, short shade_num, short wx1, short wy1, short wx
                 {
                 // draw top box of the border
                 psp = pSpawnFullScreenSpriteBox(pp, ID_BORDER_TOP, BORDER_TILE, PRI_BACK + 1, i, j, wx1 - 1, wy1 - 1, wx2 + 1, wy1);
+                SET(psp->flags, PANF_NON_MASKED);
                 psp->shade = dark_shade;
                 psp->ID = ID_BORDER_SHADE;
                 }
@@ -258,6 +261,7 @@ VOID DrawBorderShade(PLAYERp pp, short shade_num, short wx1, short wy1, short wx
                 {
                 // draw bottom box of the border
                 psp = pSpawnFullScreenSpriteBox(pp, ID_BORDER_BOTTOM, BORDER_TILE, PRI_BACK + 1, i, j, wx1 - 1, wy2, wx2 + 1, wy2 + 1);
+                SET(psp->flags, PANF_NON_MASKED);
                 psp->shade = light_shade;
                 psp->ID = ID_BORDER_SHADE;
                 }
@@ -265,6 +269,7 @@ VOID DrawBorderShade(PLAYERp pp, short shade_num, short wx1, short wy1, short wx
                 {
                 // draw left box of the border
                 psp = pSpawnFullScreenSpriteBox(pp, ID_BORDER_LEFT, BORDER_TILE, PRI_BACK + 1, i, j, wx1 - 1, wy1 - 1, wx1, wy2 + 1);
+                SET(psp->flags, PANF_NON_MASKED);
                 psp->shade = dark_shade;
                 psp->ID = ID_BORDER_SHADE;
                 }
@@ -272,6 +277,7 @@ VOID DrawBorderShade(PLAYERp pp, short shade_num, short wx1, short wy1, short wx
                 {
                 // draw right box of the border
                 psp = pSpawnFullScreenSpriteBox(pp, ID_BORDER_RIGHT, BORDER_TILE, PRI_BACK + 1, i, j, wx2, wy1 - 1, wx2 + 1, wy2 + 1);
+                SET(psp->flags, PANF_NON_MASKED);
                 psp->shade = light_shade;
                 psp->ID = ID_BORDER_SHADE;
                 }
@@ -336,6 +342,7 @@ VOID DrawBorder(PLAYERp pp, short x, short y, short x2, short y2)
     {
     short i,j,k,l;
     short count = 0;
+    PANEL_SPRITEp psp;
 
     for (i = 0; i < xdim; i += tilesizx[BORDER_TILE])
         {
@@ -347,28 +354,32 @@ VOID DrawBorder(PLAYERp pp, short x, short y, short x2, short y2)
             if (RectOverlap(i, j, k, l, x, y, windowx1-1, y2))
                 {
                 // draw top box of the border
-                pSpawnFullScreenSpriteBox(pp, ID_BORDER_TOP, BORDER_TILE, PRI_BACK, i, j, x, y, windowx1-1, y2);
+                psp = pSpawnFullScreenSpriteBox(pp, ID_BORDER_TOP, BORDER_TILE, PRI_BACK, i, j, x, y, windowx1-1, y2);
+                SET(psp->flags, PANF_NON_MASKED);
                 count++;
                 }
 
             if (RectOverlap(i, j, k, l, windowx2+1, y, x2, y2))
                 {
                 // draw bottom box of the border
-                pSpawnFullScreenSpriteBox(pp, ID_BORDER_BOTTOM, BORDER_TILE, PRI_BACK, i, j, windowx2+1, y, x2, y2);
+                psp = pSpawnFullScreenSpriteBox(pp, ID_BORDER_BOTTOM, BORDER_TILE, PRI_BACK, i, j, windowx2+1, y, x2, y2);
+                SET(psp->flags, PANF_NON_MASKED);
                 count++;
                 }
 
             if (RectOverlap(i, j, k, l, windowx1, y, windowx2, windowy1-1))
                 {
                 // draw left box of the border
-                pSpawnFullScreenSpriteBox(pp, ID_BORDER_LEFT, BORDER_TILE, PRI_BACK, i, j, windowx1, y, windowx2, windowy1-1);
+                psp = pSpawnFullScreenSpriteBox(pp, ID_BORDER_LEFT, BORDER_TILE, PRI_BACK, i, j, windowx1, y, windowx2, windowy1-1);
+                SET(psp->flags, PANF_NON_MASKED);
                 count++;
                 }
 
             if (RectOverlap(i, j, k, l, windowx1, windowy2+1, windowx2, y2))
                 {
                 // draw right box of the border
-                pSpawnFullScreenSpriteBox(pp, ID_BORDER_RIGHT, BORDER_TILE, PRI_BACK, i, j, windowx1, windowy2+1, windowx2, y2);
+                psp = pSpawnFullScreenSpriteBox(pp, ID_BORDER_RIGHT, BORDER_TILE, PRI_BACK, i, j, windowx1, windowy2+1, windowx2, y2);
+                SET(psp->flags, PANF_NON_MASKED);
                 count++;
                 }
             }
@@ -379,6 +390,7 @@ VOID DrawPanelBorderSides(PLAYERp pp, short x, short y, short x2, short y2, shor
     {
     short i,j,k,l;
     short count = 0;
+    PANEL_SPRITEp psp;
 
     for (i = 0; i < xdim; i += tilesizx[BORDER_TILE])
         {
@@ -389,13 +401,15 @@ VOID DrawPanelBorderSides(PLAYERp pp, short x, short y, short x2, short y2, shor
 
             if (RectOverlap(i, j, k, l, x, y, panl, y2))
                 {
-                pSpawnFullScreenSpriteBox(pp, ID_PANEL_BORDER_LEFT, BORDER_TILE, PRI_BACK, i, j, x, y, panl, y2);
+                psp = pSpawnFullScreenSpriteBox(pp, ID_PANEL_BORDER_LEFT, BORDER_TILE, PRI_BACK, i, j, x, y, panl, y2);
+                SET(psp->flags, PANF_NON_MASKED);
                 count++;
                 }
 
             if (RectOverlap(i, j, k, l, panr, y, x2, y2))
                 {
-                pSpawnFullScreenSpriteBox(pp, ID_PANEL_BORDER_RIGHT, BORDER_TILE, PRI_BACK, i, j, panr, y, x2, y2);
+                psp = pSpawnFullScreenSpriteBox(pp, ID_PANEL_BORDER_RIGHT, BORDER_TILE, PRI_BACK, i, j, panr, y, x2, y2);
+                SET(psp->flags, PANF_NON_MASKED);
                 count++;
                 }
             }
@@ -511,6 +525,7 @@ VOID SetBorder(PLAYERp pp, int value)
     int diff;
     int Xdim, Ydim, ScreenSize;
     BOOL set_view = TRUE;
+    PANEL_SPRITEp psp;
 
     if (pp != Player + myconnectindex)
         return;
@@ -542,7 +557,8 @@ VOID SetBorder(PLAYERp pp, int value)
         if (gs.BorderNum == BORDER_BAR)
             SetConsoleDmost();
 
-        pSpawnFullScreenSprite(pp, STATUS_BAR, PRI_FRONT, 0, 200 - tilesizy[STATUS_BAR]);
+        psp = pSpawnFullScreenSprite(pp, STATUS_BAR, PRI_BACK, 0, 200 - tilesizy[STATUS_BAR]);
+        SET(psp->flags, PANF_NON_MASKED);
         PlayerUpdatePanelInfo(Player + screenpeek);
         }
 

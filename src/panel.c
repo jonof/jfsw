@@ -281,6 +281,7 @@ PlayerUpdateHealth(PLAYERp pp, short value)
     {
     USERp u = User[pp->PlayerSprite];
     short x,y;
+    PANEL_SPRITEp psp;
 
 #define PANEL_HEALTH_BOX_X 20
 #define PANEL_BOX_Y (174-6)
@@ -396,7 +397,8 @@ PlayerUpdateHealth(PLAYERp pp, short value)
         return;
 
     // erase old info
-    pSpawnFullScreenSprite(pp, HEALTH_ERASE, PRI_MID, PANEL_HEALTH_BOX_X, PANEL_BOX_Y);
+    psp = pSpawnFullScreenSprite(pp, HEALTH_ERASE, PRI_MID, PANEL_HEALTH_BOX_X, PANEL_BOX_Y);
+    SET(psp->flags, PANF_NON_MASKED);
 
     x = PANEL_HEALTH_BOX_X + PANEL_HEALTH_XOFF;
     y = PANEL_BOX_Y + PANEL_HEALTH_YOFF;
@@ -410,6 +412,7 @@ PlayerUpdateAmmo(PLAYERp pp, short UpdateWeaponNum, short value)
     USERp u = User[pp->PlayerSprite];
     short x,y;
     short WeaponNum,min_ammo;
+    PANEL_SPRITEp psp;
 
 #define PANEL_AMMO_BOX_X 197
 #define PANEL_AMMO_XOFF 1
@@ -425,7 +428,8 @@ PlayerUpdateAmmo(PLAYERp pp, short UpdateWeaponNum, short value)
             return;
 
         // erase old info
-        pSpawnFullScreenSprite(pp, AMMO_ERASE, PRI_MID, PANEL_AMMO_BOX_X, PANEL_BOX_Y);
+        psp = pSpawnFullScreenSprite(pp, AMMO_ERASE, PRI_MID, PANEL_AMMO_BOX_X, PANEL_BOX_Y);
+        SET(psp->flags, PANF_NON_MASKED);
         //pSpawnFullScreenSprite(pp, AMMO_ERASE, PRI_FRONT_MAX+1, PANEL_AMMO_BOX_X, PANEL_BOX_Y);
         return;
         }
@@ -463,7 +467,8 @@ PlayerUpdateAmmo(PLAYERp pp, short UpdateWeaponNum, short value)
         return;
 
     // erase old info
-    pSpawnFullScreenSprite(pp, AMMO_ERASE, PRI_MID, PANEL_AMMO_BOX_X, PANEL_BOX_Y);
+    psp = pSpawnFullScreenSprite(pp, AMMO_ERASE, PRI_MID, PANEL_AMMO_BOX_X, PANEL_BOX_Y);
+    SET(psp->flags, PANF_NON_MASKED);
 
     x = PANEL_AMMO_BOX_X + PANEL_AMMO_XOFF;
     y = PANEL_BOX_Y + PANEL_AMMO_YOFF;
@@ -480,6 +485,7 @@ PlayerUpdateWeaponSummary(PLAYERp pp, short UpdateWeaponNum)
     short column;
     short WeaponNum,wpntmp;
     short color,shade;
+    PANEL_SPRITEp psp;
 
 #define WSUM_X 93
 #define WSUM_Y PANEL_BOX_Y+1
@@ -511,7 +517,8 @@ PlayerUpdateWeaponSummary(PLAYERp pp, short UpdateWeaponNum)
     y = WSUM_Y + (WSUM_YOFF * (pos%3));
 
     // erase old info
-    pSpawnFullScreenSprite(pp, wsum_back_pic[column], PRI_MID, x, y);
+    psp = pSpawnFullScreenSprite(pp, wsum_back_pic[column], PRI_MID, x, y);
+    SET(psp->flags, PANF_NON_MASKED);
 
     if (UpdateWeaponNum == u->WeaponNum)
         {
@@ -623,6 +630,7 @@ PlayerUpdateArmor(PLAYERp pp, short value)
     {
     USERp u = User[pp->PlayerSprite];
     short x,y;
+    PANEL_SPRITEp psp;
 
 #define PANEL_ARMOR_BOX_X 56
 #define PANEL_ARMOR_XOFF 2
@@ -646,7 +654,8 @@ PlayerUpdateArmor(PLAYERp pp, short value)
         return;
 
     // erase old info
-    pSpawnFullScreenSprite(pp, ARMOR_ERASE, PRI_MID, PANEL_ARMOR_BOX_X, PANEL_BOX_Y);
+    psp = pSpawnFullScreenSprite(pp, ARMOR_ERASE, PRI_MID, PANEL_ARMOR_BOX_X, PANEL_BOX_Y);
+    SET(psp->flags, PANF_NON_MASKED);
 
     x = PANEL_ARMOR_BOX_X + PANEL_ARMOR_XOFF;
     y = PANEL_BOX_Y + PANEL_ARMOR_YOFF;
@@ -666,6 +675,7 @@ PlayerUpdateKeys(PLAYERp pp)
     short x,y;
     short row,col;
     short i, xsize, ysize;
+    PANEL_SPRITEp psp;
 
     #define PANEL_KEY_RED       2392
     #define PANEL_KEY_GREEN     2393
@@ -701,7 +711,8 @@ PlayerUpdateKeys(PLAYERp pp)
     ysize = tilesizy[PANEL_KEY_RED]+2;
 
     // erase old info
-    pSpawnFullScreenSprite(pp, KEYS_ERASE, PRI_MID, PANEL_KEYS_BOX_X, PANEL_BOX_Y);
+    psp = pSpawnFullScreenSprite(pp, KEYS_ERASE, PRI_MID, PANEL_KEYS_BOX_X, PANEL_BOX_Y);
+    SET(psp->flags, PANF_NON_MASKED);
 
     i = 0;
     for (row = 0; row < 2; row++)
@@ -743,6 +754,7 @@ PlayerUpdateTimeLimit(PLAYERp pp)
     USERp u = User[pp->PlayerSprite];
     short x,y;
     int seconds;
+    PANEL_SPRITEp psp;
 
     if (Prediction)
         return;
@@ -757,7 +769,8 @@ PlayerUpdateTimeLimit(PLAYERp pp)
         return;
 
     // erase old info
-    pSpawnFullScreenSprite(pp, KEYS_ERASE, PRI_MID, PANEL_KEYS_BOX_X, PANEL_BOX_Y);
+    psp = pSpawnFullScreenSprite(pp, KEYS_ERASE, PRI_MID, PANEL_KEYS_BOX_X, PANEL_BOX_Y);
+    SET(psp->flags, PANF_NON_MASKED);
 
     seconds = gNet.TimeLimitClock/120;
     sprintf(ds,"%03d:%02d",seconds/60, seconds%60);
@@ -7409,6 +7422,9 @@ pDisplaySprites(PLAYERp pp)
 
         SET(flags, TEST(psp->flags, PANF_TRANS_FLIP));
 
+        if (TEST(psp->flags, PANF_NON_MASKED))
+            SET(flags, ROTATE_SPRITE_NON_MASK);
+
         if (TEST(psp->flags, PANF_CORNER))
             SET(flags, ROTATE_SPRITE_CORNER);
 
@@ -7467,13 +7483,11 @@ pDisplaySprites(PLAYERp pp)
                 }
             }
 
-        #if 1
         if (TEST(psp->flags, PANF_KILL_AFTER_SHOW) && !TEST(psp->flags, PANF_NOT_ALL_PAGES))
             {
             psp->numpages = 0;
             SET(flags, ROTATE_SPRITE_ALL_PAGES);
             }
-        #endif
 
                 rotatesprite(x << 16, y << 16,
             psp->scale, ang,
@@ -7507,7 +7521,8 @@ pDisplaySprites(PLAYERp pp)
 
         if (TEST(psp->flags, PANF_KILL_AFTER_SHOW))
             {
-            psp->numpages--;
+            if (numpages < 127)
+                psp->numpages--;
             if (psp->numpages <= 0)
                 pKillSprite(psp);
             }

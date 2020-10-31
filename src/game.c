@@ -3871,9 +3871,8 @@ int app_main(int argc, char const * const argv[])
                 }
             }
         else
-        /* bots suck, bye bye!
-        #ifndef SW_SHAREWARE
-                if (memcmp(argv[cnt], "-bots", 5) == 0)
+        #if 0
+        if (memcmp(argv[cnt], "-bots", 5) == 0)
             {
             if (strlen(argv[cnt]) > 5)
                 {
@@ -3885,7 +3884,6 @@ int app_main(int argc, char const * const argv[])
             }
         else
         #endif
-        */
         if (Bstrncasecmp(arg, "nometers", 8) == 0)
             {
             NoMeters = TRUE;

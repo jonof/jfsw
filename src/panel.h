@@ -88,6 +88,7 @@ struct PANEL_STATEstruct
 #define PANF_UNHIDE_SHOOT    (BIT(20)) // shoot after un-hiding a weapon
 #define PANF_JUMPING         (BIT(21))
 #define PANF_FALLING         (BIT(22))
+#define PANF_NON_MASKED      (BIT(23)) // tile should be drawn without transparency masking
 #define PANF_DRAW_BEFORE_VIEW (BIT(30)) // draw before drawrooms
 #define PANF_NOT_ALL_PAGES       (BIT(31)) // DONT use permanentwritesprite bit for rotatesprite
 

@@ -69,6 +69,7 @@ extern ParentalStruct aVoxelArray[MAXTILES];
 extern BOOL RedrawScreen;
 BOOL RedrawCompass=FALSE;
 extern int Follow_posx,Follow_posy;
+short LastCompassAngle = -1;
 
 int ConnectCopySprite(SPRITEp tsp);
 void PreDrawStackedWater(void );
@@ -2300,13 +2301,6 @@ drawscreen(PLAYERp pp)
         }
     #endif
 
-#if USE_POLYMOST
-    if (getrendermode() >= 3)
-#endif
-        {
-        RedrawScreen = TRUE;
-        }
-
     DrawScreen = TRUE;
     PreDraw();
     // part of new border refresh method
@@ -2458,6 +2452,7 @@ drawscreen(PLAYERp pp)
     post_analyzesprites();
     drawmasks();
 
+	DrawCompass(pp);
     UpdatePanel();
 
     #define SLIME 2305
@@ -2562,7 +2557,6 @@ drawscreen(PLAYERp pp)
     else
         DrawMessageInput(pp);   // This is only used for non-multiplayer input now
 
-    DrawCompass(pp);
     UpdateMiniBar(pp);
 
     if (UsingMenus)
@@ -2665,18 +2659,16 @@ DrawCompass(PLAYERp pp)
 
     start_ang = NORM_CANG(start_ang - 4);
 
-    flags = ROTATE_SPRITE_SCREEN_CLIP | ROTATE_SPRITE_CORNER;
-    if (RedrawCompass)
-        {
-        RedrawCompass = FALSE;
-        SET(flags, ROTATE_SPRITE_ALL_PAGES);
-        }
+    if (!RedrawCompass && LastCompassAngle == start_ang)
+        return;
+    LastCompassAngle = start_ang;
+    RedrawCompass = FALSE;
 
     for (i = 0, x = COMPASS_X; i < 10; i++)
         {
-        rotatesprite(x << 16, COMPASS_Y << 16, (1 << 16), 0,
-            CompassPic[NORM_CANG(start_ang + i)], CompassShade[i], 0,
-            flags, 0, 0, xdim - 1, ydim - 1);
+        psp = pSpawnFullScreenSprite(pp, CompassPic[NORM_CANG(start_ang + i)], PRI_FRONT_MAX, x, COMPASS_Y);
+        SET(psp->flags, PANF_NON_MASKED);
+        psp->shade = CompassShade[i];
         x += x_size;
         }
     }

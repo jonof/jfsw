@@ -68,6 +68,7 @@ extern short HelpPagePic[];
 extern ParentalStruct aVoxelArray[MAXTILES];
 extern BOOL RedrawScreen;
 BOOL RedrawCompass=FALSE;
+BOOL ScreenDidCapture = FALSE;
 extern int Follow_posx,Follow_posy;
 short LastCompassAngle = -1;
 
@@ -1676,13 +1677,18 @@ VOID ScreenCaptureKeys(VOID)
         return;
 
     // screen capture
+    if (ScreenDidCapture)
+        {
+        PutStringInfo(Player + myconnectindex, "Screen Captured");
+        ScreenDidCapture = FALSE;
+        }
     if (KEY_PRESSED(KEYSC_F12))
         {
         KEY_PRESSED(KEYSC_F12) = 0;
         PauseAction();
-        screencapture("swcpxxxx.pcx", KEY_PRESSED(KEYSC_LSHIFT) | KEY_PRESSED(KEYSC_LSHIFT));
+        screencapture("swcpxxxx.pcx", 2);
         ResumeAction();
-        PutStringInfo(Player + myconnectindex, "Screen Captured");
+        ScreenDidCapture = TRUE;
         }
     }
 

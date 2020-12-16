@@ -273,7 +273,7 @@ int score;
 BOOL QuitFlag = FALSE;
 BOOL InGame = FALSE;
 
-BOOL CommandSetup = FALSE;
+int CommandSetup = FALSE;
 
 char UserMapName[80]="", buffer[80], ch;
 char LevelName[20];
@@ -3307,6 +3307,7 @@ CLI_ARG cli_arg[] =
 {1, "/g#",                 2,      "-g[filename.grp]",     "Load an extra GRP or ZIP file"},
 {1, "/h#",                 2,      "-h[filename.def]",     "Use filename.def instead of SW.DEF"},
 {0, "/setup",              5,      "-setup",               "Displays the configuration dialogue box"},
+{0, "/nosetup",            7,      "-nosetup",             "Prevents display of the configuration dialogue box"},
 #if DEBUG
 {0, "/coop",               5,      "-coop#",               "Single Player Cooperative Mode"        },
 {0, "/commbat",            8,      "-commbat#",            "Single Player Commbat Mode"            },
@@ -3472,7 +3473,10 @@ int app_main(int argc, char const * const argv[])
             continue;
         }
         if (!Bstrcasecmp(argv[i]+1, "setup")) {
-            CommandSetup = TRUE;
+            CommandSetup = 1;
+        }
+        else if (!Bstrcasecmp(argv[i]+1, "nosetup")) {
+            CommandSetup = -1;
         }
         else if (!Bstrcasecmp(argv[i]+1, "net")) {
             netparam = i + 1;
@@ -3579,7 +3583,7 @@ int app_main(int argc, char const * const argv[])
         settings.channels = NumChannels;
         settings.selectedgrp = gamegrp;
 
-        if (configloaded < 0 || ForceSetup || CommandSetup) {
+        if (configloaded < 0 || (ForceSetup && CommandSetup == 0) || (CommandSetup > 0)) {
             if (startwin_run(&settings) == STARTWIN_CANCEL) {
                 uninitengine();
                 exit(0);

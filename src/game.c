@@ -3014,9 +3014,7 @@ void MoveLoop(void)
          for(pnum=connecthead;pnum>=0;pnum=connectpoint2[pnum])
             {
             if (movefifoplc == Player[pnum].movefifoend)
-                                {
                 break;
-                                }
             }
 
            //Pnum is >= 0 only if last loop was broken, meaning a player wasn't caught up
@@ -3793,7 +3791,7 @@ int app_main(int argc, char const * const argv[])
         else
         if (Bstrncasecmp(arg, "allsync",3) == 0)
             {
-            NumSyncBytes = 8;
+            NumSyncBytes = MAXSYNCBYTES;
             }
         else
         if (Bstrncasecmp(arg, "name",4) == 0)

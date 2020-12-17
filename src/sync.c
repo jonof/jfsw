@@ -393,9 +393,9 @@ SyncStatMessage(void)
             if (NumSyncBytes > 1)
                 {
                 sprintf(ds, "FIRST %s", sync_first[i]);
-                printext256(50L, 0L, 1, 31, ds, 0);
+                printext256(50L, 50L, 1, 31, ds, 0);
                 sprintf(ds, "MoveCount %u",MoveCount);
-                printext256(50L, 10L, 1, 31, ds, 0);
+                printext256(50L, 60L, 1, 31, ds, 0);
                 }
             else
                 {

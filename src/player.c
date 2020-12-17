@@ -8001,7 +8001,7 @@ domovethings(VOID)
     UpdateConMessages();    // Update the console messages
 
     #if SYNC_TEST
-        if (/* CTW REMOVED !gTenActivated ||*/ !(movefifoplc & 0x3f))
+        if (!(movefifoplc & 0x3f))
                 getsyncstat();
 #ifdef DEBUG                            // in DEBUG mode even TEN does sync all the time
         else

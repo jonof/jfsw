@@ -134,14 +134,9 @@ void netsendpacket(int ind, BYTEp buf, int len)
 	// send via master if in M/S mode and we are not the master, and the recipient is not the master and not ourselves
 	if (!NetBroadcastMode && myconnectindex != connecthead && ind != myconnectindex && ind != connecthead) {
 		if ((unsigned)len > sizeof(packbuf)) {
-			buildprintf("netsendpacket(): packet length > %d!\n",(int)sizeof(packbuf));
+			debugprintf("netsendpacket(): packet length > %d!\n",(int)sizeof(packbuf));
 			len = sizeof(packbuf);
 		}
-
-		buildprintf("netsendpacket() sends proxy to %d\nPlayerIndex=%d Contents:",connecthead,ind);
-		for (i=0; i<len; i++)
-			buildprintf(" %02x", buf[i]);
-		buildputs("\n");
 
 		prx->PacketType = PACKET_TYPE_PROXY;
 		prx->PlayerIndex = (BYTE)ind;
@@ -153,11 +148,6 @@ void netsendpacket(int ind, BYTEp buf, int len)
 	}
 
 	sendpacket(ind, buf, len);
-
-	buildprintf("netsendpacket() sends normal to %d\nContents:",ind);
-	for (i=0; i<len; i++)
-		buildprintf(" %02x", buf[i]);
-	buildputs("\n");
 }
 
 void netbroadcastpacket(BYTEp buf, int len)
@@ -169,14 +159,9 @@ void netbroadcastpacket(BYTEp buf, int len)
 	// broadcast via master if in M/S mode and we are not the master
 	if (!NetBroadcastMode && myconnectindex != connecthead) {
 		if ((unsigned)len > sizeof(packbuf)) {
-			buildprintf("netbroadcastpacket(): packet length > %d!\n",(int)sizeof(packbuf));
+			debugprintf("netbroadcastpacket(): packet length > %d!\n",(int)sizeof(packbuf));
 			len = sizeof(packbuf);
 		}
-
-		buildprintf("netbroadcastpacket() sends proxy to %d\nPlayerIndex=255 Contents:",connecthead);
-		for (i=0; i<len; i++)
-			buildprintf(" %02x", buf[i]);
-		buildputs("\n");
 
 		prx->PacketType = PACKET_TYPE_PROXY;
 		prx->PlayerIndex = (BYTE)(-1);
@@ -191,12 +176,7 @@ void netbroadcastpacket(BYTEp buf, int len)
 	{
 		if (i == myconnectindex) continue;
 		sendpacket(i, buf, len);
-		buildprintf("netsendpacket() sends normal to %d\n",i);
 	}
-	buildputs("Contents:");
-	for (i=0; i<len; i++)
-		buildprintf(" %02x", buf[i]);
-	buildputs("\n");
 }
 
 int netgetpacket(int *ind, BYTEp buf)
@@ -207,21 +187,10 @@ int netgetpacket(int *ind, BYTEp buf)
 
 	len = getpacket(ind, buf);
 	if ((unsigned)len < sizeof(PACKET_PROXY) || buf[0] != PACKET_TYPE_PROXY) {
-		if (len > 0) {
-			buildprintf("netgetpacket() gets normal from %d\nContents:",*ind);
-			for (i=0; i<len; i++)
-				buildprintf(" %02x", buf[i]);
-			buildputs("\n");
-		}
 		return len;
 	}
 
 	prx = (PACKET_PROXYp)buf;
-
-	buildprintf("netgetpacket() got proxy from %d\nPlayerIndex=%d Contents:",*ind,prx->PlayerIndex);
-	for (i=0; i<len-(int)sizeof(PACKET_PROXY); i++)
-		buildprintf(" %02x", *(((char*)&prx[1])+i));
-	buildputs("\n");
 
 	if (myconnectindex == connecthead) {
 		// I am the master
@@ -235,7 +204,6 @@ int netgetpacket(int *ind, BYTEp buf)
 			// Transmit to all the other players except ourselves and the sender
 			for (i = connecthead; i >= 0; i = connectpoint2[i]) {
 				if (i == myconnectindex || i == *ind) continue;
-				buildprintf("netgetpacket(): distributing to %d\n", i);
 				sendpacket(i, buf, len);
 			}
 
@@ -258,7 +226,6 @@ int netgetpacket(int *ind, BYTEp buf)
 				return len;
 			}
 
-			buildprintf("netgetpacket(): forwarding to %d\n", i);
 			sendpacket(i, buf, len);
 			return 0;	// nothing for us to do
 		}
@@ -269,7 +236,7 @@ int netgetpacket(int *ind, BYTEp buf)
 		memmove(buf, &prx[1], len);
 		return len;
 	} else {
-		buildprintf("netgetpacket(): Got a proxy message from %d instead of %d\n",*ind,connecthead);
+		debugprintf("netgetpacket(): proxy from peer %d\n",*ind);
 	}
 	return 0;
 }
@@ -455,14 +422,7 @@ InitNetPlayerOptions(VOID)
         p.Color = gs.NetColor;
         strcpy(p.PlayerName, CommPlayerName);
 
-        //TRAVERSE_CONNECT(pnum)
-            {
-            //if (pnum != myconnectindex)
-                {
-                //netsendpacket(pnum, (char *)(&p), sizeof(p));
-                netbroadcastpacket((BYTEp)(&p), sizeof(p));
-                }
-            }
+        netbroadcastpacket((BYTEp)(&p), sizeof(p));
         }
     }
 
@@ -481,16 +441,9 @@ SendMulitNameChange(char *new_name)
     strcpy(CommPlayerName, new_name);
     SetRedrawScreen(pp);
 
-    //TRAVERSE_CONNECT(pnum)
-        {
-        //if (pnum != myconnectindex)
-            {
-            p.PacketType = PACKET_TYPE_NAME_CHANGE;
-            strcpy(p.PlayerName, pp->PlayerName);
-            //netsendpacket(pnum, (char *)(&p), sizeof(p));
-            netbroadcastpacket((BYTEp)(&p), sizeof(p));
-            }
-        }
+    p.PacketType = PACKET_TYPE_NAME_CHANGE;
+    strcpy(p.PlayerName, pp->PlayerName);
+    netbroadcastpacket((BYTEp)(&p), sizeof(p));
     }
 
 VOID
@@ -505,16 +458,9 @@ SendVersion(int version)
 
     pp->PlayerVersion = version;
 
-    //TRAVERSE_CONNECT(pnum)
-        {
-        //if (pnum != myconnectindex)
-            {
-            p.PacketType = PACKET_TYPE_VERSION;
-            p.Version = version;
-            //netsendpacket(pnum, (char *)(&p), sizeof(p));
-            netbroadcastpacket((BYTEp)(&p), sizeof(p));
-            }
-        }
+    p.PacketType = PACKET_TYPE_VERSION;
+    p.Version = version;
+    netbroadcastpacket((BYTEp)(&p), sizeof(p));
     }
 
 VOID
@@ -565,20 +511,6 @@ Connect(VOID)
 
     if (CommEnabled)
         {
-        #if 0
-        int x1, x2, y1, y2;
-        int screensize = xdim;
-        extern short BorderTest[];
-
-        // put up a tile
-        x1 = (xdim >> 1) - (screensize >> 1);
-        x2 = x1 + screensize - 1;
-        y1 = ((ydim) >> 1) - (((screensize * (ydim)) / xdim) >> 1);
-        y2 = y1 + ((screensize * (ydim)) / xdim) - 1;
-        rotatespritetile(0L, 0L, BorderTest[gs.BorderTile], 0, x1, y1, x2, y2, 0);
-        nextpage();
-        #endif
-
         screenpeek = myconnectindex;
         }
 
@@ -597,19 +529,15 @@ waitforeverybody(void)
     if (!CommEnabled)
         return;
 
-    buildprintf("waitforeverybody() #%d\n", Player[myconnectindex].playerreadyflag + 1);
-
-	//tenDbLprintf(gTenLog, 3, "in w4e");
-	//tenDbFlushLog(gTenLog);
     tempbuf[0] = PACKET_TYPE_PLAYER_READY;
 #ifdef DEBUG
-	tempbuf[1] = Player[myconnectindex].playerreadyflag + 1;
-	size++;
+    tempbuf[1] = Player[myconnectindex].playerreadyflag + 1;
+    size++;
 #endif
     if (!NetBroadcastMode && myconnectindex != connecthead)
-	netsendpacket(connecthead, tempbuf, size);
+        netsendpacket(connecthead, tempbuf, size);
     else
-	netbroadcastpacket(tempbuf, size);
+        netbroadcastpacket(tempbuf, size);
 
     #if 0
     for (i = connecthead; i >= 0; i = connectpoint2[i])
@@ -644,16 +572,8 @@ waitforeverybody(void)
             // allow exit
             //if (KEY_PRESSED(KEYSC_ESC))
                 {
-                short pnum;
-                //TRAVERSE_CONNECT(pnum)
-                    {
-                    //if (pnum != myconnectindex)
-                        {
-                        tempbuf[0] = PACKET_TYPE_MENU_LEVEL_QUIT;
-                        //netsendpacket(pnum, tempbuf, 1);
-                        netbroadcastpacket(tempbuf, 1);
-                        }
-                    }
+                tempbuf[0] = PACKET_TYPE_MENU_LEVEL_QUIT;
+                netbroadcastpacket(tempbuf, 1);
 
                 TerminateGame();
                 exit(0);
@@ -672,7 +592,11 @@ waitforeverybody(void)
             {
             if (Player[i].playerreadyflag < Player[myconnectindex].playerreadyflag)
                 break;
-	    if ((!NetBroadcastMode) && (myconnectindex != connecthead)) { i = -1; break; } //slaves in M/S mode only wait for master
+    	    if ((!NetBroadcastMode) && (myconnectindex != connecthead))
+                {
+                i = -1;  //slaves in M/S mode only wait for master
+                break;
+                }
             }
 
         if (i < 0)
@@ -891,11 +815,6 @@ InitTimingVars(VOID)
                                         // as the Skip2's
     MoveThingsCount = 0;
 
-	// CTW REMOVED
-	//if (gTenActivated)
-	//	tenResetClock();
-	// CTW REMOVED END
-
     }
 
 
@@ -1049,7 +968,7 @@ faketimerhandler(void)
         packbuf[0] = PACKET_TYPE_BROADCAST;
         j = 1;
 
-        if (((Player[myconnectindex].movefifoend - 1) & (TIMERUPDATESIZ - 1)) == 0 /* CTW REMOVED && !gTenActivated */)
+        if (((Player[myconnectindex].movefifoend - 1) & (TIMERUPDATESIZ - 1)) == 0)
             {
             if (myconnectindex == connecthead)
                 {
@@ -1160,12 +1079,12 @@ faketimerhandler(void)
     // This allows packet-resends
     //for (i = connecthead; i >= 0; i = connectpoint2[i])
     //    {
-    //    if ( /* (!playerquitflag[i]) && */ (Player[i].movefifoend <= movefifosendplc))
+    //    if ((Player[i].movefifoend <= movefifosendplc))
     //        {
     //        packbuf[0] = 127;
     //        for (i = connectpoint2[connecthead]; i >= 0; i = connectpoint2[i])
     //            {
-    //             /* if (!playerquitflag[i]) */ sendpacket(i, packbuf, 1);
+    //            sendpacket(i, packbuf, 1);
     //            }
     //        return;
     //        }
@@ -1176,7 +1095,7 @@ faketimerhandler(void)
         {
         for (i = connecthead; i >= 0; i = connectpoint2[i])
             {
-            if ( /* (!playerquitflag[i]) && */ (Player[i].movefifoend <= movefifosendplc))
+            if ((Player[i].movefifoend <= movefifosendplc))
                 return;
             }
 
@@ -1188,7 +1107,6 @@ faketimerhandler(void)
             {
             for (i = connectpoint2[connecthead]; i >= 0; i = connectpoint2[i])
                 {
-                /* if (!playerquitflag[i]) */
                 packbuf[j++] = min(max(Player[i].myminlag, -128), 127);
                 }
 
@@ -1198,7 +1116,6 @@ faketimerhandler(void)
 
         for (i = connecthead; i >= 0; i = connectpoint2[i])
             {
-            /* if (playerquitflag[i]) continue; */
             pp = Player + i;
 
             #if !BIT_CODEC
@@ -1217,7 +1134,6 @@ faketimerhandler(void)
         #endif
 
         for (i = connectpoint2[connecthead]; i >= 0; i = connectpoint2[i])
-            /* if (!playerquitflag[i])*/
             {
             netsendpacket(i, packbuf, j);
             /*
@@ -1318,7 +1234,6 @@ getpackets(VOID)
                 {
                 for (i = connectpoint2[connecthead]; i >= 0; i = connectpoint2[i])
                     {
-                    // if (playerquitflag[i]) continue;
                     if (i == myconnectindex)
                         otherminlag = (int) ((signed char) packbuf[j]);
                     j++;
@@ -1327,7 +1242,6 @@ getpackets(VOID)
 
             for (i = connecthead; i >= 0; i = connectpoint2[i])
                 {
-                /* if (playerquitflag[i]) continue;) */
                 pp = Player + i;
 
                 #if !BIT_CODEC
@@ -1532,7 +1446,6 @@ getpackets(VOID)
             pp = Player + otherconnectindex;
             p = (void *)&packbuf[0];
 
-			//tenDbLprintf(gTenLog, 3, "rcv pid %d version %lx", (int) otherconnectindex, (int) p->Version);
             pp->PlayerVersion = p->Version;
             break;
             }

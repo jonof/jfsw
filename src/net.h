@@ -95,6 +95,7 @@ typedef struct PACKED
     {
     BYTE PacketType;  // first byte is always packet type
     BOOL AutoRun;
+    BOOL MouseAimingOn;
     BYTE Color;
     char PlayerName[32];
     }PACKET_OPTIONS,*PACKET_OPTIONSp;

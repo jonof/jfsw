@@ -419,6 +419,7 @@ InitNetPlayerOptions(VOID)
         {
         p.PacketType = PACKET_TYPE_PLAYER_OPTIONS;
         p.AutoRun = gs.AutoRun;
+        p.MouseAimingOn = gs.MouseAimingOn;
         p.Color = gs.NetColor;
         strcpy(p.PlayerName, CommPlayerName);
 
@@ -1462,6 +1463,12 @@ getpackets(VOID)
                 SET(pp->Flags, PF_LOCK_RUN);
             else
                 RESET(pp->Flags, PF_LOCK_RUN);
+
+            // mouse aiming on
+            if (p->MouseAimingOn)
+                SET(pp->Flags, PF_MOUSE_AIMING_ON);
+            else
+                RESET(pp->Flags, PF_MOUSE_AIMING_ON);
 
             // palette
             pp->TeamColor = p->Color;

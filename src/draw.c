@@ -2572,10 +2572,6 @@ drawscreen(PLAYERp pp)
 
     nextpage();
 
-    #if SYNC_TEST
-    SyncStatMessage();
-    #endif
-
     // certain input is done here - probably shouldn't be
     DrawCheckKeys(pp);
 

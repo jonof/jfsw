@@ -1000,16 +1000,7 @@ InitGame(VOID)
             gNet.MultiGameType = MULTI_GAME_COMMBAT;
         else
             gNet.MultiGameType = MULTI_GAME_AI_BOTS;
-
-        #if 0 //def NET_MODE_MASTER_SLAVE
-        if (!NetModeOverride)
-            {
-            if (numplayers <= 4)
-                NetBroadcastMode = TRUE;
-            else
-                NetBroadcastMode = FALSE;
-            }
-        #endif
+        NetBroadcastMode = (networkmode == MMULTI_MODE_P2P);
         }
 
     LoadDemoRun();

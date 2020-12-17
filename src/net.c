@@ -1332,7 +1332,10 @@ getpackets(VOID)
 
                 #if !BIT_CODEC
                 if (i != myconnectindex)
+                    {
                     memcpy(&pp->inputfifo[pp->movefifoend & (MOVEFIFOSIZ - 1)], &packbuf[j], sizeof(SW_PACKET));
+                    pp->movefifoend++;
+                    }
                 j += sizeof(SW_PACKET);
                 #else
                 if (i == myconnectindex)
@@ -1346,10 +1349,9 @@ getpackets(VOID)
                     j += DecodeBits(&pp->inputfifo[(pp->movefifoend) & (MOVEFIFOSIZ - 1)],
                                     &pp->inputfifo[(pp->movefifoend - 1) & (MOVEFIFOSIZ - 1)],
                                     &packbuf[j]);
+                    pp->movefifoend++;
                     }
                 #endif
-
-                pp->movefifoend++;
                 }
 
             while (j != packbufleng)

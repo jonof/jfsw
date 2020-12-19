@@ -100,7 +100,7 @@ extern "C" {
 
 // Max Player Name length
 
-#define MAXPLAYERNAMELENGTH 11
+#define MAXPLAYERNAMELENGTH 32
 
 // Max RTS Name length
 

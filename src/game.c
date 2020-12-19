@@ -127,7 +127,6 @@ short IntroAnimCount = 0;
 short PlayingLevel = -1;
 BOOL GraphicsMode = FALSE;
 char CacheLastLevel[32] = "";
-char PlayerNameArg[32] = "";
 BOOL CleanExit = FALSE;
 extern char cachedebug;
 BOOL DemoModeMenuInit = FALSE;
@@ -3798,8 +3797,8 @@ int app_main(int argc, char const * const argv[])
             {
             if (cnt <= argc-2)
                 {
-                strncpy(PlayerNameArg, argv[++cnt], SIZ(PlayerNameArg)-1);
-                PlayerNameArg[SIZ(PlayerNameArg)-1] = '\0';
+                strncpy(CommPlayerName, argv[++cnt], SIZ(CommPlayerName)-1);
+                CommPlayerName[SIZ(CommPlayerName)-1] = '\0';
                 }
             }
         else

@@ -57,24 +57,11 @@ extern int32 ReverseStereo; // Reverse Stereo Channels
 extern char MusicParams[];
 
 // comm externs
-extern int32 ComPort;
-extern int32 IrqNumber;
-extern int32 UartAddress;
-extern int32 PortSpeed;
-
-extern int32 ToneDial;
-extern char  ModemName[MAXMODEMSTRING];
-extern char  InitString[MAXMODEMSTRING];
-extern char  HangupString[MAXMODEMSTRING];
-extern char  DialoutString[MAXMODEMSTRING];
 extern int32 SocketNumber;
 extern char  CommbatMacro[MAXMACROS][MAXMACROLENGTH];
-extern char  PhoneNames[MAXPHONEENTRIES][PHONENAMELENGTH];
-extern char  PhoneNumbers[MAXPHONEENTRIES][PHONENUMBERLENGTH];
-extern char  PhoneNumber[PHONENUMBERLENGTH];
 extern int32 NumberPlayers;
 extern int32 ConnectType;
-extern char  PlayerName[MAXPLAYERNAMELENGTH];
+extern char  CommPlayerName[MAXPLAYERNAMELENGTH];
 extern char  RTSName[MAXRTSNAMELENGTH];
 extern char  UserLevel[MAXUSERLEVELNAMELENGTH];
 extern char  RTSPath[MAXRTSPATHLENGTH];

@@ -55,8 +55,7 @@ extern void WriteGameSetup(int32 scripthandle);
 // Comm variables
 //
 
-char CommPlayerName[32];
-int32 NumberPlayers,CommPort,PortSpeed,IrqNumber,UartAddress;
+char CommPlayerName[MAXPLAYERNAMELENGTH];
 
 //
 // Sound variables
@@ -574,7 +573,6 @@ int32 CONFIG_ReadSetup( void )
    int32 dummy;
    char ret;
    extern char ds[];
-   extern char PlayerNameArg[32];
 
    char oggtrackname[MAXOGGTRACKLENGTH] = {0};
 
@@ -636,10 +634,6 @@ int32 CONFIG_ReadSetup( void )
    //CONFIG_SetupMouse(scripthandle);
    //CONFIG_SetupJoystick(scripthandle);
 
-   if (PlayerNameArg[0] != '\0')
-      {
-      strcpy(CommPlayerName, PlayerNameArg);
-      }
    return 0;
    }
 
@@ -690,6 +684,8 @@ void CONFIG_WriteSetup( void )
    SCRIPT_PutNumber( scripthandle, "Controls","UseMouse",UseMouse,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Controls","UseJoystick",UseJoystick,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Controls","MouseSensitivity",gs.MouseSpeed,FALSE,FALSE);
+
+   SCRIPT_PutString( scripthandle, "Comm Setup", "PlayerName", CommPlayerName);
 
    WriteGameSetup(scripthandle);
 

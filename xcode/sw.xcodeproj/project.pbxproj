@@ -48,8 +48,8 @@
 		AB8F60DB0C65924900202E11 /* jbhlp.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB870C64C4D000F28920 /* jbhlp.c */; };
 		AB8F60DC0C65924900202E11 /* jnstub.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB5C0C64C3EB00F28920 /* jnstub.c */; };
 		AB8F60E00C65926400202E11 /* startwin.editor.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4AB5F0C64C42000F28920 /* startwin.editor.nib */; };
-		AB8F610B0C65928C00202E11 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		AB8F61B00C6592A600202E11 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		AB8F610B0C65928C00202E11 /* SDL2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
+		AB8F61B00C6592A600202E11 /* SDL2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
 		AB8F61B50C65932600202E11 /* keyboard.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE40C64C6F100F28920 /* keyboard.c */; };
 		AB8F61B70C65936000202E11 /* colormap.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB770C64C4D000F28920 /* colormap.c */; };
 		ABB4ABDB0C64C69900F28920 /* startwin.game.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */; };
@@ -277,24 +277,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		AB8F60E10C65927300202E11 /* CopyFiles */ = {
+		AB8F60E10C65927300202E11 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AB8F610B0C65928C00202E11 /* SDL2.framework in CopyFiles */,
+				AB8F610B0C65928C00202E11 /* SDL2.framework in Embed Frameworks */,
 			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AB8F610C0C65929800202E11 /* CopyFiles */ = {
+		AB8F610C0C65929800202E11 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AB8F61B00C6592A600202E11 /* SDL2.framework in CopyFiles */,
+				AB8F61B00C6592A600202E11 /* SDL2.framework in Embed Frameworks */,
 			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -363,6 +365,7 @@
 		AB214394101EF14900E844AE /* weapon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = weapon.h; sourceTree = "<group>"; };
 		AB4909DA1748658600C7A068 /* GameListSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameListSource.h; sourceTree = "<group>"; };
 		AB4909DB1748658600C7A068 /* GameListSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameListSource.m; sourceTree = "<group>"; };
+		AB81F9242590B62800306B8E /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		AB8F60740C658D3400202E11 /* grpscan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grpscan.c; sourceTree = "<group>"; };
 		AB8F60CA0C6591F300202E11 /* Build Editor for JFShadowWarrior.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Build Editor for JFShadowWarrior.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../jfbuild/xcode/engine.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -454,6 +457,8 @@
 		ABB4AC3D0C64C72C00F28920 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = /Users/jonof/Library/Frameworks/SDL2.framework; sourceTree = "<absolute>"; };
 		ABB4AC3F0C64C73A00F28920 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		ABBD3FAF10205ACF00F32F37 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
+		ABCA1DAC259083DE0093F3F5 /* JFShadowWarrior.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JFShadowWarrior.entitlements; sourceTree = "<group>"; };
+		ABCA1DC1259084080093F3F5 /* Build Editor for JFShadowWarrior.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Build Editor for JFShadowWarrior.entitlements"; sourceTree = "<group>"; };
 		ABD2DF2A21A58A0600BDB555 /* gamecontrollerdb.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = gamecontrollerdb.txt; path = ../rsrc/gamecontrollerdb.txt; sourceTree = "<group>"; };
 		ABD2DF7321AA3F8D00BDB555 /* version-auto.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "version-auto.c"; sourceTree = "<group>"; };
 		ABD91FA317375E9300394607 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
@@ -533,6 +538,7 @@
 				ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */,
 				ABB4AB580C64C38C00F28920 /* Editor */,
 				ABB4AB590C64C39400F28920 /* Game */,
+				AB81F9242590B62800306B8E /* Common.xcconfig */,
 				ABB4ABCE0C64C52900F28920 /* Products */,
 				ABB4AC410C64C74600F28920 /* Linked Frameworks */,
 			);
@@ -573,6 +579,7 @@
 		ABB4AB5B0C64C3A800F28920 /* xcode */ = {
 			isa = PBXGroup;
 			children = (
+				ABCA1DC1259084080093F3F5 /* Build Editor for JFShadowWarrior.entitlements */,
 				ABD9E95A20720C0800F1B9B3 /* Images.xcassets */,
 				ABD9E95620720AC200F1B9B3 /* Build Editor-Info.plist */,
 				ABB4AB5F0C64C42000F28920 /* startwin.editor.nib */,
@@ -724,6 +731,7 @@
 		ABB4AB6B0C64C45500F28920 /* xcode */ = {
 			isa = PBXGroup;
 			children = (
+				ABCA1DAC259083DE0093F3F5 /* JFShadowWarrior.entitlements */,
 				ABB4ABB70C64C4EF00F28920 /* JFShadowWarrior-Info.plist */,
 				ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */,
 			);
@@ -788,7 +796,7 @@
 				AB8F60C60C6591F300202E11 /* Resources */,
 				AB8F60C70C6591F300202E11 /* Sources */,
 				AB8F60C80C6591F300202E11 /* Frameworks */,
-				AB8F60E10C65927300202E11 /* CopyFiles */,
+				AB8F60E10C65927300202E11 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -810,7 +818,7 @@
 				ABB4ABC90C64C52900F28920 /* Resources */,
 				ABB4ABCA0C64C52900F28920 /* Sources */,
 				ABB4ABCB0C64C52900F28920 /* Frameworks */,
-				AB8F610C0C65929800202E11 /* CopyFiles */,
+				AB8F610C0C65929800202E11 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -832,6 +840,15 @@
 			attributes = {
 				LastUpgradeCheck = 0610;
 				TargetAttributes = {
+					AB8F60C90C6591F300202E11 = {
+						ProvisioningStyle = Manual;
+					};
+					ABB4ABC40C64C51300F28920 = {
+						ProvisioningStyle = Manual;
+					};
+					ABB4ABCC0C64C52900F28920 = {
+						ProvisioningStyle = Manual;
+					};
 					ABD2DF6321AA3F3000BDB555 = {
 						CreatedOnToolsVersion = 10.1;
 						ProvisioningStyle = Automatic;
@@ -1145,9 +1162,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = EditorAppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Build Editor for JFShadowWarrior.entitlements";
 				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Build Editor-Info.plist";
 				OTHER_LDFLAGS = "-lc++";
+				PRODUCT_BUNDLE_IDENTIFIER = au.id.jonof.jfsw.build;
 				PRODUCT_NAME = "Build Editor for JFShadowWarrior";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1157,9 +1177,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = EditorAppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Build Editor for JFShadowWarrior.entitlements";
 				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Build Editor-Info.plist";
 				OTHER_LDFLAGS = "-lc++";
+				PRODUCT_BUNDLE_IDENTIFIER = au.id.jonof.jfsw.build;
 				PRODUCT_NAME = "Build Editor for JFShadowWarrior";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1167,10 +1190,11 @@
 		};
 		ABB4AB290C64C36100F28920 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB81F9242590B62800306B8E /* Common.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = S7U4E54CHC;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"../jfaudiolib/third-party",
 					"$(HOME)/Library/Frameworks",
@@ -1200,10 +1224,11 @@
 		};
 		ABB4AB2A0C64C36100F28920 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB81F9242590B62800306B8E /* Common.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = S7U4E54CHC;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"../jfaudiolib/third-party",
 					"$(HOME)/Library/Frameworks",
@@ -1248,7 +1273,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = JFShadowWarrior.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "JFShadowWarrior-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				OTHER_LDFLAGS = "-lc++";
@@ -1262,7 +1289,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = JFShadowWarrior.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "JFShadowWarrior-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				OTHER_LDFLAGS = "-lc++";

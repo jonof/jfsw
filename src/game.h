@@ -45,6 +45,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 extern char isShareware, useDarts;
 extern const char *gameeditionname;
 #define SW_SHAREWARE (isShareware)
+#define SW_REGISTERED (!isShareware)
 
 // Turn warning off for unreferenced variables.
 // I really should fix them at some point

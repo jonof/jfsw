@@ -854,14 +854,8 @@ void MultiSharewareCheck(void)
     if (!SW_SHAREWARE) return;
     if (numplayers > 4)
         {
-#ifdef RENDERTYPEWIN
-    wm_msgbox(NULL,"To play a Network game with more than 4 players you must purchase "
-        "the full version.  Read the Ordering Info screens for details.");
-#else
-        printf(
-"\n\nTo play a Network game with more than 4 players you must purchase the\n"
-"full version.  Read the Ordering Info screens for details.\n\n");
-#endif
+        wm_msgbox(NULL,"To play a Network game with more than 4 players you must purchase "
+            "the full version.  Read the Ordering Info screens for details.");
         uninitmultiplayers();
         //uninitkeys();
         KB_Shutdown();
@@ -2204,17 +2198,20 @@ MenuLevel(VOID)
 
     ResetKeys();
 
-    if (SW_SHAREWARE) {
-    // go to ordering menu only if shareware
-    if (FinishAnim)
+    if (SW_SHAREWARE)
         {
-        ForceMenus = TRUE;
-        ControlPanelType = ct_ordermenu;
+        // go to ordering menu only if shareware
+        if (FinishAnim)
+            {
+            ForceMenus = TRUE;
+            ControlPanelType = ct_ordermenu;
+            FinishAnim = 0;
+            }
+        }
+    else
+        {
         FinishAnim = 0;
         }
-    } else {
-    FinishAnim = 0;
-    }
 
     while (TRUE)
         {
@@ -3246,9 +3243,7 @@ VOID AlphaMessage(VOID)
 
 typedef struct
 {
-char    notshareware;
-char    *arg_switch;
-short   arg_match_len;
+char    registered;
 char    *arg_fmt;
 char    *arg_descr;
 }CLI_ARG;
@@ -3256,59 +3251,55 @@ char    *arg_descr;
 #if DEBUG
 CLI_ARG cli_dbg_arg[] =
 {
-{0, "/demosyncrecord",     13,     "-demosyncrecord",      "Demo sync record"                      },
-{0, "/demosynctest",       13,     "-demosynctest",        "Demo sync test"                        },
-{0, "/cam",                4,      "-cam",                 "Camera test mode"                      },
-{0, "/debugactor",         11,     "-debugactor",          "No Actors"                             },
-{0, "/debuganim",          10,     "-debuganim",           "No Anims"                              },
-{0, "/debugso",            8,      "-debugso",             "No Sector Objects"                     },
-{0, "/debugsector",        12,     "-debugsector",         "No Sector Movement"                    },
-{0, "/debugpanel",         11,     "-debugpanel",          "No Panel"                              },
-{0, "/mono",               5,      "-mono",                "Mono"                                  },
+{0, "-coop#",               "Single Player Cooperative Mode"        },
+{0, "-commbat#",            "Single Player Commbat Mode"            },
+{0, "-demosyncrecord",      "Demo sync record"                      },
+{0, "-demosynctest",        "Demo sync test"                        },
+{0, "-cam",                 "Camera test mode"                      },
+{0, "-debugactor",          "No Actors"                             },
+{0, "-debuganim",           "No Anims"                              },
+{0, "-debugso",             "No Sector Objects"                     },
+{0, "-debugsector",         "No Sector Movement"                    },
+{0, "-debugpanel",          "No Panel"                              },
+{0, "-mono",                "Mono"                                  },
+{0, "-allsync",             "Enable full sync testing"              },
 };
 #endif
 
 
 CLI_ARG cli_arg[] =
 {
-{0, "/?",                  2,      "-?",                   "This help message"                     },
-//#ifndef SW_SHAREWARE
-//{"/l",                  2,      "-l#",                  "Level (1-11)"                          },
-//{"/v",                  2,      "-v#",                  "Volume (1-3)"                          },
-{1, "/map",                4,      "-map [mapname]",       "Load a map"                            },
-{1, "/nocdaudio",          5,      "-nocd<audio>",         "No CD Red Book Audio"                  },
-//#endif
-
-{0, "/name",               5,      "-name [playername]",   "Player Name"                           },
-{0, "/s",                  2,      "-s#",                  "Skill (1-4)"                           },
-{0, "/f#",                 3,      "-f#",                  "Packet Duplication - 2, 4, 8"          },
-{0, "/nopredict",          7,      "-nopred<ict>",         "Disable Net Prediction Method"         },
-{0, "/level#",             5,      "-level#",              "Start at level# (Shareware: 1-4, full version 1-28)"      },
-{0, "/dr",                 3,      "-dr[filename.dmo]",    "Demo record. NOTE: Must use -level# with this option."           },
-{0, "/dp",                 3,      "-dp[filename.dmo]",    "Demo playback. NOTE: Must use -level# with this option."         },
-{0, "/m",                  6,      "-monst<ers>",          "No Monsters"                           },
-{0, "/nodemo",             6,      "-nodemo",              "No demos on game startup"              },
-{0, "/nometers",           9,      "-nometers",            "Don't show air or boss meter bars in game"},
-{0, "/movescale #",        9,      "-movescale",           "Adjust movement scale: 256 = 1 unit"},
-{0, "/turnscale #",        9,      "-turnscale",           "Adjust turning scale: 256 = 1 unit"},
-{0, "/extcompat",          9,      "-extcompat",           "Controller compatibility mode (with Duke 3D)"},
-{1, "/g#",                 2,      "-g[filename.grp]",     "Load an extra GRP or ZIP file"},
-{1, "/h#",                 2,      "-h[filename.def]",     "Use filename.def instead of SW.DEF"},
-{0, "/setup",              5,      "-setup",               "Displays the configuration dialogue box"},
-{0, "/nosetup",            7,      "-nosetup",             "Prevents display of the configuration dialogue box"},
+{0, "-?",                   "This help message"                     },
 #if DEBUG
-{0, "/coop",               5,      "-coop#",               "Single Player Cooperative Mode"        },
-{0, "/commbat",            8,      "-commbat#",            "Single Player Commbat Mode"            },
-{0, "/debug",              6,      "-debug",               "Debug Help Options"                    },
+{0, "-debug",               "Debug Help Options"                    },
 #endif
+{1, "-map [mapname]",       "Load a map"                            },
+{1, "-nocd<audio>",         "No CD Red Book Audio"                  },
+{0, "-name [playername]",   "Player Name"                           },
+{0, "-s#",                  "Skill (1-4)"                           },
+{0, "-f#",                  "Packet Duplication - 2, 4, 8"          },
+{0, "-nopred<ict>",         "Disable Net Prediction Method"         },
+{0, "-level#",              "Start at level# (Shareware: 1-4, full version 1-28)" },
+{0, "-dr[filename.dmo]",    "Demo record. NOTE: Must use -level# with this option." },
+{0, "-dp[filename.dmo]",    "Demo playback. NOTE: Must use -level# with this option." },
+{0, "-monst<ers>",          "No Monsters"                           },
+{0, "-nodemo",              "No demos on game startup"              },
+{0, "-nometers",            "Don't show air or boss meter bars in game"},
+{0, "-movescale [sc]",      "Adjust movement scale: 256 = 1 unit"   },
+{0, "-turnscale [sc]",      "Adjust turning scale: 256 = 1 unit"    },
+{0, "-extcompat",           "Controller compatibility mode (with Duke 3D)"},
+{1, "-g[filename.grp]",     "Load an extra GRP or ZIP file"         },
+{1, "-h[filename.def]",     "Use filename.def instead of SW.DEF"    },
+{0, "-setup",               "Displays the configuration dialogue box"},
+{0, "-nosetup",             "Prevents display of the configuration dialogue box"},
 
 #if 0 //def NET_MODE_MASTER_SLAVE
-{0, "/broadcast",          6,      "-broad<cast>",         "Broadcast network method (default)"    },
-{0, "/masterslave",        7,      "-master<slave>",       "Master/Slave network method"           },
+{0, "-broad<cast>",         "Broadcast network method (default)"    },
+{0, "-master<slave>",       "Master/Slave network method"           },
 #endif
 };
 
-#if 0
+/*
 Map       ->    User Map Name
 Auto      ->    Auto Start Game
 Rules     ->    0=WangBang 1=WangBang (No Respawn) 2=CoOperative
@@ -3325,7 +3316,7 @@ Nuke      ->    0=Off 1=On
 Example Command Line:
 sw -map testmap.map -autonet 0,0,1,1,1,0,3,2,1,1 -f4 -name 1234567890 -net 12345678
 commit -map grenade -autonet 0,0,1,1,1,0,3,2,1,1 -name frank
-#endif
+*/
 
 char isShareware = FALSE, useDarts = FALSE;
 
@@ -3337,67 +3328,76 @@ int DetectShareware(void)
     int h;
 
     h = kopen4load(DOS_SCREEN_NAME_SW,1);
-    if (h >= 0) {
-    isShareware = TRUE;
-    kclose(h);
-    return 0;
-    }
+    if (h >= 0)
+        {
+        isShareware = TRUE;
+        kclose(h);
+        return 0;
+        }
 
     h = kopen4load(DOS_SCREEN_NAME_REG,1);
-    if (h >= 0) {
-    isShareware = FALSE;
-    kclose(h);
-    return 0;
-    }
+    if (h >= 0)
+        {
+        isShareware = FALSE;
+        kclose(h);
+        return 0;
+        }
 
     return 1;   // heavens knows what this is...
-}
+    }
 
 
-void CommandLineHelp(void)
-{
+void CommandLineHelp(CLI_ARG *args, int numargs)
+    {
     int i;
-#ifdef RENDERTYPEWIN
-    char *str;
-    int strl;
 
-    strl = 30 + 70;
-    for (i=0;i < (int)SIZ(cli_arg);i++)
-        if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
-            strl += strlen(cli_arg[i].arg_fmt) + 1 + strlen(cli_arg[i].arg_descr) + 1;
+    const char *usagefmt = "Usage: %s [options]\n";
+    const char *optionsfmt = "options:  (%s)\n\n";
+#ifdef _WIN32
+    const char *argfmt = "%s\t%s\n";
+    const char *strargv0 = "sw";
+    const char *stropts = "'/' may be used instead of '-', <> text is optional";
+#else
+    #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199409L
+    const char *argfmt = " %s  \u2014  %s\n";
+    #else
+    const char *argfmt = " %s  --  %s\n";
+    #endif
+    const char *strargv0 = _buildargv[0];
+    const char *stropts = "<> text is optional";
+#endif
 
-    str = (char*)malloc(strl);
-    if (str) {
-        strcpy(str,"Usage: sw [options]\n");
-        strcat(str,"options:  ('/' may be used instead of '-', <> text is optional)\n\n");
-        for (i=0; i < (int)SIZ(cli_arg); i++) {
-            if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
-            {
-                strcat(str, cli_arg[i].arg_fmt);
-                strcat(str, "\t");
-                strcat(str, cli_arg[i].arg_descr);
-                strcat(str, "\n");
-            }
+    char *str = NULL, *strapp;
+    int len;
+
+    len = snprintf(NULL, 0, usagefmt, strargv0);
+    len += snprintf(NULL, 0, optionsfmt, stropts);
+    for (i=0;i < numargs;i++)
+        {
+        if (!args[i].arg_fmt || args[i].registered > SW_REGISTERED)
+            continue;
+        len += snprintf(NULL, 0, argfmt, args[i].arg_fmt, args[i].arg_descr);
         }
-        wm_msgbox("Shadow Warrior Help",str);
+
+    if (len < 0 || !(str = (char *)malloc(len + 1)))
+        {
+        wm_msgbox("Shadow Warrior Help", "Command line help not available");
+        return;
+        }
+
+    strapp = str;
+    strapp += sprintf(strapp, usagefmt, strargv0);
+    strapp += sprintf(strapp, optionsfmt, stropts);
+    for (i=0;i < numargs;i++)
+        {
+        if (!args[i].arg_fmt || args[i].registered > SW_REGISTERED)
+            continue;
+        strapp += sprintf(strapp, argfmt, args[i].arg_fmt, args[i].arg_descr);
+        }
+
+        wm_msgbox("Shadow Warrior Help", "%s", str);
         free(str);
     }
-#else
-    if (SW_SHAREWARE)
-        printf("Usage: %s [options]\n", _buildargv[0]);
-    else
-            printf("Usage: %s [options] [map]\n", _buildargv[0]);
-    printf("options:  ('/' may be used instead of '-', <> text is optional)\n\n");
-
-    for (i = 0; i < (int)SIZ(cli_arg); i++)
-    {
-        if (cli_arg[i].arg_fmt && (!SW_SHAREWARE || (!cli_arg[i].notshareware && SW_SHAREWARE)))
-                {
-            printf(" %-20s   %-30s\n",cli_arg[i].arg_fmt, cli_arg[i].arg_descr);
-        }
-    }
-#endif
-}
 
 char grpfile[BMAX_PATH+1] = "sw.grp";
 const char *gameeditionname = "Unknown edition";
@@ -3452,30 +3452,6 @@ int app_main(int argc, char const * const argv[])
         }
     }
 
-    for (i=1;i<argc;i++) {
-#ifdef _WIN32
-        if (argv[i][0] != '-' && argv[i][0] != '/') {
-#else
-        if (argv[i][0] != '-') {
-#endif
-            continue;
-        }
-        if (!Bstrcasecmp(argv[i]+1, "setup")) {
-            CommandSetup = 1;
-        }
-        else if (!Bstrcasecmp(argv[i]+1, "nosetup")) {
-            CommandSetup = -1;
-        }
-        else if (!Bstrcasecmp(argv[i]+1, "net")) {
-            netparam = i + 1;
-            break;
-        }
-        else if (!Bstrcasecmp(argv[i]+1, "?")) {
-            CommandLineHelp();
-            return(0);
-        }
-    }
-
     // default behaviour is to write to the user profile directory, but
     // creating a 'user_profiles_disabled' file in the current working
     // directory where the game was launched makes the installation
@@ -3520,6 +3496,47 @@ int app_main(int argc, char const * const argv[])
         "Additional improvements by Jonathon Fowler (http://www.jonof.id.au) and other contributors.\n"
         "See GPL.TXT for license terms.\n\n"
         "Version %s.\nBuilt %s %s.\n", game_version, game_date, game_time);
+
+    for (i=1;i<argc;i++) {
+        char const *arg = argv[i];
+
+#ifdef _WIN32
+        if (*arg != '-' && *arg != '/') continue;
+#else
+        if (*arg != '-') continue;
+#endif
+
+        arg++;
+        if (!Bstrcasecmp(arg, "setup"))
+            {
+            CommandSetup = 1;
+            }
+        else
+        if (!Bstrcasecmp(arg, "nosetup"))
+            {
+            CommandSetup = -1;
+            }
+        else
+        if (!Bstrcasecmp(arg, "net"))
+            {
+            netparam = i + 1;
+            break;
+            }
+        else
+        if (!Bstrcasecmp(arg, "?"))
+            {
+            CommandLineHelp(cli_arg, SIZ(cli_arg));
+            return(0);
+            }
+#if DEBUG
+        else
+        if (!Bstrcasecmp(arg, "debug"))
+            {
+            CommandLineHelp(cli_dbg_arg, SIZ(cli_dbg_arg));
+            return(0);
+            }
+#endif
+    }
 
     if (preinitengine()) {
        wm_msgbox("Build Engine Initialisation Error",
@@ -3736,47 +3753,6 @@ int app_main(int argc, char const * const argv[])
             // skip setupfile name
             cnt++;
             }
-        #if DEBUG
-        else
-        if (Bstrncasecmp(arg, "debug",5) == 0)
-            {
-#ifdef RENDERTYPEWIN
-        char *str;
-        int strl;
-
-        strl = 24 + 70;
-        for (i=0;i < (int)SIZ(cli_dbg_arg);i++)
-        strl += strlen(cli_dbg_arg[i].arg_fmt) + 1 + strlen(cli_dbg_arg[i].arg_descr) + 1;
-
-        str = (char*)malloc(strl);
-        if (str) {
-        strcpy(str,
-            "Usage: sw [options]\n"
-            "options:  ('/' may be used instead of '-', <> text is optional)\n\n"
-              );
-        for (i=0; i < (int)SIZ(cli_dbg_arg); i++) {
-            strcat(str, cli_dbg_arg[i].arg_fmt);
-            strcat(str, "\t");
-            strcat(str, cli_dbg_arg[i].arg_descr);
-            strcat(str, "\n");
-        }
-        wm_msgbox("Shadow Warrior Debug Help",str);
-        free(str);
-        }
-#else
-            printf("Usage: %s [options]\n", argv[0]);
-            printf("options:  ('/' may be used instead of '-', <> text is optional)\n\n");
-            for (i = 0; i < (int)SIZ(cli_dbg_arg); i++)
-                {
-                if (cli_dbg_arg[i].arg_fmt)
-                    {
-                    printf(" %-20s   %-30s\n",cli_dbg_arg[i].arg_fmt, cli_dbg_arg[i].arg_descr);
-                    }
-                }
-#endif
-            swexit(0);
-            }
-        #endif
         else
         if (Bstrncasecmp(arg, "short",5) == 0)
             {
@@ -3787,11 +3763,13 @@ int app_main(int argc, char const * const argv[])
             {
             NoDemoStartup = TRUE;
             }
+#if DEBUG
         else
         if (Bstrncasecmp(arg, "allsync",3) == 0)
             {
             NumSyncBytes = MAXSYNCBYTES;
             }
+#endif
         else
         if (Bstrncasecmp(arg, "name",4) == 0)
             {
@@ -3856,6 +3834,12 @@ int app_main(int argc, char const * const argv[])
             Skill = min(Skill,3);
             }
         else
+        if (Bstrncasecmp(arg, "nometers", 8) == 0)
+            {
+            NoMeters = TRUE;
+            }
+        else
+#if DEBUG
         if (Bstrncasecmp(arg, "commbat", 7) == 0)
             {
             if (strlen(arg) > 7)
@@ -3863,24 +3847,6 @@ int app_main(int argc, char const * const argv[])
                 FakeMultiNumPlayers = atoi(&arg[7]);
                 gNet.MultiGameType = MULTI_GAME_COMMBAT;
                 }
-            }
-        else
-        #if 0
-        if (memcmp(argv[cnt], "-bots", 5) == 0)
-            {
-            if (strlen(argv[cnt]) > 5)
-                {
-                FakeMultiNumPlayers = atoi(&argv[cnt][5]);
-                printf("Adding %d BOT(s) to the game!\n",FakeMultiNumPlayers);
-                gNet.MultiGameType = MULTI_GAME_AI_BOTS;
-                BotMode = TRUE;
-                }
-            }
-        else
-        #endif
-        if (Bstrncasecmp(arg, "nometers", 8) == 0)
-            {
-            NoMeters = TRUE;
             }
         else
         if (Bstrncasecmp(arg, "coop", 4) == 0)
@@ -3892,7 +3858,18 @@ int app_main(int argc, char const * const argv[])
                 }
             }
         else
-        if (FALSE && Bstrncasecmp(arg, "ddr", 3) == 0)
+        if (Bstrncasecmp(arg, "bots", 4) == 0)
+            {
+            if (strlen(arg) > 4)
+                {
+                FakeMultiNumPlayers = atoi(&arg[4]);
+                printf("Adding %d BOT(s) to the game!\n",FakeMultiNumPlayers);
+                gNet.MultiGameType = MULTI_GAME_AI_BOTS;
+                BotMode = TRUE;
+                }
+            }
+        else
+        if (Bstrncasecmp(arg, "ddr", 3) == 0)
             {
             //NumSyncBytes = 8;
             DemoRecording = TRUE;
@@ -3908,6 +3885,7 @@ int app_main(int argc, char const * const argv[])
                 }
             }
         else
+#endif
         if (Bstrncasecmp(arg, "dr", 2) == 0)
             {
             //NumSyncBytes = 8;
@@ -3971,13 +3949,12 @@ int app_main(int argc, char const * const argv[])
             DemoSyncTest = FALSE;
             DemoSyncRecord = TRUE;
             }
+#if DEBUG
         else
         if (Bstrncasecmp(arg, "cam",3) == 0)
             {
             CameraTestMode = TRUE;
             }
-
-        #if DEBUG
         else
         if (FALSE && Bstrncasecmp(arg, "de", 2) == 0)
             {
@@ -4080,11 +4057,10 @@ int app_main(int argc, char const * const argv[])
             DemoSyncTest = FALSE;
             DemoSyncRecord = FALSE;
             }
-
-        #endif
+#endif
 
         else
-        if (Bstrncasecmp(arg, "map", 3) == 0 && !SW_SHAREWARE)
+        if (Bstrncasecmp(arg, "map", 3) == 0)
             {
             int fil;
 
@@ -4094,14 +4070,8 @@ int app_main(int argc, char const * const argv[])
 
             if ((fil = kopen4load(UserMapName,0)) == -1)
                 {
-#ifdef RENDERTYPEWIN
-                char msg[256];
-                Bsnprintf(msg, 256, "ERROR: Could not find user map %s!",UserMapName);
-                wm_msgbox(NULL, msg);
-#else
-                printf("ERROR: Could not find user map %s!\n\n",UserMapName);
-#endif
                 kclose(fil);
+                wm_msgbox(NULL, "ERROR: Could not find user map %s!",UserMapName);
                 swexit(0);
                 }
             else
@@ -4109,7 +4079,7 @@ int app_main(int argc, char const * const argv[])
             }
 
         else
-        if (Bstrncasecmp(arg, "g", 1) == 0 && !SW_SHAREWARE)
+        if (Bstrncasecmp(arg, "g", 1) == 0)
             {
             if (strlen(arg) > 1)
                 {
@@ -4118,7 +4088,7 @@ int app_main(int argc, char const * const argv[])
                 }
             }
         else
-        if (Bstrncasecmp(arg, "h", 1) == 0 && !SW_SHAREWARE)
+        if (Bstrncasecmp(arg, "h", 1) == 0)
             {
             if (strlen(arg) > 1)
                 {

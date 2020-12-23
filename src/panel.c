@@ -774,7 +774,7 @@ PlayerUpdateTimeLimit(PLAYERp pp)
 
     // erase old info
     psp = pSpawnFullScreenSprite(pp, KEYS_ERASE, PRI_MID, PANEL_KEYS_BOX_X, PANEL_BOX_Y);
-    SET(psp->flags, PANF_NON_MASKED);
+    SET(psp->flags, PANF_NON_MASKED|PANF_SCALE_BOTTOM);
 
     seconds = gNet.TimeLimitClock/120;
     sprintf(ds,"%03d:%02d",seconds/60, seconds%60);

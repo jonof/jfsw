@@ -3411,7 +3411,7 @@ int app_main(int argc, char const * const argv[])
     VOID DoSector(VOID);
     VOID gameinput(VOID);
     int cnt = 0;
-    int netparam = 0;
+    int netparam = 0, endnetparam = 0;
     ULONG TotalMemory;
     int configloaded;
     struct grpfile *gamegrp = NULL;
@@ -3519,8 +3519,10 @@ int app_main(int argc, char const * const argv[])
         else
         if (!Bstrcasecmp(arg, "net"))
             {
-            netparam = i + 1;
-            break;
+            netparam = ++i;
+            for (; i<argc; i++)
+                if (!strcmp(argv[i], "--")) break;
+            endnetparam = i;
             }
         else
         if (!Bstrcasecmp(arg, "?"))
@@ -3568,7 +3570,7 @@ int app_main(int argc, char const * const argv[])
     }
 
     if (netparam) { // -net parameter on command line.
-        netsuccess = initmultiplayersparms(argc - netparam, &argv[netparam]);
+        netsuccess = initmultiplayersparms(endnetparam - netparam, &argv[netparam]);
     }
 
 #if defined RENDERTYPEWIN || (defined RENDERTYPESDL && (defined __APPLE__ || defined HAVE_GTK))
@@ -3707,9 +3709,10 @@ int app_main(int argc, char const * const argv[])
 
         if (Bstrcasecmp(arg, "net") == 0)
             {
-            break;
+            for (; i<argc; i++)
+                if (!strcmp(argv[i], "--")) break;
             }
-
+        else
         if (Bstrncasecmp(arg, "autonet",7) == 0)
             {
             AutoNet = TRUE;

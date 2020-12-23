@@ -480,11 +480,7 @@ DemoPlayBack(VOID)
                 if (BUTTON(gamefunc_See_Co_Op_View))
                     {
                     CONTROL_ClearButton(gamefunc_See_Co_Op_View);
-
-                    screenpeek = connectpoint2[screenpeek];
-
-                    if (screenpeek < 0)
-                        screenpeek = connecthead;
+                    NextScreenPeek();
                     }
 
                 #if DEBUG
@@ -538,9 +534,7 @@ DemoPlayBack(VOID)
 
         if (BUTTON(gamefunc_See_Co_Op_View))
             {
-            screenpeek += 1;
-            if (screenpeek > numplayers-1)
-                screenpeek = 0;
+            NextScreenPeek();
             }
 
         // demo is over

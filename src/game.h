@@ -2434,4 +2434,4 @@ void SetSpikeActive(short SpriteNum);	// spike.c
 
 int COVERinsertsprite(short sectnum, short statnum);   //returns (short)spritenum;
 
-void AudioUpdate(void);	// stupid
+void NextScreenPeek(void);  // game.c

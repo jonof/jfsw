@@ -4214,11 +4214,7 @@ SinglePlayInput(PLAYERp pp)
         short oldscreenpeek = screenpeek;
 
         CONTROL_ClearButton(gamefunc_See_Co_Op_View);
-
-        screenpeek = connectpoint2[screenpeek];
-
-        if (screenpeek < 0)
-            screenpeek = connecthead;
+        NextScreenPeek();
 
         if (dimensionmode == 2 || dimensionmode == 5 || dimensionmode == 6)
             setup2dscreen();
@@ -5462,11 +5458,7 @@ getinput(SW_PACKET *loc)
         if (BUTTON(gamefunc_See_Co_Op_View))
             {
             CONTROL_ClearButton(gamefunc_See_Co_Op_View);
-
-            screenpeek = connectpoint2[screenpeek];
-
-            if (screenpeek < 0)
-                screenpeek = connecthead;
+            NextScreenPeek();
 
             if (dimensionmode != 2 && screenpeek == myconnectindex)
                 {
@@ -5977,6 +5969,24 @@ StdRandomRange(int range)
         value = range - 1;
 
     return(value);
+    }
+
+void
+NextScreenPeek(void)
+    {
+    int startpeek = screenpeek;
+    do
+        {
+        screenpeek = connectpoint2[screenpeek];
+        if (screenpeek < 0)
+            screenpeek = connecthead;
+        if (!Player[screenpeek].IsDisconnected)
+            {
+            CON_Message("Viewing %s", Player[screenpeek].PlayerName);
+            break;
+            }
+        }
+    while (screenpeek != startpeek);
     }
 
 #include "saveable.h"

@@ -670,9 +670,7 @@ BOOL MyCommPlayerQuit(void)
             // for COOP mode
             if (screenpeek == i)
                 {
-                screenpeek = connectpoint2[i];
-                if (screenpeek < 0)
-                    screenpeek = connecthead;
+                NextScreenPeek();
                 }
 
             DSPRINTF(ds,"MyCommPlayerQuit %d", quit_player_index);
@@ -722,9 +720,7 @@ BOOL MenuCommPlayerQuit(short quit_player)
         // for COOP mode
         if (screenpeek == i)
             {
-            screenpeek = connectpoint2[i];
-            if (screenpeek < 0)
-                screenpeek = connecthead;
+            NextScreenPeek();
             }
 
         DSPRINTF(ds,"MenuPlayerQuit %d", quit_player);

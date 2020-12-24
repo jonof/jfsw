@@ -611,7 +611,7 @@ PlayerUpdateKills(PLAYERp pp, short value)
                 if (opp->Kills < -99)
                     opp->Kills = -99;
 
-                if (numplayers >= 2)
+                if (CommPlayers >= 2)
                     DisplayFragNumbers(opp);
                 }
             }
@@ -623,7 +623,7 @@ PlayerUpdateKills(PLAYERp pp, short value)
     if (pp->Kills < -99)
         pp->Kills = -99;
 
-    if (numplayers >= 2)
+    if (CommPlayers >= 2)
         DisplayFragNumbers(pp);
     }
 

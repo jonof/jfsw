@@ -387,7 +387,7 @@ extern char MessageOutputString[256];
 
 #define TRAVERSE_SPRITE_SECT(l, o, n)    for ((o) = (l); (n) = nextspritesect[o], (o) != -1; (o) = (n))
 #define TRAVERSE_SPRITE_STAT(l, o, n)    for ((o) = (l); (n) = nextspritestat[o], (o) != -1; (o) = (n))
-#define TRAVERSE_CONNECT(i)   for (i = connecthead; i != -1; i = connectpoint2[i])
+#define TRAVERSE_CONNECT(i)   for (i = connecthead; i != -1; i = connectpoint2[i]) if (!Player[i].IsDisconnected)
 
 
 #define NORM_ANGLE(ang) ((ang) & 2047)
@@ -1266,6 +1266,7 @@ struct PLAYERstruct
     short Reverb;                   // Player's current reverb setting
     short Heads;                    // Number of Accursed Heads orbiting player
     int PlayerVersion;
+    BOOL IsDisconnected;            // Is this player dropped from the game?
     };
 
 extern PLAYER Player[MAX_SW_PLAYERS_REG+1];

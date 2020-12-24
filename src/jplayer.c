@@ -452,7 +452,7 @@ void computergetinput(int snum, SW_PACKET *syn)
 
     damyang = p->pang;
     damysect = sprite[p->PlayerSprite].sectnum;
-    if ((numplayers >= 2) && (snum == myconnectindex))
+    if ((CommPlayers >= 2) && (snum == myconnectindex))
         { x1 = myx; y1 = myy; z1 = myz+PLAYER_HEIGHT; damyang = myang; damysect = mycursectnum; }
 
     // Always operate everything
@@ -475,9 +475,10 @@ void computergetinput(int snum, SW_PACKET *syn)
     if (goalplayer[snum] == snum)
     {
         j = 0x7fffffff;
-        for(i=connecthead;i>=0;i=connectpoint2[i])
-            if (i != snum)
+        TRAVERSE_CONNECT(i)
             {
+            if (i != snum)
+                {
                 if (TEST(Player[i].Flags, PF_DEAD))
                     continue;
 
@@ -491,6 +492,7 @@ void computergetinput(int snum, SW_PACKET *syn)
                 dist = ksqrt((sprite[Player[i].PlayerSprite].x-x1)*(sprite[Player[i].PlayerSprite].x-x1)+(sprite[Player[i].PlayerSprite].y-y1)*(sprite[Player[i].PlayerSprite].y-y1));
 
                 if (dist < j) { j = dist; goalplayer[snum] = i; }
+                }
             }
     }
 

@@ -5299,9 +5299,9 @@ DoPlayerDiveMeter(PLAYERp pp)
 
     if (metertics <= 0) return;
 
-    if (numplayers < 2) y = 10;
+    if (CommPlayers < 2) y = 10;
     else
-    if (numplayers >=2 && numplayers <= 4) y = 20;
+    if (CommPlayers >=2 && CommPlayers <= 4) y = 20;
     else
         y = 30;
 
@@ -6569,7 +6569,7 @@ DoPlayerBeginDie(PLAYERp pp)
     PlayerSound(PlayerLowHealthPainVocs[choosesnd],&pp->posx,
        &pp->posy,&pp->posy,v3df_dontpan|v3df_doppler|v3df_follow,pp);
 
-    if (!CommEnabled && numplayers <= 1 && QuickLoadNum >= 0)
+    if (!CommEnabled && CommPlayers <= 1 && QuickLoadNum >= 0)
         {
         ReloadPrompt = TRUE;
         }
@@ -6608,7 +6608,7 @@ DoPlayerBeginDie(PLAYERp pp)
 
     ActorCoughItem(pp->PlayerSprite);
 
-    if (numplayers > 1)
+    if (CommPlayers > 1)
         {
         // Give kill credit to player if necessary
         if (pp->Killer >= 0)
@@ -6835,7 +6835,7 @@ VOID DoPlayerDeathHurl(PLAYERp pp)
     SPRITEp sp = pp->SpriteP;
     USERp u = User[pp->PlayerSprite];
 
-    if (numplayers > 1)
+    if (CommPlayers > 1)
         {
         if (TEST_SYNC_KEY(pp, SK_SHOOT))
             {
@@ -6984,7 +6984,7 @@ VOID DoPlayerDeathCheckKeys(PLAYERp pp)
         DoPlayerDivePalette(pp);
         DoPlayerNightVisionPalette(pp);
 
-        if (numplayers > 1)
+        if (CommPlayers > 1)
             {
             // need to call this routine BEFORE resetting DEATH flag
             DoPlayerBeginRun(pp);
@@ -7711,7 +7711,7 @@ VOID ChopsCheck(PLAYERp pp)
     extern BOOL HelpInputMode;
     extern int ChopTics;
 
-    if (!UsingMenus && !HelpInputMode && !TEST(pp->Flags, PF_DEAD) && !pp->sop_riding && numplayers <= 1)
+    if (!UsingMenus && !HelpInputMode && !TEST(pp->Flags, PF_DEAD) && !pp->sop_riding && CommPlayers <= 1)
         {
         if ((pp->input.bits|pp->input.vel|pp->input.svel|pp->input.angvel|pp->input.aimvel) ||
             TEST(pp->Flags, PF_CLIMBING|PF_FALLING|PF_DIVING))
@@ -8123,7 +8123,7 @@ domovethings(VOID)
         GlobPlayerP = pp;
 
         // auto tracking mode for single player multi-game
-        if (numplayers <= 1 && PlayerTrackingMode && pnum == screenpeek && screenpeek != myconnectindex)
+        if (CommPlayers <= 1 && PlayerTrackingMode && pnum == screenpeek && screenpeek != myconnectindex)
             {
             Player[screenpeek].pang = getangle(Player[myconnectindex].posx - Player[screenpeek].posx, Player[myconnectindex].posy - Player[screenpeek].posy);
             }
@@ -8432,7 +8432,6 @@ InitMultiPlayerInfo(VOID)
     memset(SpawnPositionUsed,0,sizeof(SpawnPositionUsed));
 
     // Initialize multi player positions here
-    //for (pp = Player; pp < Player + numplayers; pp++)
     TRAVERSE_CONNECT(pnum)
         {
         pp = Player + pnum;

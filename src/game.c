@@ -966,7 +966,6 @@ InitGame(VOID)
         while (initmultiplayerscycle()) {
             handleevents();
             if (quitevent) {
-                QuitFlag = TRUE;
                 return;
             }
         }
@@ -984,10 +983,10 @@ InitGame(VOID)
 
     MultiSharewareCheck();
 
+    CommPlayers = numplayers;
+    OrigCommPlayers = CommPlayers;
     if (numplayers > 1)
         {
-        CommPlayers = numplayers;
-        OrigCommPlayers = CommPlayers;
         CommEnabled = TRUE;
         if(!BotMode)
             gNet.MultiGameType = MULTI_GAME_COMMBAT;
@@ -1523,7 +1522,7 @@ TerminateLevel(VOID)
     // Clear before killing sprites - save a little time
     //AnimClear();
 
-    for (stat = STAT_PLAYER0; stat < STAT_PLAYER0 + numplayers; stat++)
+    for (stat = STAT_PLAYER0; stat < STAT_PLAYER0 + CommPlayers; stat++)
         {
 
         pnum = stat - STAT_PLAYER0;
@@ -1770,9 +1769,11 @@ LogoLevel(VOID)
         nextpage();
 
         handleevents();
+        flushpackets();
+
         CONTROL_GetUserInput(&uinfo);
         CONTROL_ClearUserInput(&uinfo);
-        if (quitevent) { QuitFlag = TRUE; break; }
+        if (quitevent) break;
 
         // taken from top of faketimerhandler
         // limits checks to max of 40 times a second
@@ -1849,6 +1850,7 @@ CreditsLevel(VOID)
     while (TRUE)
         {
         handleevents();
+        flushpackets();
 
         // taken from top of faketimerhandler
         // limits checks to max of 40 times a second
@@ -2030,6 +2032,7 @@ TitleLevel(VOID)
     while (TRUE)
         {
         handleevents();
+        flushpackets();
         OSD_DispatchQueued();
 
         // taken from top of faketimerhandler
@@ -2151,7 +2154,7 @@ MenuLevel(VOID)
         }
 
     // do demos only if not playing multi play
-    if (!CommEnabled && numplayers <= 1 && !FinishAnim && !NoDemoStartup)
+    if (!CommEnabled && CommPlayers <= 1 && !FinishAnim && !NoDemoStartup)
         {
         // demos exist - do demo instead
         if (DemoName[0][0] != '\0')
@@ -2218,7 +2221,13 @@ MenuLevel(VOID)
         handleevents();
         OSD_DispatchQueued();
 
-        if (quitevent) QuitFlag = TRUE;
+        if (quitevent)
+            {
+            if (CommPlayers >= 2)
+                MultiPlayQuitFlag = TRUE;
+            else
+                QuitFlag = TRUE;
+            }
 
         // taken from top of faketimerhandler
         // limits checks to max of 40 times a second
@@ -2237,8 +2246,8 @@ MenuLevel(VOID)
                 short pnum;
                 BYTE pbuf[1];
                 QuitFlag = TRUE;
-                                pbuf[0] = PACKET_TYPE_MENU_LEVEL_QUIT;
-                                netbroadcastpacket(pbuf, 1);                      // TENSW
+                pbuf[0] = PACKET_TYPE_MENU_LEVEL_QUIT;
+                netbroadcastpacket(pbuf, 1);                      // TENSW
                 break;
                 }
 
@@ -2548,6 +2557,7 @@ BonusScreen(PLAYERp pp)
     while (!BonusDone)
         {
         handleevents();
+        flushpackets();
 
         // taken from top of faketimerhandler
         if (totalclock < ototalclock + limit)
@@ -2700,6 +2710,8 @@ StatScreen(PLAYERp mpp)
     short kills[MAX_SW_PLAYERS_REG];
     short pal;
 
+    UserInput uinfo = { FALSE, FALSE, dir_None };
+
     #define STAT_START_X 20
     #define STAT_START_Y 85
     #define STAT_OFF_Y 9
@@ -2839,22 +2851,25 @@ StatScreen(PLAYERp mpp)
 
     nextpage();
 
-    if (KeyPressed())
-        {
-        while(KeyPressed());
-        }
-
-    KEY_PRESSED(KEYSC_SPACE) = 0;
-    KEY_PRESSED(KEYSC_ENTER) = 0;
+    KB_ClearKeysDown();
 
     if (gs.MusicOn)
         {
         PlaySong(voc[DIGI_ENDLEV].name, 3, TRUE, TRUE);
         }
 
-    while (!KEY_PRESSED(KEYSC_SPACE) && !KEY_PRESSED(KEYSC_ENTER))
+    while (TRUE)
         {
         handleevents();
+        flushpackets();
+        if (quitevent) break;
+
+        CONTROL_GetUserInput(&uinfo);
+        CONTROL_ClearUserInput(&uinfo);
+        if (KEY_PRESSED(KEYSC_SPACE) || KEY_PRESSED(KEYSC_ENTER) || uinfo.button0 || uinfo.button1)
+            {
+            break;
+            }
 
         ScreenCaptureKeys();
         }
@@ -2912,11 +2927,6 @@ Control(VOID)
 
     while (!QuitFlag)
         {
-        handleevents();
-        OSD_DispatchQueued();
-
-        if (quitevent) QuitFlag = TRUE;
-
         NewLevel();
         }
 
@@ -3007,7 +3017,7 @@ void MoveLoop(void)
     while (Player[myconnectindex].movefifoend - movefifoplc > bufferjitter)
         {
            //Make sure you have at least 1 packet from everyone else
-         for(pnum=connecthead;pnum>=0;pnum=connectpoint2[pnum])
+         TRAVERSE_CONNECT(pnum)
             {
             if (movefifoplc == Player[pnum].movefifoend)
                 break;
@@ -3177,7 +3187,13 @@ RunLevel(VOID)
         handleevents();
         OSD_DispatchQueued();
 
-        if (quitevent) QuitFlag = TRUE;
+        if (quitevent)
+            {
+            if (CommPlayers >= 2)
+                MultiPlayQuitFlag = TRUE;
+            else
+                QuitFlag = TRUE;
+            }
 
           //MONO_PRINT("Before MoveLoop");
         MoveLoop();
@@ -4133,6 +4149,7 @@ ManualPlayerInsert(PLAYERp pp)
         // If IsAI = TRUE, new player will be a bot
         Player[myconnectindex].IsAI = FALSE;
 
+        CommPlayers++;
         numplayers++;
         }
 
@@ -4165,6 +4182,7 @@ BotPlayerInsert(PLAYERp pp)
         // If IsAI = TRUE, new player will be a bot
         Player[numplayers].IsAI = TRUE;
 
+        CommPlayers++;
         numplayers++;
         }
 
@@ -4181,6 +4199,7 @@ ManualPlayerDelete(PLAYERp cur_pp)
 
     if (numplayers > 1)
         {
+        CommPlayers--;
         numplayers--;
         connectpoint2[numplayers - 1] = -1;
 
@@ -4303,7 +4322,7 @@ SinglePlayInput(PLAYERp pp)
 
     // Move control to numbered player
 
-    if ((kp = KeyPressedRange(&KEY_PRESSED(KEYSC_1), &KEY_PRESSED(KEYSC_9))) && numplayers > 1)
+    if ((kp = KeyPressedRange(&KEY_PRESSED(KEYSC_1), &KEY_PRESSED(KEYSC_9))) && CommPlayers > 1)
         {
         short save_myconnectindex;
 
@@ -4311,7 +4330,7 @@ SinglePlayInput(PLAYERp pp)
 
         myconnectindex = (intptr_t)kp - (intptr_t)(&KEY_PRESSED(KEYSC_1));
 
-        if (myconnectindex >= numplayers)
+        if (myconnectindex >= CommPlayers)
             myconnectindex = save_myconnectindex;
 
         screenpeek = myconnectindex;
@@ -4537,7 +4556,7 @@ FunctionKeys(PLAYERp pp)
         }
 
 
-    if (numplayers <= 1)
+    if (CommPlayers <= 1)
         {
         // F2 save menu
         if (KEY_PRESSED(KEYSC_F2))
@@ -4843,7 +4862,7 @@ VOID GetMessageInput(PLAYERp pp)
                             {
                             SendMessage(pnum, ds);
                             }
-                         }
+                        }
                      adduserquote(MessageInputString);
                      quotebot += 8;
                      quotebotgoal = quotebot;
@@ -5616,8 +5635,8 @@ void drawoverheadmap(int cposx, int cposy, int czoom, short cang)
     for (i = 0; i < numsectors; i++)
         for (j = headspritesect[i]; j >= 0; j = nextspritesect[j])
         {
-            for(p=connecthead;p >= 0;p=connectpoint2[p])
-            {
+            TRAVERSE_CONNECT(p)
+                {
                 if(Player[p].PlayerSprite == j)
                     {
                     if(sprite[Player[p].PlayerSprite].xvel > 16)
@@ -5626,7 +5645,7 @@ void drawoverheadmap(int cposx, int cposy, int czoom, short cang)
 
                     goto SHOWSPRITE;
                     }
-            }
+                }
             if ((show2dsprite[j >> 3] & (1 << (j & 7))) > 0)
                 {
                 SHOWSPRITE:

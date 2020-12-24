@@ -974,13 +974,13 @@ BossHealthMeter(void)
             continue;
             }
 
-        if (numplayers < 2) y = 10;
+        if (CommPlayers < 2) y = 10;
         else
-        if (numplayers >=2 && numplayers <= 4) y = 20;
+        if (CommPlayers >=2 && CommPlayers <= 4) y = 20;
         else
             y = 30;
 
-        if (Level == 20 && numplayers >= 2)
+        if (Level == 20 && CommPlayers >= 2)
             {
             if (u->ID == SUMO_RUN_R0 && sumowasseen) y += 10;
             else

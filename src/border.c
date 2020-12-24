@@ -184,7 +184,7 @@ SetFragBar(PLAYERp pp)
     extern SHORT OrigCommPlayers;
     PANEL_SPRITEp psp;
 
-    if (numplayers <= 1)
+    if (CommPlayers <= 1)
         return;
 
     if (gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
@@ -195,7 +195,6 @@ SetFragBar(PLAYERp pp)
     if (!pp->SpriteP)
         return;
 
-    //num_frag_bars = ((numplayers-1)/4)+1;
     num_frag_bars = ((OrigCommPlayers-1)/4)+1;
 
     for (i = windowx1; i <= windowx2; i++)
@@ -215,7 +214,6 @@ SetFragBar(PLAYERp pp)
         }
 
     // write each persons kill info to everybody
-    // for (i = 0; i < numplayers; i++)
     TRAVERSE_CONNECT(i)
         {
         PlayerUpdateKills(Player + i, 0);

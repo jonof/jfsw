@@ -2167,7 +2167,7 @@ MNU_InitMenus(void)
     slidersettings[sldr_joyaxissatur] = 0;
 
     // Distinguish between Single or Multiplay for new game menu types
-    if(numplayers > 1)
+    if(CommPlayers > 1)
         main_i[0].child = &networkgroup;
     else
 //        #ifdef SW_SHAREWARE
@@ -3030,7 +3030,7 @@ MNU_SaveGameCheck(MenuItem *item)
         return(TRUE);
     }
 
-    if (CommEnabled || numplayers > 1 || DemoMode)
+    if (CommEnabled || CommPlayers > 1 || DemoMode)
         {
         SET(item->flags, mf_disabled);
         return(TRUE);
@@ -3053,7 +3053,7 @@ MNU_SaveGameCheck(MenuItem *item)
 BOOL
 MNU_TenCheck(MenuItem *item)
     {
-    if (CommEnabled || numplayers > 1)
+    if (CommEnabled || CommPlayers > 1)
         {
         SET(item->flags, mf_disabled);
         return(TRUE);
@@ -3071,7 +3071,7 @@ MNU_LoadGameCheck(MenuItem *item)
         return(TRUE);
     }
 
-    if (CommEnabled || numplayers > 1)
+    if (CommEnabled || CommPlayers > 1)
         {
         SET(item->flags, mf_disabled);
         return(TRUE);
@@ -3083,7 +3083,7 @@ MNU_LoadGameCheck(MenuItem *item)
 BOOL
 MNU_StatCheck(MenuItem *item)
     {
-    if (CommEnabled || numplayers > 1)
+    if (CommEnabled || CommPlayers > 1)
         {
         SET(item->flags, mf_disabled);
         return(TRUE);

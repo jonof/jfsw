@@ -665,7 +665,7 @@ JS_DrawMirrors(PLAYERp pp, int tx, int ty, int tz, short tpang, int tphoriz)
         {
         camloopcnt = 0;
         camplayerview++;
-        if (camplayerview >= numplayers)
+        if (camplayerview >= CommPlayers)
             camplayerview = 1;
         }
 
@@ -871,7 +871,7 @@ JS_DrawMirrors(PLAYERp pp, int tx, int ty, int tz, short tpang, int tphoriz)
                                 {
                                 PLAYERp cp = Player + camplayerview;
 
-                                if (TEST_BOOL11(sp) && numplayers > 1)
+                                if (TEST_BOOL11(sp) && CommPlayers > 1)
                                     {
                                     drawroomstotile(cp->posx, cp->posy, cp->posz, cp->pang, cp->horiz, cp->cursectnum, mirror[cnt].campic);
                                     }

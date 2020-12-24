@@ -990,7 +990,7 @@ IconSpawn(SPRITEp sp)
     // if multi item and not a modem game
     if (TEST(sp->extra, SPRX_MULTI_ITEM))
         {
-        if (numplayers <= 1 || gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
+        if (CommPlayers <= 1 || gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
             return (FALSE);
         }
 
@@ -1860,7 +1860,7 @@ SpriteSetup(VOID)
         // if multi item and not a modem game
         if (TEST(sp->extra, SPRX_MULTI_ITEM))
             {
-            if (numplayers <= 1 || gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
+            if (CommPlayers <= 1 || gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
                 {
                 KillSprite(SpriteNum);
                 continue;
@@ -2170,7 +2170,7 @@ SpriteSetup(VOID)
                 {
                 if (TEST(sp->extra, SPRX_MULTI_ITEM))
                     {
-                    if (numplayers <= 1 || gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
+                    if (CommPlayers <= 1 || gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
                         {
                         KillSprite(SpriteNum);
                         break;
@@ -3177,7 +3177,7 @@ SpriteSetup(VOID)
     case 2470:
 
     if (TEST(sprite[SpriteNum].extra, SPRX_MULTI_ITEM))
-        if (numplayers <= 1 || gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
+        if (CommPlayers <= 1 || gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
             {
             KillSprite(SpriteNum);
             }
@@ -3788,7 +3788,7 @@ SpriteSetup(VOID)
         {
         if (TEST(sp->extra, SPRX_MULTI_ITEM))
             {
-            if (numplayers <= 1 || gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
+            if (CommPlayers <= 1 || gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
                 {
                 KillSprite(SpriteNum);
                 break;

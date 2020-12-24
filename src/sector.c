@@ -1367,7 +1367,7 @@ DoSoundSpotMatch(short match, short sound_num, short UNUSED(sound_type))
 
                 ////DSPRINTF(ds,"PlayerSound %d",pp-Player);
                 //MONO_PRINT(ds);
-                //ASSERT(pp >= Player && pp <= Player+numplayers);
+                //ASSERT(pp >= Player && pp <= Player+CommPlayers);
 
                 if (pp)
                     {

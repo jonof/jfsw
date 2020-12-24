@@ -2272,7 +2272,6 @@ PlayerPanelSetup(VOID)
     USERp u;
 
     // For every player setup the panel weapon stuff
-    //for (pp = Player; pp < &Player[numplayers]; pp++)
     TRAVERSE_CONNECT(pnum)
         {
         pp = Player + pnum;

@@ -488,9 +488,9 @@ VOID PutStringInfoLine(PLAYERp pp, const char *string)
     y = TEXT_INFO_LINE(0);
 
     // Move lower on this level because of boss meters
-    //if ((Level == 20 && numplayers > 1) || numplayers > 4)
+    //if ((Level == 20 && CommPlayers > 1) || CommPlayers > 4)
     //    y += 20;
-    //if (numplayers > 1 && numplayers <= 4)
+    //if (CommPlayers > 1 && CommPlayers <= 4)
     //    y+= 10;
 
     PutStringTimer(pp, x, y, string, GlobInfoStringTime);

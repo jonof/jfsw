@@ -172,7 +172,7 @@ void netbroadcastpacket(BYTEp buf, int len)
 		return;
 	}
 
-	for (i = connecthead; i >= 0; i = connectpoint2[i])
+	TRAVERSE_CONNECT(i)
 	{
 		if (i == myconnectindex) continue;
 		sendpacket(i, buf, len);
@@ -202,7 +202,7 @@ int netgetpacket(int *ind, BYTEp buf)
 			prx->PlayerIndex = (BYTE)*ind;
 
 			// Transmit to all the other players except ourselves and the sender
-			for (i = connecthead; i >= 0; i = connectpoint2[i]) {
+			TRAVERSE_CONNECT(i) {
 				if (i == myconnectindex || i == *ind) continue;
 				sendpacket(i, buf, len);
 			}
@@ -226,6 +226,7 @@ int netgetpacket(int *ind, BYTEp buf)
 				return len;
 			}
 
+            if (Player[i].IsDisconnected) return 0;
 			sendpacket(i, buf, len);
 			return 0;	// nothing for us to do
 		}
@@ -353,7 +354,7 @@ PauseGame(VOID)
     if (GamePaused)
         return;
 
-    if (numplayers < 2)
+    if (CommPlayers < 2)
         GamePaused = TRUE;
     }
 
@@ -366,7 +367,7 @@ ResumeGame(VOID)
     if (DemoPlaying || DemoRecording)
         return;
 
-    if (numplayers < 2)
+    if (CommPlayers < 2)
         GamePaused = FALSE;
     }
 
@@ -535,13 +536,10 @@ waitforeverybody(void)
     tempbuf[1] = Player[myconnectindex].playerreadyflag + 1;
     size++;
 #endif
-    if (!NetBroadcastMode && myconnectindex != connecthead)
-        netsendpacket(connecthead, tempbuf, size);
-    else
-        netbroadcastpacket(tempbuf, size);
+    netbroadcastpacket(tempbuf, size);
 
     #if 0
-    for (i = connecthead; i >= 0; i = connectpoint2[i])
+    TRAVERSE_CONNECT(i)
         {
         if (i != myconnectindex)
             {
@@ -582,22 +580,17 @@ waitforeverybody(void)
             }
 
         #if 0
-        for (i = connecthead; i >= 0; i = connectpoint2[i])
+        TRAVERSE_CONNECT(i)
             {
             DSPRINTF(ds,"myindex %d, myready %d, Player %d, Ready %d", myconnectindex, Player[myconnectindex].playerreadyflag, i, Player[i].playerreadyflag);
             DebugWriteString(ds);
             }
         #endif
 
-        for (i = connecthead; i >= 0; i = connectpoint2[i])
+        TRAVERSE_CONNECT(i)
             {
             if (Player[i].playerreadyflag < Player[myconnectindex].playerreadyflag)
                 break;
-    	    if ((!NetBroadcastMode) && (myconnectindex != connecthead))
-                {
-                i = -1;  //slaves in M/S mode only wait for master
-                break;
-                }
             }
 
         if (i < 0)
@@ -612,25 +605,22 @@ BOOL MyCommPlayerQuit(void)
 {
     PLAYERp pp;
     short i;
-    short prev_player = 0;
     extern BOOL QuitFlag;
     short found = FALSE;
-    short quit_player_index = 0;
 
     TRAVERSE_CONNECT(i)
         {
         if (TEST_SYNC_KEY(Player + i, SK_QUIT_GAME))
             {
-            short pnum;
             found = TRUE;
-
-            quit_player_index = i;
 
             if (i != myconnectindex)
                 {
                 sprintf(ds,"%s has quit the game.",Player[i].PlayerName);
                 adduserquote(ds);
                 }
+            if (i == connecthead && !NetBroadcastMode)
+                QuitFlag = TRUE;
             }
         }
 
@@ -640,24 +630,16 @@ BOOL MyCommPlayerQuit(void)
             {
             pp = Player + i;
 
-            if (i == quit_player_index)
-                {
-                PLAYERp qpp = Player + quit_player_index;
-                SET(qpp->SpriteP->cstat, CSTAT_SPRITE_INVISIBLE);
-                RESET(qpp->SpriteP->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN|CSTAT_SPRITE_BLOCK_MISSILE);
-                InitBloodSpray(qpp->PlayerSprite,TRUE,-2);
-                InitBloodSpray(qpp->PlayerSprite,FALSE,-2);
-                qpp->SpriteP->ang = NORM_ANGLE(qpp->SpriteP->ang + 1024);
-                InitBloodSpray(qpp->PlayerSprite,FALSE,-1);
-                InitBloodSpray(qpp->PlayerSprite,TRUE,-1);
-                }
-
-            // have to reorder the connect list
             if (!TEST_SYNC_KEY(pp, SK_QUIT_GAME))
-                {
-                prev_player = i;
                 continue;
-                }
+
+            SET(pp->SpriteP->cstat, CSTAT_SPRITE_INVISIBLE);
+            RESET(pp->SpriteP->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN|CSTAT_SPRITE_BLOCK_MISSILE);
+            InitBloodSpray(pp->PlayerSprite,TRUE,-2);
+            InitBloodSpray(pp->PlayerSprite,FALSE,-2);
+            pp->SpriteP->ang = NORM_ANGLE(pp->SpriteP->ang + 1024);
+            InitBloodSpray(pp->PlayerSprite,FALSE,-1);
+            InitBloodSpray(pp->PlayerSprite,TRUE,-1);
 
             // if I get my own messages get out to DOS QUICKLY!!!
             if (i == myconnectindex)
@@ -667,22 +649,16 @@ BOOL MyCommPlayerQuit(void)
                 return(TRUE);
                 }
 
-            // for COOP mode
-            if (screenpeek == i)
-                {
-                NextScreenPeek();
-                }
-
-            DSPRINTF(ds,"MyCommPlayerQuit %d", quit_player_index);
+            DSPRINTF(ds,"MyCommPlayerQuit %d", i);
             DebugWriteString(ds);
 
-            if (i == connecthead)
-                connecthead = connectpoint2[connecthead];
-            else
-                connectpoint2[prev_player] = connectpoint2[i];
+            pp->IsDisconnected = TRUE;
 
-            numplayers--;
             CommPlayers--;
+
+            // for COOP mode
+            if (screenpeek == i)
+                NextScreenPeek();
             }
         }
 
@@ -693,7 +669,7 @@ BOOL MenuCommPlayerQuit(short quit_player)
 {
     PLAYERp pp;
     short i;
-    short prev_player = 0;
+    extern BOOL QuitFlag;
     short pnum;
 
     // tell everyone else you left the game
@@ -712,27 +688,18 @@ BOOL MenuCommPlayerQuit(short quit_player)
 
         // have to reorder the connect list
         if (i != quit_player)
-            {
-            prev_player = i;
             continue;
-            }
-
-        // for COOP mode
-        if (screenpeek == i)
-            {
-            NextScreenPeek();
-            }
 
         DSPRINTF(ds,"MenuPlayerQuit %d", quit_player);
         DebugWriteString(ds);
 
-        if (i == connecthead)
-            connecthead = connectpoint2[connecthead];
-        else
-            connectpoint2[prev_player] = connectpoint2[i];
+        pp->IsDisconnected = TRUE;
 
-        numplayers--;
         CommPlayers--;
+
+        // for COOP mode
+        if (screenpeek == i)
+            NextScreenPeek();
         }
 
     return(FALSE);
@@ -902,11 +869,11 @@ faketimerhandler(void)
 
 #if 0
 //  AI Bot stuff
-     if (numplayers > 1)
+     if (CommPlayers > 1)
      {
         if (gNet.MultiGameType == MULTI_GAME_AI_BOTS)
         {
-            for(i=connecthead;i>=0;i=connectpoint2[i])
+            TRAVERSE_CONNECT(i)
             {
                 if(i != myconnectindex)
                 {
@@ -970,7 +937,11 @@ faketimerhandler(void)
             if (myconnectindex == connecthead)
                 {
                 for (i = connectpoint2[connecthead]; i >= 0; i = connectpoint2[i])
+                    {
+                    if (Player[i].IsDisconnected)
+                        continue;
                     packbuf[j++] = min(max(Player[i].myminlag, -128), 127);
+                    }
                 }
             else
                 {
@@ -1090,7 +1061,7 @@ faketimerhandler(void)
     // I am MASTER...
     while (1)
         {
-        for (i = connecthead; i >= 0; i = connectpoint2[i])
+        TRAVERSE_CONNECT(i)
             {
             if ((Player[i].movefifoend <= movefifosendplc))
                 return;
@@ -1104,6 +1075,8 @@ faketimerhandler(void)
             {
             for (i = connectpoint2[connecthead]; i >= 0; i = connectpoint2[i])
                 {
+                if (Player[i].IsDisconnected)
+                    continue;
                 packbuf[j++] = min(max(Player[i].myminlag, -128), 127);
                 }
 
@@ -1111,7 +1084,7 @@ faketimerhandler(void)
                 Player[i].myminlag = 0x7fffffff;
             }
 
-        for (i = connecthead; i >= 0; i = connectpoint2[i])
+        TRAVERSE_CONNECT(i)
             {
             pp = Player + i;
 
@@ -1132,6 +1105,8 @@ faketimerhandler(void)
 
         for (i = connectpoint2[connecthead]; i >= 0; i = connectpoint2[i])
             {
+            if (Player[i].IsDisconnected)
+                continue;
             netsendpacket(i, packbuf, j);
             /*
             pp = Player + i;
@@ -1183,6 +1158,8 @@ getpackets(VOID)
                     {
                     for (i = connectpoint2[connecthead]; i >= 0; i = connectpoint2[i])
                         {
+                        if (Player[i].IsDisconnected)
+                            continue;
                         if (i == myconnectindex)
                             otherminlag = (int) ((signed char) packbuf[j]);
                         j++;
@@ -1207,9 +1184,9 @@ getpackets(VOID)
             for (i = 1; i < MovesPerPacket; i++)
                 {
                 memcpy(
-                &pp->inputfifo[pp->movefifoend & (MOVEFIFOSIZ - 1)],
-                &pp->inputfifo[(pp->movefifoend-1) & (MOVEFIFOSIZ - 1)],
-                sizeof(SW_PACKET));
+                    &pp->inputfifo[pp->movefifoend & (MOVEFIFOSIZ - 1)],
+                    &pp->inputfifo[(pp->movefifoend-1) & (MOVEFIFOSIZ - 1)],
+                    sizeof(SW_PACKET));
 
                 pp->movefifoend++;
                 }
@@ -1231,13 +1208,15 @@ getpackets(VOID)
                 {
                 for (i = connectpoint2[connecthead]; i >= 0; i = connectpoint2[i])
                     {
+                    if (Player[i].IsDisconnected)
+                        continue;
                     if (i == myconnectindex)
                         otherminlag = (int) ((signed char) packbuf[j]);
                     j++;
                     }
                 }
 
-            for (i = connecthead; i >= 0; i = connectpoint2[i])
+            TRAVERSE_CONNECT(i)
                 {
                 pp = Player + i;
 
@@ -1265,7 +1244,7 @@ getpackets(VOID)
                 #endif
                 }
 
-            while (j != packbufleng)
+            while (j < packbufleng)
                 {
                 for (i = connecthead; i >= 0; i = connectpoint2[i])
                     {
@@ -1292,11 +1271,13 @@ getpackets(VOID)
                     for(j=1;j<MovesPerPacket;j++)
                         {
                             pp = Player + i;
+                            if (pp->IsDisconnected)
+                                continue;
 
                             memcpy(
-                            &pp->inputfifo[pp->movefifoend & (MOVEFIFOSIZ - 1)],
-                            &pp->inputfifo[(pp->movefifoend-1) & (MOVEFIFOSIZ - 1)],
-                            sizeof(SW_PACKET));
+                                &pp->inputfifo[pp->movefifoend & (MOVEFIFOSIZ - 1)],
+                                &pp->inputfifo[(pp->movefifoend-1) & (MOVEFIFOSIZ - 1)],
+                                sizeof(SW_PACKET));
 
                             pp->movefifoend++;
                         }
@@ -1340,17 +1321,10 @@ getpackets(VOID)
 
             pp = Player + otherconnectindex;
 
-	    // retransmit if master and the message is not addressed to us
-	    if (!NetBroadcastMode && myconnectindex == connecthead && packbuf[1] != myconnectindex)
-	        {
-		netsendpacket(packbuf[1], packbuf, packbufleng);
-		break;
-	        }
-
             PlaySound(DIGI_PMESSAGE,&tp->posx,&tp->posy,&tp->posz,v3df_dontpan);
 
-	    memcpy(ds,&packbuf[3],packbufleng-3);
-	    ds[packbufleng-3] = 0;
+            memcpy(ds,&packbuf[3],packbufleng-3);
+            ds[packbufleng-3] = 0;
             //sprintf(ds, "%s",&packbuf[3]);
             adduserquote(ds);
             break;

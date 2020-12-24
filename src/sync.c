@@ -317,7 +317,7 @@ getsyncstat(void)
     if (!CommEnabled)
         return;
 
-	if (numplayers < 2)
+	if (CommPlayers < 2)
 		return;
 
     for (i = 0; SyncFunc[i]; i++)
@@ -351,7 +351,7 @@ SyncStatMessage(void)
     if (!SyncPrintMode)
         return;
 
-    if (numplayers <= 1)
+    if (CommPlayers <= 1)
         return;
 
     for (i = 0; i < NumSyncBytes; i++)
@@ -459,7 +459,7 @@ GetSyncInfoFromPacket(char *packbuf, int packbufleng, int *j, int otherconnectin
 
     // update syncstat
     // if any of the syncstat vars is non-0 then there is a problem
-    TRAVERSE_CONNECT(i)
+    for (i = connecthead; i >= 0; i = connectpoint2[i])
         {
         if (Player[i].syncvalhead == syncvaltottail)
             return;
@@ -483,7 +483,7 @@ GetSyncInfoFromPacket(char *packbuf, int packbufleng, int *j, int otherconnectin
 
         syncvaltottail++;
 
-        TRAVERSE_CONNECT(i)
+        for (i = connecthead; i >= 0; i = connectpoint2[i])
             {
             if (Player[i].syncvalhead == syncvaltottail)
                 return;

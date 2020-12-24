@@ -183,7 +183,7 @@ DemoWriteHeader(VOID)
     if (FakeMultiNumPlayers)
         dh.numplayers = FakeMultiNumPlayers;
     else
-        dh.numplayers = numplayers;
+        dh.numplayers = CommPlayers;
 
     fwrite(&dh, sizeof(dh), 1, DemoFileOut);
 
@@ -202,7 +202,7 @@ DemoWriteHeader(VOID)
 
     if (DemoDebugMode)
         {
-        DemoDebugBufferMax = numplayers;
+        DemoDebugBufferMax = CommPlayers;
         fclose(DemoFileOut);
         }
     }
@@ -243,7 +243,7 @@ DemoReadHeader(VOID)
         FakeMultiNumPlayers = dh.numplayers;
         }
     else
-        numplayers = dh.numplayers;
+        CommPlayers = dh.numplayers;
 
     for (pp = Player; pp < Player + dh.numplayers; pp++)
         {

@@ -1425,7 +1425,7 @@ VOID SecretInfo(PLAYERp pp)
     int y = windowy1+2+8;
     extern short LevelSecrets,TotalKillable;
 
-    if (CommEnabled || numplayers > 1)
+    if (CommEnabled || CommPlayers > 1)
         return;
 
     x = x / (xdim/320.0);

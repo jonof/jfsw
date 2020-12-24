@@ -7945,12 +7945,12 @@ void PauseMultiPlay(void)
 
                     SavePrediction = PredictionOn;
                     PredictionOn = FALSE;
-                    MUSIC_Pause();
+                    PauseSong(TRUE);
                     }
                 else
                     {
                     PredictionOn = SavePrediction;
-                    MUSIC_Continue();
+                    PauseSong(FALSE);
                     TRAVERSE_CONNECT(p)
                         pClearTextLine(Player + p, 100);
                     }

@@ -295,6 +295,7 @@ BOOL MNU_QuitCustom(UserCall call, MenuItem * item);
 BOOL MNU_QuickLoadCustom(UserCall call, MenuItem * item);
 BOOL MNU_LoadSaveTouchupCustom(UserCall call, MenuItem * item);
 BOOL MNU_DoParentalPassword(UserCall call, MenuItem * item);
+BOOL MNU_DoPlayerName(UserCall call, MenuItem * item);
 BOOL MNU_OrderCustom(UserCall call, MenuItem * item);
 BOOL MNU_DoEpisodeSelect(UserCall call, MenuItem * item);
 
@@ -318,6 +319,7 @@ BOOL MNU_LoadGameCustom(void);
 BOOL MNU_SaveGameCustom(void);
 BOOL MNU_GetLoadCustom(void);
 BOOL MNU_GetSaveCustom(void);
+BOOL MNU_PlayerNameCustom(void);
 BOOL MNU_ParentalCustom(void);
 BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item);
 BOOL MNU_LoadModernDefaults(void);

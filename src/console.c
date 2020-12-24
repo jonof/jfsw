@@ -1118,7 +1118,7 @@ void CON_MultiNameChange( void )
     if (sscanf(MessageInputString,"%6s %12s",base,command) < 2)
         return;
 
-    SendMulitNameChange(command);
+    SendMulitNameChange(command, -1);
     }
 
 void CON_LoadSetup( void )

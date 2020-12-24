@@ -103,6 +103,7 @@ typedef struct PACKED
 typedef struct PACKED
     {
     BYTE PacketType;  // first byte is always packet type
+    BYTE Color;
     char PlayerName[32];
     }PACKET_NAME_CHANGE,*PACKET_NAME_CHANGEp;
 
@@ -193,7 +194,7 @@ extern AUTO_NET Auto;
 extern BOOL AutoNet;
 
 VOID getpackets(VOID);
-VOID SendMulitNameChange(char *new_name);
+VOID SendMulitNameChange(char *new_name, int new_color);
 VOID InitNetVars(void );
 VOID InitTimingVars(void );
 VOID PauseAction(void );

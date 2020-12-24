@@ -283,7 +283,7 @@ MenuItem mousesetup_i[] =
     {DefInert(0, MouseButtonFunctions[mousebutton_WheelDown][0]), OPT_XSIDE, OPT_LINE(9), 1, m_defshade, mousebutton_WheelDown,  NULL, MNU_SetMouseButtonFunctions, NULL},
     {DefNone}
     };
-MenuGroup mousesetupgroup = {65, 5, "^Mouse Setup", mousesetup_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
+MenuGroup mousesetupgroup = {65, 5, "^Mouse Buttons", mousesetup_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
 
 #define MAXJOYSTICKBUTTONPAGES 4
 static char JoystickButtonFunctions[MAXJOYBUTTONS][2][MAXFUNCTIONLENGTH];
@@ -423,48 +423,59 @@ MenuItem joyaxes_i[] =
 MenuGroup joyaxessetupgroup = {65, 5, "^Joystick Axes", joyaxes_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 1};
 
 
-static char AdvancedMouseAxisFunctions[MAXMOUSEAXES][2][MAXAXISFUNCTIONLENGTH] = { {"", ""}, {"", ""} };
-static BOOL MNU_SetAdvancedMouseFunctions(MenuItem_p item);
+static char MouseAxisFunctions[MAXMOUSEAXES][2][MAXAXISFUNCTIONLENGTH] = { {"", ""}, {"", ""} };
+static BOOL MNU_SetMouseAxisFunctions(MenuItem_p item);
 static BOOL MNU_MouseDigitalPostProcess(MenuItem_p item);
 static BOOL MNU_MouseDigitalSetupCustom(UserCall call, MenuItem_p item);
-MenuGroup advancedmousedigigroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_MouseDigitalSetupCustom, NULL, 0};
-MenuItem advancedmouse_i[] =
+MenuGroup mouseaxesdigigroup =     {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_MouseDigitalSetupCustom, NULL, 0};
+MenuItem mouseaxes_i[] =
     {
     {DefSlider(sldr_mousescalex, 0, "X-Axis Scale"), OPT_XS,     OPT_LINE(0), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(0), 0, m_defshade, 0, NULL, NULL, NULL},
     {DefSlider(sldr_mousescaley, 0, "Y-Axis Scale"), OPT_XS,     OPT_LINE(1), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(1), 0, m_defshade, 0, NULL, NULL, NULL},
-    {DefLayer(0, "Digital Left", &advancedmousedigigroup),     OPT_XS, OPT_LINE(3), 1, m_defshade, 0+0, NULL, NULL, MNU_MouseDigitalPostProcess},
-    {DefInert(0, AdvancedMouseAxisFunctions[0][0]),         OPT_XSIDE, OPT_LINE(3), 1, m_defshade, 0+0, NULL, MNU_SetAdvancedMouseFunctions, NULL},
-    {DefLayer(0, "Digital Right", &advancedmousedigigroup),    OPT_XS, OPT_LINE(4), 1, m_defshade, 0+1, NULL, NULL, MNU_MouseDigitalPostProcess},
-    {DefInert(0, AdvancedMouseAxisFunctions[0][1]),         OPT_XSIDE, OPT_LINE(4), 1, m_defshade, 0+1, NULL, MNU_SetAdvancedMouseFunctions, NULL},
-    {DefLayer(0, "Digital Up", &advancedmousedigigroup),       OPT_XS, OPT_LINE(5), 1, m_defshade, 2+0, NULL, NULL, MNU_MouseDigitalPostProcess},
-    {DefInert(0, AdvancedMouseAxisFunctions[1][0]),         OPT_XSIDE, OPT_LINE(5), 1, m_defshade, 2+0, NULL, MNU_SetAdvancedMouseFunctions, NULL},
-    {DefLayer(0, "Digital Down", &advancedmousedigigroup),     OPT_XS, OPT_LINE(6), 1, m_defshade, 2+1, NULL, NULL, MNU_MouseDigitalPostProcess},
-    {DefInert(0, AdvancedMouseAxisFunctions[1][1]),         OPT_XSIDE, OPT_LINE(6), 1, m_defshade, 2+1, NULL, MNU_SetAdvancedMouseFunctions, NULL},
+    {DefLayer(0, "Digital Left", &mouseaxesdigigroup),   OPT_XS, OPT_LINE(3), 1, m_defshade, 0+0, NULL, NULL, MNU_MouseDigitalPostProcess},
+    {DefInert(0, MouseAxisFunctions[0][0]),           OPT_XSIDE, OPT_LINE(3), 1, m_defshade, 0+0, NULL, MNU_SetMouseAxisFunctions, NULL},
+    {DefLayer(0, "Digital Right", &mouseaxesdigigroup),  OPT_XS, OPT_LINE(4), 1, m_defshade, 0+1, NULL, NULL, MNU_MouseDigitalPostProcess},
+    {DefInert(0, MouseAxisFunctions[0][1]),           OPT_XSIDE, OPT_LINE(4), 1, m_defshade, 0+1, NULL, MNU_SetMouseAxisFunctions, NULL},
+    {DefLayer(0, "Digital Up", &mouseaxesdigigroup),     OPT_XS, OPT_LINE(5), 1, m_defshade, 2+0, NULL, NULL, MNU_MouseDigitalPostProcess},
+    {DefInert(0, MouseAxisFunctions[1][0]),           OPT_XSIDE, OPT_LINE(5), 1, m_defshade, 2+0, NULL, MNU_SetMouseAxisFunctions, NULL},
+    {DefLayer(0, "Digital Down", &mouseaxesdigigroup),   OPT_XS, OPT_LINE(6), 1, m_defshade, 2+1, NULL, NULL, MNU_MouseDigitalPostProcess},
+    {DefInert(0, MouseAxisFunctions[1][1]),           OPT_XSIDE, OPT_LINE(6), 1, m_defshade, 2+1, NULL, MNU_SetMouseAxisFunctions, NULL},
     {DefNone}
     };
-MenuGroup mouseadvancedgroup = {65, 5, "^Adv'd Mouse", advancedmouse_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
+MenuGroup mouseaxesgroup = {65, 5, "^Mouse Axes", mouseaxes_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
 
 MenuItem inputsetup_i[] =
     {
     {DefLayer(0, "Keys Setup", &keysetupgroup),OPT_XS,                 OPT_LINE(0),1,m_defshade,0,NULL,NULL,NULL},
-    {DefLayer(0, "Mouse Setup", &mousesetupgroup),OPT_XS,              OPT_LINE(1),1,m_defshade,0,NULL,NULL,NULL},
-    {DefLayer(0, "Joystick Buttons Setup", &joybuttonssetupgroup),OPT_XS,OPT_LINE(2),1,m_defshade,0,NULL,MNU_JoystickCheck,MNU_JoystickButtonsInitialise},
-    {DefLayer(0, "Joystick Axes Setup", &joyaxessetupgroup), OPT_XS,   OPT_LINE(3),1,m_defshade,0,NULL,MNU_JoystickCheck,MNU_JoystickAxesInitialise},
-    {DefLayer(0, "Advanced Mouse Setup", &mouseadvancedgroup),OPT_XS,  OPT_LINE(5),1,m_defshade,0,NULL,NULL,NULL},
-    {DefOption(0, "Apply Modern Defaults"), OPT_XS,                    OPT_LINE(7),1,m_defshade,0,MNU_LoadModernDefaults,NULL,NULL},
-    {DefOption(0, "Apply Classic Defaults"), OPT_XS,                   OPT_LINE(8),1,m_defshade,0,MNU_LoadClassicDefaults,NULL,NULL},
+    {DefLayer(0, "Mouse Options", &mousegroup),OPT_XS,                 OPT_LINE(2), 1, m_defshade,0,NULL, MNU_MouseCheck, NULL},
+    {DefLayer(0, "Mouse Buttons Setup", &mousesetupgroup),OPT_XS,      OPT_LINE(3),1,m_defshade,0,NULL,NULL,NULL},
+    {DefLayer(0, "Mouse Axes Setup", &mouseaxesgroup),OPT_XS,          OPT_LINE(4),1,m_defshade,0,NULL,NULL,NULL},
+    {DefLayer(0, "Joystick Buttons Setup", &joybuttonssetupgroup),OPT_XS,OPT_LINE(6),1,m_defshade,0,NULL,MNU_JoystickCheck,MNU_JoystickButtonsInitialise},
+    {DefLayer(0, "Joystick Axes Setup", &joyaxessetupgroup), OPT_XS,   OPT_LINE(7),1,m_defshade,0,NULL,MNU_JoystickCheck,MNU_JoystickAxesInitialise},
+    {DefOption(0, "Apply Modern Defaults"), OPT_XS,                    OPT_LINE(9),1,m_defshade,0,MNU_LoadModernDefaults,NULL,NULL},
+    {DefOption(0, "Apply Classic Defaults"), OPT_XS,                   OPT_LINE(10),1,m_defshade,0,MNU_LoadClassicDefaults,NULL,NULL},
     {DefNone}
     };
-MenuGroup inputsetupgroup = {65, 5, "^Input Setup", inputsetup_i, pic_newgametitl, 0, m_defshade, NULL,NULL, 0};
+MenuGroup inputsetupgroup = {65, 5, "^Input", inputsetup_i, pic_newgametitl, 0, m_defshade, NULL,NULL, 0};
+
+MenuItem player_i[] =
+    {
+    {DefOption(0, "Player Name"),                        OPT_XS, OPT_LINE(0), 1, m_defshade, 0, MNU_PlayerNameCustom, NULL, NULL},
+    {DefInert(0, CommPlayerName),                     OPT_XSIDE, OPT_LINE(0), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefSlider(sldr_playercolor, 0, "Player Color"),     OPT_XS, OPT_LINE(1), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefInert(0, NULL),                               OPT_XSIDE, OPT_LINE(1), 0, m_defshade, 0, NULL, NULL, NULL},
+    {DefNone}
+    };
+MenuGroup playergroup = {50, 5, "^Player", player_i, pic_optionstitl, 0, m_defshade, MNU_DoPlayerName, NULL, 0};
 
 MenuItem options_i[] =
     {
     {DefLayer(0, "Screen Menu", &screengroup),OPT_XS,            OPT_LINE(0), 1, m_defshade,0,NULL, NULL, NULL},
-    {DefLayer(0, "Mouse Menu", &mousegroup),OPT_XS,              OPT_LINE(1), 1, m_defshade,0,NULL, MNU_MouseCheck, NULL},
-    {DefLayer(0, "Sound Menu", &soundgroup),OPT_XS,              OPT_LINE(2), 1, m_defshade,0,MNU_TryMusicInit, MNU_MusicFxCheck, NULL},
-    {DefLayer(0, "Input Setup", &inputsetupgroup),OPT_XS,        OPT_LINE(3), 1,m_defshade,0,NULL,NULL,NULL},
+    {DefLayer(0, "Sound Menu", &soundgroup),OPT_XS,              OPT_LINE(1), 1, m_defshade,0,MNU_TryMusicInit, MNU_MusicFxCheck, NULL},
+    {DefLayer(0, "Input Menu", &inputsetupgroup),OPT_XS,         OPT_LINE(2), 1,m_defshade,0,NULL,NULL,NULL},
+    {DefLayer(0, "Player Menu", &playergroup),OPT_XS,            OPT_LINE(3), 1, m_defshade,0,NULL,NULL,NULL},
     #ifndef PLOCK_VERSION // No need for this in weener version
     {DefLayer(0, "Kid Mode", &parentalgroup),OPT_XS,             OPT_LINE(4), 1, m_defshade,0,NULL, NULL, NULL},
     #endif
@@ -536,9 +547,6 @@ MenuItem network_i[] =
     {DefSlider(sldr_timelimit, 0, "Time Limit"),OPT_XS,          OPT_LINE(5), 1, m_defshade, 0, NULL, MNU_CoopPlayCheck, NULL},
     {DefInert(0, NULL),               OPT_XSIDE,                 OPT_LINE(5), 0, m_defshade, 0, NULL, MNU_CoopPlayCheck, NULL},
 
-    {DefSlider(sldr_playercolor, 0, "Player Color"),OPT_XS,      OPT_LINE(6), 1, m_defshade, 0, NULL, NULL, NULL},
-    {DefInert(0, NULL),               OPT_XSIDE,                 OPT_LINE(6), 0, m_defshade, 0, NULL, NULL, NULL},
-
     {DefLayer(0, "Other Options", &networkextragroup),OPT_XS,    OPT_LINE(7), 1, m_defshade,0,NULL, NULL, NULL},
 
     {DefInert(0, UserMapName),         OPT_XSIDE,                OPT_LINE(8), pic_episode1, m_defshade, 0, NULL, NULL, NULL},
@@ -549,7 +557,6 @@ MenuItem network_i[] =
     };
 
 MenuGroup networkgroup = {50, 5, "^Network Game", network_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
-
 
 MenuItem load_i[] =
     {
@@ -822,6 +829,82 @@ MNU_DoParentalPassword(UserCall UNUSED(call), MenuItem_p UNUSED(item))
 
 BOOL
 MNU_ParentalCustom(void)
+    {
+
+    if (MenuInputMode)
+        {
+        // toggle edit mode
+        MenuInputMode = FALSE;
+        memset(MessageInputString, '\0', sizeof(MessageInputString));
+        }
+    else
+        {
+        // clear keyboard buffer
+        while (KB_KeyWaiting())
+            {
+            if (KB_Getch() == 0)
+                KB_Getch();
+            }
+
+        // toggle edit mode
+        MenuInputMode = TRUE;
+        }
+
+    return (TRUE);
+    }
+
+BOOL
+MNU_DoPlayerName(UserCall call, MenuItem_p item)
+    {
+    short w,h;
+    signed char MNU_InputString(char *, short);
+    static BOOL cur_show;
+    char TempString[80];
+    char *extra_text;
+
+    (void)call;
+    (void)item;
+
+    // get input
+    if(MenuInputMode)
+    {
+    switch(MNU_InputString(MessageInputString, 80))
+        {
+        case -1: // Cancel Input (pressed ESC) or Err
+            KB_ClearKeysDown();
+            KB_FlushKeyboardQueue();
+            MenuInputMode = FALSE;
+            memset(MessageInputString, '\0', sizeof(MessageInputString));
+            break;
+        case FALSE: // Input finished (RETURN)
+            if (MessageInputString[0] != '\0')
+                SendMulitNameChange(MessageInputString, -1);
+
+            MenuInputMode = FALSE;
+            KB_ClearKeysDown();
+            KB_FlushKeyboardQueue();
+            memset(MessageInputString, '\0', sizeof(MessageInputString));
+            break;
+        case TRUE: // Got input
+            break;
+        }
+
+        sprintf(TempString,"Enter a new Player Name");
+        MNU_MeasureString(TempString, &w, &h);
+        MNU_DrawString(TEXT_XCENTER(w), MESSAGE_LINE-10, TempString,1,16);
+
+        MNU_MeasureString(MessageInputString, &w, &h);
+
+        MNU_DrawString(TEXT_XCENTER(w), MESSAGE_LINE, MessageInputString,1,16);
+        rotatesprite((TEXT_XCENTER(w)+w+7)<<16,(MESSAGE_LINE+3)<<16,64<<9,0,COINCURSOR+((totalclock>>3)%7),0,0,MenuDrawFlags,0,0,xdim-1,ydim-1);
+        rotatesprite((TEXT_XCENTER(w)+w+7)<<16,(MESSAGE_LINE+3)<<16,64<<9,0,COINCURSOR+((totalclock>>3)%7),0,0,MenuDrawFlags,0,0,xdim-1,ydim-1);
+    }
+
+    return(TRUE);
+    }
+
+BOOL
+MNU_PlayerNameCustom(void)
     {
 
     if (MenuInputMode)
@@ -1153,7 +1236,7 @@ BOOL MNU_MouseButtonSetupCustom(UserCall call, MenuItem_p item)
 
     {
         short w, h = 0;
-        const char *s = "Mouse Setup";
+        const char *s = "Mouse Buttons";
 
         rotatesprite(10 << 16, (5-3) << 16, MZ, 0, 2427,
             m_defshade, 0, MenuDrawFlags|ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
@@ -1259,7 +1342,7 @@ static BOOL MNU_MouseDigitalSetupCustom(UserCall call, MenuItem_p item)
             currentfunc--;
             MouseDigitalAxes[axis][direction] = currentfunc;
             CONTROL_MapDigitalAxis(axis, currentfunc, direction, controldevice_mouse);
-            MNU_SetAdvancedMouseFunctions(mouse_digital_item);
+            MNU_SetMouseAxisFunctions(mouse_digital_item);
             cust_callback = NULL;
             break;
         default: break;
@@ -1268,7 +1351,7 @@ static BOOL MNU_MouseDigitalSetupCustom(UserCall call, MenuItem_p item)
     return TRUE;
 }
 
-static BOOL MNU_SetAdvancedMouseFunctions(MenuItem_p item)
+static BOOL MNU_SetMouseAxisFunctions(MenuItem_p item)
 {
     int axis, direction;
     char *p;
@@ -1278,11 +1361,11 @@ static BOOL MNU_SetAdvancedMouseFunctions(MenuItem_p item)
     ASSERT(axis >= 0 && axis < MAXMOUSEAXES);
 
     if (MouseDigitalAxes[axis][direction] < 0) {
-        strcpy(AdvancedMouseAxisFunctions[axis][direction], "  -");
+        strcpy(MouseAxisFunctions[axis][direction], "  -");
     } else {
-        strcpy(AdvancedMouseAxisFunctions[axis][direction],
+        strcpy(MouseAxisFunctions[axis][direction],
             CONFIG_FunctionNumToName(MouseDigitalAxes[axis][direction]));
-        for (p = AdvancedMouseAxisFunctions[axis][direction]; *p; p++) {
+        for (p = MouseAxisFunctions[axis][direction]; *p; p++) {
             if (*p == '_')
                 *p = ' ';
         }
@@ -3025,11 +3108,6 @@ MNU_SaveGameCheck(MenuItem *item)
     extern BOOL InMenuLevel;
     extern BOOL DemoMode;
 
-    if (0) {	// JBF: Until we fix the symbol table dilemma, saving is off limits
-        SET(item->flags, mf_disabled);
-        return(TRUE);
-    }
-
     if (CommEnabled || CommPlayers > 1 || DemoMode)
         {
         SET(item->flags, mf_disabled);
@@ -3065,12 +3143,6 @@ MNU_TenCheck(MenuItem *item)
 BOOL
 MNU_LoadGameCheck(MenuItem *item)
     {
-
-    if (0) {	// JBF: Until we fix the symbol table dilemma, loading is off limits
-        SET(item->flags, mf_disabled);
-        return(TRUE);
-    }
-
     if (CommEnabled || CommPlayers > 1)
         {
         SET(item->flags, mf_disabled);
@@ -3809,7 +3881,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
 
         extra_text = playercolors[offset];
         MNU_DrawString(OPT_XSIDE+78, item->y, extra_text, 1, PALETTE_PLAYER0+offset);
-        gs.NetColor = offset;
+        SendMulitNameChange(NULL, offset);
         break;
 
     case sldr_videores:

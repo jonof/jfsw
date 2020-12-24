@@ -418,6 +418,7 @@ InitNetPlayerOptions(VOID)
 
     if (CommEnabled)
         {
+        memset(&p, 0, sizeof(p));
         p.PacketType = PACKET_TYPE_PLAYER_OPTIONS;
         p.AutoRun = gs.AutoRun;
         p.MouseAimingOn = gs.MouseAimingOn;
@@ -429,23 +430,41 @@ InitNetPlayerOptions(VOID)
     }
 
 VOID
-SendMulitNameChange(char *new_name)
+SendMulitNameChange(char *new_name, int new_color)
     {
     short pnum;
     PLAYERp pp = Player + myconnectindex;
     PACKET_NAME_CHANGE p;
 
-    if (!CommEnabled)
-        return;
+    if (new_name)
+        {
+        strncpy(CommPlayerName, new_name, sizeof(CommPlayerName)-1);
+        CommPlayerName[sizeof(CommPlayerName)-1] = 0;
+        Bstrupr(CommPlayerName);
+        strcpy(pp->PlayerName, CommPlayerName);
+        SetRedrawScreen(pp);
+        }
 
-    Bstrupr(new_name);
-    strcpy(pp->PlayerName, new_name);
-    strcpy(CommPlayerName, new_name);
-    SetRedrawScreen(pp);
+    if (new_color >= 0)
+        {
+        gs.NetColor = new_color;
+        pp->TeamColor = gs.NetColor;
+        if (pp->SpriteP)
+            {
+            pp->SpriteP->pal = PALETTE_PLAYER0 + pp->TeamColor;
+            User[pp->SpriteP - sprite]->spal = pp->SpriteP->pal;
+            }
+        }
 
-    p.PacketType = PACKET_TYPE_NAME_CHANGE;
-    strcpy(p.PlayerName, pp->PlayerName);
-    netbroadcastpacket((BYTEp)(&p), sizeof(p));
+    if (CommEnabled)
+        {
+        memset(&p, 0, sizeof(p));
+        p.PacketType = PACKET_TYPE_NAME_CHANGE;
+        strcpy(p.PlayerName, CommPlayerName);
+        p.Color = gs.NetColor;
+
+        netbroadcastpacket((BYTEp)(&p), sizeof(p));
+        }
     }
 
 VOID
@@ -1463,8 +1482,15 @@ getpackets(VOID)
             MONO_PRINT(ds);
 
             strcpy(pp->PlayerName, p->PlayerName);
-            //strcpy(CommPlayerName, p->PlayerName);
             SetRedrawScreen(Player+myconnectindex);
+
+            // palette
+            pp->TeamColor = p->Color;
+            if (pp->SpriteP)
+                {
+                pp->SpriteP->pal = PALETTE_PLAYER0 + pp->TeamColor;
+                User[pp->SpriteP - sprite]->spal = pp->SpriteP->pal;
+                }
             break;
             }
 

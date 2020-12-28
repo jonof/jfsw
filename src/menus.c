@@ -72,7 +72,6 @@ BOOL MNU_TeamPlayCheck(MenuItem *item);
 BOOL MNU_CoopPlayCheck(MenuItem *item);
 BOOL MNU_StatCheck(MenuItem *item);
 BOOL MNU_LoadGameCheck(MenuItem *item);
-BOOL MNU_TenCheck(MenuItem *item);
 static BOOL MNU_TryMusicInit(void);
 static void MNU_UpLevel(void);
 
@@ -158,33 +157,6 @@ static void UpdateValidModes(int bpp, int fs)
 		numvalidresolutions++;
 	}
 }
-static BOOL ApplyModeSettings(void)
-{
-	int lastx, lasty, lastbpp, lastfs;
-	int newx, newy, newbpp, newfs;
-
-	lastx = xdim; lasty = ydim; lastbpp = bpp; lastfs = fullscreen;
-	newx   = validresolutions[ slidersettings[sldr_videores] ].xdim;
-	newy   = validresolutions[ slidersettings[sldr_videores] ].ydim;
-	newbpp = validbpps[ slidersettings[sldr_videobpp] ];
-	newfs  = buttonsettings[btn_videofs];
-
-	if (lastx == newx && lasty == newy && lastbpp == newbpp && lastfs == newfs) return FALSE;
-
-	if (setgamemode(newfs, newx, newy, newbpp))
-		setgamemode(lastfs, lastx, lasty, lastbpp);
-	else {
-		extern int32 ScreenMode,ScreenWidth,ScreenHeight,ScreenBPP;	// Because I'm too lazy to include config.h
-		ScreenMode = newfs;
-		ScreenWidth = newx;
-		ScreenHeight = newy;
-		ScreenBPP = newbpp;
-
-		SetupAspectRatio();
-		SetRedrawScreen(Player + myconnectindex);
-	}
-	return FALSE;
-}
 
 
 MenuItem sound_i[] =
@@ -229,12 +201,15 @@ MenuItem screen_i[] =
     {DefSlider(sldr_panelscale, 0, "Panel Scale"), OPT_XS,       OPT_LINE(3), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(3), 0, m_defshade, 0, NULL, NULL, NULL},
 
-    {DefButton(btn_videofs, 0, "Fullscreen"), OPT_XS,            OPT_LINE(5), 1, m_defshade, 0, NULL, NULL, NULL},
-    {DefSlider(sldr_videobpp, 0, "Colour"), OPT_XS,              OPT_LINE(6), 1, m_defshade, 0, NULL, NULL, NULL},
-    {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(6), 0, m_defshade, 0, NULL, NULL, NULL},
-    {DefSlider(sldr_videores, 0, "Resolution"), OPT_XS,          OPT_LINE(7), 1, m_defshade, 0, NULL, NULL, NULL},
+#if USE_POLYMOST && USE_OPENGL
+    {DefButton(btn_texfilter, 0, "Filtering"), OPT_XS,           OPT_LINE(5), 1, m_defshade, 0, NULL, MNU_TexFilterCheck, NULL},
+#endif
+    {DefButton(btn_videofs, 0, "Fullscreen"), OPT_XS,            OPT_LINE(6), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefSlider(sldr_videobpp, 0, "Colour"), OPT_XS,              OPT_LINE(7), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(7), 0, m_defshade, 0, NULL, NULL, NULL},
-    {DefOption(0, "Apply Settings"), OPT_XSIDE,                  OPT_LINE(9), 1, m_defshade, 0, ApplyModeSettings, NULL, NULL},
+    {DefSlider(sldr_videores, 0, "Resolution"), OPT_XS,          OPT_LINE(8), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(8), 0, m_defshade, 0, NULL, NULL, NULL},
+    {DefOption(0, "Apply Settings"), OPT_XSIDE,                 OPT_LINE(10), 1, m_defshade, 0, MNU_ApplyVideoModeSettings, NULL, NULL},
     {DefNone}
     };
 
@@ -673,17 +648,7 @@ static int MNU_ControlAxisNum(int offset);
 // F U N C T I O N S ////////////////////////////////////////////////////////////////////////////
 
 // CUSTOM ROUTINES ////////////////////////////////////////////////////////////////////////////////
-// CTW REMOVED
-/*
-BOOL
-MNU_Ten(void)
-    {
-    TEN_Setup();
 
-    return(FALSE);
-    }
-*/
-// CTW REMOVED END
 BOOL
 MNU_DoEpisodeSelect(UserCall call, MenuItem * UNUSED(item))
     {
@@ -1955,9 +1920,6 @@ MNU_StartNetGame(void)
     {
     extern BOOL ExitLevel, ShortGameMode, DemoInitOnce, FirstTimeIntoGame;
     extern short Level, Skill;
-        // CTW REMOVED
-        //extern int gTenActivated;
-        // CTW REMOVED END
     int pnum;
 
     // always assumed that a demo is playing
@@ -2194,6 +2156,9 @@ MNU_InitMenus(void)
     {
 	int i,newx=xdim,newy=ydim;
 
+#if USE_POLYMOST && USE_OPENGL
+    buttonsettings[btn_texfilter] = (gltexfiltermode & 1);
+#endif
 	buttonsettings[btn_videofs] = fullscreen;
 
 	UpdateValidModes(bpp,fullscreen);
@@ -3129,18 +3094,6 @@ MNU_SaveGameCheck(MenuItem *item)
     }
 
 BOOL
-MNU_TenCheck(MenuItem *item)
-    {
-    if (CommEnabled || CommPlayers > 1)
-        {
-        SET(item->flags, mf_disabled);
-        return(TRUE);
-        }
-
-    return (TRUE);
-    }
-
-BOOL
 MNU_LoadGameCheck(MenuItem *item)
     {
     if (CommEnabled || CommPlayers > 1)
@@ -3225,6 +3178,21 @@ MNU_TeamPlayChange(void)
     {
     // if team play changes then do a pre process again
     MNU_ItemPreProcess(currentmenu);
+    return (TRUE);
+    }
+
+BOOL
+MNU_TexFilterCheck(MenuItem *item)
+    {
+    if (bpp == 8)
+        {
+        SET(item->flags, mf_disabled);
+        }
+    else
+        {
+        RESET(item->flags, mf_disabled);
+        }
+
     return (TRUE);
     }
 
@@ -3327,6 +3295,36 @@ MNU_MusicFxCheck(MenuItem *item)
         }
 
     return (TRUE);
+    }
+
+BOOL
+MNU_ApplyVideoModeSettings(void)
+    {
+    int lastx, lasty, lastbpp, lastfs;
+    int newx, newy, newbpp, newfs;
+
+    lastx = xdim; lasty = ydim; lastbpp = bpp; lastfs = fullscreen;
+    newx   = validresolutions[ slidersettings[sldr_videores] ].xdim;
+    newy   = validresolutions[ slidersettings[sldr_videores] ].ydim;
+    newbpp = validbpps[ slidersettings[sldr_videobpp] ];
+    newfs  = buttonsettings[btn_videofs];
+
+    if (lastx == newx && lasty == newy && lastbpp == newbpp && lastfs == newfs) return FALSE;
+
+    if (setgamemode(newfs, newx, newy, newbpp))
+        setgamemode(lastfs, lastx, lasty, lastbpp);
+    else
+        {
+        ScreenMode = newfs;
+        ScreenWidth = newx;
+        ScreenHeight = newy;
+        ScreenBPP = newbpp;
+
+        SetupAspectRatio();
+        SetRedrawScreen(Player + myconnectindex);
+        }
+    MNU_ItemPreProcess(currentmenu);
+    return FALSE;
     }
 
 ////////////////////////////////////////////////
@@ -3510,38 +3508,55 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
             }
             break;
 
-	case btn_videofs:
-	    {
-		int lastx, lasty, lastbpp, newoffset, i;
+        case btn_videofs:
+            {
+            int lastx, lasty, lastbpp, newoffset, i;
 
-		state = buttonsettings[btn_videofs];
+            state = buttonsettings[btn_videofs];
 
-		lastx   = validresolutions[ slidersettings[sldr_videores] ].xdim;
-		lasty   = validresolutions[ slidersettings[sldr_videores] ].ydim;
-		lastbpp = validbpps[ slidersettings[sldr_videobpp] ];
-		UpdateValidModes(lastbpp, buttonsettings[btn_videofs]);
+            lastx   = validresolutions[ slidersettings[sldr_videores] ].xdim;
+            lasty   = validresolutions[ slidersettings[sldr_videores] ].ydim;
+            lastbpp = validbpps[ slidersettings[sldr_videobpp] ];
+            UpdateValidModes(lastbpp, buttonsettings[btn_videofs]);
 
-		// check if the last bpp is still a valid choice
-		for (i=0; i<numvalidbpps; i++)
-			if (validbpps[i] == lastbpp) break;
-		if (i == numvalidbpps) {
-			// it wasn't
-			slidersettings[sldr_videobpp] = 0;
-			lastbpp = validbpps[0];
-			UpdateValidModes(lastbpp, buttonsettings[btn_videofs]);
-		} else {
-			slidersettings[sldr_videobpp] = i;
-		}
+            // check if the last bpp is still a valid choice
+            for (i=0; i<numvalidbpps; i++)
+                if (validbpps[i] == lastbpp) break;
+            if (i == numvalidbpps)
+                {
+                // it wasn't
+                slidersettings[sldr_videobpp] = 0;
+                lastbpp = validbpps[0];
+                UpdateValidModes(lastbpp, buttonsettings[btn_videofs]);
+                }
+            else
+                slidersettings[sldr_videobpp] = i;
 
-		// find the nearest resolution to the one last selected
-		newoffset = 0;
-		for (i=0; i<numvalidresolutions; i++) {
-			if (abs(lastx * lasty - validresolutions[i].xdim         * validresolutions[i].ydim) <
-			    abs(lastx * lasty - validresolutions[newoffset].xdim * validresolutions[newoffset].ydim))
-				newoffset = i;
-		}
-		slidersettings[sldr_videores] = newoffset;
-	    } break;
+            // find the nearest resolution to the one last selected
+            newoffset = 0;
+            for (i=0; i<numvalidresolutions; i++)
+                {
+                if (abs(lastx * lasty - validresolutions[i].xdim         * validresolutions[i].ydim) <
+                    abs(lastx * lasty - validresolutions[newoffset].xdim * validresolutions[newoffset].ydim))
+                        newoffset = i;
+                }
+            slidersettings[sldr_videores] = newoffset;
+            }
+            break;
+
+        case btn_texfilter:
+            {
+            state = buttonsettings[item->button];
+#if USE_POLYMOST && USE_OPENGL
+            if (state != (gltexfiltermode & 1))
+                {
+                // Preserve the mipmap level, toggling the nearest/linear filter.
+                gltexfiltermode = (gltexfiltermode & ~1) | state;
+                gltexapplyprops();
+                }
+#endif
+            }
+            break;
 
         case btn_joyaxis_invert:
             {

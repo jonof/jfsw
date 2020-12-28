@@ -220,7 +220,7 @@ typedef enum
     btn_res0, btn_res1, btn_res2, btn_res3, btn_res4, btn_res5, btn_res6,
     btn_markers, btn_teamplay, btn_friendlyfire,btn_parental,btn_nuke,
     btn_voxels, btn_stats, btn_playcd,
-    btn_videofs,
+    btn_videofs, btn_texfilter,
     btn_joyaxis_invert,
     btn_max
     } BTNType;
@@ -302,6 +302,7 @@ BOOL MNU_DoEpisodeSelect(UserCall call, MenuItem * item);
 BOOL MNU_MusicFxCheck(MenuItem_p item);
 BOOL MNU_MusicCheck(MenuItem_p item);
 BOOL MNU_FxCheck(MenuItem_p item);
+BOOL MNU_TexFilterCheck(MenuItem_p item);
 BOOL MNU_MouseCheck(MenuItem_p item);
 BOOL MNU_JoystickCheck(MenuItem_p item);
 BOOL MNU_BorderCheck(MenuItem_p item);
@@ -324,6 +325,7 @@ BOOL MNU_ParentalCustom(void);
 BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item);
 BOOL MNU_LoadModernDefaults(void);
 BOOL MNU_LoadClassicDefaults(void);
+BOOL MNU_ApplyVideoModeSettings(void);
 
 // Menu Definitions /////////////////////////////////////////////////////////////////////////////
 

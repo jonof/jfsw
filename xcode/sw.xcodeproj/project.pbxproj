@@ -861,9 +861,6 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				English,
-				Japanese,
-				French,
-				German,
 			);
 			mainGroup = ABB4AB250C64C36100F28920;
 			productRefGroup = ABB4ABCE0C64C52900F28920 /* Products */;
@@ -1166,6 +1163,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Build Editor-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(LD_RUNPATH_SEARCH_PATHS_$(IS_MACCATALYST)) @loader_path/../Frameworks";
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = au.id.jonof.jfsw.build;
 				PRODUCT_NAME = "Build Editor for JFShadowWarrior";
@@ -1181,6 +1179,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Build Editor-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(LD_RUNPATH_SEARCH_PATHS_$(IS_MACCATALYST)) @loader_path/../Frameworks";
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = au.id.jonof.jfsw.build;
 				PRODUCT_NAME = "Build Editor for JFShadowWarrior";
@@ -1218,6 +1217,7 @@
 					"-W",
 					"-Wall",
 					"-Wno-unused-variable",
+					"-Wno-unused-parameter",
 				);
 			};
 			name = Debug;
@@ -1250,6 +1250,7 @@
 					"-W",
 					"-Wall",
 					"-Wno-unused-variable",
+					"-Wno-unused-parameter",
 				);
 			};
 			name = Release;
@@ -1280,6 +1281,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				OTHER_LDFLAGS = "-lc++";
 				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = au.id.jonof.jfsw;
 				PRODUCT_NAME = JFShadowWarrior;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1296,6 +1298,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				OTHER_LDFLAGS = "-lc++";
 				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = au.id.jonof.jfsw;
 				PRODUCT_NAME = JFShadowWarrior;
 				WRAPPER_EXTENSION = app;
 			};

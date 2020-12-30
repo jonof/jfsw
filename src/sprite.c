@@ -5785,10 +5785,9 @@ DoGet(short SpriteNum)
                 if(pp == Player+myconnectindex && gs.Messages)
                     {
                     if(gs.ParentalLock || Global_PLock)
-                        sprintf(ds,"Fortune Say: %s\n",ReadFortune[STD_RANDOM_RANGE(10)]);
+                        CON_Message("Fortune Say: %s\n",ReadFortune[STD_RANDOM_RANGE(10)]);
                     else
-                        sprintf(ds,"Fortune Say: %s\n",ReadFortune[STD_RANDOM_RANGE(MAX_FORTUNES)]);
-                    CON_Message(ds);
+                        CON_Message("Fortune Say: %s\n",ReadFortune[STD_RANDOM_RANGE(MAX_FORTUNES)]);
                     }
 
                 SetFadeAmt(pp,ITEMFLASHAMT,ITEMFLASHCLR);  // Flash blue on item pickup

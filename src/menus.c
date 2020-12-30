@@ -384,7 +384,7 @@ MenuItem joybuttons_i[MAXJOYSTICKBUTTONPAGES][20] =
         {DefNone}
         },
     };
-MenuGroup joybuttonssetupgroup = {65, 5, "^Joystick Setup", &joybuttons_i[0], pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
+MenuGroup joybuttonssetupgroup = {65, 5, "^Joystick Setup", joybuttons_i[0], pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
 
 static char JoystickAxisName[64];
 static char JoystickAxisPageName[64];

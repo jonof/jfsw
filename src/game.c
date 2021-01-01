@@ -290,6 +290,8 @@ VOID MenuLevel(VOID);
 VOID StatScreen(PLAYERp mpp);
 VOID InitRunLevel(VOID);
 VOID RunLevel(VOID);
+static int osdcmd_restartvid(const osdfuncparm_t *parm);
+static int osdcmd_vidmode(const osdfuncparm_t *parm);
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static FILE *debug_fout = NULL;
@@ -3506,6 +3508,9 @@ int app_main(int argc, char const * const argv[])
 
     buildsetlogfile("sw.log");
 
+    OSD_RegisterFunction("restartvid", "restartvid: reinitialise the video mode", osdcmd_restartvid);
+    OSD_RegisterFunction("vidmode", "vidmode [xdim ydim] [bpp] [fullscreen]: change the video mode", osdcmd_vidmode);
+
     wm_setapptitle("JFShadowWarrior");
     buildprintf("\nJFShadowWarrior\n"
         "Based on Shadow Warrior by 3D Realms Entertainment.\n"
@@ -6009,6 +6014,62 @@ NextScreenPeek(void)
             }
         }
     while (screenpeek != startpeek);
+    }
+
+static int
+osdcmd_restartvid(const osdfuncparm_t *parm)
+    {
+    extern BOOL RestartVideo;
+    extern VMODE NewVideoMode;
+
+    RestartVideo = TRUE;
+    NewVideoMode.x = xdim;
+    NewVideoMode.y = ydim;
+    NewVideoMode.bpp = bpp;
+    NewVideoMode.fs = fullscreen;
+
+    return OSDCMD_OK;
+    }
+
+static int
+osdcmd_vidmode(const osdfuncparm_t *parm)
+    {
+    extern BOOL RestartVideo;
+    extern VMODE NewVideoMode;
+
+    int newx = xdim, newy = ydim, newbpp = bpp, newfullscreen = fullscreen;
+
+    if (parm->numparms < 1 || parm->numparms > 4) return OSDCMD_SHOWHELP;
+
+    switch (parm->numparms)
+        {
+        case 1:   // bpp switch
+            newbpp = Batol(parm->parms[0]);
+            break;
+        case 2: // res switch
+            newx = Batol(parm->parms[0]);
+            newy = Batol(parm->parms[1]);
+            break;
+        case 3:   // res & bpp switch
+        case 4:
+            newx = Batol(parm->parms[0]);
+            newy = Batol(parm->parms[1]);
+            newbpp = Batol(parm->parms[2]);
+            if (parm->numparms == 4)
+                newfullscreen = (Batol(parm->parms[3]) != 0);
+            break;
+        }
+
+    if (checkvideomode(&newx, &newy, newbpp, newfullscreen, 0) >= 0)
+        {
+        RestartVideo = TRUE;
+        NewVideoMode.x = newx;
+        NewVideoMode.y = newy;
+        NewVideoMode.bpp = newbpp;
+        NewVideoMode.fs = newfullscreen;
+        }
+
+    return OSDCMD_OK;
     }
 
 #include "saveable.h"

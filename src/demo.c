@@ -28,6 +28,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 //#define QUIET
 #include "build.h"
 #include "cache1d.h"
+#include "osd.h"
 
 #include "keys.h"
 #include "names2.h"
@@ -451,6 +452,7 @@ DemoPlayBack(VOID)
 
             domovethings();
 
+            OSD_DispatchQueued();
             MNU_CheckForMenus();
 
             // fast forward and slow mo

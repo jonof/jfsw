@@ -346,7 +346,7 @@ BOOL MNU_ApplyVideoModeSettings(void);
 
 typedef struct
 {
-int x,y;
+int x,y,bpp,fs;
 }VMODE;
 
 #endif

@@ -71,6 +71,8 @@ BOOL RedrawCompass=FALSE;
 BOOL ScreenDidCapture = FALSE;
 extern int Follow_posx,Follow_posy;
 short LastCompassAngle = -1;
+BOOL RestartVideo;
+VMODE NewVideoMode;
 
 int ConnectCopySprite(SPRITEp tsp);
 void PreDrawStackedWater(void );
@@ -1552,9 +1554,19 @@ int COVERsetgamemode(int mode, int xdim, int ydim, int bpp)
     return((int)setgamemode(mode,xdim,ydim,bpp));
       }
 
+void VideoRestart(void)
+    {
+    resetvideomode();
+    if (COVERsetgamemode(NewVideoMode.fs, NewVideoMode.x, NewVideoMode.y, NewVideoMode.bpp))
+        buildputs("video restart failed\n");
+
+    SetupAspectRatio();
+    SetRedrawScreen(Player + myconnectindex);
+    }
+
+#if 0
 void CheatResChange(void)
     {
-    /*
     extern char permanentupdate;
     int i;
 
@@ -1588,11 +1600,8 @@ void CheatResChange(void)
 
     sprintf(ds,"%d x %d mode selected.", xdim, ydim);
     PutStringInfo(Player + myconnectindex, ds);
-    */
-    PutStringInfo(Player + myconnectindex, "JonoF: Not now");
 }
 
-#if 0
 void ResChange(void)
     {
     extern char permanentupdate;
@@ -1703,12 +1712,18 @@ VOID DrawCheckKeys(PLAYERp pp)
         KEY_PRESSED(KEYSC_F5) = 0;
         ResChange();
         }
-	*/
 
     if (ResCheat)
         {
         ResCheat = FALSE;
         CheatResChange(); // allow all modes when cheating
+        }
+    */
+
+    if (RestartVideo)
+        {
+        RestartVideo = FALSE;
+        VideoRestart();
         }
 
     if (ConPanel) return;

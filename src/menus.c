@@ -135,7 +135,7 @@ char playerbuflen = 0;                  // Current length of the string in
                                         // the buffer
 char maxtextlen;                        // max length allowed for current
 
-static struct { int xdim,ydim; } validresolutions[MAXVALIDMODES];
+static VMODE validresolutions[MAXVALIDMODES];
 static int numvalidresolutions = 0, validbpps[8], numvalidbpps = 0;
 
 static void UpdateValidModes(int bpp, int fs)
@@ -152,8 +152,10 @@ static void UpdateValidModes(int bpp, int fs)
 
 		if (validmode[i].bpp != bpp) continue;
 
-		validresolutions[numvalidresolutions].xdim = validmode[i].xdim;
-		validresolutions[numvalidresolutions].ydim = validmode[i].ydim;
+		validresolutions[numvalidresolutions].x = validmode[i].xdim;
+		validresolutions[numvalidresolutions].y = validmode[i].ydim;
+        validresolutions[numvalidresolutions].bpp = validmode[i].bpp;
+        validresolutions[numvalidresolutions].fs = validmode[i].fs;
 		numvalidresolutions++;
 	}
 }
@@ -2169,7 +2171,7 @@ MNU_InitMenus(void)
 	i = checkvideomode(&newx, &newy, bpp, fullscreen, 1);
 	if (i != 0x7fffffff && i >= 0)
 		for (i=0; i<numvalidresolutions; i++)
-			if (validresolutions[i].xdim == newx && validresolutions[i].ydim == newy)
+			if (validresolutions[i].x == newx && validresolutions[i].y == newy)
 				slidersettings[sldr_videores] = i;
     }
 
@@ -3304,8 +3306,8 @@ MNU_ApplyVideoModeSettings(void)
     int newx, newy, newbpp, newfs;
 
     lastx = xdim; lasty = ydim; lastbpp = bpp; lastfs = fullscreen;
-    newx   = validresolutions[ slidersettings[sldr_videores] ].xdim;
-    newy   = validresolutions[ slidersettings[sldr_videores] ].ydim;
+    newx   = validresolutions[ slidersettings[sldr_videores] ].x;
+    newy   = validresolutions[ slidersettings[sldr_videores] ].y;
     newbpp = validbpps[ slidersettings[sldr_videobpp] ];
     newfs  = buttonsettings[btn_videofs];
 
@@ -3514,8 +3516,8 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
 
             state = buttonsettings[btn_videofs];
 
-            lastx   = validresolutions[ slidersettings[sldr_videores] ].xdim;
-            lasty   = validresolutions[ slidersettings[sldr_videores] ].ydim;
+            lastx   = validresolutions[ slidersettings[sldr_videores] ].x;
+            lasty   = validresolutions[ slidersettings[sldr_videores] ].y;
             lastbpp = validbpps[ slidersettings[sldr_videobpp] ];
             UpdateValidModes(lastbpp, buttonsettings[btn_videofs]);
 
@@ -3536,8 +3538,8 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
             newoffset = 0;
             for (i=0; i<numvalidresolutions; i++)
                 {
-                if (abs(lastx * lasty - validresolutions[i].xdim         * validresolutions[i].ydim) <
-                    abs(lastx * lasty - validresolutions[newoffset].xdim * validresolutions[newoffset].ydim))
+                if (abs(lastx * lasty - validresolutions[i].x         * validresolutions[i].y) <
+                    abs(lastx * lasty - validresolutions[newoffset].x * validresolutions[newoffset].y))
                         newoffset = i;
                 }
             slidersettings[sldr_videores] = newoffset;
@@ -3909,7 +3911,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
 
 		slidersettings[sldr_videores] = offset;
 
-		sprintf(tmp_text, "%dx%d", validresolutions[offset].xdim, validresolutions[offset].ydim);
+		sprintf(tmp_text, "%dx%d", validresolutions[offset].x, validresolutions[offset].y);
 		MNU_DrawString(OPT_XSIDE, item->y+OPT_YINC, tmp_text, 1, 16);
 	} break;
 
@@ -3927,13 +3929,13 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
 			slidersettings[sldr_videobpp] = offset;
 
 			// find the nearest resolution to the one last selected
-			lastx = validresolutions[ slidersettings[sldr_videores] ].xdim;
-			lasty = validresolutions[ slidersettings[sldr_videores] ].ydim;
+			lastx = validresolutions[ slidersettings[sldr_videores] ].x;
+			lasty = validresolutions[ slidersettings[sldr_videores] ].y;
 			UpdateValidModes(validbpps[offset], buttonsettings[btn_videofs]);
 			newoffset = 0;
 			for (i=0; i<numvalidresolutions; i++) {
-				if (abs(lastx * lasty - validresolutions[i].xdim         * validresolutions[i].ydim) <
-				    abs(lastx * lasty - validresolutions[newoffset].xdim * validresolutions[newoffset].ydim))
+				if (abs(lastx * lasty - validresolutions[i].x         * validresolutions[i].y) <
+				    abs(lastx * lasty - validresolutions[newoffset].x * validresolutions[newoffset].y))
 					newoffset = i;
 			}
 			slidersettings[sldr_videores] = newoffset;

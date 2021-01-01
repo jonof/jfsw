@@ -227,7 +227,7 @@ style=Release
 endif
 .PHONY: alldarwin
 alldarwin:
-	cd xcode && xcodebuild -project sw.xcodeproj -target all -configuration $(style)
+	cd xcode && xcodebuild -parallelizeTargets -project sw.xcodeproj -target all -configuration $(style)
 endif
 
 all: sw$(EXESUFFIX) build$(EXESUFFIX)
@@ -285,7 +285,7 @@ $(RSRC)/sdlappicon_%.c: $(RSRC)/%.png $(EROOT)/generatesdlappicon$(EXESUFFIX)
 # PHONIES
 clean:
 ifeq ($(PLATFORM),DARWIN)
-	cd osx && xcodebuild -target All clean
+	cd xcode && xcodebuild -target all clean
 else
 	-rm -f $(GAMEOBJS) $(EDITOROBJS)
 	$(MAKE) -C $(EROOT) clean

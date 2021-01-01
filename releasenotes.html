@@ -1,368 +1,811 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="Author" content="Jonathon Fowler" />
 	<title>Release Notes for JFShadowWarrior</title>
 	<style type="text/css">
 		body {
-			font-family: "Bitstream Vera Sans","Tahoma","Arial",sans-serif;
-			font-size: 10pt;
-			margin: 0.75em;
-			background-color: #a00;
+			font-family: sans-serif;
+			font-weight: 400;
+			background: #444;
+			margin: 0;
+			padding: 0;
 		}
-		#bodysect {
-			border: 5px solid #000;
-			background-color: #fff;
+		#page {
+			max-width: 50em;
+			background: #eee;
+			margin: 0 auto;
 			padding: 1em;
+			min-height: 100vh;
 		}
-		h2,h3,h4 {
-			margin-top: 0;
-			margin-bottom: 0.5em;
-			color: #777;
+
+		h1 { font-size: 1.5em; }
+		h2 { font-size: 1.2em; }
+		h3 { font-size: 1.0em; }
+
+		header {
+			text-align: center;
 		}
-		h1 {
-			margin-top: 0; margin-bottom: 0.5em;
-			padding: 3px;
-			background-color: #ddd;
-			font-size: 170%;
-			color: #444;
+		header h1 {
+			font-weight: 800;
+			font-size: 3em;
+			color: #222;
+			margin: 0.5em 0;
+			text-shadow: 0.02em 0.02em rgba(255,255,255,0.5), 0.04em 0.04em rgba(0,0,0,0.2);
 		}
-		h2 { font-size: 145%; }
-		h3 { font-size: 125%; }
-		h4 { font-size: 110%; }
-		p { margin-top: 0.5em; margin-bottom: 0.75em; }
-		pre { margin-left: 0.75em; padding-left: 0.75em; border-left: 2px solid #ddd; }
-
-		dl { margin-left: 3em; }
-		dt { font-weight: bold; }
-		dd { padding-bottom: 1em; margin-left: 2em; }
-		table { margin: 1em; }
-		table.center { margin-left: auto; margin-right: auto; }
-		caption { font-style: oblique; }
-
-		span.warning { color: #f00; }
-
-		address {
+		section#content {
+			position: relative;
+		}
+		footer {
+			text-align: center;
 			margin-top: 3em;
-			font-size: 85%;
-			font-style: normal;
+			color: #aaa;
+			font-size: 90%;
+		}
+		figure {
+			text-align: center;
+		}
+		figure img {
+			max-width: 100%;
+		}
+		figcaption {
+			font-size: 90%;
+			font-style: italic;
 		}
 
-		@media print {
-			body { border: none; margin: 0; }
+		@media (max-width: 600px) {
+			header h1 {
+				font-size: 2em;
+			}
+		}
+
+		dt {
+			font-weight: bold;
+		}
+		dd + dt {
+			margin-top: 0.5em;
 		}
 	</style>
 </head>
 
-<body><div id="bodysect">
-	<h1>Release Notes for JFShadowWarrior</h1>
-	<p>Release date: 10 March 2013</p>
+<body>
+	<div id="page">
+		<header>
+			<h1>JFShadowWarrior</h1>
+			<h2>Release notes, version $VERSION</h2>
+		</header>
 
-	<h2>New Features and Improvements</h2>
-	<ul>
-		<li>The minimum supported Windows version is now XP. See below in <a href="#profiles">Individual
-		User Profiles</a> for what this means to your configuration and savegames.</li>
-		<li>Mac OS X version.</li>
-	</ul>
-		
-	<h2>Known Issues</h2>
-	<ul>
-		<li>Multiplayer is not fully functional yet. Peer-to-peer mode appears to work fine, but
-		master-slave mode is broken and has been disabled for this release.</li>
-		<li>There are two rendering bugs I am aware of that will be fixed in a subsequent release:
-		<ol>
-			<li>Level 1: the viewscreen to drive the silver key to the collection area is not working
-			properly in GL Polymost mode, giving just a static texture. Switch to 8-bit mode
-			temporarily to complete this section of the level.</li>
-			<li>Level 2: in the pool of water at the end of the map which opens up a magic portal
-			showing the next level, the sector-over-sector effect in the view beyond the portal
-			malfunctions giving a shimmering sky area in the view.</li>
-		</ol></li>
-	</ul>
-		
-	<h3><a name="install">Installation and Setup</a></h3>
+		<section id="content">
+			<p>Visit <a href="https://www.jonof.id.au/jfsw">the JFShadowWarrior website</a> for the latest information. The source code for JFShadowWarrior can be found in <a href="https://github.com/jonof/jfsw">this Git repository</a>.</p>
 
-	<p>After unzipping the package somewhere on your computer, you need to copy the SW.GRP file to where you
-	extracted JFSW from either your original Shadow Warrior CD's <code>SWINST</code> directory or an existing
-	installation of Shadow Warrior. SW.GRP contains all the game data necessary for running JFShadowWarrior.</p>
+			<nav>
+				<h1>Index</h1>
+				<ul>
+					<li><a href="#requirements">System Requirements</a></li>
+					<li><a href="#install">Installation and Setup</a></li>
+					<li><a href="#multiplayer">Multiplayer</a></li>
+					<li><a href="#customisation-file">Customisation File Format</a></li>
+					<li><a href="#console">Console Commands</a></li>
+					<li><a href="#art-credits">Artistic Credits</a></li>
+					<li><a href="#license">License</a></li>
+				</ul>
+			</nav>
 
-	<h3><a name="profiles">Individual User Profiles</a></h3>
+			<h1 id="requirements">System Requirements</h1>
 
-	<p>Previous versions of this port supported old versions of Windows where storing game configuration and
-	save data in the game directory along side the EXE and GRP files was accepted practice. Since Windows 9x, ME,
-	and even XP are well beyond their supported life, I have switched the behaviour of this port to storing user-specific
-	data in the user's profile directory. This directory can be found at:</p>
-	<ul>
-		<li>On Windows XP: <code>C:\Documents and Settings\<em>your username</em>\Application Data\JFDuke3D</code></li>
-		<li>On Windows Vista/7/8: <code>C:\Users\<em>your username</em>\AppData\JFDuke3D</code></li>
-	</ul>
-	<p>If you are upgrading from an older version of this port, you may want to move your
-	<code>duke3d.cfg</code> and <code>game<em>n</em>.sav</code> files to the appropriate new location.</p>
-	
-	<h3><a name="multiplayer">Multiplayer games</a></h3>
+			<p>At minimum, you need:</p>
+			<ul>
+				<li>64-bit Intel, AMD, or compatible CPU</li>
+				<li>OpenGL 2.1 capable GPU</li>
+				<li>(Windows) Vista or newer (7, 8, 10)</li>
+				<li>(Mac) macOS 10.9 (Mavericks) or newer</li>
+			</ul>
 
-	<p>Multiplayer games are started via command-line parameters passed to SW.EXE. This is a short guide
-	to getting a multiplayer game running between these three hypothetical computers:</p>
-	<table class="center" border="1" rules="groups" cellpadding="2">
-		<colgroup><col /></colgroup>
-		<thead>
-			<tr><th>Host name</th><th>IP address</th></tr>
-		</thead>
-		<tbody>
-			<tr><td>faye</td><td>192.168.1.2</td></tr>
-			<tr><td>asuka</td><td>192.168.1.5</td></tr>
-			<tr><td>kaoru</td><td>192.168.1.6</td></tr>
-		</tbody>
-	</table>
-	<p><span class="warning">PLEASE NOTE: Master-slave mode is currently disabled in JFShadowWarrior until it is
-	fixed. Peer-to-peer mode however should be fine.</span> The basic syntax of the network command
-	line is like so: <code>SW <em>(normal game parameters)</em> /net <em>(network parameters)</em></code></p>
-	<table border="1" rules="cols" cellpadding="2" class="center">
-		<caption>Network parameters</caption>
-		<colgroup>
-			<col valign="top" />
-		</colgroup>
-		<tr>
-			<td>/nx:y</td>
-			<td>Game comm type. <em>x</em> = 0 for master/slave or 1 for peer-to-peer.<br />
-				If unspecified, <em>y</em> defaults to 2. For more than two players in a
-				master-slave game, you have to indicate the number on the <em>master</em>.
-				eg: /n0 or /n0:4</td>
-		</tr>
-		<tr>
-			<td>/px</td>
-			<td>Overrides the default port (23513) with <em>x</em> being the new port value.</td>
-		</tr>
-		<tr>
-			<td>address:port</td>
-			<td>An address of a machine. See the items below for more information.</td>
-		</tr>
-	</table>
+			<p>Additionally, these platforms and architectures are supported when building from source code:</p>
+			<ul>
+				<li>32-bit Intel/AMD, and 32 or 64-bit ARM CPUs</li>
+				<li>OpenGL ES 2.0 capable GPUs, e.g.
+					<ul>
+						<li>Broadcom VideoCore IV (tested with Raspberry Pi 3 B+)</li>
+						<li>ARM Mali-T860 (tested with Libre Computer ROC-RK3399-PC)</li>
+					</ul></li>
+			</ul>
 
-	<h4>Master/Slave mode (disabled at present)</h4>
-	<p>This mode is the easiest mode for use with Internet play since it requires only the address of the master
-	of the game (the person hosting the game) be specified by each slave who joins. Here are example command
-	lines each machine must run to join the game hosted by the machine named 'asuka':
-	</p>
-	<table border="1" rules="cols" cellpadding="2">
-		<tr><td>asuka</td><td><code>SW.EXE /net /n0:3</code></td></tr>
-		<tr><td>faye</td><td><code>SW.EXE /net /n0 192.168.1.5</code></td></tr>
-		<tr><td>kaoru</td><td><code>SW.EXE /net /n0 192.168.1.5</code></td></tr>
-	</table>
+			<h1 id="install">Installation and Setup</h1>
 
-	<h4>Peer-to-peer mode</h4>
-	<p>This mode is often useful for playing on a LAN where it is easier to coordinate and organise the order of
-	peers in the game. This mode will become simpler to set up in the future but for now this is how to do
-	it. Peer-to-peer mode requires each machine specify the addresses of each other machine in the game in the
-	same order, but indicating its own position in the sequence with the <code>/n1</code> option.</p>
-	<table border="1" rules="cols" cellpadding="2">
-		<tr><td>asuka</td><td><code>SW.EXE /net /n1 192.168.1.2 192.168.1.6</code></td></tr>
-		<tr><td>faye</td><td><code>SW.EXE /net 192.168.1.5 /n1 192.168.1.6</code></td></tr>
-		<tr><td>kaoru</td><td><code>SW.EXE /net 192.168.1.5 192.168.1.2 /n1</code></td></tr>
-	</table>
+			<p>After unzipping the JFShadowWarrior package somewhere on your computer, run the main executable: <code>JFShadowWarrior.app</code> on macOS, <code>sw.exe</code> on Windows. You ought to see the startup window open at the Game tab.</p>
+			<figure>
+				<img src="data:image/png;base64,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"
+alt="The initial startup window as it appears on macOS" width="626" height="446">
+				<figcaption>Windows, Linux and BSD (if built with GTK support) have similar startup windows with the same options.</figcaption>
+			</figure>
+			<p>You will now need to import the game data from a commercial release or the shareware version of Shadow Warrior as the game will not work without it.<p>
+			<ol>
+				<li>Click the "Choose a location..." button, then navigate to a location where Shadow Warrior data can be found.</li>
+				<li>Choose a folder and JFShadowWarrior will then scan the location you've selected, copying any compatible game data it finds.</li>
+			</ol>
 
-	<h4>Addresses and ports</h4>
-	<p>The networking code is capable of resolving WINS host names (on Windows) and DNS names to their
-	corresponding addresses, so if your network is configured with such services, instead of having to specify
-	raw IP addresses, you can give the computer's WINS host name or a DNS host name.</p>
-	<p>The default port the game communicates on is 23513. Some users may find it necessary to set up a
-	forward through their Internet firewall in order to get games working when playing across the Internet.
-	You can override the default port via the <code>/p<em>???</em></code> switch where <em>???</em> is the new
-	port number. If a master is running a game on a port other than the default, the slaves will have to
-	specify the alternative port with <code>address:port</code> notation, eg. 192.168.1.5:20000</p>
+			<p>Where game data files are stored by JFShadowWarrior depends on the operating system you are using:</p>
+			<ul>
+				<li>(Linux, shared with all users) <code>/usr/local/share/games/jfsw</code></li>
+				<li>(Linux, single user) <code>~/.jfsw</code></li>
+				<li>(macOS, single user) <code>~/Library/Application Support/JFShadowWarrior</code></li>
+				<li>(Windows) <em>wherever you've put sw.exe</em></li>
+			</ul>
+			<p>Below are known locations of Shadow Warrior game data for various sources:</p>
+			<dl>
+				<dt>MS DOS Registered version CD-ROM</dt>
+				<dd>In the <code>SWINST</code> directory of the disc.</dd>
+				<dt>Classic Redux from GOG on macOS</dt>
+				<dd>To be determined.</dd>
+				<dt>Classic Redux from Steam on macOS</dt>
+				<dd>In Steam, go to <em>Shadow Warrior Classic Redux</em>, open the 'gear' menu, choose <em>Manage</em> &gt; <em>Browse local files</em>. Make note of this location to use for importing.</dd>
+				<dt>Classic Redux from Humble</dt>
+				<dd>To be determined.</dd>
+				<dt>Classic Complete from GOG.com on macOS</dt>
+				<dd>In GOG Galaxy 2, go to <em>Shadow Warrior Classic Complete</em>, open the 'options' menu (beside Play), choose <em>Manage installation</em> &gt; <em>Show folder</em>. Make note of this location to use for importing.</dd>
+				<dt>Classic (1997) from Steam on macOS</dt>
+				<dd>In Steam, go to <em>Shadow Warrior Classic (1997)</em>, open the 'gear' menu, choose <em>Manage</em> &gt; <em>Browse local files</em>. Make note of this location to use for importing.</dd>
+				<dt>MS DOS Shareware version</dt>
+				<dd><p>If you have downloaded an original 3D Realms distribution file named <code>3DSW12.ZIP</code>:</p>
+					<ol>
+						<li>Unzip <code>3DSW12.ZIP</code> to obtain the <code>SWSW12.SHR</code> file.</li>
+						<li>Rename <code>SWSW12.SHR</code> to <code>SWSW12.ZIP</code>, then unzip it.</li>
+					</ol>
+					<p>Alternatively, you can fetch <a href="https://www.jonof.id.au/files/jfsw/swsw12.zip">swsw12.zip authenticity-intact from my site</a> ready to unzip and point JFShadowWarrior at for importing.</p>
+				</dd>
+			</dl>
 
-	<h2><a name="savegames">Save Help</a></h2>
+			<h2 id="cd-music">CD Music</h2>
 
-	<p>I have written a new compiler and system-independent framework for saving and restoring the pointer
-	information contained in Shadow Warrior's internal objects, and this has required a large amount of manual
-	processing of the source code to pick out the data and functions in the game that need to be saved to disk.
-	Because of this, I have quite likely missed some functions or data that are on a rare occasion required to
-	properly save a game. If this happens, you will see a message after the save operation that reads:</p>
-	<pre>There was a problem saving. See "Save Help" section of release notes.</pre>
-	<p>When this message is displayed, the game creates a file named <code>savegame symbols missing.txt</code>
-	in the game directory containing information I require to be able to add the missing symbols into the game
-	code for future saves. If you see the message, please send the file to me at <a
-	href="mailto:jf@jonof.id.au">jf@jonof.id.au</a> so I may update the game.</p>
+			<p>Music from the retail Shadow Warrior CD can be ripped and encoded to Ogg Vorbis format files, and JFShadowWarrior can play those files in place of having the original game CD in the system CD drive. Each track should be named <code>track<em>NN</em>.ogg</code>, <em>NN</em> being the track number 0-padded to two digits, and placed beside the <code>sw.grp</code> file in the game data location mentioned above.</p>
 
-	<h2><a name="customfile">Customisation File Format</a></h2>
+			<h2 id="portable-install">"Portable" Installation</h2>
+			<p>Typically the game will store its configuration information and saved games in a private location for your user account:</p>
+			<ul>
+				<li>(Linux) <code>~/.jfsw</code></li>
+				<li>(macOS) <code>~/Library/Application Support/JFShadowWarrior</code></li>
+				<li>(Windows) <code>C:\Users\<em>your-name</em>\AppData\JFShadowWarrior</code></li>
+			</ul>
+			<p>To have the game instead store these files in the working directory where the game was started, create an empty file named <code>user_profiles_disabled</code> (no extension) beside the executable. You can put the <code>sw.grp</code> file in the same location, thus making everything self-contained and 'portable'.</p>
 
-	<p>Historically, the modifications and total conversions for Shadow Warrior have been forced to resort to
-	hacking the game executable with a hex editor to replace the names of maps and the episode title
-	information. For this port I have introduced a customisation script file that is loaded on startup which
-	achieves the same purpose as the EXE hacks once did. Customisation of weapon ammunition counts and other
-	similar things will be added in the future as the need arises.</p>
+			<h1 id="multiplayer">Multiplayer</h1>
 
-	<p>The customisation file should be named <code>SWCUSTOM.TXT</code> for the game to find it. The contents
-	of the file may consist of these directives. Comments can be used by prefixing the text with a double
-	forward-slash (C++ style), <code>//</code>, or surrounding the text with <code>/*</code> <em>(comment
-	here)</em> <code>*/</code> (C style).</p>
+			<p>Multiplayer games can be started from the startup window, or for more specialised situations, with command-line parameters passed to the game.</p>
+			<p>From the startup window, one player should choose "Host multi-player game" and select the number of players, then press Start to begin waiting. The other players should choose "Join multi-player game" and enter the hostname or IP address of the system hosting the game, and then press Start. The game will proceed once all players are joined.</p>
+			<figure>
+				<img src="data:image/png;base64,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" width="614" height="440" alt="The startup window as it appears under macOS">
+<figcaption>Windows, Linux and BSD (if built with GTK support) have similar startup windows with the same options.</figcaption></figure>
 
-	<dl>
-		<dt>map <em>number</em> { ... }<br />
-		level <em>number</em> { ... }</dt>
-		<dd>Selects the map to change the information of. <em>number</em> is a value in the range
-		of 1 to 29. Levels 1 to 4 are the shareware maps. <strong>level</strong> is a synonym for
-		<strong>map</strong>. The brace-enclosed block may contain these directives:
-		
-		<dl>
-			<dt>title <em>title</em><br />
-			name <em>title</em><br />
-			description <em>title</em></dt>
-			<dd>Sets the new title of the level to <em>title</em>. <strong>name</strong> and
-			<strong>description</strong> are synonyms for </strong>title</strong>.</dd>
+			<p>The game communicates on UDP port 23513 by default, so if you intend to play across the Internet you may need to forward that port through relevant firewalls of the system hosting the game.</p>
 
-			<dt>filename <em>filename</em><br />
-			file <em>filename</em><br />
-			fn <em>filename</em><br />
-			levelname <em>filename</em></dt>
-			<dd>Sets the new map file name to <em>filename</em>. <strong>file</strong>,
-			<strong>fn</strong>, and <strong>levelname</strong> are synonyms for
-			<strong>filename</strong>.</dd>
+			<h2>Command-line launching</h2>
+			<p>The general command line syntax to use on each platform is:</p>
+			<ul>
+				<li>(Linux, in a terminal) <code>/path/to/jfsw/sw [options] -net [net options]</code></li>
+				<li>(macOS, from a Terminal window) <code>open /Path/To/JFShadowWarrior.app --args [options] -net [net options]</code></li>
+				<li>(Windows, from a Command Prompt window) <code>x:\path\to\jfsw\sw.exe [options] -net [net options]</code></li>
+			</ul>
 
-			<dt>song <em>filename</em><br />
-			music <em>filename</em><br />
-			songname <em>filename</em></dt>
-			<dd>Sets the new MIDI file name to <em>filename</em>. <strong>music</strong> and
-			<strong>songname</strong> are synonyms for <strong>song</strong>.</dd>
+			<p>Multiplayer games can use either of two communication modes: hosted (a.k.a. master/slave mode) and peer-to-peer. Peer-to-peer is more difficult to use over the Internet and more troublesome to correctly configure. In all modes you must know the exact number of players as the game will not start until all players are present.</p>
 
-			<dt>cdatrack <em>tracknum</em><br />
-			cdtrack <em>tracknum</em></dt>
-			<dd>Sets the Red-Book CD track number to <em>tracknum</em>. <strong>cdtrack</strong> is a
-			synonym for <strong>cdatrack</strong>.</dd>
+			<h2 id="multiplayer-hosted">Hosted (master/slave) mode</h2>
+			<p>Choose a system to be the host of the game, and each other player will connect to that host.</p>
+			<p>The <em>"net options"</em> for this mode are:</p>
+			<ul>
+				<li><code>-p<em>portnum</em></code> &mdash; host the game on a different UDP port to the default 23513.</li>
+				<li><code>-nm</code> &mdash; be host of a 2-player game.</li>
+				<li><code>-nm:<em>num</em></code> &mdash; be host of a <em>num</em>-player game.</li>
+				<li><code>-nm <em>host-name-or-ip</em></code> &mdash; join a game hosted by <em>host-name-or-ip</em>.</li>
+				<li><code>-nm <em>host-name-or-ip:port</em></code> &mdash; join a game hosted by <em>host-name-or-ip</em> on non-default port <em>port</em>.</li>
+			</ul>
 
-			<dt>besttime <em>seconds</em><br />
-			partime <em>seconds</em></dt>
-			<dd>Sets the "best" and "par" times of the level respectively. <em>seconds</em> is the new
-			par time given as a count of seconds.</dd>
-		</dl></dd>
+			<p>For example, a three-player hosted game is launched like so:</p>
+			<ol>
+				<li>(Player 1, hosts) <code>sw -name Player1 -net -nm:3</code></li>
+				<li>(Player 2, joins) <code>sw -name Player2 -net -nm host1</code></li>
+				<li>(Player 3, joins) <code>sw -name Player3 -net -nm host1</code></li>
+			</ol>
 
-		<dt>episode <em>number</em> { ... }</dt>
-		<dd>Selects the episode to change the information of. <em>number</em> is a value in the
-		range of 1 to 2. The brace-enclosed block may contain these directives:
+			<h2 id="multiplayer-p2p">Peer-to-peer mode</h2>
+			<p>In this mode each player sends data to each other player in the game directly, which is only really practical in non-firewalled LAN-like environments. The list of peers specified on the command line must be consistently ordered amongst all players, and each peer will launch the game with slightly different options.</p>
+			<p>The <em>"net options"</em> for this mode are:</p>
+			<ul>
+				<li><code>-p<em>portnum</em></code> &mdash; communicate with other peers on a different UDP port to the default 23513.</li>
+				<li><code>-np <em>ordered-peer-list&hellip;</em></code> &mdash; participate in a peer-to-peer game.</li>
+				<li><code>.</code> or <code>*</code> &mdash; identify the local machine in the ordered peer list.</li>
+				<li><code><em>host-name-or-ip</em></code> &mdash; identify a peer at <em>host-name-or-ip</em> in the ordered peer list.</li>
+				<li><code><em>host-name-or-ip:port</em></code> &mdash; identify a peer at <em>host-name-or-ip</em> on non-default port <em>port</em> in the ordered peer list.</li>
+			</ul>
 
-		<dl>
-			<dt>title <em>title</em><br />
-			name <em>title</em><br />
-			description <em>title</em></dt>
-			<dd>Sets the new title of the episode to <em>title</em>. <strong>name</strong> and
-			<strong>description</strong> are synonyms for <strong>title</strong>.</dd>
+			<p>For example, a three-player peer-to-peer game is launched like so:</p>
+			<ol>
+				<li>(Player 1) <code>sw -name Player1 -net -np . host2 host3</code></li>
+				<li>(Player 2) <code>sw -name Player2 -net -np host1 . host3</code></li>
+				<li>(Player 3) <code>sw -name Player3 -net -np host1 host2 .</code></li>
+			</ol>
 
-			<dt>subtitle <em>subtitle</em></dt>
-			<dd>Sets the new subtitle of the episode to <em>subtitle</em>.</dd>
-		</dl></dd>
+			<h1 id="customisation-file">Customisation File Format</h1>
 
-		<dt>skill <em>number</em> { ... }</dt>
-		<dd>Selects the skill level to change the information of. <em>number</em> is a value in the
-		range of 1 to 4. The brace-enclosed block may contain this directive:
-		
-		<dl>
-			<dt>title <em>title</em><br />
-			name <em>title</em><br />
-			description <em>title</em></dt>
-			<dd>Sets the new title of the skill level to <em>title</em>. <strong>name</strong> and
-			<strong>description</strong> are synonyms for <strong>title</strong>.</dd>
-		</dl></dd>
+			<p>Historically, modifications and total conversions for Shadow Warrior have been required to hack
+			a copy of the game executable to replace the names of maps and the episode title information. JFShadowWarrior
+			introduces a customisation script file that is loaded on startup to achieve the same end.</p>
 
-		<dt>inventory <em>number</em> { ... }</dt>
-		<dd>Selects the inventory item to change the information of. <em>number</em> is either a symbol
-		or number from this table. It is recommended that the symbolic names be used rather than the
-		numeric codes.
+			<p>The customisation file should be named <code>swcustom.txt</code> and its contents may consist of
+			the directives below. Comments can be used by prefixing the text with a <code>//</code> (C++ style),
+			or surrounding the text with <code>/*</code> <em>(comment here)</em> <code>*/</code> (C style).</p>
 
-		<table rules="groups" border="1" cellpadding="2">
-			<thead><tr><th>Symbol</th><th>Number</th><th>Inventory item</th></tr></thead>
-			<tbody>
-			<tr><td>INV_ARMOR</td><td>1</td><td>Conventional armour vest</td></tr>
-			<tr><td>INV_KEVLAR</td><td>2</td><td>Kevlar armour vest</td></tr>
-			<tr><td>INV_SM_MEDKIT</td><td>3</td><td>Pickup medkit</td></tr>
-			<tr><td>INV_FORTUNE</td><td>4</td><td>Fortune cookie</td></tr>
-			<tr><td>INV_MEDKIT</td><td>5</td><td>Portable medkit</td></tr>
-			<tr><td>INV_GAS_BOMB</td><td>6</td><td>Gas bomb</td></tr>
-			<tr><td>INV_FLASH_BOMB</td><td>7</td><td>Flash bomb</td></tr>
-			<tr><td>INV_CALTROPS</td><td>8</td><td>Caltrops</td></tr>
-			<tr><td>INV_NIGHT_VIS</td><td>9</td><td>Night vision goggles</td></tr>
-			<tr><td>INV_REPAIR_KIT</td><td>10</td><td>Repair kit</td></tr>
-			<tr><td>INV_SMOKE_BOMB</td><td>11</td><td>Smoke bomb</td></tr>
-			</tbody>
-		</table>
+			<dl>
+				<dt>map <em>number</em> { ... }<br />
+				level <em>number</em> { ... }</dt>
+				<dd>Selects the map to change the information of. <em>number</em> is a value in the range
+				of 1 to 29. Levels 1 to 4 are the shareware maps. <strong>level</strong> is a synonym for
+				<strong>map</strong>. The brace-enclosed block may contain these directives:
 
-		<p>The brace-enclosed block may contain these directives:</p>
+				<dl>
+					<dt>title <em>title</em><br />
+					name <em>title</em><br />
+					description <em>title</em></dt>
+					<dd>Sets the new title of the level to <em>title</em>. <strong>name</strong> and
+					<strong>description</strong> are synonyms for </strong>title</strong>.</dd>
 
-		<dl>
-			<dt>title <em>title</em><br />
-			name <em>title</em><br />
-			description <em>title</em></dt>
-			<dd>Sets the new name of the inventory item to <em>title</em>. <strong>name</strong> and
-			<strong>description</strong> are synonyms for <strong>title</strong>.</dd>
+					<dt>filename <em>filename</em><br />
+					file <em>filename</em><br />
+					fn <em>filename</em><br />
+					levelname <em>filename</em></dt>
+					<dd>Sets the new map file name to <em>filename</em>. <strong>file</strong>,
+					<strong>fn</strong>, and <strong>levelname</strong> are synonyms for
+					<strong>filename</strong>.</dd>
 
-			<dt>amount <em>amount</em></dt>
-			<dd>Sets the quantity of the item that will be added to the player's inventory.</dd>
-		</dl></dd>
+					<dt>song <em>filename</em><br />
+					music <em>filename</em><br />
+					songname <em>filename</em></dt>
+					<dd>Sets the new MIDI file name to <em>filename</em>. <strong>music</strong> and
+					<strong>songname</strong> are synonyms for <strong>song</strong>.</dd>
 
-		<dt>weapon <em>number</em> { ... }</dt>
-		<dd>Selects the weapon to change the information of. <em>number</em> is either a symbol or number
-		from this table. It is recommended that the symbolic names be used rather than the numeric codes.
+					<dt>cdatrack <em>tracknum</em><br />
+					cdtrack <em>tracknum</em></dt>
+					<dd>Sets the Red-Book CD track number to <em>tracknum</em>. <strong>cdtrack</strong> is a
+					synonym for <strong>cdatrack</strong>.</dd>
 
-		<table rules="groups" border="1" cellpadding="2">
-			<thead><tr><th>Symbol</th><th>Number</th><th>Weapon name</th><th>Customisable properties (see note 1)</th></tr></thead>
-			<tbody>
-			<tr><td>WPN_FIST</td><td>1</td><td>Fists</td><td>damage</td></tr>
-			<tr><td>WPN_SWORD</td><td>2</td><td>Sword</td><td>damage</td></tr>
-			<tr><td>WPN_SHURIKEN</td><td>3</td><td>Shurikens</td><td>weapon name and pickup, damage</td></tr>
-			<tr><td>WPN_STICKYBOMB</td><td>4</td><td>Sticky bombs</td><td>weapon name and pickup, damage</td></tr>
-			<tr><td>WPN_UZI</td><td>5</td><td>Uzi submachine gun</td><td>weapon/ammo name and pickup, damage</td></tr>
-			<tr><td>WPN_MISSILE</td><td>6</td><td>Rocket launcher</td><td>weapon/ammo name and pickup, damage</td></tr>
-			<tr><td>WPN_NUKE</td><td>7</td><td>Nuclear warhead, heat seeker card (see note 2)</td><td>weapon/ammo name and pickup, damage</td></tr>
-			<tr><td>WPN_GRENADE</td><td>8</td><td>Grenade launcher</td><td>weapon/ammo name and pickup, damage</td></tr>
-			<tr><td>WPN_RAILGUN</td><td>9</td><td>Rail gun</td><td>weapon/ammo name and pickup, damage</td></tr>
-			<tr><td>WPN_SHOTGUN</td><td>10</td><td>Riot gun</td><td>weapon/ammo name and pickup, damage</td></tr>
-			<tr><td>WPN_HOTHEAD</td><td>11</td><td>Guardian head</td><td>weapon name and pickup, damage</td></tr>
-			<tr><td>WPN_HEART</td><td>12</td><td>Ripper heart</td><td>weapon name and pickup, damage</td></tr>
-			<tr><td>WPN_HOTHEAD_NAPALM</td><td>13</td><td>Guardian head napalm (secondary attack)</td><td>damage</td></tr>
-			<tr><td>WPN_HOTHEAD_RING</td><td>14</td><td>Guardian head ring (tertiary attack)</td><td>damage</td></tr>
-			</tbody>
-		</table>
+					<dt>besttime <em>seconds</em><br />
+					partime <em>seconds</em></dt>
+					<dd>Sets the "best" and "par" times of the level respectively. <em>seconds</em> is the new
+					par time given as a count of seconds.</dd>
+				</dl></dd>
 
-		<p><strong>Note 1:</strong> Only some properties of particular weapons can be changed. Changing
-		other properties not mentioned in the table will have no effect.</p>
-		<p><strong>Note 2:</strong> The heat seeker card name and pickup amount is stored as the ammunition
-		information of the nuclear warhead.</p>
+				<dt>episode <em>number</em> { ... }</dt>
+				<dd>Selects the episode to change the information of. <em>number</em> is a value in the
+				range of 1 to 2. The brace-enclosed block may contain these directives:
 
-		<p>The brace-enclosed block may contain these directives:</p>
+				<dl>
+					<dt>title <em>title</em><br />
+					name <em>title</em><br />
+					description <em>title</em></dt>
+					<dd>Sets the new title of the episode to <em>title</em>. <strong>name</strong> and
+					<strong>description</strong> are synonyms for <strong>title</strong>.</dd>
 
-		<dl>
-			<dt>title <em>title</em><br />
-			name <em>title</em><br />
-			description <em>title</em></dt>
-			<dd>Sets the new name of the weapon to <em>title</em>. <strong>name</strong> and
-			<strong>description</strong> are synonyms for <strong>title</strong>.</dd>
+					<dt>subtitle <em>subtitle</em></dt>
+					<dd>Sets the new subtitle of the episode to <em>subtitle</em>.</dd>
+				</dl></dd>
 
-			<dt>ammoname <em>name</em></dt>
-			<dd>Sets the new name of the ammunition for the weapon to <em>name</em>.</dd>
+				<dt>skill <em>number</em> { ... }</dt>
+				<dd>Selects the skill level to change the information of. <em>number</em> is a value in the
+				range of 1 to 4. The brace-enclosed block may contain this directive:
 
-			<dt>maxammo <em>amount</em></dt>
-			<dd>Sets the maximum amount of ammunition that can be carried for the weapon to
-			<em>amount</em>.</dd>
+				<dl>
+					<dt>title <em>title</em><br />
+					name <em>title</em><br />
+					description <em>title</em></dt>
+					<dd>Sets the new title of the skill level to <em>title</em>. <strong>name</strong> and
+					<strong>description</strong> are synonyms for <strong>title</strong>.</dd>
+				</dl></dd>
 
-			<dt>mindamage <em>min</em><br />
-			maxdamage <em>max</em></dt>
-			<dd>Sets the minimum and/or maximum damage factors for the weapon to <em>min</em> and
-			<em>max</em> respectively.</dd>
+				<dt>inventory <em>number</em> { ... }</dt>
+				<dd>Selects the inventory item to change the information of. <em>number</em> is either a symbol
+				or number from this table. It is recommended that the symbolic names be used rather than the
+				numeric codes.
 
-			<dt>pickup <em>amount</em></dt>
-			<dd>Sets the amount of ammunition to be added when picking up ammunition for the weapon to
-			<em>amount</em>.</dd>
+				<table rules="groups" border="1" cellpadding="2">
+					<thead><tr><th>Symbol</th><th>Number</th><th>Inventory item</th></tr></thead>
+					<tbody>
+					<tr><td>INV_ARMOR</td><td>1</td><td>Conventional armour vest</td></tr>
+					<tr><td>INV_KEVLAR</td><td>2</td><td>Kevlar armour vest</td></tr>
+					<tr><td>INV_SM_MEDKIT</td><td>3</td><td>Pickup medkit</td></tr>
+					<tr><td>INV_FORTUNE</td><td>4</td><td>Fortune cookie</td></tr>
+					<tr><td>INV_MEDKIT</td><td>5</td><td>Portable medkit</td></tr>
+					<tr><td>INV_GAS_BOMB</td><td>6</td><td>Gas bomb</td></tr>
+					<tr><td>INV_FLASH_BOMB</td><td>7</td><td>Flash bomb</td></tr>
+					<tr><td>INV_CALTROPS</td><td>8</td><td>Caltrops</td></tr>
+					<tr><td>INV_NIGHT_VIS</td><td>9</td><td>Night vision goggles</td></tr>
+					<tr><td>INV_REPAIR_KIT</td><td>10</td><td>Repair kit</td></tr>
+					<tr><td>INV_SMOKE_BOMB</td><td>11</td><td>Smoke bomb</td></tr>
+					</tbody>
+				</table>
 
-			<dt>weaponpickup <em>amount</em></dt>
-			<dd>Sets the amount of ammunition to be added when picking up the weapon to
-			<em>amount</em>.</dd>
-		</dl></dd>
-	</dl>
+				<p>The brace-enclosed block may contain these directives:</p>
 
-	<p>Here is a fictitious example:</p>
+				<dl>
+					<dt>title <em>title</em><br />
+					name <em>title</em><br />
+					description <em>title</em></dt>
+					<dd>Sets the new name of the inventory item to <em>title</em>. <strong>name</strong> and
+					<strong>description</strong> are synonyms for <strong>title</strong>.</dd>
+
+					<dt>amount <em>amount</em></dt>
+					<dd>Sets the quantity of the item that will be added to the player's inventory.</dd>
+				</dl></dd>
+
+				<dt>weapon <em>number</em> { ... }</dt>
+				<dd>Selects the weapon to change the information of. <em>number</em> is either a symbol or number
+				from this table. It is recommended that the symbolic names be used rather than the numeric codes.
+
+				<table rules="groups" border="1" cellpadding="2">
+					<thead><tr><th>Symbol</th><th>Number</th><th>Weapon name</th><th>Customisable properties (see note 1)</th></tr></thead>
+					<tbody>
+					<tr><td>WPN_FIST</td><td>1</td><td>Fists</td><td>damage</td></tr>
+					<tr><td>WPN_SWORD</td><td>2</td><td>Sword</td><td>damage</td></tr>
+					<tr><td>WPN_SHURIKEN</td><td>3</td><td>Shurikens</td><td>weapon name and pickup, damage</td></tr>
+					<tr><td>WPN_STICKYBOMB</td><td>4</td><td>Sticky bombs</td><td>weapon name and pickup, damage</td></tr>
+					<tr><td>WPN_UZI</td><td>5</td><td>Uzi submachine gun</td><td>weapon/ammo name and pickup, damage</td></tr>
+					<tr><td>WPN_MISSILE</td><td>6</td><td>Rocket launcher</td><td>weapon/ammo name and pickup, damage</td></tr>
+					<tr><td>WPN_NUKE</td><td>7</td><td>Nuclear warhead, heat seeker card (see note 2)</td><td>weapon/ammo name and pickup, damage</td></tr>
+					<tr><td>WPN_GRENADE</td><td>8</td><td>Grenade launcher</td><td>weapon/ammo name and pickup, damage</td></tr>
+					<tr><td>WPN_RAILGUN</td><td>9</td><td>Rail gun</td><td>weapon/ammo name and pickup, damage</td></tr>
+					<tr><td>WPN_SHOTGUN</td><td>10</td><td>Riot gun</td><td>weapon/ammo name and pickup, damage</td></tr>
+					<tr><td>WPN_HOTHEAD</td><td>11</td><td>Guardian head</td><td>weapon name and pickup, damage</td></tr>
+					<tr><td>WPN_HEART</td><td>12</td><td>Ripper heart</td><td>weapon name and pickup, damage</td></tr>
+					<tr><td>WPN_HOTHEAD_NAPALM</td><td>13</td><td>Guardian head napalm (secondary attack)</td><td>damage</td></tr>
+					<tr><td>WPN_HOTHEAD_RING</td><td>14</td><td>Guardian head ring (tertiary attack)</td><td>damage</td></tr>
+					</tbody>
+				</table>
+
+				<p><strong>Note 1:</strong> Only some properties of particular weapons can be changed. Changing
+				other properties not mentioned in the table will have no effect.</p>
+				<p><strong>Note 2:</strong> The heat seeker card name and pickup amount is stored as the ammunition
+				information of the nuclear warhead.</p>
+
+				<p>The brace-enclosed block may contain these directives:</p>
+
+				<dl>
+					<dt>title <em>title</em><br />
+					name <em>title</em><br />
+					description <em>title</em></dt>
+					<dd>Sets the new name of the weapon to <em>title</em>. <strong>name</strong> and
+					<strong>description</strong> are synonyms for <strong>title</strong>.</dd>
+
+					<dt>ammoname <em>name</em></dt>
+					<dd>Sets the new name of the ammunition for the weapon to <em>name</em>.</dd>
+
+					<dt>maxammo <em>amount</em></dt>
+					<dd>Sets the maximum amount of ammunition that can be carried for the weapon to
+					<em>amount</em>.</dd>
+
+					<dt>mindamage <em>min</em><br />
+					maxdamage <em>max</em></dt>
+					<dd>Sets the minimum and/or maximum damage factors for the weapon to <em>min</em> and
+					<em>max</em> respectively.</dd>
+
+					<dt>pickup <em>amount</em></dt>
+					<dd>Sets the amount of ammunition to be added when picking up ammunition for the weapon to
+					<em>amount</em>.</dd>
+
+					<dt>weaponpickup <em>amount</em></dt>
+					<dd>Sets the amount of ammunition to be added when picking up the weapon to
+					<em>amount</em>.</dd>
+				</dl></dd>
+			</dl>
+
+			<p>Here is a fictitious example:</p>
 <pre>level 1 {
     title    "My Neat Map"
-    filename "neatmap.map" 
+    filename "neatmap.map"
     song     "coolsong.mid"
     cdatrack 4
     besttime 1800    // half an hour
@@ -393,225 +836,95 @@ weapon WPN_UZI {
     weaponpickup 25
 }</pre>
 
-	<h2><a name="deffile">DEF-file Language</a></h2>
+			<h1 id="console">Console Commands</h1>
 
-	<p>Documentation of the DEF file language can now be found on <a
-		href="http://www.jonof.id.au/jfbuild.def">my website</a> as the information there is
-	common to all JFBuild-based ports.</p>
+			<p>This is a list of more useful console commands and settings and their purpose:</p>
 
-	<h2><a name="maphack">Map Hack scripts</a></h2>
+			<dl>
+				<dt>clear</dt>
+				<dd>Clear the console.</dd>
 
-	<p>"Map Hack" scripts are files that override certain aspects of a map file when it is rendered in OpenGL
-	Polymost mode. Currently they allow for angle adjustment on sprites, and the ability to prevent particular
-	sprites from being drawn as a model. These are useful for making small corrections to ornamental sprites in
-	a way that doesn't require modifying the original map.</p>
-	<p>The game will automatically load a map hack script whenever a map is loaded. The script should have the
-	same base name as the original .MAP file, but with an .MHK extension. The map hack language is described
-	below. It uses the same parser as DEF files, so you can use comments in the same way.</p>
+				<dt>glinfo</dt>
+				<dd>Displays some information about the OpenGL driver. Use "glinfo exts" to display supported OpenGL extensions.</dd>
 
-	<dl>
-		<dt>sprite <em>number</em></dt>
-		<dd>Begins a sprite definition. <em>number</em> is the sprite number to affect. You can find this in
-		the Build editor by highlighting the sprite in 2D mode and pressing Control+Tab. The next group of
-		commands describe the changes to make to the sprite.
-		<dl>
-			<dt>notmd<br />
-			notmd2<br />
-			notmd3</dt>
-			<dd>Prevents the sprite from being drawn as a model. It gets drawn as a regular sprite
-			instead. <strong>notmd2</strong> and <strong>notmd3</strong> are synonyms for
-			<strong>notmd</strong>.</dd>
+				<dt>glmultisample &lt;0, 1, 2, &hellip;&gt;</dt>
+				<dd>Enable OpenGL multisample antialiasing. 0 disables it. You need
+				to use "restartvid" to apply any changes to this value.</dd>
 
-			<dt>nomdanim<br />
-			nomd2anim<br />
-			nomd3anim</dt>
-			<dd>Prevents model animation from playing if the sprite is being drawn as a model.
-			<strong>nomd2anim</strong> and <strong>nomd3anim</strong> are synonyms for
-			<strong>nomdanim</strong>.</dd>
+				<dt>gltextureanisotropy &lt;level&gt;</dt>
+				<dd>Sets the OpenGL anisotropic filtering level. The default is the highest level supported by the hardware.</dd>
 
-			<dt>angleoff <em>angle</em><br />
-			angoff <em>angle</em></dt>
-			<dd>Adds <em>angle</em> to the angle of the sprite just before it is rendered. This is good
-			for fixing up things like toilet sprites that are facing the wrong way.
-			<strong>angoff</strong> is a synonym for <strong>angleoff</strong>.</dd>
-		</dl></dd>
-	</dl>
+				<dt>gltexturemode &lt;mode-number&gt;</dt>
+				<dd>Sets the OpenGL texturing mode. Valid values are:
+				<table class="center" cellpadding="2" rules="cols" border="1">
+					<tr><td>0</td><td>GL_NEAREST</td></tr>
+					<tr><td>1</td><td>GL_LINEAR</td></tr>
+					<tr><td>2</td><td>GL_NEAREST_MIPMAP_NEAREST</td></tr>
+					<tr><td>3</td><td>GL_LINEAR_MIPMAP_NEAREST (bilinear)</td></tr>
+					<tr><td>4</td><td>GL_NEAREST_MIPMAP_LINEAR (gives an unfiltered appearance like the original software renderer)</td></tr>
+					<tr><td>5</td><td>GL_LINEAR_MIPMAP_LINEAR (trilinear, the default)</td></tr>
+				</table></dd>
 
-	<p>Here is an example map hack script:</p>
-<pre>// Map hack file for JFDuke3D
-// Level: E1L2.MAP (Original Atomic Edition version)
-// Prepared by jf@jonof.id.au
+				<dt>glusetexcompr &lt;0 or 1&gt;</dt>
+				<dd>Enables or disables the use of OpenGL texture compression for replacement textures. You need
+				to use "restartvid" to apply any changes to this value.</dd>
 
-// Invisible switch behind hand dryer in toilet of porn shop
-sprite 191 notmd2
+				<dt>help &lt;name&gt;</dt>
+				<dd>Displays a help message for a particular console variable or command.</dd>
 
-// Invisible switches on telephones near billiards room in club
-sprite 254 notmd2
-sprite 517 notmd2
+				<dt>listsymbols</dt>
+				<dd>Displays the names of all commands and variables available in the console.</dd>
 
-// Toilet in restroom in club
-sprite 478 angoff -512</pre>
+				<dt>novoxmips &lt;0 or 1&gt;</dt>
+				<dd>Disables or enables the use of voxel mipmaps to improve voxel visual quality.</dd>
 
-	<h2><a name="hightile">Hightile</a></h2>
+				<dt>osdrows &lt;num&gt;</dt>
+				<dd>Sets the number of visible lines of the console when it is open.</dd>
 
-	<p>This release features the "Hightile" texturing improvements to Polymost. Hightile allows Polymost to use
-	true-colour textures instead of the artwork in the game's usual .ART file.</p>
-	<p>Replacement textures can be saved as JPEG, PNG (alpha channel supported), TGA, BMP, CEL, GIF, and PCX
-	formats. Hightile uses Ken Silverman's picture library to provide rapid picture file loading.</p>
-	<p>Hightile textures are defined in the SW.DEF file. See the <a href="#deffile">DEF-file language</a>
-	reference for information on how to specify Hightile textures.</p>
-	
-	<h3>Limitations to Hightile</h3>
-	<ul>
-		<li>Hightile will squash or stretch the replacement to fit in the dimensions of the original tile
-		it replaces. Artists should keep their replacements in the same ratio as the original tile for the
-		art to not look distorted.</li>
-	</ul>
-	<h2><a name="hightile-zip">Extra GRP and ZIP file support</a></h2>
+				<dt>restartvid</dt>
+				<dd>Reinitialise video to apply settings changes.</dd>
 
-	<p>JFShadowWarrior (and JFBuild games in general) can load extra game resources from a GRP or ZIP file.</p>
-	<p>Use the "/g" command-line switch to specify the ZIP or GRP to load. eg. <code>SW.EXE /gMYFILE.ZIP</code></p>
+				<dt>screencaptureformat &lt;0 or 1&gt;</dt>
+				<dd>0 = Targa, 1 = PCX</dd>
 
-	<h2><a name="polymost">Polymost</a></h2>
+				<dt>usegoodalpha &lt;0 or 1&gt;</dt>
+				<dd>If 1, a lower alpha cutoff value is used when rendering textures with transparency, which
+				gives better looking transparent textures at the expense of some sprites behind the transparent
+				item potentially being invisible in certain circumstances. 0 is a more compatible value (and is
+				the default) for this option but slight visual degradation will result.</dd>
 
-	<p>Polymost is a full 3D implementation of the Build engine renderer, with hardware acceleration capability,
-	and perspective in six degrees of freedom. In Ken's own words (copied from POLYMOST.C in my Build engine
-	source distribution):</p>
-	<pre>
-"POLYMOST" code written by Ken Silverman
-Ken Silverman's official web site: http://www.advsys.net/ken
+				<dt>vidmode &lt;bpp&gt;<br>
+				    vidmode &lt;xdim&gt; &lt;ydim&gt; [bpp [fs]]</dt>
+				<dd>Change the video mode. <em>xdim ydim</em> are the resolution. <em>bpp</em> is the colour depth (8, 16, 24, 32). <em>fs</em> is 0 for windowed, 1 for fullscreen.</dd>
+			</dl>
 
-Motivation:
-When 3D Realms released the Duke Nukem 3D source code, I thought somebody would do a OpenGL or
-Direct3D port. Well, after a few months passed, I saw no sign of somebody working on a true
-hardware-accelerated port of Build, just people saying it wasn't possible. Eventually, I realized
-the only way this was going to happen was for me to do it myself. First, I needed to port Build to
-Windows. I could have done it myself, but instead I thought I'd ask my Australian buddy, Jonathon
-Fowler, if he would upgrade his Windows port to my favorite compiler (MSVC) - which he did. Once
-that was done, I was ready to start the "POLYMOST" project.
+			<h1 id="art-credits">Artistic Credits</h1>
+			<dl>
+				<dt>Game icon, and editor and game startup banners</dt>
+				<dd>By Jonathon Fowler. The <a
+					href="http://openclipart.org/clipart//signs_and_symbols/jin-jang_multimotyl_01.svg">
+					yin-yang symbol</a> that forms the basis of the icon was originally by Multimotyl
+				and was sourced from <a href="http://openclipart.org">openclipart.org</a>.</dd>
 
-About:
-This source file is basically a complete rewrite of the entire rendering part of the Build engine.
-There are small pieces in ENGINE.C to activate this code, and other minor hacks in other source
-files, but most of it is in here. If you're looking for polymost-related code in the other source
-files, you should find most of them by searching for either "polymost" or "rendmode". Speaking of
-rendmode, there are now 4 rendering modes in Build:
+				<dt>Editor icon</dt>
+				<dd>By Jonathon Fowler. The <a
+					href="http://openclipart.org/clipart//office/video_lcd_sergio_luiz_ar_01.svg">LCD
+				display</a> that forms the basis of the icon was originally by Sergio Luiz Araujo Silva
+				and was sourced from <a href="http://openclipart.org">openclipart.org</a>.</dd>
+			</dl>
 
-    rendmode 0: The original code I wrote from 1993-1997
-    rendmode 1: Solid-color rendering: my debug code before I did texture mapping
-    rendmode 2: Software rendering before I started the OpenGL code (Note: this is just a quick
-                hack to make testing easier - it's not optimized to my usual standards!)
-    rendmode 3: The OpenGL code
+			<h1 id="license">License</h1>
+			<p>JFShadowWarrior is free software; you can redistribute it and/or modify it under the terms
+			of the GNU General Public License as published by the Free Software Foundation; either version 2
+			of the License, or (at your option) any later version.</p>
+			<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+			without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
+			<p>See the <a href="GPL.TXT">GNU General Public License</a> for more details.</p>
+			<p>The JFBuild engine used in JFShadowWarrior is used under the terms of the
+			<a href="buildlic.txt">BUILD Source Code License</a>.</p>
+		</section>
 
-The original Build engine did hidden surface removal by using a vertical span buffer on the tops
-and bottoms of walls. This worked nice back in the day, but it it's not suitable for a polygon
-engine. So I decided to write a brand new hidden surface removal algorithm - using the same idea
-as the original Build - but one that worked with vectors instead of already rasterized data.
-	</pre>
-	<p>Polymost is the default renderer choice for any video mode with a colour depth greater than 256
-	colours.</p>
-	<p><strong>NOTE:</strong> If your computer does not have an OpenGL graphics card, Polymost in OpenGL mode
-	will most likely use the default Windows OpenGL rasterising facility which does all rendering in software.
-	This may be extremely slow. If your Windows installation doesn't have any form of OpenGL rendering ability,
-	Polymost will probably crash.</p>
-	<p><strong>NOTE 2:</strong> OpenGL Polymost has been tested on an nVidia Riva TNT 16MB, an nVidia GeForce2
-	GTS 32MB, an nVidia GeForce4 Ti4600 128MB, an nVidia GeForce 6800GT 256MB, an ATi Radeon Mobility 9000 64MB,
-	and a 3D-Labs Oxygen GVX420 128MB (minor texturing issues).</p>
-	
-	<h2>Console Commands</h2>
-
-	<p>This is a list of console commands and variables and their purpose:</p>
-
-	<dl>
-		<dt>dumpbuildinfo</dt>
-		<dd>Displays the compilation information for the game when it was built.</dd>
-
-		<dt>echo &lt;text...&gt;</dt>
-		<dd>Displays to the console what is passed as parameters to the command.</dd>
-
-		<dt>fileinfo &lt;filename&gt;</dt>
-		<dd>Displays some information about a given file, eg. size, CRC-32 checksum.</dd>
-
-		<dt>glinfo</dt>
-		<dd>Displays some information about the OpenGL driver.</dd>
-
-		<dt>glredbluemode &lt;0 or 1&gt;</dt>
-		<dd>Enables or disables the red-blue stereovision mode in OpenGL. This mode is experimental
-		at this time. We know the flicker is nasty and the menu background will mix into the screen.
-		To avoid the menu bug, run the game in fullscreen mode and type "glredbluemode 1" AFTER
-		beginning the game. Sorry, there is no way to change parallax or separation. Do not contact
-		us about bugs with this mode... if you do, we'll think twice about documenting hidden features
-		in future releases. :P</dd>
-
-		<dt>gltextureanisotropy &lt;level&gt;</dt>
-		<dd>Sets the OpenGL anisotropic filtering level.</dd>
-
-		<dt>gltexturemode &lt;mode-number&gt;</dt>
-		<dd>Sets the OpenGL texturing mode. Valid values are:
-		<table class="center" cellpadding="2" rules="cols" border="1">
-			<tr><td>0</td><td>GL_NEAREST (looks rather like the original software renderer)</td></tr>
-			<tr><td>1</td><td>GL_LINEAR</td></tr>
-			<tr><td>2</td><td>GL_NEAREST_MIPMAP_NEAREST</td></tr>
-			<tr><td>3</td><td>GL_LINEAR_MIPMAP_NEAREST (bilinear)</td></tr>
-			<tr><td>4</td><td>GL_NEAREST_MIPMAP_LINEAR</td></tr>
-			<tr><td>5</td><td>GL_LINEAR_MIPMAP_LINEAR (trilinear)</td></tr>
-		</table></dd>
-
-		<dt>glusetexcompr &lt;0 or 1&gt;</dt>
-		<dd>Enables or disables the use of OpenGL texture compression for hightile textures. You need
-		to use 'restartvid' to apply any changes to this value.</dd>
-
-		<dt>help &lt;name&gt;</dt>
-		<dd>Displays a help message for a particular console variable or command.</dd>
-
-		<dt>listsymbols</dt>
-		<dd>Displays the names of all commands and variables available in the console.</dd>
-
-		<dt>novoxmips &lt;0 or 1&gt;</dt>
-		<dd>Disables or enables the use of voxel mipmaps to improve voxel visual quality.</dd>
-
-		<dt>osdrows &lt;num&gt;</dt>
-		<dd>Sets the number of visible lines of the console when it is open.</dd>
-
-		<dt>screencaptureformat &lt;0 or 1&gt;</dt>
-		<dd>0 = Targa, 1 = PCX</dd>
-
-		<dt>setrendermode &lt;mode&gt;</dt>
-		<dd>Sets the current Polymost render mode.</dd>
-
-		<dt>usegoodalpha &lt;0 or 1&gt;</dt>
-		<dd>If 1, a lower alpha cutoff value is used when rendering textures with transparency, which
-		gives better looking transparent textures at the expense of some sprites behind the transparent
-		item potentially being invisible in certain circumstances. 0 is a more compatible value (and is
-		the default) for this option but slight visual degradation will result.</dd>
-
-		<dt>usehightile &lt;0 or 1&gt;</dt>
-		<dd>Disables or enables the use of Hightile textures in GL Polymost mode if any are defined.</dd>
-
-		<dt>usemodels &lt;0 or 1&gt;</dt>
-		<dd>Disables or enables the use of 3D models in GL Polymost mode if any are defined.</dd>
-
-		<dt>usevoxels &lt;0 or 1&gt;</dt>
-		<dd>Disables or enables the use of voxels in the classic renderer if any are defined.</dd>
-	</dl>
-
-	<h1>Artistic Credits</h1>
-	<dl>
-		<dt>Game icon, and editor and game startup banners</dt>
-		<dd>By Jonathon Fowler. The <a
-			href="http://openclipart.org/clipart//signs_and_symbols/jin-jang_multimotyl_01.svg">
-			yin-yang symbol</a> that forms the basis of the icon was originally by Multimotyl
-		and was sourced from <a href="http://openclipart.org">openclipart.org</a>.</dd>
-
-		<dt>Editor icon</dt>
-		<dd>By Jonathon Fowler. The <a
-			href="http://openclipart.org/clipart//office/video_lcd_sergio_luiz_ar_01.svg">LCD
-		display</a> that forms the basis of the icon was originally by Sergio Luiz Araujo Silva
-		and was sourced from <a href="http://openclipart.org">openclipart.org</a>.</dd>
-	</dl>
-
-	<address>Have fun!<br />
-		Jonathon Fowler (<a href="mailto:jf@jonof.id.au">jf@jonof.id.au</a>)</address>
+		<footer>Jonathon Fowler (<a href="mailto:jf@jonof.id.au">jf@jonof.id.au</a>)</footer>
 	</div>
 </body>
 </html>

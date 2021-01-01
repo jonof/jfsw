@@ -20,13 +20,13 @@ Minimum system requirements
   * ARM 32-bit hard-float, 64-bit
 * A modern operating system:
   * Linux, BSD, possibly other systems supported by [SDL 2.0](http://libsdl.org/).
-  * macOS 10.8+
+  * macOS 10.9+
   * Windows Vista, 7, 8/10+
 * Optional: 3D acceleration with OpenGL 2.0 or OpenGL ES 2.0 capable hardware.
 
 You will require game data from an original release of Shadow Warrior. Refer to [the
 documentation on my website](https://www.jonof.id.au/jfsw/readme.html) on what
-releases are suitable and where to place the SW.GRP file for JFShadowWarrior to find it.
+releases are suitable and where to locate their game files.
 
 Compilation
 -----------

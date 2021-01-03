@@ -241,13 +241,9 @@ static int CopyFile(int fh, int size, const char *fname)
     int ofh, r;
     char buf[16384];
 
-    ofh = open(fname, O_WRONLY|O_BINARY|O_CREAT|O_EXCL, S_IRUSR|S_IWUSR);
+    ofh = open(fname, O_WRONLY|O_BINARY|O_CREAT|O_EXCL, BS_IREAD|BS_IWRITE);
     if (ofh < 0) {
-        if (errno == EEXIST) {
-            close(fh);
-            return -1;
-        }
-        close(fh);
+        if (errno == EEXIST) return -1;
         return -2;
     }
     lseek(fh, 0, SEEK_SET);

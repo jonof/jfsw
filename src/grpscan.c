@@ -239,7 +239,7 @@ void FreeGroups(void)
 static int CopyFile(int fh, int size, const char *fname)
 {
     int ofh, r;
-    char buf[2048];
+    char buf[16384];
 
     ofh = open(fname, O_WRONLY|O_BINARY|O_CREAT|O_EXCL, S_IRUSR|S_IWUSR);
     if (ofh < 0) {

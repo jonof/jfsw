@@ -30,13 +30,21 @@ struct grpfile {
     unsigned int crcval;
     int size;
     int game;
+    const char *importname;       // The filename to store as when importing.
     const struct grpfile *ref;    // For foundgrps items, is the grpfiles[] entry matched.
     struct grpfile *next;
 };
 extern struct grpfile grpfiles[];
 extern struct grpfile *foundgrps;
 
+struct importgroupsmeta {
+    void *data;
+    void (*progress)(void *data, const char *path);
+    int (*cancelled)(void *data);
+};
+
 int ScanGroups(void);
 void FreeGroups(void);
+int ImportGroupsFromPath(const char *path, struct importgroupsmeta *cbs);
 
 #endif

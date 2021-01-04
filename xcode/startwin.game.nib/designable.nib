@@ -16,13 +16,13 @@
                 <outlet property="hostField" destination="kLw-xj-ksb" id="ihx-Zq-c5p"/>
                 <outlet property="hostMultiButton" destination="ykL-7f-xxy" id="zyx-WT-QKQ"/>
                 <outlet property="importInfoButton" destination="4Ui-Ca-zeR" id="b6Y-Du-TkW"/>
+                <outlet property="importStatusCancel" destination="2AT-1i-yZH" id="daw-Hp-D1t"/>
                 <outlet property="importStatusText" destination="1j4-lT-zPz" id="1nH-em-Oxf"/>
                 <outlet property="importStatusWindow" destination="Fz7-3L-NVl" id="OgP-p5-5nC"/>
                 <outlet property="joinMultiButton" destination="Mc6-lv-e5A" id="m7F-e1-XR4"/>
                 <outlet property="messagesView" destination="63" id="64"/>
                 <outlet property="numPlayersField" destination="iBf-Wa-KU1" id="Xtr-sq-4rz"/>
                 <outlet property="numPlayersStepper" destination="AJL-iO-wca" id="Oxg-C4-T7A"/>
-                <outlet property="scanImportButton" destination="4Ui-Ca-zeR" id="i0d-0w-eEP"/>
                 <outlet property="singlePlayerButton" destination="IgV-Vy-3rB" id="DaN-J7-iLR"/>
                 <outlet property="soundQualityPUButton" destination="Q8z-7T-rue" id="BFg-EP-yws"/>
                 <outlet property="startButton" destination="15" id="66"/>
@@ -79,6 +79,7 @@
                                             </buttonCell>
                                             <connections>
                                                 <action selector="multiPlayerModeClicked:" target="-2" id="qiP-GJ-luS"/>
+                                                <outlet property="nextKeyView" destination="Mc6-lv-e5A" id="64O-Wf-rI0"/>
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mc6-lv-e5A">
@@ -90,6 +91,7 @@
                                             </buttonCell>
                                             <connections>
                                                 <action selector="multiPlayerModeClicked:" target="-2" id="9bn-vc-kor"/>
+                                                <outlet property="nextKeyView" destination="kLw-xj-ksb" id="kSj-Qn-BGX"/>
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ykL-7f-xxy">
@@ -101,6 +103,7 @@
                                             </buttonCell>
                                             <connections>
                                                 <action selector="multiPlayerModeClicked:" target="-2" id="FUa-Cl-PHt"/>
+                                                <outlet property="nextKeyView" destination="AJL-iO-wca" id="gQv-3R-S7U"/>
                                             </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tAz-23-xz5">
@@ -142,6 +145,9 @@
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <outlet property="nextKeyView" destination="ykL-7f-xxy" id="CFo-dl-2k2"/>
+                                            </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11">
                                             <rect key="frame" x="15" y="259" width="111" height="17"/>
@@ -161,6 +167,7 @@
                                             </buttonCell>
                                             <connections>
                                                 <action selector="fullscreenClicked:" target="-2" id="60"/>
+                                                <outlet property="nextKeyView" destination="Q8z-7T-rue" id="qLo-qN-xzP"/>
                                             </connections>
                                         </button>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="67">
@@ -175,6 +182,9 @@
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
+                                            <connections>
+                                                <outlet property="nextKeyView" destination="14" id="Dbh-3r-sGD"/>
+                                            </connections>
                                         </popUpButton>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q8z-7T-rue">
                                             <rect key="frame" x="132" y="192" width="249" height="26"/>
@@ -190,6 +200,9 @@
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
+                                            <connections>
+                                                <outlet property="nextKeyView" destination="FBS-R8-SLf" id="8fG-4b-WJz"/>
+                                            </connections>
                                         </popUpButton>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8KI-D9-dwr">
                                             <rect key="frame" x="15" y="197" width="91" height="17"/>
@@ -207,6 +220,9 @@
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <outlet property="nextKeyView" destination="uyv-SE-7D1" id="Xtt-TI-cMt"/>
+                                            </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uyv-SE-7D1">
                                             <rect key="frame" x="220" y="156" width="72" height="18"/>
@@ -215,6 +231,9 @@
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <outlet property="nextKeyView" destination="IgV-Vy-3rB" id="r6n-Hj-3Wc"/>
+                                            </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Itz-Ag-oh2">
                                             <rect key="frame" x="15" y="156" width="89" height="17"/>
@@ -235,6 +254,9 @@
                                         </stepper>
                                     </subviews>
                                 </view>
+                                <connections>
+                                    <outlet property="initialFirstResponder" destination="67" id="tqO-lm-EB1"/>
+                                </connections>
                             </tabViewItem>
                             <tabViewItem label="Game" identifier="" id="Yy6-aY-TP7">
                                 <view key="view" id="V7u-WO-B7Z">
@@ -242,20 +264,20 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nK-mY-mqb">
-                                            <rect key="frame" x="4" y="31" width="400" height="245"/>
+                                            <rect key="frame" x="4" y="31" width="400" height="246"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <clipView key="contentView" id="QHR-S6-00F">
-                                                <rect key="frame" x="1" y="0.0" width="398" height="244"/>
+                                                <rect key="frame" x="1" y="0.0" width="398" height="245"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" headerView="Cet-5s-bvd" id="8gf-gU-B7r">
-                                                        <rect key="frame" x="0.0" y="0.0" width="398" height="221"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="398" height="222"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                         <tableColumns>
-                                                            <tableColumn identifier="0" width="225" minWidth="40" maxWidth="1000" id="0RQ-kM-3cz">
+                                                            <tableColumn identifier="0" editable="NO" width="225" minWidth="40" maxWidth="1000" id="0RQ-kM-3cz">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Game name">
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -267,7 +289,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
-                                                            <tableColumn identifier="1" width="167" minWidth="40" maxWidth="1000" id="aYX-b8-gvt">
+                                                            <tableColumn identifier="1" editable="NO" width="167" minWidth="40" maxWidth="1000" id="aYX-b8-gvt">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="File name">
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -279,7 +301,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
-                                                            <tableColumn identifier="2" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" hidden="YES" id="3Vt-uA-hWW">
+                                                            <tableColumn identifier="2" editable="NO" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" hidden="YES" id="3Vt-uA-hWW">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Internal">
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -307,6 +329,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="398" height="23"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </tableHeaderView>
+                                            <connections>
+                                                <outlet property="nextKeyView" destination="pJG-40-ygM" id="3MM-6j-0aq"/>
+                                            </connections>
                                         </scrollView>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nGY-pl-Rsy">
                                             <rect key="frame" x="2" y="3" width="127" height="19"/>
@@ -337,45 +362,52 @@
                                             </buttonCell>
                                             <connections>
                                                 <action selector="chooseImportClicked:" target="-2" id="PVk-J2-Rhy"/>
+                                                <outlet property="nextKeyView" destination="4Ui-Ca-zeR" id="zud-lC-Etc"/>
                                             </connections>
                                         </button>
                                     </subviews>
                                 </view>
+                                <connections>
+                                    <outlet property="initialFirstResponder" destination="6nK-mY-mqb" id="o0X-p0-2HF"/>
+                                </connections>
                             </tabViewItem>
                             <tabViewItem label="Messages" identifier="" id="32">
                                 <view key="view" id="6">
                                     <rect key="frame" x="10" y="33" width="408" height="280"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <scrollView misplaced="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="62">
-                                            <rect key="frame" x="4" y="3" width="400" height="316"/>
+                                        <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="62">
+                                            <rect key="frame" x="4" y="3" width="400" height="274"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" drawsBackground="NO" id="vRG-Qb-rJ5">
-                                                <rect key="frame" x="1" y="1" width="398" height="314"/>
+                                                <rect key="frame" x="1" y="1" width="398" height="272"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <textView editable="NO" selectable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" usesFontPanel="YES" usesRuler="YES" spellingCorrection="YES" smartInsertDelete="YES" id="63">
-                                                        <rect key="frame" x="0.0" y="0.0" width="391" height="314"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="391" height="272"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                        <size key="minSize" width="391" height="314"/>
+                                                        <size key="minSize" width="391" height="272"/>
                                                         <size key="maxSize" width="400" height="10000000"/>
                                                         <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     </textView>
                                                 </subviews>
                                             </clipView>
-                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" controlSize="small" horizontal="YES" id="82">
+                                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" controlSize="small" horizontal="YES" id="82">
                                                 <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" controlSize="small" horizontal="NO" id="83">
-                                                <rect key="frame" x="385" y="1" width="14" height="314"/>
+                                                <rect key="frame" x="385" y="1" width="14" height="272"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
                                     </subviews>
                                 </view>
+                                <connections>
+                                    <outlet property="initialFirstResponder" destination="62" id="UJY-yQ-Tc7"/>
+                                </connections>
                             </tabViewItem>
                         </tabViewItems>
                     </tabView>
@@ -391,6 +423,7 @@ DQ
                         </buttonCell>
                         <connections>
                             <action selector="start:" target="-2" id="51"/>
+                            <outlet property="nextKeyView" destination="22" id="sRG-5b-q6R"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22">
@@ -405,6 +438,7 @@ Gw
                         </buttonCell>
                         <connections>
                             <action selector="cancel:" target="-2" id="50"/>
+                            <outlet property="nextKeyView" destination="37" id="ixf-DD-1x4"/>
                         </connections>
                     </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="37">
@@ -414,6 +448,9 @@ Gw
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <outlet property="nextKeyView" destination="8" id="iTm-py-foL"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>

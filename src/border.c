@@ -439,6 +439,8 @@ VOID BorderSetView(PLAYERp UNUSED(pp), int *Xdim, int *Ydim, int *ScreenSize)
     x2 = MSW(DIV2(xd + sc));
     y = MSW(DIV2(yd - scale(sc, yd, xd)));
     y2 = MSW_ROUND(DIV2(yd + scale(sc, yd, xd)) + 32768);
+    if (y2 > ydim)
+        y2 = ydim;
 
     // global windowx1, windowx2, windowy1, windowy2 coords set here
     setview(x, y, x2-1, y2-1);

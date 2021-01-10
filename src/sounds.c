@@ -447,7 +447,7 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
         if (CD_GetCurrentDriver() != ASS_NoSound && CDInitialized)
         {
             int status;
-            status = CD_Play(cdaudio_track, TRUE);
+            status = CD_Play(cdaudio_track, loop);
             if (status == CD_Ok)
                 {
                 SongType = SongTypeCDA;
@@ -471,7 +471,11 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
                 numPos[1] = '0' + cdaudio_track % 10;
 
                 if (LoadSong(oggtrack)) {
-                    SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
+                    if (loop)
+                        SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
+                                                  255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
+                    else
+                        SongVoice = FX_PlayAuto(SongPtr, SongLength, 0,
                                                   255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
                     if (SongVoice >= FX_Ok) {
                         SongType = SongTypeVoc;
@@ -494,12 +498,16 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
     }
 
     if (!memcmp(SongPtr, "MThd", 4)) {
-        MUSIC_PlaySong(SongPtr, SongLength, MUSIC_LoopSong);
+        MUSIC_PlaySong(SongPtr, SongLength, loop ? MUSIC_LoopSong : MUSIC_PlayOnce);
         SongType = SongTypeMIDI;
         SongName = strdup(song_file_name);
         return TRUE;
     } else {
-        SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
+        if (loop)
+            SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
+                                      255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
+        else
+            SongVoice = FX_PlayAuto(SongPtr, SongLength, 0,
                                       255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
         if (SongVoice >= FX_Ok) {
             SongType = SongTypeVoc;
@@ -577,6 +585,24 @@ SetSongVolume(int volume)
 BOOL
 SongIsPlaying(void)
 {
+    if (!gs.MusicOn)
+        return FALSE;
+
+    if (SongType == SongTypeVoc && SongVoice >= 0)
+        {
+        return FX_SoundActive(SongVoice);
+        }
+    else
+    if (SongType == SongTypeMIDI)
+        {
+        return MUSIC_SongPlaying();
+        }
+    else
+    if (SongType == SongTypeCDA)
+        {
+        return CD_IsPlaying();
+        }
+
     return FALSE;
 }
 

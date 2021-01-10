@@ -1830,17 +1830,21 @@ CreditsLevel(VOID)
     handle = PlaySound(DIGI_JG95012,&zero,&zero,&zero,v3df_none);
 
     if (handle > 0)
-        while(FX_SoundActive(handle));
+        while(FX_SoundActive(handle))
+            handleevents();
 
     // try 14 then 2 then quit
-    if (!PlaySong(NULL, 14, FALSE, TRUE)) {
-        if (!PlaySong(NULL, 2, FALSE, TRUE)) {
+    if (!PlaySong(NULL, 14, FALSE, TRUE))
+        {
+        if (!PlaySong(NULL, 2, FALSE, TRUE))
+            {
             handle = PlaySound(DIGI_NOLIKEMUSIC,&zero,&zero,&zero,v3df_none);
             if (handle > 0)
-                while(FX_SoundActive(handle)) handleevents();
+                while(FX_SoundActive(handle))
+                    handleevents();
             return;
+            }
         }
-    }
 
     ready2send = 0;
     totalclock = 0;

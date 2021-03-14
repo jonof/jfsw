@@ -2300,7 +2300,11 @@ void CallbackSOsink(ANIMp ap, void *data)
             // Added a depth_fract to the struct so I could do a
             // 16.16 Fixed point representation to change the depth
             // in a more precise way
+#if B_BIG_ENDIAN != 0
+            ndx = AnimSet((int*)&su->depth, tgt_depth<<16, (ap->vel<<8)>>8);
+#else
             ndx = AnimSet((int*)&su->depth_fract, tgt_depth<<16, (ap->vel<<8)>>8);
+#endif
             AnimSetVelAdj(ndx, ap->vel_adj);
             found = TRUE;
             break;

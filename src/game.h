@@ -1783,7 +1783,11 @@ SHRAP_USER_DEFINED      = 99
 typedef struct
     {
     int dist, flags;
+#if B_BIG_ENDIAN != 0
+    short depth, depth_fract; // do NOT change this, doubles as a long FIXED point number
+#else
     short depth_fract, depth; // do NOT change this, doubles as a long FIXED point number
+#endif
     short stag,    // ST? tag number - for certain things it helps to know it
         ang,
         height,

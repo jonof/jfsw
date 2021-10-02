@@ -2797,6 +2797,8 @@ MNU_GetSaveCustom(void)
     else
         {
         strcpy(BackupSaveGameDescr, SaveGameDescr[save_num]);
+        if (SaveGameDescr[save_num][0] == 0)
+            sprintf(SaveGameDescr[save_num], "GAME %d", save_num + 1);
 
         // clear keyboard buffer
         while (KB_KeyWaiting())

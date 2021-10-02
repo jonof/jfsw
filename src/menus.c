@@ -638,6 +638,7 @@ typedef enum {
 } DialogResponse;
 
 static DialogResponse MNU_Dialog(void);
+signed char MNU_InputString(char *, short);
 VOID LoadSaveMsg(char *msg);
 static VOID MNU_ItemPreProcess(MenuGroup *group);
 static void MNU_SelectItem(MenuGroup * group, short index, BOOL draw);
@@ -675,7 +676,6 @@ BOOL
 MNU_DoParentalPassword(UserCall UNUSED(call), MenuItem_p UNUSED(item))
     {
     short w,h;
-    signed char MNU_InputString(char *, short);
     static BOOL cur_show;
     char TempString[80];
     char *extra_text;
@@ -755,6 +755,11 @@ MNU_DoParentalPassword(UserCall UNUSED(call), MenuItem_p UNUSED(item))
         //CON_Message("Password = '%s'",gs.Password);
         //CON_Message("Passwordvalid = %d",passwordvalid);
 
+        if (!MenuInputMode)
+            {
+            return(TRUE);   // Prevent the 'Enter ... Password' prompts flashing up.
+            }
+        else
         if(gs.Password[0] != '\0' && passwordvalid == FALSE && currentmenu->cursor == 1)
             {
             sprintf(TempString,"Enter Old Password");
@@ -824,7 +829,6 @@ BOOL
 MNU_DoPlayerName(UserCall call, MenuItem_p item)
     {
     short w,h;
-    signed char MNU_InputString(char *, short);
     static BOOL cur_show;
     char TempString[80];
     char *extra_text;
@@ -2615,6 +2619,10 @@ MNU_InputString(char *name, short pix_width)
     {
     char ch;
     short w, h;
+    BOOL didinput = FALSE;
+
+    CONTROL_GetUserInput(&mnu_input);
+    CONTROL_ClearUserInput(&mnu_input);
 
 #define ascii_backspace 8
 #define ascii_esc 27
@@ -2660,10 +2668,23 @@ MNU_InputString(char *name, short pix_width)
         if (!isprint(ch))
             continue;
 
+        didinput = TRUE;
         MNU_MeasureString(name, &w, &h);
         if (w < pix_width)
             {
             sprintf(name, "%s%c", name, ch);
+            }
+        }
+
+    if (!didinput)
+        {
+        if (mnu_input.button0)
+            {
+            return(FALSE);
+            }
+        else if (mnu_input.button1)
+            {
+            return(-1);
             }
         }
 
@@ -2891,18 +2912,21 @@ MNU_LoadSaveMove(UserCall UNUSED(call), MenuItem_p UNUSED(item))
 
         if (SavePrompt)
             {
-            if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter))
+            CONTROL_GetUserInput(&mnu_input);
+            CONTROL_ClearUserInput(&mnu_input);
+
+            if (KB_KeyPressed(sc_Y) || KB_KeyPressed(sc_Enter) || mnu_input.button0)
                 {
-		KB_ClearKeyDown(sc_Y);
-		KB_ClearKeyDown(sc_Enter);
+                KB_ClearKeyDown(sc_Y);
+                KB_ClearKeyDown(sc_Enter);
                 SavePrompt = FALSE;
                 // use input
                 item->custom();
                 }
             else
-            if (KB_KeyPressed(sc_N))
+            if (KB_KeyPressed(sc_N) || mnu_input.button1)
                 {
-		KB_ClearKeyDown(sc_N);
+                KB_ClearKeyDown(sc_N);
                 strcpy(SaveGameDescr[game_num], BackupSaveGameDescr);
                 SavePrompt = FALSE;
                 MenuInputMode = FALSE;
@@ -2928,7 +2952,7 @@ MNU_LoadSaveMove(UserCall UNUSED(call), MenuItem_p UNUSED(item))
                 {
                 GotInput = TRUE;
                 }
-	    KB_ClearKeyDown(sc_Enter);
+            KB_ClearKeyDown(sc_Enter);
             break;
         case TRUE:                      // Got input
             break;
@@ -2974,7 +2998,7 @@ MNU_LoadSaveDraw(UserCall call, MenuItem_p UNUSED(item))
             char tmp[sizeof(SaveGameDescr[0])];
 
             //cur_show ^= 1;
-	    cur_show = (totalclock & 32);
+            cur_show = (totalclock & 32);
             if (cur_show)
                 {
                 // add a cursor to the end

@@ -225,9 +225,9 @@
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uyv-SE-7D1">
-                                            <rect key="frame" x="220" y="156" width="72" height="18"/>
+                                            <rect key="frame" x="220" y="156" width="82" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Joystick" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="8dv-z0-RfS">
+                                            <buttonCell key="cell" type="check" title="Controller" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="8dv-z0-RfS">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>

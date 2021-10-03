@@ -361,7 +361,7 @@ MenuItem joybuttons_i[MAXJOYSTICKBUTTONPAGES][20] =
         {DefNone}
         },
     };
-MenuGroup joybuttonssetupgroup = {65, 5, "^Joystick Setup", joybuttons_i[0], pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
+MenuGroup joybuttonssetupgroup = {65, 5, "^Cont'ler Setup", joybuttons_i[0], pic_newgametitl, 0, m_defshade, NULL, NULL, 0};
 
 static char JoystickAxisName[64];
 static char JoystickAxisPageName[64];
@@ -397,7 +397,7 @@ MenuItem joyaxes_i[] =
 
     {DefNone},
     };
-MenuGroup joyaxessetupgroup = {65, 5, "^Joystick Axes", joyaxes_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 1};
+MenuGroup joyaxessetupgroup = {65, 5, "^Cont'ler Axes", joyaxes_i, pic_newgametitl, 0, m_defshade, NULL, NULL, 1};
 
 
 static char MouseAxisFunctions[MAXMOUSEAXES][2][MAXAXISFUNCTIONLENGTH] = { {"", ""}, {"", ""} };
@@ -429,8 +429,8 @@ MenuItem inputsetup_i[] =
     {DefLayer(0, "Mouse Options", &mousegroup),OPT_XS,                 OPT_LINE(2), 1, m_defshade,0,NULL, MNU_MouseCheck, NULL},
     {DefLayer(0, "Mouse Buttons Setup", &mousesetupgroup),OPT_XS,      OPT_LINE(3),1,m_defshade,0,NULL,NULL,NULL},
     {DefLayer(0, "Mouse Axes Setup", &mouseaxesgroup),OPT_XS,          OPT_LINE(4),1,m_defshade,0,NULL,NULL,NULL},
-    {DefLayer(0, "Joystick Buttons Setup", &joybuttonssetupgroup),OPT_XS,OPT_LINE(6),1,m_defshade,0,NULL,MNU_JoystickCheck,MNU_JoystickButtonsInitialise},
-    {DefLayer(0, "Joystick Axes Setup", &joyaxessetupgroup), OPT_XS,   OPT_LINE(7),1,m_defshade,0,NULL,MNU_JoystickCheck,MNU_JoystickAxesInitialise},
+    {DefLayer(0, "Controller Buttons Setup", &joybuttonssetupgroup),OPT_XS,OPT_LINE(6),1,m_defshade,0,NULL,MNU_JoystickCheck,MNU_JoystickButtonsInitialise},
+    {DefLayer(0, "Controller Axes Setup", &joyaxessetupgroup), OPT_XS,   OPT_LINE(7),1,m_defshade,0,NULL,MNU_JoystickCheck,MNU_JoystickAxesInitialise},
     {DefOption(0, "Apply Modern Defaults"), OPT_XS,                    OPT_LINE(9),1,m_defshade,0,MNU_LoadModernDefaults,NULL,NULL},
     {DefOption(0, "Apply Classic Defaults"), OPT_XS,                   OPT_LINE(10),1,m_defshade,0,MNU_LoadClassicDefaults,NULL,NULL},
     {DefNone}
@@ -1387,7 +1387,7 @@ static BOOL MNU_JoystickButtonSetupCustom(UserCall call, MenuItem *item)
 
     {
         short w, h = 0;
-        const char *s = "Joystick Setup";
+        const char *s = "Cont'ler Setup";
 
         rotatesprite(10 << 16, (5-3) << 16, MZ, 0, 2427,
             m_defshade, 0, MenuDrawFlags|ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
@@ -1509,7 +1509,7 @@ static BOOL MNU_JoystickAxisSetupCustom(UserCall call, MenuItem *item)
 
     {
         short w, h = 0;
-        const char *s = "Joystick Axes";
+        const char *s = "Cont'ler Axes";
 
         rotatesprite(10 << 16, (5-3) << 16, MZ, 0, 2427,
             m_defshade, 0, MenuDrawFlags|ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);

@@ -857,10 +857,11 @@
 			};
 			buildConfigurationList = ABB4AB280C64C36100F28920 /* Build configuration list for PBXProject "sw" */;
 			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
+				Base,
+				en,
 			);
 			mainGroup = ABB4AB250C64C36100F28920;
 			productRefGroup = ABB4ABCE0C64C52900F28920 /* Products */;

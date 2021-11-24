@@ -32,9 +32,9 @@
 #include "grpscan.h"
 
 struct grpfile grpfiles[] = {
-    { "Registered Version",         0x7545319F, 47536148, 0, "sw.grp", NULL, NULL },
-    { "Shareware Version",          0x08A7FA1F, 26056769, 0, "swshare.grp", NULL, NULL },
-    { "Wanton Destruction (Addon)", 0xA9AAA7B7, 48698128, 0, "wt.grp", NULL, NULL },
+    { "Registered Version",         0x7545319F, 47536148, GRPFILE_GAME_SW, "sw.grp", NULL, NULL },
+    { "Shareware Version",          0x08A7FA1F, 26056769, GRPFILE_GAME_SW, "swshare.grp", NULL, NULL },
+    { "Wanton Destruction (Addon)", 0xA9AAA7B7, 48698128, GRPFILE_GAME_WD, "wt.grp", NULL, NULL },
     { NULL, 0, 0, 0, NULL, NULL, NULL },
 };
 struct grpfile *foundgrps = NULL;

@@ -275,6 +275,7 @@ BOOL InGame = FALSE;
 int CommandSetup = FALSE;
 
 const char *GameEditionName = "Unknown edition";
+static int GameVariant = GRPFILE_GAME_SW;
 BOOL IsShareware = FALSE, UseDarts = FALSE;
 
 char UserMapName[80]="", buffer[80], ch;
@@ -1106,7 +1107,7 @@ YOKOHA03 MID
 
 char LevelSong[16];
 short SongLevelNum;
-//#ifndef SW_SHAREWARE
+
 LEVEL_INFO LevelInfo[MAX_LEVELS_REG+2] =
     {
     {"title.map",      "theme.mid", " ", " ", " "  },
@@ -1140,25 +1141,55 @@ LEVEL_INFO LevelInfo[MAX_LEVELS_REG+2] =
     {"$dmdrop.map",    "kotec2.mid",   "Killing Fields (CTF)", "10 : 00", "10 : 00"     },
     {NULL, NULL, NULL, NULL, NULL}
     };
-/*#else
-LEVEL_INFO LevelInfo[MAX_LEVELS+2] =  // Shareware
+LEVEL_INFO LevelInfoWanton[MAX_LEVELS_REG+2] =
     {
     {"title.map",      "theme.mid", " ", " ", " "  },
     {"$bullet.map",    "e1l01.mid", "Seppuku Station", "0 : 55", "5 : 00"  },
     {"$dozer.map",     "e1l03.mid", "Zilla Construction", "4 : 59", "8 : 00"  },
     {"$shrine.map",    "e1l02.mid", "Master Leep's Temple", "3 : 16", "10 : 00"  },
     {"$woods.map",     "e1l04.mid", "Dark Woods of the Serpent", "7 : 06", "16 : 00"  },
+    {"$whirl.map",     "yokoha03.mid", "Chinatown", "5 : 30", "10 : 00"   },
+    {"$tank.map",      "nippon34.mid", "Monastary", "1 : 46", "4 : 00"   },
+    {"$boat.map",      "execut11.mid", "Trolly Yard", "1 : 56", "4 : 00"   },
+    {"$garden.map",    "execut11.mid", "Resturant", "1 : 06", "2 : 00"   },
+    {"$outpost.map",   "sanai.mid",    "Skyscraper", "1 : 23", "3 : 00"      },
+    {"$hidtemp.map",   "kotec2.mid",   "Airplane", "2 : 05", "4 : 10"     },
+    {"$plax1.map",     "kotec2.mid",   "Military Base", "6 : 32", "12 : 00"     },
+    {"$bath.map",      "yokoha03.mid", "Train", "10 : 00", "10 : 00"   },
+    {"$airport.map",   "nippon34.mid", "Auto Factory", "2 : 59", "6 : 00"   },
+    {"$refiner.map",   "kotoki12.mid", "Crude Oil", "2 : 40", "5 : 00"   },
+    {"$newmine.map",   "hoshia02.mid", "Coolie Mines", "2 : 48", "6 : 00"   },
+    {"$subbase.map",   "hoshia02.mid", "Subpen 7", "2 : 02", "4 : 00"   },
+    {"$rock.map",      "kotoki12.mid", "The Great Escape", "3 : 18", "6 : 00"   },
+    {"$yamato.map",    "sanai.mid",    "Floating Fortress", "11 : 38", "20 : 00"      },
+    {"$seabase.map",   "kotec2.mid",   "Water Torture", "5 : 07", "10 : 00"     },
+    {"$volcano.map",   "kotec2.mid",   "Skyline", "9 : 15", "20 : 00"     },
+    {"$shore.map",     "kotec2.mid",   "Redwood Forest", "3 : 58", "8 : 00"     },
+    {"$auto.map",      "kotec2.mid",   "The Docks", "4 : 07", "8 : 00"     },
+    {"tank.map",       "kotec2.mid",   "Waterfight (DM only)", "10 : 00", "10 : 00"     },
+    {"$dmwoods.map",   "kotec2.mid",   "Wanton DM 1 (DM only)", "10 : 00", "10 : 00"     },
+    {"$dmshrin.map",   "kotec2.mid",   "Wanton DM 2 (DM only)", "10 : 00", "10 : 00"     },
+    {"$rush.map",      "kotec2.mid",   "Lo Wang Rally (DM only)", "10 : 00", "10 : 00"     },
+    {"shotgun.map",    "kotec2.mid",   "Wanton CTF (CTF)", "10 : 00", "10 : 00"     },
+    {"$dmdrop.map",    "kotec2.mid",   "Killing Fields (CTF)", "10 : 00", "10 : 00"     },
     {NULL, NULL, NULL, NULL, NULL}
     };
-#endif*/
 
 char EpisodeNames[2][MAX_EPISODE_NAME_LEN+2] = {
     "^Enter the Wang",
     "^Code of Honor"
 };
+char EpisodeNamesWanton[2][MAX_EPISODE_NAME_LEN+2] = {
+    "^Enter the Wang",
+    "^Wanton Destr"
+};
 char EpisodeSubtitles[2][MAX_EPISODE_SUBTITLE_LEN+1] = {
     "Four levels (Shareware Version)",
     "Eighteen levels (Full Version Only)"
+};
+char EpisodeSubtitlesWanton[2][MAX_EPISODE_SUBTITLE_LEN+1] = {
+    "Four levels (Shareware Version)",
+    "Twelve levels (Full Version Only)"
 };
 char SkillNames[4][MAX_SKILL_NAME_LEN+2] = {
     "^Tiny grasshopper",
@@ -3266,6 +3297,12 @@ VOID AlphaMessage(VOID)
     buildputs("Copyright (c) 1997 3D Realms Entertainment\n");
     }
 
+VOID AlphaMessageWanton(VOID)
+    {
+    buildputs("\"Wanton Destruction\" developed by Sunstorm Interactive (1997)\n");
+    buildputs("Copyright (c) 1997 3D Realms Entertainment\n");
+    }
+
 typedef struct
 {
 char    registered;
@@ -3664,9 +3701,8 @@ int app_main(int argc, char const * const argv[])
     if (gamegrp) {
         Bstrcpy(grpfile, gamegrp->name);
         GameEditionName = gamegrp->ref->name;  // Points to static data, so won't be lost in FreeGroups().
+        GameVariant = gamegrp->game;
     }
-
-    FreeGroups();
 
     buildprintf("GRP file: %s\n", grpfile);
     initgroupfile(grpfile);
@@ -3679,14 +3715,19 @@ int app_main(int argc, char const * const argv[])
     }
 
     buildputs("\n");
-    AlphaMessage();
+    if (GameVariant == GRPFILE_GAME_WD) {
+        memcpy(LevelInfo, LevelInfoWanton, sizeof(LevelInfo));
+        memcpy(EpisodeNames, EpisodeNamesWanton, sizeof(EpisodeNames));
+        memcpy(EpisodeSubtitles, EpisodeSubtitlesWanton, sizeof(EpisodeSubtitles));
+        AlphaMessageWanton();
+    } else {
+        if (SW_SHAREWARE)
+            GameVersion++;
+        AlphaMessage();
+    }
     buildputs("\n");
 
-    if (SW_SHAREWARE) {
-        // Zero out the maps that aren't in shareware version
-        memset(&LevelInfo[MAX_LEVELS_SW+1], 0, sizeof(LEVEL_INFO)*(MAX_LEVELS_REG-MAX_LEVELS_SW));
-        GameVersion++;
-    }
+    FreeGroups();
 
     for (i = 0; i < MAX_SW_PLAYERS; i++)
         INITLIST(&Player[i].PanelSpriteList);

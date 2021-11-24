@@ -37,6 +37,11 @@ struct grpfile {
 extern struct grpfile grpfiles[];
 extern struct grpfile *foundgrps;
 
+enum {
+    GRPFILE_GAME_SW = 0,
+    GRPFILE_GAME_WD = 1,
+};
+
 struct importgroupsmeta {
     void *data;
     void (*progress)(void *data, const char *path);

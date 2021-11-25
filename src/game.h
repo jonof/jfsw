@@ -1783,7 +1783,7 @@ SHRAP_USER_DEFINED      = 99
 typedef struct
     {
     int dist, flags;
-    short depth_fract, depth; // do NOT change this, doubles as a long FIXED point number
+    int depth_fixed;
     short stag,    // ST? tag number - for certain things it helps to know it
         ang,
         height,

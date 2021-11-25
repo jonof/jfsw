@@ -483,7 +483,7 @@ VOID EnemyDefaults(short SpriteNum, ACTOR_ACTION_SETp action, PERSONALITYp perso
 
         if (SectUser[sectnum] && TEST(u->lo_sectp->extra, SECTFX_SINK))
             {
-            depth = SectUser[sectnum]->depth;
+            depth = MSW(SectUser[sectnum]->depth_fixed);
             }
         else
             {

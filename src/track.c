@@ -826,7 +826,7 @@ SectorObjectSetupBounds(SECTOR_OBJECTp sop)
             sop->zorig_ceiling[sop->num_sectors] = sector[k].ceilingz;
 
             if (TEST(sector[k].extra, SECTFX_SINK))
-                sop->zorig_floor[sop->num_sectors] += Z(SectUser[k]->depth);
+                sop->zorig_floor[sop->num_sectors] += Z(MSW(SectUser[k]->depth_fixed));
 
             // lowest and highest floorz's
             if (sector[k].floorz > sop->floor_loz)
@@ -2268,7 +2268,7 @@ void CallbackSOsink(ANIMp ap, void *data)
     ASSERT(su != NULL);
 
     ASSERT(GetSectUser(src_sector));
-    tgt_depth = (GetSectUser(src_sector))->depth;
+    tgt_depth = MSW((GetSectUser(src_sector))->depth_fixed);
 
     #if 0
     for (w = &Water[0]; w < &Water[MAX_WATER]; w++)
@@ -2282,7 +2282,7 @@ void CallbackSOsink(ANIMp ap, void *data)
             // Added a depth_fract to the struct so I could do a
             // 16.16 Fixed point representation to change the depth
             // in a more precise way
-            ndx = AnimSet((int*)&su->depth_fract, tgt_depth<<16, (ap->vel<<8)>>8);
+            ndx = AnimSet(&su->depth_fixed, tgt_depth<<16, (ap->vel<<8)>>8);
             AnimSetVelAdj(ndx, ap->vel_adj);
 
             found = TRUE;
@@ -2300,7 +2300,7 @@ void CallbackSOsink(ANIMp ap, void *data)
             // Added a depth_fract to the struct so I could do a
             // 16.16 Fixed point representation to change the depth
             // in a more precise way
-            ndx = AnimSet((int*)&su->depth_fract, tgt_depth<<16, (ap->vel<<8)>>8);
+            ndx = AnimSet(&su->depth_fixed, tgt_depth<<16, (ap->vel<<8)>>8);
             AnimSetVelAdj(ndx, ap->vel_adj);
             found = TRUE;
             break;

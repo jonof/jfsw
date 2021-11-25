@@ -528,7 +528,7 @@ DoBloodSpray(SHORT Weapon)
                         SET(u->Flags, SPR_BOUNCE);  // no bouncing
                                                     // underwater
 
-                    if (u->lo_sectp && SectUser[sp->sectnum] && SectUser[sp->sectnum]->depth)
+                    if (u->lo_sectp && SectUser[sp->sectnum] && MSW(SectUser[sp->sectnum]->depth_fixed))
                         SET(u->Flags, SPR_BOUNCE);  // no bouncing on
                                                     // shallow water
 
@@ -755,7 +755,7 @@ DoPhosphorus(SHORT Weapon)
                             SET(u->Flags, SPR_BOUNCE);  // no bouncing
                                                         // underwater
 
-                        if (u->lo_sectp && SectUser[sp->sectnum] && SectUser[sp->sectnum]->depth)
+                        if (u->lo_sectp && SectUser[sp->sectnum] && MSW(SectUser[sp->sectnum]->depth_fixed))
                             SET(u->Flags, SPR_BOUNCE);  // no bouncing on
                                                         // shallow water
 
@@ -995,7 +995,7 @@ DoChemBomb(SHORT Weapon)
                             SET(u->Flags, SPR_BOUNCE);  // no bouncing
                                                         // underwater
 
-                        if (u->lo_sectp && SectUser[sp->sectnum] && SectUser[sp->sectnum]->depth)
+                        if (u->lo_sectp && SectUser[sp->sectnum] && MSW(SectUser[sp->sectnum]->depth_fixed))
                             SET(u->Flags, SPR_BOUNCE);  // no bouncing on
                                                         // shallow water
 
@@ -1232,7 +1232,7 @@ DoCaltrops(SHORT Weapon)
                             SET(u->Flags, SPR_BOUNCE);  // no bouncing
                                                         // underwater
 
-                        if (u->lo_sectp && SectUser[sp->sectnum] && SectUser[sp->sectnum]->depth)
+                        if (u->lo_sectp && SectUser[sp->sectnum] && MSW(SectUser[sp->sectnum]->depth_fixed))
                             SET(u->Flags, SPR_BOUNCE);  // no bouncing on
                                                         // shallow water
 

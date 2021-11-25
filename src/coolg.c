@@ -667,8 +667,8 @@ int DoCoolgMatchPlayerZ(short SpriteNum)
     hiz = u->hiz;
 
     // adjust loz/hiz for water depth
-    if (u->lo_sectp && SectUser[u->lo_sectp - sector] && SectUser[u->lo_sectp - sector]->depth)
-        loz -= Z(SectUser[u->lo_sectp - sector]->depth) - Z(8);
+    if (u->lo_sectp && SectUser[u->lo_sectp - sector] && MSW(SectUser[u->lo_sectp - sector]->depth_fixed))
+        loz -= Z(MSW(SectUser[u->lo_sectp - sector]->depth_fixed)) - Z(8);
 
     // lower bound
     if (u->lo_sp)

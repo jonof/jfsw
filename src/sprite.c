@@ -1971,7 +1971,7 @@ SpriteSetup(VOID)
             if (TEST(bit, SECTFX_SINK))
             {
             sectu = GetSectUser(sp->sectnum);
-            sectu->depth = sp->lotag;
+            sectu->depth_fixed = FIXED(sp->lotag,0);
             KillSprite(SpriteNum);
             }
             else if (TEST(bit, SECTFX_OPERATIONAL))
@@ -7242,8 +7242,8 @@ MissileWaterAdjust(short SpriteNum)
     if (u->lo_sectp)
         {
         SECT_USERp sectu = SectUser[u->lo_sectp - sector];
-        if (sectu && sectu->depth)
-            u->loz -= Z(sectu->depth);
+        if (sectu && MSW(sectu->depth_fixed))
+            u->loz -= Z(MSW(sectu->depth_fixed));
         }
     return(0);
     }

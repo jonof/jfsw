@@ -502,8 +502,8 @@ VOID WaterAdjust(short florhit, LONGp loz)
             {
             SECT_USERp sectu = SectUser[NORM_SECTOR(florhit)];
 
-            if (sectu && sectu->depth)
-                *loz += Z(sectu->depth);
+            if (sectu && MSW(sectu->depth_fixed))
+                *loz += Z(MSW(sectu->depth_fixed));
             }
             break;
         case HIT_SPRITE:

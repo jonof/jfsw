@@ -602,6 +602,7 @@ FreeMem(VOID * ptr)
 BOOL
 ValidPtr(VOID * ptr)
     {
+    (void)ptr;
     return (TRUE);
     }
 
@@ -2378,6 +2379,9 @@ LoadingLevelScreen(char *level_name)
     short w,h;
     extern BOOL DemoMode;
     extern char *MNU_LevelName[28];
+
+    (void)level_name;
+
     DrawLoadLevelScreen();
 
     if (DemoMode)
@@ -2434,6 +2438,7 @@ gStateControl(STATEp *State, int *tics)
 int BonusPunchSound(short SpriteNum)
     {
     PLAYERp pp = Player + myconnectindex;
+    (void)SpriteNum;
     PlaySound(DIGI_PLAYERYELL3, &pp->posx, &pp->posy, &pp->posz, v3df_none);
     return(0);
     }
@@ -2441,6 +2446,7 @@ int BonusPunchSound(short SpriteNum)
 int BonusKickSound(short SpriteNum)
     {
     PLAYERp pp = Player + myconnectindex;
+    (void)SpriteNum;
     PlaySound(DIGI_PLAYERYELL2, &pp->posx, &pp->posy, &pp->posz, v3df_none);
     return(0);
     }
@@ -2448,6 +2454,7 @@ int BonusKickSound(short SpriteNum)
 int BonusGrabSound(short SpriteNum)
     {
     PLAYERp pp = Player + myconnectindex;
+    (void)SpriteNum;
     PlaySound(DIGI_BONUS_GRAB, &pp->posx, &pp->posy, &pp->posz, v3df_none);
     return(0);
     }
@@ -2567,6 +2574,8 @@ BonusScreen(PLAYERp pp)
     int line = 0;
     BOOL BonusDone;
     UserInput uinfo = { FALSE, FALSE, dir_None };
+
+    (void)pp;
 
     if(Level < 0) Level = 0;
 
@@ -3034,6 +3043,8 @@ void
 dsprintf_null(char *str, char *format, ...)
     {
     va_list arglist;
+    (void)str;
+    (void)format;
     }
 
 void MoveLoop(void)
@@ -4248,6 +4259,8 @@ ManualPlayerDelete(PLAYERp cur_pp)
     short save_myconnectindex;
     PLAYERp pp;
 
+    (void)cur_pp;
+
     if (numplayers > 1)
         {
         CommPlayers--;
@@ -4890,7 +4903,7 @@ VOID GetMessageInput(PLAYERp pp)
                         CONTROL_ClearButton(i);
 
                     // Put who sent this
-                    sprintf(ds,"%s: %s",pp->PlayerName,MessageInputString);
+                    snprintf(ds,sizeof(ds),"%s: %s",pp->PlayerName,MessageInputString);
 
                     if (gNet.TeamPlay)
                         {
@@ -4959,6 +4972,8 @@ VOID GetConInput(PLAYERp pp)
     signed char MNU_InputSmallString(char *, short);
     signed char MNU_InputString(char *, short);
     static BOOL cur_show;
+
+    (void)pp;
 
     if (MessageInputMode || HelpInputMode)
         return;
@@ -5586,7 +5601,7 @@ void drawoverheadmap(int cposx, int cposy, int czoom, short cang)
     int dax, day, cosang, sinang, xspan, yspan, sprx, spry;
     int xrepeat, yrepeat, z1, z2, startwall, endwall, tilenum, daang;
     int xvect, yvect, xvect2, yvect2;
-    char col;
+    unsigned char col;
     walltype *wal, *wal2;
     spritetype *spr;
     short p;
@@ -6067,6 +6082,8 @@ osdcmd_restartvid(const osdfuncparm_t *parm)
     {
     extern BOOL RestartVideo;
     extern VMODE NewVideoMode;
+
+    (void)parm;
 
     RestartVideo = TRUE;
     NewVideoMode.x = xdim;

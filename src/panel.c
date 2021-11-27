@@ -101,11 +101,13 @@ int PanelScale = FIXED(1,0);
 int
 NullAnimator(short SpriteNum)
     {
+    (void)SpriteNum;
     return (0);
     }
 
 void pNullAnimator(PANEL_SPRITEp psp)
     {
+    (void)psp;
     return;
     }
 
@@ -231,6 +233,7 @@ void pSetSuicide(PANEL_SPRITEp psp)
 
 VOID pToggleCrosshair(PLAYERp pp)
     {
+    (void)pp;
     if (gs.Crosshair)
         gs.Crosshair = FALSE;
     else
@@ -930,47 +933,47 @@ WeaponOperate(PLAYERp pp)
                     InitWeaponShotgun(pp);
                     break;
                 case WPN_RAIL:
-		    if (!SW_SHAREWARE) {
-                    #if 0
-                    if (u->WeaponNum == WPN_RAIL)
+                    if (!SW_SHAREWARE)
                         {
-                        pp->WpnRailType++;
-                        if (pp->WpnRailType > 1)
-                            pp->WpnRailType = 0;
+                        #if 0
+                        if (u->WeaponNum == WPN_RAIL)
+                            {
+                            pp->WpnRailType++;
+                            if (pp->WpnRailType > 1)
+                                pp->WpnRailType = 0;
+                            }
+                        if(pp->WpnRailType == 1)
+                            PlaySound(DIGI_RAIL_UP, &pp->posx, &pp->posy, &pp->posz, v3df_follow);
+                        #endif
+                        InitWeaponRail(pp);
                         }
-                    if(pp->WpnRailType == 1)
-                        PlaySound(DIGI_RAIL_UP, &pp->posx, &pp->posy, &pp->posz, v3df_follow);
-                    #endif
-                    InitWeaponRail(pp);
-                    } else {
-                    PutStringInfo(pp,"Order the full version");
-                    }
+                    else
+                        PutStringInfo(pp,"Order the full version");
                     break;
                 case WPN_HOTHEAD:
-                    if (!SW_SHAREWARE) {
-                    if (u->WeaponNum == WPN_HOTHEAD
-                        || u->WeaponNum == WPN_RING
-                        || u->WeaponNum == WPN_NAPALM)
+                    if (!SW_SHAREWARE)
                         {
-                        pp->WpnFlameType++;
-                        if (pp->WpnFlameType > 2)
-                            pp->WpnFlameType = 0;
-//                      if(pp->Wpn[WPN_HOTHEAD])
-                            pHotHeadOverlays(pp->Wpn[WPN_HOTHEAD], pp->WpnFlameType);
-                        PlaySound(DIGI_HOTHEADSWITCH, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_follow);
+                        if (u->WeaponNum == WPN_HOTHEAD
+                            || u->WeaponNum == WPN_RING
+                            || u->WeaponNum == WPN_NAPALM)
+                            {
+                            pp->WpnFlameType++;
+                            if (pp->WpnFlameType > 2)
+                                pp->WpnFlameType = 0;
+                            if(TRUE) //(pp->Wpn[WPN_HOTHEAD])
+                                pHotHeadOverlays(pp->Wpn[WPN_HOTHEAD], pp->WpnFlameType);
+                            PlaySound(DIGI_HOTHEADSWITCH, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan|v3df_follow);
+                            }
+                        InitWeaponHothead(pp);
                         }
-
-                    InitWeaponHothead(pp);
-                    } else {
-                    PutStringInfo(pp,"Order the full version");
-		    }
+                    else
+                        PutStringInfo(pp,"Order the full version");
                     break;
                 case WPN_HEART:
-                    if (!SW_SHAREWARE) {
-                    InitWeaponHeart(pp);
-                    } else {
-                    PutStringInfo(pp,"Order the full version");
-                    }
+                    if (!SW_SHAREWARE)
+                        InitWeaponHeart(pp);
+                    else
+                        PutStringInfo(pp,"Order the full version");
                     break;
                 case WPN_GRENADE:
                     InitWeaponGrenade(pp);
@@ -7734,6 +7737,8 @@ void rotatespritetile (int thex, int they, short tilenum,
                                   int cx2, int cy2, char dapalnum)
 {
     int x, y, xsiz, ysiz, tx1, ty1, tx2, ty2;
+
+    (void)thex; (void)they;
 
     xsiz = tilesizx[tilenum]; tx1 = cx1/xsiz; tx2 = cx2/xsiz;
     ysiz = tilesizy[tilenum]; ty1 = cy1/ysiz; ty2 = cy2/ysiz;

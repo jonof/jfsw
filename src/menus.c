@@ -1736,11 +1736,11 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
         on_screen = 0;
 // CTW MODIFICATION END
 
-	flushperms();
+    flushperms();
     rotatesprite(0,0,RS_SCALE,0,OrderScreen[on_screen],0,0,
         (ROTATE_SPRITE_CORNER|ROTATE_SPRITE_SCREEN_CLIP|ROTATE_SPRITE_NON_MASK|ROTATE_SPRITE_IGNORE_START_MOST),
         0, 0, xdim-1, ydim-1);
-	SetRedrawScreen(&Player[myconnectindex]);
+    SetRedrawScreen(&Player[myconnectindex]);
 
     if (on_screen == OrderScreenSiz-1)
         {
@@ -2075,7 +2075,7 @@ MNU_QuickLoadCustom(UserCall call, MenuItem_p item)
         memset(dialog, 0, sizeof(dialog));
 
         dialog[0] = "Load saved game";
-        sprintf(QuickLoadDescrDialog,"\"%s\" (Y/N)?",SaveGameDescr[QuickLoadNum]);
+        snprintf(QuickLoadDescrDialog, sizeof(QuickLoadDescrDialog), "\"%s\" (Y/N)?",SaveGameDescr[QuickLoadNum]);
         dialog[1] = QuickLoadDescrDialog;
 
         cust_callback = MNU_QuickLoadCustom;
@@ -2564,8 +2564,12 @@ MNU_InputSmallString(char *name, short pix_width)
         MNU_MeasureSmallString(name, &w, &h);
         if (w < pix_width)
             {
-            if(strlen(name) < 256) // Dont let it go too far!
-                sprintf(name, "%s%c", name, ch);
+            if(strlen(name) < 255) // Dont let it go too far!
+                {
+                h = strlen(name);
+                name[h] = ch;
+                name[h + 1] = 0;
+                }
             }
         }
 
@@ -2672,7 +2676,12 @@ MNU_InputString(char *name, short pix_width)
         MNU_MeasureString(name, &w, &h);
         if (w < pix_width)
             {
-            sprintf(name, "%s%c", name, ch);
+            if(strlen(name) < 79) // Dont let it go too far!
+                {
+                h = strlen(name);
+                name[h] = ch;
+                name[h + 1] = 0;
+                }
             }
         }
 
@@ -2995,14 +3004,14 @@ MNU_LoadSaveDraw(UserCall call, MenuItem_p UNUSED(item))
         if (i == game_num && MenuInputMode && !SavePrompt)
             {
             static BOOL cur_show;
-            char tmp[sizeof(SaveGameDescr[0])];
+            char tmp[sizeof(SaveGameDescr[0])+1];
 
             //cur_show ^= 1;
             cur_show = (totalclock & 32);
             if (cur_show)
                 {
                 // add a cursor to the end
-                sprintf(tmp, "%s_", SaveGameDescr[i]);
+                snprintf(tmp, sizeof(tmp), "%s_", SaveGameDescr[i]);
                 }
             else
                 strcpy(tmp, SaveGameDescr[i]);

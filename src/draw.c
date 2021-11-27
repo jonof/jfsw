@@ -275,6 +275,7 @@ DoShadowFindGroundPoint(SPRITEp sp)
                 RESET(hsp->cstat, CSTAT_SPRITE_BLOCK | CSTAT_SPRITE_BLOCK_HITSCAN);
                 loz = DoShadowFindGroundPoint(sp);
                 hsp->cstat = bak_cstat;
+                return (loz);
                 }
             }
 

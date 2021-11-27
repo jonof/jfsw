@@ -8395,6 +8395,8 @@ MissileSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range, SHORT dang_shift,
 
     SPRITEp hp;
 
+    (void)dang_shift; (void)turn_limit; (void)z_limit;
+
     if (u->WaitTics <= delay_tics)
         u->WaitTics += MISSILEMOVETICS;
 
@@ -8482,6 +8484,8 @@ ComboMissileSeek(SHORT Weapon, SHORT delay_tics, SHORT aware_range, SHORT dang_s
     int ozvel;
 
     SPRITEp hp;
+
+    (void)dang_shift; (void)turn_limit; (void)z_limit;
 
     if (u->WaitTics <= delay_tics)
         u->WaitTics += MISSILEMOVETICS;
@@ -10691,12 +10695,14 @@ DoBoltSeeker(SHORT Weapon)
 int
 DoBoltShrapnel(SHORT Weapon)
     {
+    (void)Weapon;
     return(0);
     }
 
 int
 DoBoltFatMan(SHORT Weapon)
     {
+    (void)Weapon;
     return(0);
     }
 
@@ -12689,6 +12695,7 @@ DoBloodWorm(SHORT Weapon)
 int
 DoMeteor(SHORT Weapon)
     {
+    (void)Weapon;
     return (FALSE);
     }
 
@@ -13273,6 +13280,7 @@ DoSerpRing(SHORT Weapon)
 int
 InitLavaFlame(short SpriteNum)
     {
+    (void)SpriteNum;
     return (0);
     }
 
@@ -17805,6 +17813,8 @@ BulletHitSprite(SPRITEp sp, short hitsprite, short hitsect, short hitwall, int h
     short new;
     short id;
 
+    (void)hitsect; (void)hitwall;
+
     // hit a NPC or PC?
     if (TEST(hsp->extra, SPRX_PLAYER_OR_ENEMY))
         {
@@ -19046,6 +19056,8 @@ SpawnTurretSparks(SPRITEp sp, short hitsect, short hitwall, int hitx, int hity, 
     int nx,ny;
     SPRITEp wp;
     USERp wu;
+
+    (void)sp;
 
     j = SpawnSprite(STAT_MISSILE, UZI_SMOKE, s_UziSmoke, hitsect, hitx, hity, hitz, hitang, 0);
     wp = &sprite[j];
@@ -20730,6 +20742,8 @@ BOOL TestDontStick(short SpriteNum, short hitsect, short hitwall, int hitz)
     USERp u = User[SpriteNum];
     WALLp wp;
 
+    (void)hitz;
+
     if (hitwall < 0)
         {
         ASSERT(SpriteNum>=0);
@@ -20806,6 +20820,7 @@ int QueueHole(short ang, short hitsect, short hitwall, int hitx, int hity, int h
     SPRITEp sp;
     short sectnum;
 
+    (void)ang;
 
     if (TestDontStick(-1,hitsect,hitwall,hitz))
         return(-1);
@@ -21123,23 +21138,29 @@ int QueueWallBlood(short hitsprite, short ang)
     if (WallBloodQueue[WallBloodQueueHead] != -1)
         KillSprite(WallBloodQueue[WallBloodQueueHead]);
 
-        // Randomly choose a wall blood sprite
-        rndnum = RANDOM_RANGE(1024);
-        if(rndnum > 768) {
-            WallBloodQueue[WallBloodQueueHead] = SpriteNum =
-            SpawnSprite(STAT_WALLBLOOD_QUEUE, WALLBLOOD1, s_WallBlood1, hitsect, hitx, hity, hitz, ang, 0);
-        } else
-        if(rndnum > 512) {
-            WallBloodQueue[WallBloodQueueHead] = SpriteNum =
-            SpawnSprite(STAT_WALLBLOOD_QUEUE, WALLBLOOD2, s_WallBlood2, hitsect, hitx, hity, hitz, ang, 0);
-        } else
-        if(rndnum > 128) {
-            WallBloodQueue[WallBloodQueueHead] = SpriteNum =
-            SpawnSprite(STAT_WALLBLOOD_QUEUE, WALLBLOOD3, s_WallBlood3, hitsect, hitx, hity, hitz, ang, 0);
-        } else
+    // Randomly choose a wall blood sprite
+    rndnum = RANDOM_RANGE(1024);
+    if(rndnum > 768)
         {
-            WallBloodQueue[WallBloodQueueHead] = SpriteNum =
-            SpawnSprite(STAT_WALLBLOOD_QUEUE, WALLBLOOD4, s_WallBlood4, hitsect, hitx, hity, hitz, ang, 0);
+        WallBloodQueue[WallBloodQueueHead] = SpriteNum =
+        SpawnSprite(STAT_WALLBLOOD_QUEUE, WALLBLOOD1, s_WallBlood1, hitsect, hitx, hity, hitz, ang, 0);
+        }
+    else
+    if(rndnum > 512)
+        {
+        WallBloodQueue[WallBloodQueueHead] = SpriteNum =
+        SpawnSprite(STAT_WALLBLOOD_QUEUE, WALLBLOOD2, s_WallBlood2, hitsect, hitx, hity, hitz, ang, 0);
+        }
+    else
+    if(rndnum > 128)
+        {
+        WallBloodQueue[WallBloodQueueHead] = SpriteNum =
+        SpawnSprite(STAT_WALLBLOOD_QUEUE, WALLBLOOD3, s_WallBlood3, hitsect, hitx, hity, hitz, ang, 0);
+        }
+    else
+        {
+        WallBloodQueue[WallBloodQueueHead] = SpriteNum =
+        SpawnSprite(STAT_WALLBLOOD_QUEUE, WALLBLOOD4, s_WallBlood4, hitsect, hitx, hity, hitz, ang, 0);
         }
 
     WallBloodQueueHead = (WallBloodQueueHead+1) & (MAX_WALLBLOOD_QUEUE-1);

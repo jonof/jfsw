@@ -609,7 +609,8 @@ void LoadCustomInfoFromScript(char *filename)
 			case CM_MAP:
 			{
 				char *mapnumptr;
-				if (scriptfile_getnumber(script, &curmap)) break; mapnumptr = script->ltextptr;
+				if (scriptfile_getnumber(script, &curmap)) break;
+				mapnumptr = script->ltextptr;
 				if (scriptfile_getbraces(script, &braceend)) break;
 
 				// first map file in LevelInfo[] is bogus, last map file is NULL
@@ -658,10 +659,10 @@ void LoadCustomInfoFromScript(char *filename)
 						case CM_BESTTIME:
 						{
 							int n;
-							char s[10];
+							char s[20];
 							if (scriptfile_getnumber(script, &n)) break;
 
-							Bsnprintf(s, 10, "%d : %02d", n/60, n%60);
+							snprintf(s, sizeof(s), "%d : %02d", n/60, n%60);
 							if (custommaps[curmap].BestTime) free(custommaps[curmap].BestTime);
 							custommaps[curmap].BestTime = strdup(s);
 							LevelInfo[curmap].BestTime = custommaps[curmap].BestTime;
@@ -670,10 +671,10 @@ void LoadCustomInfoFromScript(char *filename)
 						case CM_PARTIME:
 						{
 							int n;
-							char s[10];
+							char s[20];
 							if (scriptfile_getnumber(script, &n)) break;
 
-							Bsnprintf(s, 10, "%d : %02d", n/60, n%60);
+							snprintf(s, sizeof(s), "%d : %02d", n/60, n%60);
 							if (custommaps[curmap].ParTime) free(custommaps[curmap].ParTime);
 							custommaps[curmap].ParTime = strdup(s);
 							LevelInfo[curmap].ParTime = custommaps[curmap].ParTime;
@@ -698,7 +699,8 @@ void LoadCustomInfoFromScript(char *filename)
 			case CM_EPISODE:
 			{
 				char *epnumptr;
-				if (scriptfile_getnumber(script, &curmap)) break; epnumptr = script->ltextptr;
+				if (scriptfile_getnumber(script, &curmap)) break;
+				epnumptr = script->ltextptr;
 				if (scriptfile_getbraces(script, &braceend)) break;
 
 				// first map file in LevelInfo[] is bogus, last map file is NULL
@@ -745,7 +747,8 @@ void LoadCustomInfoFromScript(char *filename)
 			case CM_SKILL:
 			{
 				char *epnumptr;
-				if (scriptfile_getnumber(script, &curmap)) break; epnumptr = script->ltextptr;
+				if (scriptfile_getnumber(script, &curmap)) break;
+				epnumptr = script->ltextptr;
 				if (scriptfile_getbraces(script, &braceend)) break;
 
 				// first map file in LevelInfo[] is bogus, last map file is NULL
@@ -841,7 +844,8 @@ void LoadCustomInfoFromScript(char *filename)
 				char *name = NULL;
 				int amt = -1;
 
-				if (scriptfile_getsymbol(script, &in)) break; invnumptr = script->ltextptr;
+				if (scriptfile_getsymbol(script, &in)) break;
+				invnumptr = script->ltextptr;
 				if (scriptfile_getbraces(script, &braceend)) break;
 
 				if ((unsigned)--in >= (unsigned)InvDecl_TOTAL) {
@@ -887,7 +891,8 @@ void LoadCustomInfoFromScript(char *filename)
 				int maxammo = -1, damagemin = -1, damagemax = -1, pickup = -1, wpickup = -1;
 				int in,id;
 
-				if (scriptfile_getsymbol(script, &in)) break; wpnnumptr = script->ltextptr;
+				if (scriptfile_getsymbol(script, &in)) break;
+				wpnnumptr = script->ltextptr;
 				if (scriptfile_getbraces(script, &braceend)) break;
 
 				if ((unsigned)--in >= (unsigned)SIZ(weaponmap)) {

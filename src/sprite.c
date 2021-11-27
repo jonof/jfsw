@@ -3176,11 +3176,11 @@ SpriteSetup(VOID)
     case 1852:
     case 2470:
 
-    if (TEST(sprite[SpriteNum].extra, SPRX_MULTI_ITEM))
-        if (CommPlayers <= 1 || gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
-            {
-            KillSprite(SpriteNum);
-            }
+        if (TEST(sprite[SpriteNum].extra, SPRX_MULTI_ITEM))
+            if (CommPlayers <= 1 || gNet.MultiGameType == MULTI_GAME_COOPERATIVE)
+                {
+                KillSprite(SpriteNum);
+                }
 
         break;
 
@@ -7420,6 +7420,8 @@ move_ground_missile(short spritenum, int xchange, int ychange, int zchange, int 
     USERp u = User[spritenum];
     short lastsectnum;
     int ox,oy;
+
+    (void)zchange;
 
     sp = &sprite[spritenum];
 

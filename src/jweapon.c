@@ -2031,8 +2031,8 @@ InitBloodSpray(SHORT SpriteNum, BOOL dogib, short velocity)
     else
         cnt = 1;
 
-    //if(dogib)
-    //    {
+    if(TRUE) //(dogib)
+        {
         rnd = RANDOM_RANGE(1000);
         if(rnd > 650)
             PlaySound(DIGI_GIBS1, &sp->x, &sp->y, &sp->z, v3df_none);
@@ -2041,7 +2041,7 @@ InitBloodSpray(SHORT SpriteNum, BOOL dogib, short velocity)
             PlaySound(DIGI_GIBS2, &sp->x, &sp->y, &sp->z, v3df_none);
         else
             PlaySound(DIGI_GIBS3, &sp->x, &sp->y, &sp->z, v3df_none);
-    //    }
+        }
 
     ang = sp->ang;
     vel = velocity;

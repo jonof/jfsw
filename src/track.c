@@ -2819,6 +2819,7 @@ OperateSectorObject(SECTOR_OBJECTp sop, short newang, int newx, int newy)
 VOID
 PlaceSectorObject(SECTOR_OBJECTp sop, short newang, int newx, int newy)
     {
+    (void)newang;
     RefreshPoints(sop, newx - sop->xmid, newy - sop->ymid, FALSE);
     }
 

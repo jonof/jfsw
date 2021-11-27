@@ -811,11 +811,16 @@ int TileRangeMem(int start)
 
 void CON_Cache( void )
     {
-    char incache[8192]; // 8192 so it can index maxwalls as well
+#if MAXSPRITES > MAXWALLS
+#define incachesiz MAXSPRITES
+#else
+#define incachesiz MAXWALLS
+#endif
+    char incache[incachesiz]; // 8192 so it can index maxwalls as well
     int i,j,tottiles,totsprites,totactors;
 
 
-    memset(incache,0,8192);
+    memset(incache,0,sizeof(incache));
 
     // Calculate all level tiles, non-actor stuff
     for(i=0;i<numsectors;i++)
@@ -832,13 +837,13 @@ void CON_Cache( void )
         }
 
     tottiles = 0;
-    for(i=0;i<8192;i++)
+    for(i=0;i<incachesiz;i++)
         if (incache[i] > 0)
             tottiles += tilesizx[i]*tilesizy[i];
 
     //////////////////////////////////////////////
 
-    memset(incache,0,8192);
+    memset(incache,0,sizeof(incache));
 
     // Sprites on the stat list get counted as cached, others don't
     for(i=0;i<MAXSPRITES;i++)
@@ -1263,7 +1268,7 @@ void CON_WinPachinko( void )
     if (CommEnabled)
         return;
 
-	Pachinko_Win_Cheat = !Pachinko_Win_Cheat;
+    Pachinko_Win_Cheat = !Pachinko_Win_Cheat;
 
     //CheckSndData( __FILE__, __LINE__ );
 

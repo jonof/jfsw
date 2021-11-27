@@ -386,7 +386,7 @@ ExternalSoundMod(VOID)
 
         for (vp = voc; vp < &voc[SIZ(voc)]; vp++)
             {
-            if (!vp->name)
+            if (!vp->name[0])
                 continue;
 
             if (!Bstrcasecmp(name, vp->name))
@@ -771,6 +771,7 @@ BOOL CacheSound(int num, int type)
     VOC_INFOp vp = &voc[num];
     extern char cachedebug;
 
+    (void)type;
     PRODUCTION_ASSERT(num >= 0 && num < DIGI_MAX);
 
     // if no data we need to cache it in
@@ -800,6 +801,7 @@ BOOL CacheSound(int num, int type)
             if (type == CACHE_SOUND_PRECACHE)
                 // start it out unlocked at the max
             */
+            if (TRUE)
                 vp->lock = CACHE_UNLOCK_MAX;
 
             allocache((void **)&vp->data, length, &vp->lock);

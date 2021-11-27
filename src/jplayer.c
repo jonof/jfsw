@@ -342,6 +342,7 @@ void BOT_ChooseWeapon(PLAYERp p, USERp u, SW_PACKET *syn)
 
 int getspritescore(int snum, int dapicnum)
 {
+    (void)snum;
 
     switch(dapicnum)
     {

@@ -310,23 +310,23 @@ getsyncstat(void)
     {
     int i;
     PLAYERp pp = Player + myconnectindex;
-	unsigned int val;
-	static unsigned int count;
+    unsigned int val;
+    static unsigned int count;
     extern int syncvaltail, syncvaltottail;
 
     if (!CommEnabled)
         return;
 
-	if (CommPlayers < 2)
-		return;
+    if (CommPlayers < 2)
+        return;
 
     for (i = 0; SyncFunc[i]; i++)
         {
         pp->syncval[pp->syncvalhead & (SYNCFIFOSIZ - 1)][i] = (*SyncFunc[i])();
         }
 
-	val = pp->syncval[pp->syncvalhead & (SYNCFIFOSIZ - 1)][0];
-	count += val;
+    val = pp->syncval[pp->syncvalhead & (SYNCFIFOSIZ - 1)][0];
+    count += val;
 
     pp->syncvalhead++;
     }

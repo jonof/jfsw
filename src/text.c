@@ -281,6 +281,8 @@ DisplayMiniBarNumber(PLAYERp pp, short xs, short ys, int number)
     short x, size;
     short pic;
 
+    (void)pp;
+
     sprintf(buffer, "%03d", number);
 
     for (ptr = buffer, x = xs; *ptr; ptr++, x += size)
@@ -308,6 +310,8 @@ DisplayMiniBarSmString(PLAYERp pp, short xs, short ys, short pal, const char *bu
     const char *ptr;
     PANEL_SPRITEp nsp;
     short pic;
+
+    (void)pp;
 
     #define FRAG_FIRST_ASCII ('!') //exclamation point
     #define FRAG_FIRST_TILE 2930 //exclamation point

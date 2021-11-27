@@ -1441,8 +1441,8 @@ DoBunnyEat(short SpriteNum)
     case 3562:
     case 3563:
     case 3564:
-    if(RANDOM_RANGE(1000) > 970)
-        NewStateGroup(SpriteNum,sg_BunnyRun);
+        if(RANDOM_RANGE(1000) > 970)
+            NewStateGroup(SpriteNum,sg_BunnyRun);
         break;
     default:
         NewStateGroup(SpriteNum,sg_BunnyRun);

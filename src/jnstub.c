@@ -2285,7 +2285,7 @@ ExtGetSpriteCaption(short spritenum)
     {
     SPRITEp sp = &sprite[spritenum];
     char *p = "";
-    char name[64];
+    char name[70];
     char tp[30];
     char multi_str[30] = "";
     SHORT data;
@@ -2296,9 +2296,9 @@ ExtGetSpriteCaption(short spritenum)
     if (TEST_BOOL1(sp) && sp->picnum != ST1)
         {
         if (SP_TAG1(sp) < 0 || SP_TAG1(sp) > 1006)
-            sprintf(name, "Invalid Tag");
+            strcpy(name, "Invalid Tag");
         else
-            sprintf(name, "%s,", StagInfo[SP_TAG1(sp)].name);   // This page faults if
+            snprintf(name, sizeof(name), "%s,", StagInfo[SP_TAG1(sp)].name);   // This page faults if
                                                                 // invalid #
 
         p = name;
@@ -2308,9 +2308,9 @@ ExtGetSpriteCaption(short spritenum)
             {
         case ST1:
             if (SP_TAG1(sp) < 0 || SP_TAG1(sp) > 1006)
-                sprintf(name, "Invalid Tag");
+                strcpy(name, "Invalid Tag");
             else
-                sprintf(name, "*%s,", StagInfo[SP_TAG1(sp)].name);
+                snprintf(name, sizeof(name), "*%s,", StagInfo[SP_TAG1(sp)].name);
             p = name;
             break;
         case ST_QUICK_JUMP:

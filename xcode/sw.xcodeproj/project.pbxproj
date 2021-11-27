@@ -1218,7 +1218,6 @@
 					"-W",
 					"-Wall",
 					"-Wno-unused-variable",
-					"-Wno-unused-parameter",
 				);
 			};
 			name = Debug;
@@ -1251,7 +1250,6 @@
 					"-W",
 					"-Wall",
 					"-Wno-unused-variable",
-					"-Wno-unused-parameter",
 				);
 			};
 			name = Release;

@@ -46,64 +46,64 @@ DoSectorObjectSetScale(short match)
         if (sop->xmid == MAXLONG)
             continue;
 
-            if (sop->match_event == match)
+        if (sop->match_event == match)
+            {
+            SET(sop->flags, SOBJ_DYNAMIC);
+            sop->PreMoveAnimator = ScaleSectorObject;
+
+            switch (sop->scale_active_type)
                 {
-                SET(sop->flags, SOBJ_DYNAMIC);
-                sop->PreMoveAnimator = ScaleSectorObject;
-
-                switch (sop->scale_active_type)
-                    {
-                    case SO_SCALE_RANDOM_POINT:
-                        if (sop->scale_type == SO_SCALE_HOLD || sop->scale_type == SO_SCALE_NONE)
-                            {
-                            // if holding start it up
-                            sop->scale_type = sop->scale_active_type;
-                            }
-                        else
-                            {
-                            // if moving set to hold
-                            sop->scale_type = SO_SCALE_HOLD;
-                            }
-                        break;
-
-                    case SO_SCALE_DEST:
-
+                case SO_SCALE_RANDOM_POINT:
+                    if (sop->scale_type == SO_SCALE_HOLD || sop->scale_type == SO_SCALE_NONE)
+                        {
+                        // if holding start it up
                         sop->scale_type = sop->scale_active_type;
+                        }
+                    else
+                        {
+                        // if moving set to hold
+                        sop->scale_type = SO_SCALE_HOLD;
+                        }
+                    break;
 
-                        if (sop->scale_dist == sop->scale_dist_max)
-                            {
-                            // make it negative
-                            if (sop->scale_speed > 0)
-                                sop->scale_speed = -sop->scale_speed;
-                            }
-                        else
-                        if (sop->scale_dist == sop->scale_dist_min)
-                            {
-                            // make it positive
-                            if (sop->scale_speed < 0)
-                                sop->scale_speed = -sop->scale_speed;
-                            }
-                        else
-                            {
-                            // make it positive
-                            if (sop->scale_speed < 0)
-                                sop->scale_speed = -sop->scale_speed;
-                            }
-                        break;
+                case SO_SCALE_DEST:
 
-                    case SO_SCALE_RANDOM:
-                    case SO_SCALE_CYCLE:
-                        if (sop->scale_type == SO_SCALE_HOLD)
-                            {
-                            // if holding start it up
-                            sop->scale_type = sop->scale_active_type;
-                            }
-                        else
-                            {
-                            // if moving set to hold
-                            sop->scale_type = SO_SCALE_HOLD;
-                            }
-                        break;
+                    sop->scale_type = sop->scale_active_type;
+
+                    if (sop->scale_dist == sop->scale_dist_max)
+                        {
+                        // make it negative
+                        if (sop->scale_speed > 0)
+                            sop->scale_speed = -sop->scale_speed;
+                        }
+                    else
+                    if (sop->scale_dist == sop->scale_dist_min)
+                        {
+                        // make it positive
+                        if (sop->scale_speed < 0)
+                            sop->scale_speed = -sop->scale_speed;
+                        }
+                    else
+                        {
+                        // make it positive
+                        if (sop->scale_speed < 0)
+                            sop->scale_speed = -sop->scale_speed;
+                        }
+                    break;
+
+                case SO_SCALE_RANDOM:
+                case SO_SCALE_CYCLE:
+                    if (sop->scale_type == SO_SCALE_HOLD)
+                        {
+                        // if holding start it up
+                        sop->scale_type = sop->scale_active_type;
+                        }
+                    else
+                        {
+                        // if moving set to hold
+                        sop->scale_type = SO_SCALE_HOLD;
+                        }
+                    break;
                 }
             }
         }

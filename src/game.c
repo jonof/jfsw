@@ -274,6 +274,9 @@ BOOL InGame = FALSE;
 
 int CommandSetup = FALSE;
 
+const char *GameEditionName = "Unknown edition";
+BOOL IsShareware = FALSE, UseDarts = FALSE;
+
 char UserMapName[80]="", buffer[80], ch;
 char LevelName[20];
 
@@ -1363,9 +1366,9 @@ InitLevel(VOID)
         char windowtitle[256];
 
         if (UserMapName[0])
-            Bsnprintf(windowtitle, sizeof(windowtitle), "User map: %s - %s", UserMapName, gameeditionname);
+            Bsnprintf(windowtitle, sizeof(windowtitle), "User map: %s - %s", UserMapName, GameEditionName);
         else
-            Bsnprintf(windowtitle, sizeof(windowtitle), "%s - %s", LevelInfo[Level].Description, gameeditionname);
+            Bsnprintf(windowtitle, sizeof(windowtitle), "%s - %s", LevelInfo[Level].Description, GameEditionName);
 
         windowtitle[sizeof(windowtitle)-1] = 0;
         wm_setwindowtitle(windowtitle);
@@ -2122,7 +2125,7 @@ MenuLevel(VOID)
     DSPRINTF(ds,"MenuLevel...");
     MONO_PRINT(ds);
 
-    wm_setwindowtitle(gameeditionname);
+    wm_setwindowtitle(GameEditionName);
 
     if (gs.MusicOn)
         {
@@ -2891,7 +2894,7 @@ GameIntro(VOID)
     DSPRINTF(ds,"GameIntro...");
     MONO_PRINT(ds);
 
-    wm_setwindowtitle(gameeditionname);
+    wm_setwindowtitle(GameEditionName);
 
     if (DemoPlaying)
         return;
@@ -3340,7 +3343,6 @@ sw -map testmap.map -autonet 0,0,1,1,1,0,3,2,1,1 -f4 -name 1234567890 -net 12345
 commit -map grenade -autonet 0,0,1,1,1,0,3,2,1,1 -name frank
 */
 
-char isShareware = FALSE, useDarts = FALSE;
 
 int DetectShareware(void)
     {
@@ -3352,7 +3354,7 @@ int DetectShareware(void)
     h = kopen4load(DOS_SCREEN_NAME_SW,1);
     if (h >= 0)
         {
-        isShareware = TRUE;
+        IsShareware = TRUE;
         kclose(h);
         return 0;
         }
@@ -3360,7 +3362,7 @@ int DetectShareware(void)
     h = kopen4load(DOS_SCREEN_NAME_REG,1);
     if (h >= 0)
         {
-        isShareware = FALSE;
+        IsShareware = FALSE;
         kclose(h);
         return 0;
         }
@@ -3421,8 +3423,6 @@ void CommandLineHelp(CLI_ARG *args, int numargs)
         free(str);
     }
 
-char grpfile[BMAX_PATH+1] = "sw.grp";
-const char *gameeditionname = "Unknown edition";
 
 int app_main(int argc, char const * const argv[])
     {
@@ -3437,6 +3437,7 @@ int app_main(int argc, char const * const argv[])
     ULONG TotalMemory;
     int configloaded;
     struct grpfile *gamegrp = NULL;
+    char grpfile[BMAX_PATH+1] = "sw.grp";
 
 #ifdef RENDERTYPEWIN
     if (win_checkinstance()) {
@@ -3662,7 +3663,7 @@ int app_main(int argc, char const * const argv[])
 
     if (gamegrp) {
         Bstrcpy(grpfile, gamegrp->name);
-        gameeditionname = gamegrp->ref->name;  // Points to static data, so won't be lost in FreeGroups().
+        GameEditionName = gamegrp->ref->name;  // Points to static data, so won't be lost in FreeGroups().
     }
 
     FreeGroups();

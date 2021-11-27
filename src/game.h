@@ -42,10 +42,10 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "settings.h"
 
 //#define SW_SHAREWARE 1     // This determines whether game is shareware compile or not!
-extern char isShareware, useDarts;
-extern const char *gameeditionname;
-#define SW_SHAREWARE (isShareware)
-#define SW_REGISTERED (!isShareware)
+extern BOOL IsShareware, UseDarts;
+extern const char *GameEditionName;
+#define SW_SHAREWARE (IsShareware)
+#define SW_REGISTERED (!IsShareware)
 
 // Turn warning off for unreferenced variables.
 // I really should fix them at some point
@@ -987,7 +987,7 @@ extern VOID (*InitWeapon[MAX_WEAPONS])(PLAYERp);
 
 #define MAX_SW_PLAYERS_SW  (4)
 #define MAX_SW_PLAYERS_REG (8)
-#define MAX_SW_PLAYERS (isShareware ? MAX_SW_PLAYERS_SW : MAX_SW_PLAYERS_REG)
+#define MAX_SW_PLAYERS (SW_SHAREWARE ? MAX_SW_PLAYERS_SW : MAX_SW_PLAYERS_REG)
 
 typedef struct
     {
@@ -1004,7 +1004,7 @@ typedef struct
 
 #define MAX_LEVELS_REG 29
 #define MAX_LEVELS_SW 4
-#define MAX_LEVELS (isShareware ? MAX_LEVELS_SW : MAX_LEVELS_REG)
+#define MAX_LEVELS (SW_SHAREWARE ? MAX_LEVELS_SW : MAX_LEVELS_REG)
 
 typedef struct
 {

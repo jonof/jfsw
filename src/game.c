@@ -940,6 +940,7 @@ InitGame(VOID)
     extern int MovesPerPacket;
     //void *ReserveMem=NULL;
     int i;
+    extern void (*ASS_MessageOutputString)(const char *);
 
         DSPRINTF(ds,"InitGame...");
     MONO_PRINT(ds);
@@ -961,8 +962,6 @@ InitGame(VOID)
     CON_InitConsole();  // Init console command list
 
     ////DSPRINTF(ds,"%s, %d",__FILE__,__LINE__);   MONO_PRINT(ds);
-
-    //InitFX();
 
     memcpy(palette_data,palette,768);
     InitPalette();
@@ -1083,6 +1082,7 @@ InitGame(VOID)
 
     COVERsetbrightness(gs.Brightness,&palette_data[0][0]);
 
+    ASS_MessageOutputString = buildputs;    // Send JFAudioLib messages to the JFBuild console.
     InitFX();   // JBF: do it down here so we get a hold of the window handle
     InitMusic();
 

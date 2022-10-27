@@ -603,6 +603,9 @@ int32 CONFIG_ReadSetup( void )
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "GLUseTextureCompr", &glusetexcompr);
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "GLUseCompressedTextureCache", &glusetexcache);
 #endif
+#if USE_OPENGL
+      SCRIPT_GetNumber( scripthandle, "Screen Setup", "GLVsync", &glswapinterval);
+#endif
 
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "FXDevice",&FXDevice);
       SCRIPT_GetNumber( scripthandle, "Sound Setup", "MusicDevice",&MusicDevice);
@@ -674,6 +677,9 @@ void CONFIG_WriteSetup( void )
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLSupersample",glsampleshading,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLUseTextureCompr",glusetexcompr,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLUseCompressedTextureCache", glusetexcache,FALSE,FALSE);
+#endif
+#if USE_OPENGL
+   SCRIPT_PutNumber( scripthandle, "Screen Setup", "GLVsync",glswapinterval,FALSE,FALSE);
 #endif
 
    SCRIPT_PutNumber( scripthandle, "Sound Setup", "FXDevice", FXDevice, FALSE, FALSE);

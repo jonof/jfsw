@@ -275,8 +275,8 @@ BOOL InGame = FALSE;
 int CommandSetup = FALSE;
 
 const char *GameEditionName = "Unknown edition";
-static int GameVariant = GRPFILE_GAME_SW;
-BOOL IsShareware = FALSE, UseDarts = FALSE;
+int GameVariant = GRPFILE_GAME_SW;
+BOOL UseDarts = FALSE;
 
 char UserMapName[80]="", buffer[80], ch;
 char LevelName[20];
@@ -3402,7 +3402,7 @@ int DetectShareware(void)
     h = kopen4load(DOS_SCREEN_NAME_SW,1);
     if (h >= 0)
         {
-        IsShareware = TRUE;
+        GameVariant = GRPFILE_GAME_SWSW;
         kclose(h);
         return 0;
         }
@@ -3410,7 +3410,7 @@ int DetectShareware(void)
     h = kopen4load(DOS_SCREEN_NAME_REG,1);
     if (h >= 0)
         {
-        IsShareware = FALSE;
+        GameVariant = GRPFILE_GAME_SW;
         kclose(h);
         return 0;
         }
@@ -3484,7 +3484,7 @@ int app_main(int argc, char const * const argv[])
     int netparam = 0, endnetparam = 0;
     ULONG TotalMemory;
     int configloaded;
-    struct grpfile *gamegrp = NULL;
+    struct grpfile const *gamegrp = NULL;
     char grpfile[BMAX_PATH+1] = "sw.grp";
 
 #ifdef RENDERTYPEWIN
@@ -3626,22 +3626,7 @@ int app_main(int argc, char const * const argv[])
     }
 
     ScanGroups();
-    {
-        // Try and identify grpfile in the set of GRPs.
-        struct grpfile *first = NULL;
-        for (gamegrp = foundgrps; gamegrp; gamegrp = gamegrp->next) {
-            if (!gamegrp->ref) continue;     // Not a recognised game file.
-            if (!first) first = gamegrp;
-            if (!Bstrcasecmp(gamegrp->name, grpfile)) {
-                // Found it.
-                break;
-            }
-        }
-        if (!gamegrp && first) {
-            // It wasn't found, so use the first recognised one scanned.
-            gamegrp = first;
-        }
-    }
+    gamegrp = IdentifyGroup(grpfile);
 
     if (netparam) { // -net parameter on command line.
         netsuccess = initmultiplayersparms(endnetparam - netparam, &argv[netparam]);
@@ -3717,7 +3702,7 @@ int app_main(int argc, char const * const argv[])
 
     buildprintf("GRP file: %s\n", grpfile);
     initgroupfile(grpfile);
-    if (!DetectShareware()) {
+    if (!gamegrp && !DetectShareware()) {
         if (SW_SHAREWARE) {
             buildputs("Detected shareware GRP\n");
         } else {

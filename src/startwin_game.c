@@ -167,7 +167,7 @@ static void populate_sound_quality(BOOL firstTime)
 
 static void populate_game_list(BOOL firstTime)
 {
-    struct grpfile *fg;
+    struct grpfile const *fg;
     int i;
     LVITEM lvi;
     HWND hwnd;
@@ -179,7 +179,7 @@ static void populate_game_list(BOOL firstTime)
         ListView_DeleteAllItems(hwnd);
     }
 
-    for (fg = foundgrps, i = 0; fg; fg = fg->next, i++) {
+    for (fg = GroupsFound(), i = 0; fg; fg = fg->next, i++) {
         if (!fg->ref) continue;
 
         lvi.mask = LVIF_PARAM | LVIF_TEXT;
@@ -374,7 +374,7 @@ static void startbutton_clicked(void)
         lvi.iItem = i;
         if (ListView_GetItem(hwnd, &lvi)) {
             if (lvi.state & LVIS_SELECTED) {
-                settings->selectedgrp = (struct grpfile *)lvi.lParam;
+                settings->selectedgrp = (struct grpfile const *)lvi.lParam;
                 break;
             }
         }

@@ -35,12 +35,6 @@ struct grpfile {
     struct grpfile *next;
 };
 extern struct grpfile grpfiles[];
-extern struct grpfile *foundgrps;
-
-enum {
-    GRPFILE_GAME_SW = 0,
-    GRPFILE_GAME_WD = 1,
-};
 
 struct importgroupsmeta {
     void *data;
@@ -56,6 +50,8 @@ enum {
 };
 
 int ScanGroups(void);
+struct grpfile const * IdentifyGroup(const char *grpfilename);
+struct grpfile const * GroupsFound(void);
 void FreeGroups(void);
 int ImportGroupsFromPath(const char *path, struct importgroupsmeta *cbs);
 

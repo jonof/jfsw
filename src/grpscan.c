@@ -31,13 +31,21 @@
 #include "build.h"
 #include "grpscan.h"
 
+enum {
+    GRPFILE_GAME_SW = 0,
+    GRPFILE_GAME_SWSW = 1,
+    GRPFILE_GAME_WD = 2,
+};
+
 struct grpfile grpfiles[] = {
     { "Registered Version",         0x7545319F, 47536148, GRPFILE_GAME_SW, "sw.grp", NULL, NULL },
-    { "Shareware Version",          0x08A7FA1F, 26056769, GRPFILE_GAME_SW, "swshare.grp", NULL, NULL },
+    { "Shareware Version",          0x08A7FA1F, 26056769, GRPFILE_GAME_SWSW, "swshare.grp", NULL, NULL },
+    { "Mac Demo Version",           0x4227F535, 26056769, GRPFILE_GAME_SWSW, "swmacshare.grp", NULL, NULL },
+    { "Mac Registered Version",     0xD54A99C9, 47536148, GRPFILE_GAME_SW, "swmac.grp", NULL, NULL },
     { "Wanton Destruction (Addon)", 0xA9AAA7B7, 48698128, GRPFILE_GAME_WD, "wt.grp", NULL, NULL },
     { NULL, 0, 0, 0, NULL, NULL, NULL },
 };
-struct grpfile *foundgrps = NULL;
+static struct grpfile *foundgrps = NULL;
 
 #define GRPCACHEFILE "grpfiles.cache"
 static struct grpcache {
@@ -221,6 +229,31 @@ int ScanGroups(void)
     }
 
     return 0;
+}
+
+struct grpfile const * IdentifyGroup(const char *grpfilename)
+{
+    struct grpfile *first = NULL, *gamegrp = NULL;
+
+    // Try and identify grpfile in the set of GRPs.
+    for (gamegrp = foundgrps; gamegrp; gamegrp = gamegrp->next) {
+        if (!gamegrp->ref) continue;     // Not a recognised game file.
+        if (!first) first = gamegrp;
+        if (!Bstrcasecmp(gamegrp->name, grpfilename)) {
+            // Found it.
+            break;
+        }
+    }
+    if (!gamegrp && first) {
+        // It wasn't found, so use the first recognised one scanned.
+        gamegrp = first;
+    }
+    return gamegrp;
+}
+
+struct grpfile const * GroupsFound(void)
+{
+    return foundgrps;
 }
 
 void FreeGroups(void)

@@ -41,11 +41,17 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "sounds.h"
 #include "settings.h"
 
-//#define SW_SHAREWARE 1     // This determines whether game is shareware compile or not!
-extern BOOL IsShareware, UseDarts;
+enum {
+    GRPFILE_GAME_SW = 0,
+    GRPFILE_GAME_SWSW = 1,
+    GRPFILE_GAME_WD = 2,
+};
+
+extern BOOL UseDarts;
 extern const char *GameEditionName;
-#define SW_SHAREWARE (IsShareware)
-#define SW_REGISTERED (!IsShareware)
+extern int GameVariant;
+#define SW_SHAREWARE (GameVariant == GRPFILE_GAME_SW)
+#define SW_REGISTERED (GameVariant != GRPFILE_GAME_SW)
 
 // Turn warning off for unreferenced variables.
 // I really should fix them at some point

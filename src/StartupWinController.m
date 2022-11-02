@@ -407,7 +407,7 @@ static int importmeta_cancelled(void *data);
     int mode = -1;
     NSTableView *table;
     NSValue *grpvalue;
-    struct grpfile *grpfile;
+    struct grpfile const *grpfile;
 
     mode = [[videoMode3DPUButton selectedItem] tag];
     if (mode >= 0) {
@@ -445,7 +445,7 @@ static int importmeta_cancelled(void *data);
                    objectValueForTableColumn:[table tableColumnWithIdentifier:@"2"]
                                          row:[table selectedRow]];
     if (grpvalue) {
-        settings->selectedgrp = (struct grpfile *)[grpvalue pointerValue];
+        settings->selectedgrp = (struct grpfile const *)[grpvalue pointerValue];
     }
 
     settings->forcesetup = [alwaysShowButton state] == NSOnState;

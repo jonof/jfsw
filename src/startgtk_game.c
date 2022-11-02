@@ -210,7 +210,7 @@ static void populate_sound_quality(gboolean firsttime)
 
 static void populate_game_list(gboolean firsttime)
 {
-    struct grpfile *fg;
+    struct grpfile const *fg;
     GtkTreeIter iter;
     GtkTreeSelection *sel;
 
@@ -218,7 +218,7 @@ static void populate_game_list(gboolean firsttime)
 
     gtk_list_store_clear(controls.gamelist);
 
-    for (fg = foundgrps; fg; fg = fg->next) {
+    for (fg = GroupsFound(); fg; fg = fg->next) {
         if (!fg->ref) continue;
         gtk_list_store_insert_with_values(controls.gamelist,
             &iter, -1,

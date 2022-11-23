@@ -735,22 +735,23 @@ TerminateGame(VOID)
 VOID
 LoadLevel(char *filename)
     {
-    int pos;
+    int rv;
 
-    if (loadboard(filename, SW_SHAREWARE ? 1 : 0, &Player[0].posx, &Player[0].posy, &Player[0].posz, &Player[0].pang, &Player[0].cursectnum) == -1)
-        {
+    rv = loadboard(filename, SW_SHAREWARE ? 1 : 0, &Player[0].posx, &Player[0].posy, &Player[0].posz, &Player[0].pang, &Player[0].cursectnum);
+    if (rv < 0)
         TerminateGame();
-#ifdef RENDERTYPEWIN
-    {
-        char msg[256];
-        Bsnprintf(msg, 256, "Level not found: %s", filename);
-        wm_msgbox(NULL, msg);
-    }
-#else
-        printf("Level Not Found: %s\n", filename);
-#endif
-        exit(0);
+    switch (rv)
+        {
+        case -1:
+            wm_msgbox(NULL, "Level not found: %s", filename);
+            break;
+
+        case -2:
+            wm_msgbox(NULL, "Level not compatible: %s", filename);
+            break;
         }
+    if (rv < 0)
+        exit(0);
     }
 
 VOID
@@ -762,13 +763,7 @@ LoadImages(char *filename)
     if (loadpics(filename, 32*1048576) == -1)
         {
         TerminateGame();
-#ifdef RENDERTYPEWIN
-    {
         wm_msgbox(NULL, "Art not found. Please check your GRP file.");
-    }
-#else
-        printf("Art not found. Please check your GRP file.\n");
-#endif
         exit(-1);
         }
     }

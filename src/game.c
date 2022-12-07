@@ -275,7 +275,7 @@ BOOL InGame = FALSE;
 int CommandSetup = FALSE;
 
 const char *GameEditionName = "Unknown edition";
-int GameVariant = GRPFILE_GAME_SW;
+int GameVariant = GRPFILE_GAME_REG;
 BOOL UseDarts = FALSE;
 
 char UserMapName[80]="", buffer[80], ch;
@@ -3397,7 +3397,7 @@ int DetectShareware(void)
     h = kopen4load(DOS_SCREEN_NAME_SW,1);
     if (h >= 0)
         {
-        GameVariant = GRPFILE_GAME_SWSW;
+        GameVariant = GRPFILE_GAME_SHARE;
         kclose(h);
         return 0;
         }
@@ -3405,7 +3405,7 @@ int DetectShareware(void)
     h = kopen4load(DOS_SCREEN_NAME_REG,1);
     if (h >= 0)
         {
-        GameVariant = GRPFILE_GAME_SW;
+        GameVariant = GRPFILE_GAME_REG;
         kclose(h);
         return 0;
         }

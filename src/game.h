@@ -42,16 +42,16 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "settings.h"
 
 enum {
-    GRPFILE_GAME_SW = 0,
-    GRPFILE_GAME_SWSW = 1,
+    GRPFILE_GAME_REG = 0,
+    GRPFILE_GAME_SHARE = 1,
     GRPFILE_GAME_WD = 2,
 };
 
 extern BOOL UseDarts;
 extern const char *GameEditionName;
 extern int GameVariant;
-#define SW_SHAREWARE (GameVariant == GRPFILE_GAME_SW)
-#define SW_REGISTERED (GameVariant != GRPFILE_GAME_SW)
+#define SW_SHAREWARE (GameVariant == GRPFILE_GAME_SHARE)
+#define SW_REGISTERED (GameVariant != GRPFILE_GAME_SHARE)
 
 // Turn warning off for unreferenced variables.
 // I really should fix them at some point

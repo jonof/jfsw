@@ -32,16 +32,16 @@
 #include "grpscan.h"
 
 enum {
-    GRPFILE_GAME_SW = 0,
-    GRPFILE_GAME_SWSW = 1,
+    GRPFILE_GAME_REG = 0,
+    GRPFILE_GAME_SHARE = 1,
     GRPFILE_GAME_WD = 2,
 };
 
 struct grpfile grpfiles[] = {
-    { "Registered Version",         0x7545319F, 47536148, GRPFILE_GAME_SW, "sw.grp", NULL, NULL },
-    { "Shareware Version",          0x08A7FA1F, 26056769, GRPFILE_GAME_SWSW, "swshare.grp", NULL, NULL },
-    { "Mac Demo Version",           0x4227F535, 26056769, GRPFILE_GAME_SWSW, "swmacshare.grp", NULL, NULL },
-    { "Mac Registered Version",     0xD54A99C9, 47536148, GRPFILE_GAME_SW, "swmac.grp", NULL, NULL },
+    { "Registered Version",         0x7545319F, 47536148, GRPFILE_GAME_REG, "sw.grp", NULL, NULL },
+    { "Shareware Version",          0x08A7FA1F, 26056769, GRPFILE_GAME_SHARE, "swshare.grp", NULL, NULL },
+    { "Mac Demo Version",           0x4227F535, 26056769, GRPFILE_GAME_SHARE, "swmacshare.grp", NULL, NULL },
+    { "Mac Registered Version",     0xD54A99C9, 47536148, GRPFILE_GAME_REG, "swmac.grp", NULL, NULL },
     { "Wanton Destruction (Addon)", 0xA9AAA7B7, 48698128, GRPFILE_GAME_WD, "wt.grp", NULL, NULL },
     { NULL, 0, 0, 0, NULL, NULL, NULL },
 };

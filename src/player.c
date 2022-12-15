@@ -151,9 +151,6 @@ PLAYER Player[MAX_SW_PLAYERS_REG + 1];
 
 short NormalVisibility;
 
-static short oldmousebstatus = 0;
-static short mousx, mousy, mousz, bstatus;
-
 int InitBloodSpray(SHORT SpriteNum, BOOL dogib, short velocity);
 
 SPRITEp FindNearSprite(SPRITEp sp, short stat);
@@ -1099,7 +1096,6 @@ DoPlayerSpriteThrow(PLAYERp pp)
 int
 DoPlayerSpriteReset(short SpriteNum)
     {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     PLAYERp pp;
 
@@ -1136,8 +1132,9 @@ SetVisNorm(void)
     return (0);
     }
 
-void pSetVisNorm(PANEL_SPRITEp UNUSED(psp))
+void pSetVisNorm(PANEL_SPRITEp psp)
     {
+    (void)psp;
 //    SetVisNorm();
     }
 
@@ -1177,7 +1174,7 @@ FAFcansee(LONG xs, LONG ys, LONG zs, SHORT sects,
 int
 DoPickTarget(SPRITEp sp, WORD max_delta_ang, BOOL skip_targets)
     {
-    #define PICK_DIST 40000L
+    #define PICK_DIST 40000
 
     short i, nexti, angle2, delta_ang;
     int dist, zh;
@@ -1313,7 +1310,7 @@ void
 DoPlayerTeleportPause(PLAYERp pp)
     {
     USERp u = User[pp->PlayerSprite];
-    SPRITEp sp = pp->SpriteP;
+    //SPRITEp sp = pp->SpriteP;
 
     // set this so we don't get stuck in teleporting loop
     pp->lastcursectnum = pp->cursectnum;
@@ -1337,7 +1334,7 @@ DoPlayerTeleportPause(PLAYERp pp)
 VOID
 DoPlayerTeleportToSprite(PLAYERp pp, SPRITEp sp)
     {
-    int cz, fz;
+    //int cz, fz;
 
     pp->pang = pp->oang = sp->ang;
     pp->posx = pp->oposx = pp->oldposx = sp->x;
@@ -1356,8 +1353,6 @@ DoPlayerTeleportToSprite(PLAYERp pp, SPRITEp sp)
 VOID
 DoPlayerTeleportToOffset(PLAYERp pp)
     {
-    int fz,cz;
-
     pp->oposx = pp->oldposx = pp->posx;
     pp->oposy = pp->oldposy = pp->posy;
 
@@ -1371,7 +1366,6 @@ DoSpawnTeleporterEffect(SPRITEp sp)
     {
     extern STATE s_TeleportEffect[];
     short effect;
-    USERp eu;
     int nx, ny;
     SPRITEp ep;
 
@@ -1386,7 +1380,6 @@ DoSpawnTeleporterEffect(SPRITEp sp)
         sp->ang, 0);
 
     ep = &sprite[effect];
-    eu = User[effect];
 
     setspritez(effect, ep->x, ep->y, ep->z);
 
@@ -1404,8 +1397,6 @@ DoSpawnTeleporterEffectPlace(SPRITEp sp)
     {
     extern STATE s_TeleportEffect[];
     short effect;
-    USERp eu;
-    int nx, ny;
     SPRITEp ep;
 
     effect = SpawnSprite(STAT_MISSILE, 0, s_TeleportEffect, sp->sectnum,
@@ -1413,7 +1404,6 @@ DoSpawnTeleporterEffectPlace(SPRITEp sp)
         sp->ang, 0);
 
     ep = &sprite[effect];
-    eu = User[effect];
 
     setspritez(effect, ep->x, ep->y, ep->z);
 
@@ -1428,19 +1418,19 @@ DoSpawnTeleporterEffectPlace(SPRITEp sp)
 VOID
 DoPlayerWarpTeleporter(PLAYERp pp)
     {
-    USERp u = User[pp->PlayerSprite], eu;
-    SPRITEp sp = pp->SpriteP, ep;
+    USERp u = User[pp->PlayerSprite];
+    SPRITEp sp = pp->SpriteP;
     short pnum;
     SPRITEp sp_warp;
 
-#if 0
+/*
 TAG 2 = match
 TAG 3 = Type
     Sprite - 0,32 always teleports you to the center at the angle the sprite is facing
     Offset - 1 always teleports you by the offset.  Does not touch the angle
 TAG 4 = angle
 TAG 5 to 8 = random match locations
-#endif
+*/
 
 
     if ((sp_warp = Warp(&pp->posx, &pp->posy, &pp->posz, &pp->cursectnum)) == NULL)
@@ -1552,7 +1542,6 @@ DoPlayerCrawlHeight(PLAYERp pp)
 VOID
 DoPlayerTurn(PLAYERp pp)
     {
-    int doubvel;
     short angvel;
 
     #define TURN_SHIFT 2
@@ -2051,8 +2040,6 @@ DoPlayerBeginRecoil(PLAYERp pp, short pix_amt)
 VOID
 DoPlayerRecoil(PLAYERp pp)
     {
-    int dist;
-
     // controls how fast you move through the sin table
     pp->recoil_ndx += pp->recoil_speed;
 
@@ -2073,7 +2060,6 @@ DoPlayerRecoil(PLAYERp pp)
 VOID
 DoPlayerSpriteBob(PLAYERp pp, short player_height, short bob_amt, short bob_speed)
     {
-    USERp u = User[pp->PlayerSprite];
     SPRITEp sp = pp->SpriteP;
 
     pp->bob_ndx = (pp->bob_ndx + (synctics << bob_speed)) & 2047;
@@ -2303,7 +2289,6 @@ VOID
 DoPlayerSlide(PLAYERp pp)
     {
     USERp u = User[pp->PlayerSprite];
-    int ret;
     int push_ret;
 
     if ((pp->slide_xvect|pp->slide_yvect) == 0)
@@ -2331,7 +2316,7 @@ DoPlayerSlide(PLAYERp pp)
             }
         return;
         }
-    ret = clipmove(&pp->posx, &pp->posy, &pp->posz, &pp->cursectnum, pp->slide_xvect, pp->slide_yvect, ((int)pp->SpriteP->clipdist<<2), pp->ceiling_dist, pp->floor_dist, CLIPMASK_PLAYER);
+    clipmove(&pp->posx, &pp->posy, &pp->posz, &pp->cursectnum, pp->slide_xvect, pp->slide_yvect, ((int)pp->SpriteP->clipdist<<2), pp->ceiling_dist, pp->floor_dist, CLIPMASK_PLAYER);
     PlayerCheckValidMove(pp);
     push_ret = pushmove(&pp->posx, &pp->posy, &pp->posz, &pp->cursectnum, ((int)pp->SpriteP->clipdist<<2), pp->ceiling_dist, pp->floor_dist, CLIPMASK_PLAYER);
     if (push_ret < 0)
@@ -2375,7 +2360,7 @@ VOID PlayerMoveHitDebug(short ret)
             break;
         }
 
-    MONO_PRINT(ds);
+    //MONO_PRINT(ds);
     }
 
 VOID PlayerCheckValidMove(PLAYERp pp)
@@ -2386,7 +2371,7 @@ VOID PlayerCheckValidMove(PLAYERp pp)
 
         #if DEBUG
         //DSPRINTF(ds,"PROBLEM!!!!! Player %d is not in a sector", pp - Player);
-        MONO_PRINT(ds);
+        //MONO_PRINT(ds);
         #endif
 
         pp->posx = pp->oldposx;
@@ -2572,13 +2557,8 @@ VOID PlayerSectorBound(PLAYERp pp, int amt)
 VOID
 DoPlayerMove(PLAYERp pp)
     {
-    int i, ceilhit, florhit;
-    short nvel,svel;
-    int ret = 0;
-    BOOL slow = FALSE;
     USERp u = User[pp->PlayerSprite];
     int friction;
-    int oposz;
     int save_cstat;
     int push_ret = 0;
     void SlipSlope(PLAYERp pp);
@@ -2663,7 +2643,7 @@ DoPlayerMove(PLAYERp pp)
         save_cstat = pp->SpriteP->cstat;
         RESET(pp->SpriteP->cstat, CSTAT_SPRITE_BLOCK);
         COVERupdatesector(pp->posx, pp->posy, &pp->cursectnum);
-        ret = clipmove(&pp->posx, &pp->posy, &pp->posz, &pp->cursectnum, pp->xvect, pp->yvect, ((int)pp->SpriteP->clipdist<<2), pp->ceiling_dist, pp->floor_dist, CLIPMASK_PLAYER);
+        clipmove(&pp->posx, &pp->posy, &pp->posz, &pp->cursectnum, pp->xvect, pp->yvect, ((int)pp->SpriteP->clipdist<<2), pp->ceiling_dist, pp->floor_dist, CLIPMASK_PLAYER);
         pp->SpriteP->cstat = save_cstat;
         PlayerCheckValidMove(pp);
 
@@ -2830,11 +2810,9 @@ VOID StopSOsound(short sectnum)
 VOID
 DoPlayerMoveBoat(PLAYERp pp)
     {
-    int xvect, yvect, z;
+    int z;
     int floor_dist;
-    int ret;
     short save_sectnum;
-    USERp u = User[pp->PlayerSprite];
     SECTOR_OBJECTp sop = pp->sop;
 
     SW_PACKET last_input;
@@ -2900,8 +2878,8 @@ DoPlayerMoveBoat(PLAYERp pp)
     OperateSectorObject(pp->sop, pp->pang, MAXSO, MAXSO);
     pp->cursectnum = pp->sop->op_main_sector; // for speed
 
-    floor_dist = labs(z - pp->sop->floor_loz);
-    ret = clipmove(&pp->posx, &pp->posy, &z, &pp->cursectnum, pp->xvect, pp->yvect, (int)pp->sop->clipdist, Z(4), floor_dist, CLIPMASK_PLAYER);
+    floor_dist = abs(z - pp->sop->floor_loz);
+    clipmove(&pp->posx, &pp->posy, &z, &pp->cursectnum, pp->xvect, pp->yvect, (int)pp->sop->clipdist, Z(4), floor_dist, CLIPMASK_PLAYER);
 
     OperateSectorObject(pp->sop, pp->pang, pp->posx, pp->posy);
     pp->cursectnum = save_sectnum; // for speed
@@ -2931,9 +2909,6 @@ VOID DoTankTreads(PLAYERp pp)
     int j;
     int dot;
     BOOL reverse = FALSE;
-    WALLp wp;
-    short startwall,endwall;
-    int k;
 
     if (Prediction)
         return;
@@ -3071,12 +3046,10 @@ DriveCrush(PLAYERp pp, int *x, int *y)
     int testpointinquad(int x, int y, int *qx, int *qy);
 
     SECTOR_OBJECTp sop = pp->sop_control;
-    int radius;
     SPRITEp sp;
     USERp u;
     int i,nexti;
     short stat;
-    int dot;
     SECTORp *sectp;
 
     if (MoveSkip4 == 0)
@@ -3085,8 +3058,6 @@ DriveCrush(PLAYERp pp, int *x, int *y)
     // not moving - don't crush
     if ((pp->xvect|pp->yvect) == 0 && pp->input.angvel == 0)
         return;
-
-    radius = sop->clipdist;
 
     // main sector
     TRAVERSE_SPRITE_SECT(headspritesect[sop->op_main_sector], i, nexti)
@@ -3228,14 +3199,12 @@ DriveCrush(PLAYERp pp, int *x, int *y)
 VOID
 DoPlayerMoveTank(PLAYERp pp)
     {
-    int xvect, yvect, z;
+    int z;
     int floor_dist;
-    int ret;
     short save_sectnum;
     SPRITEp sp = pp->sop->sp_child;
     USERp u = User[sp - sprite];
     int save_cstat;
-    int angvel;
     int x[4], y[4], ox[4], oy[4];
     int wallcount;
     int count=0;
@@ -3334,7 +3303,7 @@ DoPlayerMoveTank(PLAYERp pp)
     OperateSectorObject(pp->sop, pp->pang, MAXSO, MAXSO);
     pp->cursectnum = pp->sop->op_main_sector; // for speed
 
-    floor_dist = labs(z - pp->sop->floor_loz);
+    floor_dist = abs(z - pp->sop->floor_loz);
 
 
     if (RectClip)
@@ -3443,12 +3412,6 @@ DoPlayerMoveTank(PLAYERp pp)
 VOID
 DoPlayerMoveTurret(PLAYERp pp)
     {
-    int xvect, yvect, z;
-    int floor_dist;
-    int ret;
-    short save_sectnum;
-    USERp u = User[pp->PlayerSprite];
-
     PLAYER_RUN_LOCK(pp);
 
     DoPlayerTurnTurret(pp);
@@ -3856,7 +3819,7 @@ DoPlayerFall(PLAYERp pp)
 VOID
 DoPlayerBeginClimb(PLAYERp pp)
     {
-    USERp u = User[pp->PlayerSprite];
+    //USERp u = User[pp->PlayerSprite];
     SPRITEp sp = pp->SpriteP;
 
     RESET(pp->Flags, PF_JUMPING|PF_FALLING);
@@ -3870,7 +3833,7 @@ DoPlayerBeginClimb(PLAYERp pp)
 
     //DamageData[u->WeaponNum].Init(pp);
 
-    //NewStateGroup(pp->PlayerSprite, User[pp->PlayerSprite]->ActorActionSet->Climb);
+    //NewStateGroup(pp->PlayerSprite, u->ActorActionSet->Climb);
     NewStateGroup(pp->PlayerSprite, sg_PlayerNinjaClimb);
     }
 
@@ -3881,13 +3844,11 @@ DoPlayerClimb(PLAYERp pp)
     USERp u = User[pp->PlayerSprite];
     int climb_amt;
     char i;
-    short oldang, delta_ang;
     SPRITEp sp = pp->SpriteP;
     int climbvel;
     int dot;
     short sec,wal,spr;
     int dist;
-    short lastsectnum;
     BOOL LadderUpdate = FALSE;
 
     if (Prediction)
@@ -4110,7 +4071,6 @@ DoPlayerWadeSuperJump(PLAYERp pp)
     {
     int hitx, hity, hitz;
     short hitsect, hitwall, hitsprite;
-    USERp u = User[pp->PlayerSprite];
     unsigned i;
     //short angs[3];
     static short angs[3] = {0, 0, 0};
@@ -4141,9 +4101,11 @@ DoPlayerWadeSuperJump(PLAYERp pp)
     return (FALSE);
     }
 
-BOOL PlayerFlyKey(PLAYERp UNUSED(pp))
+BOOL PlayerFlyKey(PLAYERp pp)
     {
     BOOL key;
+
+    (void)pp;
 
     if (!GodMode)
         return(FALSE);
@@ -4396,9 +4358,6 @@ DoPlayerCrawl(PLAYERp pp)
 VOID
 DoPlayerBeginFly(PLAYERp pp)
     {
-    USERp u = User[pp->PlayerSprite];
-    extern STATEp sg_NinjaFly[];
-
     RESET(pp->Flags, PF_FALLING | PF_JUMPING | PF_CRAWLING);
     SET(pp->Flags, PF_FLYING);
 
@@ -4428,9 +4387,6 @@ int GetSinNdx(int range, int bob_amt)
 
 VOID PlayerWarpUpdatePos(PLAYERp pp)
     {
-    SPRITEp sp = pp->SpriteP;
-    USERp u = User[pp->PlayerSprite];
-
     if (Prediction)
         return;
 
@@ -4464,8 +4420,6 @@ BOOL PlayerFloorHit(PLAYERp pp, int zlimit)
 VOID
 DoPlayerFly(PLAYERp pp)
     {
-    USERp u = User[pp->PlayerSprite];
-
     if (SectorIsUnderwaterArea(pp->cursectnum))
         {
         DoPlayerBeginDiveNoWarp(pp);
@@ -4553,7 +4507,6 @@ PlayerOnLadder(PLAYERp pp)
     short sec, wal, spr;
     int dist, nx, ny;
     unsigned i;
-    USERp u = User[pp->PlayerSprite];
     SPRITEp lsp;
     int hitx,hity,hitz;
     short hitsprite,hitsect,hitwall;
@@ -4642,7 +4595,7 @@ PlayerOnLadder(PLAYERp pp)
 
     pp->LadderSector = wall[wal].nextsector;
     //DSPRINTF(ds, "Ladder Sector %d", pp->LadderSector);
-    MONO_PRINT(ds);
+    //MONO_PRINT(ds);
 
     // set players "view" distance from the ladder - needs to be farther than
     // the sprite
@@ -4667,7 +4620,6 @@ int
 PlayerInDiveArea(PLAYERp pp)
     {
     SECTORp sectp;
-    BOOL InMasked=FALSE;
 
     if (pp->lo_sectp)
         {
@@ -4916,7 +4868,6 @@ VOID
 DoPlayerWarpToUnderwater(PLAYERp pp)
     {
     USERp u = User[pp->PlayerSprite];
-    SPRITEp sp = &sprite[pp->PlayerSprite];
     short i, nexti;
     SECT_USERp sectu = SectUser[pp->cursectnum];
     SPRITEp under_sp = NULL, over_sp = NULL;
@@ -4992,7 +4943,6 @@ VOID
 DoPlayerWarpToSurface(PLAYERp pp)
     {
     USERp u = User[pp->PlayerSprite];
-    SPRITEp sp = &sprite[pp->PlayerSprite];
     short i, nexti;
     SECT_USERp sectu = SectUser[pp->cursectnum];
     short over, under;
@@ -5202,9 +5152,6 @@ void DoPlayerBeginDiveNoWarp(PLAYERp pp)
 VOID
 DoPlayerStopDiveNoWarp(PLAYERp pp)
     {
-    SPRITEp sp = &sprite[pp->PlayerSprite];
-    USERp u = User[pp->PlayerSprite];
-
     if (Prediction)
         return;
 
@@ -5237,9 +5184,7 @@ DoPlayerStopDiveNoWarp(PLAYERp pp)
 VOID
 DoPlayerStopDive(PLAYERp pp)
     {
-    USERp u = User[pp->PlayerSprite];
     SPRITEp sp = &sprite[pp->PlayerSprite];
-    extern char DefaultPalette[];
 
     if (Prediction)
         return;
@@ -5273,7 +5218,7 @@ DoPlayerStopDive(PLAYERp pp)
 VOID
 DoPlayerDiveMeter(PLAYERp pp)
     {
-    short color=0,i=0,metertics,meterunit;
+    short color=0,metertics,meterunit;
     int y;
     extern char buffer[];
 
@@ -5485,7 +5430,6 @@ DoPlayerDive(PLAYERp pp)
         (PLAYER_MOVING(pp) && (RANDOM_P2(1024<<5)>>5) < 64))
         {
         short bubble;
-        USERp bu;
         SPRITEp bp;
         int nx,ny;
 
@@ -5493,7 +5437,6 @@ DoPlayerDive(PLAYERp pp)
         bubble = SpawnBubble(pp->SpriteP - sprite);
         if (bubble >= 0)
             {
-            bu = User[bubble];
             bp = &sprite[bubble];
 
             // back it up a bit to get it out of your face
@@ -5635,18 +5578,8 @@ VOID
 DoPlayerWade(PLAYERp pp)
     {
     USERp u = User[pp->PlayerSprite];
-    int dot;
-    int wadedir = 0;
 
     DoPlayerFireOutWater(pp);
-
-    dot = DOT_PRODUCT_2D(pp->xvect, pp->yvect, sintable[NORM_ANGLE(pp->pang+512)], sintable[pp->pang]);
-
-    if (dot < 0)
-        wadedir = -2;
-    else
-    if (dot > 0)
-        wadedir = 2;
 
     if (DebugOperate)
         {
@@ -5913,8 +5846,6 @@ DoPlayerBeginOperate(PLAYERp pp)
     {
     SECTOR_OBJECTp PlayerOnObject(short sectnum_match);
     SECTOR_OBJECTp sop;
-    SPRITEp sp = pp->SpriteP;
-    USERp u = User[pp->PlayerSprite];
     int cz, fz;
     int i;
 
@@ -6013,8 +5944,6 @@ VOID
 DoPlayerBeginRemoteOperate(PLAYERp pp, SECTOR_OBJECTp sop)
     {
     SECTOR_OBJECTp PlayerOnObject(short sectnum_match);
-    SPRITEp sp = pp->SpriteP;
-    USERp u = User[pp->PlayerSprite];
     int cz, fz;
     int i;
     short save_sectnum;
@@ -6190,7 +6119,6 @@ DoPlayerStopOperate(PLAYERp pp)
 VOID
 DoPlayerOperateTurret(PLAYERp pp)
     {
-    short oldang;
     short save_sectnum;
 
     if (TEST_SYNC_KEY(pp, SK_OPERATE))
@@ -6231,7 +6159,6 @@ DoPlayerOperateTurret(PLAYERp pp)
 VOID
 DoPlayerOperateBoat(PLAYERp pp)
     {
-    short oldang;
     short save_sectnum;
 
     if (TEST_SYNC_KEY(pp, SK_OPERATE))
@@ -6271,7 +6198,6 @@ DoPlayerOperateBoat(PLAYERp pp)
 VOID
 DoPlayerOperateTank(PLAYERp pp)
     {
-    short oldang;
     short save_sectnum;
 
     //ASSERT(!TEST_SYNC_KEY(pp, SK_OPERATE));
@@ -6479,13 +6405,12 @@ char *KilledPlayerMessage(PLAYERp pp, PLAYERp killer)
             return(ds);
         }
     return(NULL);
-    };
+    }
 
 VOID
 DoPlayerDeathMessage(PLAYERp pp, PLAYERp killer)
     {
     int pnum;
-    short i;
     BOOL SEND_OK = FALSE;
 
     killer->KilledPlayer[pp-Player]++;
@@ -6540,8 +6465,6 @@ DoPlayerBeginDie(PLAYERp pp)
         DoPlayerDeathDrown,
         };
 
-    short random;
-
     #define PLAYER_DEATH_TILT_VALUE       (32)
     #define PLAYER_DEATH_HORIZ_UP_VALUE   (165)
     #define PLAYER_DEATH_HORIZ_JUMP_VALUE (150)
@@ -6594,7 +6517,7 @@ DoPlayerBeginDie(PLAYERp pp)
 
     #if 0
     // get tilt value
-    random = RANDOM_P2(1024);
+    short random = RANDOM_P2(1024);
     if (random < 128)
         pp->tilt_dest = 0;
     else
@@ -6815,7 +6738,6 @@ DoPlayerDeathTilt(PLAYERp pp, short target, short speed)
 VOID
 DoPlayerDeathZrange(PLAYERp pp)
     {
-    SPRITEp sp = pp->SpriteP;
     USERp u = User[pp->PlayerSprite];
 
     // make sure we don't land on a regular sprite
@@ -6832,9 +6754,6 @@ DoPlayerDeathZrange(PLAYERp pp)
 
 VOID DoPlayerDeathHurl(PLAYERp pp)
     {
-    SPRITEp sp = pp->SpriteP;
-    USERp u = User[pp->PlayerSprite];
-
     if (CommPlayers > 1)
         {
         if (TEST_SYNC_KEY(pp, SK_SHOOT))
@@ -6863,9 +6782,6 @@ VOID DoPlayerDeathHurl(PLAYERp pp)
 
 VOID DoPlayerDeathFollowKiller(PLAYERp pp)
     {
-    SPRITEp sp = pp->SpriteP;
-    USERp u = User[pp->PlayerSprite];
-
     // if it didn't make it to this angle because of a low ceiling or something
     // continue on to it
     DoPlayerDeathHoriz(pp, PLAYER_DEATH_HORIZ_UP_VALUE, 4);
@@ -7080,8 +6996,8 @@ SPRITEp DoPlayerDeathCheckKick(PLAYERp pp)
 
 void DoPlayerDeathMoveHead(PLAYERp pp)
     {
-    SPRITEp sp = pp->SpriteP, hp;
-    USERp u = User[pp->PlayerSprite], hu;
+    SPRITEp sp = pp->SpriteP;
+    USERp u = User[pp->PlayerSprite];
     int dax,day;
     short sectnum;
 
@@ -7159,9 +7075,6 @@ void DoPlayerDeathMoveHead(PLAYERp pp)
 
 VOID DoPlayerDeathFlip(PLAYERp pp)
     {
-    SPRITEp sp = pp->SpriteP;
-    USERp u = User[pp->PlayerSprite];
-
     if (Prediction)
         return;
 
@@ -7198,7 +7111,6 @@ VOID DoPlayerDeathFlip(PLAYERp pp)
 VOID DoPlayerDeathDrown(PLAYERp pp)
     {
     SPRITEp sp = pp->SpriteP;
-    USERp u = User[pp->PlayerSprite];
 
     if (Prediction)
         return;
@@ -7245,20 +7157,10 @@ VOID DoPlayerDeathBounce(PLAYERp pp)
 
     if (pp->lo_sectp && TEST(pp->lo_sectp->extra, SECTFX_SINK))
         {
-        int loz;
-
         RESET(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
         NewStateGroup(pp->PlayerSprite, sg_PlayerHead);
         u->slide_vel = 0;
         SET(u->Flags, SPR_BOUNCE);
-
-        if (pp->lo_sectp && TEST(pp->lo_sectp->extra, SECTFX_SINK))
-            {
-            loz = pp->lo_sectp->floorz - Z(MSW(SectUser[pp->lo_sectp - sector]->depth_fixed));
-            }
-        else
-            loz = pp->loz;
-
 
         return;
         }
@@ -7701,8 +7603,6 @@ MoveSkipSavePos(VOID)
 
 VOID PlayerTimers(PLAYERp pp)
     {
-    SPRITEp sp = pp->SpriteP;
-
     InventoryTimer(pp);
     }
 
@@ -7854,8 +7754,6 @@ VOID UpdateScrollingMessages(VOID)
 
 VOID UpdateConMessages(VOID)
     {
-    short i;
-
     if(!ConInputMode) return;
 
     if ((klabs(conbotgoal-conbot) <= 12))
@@ -7973,13 +7871,11 @@ domovethings(VOID)
     extern BOOL DebugActorFreeze;
     extern BOOL ResCheat;
     extern int PlayClock;
-    short i, j, pnum, nexti;
-    int WeaponOperate(PLAYERp pp);
+    short i, pnum;
+    extern int WeaponOperate(PLAYERp pp);
     extern BOOL GamePaused;
     PLAYERp pp;
-    USERp u;
-    SPRITEp sp;
-    BOOL MyCommPlayerQuit(void);
+    extern BOOL MyCommPlayerQuit(void);
     extern unsigned int MoveThingsCount;
     extern BOOL ScrollMode2D;
     extern BOOL ReloadPrompt;
@@ -8459,7 +8355,6 @@ InitMultiPlayerInfo(VOID)
 int
 DoFootPrints(short SpriteNum)
 {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
 
     if (u->PlayerP)

@@ -143,7 +143,6 @@ void SetSpikeInactive(short SpriteNum)
 // called for operation from the space bar
 short DoSpikeOperate(PLAYERp pp, short sectnum)
     {
-    USERp fu;
     SPRITEp fsp;
     short match;
     short i,nexti;
@@ -154,8 +153,6 @@ short DoSpikeOperate(PLAYERp pp, short sectnum)
 
         if (fsp->statnum == STAT_SPIKE && SP_TAG1(fsp) == SECT_SPIKE && SP_TAG3(fsp) == 0)
             {
-            fu = User[i];
-
             sectnum = fsp->sectnum;
 
             match = SP_TAG2(fsp);
@@ -178,14 +175,15 @@ short DoSpikeOperate(PLAYERp pp, short sectnum)
 // called from switches and triggers
 // returns first spike found
 short
-DoSpikeMatch(PLAYERp UNUSED(pp), short match)
+DoSpikeMatch(PLAYERp pp, short match)
     {
     USERp fu;
     SPRITEp fsp;
-    short sectnum;
     short first_spike = -1;
 
     short i,nexti;
+
+    (void)pp;
 
     //SpikeSwitch(match, ON);
 
@@ -199,8 +197,6 @@ DoSpikeMatch(PLAYERp UNUSED(pp), short match)
 
             if (first_spike == -1)
                 first_spike = i;
-
-            sectnum = fsp->sectnum;
 
             if (TEST(fu->Flags, SPR_ACTIVE))
                 {
@@ -221,7 +217,6 @@ TestSpikeMatchActive(short match)
     {
     USERp fu;
     SPRITEp fsp;
-    short sectnum;
 
     short i,nexti;
 
@@ -248,8 +243,6 @@ TestSpikeMatchActive(short match)
 int DoSpikeMove(short SpriteNum, int *lptr)
     {
     USERp u = User[SpriteNum];
-    SPRITEp sp = u->SpriteP;
-    SECTORp sectp = &sector[sp->sectnum];
     int zval;
 
     zval = *lptr;
@@ -308,7 +301,6 @@ VOID SpikeAlign(short SpriteNum)
 
 VOID MoveSpritesWithSpike(short sectnum)
     {
-    SECTORp sectp = &sector[sectnum];
     SPRITEp sp;
     short i,nexti;
     int cz,fz;
@@ -332,9 +324,7 @@ int DoSpike(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
-    SECTORp sectp = &sector[sp->sectnum];
     int *lptr;
-    int amt;
 
     // zclip = floor or ceiling z
     // oz = original z
@@ -451,10 +441,7 @@ int DoSpikeAuto(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
-    SECTORp sectp = &sector[sp->sectnum];
-    int zval;
     int *lptr;
-    int amt;
 
     lptr = &u->zclip;
 

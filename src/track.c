@@ -82,7 +82,6 @@ TrackTowardPlayer(SPRITEp sp, TRACKp t, TRACK_POINTp start_point)
 short
 TrackStartCloserThanEnd(short SpriteNum, TRACKp t, TRACK_POINTp start_point)
     {
-    USERp u = User[SpriteNum];
     SPRITEp sp = User[SpriteNum]->SpriteP;
 
     TRACK_POINTp end_point;
@@ -148,7 +147,7 @@ ActorFindTrack(short SpriteNum, CHAR player_dir, int track_type, short *track_po
         if (TEST(t->flags, TF_TRACK_OCCUPIED))
             {
             //DSPRINTF(ds,"occupied!");
-            MONO_PRINT(ds);
+            //MONO_PRINT(ds);
             continue;
             }
 
@@ -259,7 +258,7 @@ ActorFindTrack(short SpriteNum, CHAR player_dir, int track_type, short *track_po
         if (FAFcansee(sp->x, sp->y, sp->z - Z(16), sp->sectnum, near_tp->x, near_tp->y, sector[track_sect].floorz - Z(32), track_sect))
             {
             //DSPRINTF(ds,"Found track point in sector %d\n",track_sect);
-            MONO_PRINT(ds);
+            //MONO_PRINT(ds);
             return (near_track - &Track[0]);
             }
 
@@ -591,8 +590,6 @@ TrackSetup(VOID)
     short SpriteNum = 0, NextSprite, ndx;
     TRACK_POINTp tp;
     TRACKp t;
-    SPRITEp nsp;
-    short new_sprite1, new_sprite2;
     TRACK_POINTp new;
     int size;
 
@@ -721,11 +718,9 @@ SectorObjectSetupBounds(SECTOR_OBJECTp sop)
     short sp_num, next_sp_num, sn, startwall, endwall;
     int i, k, j;
     SPRITEp BoundSprite;
-    BOOL FoundOutsideLoop = FALSE, FoundSector = FALSE;
+    BOOL FoundOutsideLoop = FALSE;
     BOOL SectorInBounds;
     SECTORp *sectp;
-    PLAYERp pp;
-    short pnum;
     USERp u = User[sop->sp_child - sprite];
 
     static unsigned char StatList[] =
@@ -745,7 +740,7 @@ SectorObjectSetupBounds(SECTOR_OBJECTp sop)
     BoundSprite = FindBoundSprite(500 + ((sop - SectorObject) * 5));
 
     //DSPRINTF(ds,"tagnum %d, so num %d",500 + ((sop - SectorObject) * 5), sop - SectorObject);
-    MONO_PRINT(ds);
+    //MONO_PRINT(ds);
 
     ASSERT(BoundSprite != NULL);
     xlow = BoundSprite->x;
@@ -1029,9 +1024,8 @@ SetupSectorObject(short sectnum, short tag)
     {
     SPRITEp sp;
     SECTOR_OBJECTp sop;
-    short object_num, ndx = 0, startwall, endwall, SpriteNum, NextSprite;
-    int trash;
-    short j, k;
+    short object_num, SpriteNum, NextSprite;
+    short j;
     short new;
     USERp u;
 
@@ -1044,11 +1038,11 @@ SetupSectorObject(short sectnum, short tag)
     // initialize stuff first time through
     if (sop->num_sectors == -1)
         {
-        VOID DoTornadoObject(SECTOR_OBJECTp sop);
-        VOID MorphTornado(SECTOR_OBJECTp sop);
-        VOID MorphFloor(SECTOR_OBJECTp sop);
-        VOID ScaleSectorObject(SECTOR_OBJECTp sop);
-        VOID DoAutoTurretObject(SECTOR_OBJECTp sop);
+        extern VOID DoTornadoObject(SECTOR_OBJECTp sop);
+        extern VOID MorphTornado(SECTOR_OBJECTp sop);
+        extern VOID MorphFloor(SECTOR_OBJECTp sop);
+        extern VOID ScaleSectorObject(SECTOR_OBJECTp sop);
+        extern VOID DoAutoTurretObject(SECTOR_OBJECTp sop);
 
         memset(sop->sectp, 0, sizeof(sop->sectp));
         sop->crush_z = 0;
@@ -1198,7 +1192,7 @@ SetupSectorObject(short sectnum, short tag)
                         break;
 
                     case SO_TORNADO:
-			if (SW_SHAREWARE) break;
+                        if (SW_SHAREWARE) break;
                         sop->vel = 120;
                         SET(sop->flags, SOBJ_DYNAMIC);
                         sop->scale_type = SO_SCALE_CYCLE;
@@ -1220,7 +1214,7 @@ SetupSectorObject(short sectnum, short tag)
                         KillSprite(SpriteNum);
                         break;
                     case SO_FLOOR_MORPH:
-			if (SW_SHAREWARE) break;
+                        if (SW_SHAREWARE) break;
                         SET(sop->flags, SOBJ_DYNAMIC);
                         sop->scale_type = SO_SCALE_NONE;
                         sop->morph_speed = 120;
@@ -1468,7 +1462,6 @@ PlaceSectorObjectsOnTracks(VOID)
         int low_dist = 999999, dist;
         SECTOR_OBJECTp sop = &SectorObject[i];
         TRACK_POINTp tpoint = NULL;
-        short spnum, next_spnum;
 
         if (sop->xmid == MAXLONG)
             continue;
@@ -1519,7 +1512,7 @@ PlaceSectorObjectsOnTracks(VOID)
         if (!found)
             {
             //DSPRINTF(ds,"track not found");
-            MONO_PRINT(ds);
+            //MONO_PRINT(ds);
             sop->track = -1;
             continue;
             }
@@ -1537,7 +1530,7 @@ PlaceSectorObjectsOnTracks(VOID)
 VOID
 PlaceActorsOnTracks(VOID)
     {
-    short i, nexti, j, tag, htag, new_ang;
+    short i, nexti, j, tag;
     SPRITEp sp;
     USERp u;
     TRACK_POINTp tpoint = NULL;
@@ -1551,7 +1544,6 @@ PlaceActorsOnTracks(VOID)
         u = User[i];
 
         tag = LOW_TAG_SPRITE(i);
-        htag = HIGH_TAG_SPRITE(i);
 
         if (tag < TAG_ACTOR_TRACK_BEGIN || tag > TAG_ACTOR_TRACK_END)
             continue;
@@ -1675,14 +1667,14 @@ MovePlayer(PLAYERp pp, SECTOR_OBJECTp sop, int nx, int ny)
 VOID
 MovePoints(SECTOR_OBJECTp sop, short delta_ang, int nx, int ny)
     {
-    int j, k, c, rx, ry;
-    short startwall, endwall, save_ang, pnum;
+    int j, k, rx, ry;
+    short startwall, endwall, pnum;
     PLAYERp pp;
     SECTORp *sectp;
     SPRITEp sp;
     WALLp wp;
     USERp u;
-    short i, nexti, rot_ang;
+    short i, rot_ang;
     BOOL PlayerMove = TRUE;
 
     if (sop->xmid >= (int)MAXSO)
@@ -1935,7 +1927,6 @@ RefreshPoints(SECTOR_OBJECTp sop, int nx, int ny, BOOL dynamic)
     SECTORp *sectp;
     WALLp wp;
     short ang;
-    short new_ang;
     int dx,dy,x,y;
 
     // do scaling
@@ -2045,13 +2036,11 @@ VOID KillSectorObjectSprites(SECTOR_OBJECTp sop)
 VOID UpdateSectorObjectSprites(SECTOR_OBJECTp sop)
     {
     SPRITEp sp;
-    USERp u;
     int i;
 
     for (i = 0; sop->sp_num[i] != -1; i++)
         {
         sp = &sprite[sop->sp_num[i]];
-        u = User[sop->sp_num[i]];
 
         setspritez(sop->sp_num[i], sp->x, sp->y, sp->z);
         }
@@ -2169,9 +2158,6 @@ MoveZ(SECTOR_OBJECTp sop)
 
     if (sop->bob_amt)
         {
-        SPRITEp sp;
-        USERp u;
-
         sop->bob_sine_ndx = (totalsynctics << sop->bob_speed) & 2047;
         sop->bob_diff = ((sop->bob_amt * (int) sintable[sop->bob_sine_ndx]) >> 14);
 
@@ -2221,7 +2207,6 @@ MoveZ(SECTOR_OBJECTp sop)
 void CallbackSOsink(ANIMp ap, void *data)
     {
     SECTOR_OBJECTp sop;
-    SECTORp *sectp;
     SPRITEp sp;
     USERp u;
     SECT_USERp su;
@@ -2229,7 +2214,6 @@ void CallbackSOsink(ANIMp ap, void *data)
     short dest_sector = -1;
     short src_sector = -1;
     short i, nexti, ndx;
-    char found = FALSE;
     int tgt_depth;
 
     sop = data;
@@ -2284,8 +2268,6 @@ void CallbackSOsink(ANIMp ap, void *data)
             // in a more precise way
             ndx = AnimSet(&su->depth_fixed, tgt_depth<<16, (ap->vel<<8)>>8);
             AnimSetVelAdj(ndx, ap->vel_adj);
-
-            found = TRUE;
             break;
             }
         }
@@ -2302,14 +2284,11 @@ void CallbackSOsink(ANIMp ap, void *data)
             // in a more precise way
             ndx = AnimSet(&su->depth_fixed, tgt_depth<<16, (ap->vel<<8)>>8);
             AnimSetVelAdj(ndx, ap->vel_adj);
-            found = TRUE;
             break;
             }
         }
     }
     #endif
-
-    ASSERT(found);
 
     TRAVERSE_SPRITE_SECT(headspritesect[dest_sector], i, nexti)
         {
@@ -2340,14 +2319,9 @@ void CallbackSOsink(ANIMp ap, void *data)
 VOID
 MoveSectorObjects(SECTOR_OBJECTp sop, short locktics)
     {
-    int j, k, c, nx, ny, nz, rx, ry, dx, dy, dz;
+    int nx, ny;
     short speed;
-    int dist;
-    short startwall, endwall;
     short delta_ang;
-    short pnum;
-    PLAYERp pp;
-    short sp, next_sp;
 
     if (sop->track >= SO_OPERATE_TRACK_START)
         {
@@ -2573,7 +2547,7 @@ VOID DoTrack(SECTOR_OBJECTp sop, short locktics, int *nx, int *ny)
             sop->bob_amt = 0;
 
             //DSPRINTF(ds,"dest sector %d",dest_sector);
-            MONO_PRINT(ds);
+            //MONO_PRINT(ds);
 
             for (i = 0, sectp = &sop->sectp[0]; *sectp; sectp++, i++)
                 {
@@ -2592,7 +2566,7 @@ VOID DoTrack(SECTOR_OBJECTp sop, short locktics, int *nx, int *ny)
             {
             // for lowering the whirlpool in level 1
             SECTORp *sectp;
-            short i,ndx;
+            short i;
             SECT_USERp sectu;
 
             for (i = 0, sectp = &sop->sectp[0]; *sectp; sectp++, i++)
@@ -2772,9 +2746,7 @@ VOID DoTrack(SECTOR_OBJECTp sop, short locktics, int *nx, int *ny)
 VOID
 OperateSectorObject(SECTOR_OBJECTp sop, short newang, int newx, int newy)
     {
-    int i, nx, ny;
-    short speed;
-    short delta_ang;
+    int i;
     SECTORp *sectp;
 
     if (Prediction)
@@ -2798,17 +2770,10 @@ OperateSectorObject(SECTOR_OBJECTp sop, short newang, int newx, int newy)
             }
         }
 
-    nx = 0;
-    ny = 0;
     GlobSpeedSO = 0;
-
-    delta_ang = 0;
 
     //sop->ang_tgt = newang;
     sop->ang_moving = newang;
-
-    // get delta to target angle
-    delta_ang = GetDeltaAngle(sop->ang_tgt, sop->ang);
 
     sop->spin_ang = 0;
     sop->ang = newang;
@@ -2870,10 +2835,6 @@ VOID VehicleSetSmoke(SECTOR_OBJECTp sop, ANIMATORp animator)
 VOID
 KillSectorObject(SECTOR_OBJECTp sop)
     {
-    int nx, ny, nz;
-    short speed;
-    short delta_ang;
-    SECTORp *sectp;
     int newx = MAXSO;
     int newy = MAXSO;
     short newang = 0;
@@ -2881,14 +2842,7 @@ KillSectorObject(SECTOR_OBJECTp sop)
     if (sop->track < SO_OPERATE_TRACK_START)
         return;
 
-    nx = 0;
-    ny = 0;
-    delta_ang = 0;
-
     sop->ang_tgt = sop->ang_moving = newang;
-
-    // get delta to target angle
-    delta_ang = GetDeltaAngle(sop->ang_tgt, sop->ang);
 
     sop->spin_ang = 0;
     sop->ang = sop->ang_tgt;
@@ -2932,8 +2886,6 @@ VOID TornadoSpin(SECTOR_OBJECTp sop)
 VOID
 DoTornadoObject(SECTOR_OBJECTp sop)
     {
-    short delta_ang;
-    SECTORp *sectp;
     int xvect,yvect;
     short cursect;
     // this made them move together more or less - cool!
@@ -2947,7 +2899,7 @@ DoTornadoObject(SECTOR_OBJECTp sop)
     yvect = (sop->vel * sintable[NORM_ANGLE(*ang)]);
 
     cursect = sop->op_main_sector; // for sop->vel
-    floor_dist = DIV4(labs(sector[cursect].ceilingz - sector[cursect].floorz));
+    floor_dist = DIV4(abs(sector[cursect].ceilingz - sector[cursect].floorz));
     x = sop->xmid;
     y = sop->ymid;
     z = floor_dist;
@@ -2970,10 +2922,8 @@ DoAutoTurretObject(SECTOR_OBJECTp sop)
     short SpriteNum = sop->sp_child - sprite;
     SPRITEp shootp;
     USERp u = User[SpriteNum];
-    short new_ang;
     short delta_ang;
     int diff;
-    int dist;
     short i;
 
     if (sop->max_damage != -9999 && sop->max_damage <= 0)
@@ -3075,7 +3025,7 @@ DoActorHitTrackEndPoint(USERp u)
         short FindTrackAwayFromPlayer(USERp);
 
         //DSPRINTF(ds, "End Of Track - Looking for another!\n");
-        MONO_PRINT(ds);
+        //MONO_PRINT(ds);
 
         // look for another track leading away from the player
         u->track = FindTrackAwayFromPlayer(u);
@@ -3084,7 +3034,7 @@ DoActorHitTrackEndPoint(USERp u)
             {
             sp->ang = NORM_ANGLE(getangle((Track[u->track].TrackPoint + u->point)->x - sp->x, (Track[u->track].TrackPoint + u->point)->y - sp->y));
             //DSPRINTF(ds, "Track Away From Player!\n");
-            MONO_PRINT(ds);
+            //MONO_PRINT(ds);
             }
         else
             {
@@ -3098,7 +3048,7 @@ DoActorHitTrackEndPoint(USERp u)
         short FindTrackToPlayer(USERp);
 
         //DSPRINTF(ds, "End Of Track - Looking for another!\n");
-        MONO_PRINT(ds);
+        //MONO_PRINT(ds);
 
         // look for another track leading away from the player
         u->track = FindTrackToPlayer(u);
@@ -3117,7 +3067,7 @@ DoActorHitTrackEndPoint(USERp u)
     else
         {
         //DSPRINTF(ds, "End Of Track - DONT Look for another!\n");
-        MONO_PRINT(ds);
+        //MONO_PRINT(ds);
 
         u->track = -1;
         }
@@ -3128,7 +3078,6 @@ void
 ActorLeaveTrack(short SpriteNum)
     {
     USERp u = User[SpriteNum];
-    SPRITEp sp = User[SpriteNum]->SpriteP;
 
     if (u->track == -1)
         return;
@@ -3157,7 +3106,7 @@ ActorTrackDecide(TRACK_POINTp tpoint, short SpriteNum)
     sp = u->SpriteP;
 
     //DSPRINTF(ds,"tpoint->tag_low = %d, u->ID = %d\n",tpoint->tag_low,u->ID);
-    MONO_PRINT(ds);
+    //MONO_PRINT(ds);
 
     switch (tpoint->tag_low)
         {
@@ -3305,7 +3254,7 @@ ActorTrackDecide(TRACK_POINTp tpoint, short SpriteNum)
                 if (hitwall < 0)
                     return(FALSE);
 
-                zdiff = labs(sp->z - sector[wall[hitwall].nextsector].floorz) >> 8;
+                zdiff = abs(sp->z - sector[wall[hitwall].nextsector].floorz) >> 8;
 
                 u->jump_speed = PickJumpSpeed(SpriteNum, zdiff);
                 }
@@ -3604,7 +3553,6 @@ ActorTrackDecide(TRACK_POINTp tpoint, short SpriteNum)
 
         if (u->ActorActionSet->Jump)
             {
-            int hitx, hity, hitz;
             short hitsect, hitwall, hitsprite;
             int bos_z,nx,ny;
             int dist;

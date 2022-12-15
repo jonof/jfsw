@@ -77,7 +77,7 @@ void Saveable_Init(void)
 	MODULE(sector)
 }
 
-int Saveable_FindCodeSym(void *ptr, savedcodesym *sym)
+int Saveable_FindCodeSym(saveable_code ptr, savedcodesym *sym)
 {
 	unsigned m,i;
 
@@ -120,7 +120,7 @@ int Saveable_FindDataSym(void *ptr, saveddatasym *sym)
 
 			sym->module = 1+m;
 			sym->index  = i;
-			sym->offset = (intptr_t)ptr - (intptr_t)saveablemodules[m]->data[i].base;
+			sym->offset = (unsigned)((intptr_t)ptr - (intptr_t)saveablemodules[m]->data[i].base);
 
 			return 0;
 		}
@@ -128,7 +128,7 @@ int Saveable_FindDataSym(void *ptr, saveddatasym *sym)
 	return -1;
 }
 
-int Saveable_RestoreCodeSym(savedcodesym *sym, void **ptr)
+int Saveable_RestoreCodeSym(savedcodesym *sym, void (**ptr)(void))
 {
 	if (sym->module == 0) {
 		*ptr = NULL;

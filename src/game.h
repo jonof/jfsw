@@ -53,9 +53,6 @@ extern int GameVariant;
 #define SW_SHAREWARE (GameVariant == GRPFILE_GAME_SHARE)
 #define SW_REGISTERED (GameVariant != GRPFILE_GAME_SHARE)
 
-// Turn warning off for unreferenced variables.
-// I really should fix them at some point
-//#pragma off(unreferenced)
 
 
 #define ERR_STD_ARG __FILE__, __LINE__
@@ -417,8 +414,8 @@ int StdRandomRange(int range);
 // that uses this macro
 #define DISTANCE(x1, y1, x2, y2, dist, tx, ty, tmin) \
   {                                    \
-  tx = labs(x2-x1);                    \
-  ty = labs(y2-y1);                    \
+  tx = abs(x2-x1);                    \
+  ty = abs(y2-y1);                    \
   tmin = min(tx,ty);                   \
   dist = tx + ty - DIV2(tmin);         \
   }
@@ -2351,7 +2348,6 @@ int DoRipper2RipHeart(short SpriteNum);	// ripper2.c
 int BunnyHatch2(short Weapon);	// bunny.c
 int DoSkullBeginDeath(SHORT SpriteNum);	// skull.c
 
-void AnimateCacheCursor(void);	// game.c
 void MapSetAll2D(BYTE fill);	// game.c
 void TerminateGame(void );	// game.c
 void TerminateLevel(void );	// game.c

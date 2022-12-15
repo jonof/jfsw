@@ -95,7 +95,7 @@ BOOL    tokenready;                     // only TRUE if UnGetToken was just call
 
 BOOL LoadScriptFile (char *filename)
 {
-    int size, readsize;
+    int size;
     int fp;
 
 
@@ -111,12 +111,9 @@ BOOL LoadScriptFile (char *filename)
 
     ASSERT(scriptbuffer != NULL);
 
-    readsize = kread(fp, scriptbuffer, size);
+    size = kread(fp, scriptbuffer, size);
 
     kclose(fp);
-
-    ASSERT(readsize == size);
-
 
     // Convert filebuffer to all upper case
     //strupr(scriptbuffer);
@@ -315,10 +312,10 @@ void LoadKVXFromScript( char *filename )
         if (endofscript)
             break;
 
-        lTile = atol(token);
+        lTile = atoi(token);
 
         GetToken(FALSE);
-        lNumber = atol(token);
+        lNumber = atoi(token);
 
         GetToken(FALSE);
         strcpy(sName,token);            // Copy the whole token as a file name and path
@@ -839,7 +836,7 @@ void LoadCustomInfoFromScript(char *filename)
 			}
 			case CM_INVENTORY:
 			{
-				char *invtokptr = script->ltextptr, *invnumptr;
+				char *invnumptr;
 				int in;
 				char *name = NULL;
 				int amt = -1;
@@ -886,7 +883,7 @@ void LoadCustomInfoFromScript(char *filename)
 			}
 			case CM_WEAPON:
 			{
-				char *wpntokptr = script->ltextptr, *wpnnumptr;
+				char *wpnnumptr;
 				char *name = NULL, *ammo = NULL;
 				int maxammo = -1, damagemin = -1, damagemax = -1, pickup = -1, wpickup = -1;
 				int in,id;

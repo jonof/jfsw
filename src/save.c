@@ -168,7 +168,7 @@ int SaveSymDataInfo(MFILE fil, void *ptr)
 
 	return 0;
 }
-int SaveSymCodeInfo(MFILE fil, void *ptr)
+int SaveSymCodeInfo(MFILE fil, saveable_code ptr)
 {
 	savedcodesym sym;
 
@@ -177,7 +177,7 @@ int SaveSymCodeInfo(MFILE fil, void *ptr)
 
 		fp = fopen("savegame symbols missing.txt", "a");
 		if (fp) {
-			fprintf(fp,"code %p\n",ptr);
+			fprintf(fp,"code %p\n",(void*)ptr);
 			fclose(fp);
 		}
 		return 1;
@@ -196,7 +196,7 @@ int LoadSymDataInfo(MFILE fil, void **ptr)
 
 	return Saveable_RestoreDataSym(&sym, ptr);
 }
-int LoadSymCodeInfo(MFILE fil, void **ptr)
+int LoadSymCodeInfo(MFILE fil, saveable_code *ptr)
 {
 	savedcodesym sym;
 
@@ -211,8 +211,6 @@ int SaveGame(short save_num)
     MFILE fil;
     int i,j;
     short ndx;
-    SPRITE tsp;
-    SPRITEp sp;
     PLAYER tp;
     PLAYERp pp;
     SECT_USERp sectu;
@@ -220,14 +218,11 @@ int SaveGame(short save_num)
     USERp u;
     ANIM tanim;
     ANIMp a;
-    CHAR code;
-    BYTE data_code;
-    SHORT data_ndx;
     PANEL_SPRITE tpanel_sprite;
     PANEL_SPRITEp psp,cur,next;
     SECTOR_OBJECTp sop;
     char game_name[80];
-    int cnt = 0, saveisshot=0;
+    int saveisshot=0;
     OrgTileP otp, next_otp;
 
     Saveable_Init();
@@ -295,7 +290,7 @@ int SaveGame(short save_num)
         saveisshot |= SaveSymDataInfo(fil, pp->SpriteP);
         saveisshot |= SaveSymDataInfo(fil, pp->UnderSpriteP);
 
-        saveisshot |= SaveSymCodeInfo(fil, pp->DoPlayerAction);
+        saveisshot |= SaveSymCodeInfo(fil, (saveable_code)pp->DoPlayerAction);
 
         saveisshot |= SaveSymDataInfo(fil, pp->sop_control);
         saveisshot |= SaveSymDataInfo(fil, pp->sop_riding);
@@ -327,7 +322,7 @@ int SaveGame(short save_num)
             saveisshot |= SaveSymDataInfo(fil, psp->PresentState);
             saveisshot |= SaveSymDataInfo(fil, psp->ActionState);
             saveisshot |= SaveSymDataInfo(fil, psp->RestState);
-            saveisshot |= SaveSymCodeInfo(fil, psp->PanelSpriteFunc);
+            saveisshot |= SaveSymCodeInfo(fil, (saveable_code)psp->PanelSpriteFunc);
 
             for (j = 0; j < SIZ(psp->over); j++)
                 {
@@ -397,7 +392,6 @@ int SaveGame(short save_num)
             // write header
             MWRITE(&ndx,sizeof(ndx),1,fil);
 
-            sp = &sprite[i];
             memcpy(&tu, User[i], sizeof(USER));
             u = &tu;
 
@@ -423,7 +417,7 @@ int SaveGame(short save_num)
             saveisshot |= SaveSymDataInfo(fil, u->StateStart);
             saveisshot |= SaveSymDataInfo(fil, u->StateEnd);
             saveisshot |= SaveSymDataInfo(fil, u->StateFallOverride);
-            saveisshot |= SaveSymCodeInfo(fil, u->ActorActionFunc);
+            saveisshot |= SaveSymCodeInfo(fil, (saveable_code)u->ActorActionFunc);
             saveisshot |= SaveSymDataInfo(fil, u->ActorActionSet);
             saveisshot |= SaveSymDataInfo(fil, u->Personality);
             saveisshot |= SaveSymDataInfo(fil, u->Attrib);
@@ -450,9 +444,9 @@ int SaveGame(short save_num)
         {
         sop = &SectorObject[ndx];
 
-        saveisshot |= SaveSymCodeInfo(fil, sop->PreMoveAnimator);
-        saveisshot |= SaveSymCodeInfo(fil, sop->PostMoveAnimator);
-        saveisshot |= SaveSymCodeInfo(fil, sop->Animator);
+        saveisshot |= SaveSymCodeInfo(fil, (saveable_code)sop->PreMoveAnimator);
+        saveisshot |= SaveSymCodeInfo(fil, (saveable_code)sop->PostMoveAnimator);
+        saveisshot |= SaveSymCodeInfo(fil, (saveable_code)sop->Animator);
         saveisshot |= SaveSymDataInfo(fil, sop->controller);
         saveisshot |= SaveSymDataInfo(fil, sop->sp_child);
         }
@@ -547,7 +541,7 @@ int SaveGame(short save_num)
             saveisshot |= SaveSymDataInfo(fil, a->ptr);
             }
 
-        saveisshot |= SaveSymCodeInfo(fil, a->callback);
+        saveisshot |= SaveSymCodeInfo(fil, (saveable_code)a->callback);
         saveisshot |= SaveSymDataInfo(fil, a->callbackdata);
         }
 
@@ -716,7 +710,6 @@ void LoadGameDescr(short save_num, char *descr)
 {
     MFILE fil;
     char game_name[80];
-    short tile;
     int ver;
 
     sprintf(game_name,"game%d.sav",save_num);
@@ -741,23 +734,14 @@ int LoadGame(short save_num)
     int i,j,saveisshot=0;
     short ndx,SpriteNum,sectnum;
     PLAYERp pp = NULL;
-    SPRITEp sp;
     USERp u;
     SECTOR_OBJECTp sop;
     SECT_USERp sectu;
-    CHAR code;
     ANIMp a;
-    BYTE data_code;
-    SHORT data_ndx;
-    PANEL_SPRITEp psp,next,cur;
-    PANEL_SPRITE tpanel_sprite;
+    PANEL_SPRITEp psp,next;
     char game_name[80];
-    OrgTileP otp, next_otp;
+    OrgTileP otp;
 
-    int RotNdx;
-    int StateStartNdx;
-    int StateNdx;
-    int StateEndNdx;
     extern BOOL InMenuLevel;
 
     Saveable_Init();
@@ -819,7 +803,7 @@ int LoadGame(short save_num)
         saveisshot |= LoadSymDataInfo(fil, (void**)&pp->last_camera_sp);
         saveisshot |= LoadSymDataInfo(fil, (void**)&pp->SpriteP);
         saveisshot |= LoadSymDataInfo(fil, (void**)&pp->UnderSpriteP);
-        saveisshot |= LoadSymCodeInfo(fil, (void**)&pp->DoPlayerAction);
+        saveisshot |= LoadSymCodeInfo(fil, (saveable_code*)&pp->DoPlayerAction);
         saveisshot |= LoadSymDataInfo(fil, (void**)&pp->sop_control);
         saveisshot |= LoadSymDataInfo(fil, (void**)&pp->sop_riding);
 	if (saveisshot) { MCLOSE(fil); return -1; }
@@ -853,7 +837,7 @@ int LoadGame(short save_num)
             saveisshot |= LoadSymDataInfo(fil, (void**)&psp->PresentState);
             saveisshot |= LoadSymDataInfo(fil, (void**)&psp->ActionState);
             saveisshot |= LoadSymDataInfo(fil, (void**)&psp->RestState);
-            saveisshot |= LoadSymCodeInfo(fil, (void**)&psp->PanelSpriteFunc);
+            saveisshot |= LoadSymCodeInfo(fil, (saveable_code*)&psp->PanelSpriteFunc);
 	    if (saveisshot) { MCLOSE(fil); return -1; }
 
             for (j = 0; j < (int)SIZ(psp->over); j++)
@@ -904,7 +888,6 @@ int LoadGame(short save_num)
     MREAD(&SpriteNum, sizeof(SpriteNum),1,fil);
     while(SpriteNum != -1)
         {
-        sp = &sprite[SpriteNum];
         User[SpriteNum] = u = (USERp)CallocMem(sizeof(USER), 1);
         MREAD(u,sizeof(USER),1,fil);
 
@@ -937,7 +920,7 @@ int LoadGame(short save_num)
         saveisshot |= LoadSymDataInfo(fil, (void**)&u->StateStart);
         saveisshot |= LoadSymDataInfo(fil, (void**)&u->StateEnd);
         saveisshot |= LoadSymDataInfo(fil, (void**)&u->StateFallOverride);
-        saveisshot |= LoadSymCodeInfo(fil, (void**)&u->ActorActionFunc);
+        saveisshot |= LoadSymCodeInfo(fil, (saveable_code*)&u->ActorActionFunc);
         saveisshot |= LoadSymDataInfo(fil, (void**)&u->ActorActionSet);
         saveisshot |= LoadSymDataInfo(fil, (void**)&u->Personality);
         saveisshot |= LoadSymDataInfo(fil, (void**)&u->Attrib);
@@ -960,9 +943,9 @@ int LoadGame(short save_num)
         {
         sop = &SectorObject[ndx];
 
-        saveisshot |= LoadSymCodeInfo(fil, (void**)&sop->PreMoveAnimator);
-        saveisshot |= LoadSymCodeInfo(fil, (void**)&sop->PostMoveAnimator);
-        saveisshot |= LoadSymCodeInfo(fil, (void**)&sop->Animator);
+        saveisshot |= LoadSymCodeInfo(fil, (saveable_code*)&sop->PreMoveAnimator);
+        saveisshot |= LoadSymCodeInfo(fil, (saveable_code*)&sop->PostMoveAnimator);
+        saveisshot |= LoadSymCodeInfo(fil, (saveable_code*)&sop->Animator);
         saveisshot |= LoadSymDataInfo(fil, (void**)&sop->controller);
         saveisshot |= LoadSymDataInfo(fil, (void**)&sop->sp_child);
 	if (saveisshot) { MCLOSE(fil); return -1; }
@@ -1036,7 +1019,7 @@ int LoadGame(short save_num)
             saveisshot |= LoadSymDataInfo(fil, (void**)&a->ptr);
             }
 
-        saveisshot |= LoadSymCodeInfo(fil, (void**)&a->callback);
+        saveisshot |= LoadSymCodeInfo(fil, (saveable_code*)&a->callback);
         saveisshot |= LoadSymDataInfo(fil, (void**)&a->callbackdata);
 	if (saveisshot) { MCLOSE(fil); return -1; }
         }
@@ -1056,7 +1039,7 @@ int LoadGame(short save_num)
         MREAD(a,sizeof(ANIM),1,fil);
 
         saveisshot |= LoadSymDataInfo(fil, (void**)&a->ptr);
-        saveisshot |= LoadSymCodeInfo(fil, (void**)&a->callback);
+        saveisshot |= LoadSymCodeInfo(fil, (saveable_code*)&a->callback);
         saveisshot |= LoadSymDataInfo(fil, (void**)&a->callbackdata);
 	if (saveisshot) { MCLOSE(fil); return -1; }
         }
@@ -1296,19 +1279,15 @@ int LoadGame(short save_num)
 VOID
 ScreenSave(MFILE fout)
     {
-    int num;
-    num = MWRITE((void*)waloff[SAVE_SCREEN_TILE], SAVE_SCREEN_XSIZE * SAVE_SCREEN_YSIZE, 1, fout);
-    ASSERT(num == 1);
+    MWRITE((void*)waloff[SAVE_SCREEN_TILE], SAVE_SCREEN_XSIZE * SAVE_SCREEN_YSIZE, 1, fout);
     }
 
 VOID
 ScreenLoad(MFILE fin)
     {
-    int num;
-
     setviewtotile(SAVE_SCREEN_TILE, SAVE_SCREEN_YSIZE, SAVE_SCREEN_XSIZE);
 
-    num = MREAD((void*)waloff[SAVE_SCREEN_TILE], SAVE_SCREEN_XSIZE * SAVE_SCREEN_YSIZE, 1, fin);
+    MREAD((void*)waloff[SAVE_SCREEN_TILE], SAVE_SCREEN_XSIZE * SAVE_SCREEN_YSIZE, 1, fin);
 
     setviewback();
     }

@@ -139,7 +139,6 @@ VOID
 SetConsoleDmost(VOID)
     {
     int ystart;
-    int xstart;
 
     int i;
     int adj=0;
@@ -284,11 +283,12 @@ VOID DrawBorderShade(PLAYERp pp, short shade_num, short wx1, short wy1, short wx
     }
 
 VOID
-BorderShade(PLAYERp pp, BOOL UNUSED(refresh))
+BorderShade(PLAYERp pp, BOOL refresh)
     {
-    int i, j, k, l, wx1, wx2, wy1, wy2;
-    PANEL_SPRITEp psp;
+    int wx1, wx2, wy1, wy2;
     BYTE lines;
+
+    (void)refresh;
 
     wx1 = windowx1 - 1;
     wy1 = windowy1 - 1;
@@ -415,12 +415,14 @@ VOID DrawPanelBorderSides(PLAYERp pp, short x, short y, short x2, short y2, shor
     }
 
 static
-VOID BorderSetView(PLAYERp UNUSED(pp), int *Xdim, int *Ydim, int *ScreenSize)
+VOID BorderSetView(PLAYERp pp, int *Xdim, int *Ydim, int *ScreenSize)
     {
     void setview(int scrx1, int scry1, int scrx2, int scry2);
     int x, x2, y, y2;
     int xd, yd, sc;
     BORDER_INFO *b;
+
+    (void)pp;
 
     BorderInfo = BorderInfoValues[gs.BorderNum];
 
@@ -454,7 +456,6 @@ VOID BorderSetView(PLAYERp UNUSED(pp), int *Xdim, int *Ydim, int *ScreenSize)
 static VOID
 BorderRefresh(PLAYERp pp)
     {
-    int i, j;
     int x, x2, y, y2;
     BORDER_INFO *b;
 
@@ -522,9 +523,7 @@ BorderRefresh(PLAYERp pp)
 
 VOID SetBorder(PLAYERp pp, int value)
     {
-    int diff;
     int Xdim, Ydim, ScreenSize;
-    BOOL set_view = TRUE;
     PANEL_SPRITEp psp;
 
     if (pp != Player + myconnectindex)
@@ -565,10 +564,6 @@ VOID SetBorder(PLAYERp pp, int value)
 VOID
 SetRedrawScreen(PLAYERp pp)
     {
-    int i, j;
-    //int x, x2, y, y2;
-    BORDER_INFO *b;
-
     if (pp != Player + myconnectindex)
         return;
 
@@ -580,8 +575,6 @@ SetRedrawScreen(PLAYERp pp)
 
     // Redraw the BORDER_TILE only if getting smaller
     BorderInfo = BorderInfoValues[gs.BorderNum];
-
-    b = &BorderInfo;
 
     // test at redrawing the whole screen
     RedrawScreen = TRUE;

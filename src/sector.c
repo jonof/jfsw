@@ -353,7 +353,7 @@ WallSetup(VOID)
         case TAG_WALL_SINE_Y_BEGIN:
         case TAG_WALL_SINE_X_BEGIN:
                 {
-                short wall_num, cnt, last_wall, num_points, type, tag_end;
+                short wall_num, cnt, num_points, type, tag_end;
                 SINE_WALLp sw;
                 short range = 250, speed = 3, peak = 0;
 
@@ -471,10 +471,10 @@ SectorLiquidSet(short i)
 VOID
 SectorSetup(VOID)
     {
-    short i = 0, k, tag;
-    short NextSineWave = 0, rotcnt = 0, swingcnt = 0;
+    short i = 0, tag;
+    short NextSineWave = 0;
 
-    short startwall, endwall, j, ndx, door_sector;
+    short ndx;
 
     WallSetup();
 
@@ -730,13 +730,14 @@ SectorMidPoint(short sectnum, int *xmid, int *ymid, int *zmid)
 
 
 VOID
-DoSpringBoard(PLAYERp pp, short UNUSED(sectnum))
+DoSpringBoard(PLAYERp pp, short sectnum)
     {
-    int sb;
-    int i;
-    VOID DoPlayerBeginForceJump(PLAYERp);
+    extern VOID DoPlayerBeginForceJump(PLAYERp);
 
     #if 0
+    int sb;
+    int i;
+
     i = AnimGetGoal(&sector[sectnum].floorz);
 
     // if in motion return
@@ -760,6 +761,8 @@ DoSpringBoard(PLAYERp pp, short UNUSED(sectnum))
             }
         }
     #else
+    (void)sectnum;
+
     pp->jump_speed = -sector[pp->cursectnum].hitag;
     DoPlayerBeginForceJump(pp);
     #endif
@@ -935,8 +938,8 @@ SectorDistanceByMid(short sect1, int sect2)
 short
 DoSpawnActorTrigger(short match)
     {
-    int i, nexti, pnum;
-    short spawn_count = 0, hidden;
+    int i, nexti;
+    short spawn_count = 0;
     SPRITEp sp;
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_SPAWN_TRIGGER], i, nexti)
@@ -966,7 +969,6 @@ OperateSector(short sectnum, short player_is_operating)
     if (!player_is_operating)
         {
         SPRITEp fsp;
-        short match;
         short i,nexti;
 
 
@@ -1013,9 +1015,9 @@ OperateSector(short sectnum, short player_is_operating)
     }
 
 int
-OperateWall(short wallnum, short UNUSED(player_is_operating))
+OperateWall(short wallnum, short player_is_operating)
     {
-    WALLp wallp = &wall[wallnum];
+    (void)player_is_operating;
 
     switch (LOW_TAG_WALL(wallnum))
         {
@@ -1125,8 +1127,6 @@ SectorExp(short SpriteNum, short sectnum, short orig_ang, int zh)
         {
         SPRITEp sp = &sprite[SpriteNum];
         USERp u = User[SpriteNum];
-        SECT_USERp sectu = SectUser[sectnum];
-        SECTORp sectp = &sector[sectnum];
         short explosion;
         SPRITEp exp;
         USERp eu;
@@ -1168,13 +1168,7 @@ DoExplodeSector(short match)
     {
     short orig_ang;
     int zh;
-    USERp u;
     short cf,nextcf;
-    short ed,nexted;
-
-    int ss, nextss;
-    SECTORp dsectp, ssectp;
-    SPRITEp src_sp, dest_sp;
 
     SPRITEp esp;
     SECTORp sectp;
@@ -1189,7 +1183,7 @@ DoExplodeSector(short match)
             continue;
 
         if (!User[cf])
-            u = SpawnUser(cf, 0, NULL);
+            SpawnUser(cf, 0, NULL);
 
         sectp = &sector[esp->sectnum];
 
@@ -1221,7 +1215,6 @@ DoExplodeSector(short match)
 int DoSpawnSpot(short SpriteNum)
     {
     USERp u = User[SpriteNum];
-    SPRITEp sp = u->SpriteP;
 
     if ((u->WaitTics -= synctics) < 0)
         {
@@ -1297,14 +1290,14 @@ DoSpawnSpotsForDamage(short match)
     }
 
 VOID
-DoSoundSpotMatch(short match, short sound_num, short UNUSED(sound_type))
+DoSoundSpotMatch(short match, short sound_num, short sound_type)
     {
     short sn, next_sn;
     SPRITEp sp;
     int flags;
     short snd2play;
 
-    //sound_type is not used
+    (void)sound_type;
 
     sound_num--;
 
@@ -1505,7 +1498,6 @@ WeaponExplodeSectorInRange(short weapon)
     SPRITEp sp;
     int dist;
     int radius;
-    short match;
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_SPRITE_HIT_MATCH], i, nexti)
         {
@@ -1525,10 +1517,10 @@ WeaponExplodeSectorInRange(short weapon)
         if (!FAFcansee(wp->x,wp->y,wp->z,wp->sectnum,sp->x,sp->y,sp->z,sp->sectnum))
             continue;
 
-        match = sp->hitag;
         // this and every other crack sprite of this type is now dead
         // don't use them
         #if 0
+        short match = sp->hitag;
         KillMatchingCrackSprites(match);
         DoExplodeSector(match);
         DoMatchEverything(NULL, match, -1);
@@ -1543,9 +1535,11 @@ WeaponExplodeSectorInRange(short weapon)
 
 
 VOID
-ShootableSwitch(short SpriteNum, short UNUSED(Weapon))
+ShootableSwitch(short SpriteNum, short Weapon)
     {
     SPRITEp sp = &sprite[SpriteNum];
+
+    (void)Weapon;
 
     switch (sp->picnum)
         {
@@ -2433,9 +2427,6 @@ short PlayerTakeSectorDamage(PLAYERp pp)
 #define PLAYER_SOUNDEVENT_TAG 900
 BOOL NearThings(PLAYERp pp)
 {
-    short sectnum;
-    short rndnum;
-    int daz;
     short neartagsect, neartagwall, neartagsprite;
     int neartaghitdist;
 
@@ -2779,12 +2770,11 @@ PlayerOperateEnv(PLAYERp pp)
 
             {
             int neartaghitdist;
-            short neartagsector, neartagsprite, neartagwall;
+            short neartagsector, neartagwall;
 
             neartaghitdist = nti[0].dist;
             neartagsector = nti[0].sectnum;
             neartagwall = nti[0].wallnum;
-            neartagsprite = nti[0].spritenum;
 
             if (neartagsector >= 0 && neartaghitdist < 1024)
                 {
@@ -3043,18 +3033,18 @@ DoAnim(int numtics)
 VOID
 AnimClear(VOID)
     {
-    int i, animval;
-
 #if 1
     AnimCnt = 0;
 #else
+    int i, animval;
+
     for (i = AnimCnt - 1; i >= 0; i--)
         {
         if (Anim[i].extra)
-	    {
+            {
             FreeMem(Anim[i].extra);
-	    Anim[i].extra = 0;
-        }
+            Anim[i].extra = 0;
+            }
         }
 
     AnimCnt = 0;
@@ -3104,7 +3094,7 @@ AnimDelete(int *animptr)
     Anim[j] = Anim[AnimCnt];
 
     //DSPRINTF(ds, "Deleted a Anim");
-    MONO_PRINT(ds);
+    //MONO_PRINT(ds);
 
     }
 
@@ -3221,8 +3211,9 @@ UPDATE TO NEW CODE
 #endif
     }
 
-void movelava(char * UNUSED(dapic))
+void movelava(char * dapic)
     {
+    (void)dapic;
 #if 0
 //    #define COLOR_OFFSET 192
 #define COLOR_OFFSET LT_BROWN
@@ -3395,7 +3386,6 @@ DoPanning(VOID)
 VOID
 DoSector(VOID)
     {
-    short i;
     SECTOR_OBJECTp sop;
     BOOL riding;
     extern BOOL DebugActorFreeze;

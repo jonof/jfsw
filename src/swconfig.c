@@ -70,7 +70,7 @@ void EncodePassword(char *pw)
 
     Bstrupr(pw);
 
-    len = strlen(pw);
+    len = (int)strlen(pw);
     for (i = 0; i < len; i++)
         pw[i] += RANDOM_RANGE(26);
 
@@ -90,7 +90,7 @@ void DecodePassword(char *pw)
 
     Bstrupr(pw);
 
-    len = strlen(pw);
+    len = (int)strlen(pw);
     for (i = 0; i < len; i++)
         pw[i] -= RANDOM_RANGE(26);
 
@@ -109,7 +109,6 @@ void DecodePassword(char *pw)
 void ReadGameSetup( int32 scripthandle )
     {
     int dummy;
-    int ret;
     extern char WangBangMacro[10][64];
 
     for(dummy = 0;dummy < 10;dummy++)
@@ -123,7 +122,7 @@ void ReadGameSetup( int32 scripthandle )
 
     // option stuff
     dummy = -1;
-    ret = SCRIPT_GetNumber( scripthandle, "Options", "BorderNum",&dummy);
+    SCRIPT_GetNumber( scripthandle, "Options", "BorderNum",&dummy);
     if (dummy != -1) gs.BorderNum = dummy;
 
     dummy = -1;

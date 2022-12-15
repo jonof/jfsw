@@ -99,17 +99,14 @@ void CenterRudder(void)
 ===================
 */
 
-static int32 timert;
 
 int32 GetTime(void)
    {
    return totalclock;
-   //return timert++;
    }
 
 void InitSetup(void)
    {
-   int i;
    //RegisterShutdownFunction( ShutDown );
 
    //StartWindows();

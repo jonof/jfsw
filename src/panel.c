@@ -114,7 +114,6 @@ void pNullAnimator(PANEL_SPRITEp psp)
 PANEL_SPRITEp
 pFindMatchingSprite(PLAYERp pp, int x, int y, short pri)
     {
-    PANEL_SPRITEp nsp;
     PANEL_SPRITEp psp=NULL, next;
 
     TRAVERSE(&pp->PanelSpriteList, psp, next)
@@ -135,7 +134,6 @@ pFindMatchingSprite(PLAYERp pp, int x, int y, short pri)
 PANEL_SPRITEp
 pFindMatchingSpriteID(PLAYERp pp, short id, int x, int y, short pri)
     {
-    PANEL_SPRITEp nsp;
     PANEL_SPRITEp psp=NULL, next;
 
     TRAVERSE(&pp->PanelSpriteList, psp, next)
@@ -156,7 +154,6 @@ pFindMatchingSpriteID(PLAYERp pp, short id, int x, int y, short pri)
 BOOL
 pKillScreenSpiteIDs(PLAYERp pp, short id)
     {
-    PANEL_SPRITEp nsp=NULL;
     PANEL_SPRITEp psp=NULL, next;
     BOOL found = FALSE;
 
@@ -319,7 +316,7 @@ PlayerUpdateHealth(PLAYERp pp, short value)
         if(value <= -1000)
             {
             //DSPRINTF(ds,"value = %d\n",value);
-            MONO_PRINT(ds);
+            //MONO_PRINT(ds);
 
             value += 1000;
             IsChem = TRUE;
@@ -332,7 +329,7 @@ PlayerUpdateHealth(PLAYERp pp, short value)
         if (pp->Armor && !NoArmor)
             {
             int armor_damage, player_damage;
-            ArmorCalc(labs(value), &armor_damage, &player_damage);
+            ArmorCalc(abs(value), &armor_damage, &player_damage);
             PlayerUpdateArmor(pp, -armor_damage);
             value = -player_damage;
             }
@@ -416,7 +413,7 @@ PlayerUpdateAmmo(PLAYERp pp, short UpdateWeaponNum, short value)
     {
     USERp u = User[pp->PlayerSprite];
     short x,y;
-    short WeaponNum,min_ammo;
+    short WeaponNum;
     PANEL_SPRITEp psp;
 
 #define PANEL_AMMO_BOX_X 197
@@ -584,8 +581,6 @@ PlayerUpdateWeapon(PLAYERp pp, short WeaponNum)
 VOID
 PlayerUpdateKills(PLAYERp pp, short value)
     {
-    USERp u = User[pp->PlayerSprite];
-
 #define PANEL_KILLS_X 31
 #define PANEL_KILLS_Y 164
 
@@ -633,7 +628,6 @@ PlayerUpdateKills(PLAYERp pp, short value)
 VOID
 PlayerUpdateArmor(PLAYERp pp, short value)
     {
-    USERp u = User[pp->PlayerSprite];
     short x,y;
     PANEL_SPRITEp psp;
 
@@ -676,7 +670,6 @@ PlayerUpdateKeys(PLAYERp pp)
 #define PANEL_KEYS_YOFF 2
 #define KEYS_ERASE 2402
 
-    USERp u = User[pp->PlayerSprite];
     short x,y;
     short row,col;
     short i, xsize, ysize;
@@ -758,8 +751,6 @@ PlayerUpdateKeys(PLAYERp pp)
 VOID
 PlayerUpdateTimeLimit(PLAYERp pp)
     {
-    USERp u = User[pp->PlayerSprite];
-    short x,y;
     int seconds;
     PANEL_SPRITEp psp;
 
@@ -788,7 +779,6 @@ VOID
 PlayerUpdatePanelInfo(PLAYERp pp)
     {
     USERp u = User[pp->PlayerSprite];
-    int i;
 
     if (Prediction)
         return;
@@ -1578,7 +1568,7 @@ pSwordRest(PANEL_SPRITEp psp)
         KEY_PRESSED(KEYSC_SEMI) = 0;
         SwordAng -= 4;
         //DSPRINTF(ds,"SwordAng %d", SwordAng);
-        MONO_PRINT(ds);
+        //MONO_PRINT(ds);
         }
 
     if (KEY_PRESSED(KEYSC_QUOTE))
@@ -1586,7 +1576,7 @@ pSwordRest(PANEL_SPRITEp psp)
         KEY_PRESSED(KEYSC_QUOTE) = 0;
         SwordAng += 4;
         //DSPRINTF(ds,"SwordAng %d", SwordAng);
-        MONO_PRINT(ds);
+        //MONO_PRINT(ds);
         }
     #endif
 
@@ -1736,8 +1726,6 @@ PANEL_STATE ps_RetractStar[] = {
 void
 pStarRestTest(PANEL_SPRITEp psp)
     {
-    BOOL force = !!TEST(psp->flags, PANF_UNHIDE_SHOOT);
-
     if (TEST_SYNC_KEY(psp->PlayerP, SK_SHOOT))
         {
         if (FLAG_KEY_PRESSED(psp->PlayerP, SK_SHOOT))
@@ -2912,8 +2900,6 @@ void
 SpawnUziShell(PANEL_SPRITEp psp)
     {
     PLAYERp pp = psp->PlayerP;
-    PANEL_SPRITEp shell;
-    int i, rand_val;
 
     if (psp->State && TEST(psp->State->flags, psf_Xflip))
         {
@@ -2982,7 +2968,6 @@ void
 SpawnShotgunShell(PANEL_SPRITEp psp)
     {
     PLAYERp pp = psp->PlayerP;
-    PANEL_SPRITEp shell;
 
 
     SpawnShell(pp->PlayerSprite,-4);
@@ -3001,6 +2986,7 @@ SpawnShotgunShell(PANEL_SPRITEp psp)
         {0, 0, 0, FIXED(2,0), FIXED(4,0), FIXED(3,32000), FIXED(10,32000) },
         };
 
+    PANEL_SPRITEp shell;
     PANEL_SHRAPp ss;
 
     ss = &ShellShrap[0];
@@ -3208,7 +3194,6 @@ pShotgunSetRecoil(PANEL_SPRITEp psp)
 void
 pShotgunRecoilDown(PANEL_SPRITEp psp)
     {
-    short picnum = psp->picndx;
     int targetvel;
 
     int x = FIXED(psp->x, psp->xfract);
@@ -3718,8 +3703,6 @@ pRailSetRecoil(PANEL_SPRITEp psp)
 void
 pRailRecoilDown(PANEL_SPRITEp psp)
     {
-    short picnum = psp->picndx;
-
     int x = FIXED(psp->x, psp->xfract);
     int y = FIXED(psp->y, psp->yfract);
 
@@ -4153,8 +4136,6 @@ InitWeaponHothead(PLAYERp pp)
 void
 pHotheadRestTest(PANEL_SPRITEp psp)
     {
-    BOOL force = !!TEST(psp->flags, PANF_UNHIDE_SHOOT);
-
     if (TEST_SYNC_KEY(psp->PlayerP, SK_SHOOT))
         {
         if (FLAG_KEY_PRESSED(psp->PlayerP, SK_SHOOT))
@@ -4591,8 +4572,6 @@ InitWeaponMicro(PLAYERp pp)
 void
 pMicroRecoilDown(PANEL_SPRITEp psp)
     {
-    short picnum = psp->picndx;
-
     int x = FIXED(psp->x, psp->xfract);
     int y = FIXED(psp->y, psp->yfract);
 
@@ -5572,8 +5551,6 @@ InitWeaponGrenade(PLAYERp pp)
 void
 pGrenadeRecoilDown(PANEL_SPRITEp psp)
     {
-    short picnum = psp->picndx;
-
     int x = FIXED(psp->x, psp->xfract);
     int y = FIXED(psp->y, psp->yfract);
 
@@ -5587,10 +5564,10 @@ pGrenadeRecoilDown(PANEL_SPRITEp psp)
 
 	psp->vel -= 24 * synctics;
 
-    // if (psp->y >= GRENADE_YOFF + tilesizy[picnum])
+    // if (psp->y >= GRENADE_YOFF + tilesizy[psp->picndx])
     if (psp->vel < 400)
         {
-        // psp->y = GRENADE_YOFF + tilesizy[picnum];
+        // psp->y = GRENADE_YOFF + tilesizy[psp->picndx];
 
         psp->vel = 400;
         psp->ang = NORM_ANGLE(psp->ang + 1024);
@@ -6549,7 +6526,7 @@ pFistPresent(PANEL_SPRITEp psp)
 void
 pFistSlide(PANEL_SPRITEp psp)
     {
-    int nx, ny;
+    int ny;
     short vel_adj;
 
     //nx = FIXED(psp->x, psp->xfract);
@@ -6678,7 +6655,7 @@ pFistSlideDown(PANEL_SPRITEp psp)
 void
 pFistSlideR(PANEL_SPRITEp psp)
     {
-    int nx, ny;
+    int ny;
     short vel_adj;
 
     //nx = FIXED(psp->x, psp->xfract);
@@ -7238,9 +7215,7 @@ pDisplaySprites(PLAYERp pp)
     USERp u = User[pp->PlayerSprite];
     PANEL_SPRITEp psp=NULL, next=NULL;
     short shade, picnum, overlay_shade = 0;
-    char KenFlags;
     int x, y, sc;
-    int smoothratio;
     unsigned i;
 
     SECT_USERp sectu = SectUser[pp->cursectnum];
@@ -7253,7 +7228,6 @@ pDisplaySprites(PLAYERp pp)
         {
         ASSERT(ValidPtr(psp));
         ang = psp->rotate_ang;
-        KenFlags = 0;
         shade = 0;
         flags = 0;
         x = psp->x << 16;

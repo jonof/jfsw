@@ -533,7 +533,6 @@ SetupSkel(short SpriteNum)
 int DoSkelInitTeleport(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
-    USERp u = User[SpriteNum];
 
     RESET(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
 
@@ -545,7 +544,6 @@ int DoSkelInitTeleport(short SpriteNum)
 int DoSkelTeleport(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
-    USERp u = User[SpriteNum];
     int x,y;
 
     x = sp->x;
@@ -579,7 +577,6 @@ int DoSkelTeleport(short SpriteNum)
 int DoSkelTermTeleport(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
-    USERp u = User[SpriteNum];
 
     SET(sp->cstat, CSTAT_SPRITE_BLOCK|CSTAT_SPRITE_BLOCK_HITSCAN);
 
@@ -588,7 +585,6 @@ int DoSkelTermTeleport(short SpriteNum)
 
 int NullSkel(short SpriteNum)
 {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
 
     if (TEST(u->Flags,SPR_SLIDING))
@@ -602,7 +598,6 @@ int NullSkel(short SpriteNum)
 
 int DoSkelPain(short SpriteNum)
 {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
 
     NullSkel(SpriteNum);
@@ -615,7 +610,6 @@ int DoSkelPain(short SpriteNum)
 
 int DoSkelMove(short SpriteNum)
 {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
 
     if (TEST(u->Flags,SPR_SLIDING))

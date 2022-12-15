@@ -676,7 +676,6 @@ SetupSumo(short SpriteNum)
 int NullSumo(short SpriteNum)
 {
     USERp u = User[SpriteNum];
-    SPRITEp sp = User[SpriteNum]->SpriteP;
 
     //if (TEST(u->Flags,SPR_SLIDING))
         //DoActorSlide(SpriteNum);
@@ -691,7 +690,6 @@ int NullSumo(short SpriteNum)
 
 int DoSumoMove(short SpriteNum)
 {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
 
     //if (TEST(u->Flags,SPR_SLIDING))
@@ -733,9 +731,6 @@ int InitSumoCharge(short SpriteNum)
 
 int DoSumoRumble(short SpriteNum)
 {
-    SPRITEp sp = &sprite[SpriteNum];
-    USERp u = User[SpriteNum];
-
     SetSumoQuake(SpriteNum);
 
     return(0);
@@ -744,7 +739,6 @@ int DoSumoRumble(short SpriteNum)
 int InitSumoFart(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
-    USERp u = User[SpriteNum];
     extern int InitSumoNapalm(short SpriteNum);
 
     PlaySound(DIGI_SUMOFART, &sp->x, &sp->y, &sp->z, v3df_follow);
@@ -760,7 +754,6 @@ int InitSumoFart(short SpriteNum)
 int InitSumoStomp(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
-    USERp u = User[SpriteNum];
     extern int InitSumoStompAttack(short SpriteNum);
 
     PlaySound(DIGI_SUMOSTOMP, &sp->x, &sp->y, &sp->z, v3df_none);

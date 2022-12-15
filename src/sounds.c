@@ -325,16 +325,6 @@ VOID
 InitFX(VOID)
     {
     VOC_INFOp vp;
-    short i;
-
-    #if 0
-    // DEBUG
-    for (i=0;i<DIGI_MAX;i++)
-        {
-        globsndata[i] = globvpdata[i] = NULL;
-        glength[i] = 0;
-        }
-    #endif
 
     //ExternalSoundMod();
 
@@ -368,7 +358,6 @@ ExternalSoundMod(VOID)
     VOC_INFOp vp;
     char name[40];
     char new_name[40];
-    int pri;
     int pitch_lo, pitch_hi;
     int ret;
 
@@ -401,8 +390,6 @@ ExternalSoundMod(VOID)
 
     fclose(fin);
     }
-
-extern short Level;
 
 BOOL
 PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
@@ -580,6 +567,7 @@ PauseSong(BOOL pauseon)
 void
 SetSongVolume(int volume)
 {
+    (void)volume;
 }
 
 BOOL
@@ -694,7 +682,6 @@ SoundAngle(int x, int y)
 int _PlayerSound(char *file, int line, int num, int *x, int *y, int *z, Voc3D_Flags flags, PLAYERp pp)
 //PlayerSound(int num, int *x, int *y, int *z, Voc3D_Flags flags, PLAYERp pp)
 {
-    int handle;
     VOC_INFOp vp;
 
     if (Prediction)
@@ -1574,7 +1561,6 @@ Delete3DSounds(void)
     {
     VOC3D_INFOp vp, dp;
     PLAYERp pp;
-    int cnt=0;
 
 
     vp = voc3dstart;
@@ -1742,7 +1728,6 @@ StopAmbientSound(void)
 void
 StartAmbientSound(void)
     {
-    VOC3D_INFOp p;
     short i,nexti;
     extern BOOL InMenuLevel;
 
@@ -1773,9 +1758,7 @@ DoUpdateSounds3D(void)
     VOC3D_INFOp p;
     BOOL looping;
     int pitch = 0, pitchmax;
-    int delta;
     short dist, angle;
-    BOOL deletesound = FALSE;
 
     TVOC_INFO TmpVocArray[32];
     int i;
@@ -1969,7 +1952,7 @@ DoUpdateSounds3D(void)
     //    {
         for(i=0; i<min((int)SIZ(TmpVocArray), NumVoices); i++)
             {
-            int handle;
+            int handle; (void)handle;
 
             p = TmpVocArray[i].p;
 

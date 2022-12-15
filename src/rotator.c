@@ -45,7 +45,6 @@ void DoRotatorStopInterp(short SpriteNum);
 void ReverseRotator(short SpriteNum)
     {
     USERp u = User[SpriteNum];
-    SPRITEp sp = u->SpriteP;
     ROTATORp r;
 
     r = u->rotator;
@@ -97,7 +96,6 @@ void SetRotatorActive(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
-    SECTORp sectp = &sector[sp->sectnum];
     ROTATORp r;
 
     r = u->rotator;
@@ -121,7 +119,6 @@ void SetRotatorInactive(short SpriteNum)
     {
     USERp u = User[SpriteNum];
     SPRITEp sp = u->SpriteP;
-    SECTORp sectp = &sector[sp->sectnum];
 
     DoRotatorStopInterp(SpriteNum);
 
@@ -134,10 +131,7 @@ void SetRotatorInactive(short SpriteNum)
 // called for operation from the space bar
 short DoRotatorOperate(PLAYERp pp, short sectnum)
     {
-    USERp fu;
-    SPRITEp fsp;
     short match;
-    short i,nexti;
 
     match = sector[sectnum].hitag;
 
@@ -239,7 +233,6 @@ TestRotatorMatchActive(short match)
     {
     USERp fu;
     SPRITEp fsp;
-    short sectnum;
 
     short i,nexti;
 
@@ -367,7 +360,7 @@ int DoRotatorMove(short SpriteNum)
             // new tgt is OPEN (open)
             r->tgt = r->open_dest;
             r->speed = r->orig_speed;
-            r->vel = labs(r->vel);
+            r->vel = abs(r->vel);
 
             SetRotatorInactive(SpriteNum);
 
@@ -429,12 +422,6 @@ int DoRotatorMove(short SpriteNum)
 
 int DoRotator(short SpriteNum)
     {
-    USERp u = User[SpriteNum];
-    SPRITEp sp = u->SpriteP;
-    SECTORp sectp = &sector[sp->sectnum];
-    int *lptr;
-    int amt;
-
     // could move this inside sprite control
     DoRotatorMove(SpriteNum);
 

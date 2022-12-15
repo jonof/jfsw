@@ -90,7 +90,6 @@ FAF_Sector(short sectnum)
     {
     short SpriteNum, Next;
     SPRITEp sp;
-    BOOL found = FALSE;
 
     TRAVERSE_SPRITE_SECT(headspritesect[sectnum], SpriteNum, Next)
         {
@@ -156,7 +155,6 @@ FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
     short newsectnum = sectnum;
     int startclipmask = 0;
     BOOL plax_found = FALSE;
-    int sx,sy,sz;
 
     if (clipmask == CLIPMASK_MISSILE)
         startclipmask = CLIPMASK_WARP_HITSCAN;
@@ -173,15 +171,10 @@ FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
         // hitscan warping
         if (TEST(wall[*hitwall].cstat, CSTAT_WALL_WARP_HITSCAN))
             {
-            short src_sect = *hitsect;
             short dest_sect;
 
-            sx = *hitx;
-            sy = *hity;
-            sz = *hitz;
-
-            //DSPRINTF(ds,"sx %d, sy %d, sz %d, xvect %d, yvect %d",sx, sy, sz,xvect,yvect);
-            MONO_PRINT(ds);
+            //DSPRINTF(ds,"sx %d, sy %d, sz %d, xvect %d, yvect %d",*hitx, *hity, *hitz,xvect,yvect);
+            //MONO_PRINT(ds);
 
             // back it up a bit to get a correct warp location
             *hitx -= xvect>>9;
@@ -208,7 +201,7 @@ FAFhitscan(LONG x, LONG y, LONG z, SHORT sectnum,
             else
                 {
             //DSPRINTF(ds,"hitx %d, hity %d, hitz %d",*hitx, *hity, *hitz);
-            MONO_PRINT(ds);
+            //MONO_PRINT(ds);
                 ASSERT(TRUE == FALSE);
                 }
             }
@@ -568,7 +561,6 @@ VOID FAFgetzrange(LONG x, LONG y, LONG z, SHORT sectnum,
             {
             case HIT_SECTOR:
                 {
-                short hitsector = NORM_SECTOR(*florhit);
                 break;
                 }
             case HIT_SPRITE:
@@ -681,9 +673,7 @@ VOID
 SetupMirrorTiles(VOID)
     {
     short i, nexti;
-    short j, nextj;
     SPRITEp sp;
-    BOOL found;
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
         {
@@ -779,7 +769,7 @@ short GlobStackSect[2];
 void
 GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
     {
-    int i, j;
+    int i;
     short sectorlist[16];
     int sln = 0;
     short SpriteNum, Next;
@@ -861,7 +851,7 @@ GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
     if (sln > 2)
         {
         //DSPRINTF(ds, "TOO MANY SECTORS FOUND: x=%d, y=%d, match=%d, num sectors %d, %d, %d, %d, %d, %d", x, y, match, sln, sectorlist[0], sectorlist[1], sectorlist[2], sectorlist[3], sectorlist[4]);
-        MONO_PRINT(ds);
+        //MONO_PRINT(ds);
         // try again moving the x,y pos around until you only get two sectors
         GetUpperLowerSector(match, x - 1, y, upper, lower);
         }
@@ -891,7 +881,6 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     int yoff = 0;
     short i, nexti;
     SPRITEp sp = NULL;
-    short top_sprite = -1;
     int pix_diff;
     int newz;
 
@@ -939,7 +928,7 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     ASSERT(sp);
     ASSERT(sp->hitag == VIEW_THRU_FLOOR);
 
-    pix_diff = labs(z - sector[sp->sectnum].floorz) >> 8;
+    pix_diff = abs(z - sector[sp->sectnum].floorz) >> 8;
     newz = sector[sp->sectnum].floorz + ((pix_diff / 128) + 1) * Z(128);
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
@@ -1028,7 +1017,7 @@ FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     ASSERT(sp->hitag == VIEW_THRU_CEILING);
 
     // move ceiling multiple of 128 so that the wall tile will line up
-    pix_diff = labs(z - sector[sp->sectnum].ceilingz) >> 8;
+    pix_diff = abs(z - sector[sp->sectnum].ceilingz) >> 8;
     newz = sector[sp->sectnum].ceilingz - ((pix_diff / 128) + 1) * Z(128);
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
@@ -1063,14 +1052,13 @@ FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     }
 
 short
-ViewSectorInScene(short cursectnum, short UNUSED(type), short level)
+ViewSectorInScene(short cursectnum, short type, short level)
     {
     int i, nexti;
-    int j, nextj;
     SPRITEp sp;
-    SPRITEp sp2;
-    int cz, fz;
     short match;
+
+    (void)type;
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
         {

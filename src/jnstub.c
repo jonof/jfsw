@@ -2785,9 +2785,11 @@ DrawClipBox(short spritenum)
     }
 
 void
-ExtShowSectorData(short UNUSED(sectnum))        // F5
+ExtShowSectorData(short sectnum)        // F5
     {
     int i, x, y, x2;
+
+    (void)sectnum;
 
     if (qsetmode == 200)                // In 3D mode
         return;
@@ -2958,10 +2960,12 @@ ExtShowSpriteData(short spritenum)      // F6
     }
 
 void
-ExtEditSectorData(short UNUSED(sectnum))        // F7
+ExtEditSectorData(short sectnum)        // F7
     {
     short key_num;
     SPRITEp sp;
+
+    (void)sectnum;
 
     if (qsetmode == 200)                // In 3D mode
         return;
@@ -2987,8 +2991,9 @@ ExtEditSectorData(short UNUSED(sectnum))        // F7
     }
 
 void
-ExtEditWallData(short UNUSED(wallnum))          // F8
+ExtEditWallData(short wallnum)          // F8
     {
+    (void)wallnum;
 //    short nickdata;
 
     if (qsetmode == 200)                // In 3D mode
@@ -3307,7 +3312,6 @@ SetClipdist2D(void)
     {
     short dist;
     int i;
-    short num;
 
     if (qsetmode == 200)                // In 3D mode
         return;
@@ -3322,7 +3326,6 @@ SetClipdist2D(void)
         {
         if (TEST(highlight[i], SPRITE_FLAG))
             {
-            num = RESET(highlight[i], SPRITE_FLAG);
             sprite[highlight[i]].clipdist = dist;
             }
         }
@@ -3550,14 +3553,12 @@ FindNextTag(void)
     {
     int i, count, j;
     short SpriteNum, NextSprite;
-    short siNextFind;                   // Next tag that SHOULD be found
     SPRITEp sp;
 
     if (qsetmode == 200)                // In 3D mode
         return;
 
     siNextTag = siNextEndTag = 0;       // Reset tags for new search
-    siNextFind = 0;
 
     // go to the first one
     for (i = 0; i < numsectors; i++)

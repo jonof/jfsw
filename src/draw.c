@@ -105,7 +105,6 @@ GetRotation(short tSpriteNum, int viewx, int viewy)
 
     SPRITEp tsp = &tsprite[tSpriteNum];
     USERp tu = User[tsp->owner];
-    PLAYERp pp = Player + screenpeek;
     short angle2;
 
     if (tu->RotNum == 0)
@@ -240,7 +239,6 @@ DoShadowFindGroundPoint(SPRITEp sp)
     int ceilhit, florhit;
     int hiz, loz = u->loz;
     short save_cstat, bak_cstat;
-    BOOL found = FALSE;
 
     // recursive routine to find the ground - either sector or floor sprite
     // skips over enemy and other types of sprites
@@ -441,14 +439,14 @@ DoShadows(SPRITEp tsp, int viewz)
         return;
 
     // if close to shadows z shrink it
-    view_dist = labs(loz - viewz) >> 8;
+    view_dist = abs(loz - viewz) >> 8;
     if (view_dist < 32)
         view_dist = 256/view_dist;
     else
         view_dist = 0;
 
     // make shadow smaller depending on height from ground
-    ground_dist = labs(loz - SPRITEp_BOS(tsp)) >> 8;
+    ground_dist = abs(loz - SPRITEp_BOS(tsp)) >> 8;
     ground_dist = DIV16(ground_dist);
 
     xrepeat = max(xrepeat - ground_dist - view_dist, 4);
@@ -673,8 +671,8 @@ VOID DoStarView(SPRITEp tsp, USERp tu, int viewz)
 VOID
 analyzesprites(int viewx, int viewy, int viewz, BOOL mirror)
     {
-    int tSpriteNum, j, k;
-    short SpriteNum, pnum;
+    int tSpriteNum;
+    short SpriteNum;
     int smr4, smr2;
     SPRITEp tsp;
     USERp tu;
@@ -1019,7 +1017,7 @@ post_analyzesprites(void)
                 if (!atsp)
                     {
                     //DSPRINTF(ds,"Attach not found");
-                    MONO_PRINT(ds);
+                    //MONO_PRINT(ds);
                     continue;
                     }
 
@@ -1155,7 +1153,7 @@ void
 BackView(int *nx, int *ny, int *nz, short *vsect, short *nang, short horiz)
     {
     SPRITEp sp;
-    int i, vx, vy, vz, hx, hy, hz, hitx, hity, hitz;
+    int i, vx, vy, vz, hx, hy, hitx, hity, hitz;
     short bakcstat, hitsect, hitwall, hitsprite, daang;
     PLAYERp pp = &Player[screenpeek];
     short ang;
@@ -1273,7 +1271,7 @@ void
 CircleCamera(int *nx, int *ny, int *nz, short *vsect, short *nang, short horiz)
     {
     SPRITEp sp;
-    int i, vx, vy, vz, hx, hy, hz, hitx, hity, hitz;
+    int i, vx, vy, vz, hx, hy, hitx, hity, hitz;
     short bakcstat, hitsect, hitwall, hitsprite, daang;
     PLAYERp pp = &Player[screenpeek];
     short ang;
@@ -1765,11 +1763,13 @@ VOID DrawMessageInput(PLAYERp pp)
         }
     }
 #else
-VOID DrawMessageInput(PLAYERp UNUSED(pp))
+VOID DrawMessageInput(PLAYERp pp)
     {
     short w,h;
     static BOOL cur_show;
     short c;
+
+    (void)pp;
 
     // Used to make cursor fade in and out
     c = 4-(sintable[(totalclock<<4)&2047]>>11);
@@ -1793,13 +1793,15 @@ VOID DrawMessageInput(PLAYERp UNUSED(pp))
     }
 #endif
 
-VOID DrawConInput(PLAYERp UNUSED(pp))
+VOID DrawConInput(PLAYERp pp)
     {
     #define PANELINPUTX 30
     #define PANELINPUTY 100
     short w,h;
     static BOOL cur_show;
     short c;
+
+    (void)pp;
 
     // Used to make cursor fade in and out
     c = 4-(sintable[(totalclock<<4)&2047]>>11);
@@ -1986,7 +1988,7 @@ void CameraView(PLAYERp pp, int *tx, int *ty, int *tz, short *tsectnum, short *t
                             *thoriz = min(*thoriz, PLAYER_HORIZ_MAX);
 
                             //DSPRINTF(ds,"xvect %d,yvect %d,zvect %d,thoriz %d",xvect,yvect,zvect,*thoriz);
-                            MONO_PRINT(ds);
+                            //MONO_PRINT(ds);
 
                             *tang = ang;
                             *tx = sp->x;
@@ -2047,8 +2049,6 @@ VOID
 PostDraw(VOID)
     {
     short i, nexti;
-    short sectnum,statnum;
-    SPRITEp sp;
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FLOOR_SLOPE_DONT_DRAW], i, nexti)
         {
@@ -2064,6 +2064,8 @@ PostDraw(VOID)
             }
 
         #if DEBUG
+        short sectnum,statnum;
+        SPRITEp sp;
         sp = &sprite[i];
         statnum = sp->statnum;
         sectnum = sp->sectnum;
@@ -2146,16 +2148,9 @@ void PreDrawStackedWater(void)
     {
     short si,snexti;
     short i,nexti;
-    SPRITEp sp,np;
+    SPRITEp sp;
     USERp u,nu;
     short new;
-    int smr4,smr2;
-    int x,y,z;
-    short ang;
-    PLAYERp pp = Player + screenpeek;
-
-    smr4 = smoothratio + (((int) MoveSkip4) << 16);
-    smr2 = smoothratio + (((int) MoveSkip2) << 16);
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_CEILING_FLOOR_PIC_OVERRIDE], si, snexti)
         {
@@ -2179,8 +2174,6 @@ void PreDrawStackedWater(void)
                 new = ConnectCopySprite(sp);
                 if (new >= 0)
                     {
-                    np = &sprite[new];
-
                     // spawn a user
                     User[new] = nu = (USERp)CallocMem(sizeof(USER), 1);
                     ASSERT(nu != NULL);
@@ -2277,11 +2270,10 @@ VOID
 drawscreen(PLAYERp pp)
     {
     extern BOOL DemoMode,CameraTestMode;
-    int tx, ty, tz,thoriz,pp_siz;
+    int tx, ty, tz,thoriz;
     short tang,tsectnum;
     short i,j;
     walltype *wal;
-    int tiltlock;
     int bob_amt = 0;
     int quake_z, quake_x, quake_y;
     short quake_ang;
@@ -2391,7 +2383,6 @@ drawscreen(PLAYERp pp)
     pp->six = tx;
     pp->siy = ty;
     pp->siz = tz - pp->posz;
-    pp_siz = tz;
     pp->siang = tang;
 
     if (pp->sop_riding || pp->sop_control)
@@ -2628,7 +2619,6 @@ DrawCompass(PLAYERp pp)
     short x_size = tilesizx[COMPASS_NORTH];
     short x;
     short i;
-    int flags;
     PANEL_SPRITEp psp;
 
     static short CompassPic[32] =
@@ -2703,11 +2693,9 @@ VOID ScreenTileUnLock(void)
     }
 
 int
-ScreenLoadSaveSetup(PLAYERp UNUSED(pp))
+ScreenLoadSaveSetup(PLAYERp pp)
     {
-    int tx, ty, tz,thoriz,pp_siz;
-    short tang,tsectnum;
-    short i;
+    (void)pp;
 
     // lock and allocate memory
 
@@ -2723,9 +2711,9 @@ ScreenLoadSaveSetup(PLAYERp UNUSED(pp))
     }
 
 int
-ScreenSaveSetup(PLAYERp UNUSED(pp))
+ScreenSaveSetup(PLAYERp pp)
     {
-    short i;
+    (void)pp;
 
     ScreenLoadSaveSetup(Player + myconnectindex);
 

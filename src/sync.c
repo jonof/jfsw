@@ -63,7 +63,7 @@ void initsynccrc(void)
 BYTE
 PlayerSync(VOID)
     {
-    short i, j;
+    short i;
     unsigned short crc = 0;
     PLAYERp pp;
 
@@ -82,7 +82,7 @@ PlayerSync(VOID)
 BYTE
 PlayerSync2(VOID)
     {
-    short i, j;
+    short i;
     unsigned short crc = 0;
     PLAYERp pp;
 
@@ -141,7 +141,7 @@ EnemySync(VOID)
 
 #if 0
     //DSPRINTF(ds, "Demo Tmp Name %s", DemoTmpName);
-    MONO_PRINT(ds);
+    //MONO_PRINT(ds);
 
         {
         if (Once < 1 && DemoTmpName[0] != '\0')
@@ -152,7 +152,7 @@ EnemySync(VOID)
             fout = fopen(DemoTmpName, "wb");
 
             //DSPRINTF(ds, "Demo Tmp Name %s", DemoTmpName);
-            MONO_PRINT(ds);
+            //MONO_PRINT(ds);
 
             TRAVERSE_SPRITE_STAT(headspritestat[STAT_ENEMY], j, nextj)
                 {
@@ -310,8 +310,6 @@ getsyncstat(void)
     {
     int i;
     PLAYERp pp = Player + myconnectindex;
-    unsigned int val;
-    static unsigned int count;
     extern int syncvaltail, syncvaltottail;
 
     if (!CommEnabled)
@@ -324,9 +322,6 @@ getsyncstat(void)
         {
         pp->syncval[pp->syncvalhead & (SYNCFIFOSIZ - 1)][i] = (*SyncFunc[i])();
         }
-
-    val = pp->syncval[pp->syncvalhead & (SYNCFIFOSIZ - 1)][0];
-    count += val;
 
     pp->syncvalhead++;
     }
@@ -341,7 +336,7 @@ getsyncstat(void)
 void
 SyncStatMessage(void)
     {
-    int i, j, count = 0;
+    int i, j;
     static unsigned int MoveCount = 0;
     extern unsigned int MoveThingsCount;
 

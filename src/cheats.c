@@ -42,46 +42,55 @@ char CheatInputString[256];
 BOOL EveryCheat = FALSE;
 BOOL ResCheat = FALSE;
 
-VOID ResCheatOn(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
+VOID ResCheatOn(PLAYERp pp, char *cheat_string)
     {
+    (void)pp; (void)cheat_string;
     ResCheat = TRUE;
     }
 
-VOID VoxCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
+VOID VoxCheat(PLAYERp pp, char *cheat_string)
     {
+    (void)pp; (void)cheat_string;
     //gs.Voxel ^= 1;
     }
 
-VOID RestartCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
+VOID RestartCheat(PLAYERp pp, char *cheat_string)
     {
+    (void)pp; (void)cheat_string;
     ExitLevel = TRUE;
     }
 
-VOID RoomCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
+VOID RoomCheat(PLAYERp pp, char *cheat_string)
     {
     extern BOOL FAF_DebugView;
+    (void)pp; (void)cheat_string;
     FAF_DebugView ^= 1;
     }
 
-VOID SecretCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
+VOID SecretCheat(PLAYERp pp, char *cheat_string)
     {
+    (void)pp; (void)cheat_string;
     gs.Stats = !gs.Stats;
     }
 
-VOID NextCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
+VOID NextCheat(PLAYERp pp, char *cheat_string)
     {
+    (void)pp; (void)cheat_string;
     Level++;
     ExitLevel = TRUE;
     }
 
-VOID PrevCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
+VOID PrevCheat(PLAYERp pp, char *cheat_string)
     {
+    (void)pp; (void)cheat_string;
     Level--;
     ExitLevel = TRUE;
     }
 
-VOID MapCheat(PLAYERp pp, char * UNUSED(cheat_string))
+VOID MapCheat(PLAYERp pp, char *cheat_string)
     {
+    (void)cheat_string;
+
     automapping ^= 1;
 
     if (automapping)
@@ -94,21 +103,24 @@ VOID MapCheat(PLAYERp pp, char * UNUSED(cheat_string))
     }
 
 
-VOID LocCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
+VOID LocCheat(PLAYERp pp, char *cheat_string)
     {
     extern BOOL LocationInfo;
+    (void)pp; (void)cheat_string;
     LocationInfo++;
     if (LocationInfo > 2)
         LocationInfo = 0;
     }
 
 
-VOID WeaponCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
+VOID WeaponCheat(PLAYERp pp, char *cheat_string)
     {
     PLAYERp p;
     short pnum;
     unsigned int i;
     USERp u;
+
+    (void)pp; (void)cheat_string;
 
     TRAVERSE_CONNECT(pnum)
         {
@@ -118,7 +130,7 @@ VOID WeaponCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
         // ALL WEAPONS
         if (!SW_SHAREWARE)
             p->WpnFlags = 0xFFFFFFFF;
-	else
+        else
             p->WpnFlags = 0x0000207F;  // Disallows high weapon cheat in shareware
 
         for (i = 0; i < SIZ(p->WpnAmmo); i++)
@@ -131,8 +143,9 @@ VOID WeaponCheat(PLAYERp UNUSED(pp), char * UNUSED(cheat_string))
     }
 
 
-VOID GodCheat(PLAYERp pp, char * UNUSED(cheat_string))
+VOID GodCheat(PLAYERp pp, char *cheat_string)
     {
+    (void)cheat_string;
     //
     // GOD mode
     //
@@ -142,8 +155,9 @@ VOID GodCheat(PLAYERp pp, char * UNUSED(cheat_string))
     PutStringInfo(pp, ds);
     }
 
-VOID ClipCheat(PLAYERp pp, char * UNUSED(cheat_string))
+VOID ClipCheat(PLAYERp pp, char *cheat_string)
     {
+    (void)cheat_string;
     FLIP(pp->Flags, PF_CLIP_CHEAT);
 
     sprintf(ds, "NO CLIP MODE %s", TEST(pp->Flags, PF_CLIP_CHEAT) ? "ON" : "OFF" );
@@ -153,11 +167,10 @@ VOID ClipCheat(PLAYERp pp, char * UNUSED(cheat_string))
 VOID WarpCheat(PLAYERp pp, char *cheat_string)
     {
     char *cp = cheat_string;
-    int episode_num;
     int level_num;
 
     cp += sizeof("swtrek")-1;
-    level_num = atol(cp);
+    level_num = atoi(cp);
 
     //DSPRINTF(ds,"ep %d, lev %d",episode_num, level_num);
     //MONO_PRINT(ds);
@@ -240,19 +253,22 @@ VOID EveryCheatToggle(PLAYERp pp, char *cheat_string)
     PutStringInfo(pp, ds);
     }
 
-VOID SaveCheat(PLAYERp pp, char * UNUSED(cheat_string))
+VOID SaveCheat(PLAYERp pp, char *cheat_string)
     {
+    (void)cheat_string;
     saveboard("swsave.map", &pp->posx, &pp->posy, &pp->posz,
                  &pp->pang, &pp->cursectnum);
     }
 
-VOID GeorgeFunc(PLAYERp pp, char * UNUSED(cheat_string))
+VOID GeorgeFunc(PLAYERp pp, char *cheat_string)
     {
+    (void)cheat_string;
     PlayerSound(DIGI_TAUNTAI9,&pp->posx,&pp->posy,&pp->posz,v3df_dontpan|v3df_doppler|v3df_follow,pp);
     }
 
-VOID BlackburnFunc(PLAYERp pp, char * UNUSED(cheat_string))
+VOID BlackburnFunc(PLAYERp pp, char *cheat_string)
     {
+    (void)cheat_string;
     PlayerSound(DIGI_TAUNTAI3,&pp->posx,&pp->posy,&pp->posz,v3df_dontpan|v3df_doppler|v3df_follow,pp);
     }
 
@@ -313,8 +329,6 @@ CHEAT_INFO ci[] =
 // !JIM! My simplified version of CheatInput which simply processes MessageInputString
 void CheatInput(void)
 {
-    static BOOL cur_show;
-    int ret;
     BOOL match = FALSE;
     unsigned int i;
 
@@ -330,7 +344,7 @@ void CheatInput(void)
     for (i = 0; i < SIZ(ci); i++)
     {
         // compare without the NULL
-        if (cheatcmp(CheatInputString, ci[i].CheatInputCode, strlen(CheatInputString)) == 0)
+        if (cheatcmp(CheatInputString, ci[i].CheatInputCode, (int)strlen(CheatInputString)) == 0)
         {
 
             // if they are equal in length then its a complet match
@@ -339,8 +353,8 @@ void CheatInput(void)
                 match = TRUE;
                 CheatInputMode = FALSE;
 
-		if (TEST(ci[i].flags, CF_NOTSW) && SW_SHAREWARE)
-		    return;
+                if (TEST(ci[i].flags, CF_NOTSW) && SW_SHAREWARE)
+                    return;
 
                 if (!TEST(ci[i].flags, CF_ALL))
                     {

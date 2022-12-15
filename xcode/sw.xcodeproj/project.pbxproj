@@ -1193,12 +1193,14 @@
 			baseConfigurationReference = AB81F9242590B62800306B8E /* Common.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++98";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"../jfaudiolib/third-party",
 					"$(HOME)/Library/Frameworks",
 				);
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1207,6 +1209,7 @@
 					"USE_OPENGL=1",
 					RENDERTYPESDL,
 				);
+				GCC_WARN_PEDANTIC = YES;
 				HEADER_SEARCH_PATHS = (
 					../src,
 					../jfbuild/include,
@@ -1217,7 +1220,6 @@
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
-					"-Wno-unused-variable",
 				);
 			};
 			name = Debug;
@@ -1227,12 +1229,14 @@
 			baseConfigurationReference = AB81F9242590B62800306B8E /* Common.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++98";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"../jfaudiolib/third-party",
 					"$(HOME)/Library/Frameworks",
 				);
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1240,6 +1244,7 @@
 					"USE_OPENGL=1",
 					RENDERTYPESDL,
 				);
+				GCC_WARN_PEDANTIC = YES;
 				HEADER_SEARCH_PATHS = (
 					../src,
 					../jfbuild/include,
@@ -1249,7 +1254,6 @@
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
-					"-Wno-unused-variable",
 				);
 			};
 			name = Release;

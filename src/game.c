@@ -699,9 +699,6 @@ setup2dscreen(VOID)
 VOID
 TerminateGame(VOID)
     {
-    int i,j;
-    int oldtotalclock;
-
     DemoTerm();
 
     ErrorCorrectionQuit();
@@ -757,9 +754,6 @@ LoadLevel(char *filename)
 VOID
 LoadImages(char *filename)
     {
-    short ndx;
-    FILE *fin;
-
     if (loadpics(filename, 32*1048576) == -1)
         {
         TerminateGame();
@@ -819,7 +813,6 @@ void Set_GameMode(void)
     {
     extern int ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP;
     int result;
-    char ch;
 
     //DSPRINTF(ds,"ScreenMode %d, ScreenWidth %d, ScreenHeight %d",ScreenMode, ScreenWidth, ScreenHeight);
     //MONO_PRINT(ds);
@@ -894,34 +887,10 @@ VOID InitAutoNet(VOID)
     }
 
 
-void AnimateCacheCursor(void)
-    {
-#if 0
-    struct rccoord old_pos;
-    static short cursor_num = 0;
-    static char cache_cursor[] =  {'|','/','-','\\'};
-
-    if (GraphicsMode)
-        return;
-
-    cursor_num++;
-    if (cursor_num > 3)
-        cursor_num = 0;
-
-    //old_pos = _gettextposition();
-    //_settextposition( old_pos.row, old_pos.col );
-    //_settextposition( 24,  25);
-    _settextposition( 25,  0);
-    sprintf(ds,"Loading sound and graphics %c", cache_cursor[cursor_num]);
-    _outtext(ds);
-    //_settextposition( old_pos.row, old_pos.col );
-#endif
-    }
-
 void COVERsetbrightness(int bright, unsigned char *pal)
-{
-setbrightness(bright, pal, 0);
-}
+    {
+    setbrightness(bright, pal, 0);
+    }
 
 
 static int netsuccess = 0;
@@ -997,37 +966,10 @@ InitGame(VOID)
         }
 
     LoadDemoRun();
-    // Save off total heap for later calculations
-    //TotalMemory = Z_AvailHeap();
-    //DSPRINTF(ds,"Available Heap before LoadImages =  %d", TotalMemory);
-    //MONO_PRINT(ds);
-    // Reserve 1.5 megs for normal program use
-    // Generally, SW is consuming about a total of 11 megs including
-    // all the cached in graphics, etc. per level, so even on a 16 meg
-    // system, reserving 1.5 megs is fine.
-    // Note that on a 16 meg machine, Ken was leaving us about
-    // 24k for use outside the cache!  This was causing out of mem problems
-    // when songs, etc., greater than the remaining heap were being loaded.
-    // Even if you pre-cache songs, etc. to help, reserving some heap is
-    // a very smart idea since the game uses malloc throughout execution.
-    //ReserveMem = AllocMem(1L<<20);
-    //if(ReserveMem == 0) MONO_PRINT("Could not allocate 1.5 meg reserve!");
 
     // LoadImages will now proceed to steal all the remaining heap space
-    //_outtext("\n\n\n\n\n\n\n\n");
-    //AnimateCacheCursor();
     buildputs("Loading sound and graphics...\n");
     LoadImages("tiles000.art");
-
-    // Now free it up for later use
-    /*
-    if(ReserveMem)
-        {
-        // Recalc TotalMemory for later reference
-        ActualHeap = Z_AvailHeap() + 1536000L;
-        FreeMem(ReserveMem);
-        }
-    */
 
     Connect();
     SortBreakInfo();
@@ -1056,17 +998,13 @@ InitGame(VOID)
     // precache as much stuff as you can
     if (UserMapName[0] == '\0')
         {
-        AnimateCacheCursor();
         LoadLevel("$dozer.map");
-        AnimateCacheCursor();
         SetupPreCache();
         DoTheCache();
         }
     else
         {
-        AnimateCacheCursor();
         LoadLevel(UserMapName);
-        AnimateCacheCursor();
         SetupPreCache();
         DoTheCache();
         }
@@ -1217,9 +1155,7 @@ VOID InitNewGame(VOID)
 
 void FindLevelInfo(char *map_name, short *level)
     {
-    char *ptr;
-    char buff[16];
-    short i,j;
+    short j;
 
     for (j = 1; j <= MAX_LEVELS; j++)
         {
@@ -1755,21 +1691,19 @@ ResetKeyRange(BYTEp kb, BYTEp ke)
 VOID
 LogoLevel(VOID)
     {
-    char called;
     int fin;
     unsigned char pal[PAL_SIZE];
     UserInput uinfo = { FALSE, FALSE, dir_None };
-    int i;
 
 
-    DSPRINTF(ds,"LogoLevel...");
-    MONO_PRINT(ds);
+    //DSPRINTF(ds,"LogoLevel...");
+    //MONO_PRINT(ds);
 
     // start music at logo
     PlaySong(LevelInfo[0].SongName, RedBookSong[0], TRUE, TRUE);
 
-    DSPRINTF(ds,"After music stuff...");
-    MONO_PRINT(ds);
+    //DSPRINTF(ds,"After music stuff...");
+    //MONO_PRINT(ds);
 
     // PreCache Anim
     LoadAnm(0);
@@ -1780,16 +1714,16 @@ LogoLevel(VOID)
         kclose(fin);
         setbrightness(gs.Brightness, pal, 2);
         }
-    DSPRINTF(ds,"Just read in 3drealms.pal...");
-    MONO_PRINT(ds);
+    //DSPRINTF(ds,"Just read in 3drealms.pal...");
+    //MONO_PRINT(ds);
 
     //FadeOut(0, 0);
     ready2send = 0;
     totalclock = 0;
     ototalclock = 0;
 
-    DSPRINTF(ds,"About to display 3drealms pic...");
-    MONO_PRINT(ds);
+    //DSPRINTF(ds,"About to display 3drealms pic...");
+    //MONO_PRINT(ds);
 
     //FadeIn(0, 3);
 
@@ -1826,17 +1760,14 @@ LogoLevel(VOID)
 
     // put up a blank screen while loading
 
-    DSPRINTF(ds,"End of LogoLevel...");
-    MONO_PRINT(ds);
+    //DSPRINTF(ds,"End of LogoLevel...");
+    //MONO_PRINT(ds);
 
     }
 
 VOID
 CreditsLevel(VOID)
     {
-    char called;
-    int fin;
-    int i;
     int curpic;
     int handle;
     ULONG timer = 0;
@@ -2027,10 +1958,8 @@ TenScreen(VOID)
 VOID
 TitleLevel(VOID)
     {
-    char called;
-    int fin;
-    unsigned char backup_pal[256*3];
-    unsigned char pal[PAL_SIZE];
+    //int fin;
+    //unsigned char pal[PAL_SIZE];
     unsigned char tempbuf[256];
     unsigned char *palook_bak = palookup[0];
     int i;
@@ -2038,9 +1967,6 @@ TitleLevel(VOID)
     for (i = 0; i < 256; i++)
         tempbuf[i] = i;
     palookup[0] = tempbuf;
-
-    //GetPaletteFromVESA(pal);
-    //memcpy(backup_pal, pal, PAL_SIZE);
 
     clearallviews(0);
     nextpage();
@@ -2143,9 +2069,7 @@ IntroAnimLevel(VOID)
 VOID
 MenuLevel(VOID)
     {
-    BOOL MNU_StartNetGame(void);
-    char called;
-    int fin;
+    extern BOOL MNU_StartNetGame(void);
     extern int totalclocklock;
     short w,h;
 
@@ -2279,7 +2203,6 @@ MenuLevel(VOID)
             {
             if (MultiPlayQuitFlag)
                 {
-                short pnum;
                 BYTE pbuf[1];
                 QuitFlag = TRUE;
                 pbuf[0] = PACKET_TYPE_MENU_LEVEL_QUIT;
@@ -2463,10 +2386,6 @@ BonusScreen(PLAYERp pp)
     extern short LevelSecrets;
     extern short TotalKillable;
     short w,h;
-    short pic,limit;
-    int zero=0;
-    int handle = 0;
-    short LI_Num;
 
 
     #define BONUS_SCREEN_PIC 5120
@@ -2581,7 +2500,6 @@ BonusScreen(PLAYERp pp)
     KB_ClearKeysDown();
 
     totalclock = ototalclock = 0;
-    limit = synctics;
 
     if (gs.MusicOn)
         {
@@ -2604,11 +2522,11 @@ BonusScreen(PLAYERp pp)
         flushpackets();
 
         // taken from top of faketimerhandler
-        if (totalclock < ototalclock + limit)
+        if (totalclock < ototalclock + synctics)
             {
             continue;
             }
-        ototalclock += limit;
+        ototalclock += synctics;
 
         CONTROL_GetUserInput(&uinfo);
         CONTROL_ClearUserInput(&uinfo);
@@ -2738,14 +2656,11 @@ VOID EndGameSequence(VOID)
 VOID
 StatScreen(PLAYERp mpp)
     {
-    int minutes,seconds,second_tics;
     extern BOOL FinishedLevel;
     extern int PlayClock;
     extern short LevelSecrets;
     extern short TotalKillable;
     short w,h;
-    int zero=0;
-    int handle=0;
 
     short rows,cols,i,j;
     PLAYERp pp = NULL;
@@ -3037,7 +2952,6 @@ dsprintf(char *str, char *format, ...)
 void
 dsprintf_null(char *str, char *format, ...)
     {
-    va_list arglist;
     (void)str;
     (void)format;
     }
@@ -3129,7 +3043,7 @@ void InitPlayerGameSettings(void)
 
 VOID InitRunLevel(VOID)
     {
-    int i;
+    int track;
     if (DemoEdit)
         return;
 
@@ -3181,15 +3095,16 @@ VOID InitRunLevel(VOID)
     // Initialize Game part of network code (When ready2send != 0)
     InitNetVars();
 
-    {
-        int track;
-        if (Level == 0) {
-            track = RedBookSong[4+RANDOM_RANGE(10)];
-        } else {
-            track = RedBookSong[Level];
+    if (Level == 0)
+        {
+        track = RedBookSong[4+RANDOM_RANGE(10)];
         }
-        PlaySong(LevelSong, track, TRUE, TRUE);
-    }
+    else
+        {
+        track = RedBookSong[Level];
+        }
+    PlaySong(LevelSong, track, TRUE, TRUE);
+
 
     InitPrediction(&Player[myconnectindex]);
 
@@ -3217,15 +3132,12 @@ VOID InitRunLevel(VOID)
 VOID
 RunLevel(VOID)
     {
-    int i;
     InitRunLevel();
 
     FX_SetVolume(gs.SoundVolume);
     SetSongVolume(gs.MusicVolume);
 
-#if 0
-    waitforeverybody();
-#endif
+    //waitforeverybody();
     ready2send = 1;
 
     while (TRUE)
@@ -3470,14 +3382,11 @@ void CommandLineHelp(CLI_ARG *args, int numargs)
 int app_main(int argc, char const * const argv[])
     {
     int i;
-    int stat, nexti;
-    char type;
     extern int MovesPerPacket;
     VOID DoSector(VOID);
     VOID gameinput(VOID);
     int cnt = 0;
     int netparam = 0, endnetparam = 0;
-    ULONG TotalMemory;
     int configloaded;
     struct grpfile const *gamegrp = NULL;
     char grpfile[BMAX_PATH+1] = "sw.grp";
@@ -4168,7 +4077,6 @@ VOID
 ManualPlayerInsert(PLAYERp pp)
     {
     PLAYERp npp = Player + numplayers;
-    int i;
 
     if (numplayers < MAX_SW_PLAYERS)
         {
@@ -4201,7 +4109,6 @@ VOID
 BotPlayerInsert(PLAYERp pp)
     {
     PLAYERp npp = Player + numplayers;
-    int i;
 
     if (numplayers < MAX_SW_PLAYERS)
         {
@@ -4236,7 +4143,6 @@ ManualPlayerDelete(PLAYERp cur_pp)
     {
     short i, nexti;
     USERp u;
-    short save_myconnectindex;
     PLAYERp pp;
 
     (void)cur_pp;
@@ -4559,7 +4465,6 @@ FunctionKeys(PLAYERp pp)
 
             if (CommEnabled)
                 {
-                short pnum;
                 PACKET_RTS p;
 
                 p.PacketType = PACKET_TYPE_RTS;
@@ -4791,15 +4696,13 @@ VOID PauseKey(PLAYERp pp)
 VOID GetMessageInput(PLAYERp pp)
     {
     int pnum = myconnectindex;
-    short w,h;
-    signed char MNU_InputSmallString(char *, short);
-    signed char MNU_InputString(char *, short);
-    static BOOL cur_show;
-    static BOOL TeamSendAll, TeamSendTeam;
+    extern signed char MNU_InputSmallString(char *, short);
+    extern signed char MNU_InputString(char *, short);
+    static BOOL TeamSendAll;
     #define TEAM_MENU "A - Send to ALL,  T - Send to TEAM"
     static char HoldMessageInputString[256];
     int i;
-    BOOL IsCommand(char *str);
+    extern BOOL IsCommand(char *str);
 
     if (!MessageInputMode && !ConInputMode)
         {
@@ -4809,7 +4712,6 @@ VOID GetMessageInput(PLAYERp pp)
             KB_FlushKeyboardQueue();
             MessageInputMode = TRUE;
             InputMode = TRUE;
-            TeamSendTeam = FALSE;
             TeamSendAll = FALSE;
 
             if (MessageInputMode)
@@ -4927,7 +4829,6 @@ VOID GetMessageInput(PLAYERp pp)
                     if (memcmp(MessageInputString, TEAM_MENU"t", sizeof(TEAM_MENU)+1) == 0)
                         {
                         strcpy(MessageInputString, HoldMessageInputString);
-                        TeamSendTeam = TRUE;
                         goto SEND_MESSAGE;
                         }
                     else
@@ -4947,11 +4848,8 @@ VOID GetMessageInput(PLAYERp pp)
 
 VOID GetConInput(PLAYERp pp)
     {
-    int pnum = myconnectindex;
-    short w,h;
-    signed char MNU_InputSmallString(char *, short);
-    signed char MNU_InputString(char *, short);
-    static BOOL cur_show;
+    extern signed char MNU_InputSmallString(char *, short);
+    extern signed char MNU_InputString(char *, short);
 
     (void)pp;
 
@@ -5090,11 +4988,9 @@ int MouseYAxisMode = -1;
 VOID
 getinput(SW_PACKET *loc)
     {
-    BOOL found = FALSE;
     int i;
     PLAYERp pp = Player + myconnectindex;
     PLAYERp newpp = Player + myconnectindex;
-    int pnum = myconnectindex;
     int inv_hotkey = 0;
 
 #define TURBOTURNTIME (120/8)
@@ -5252,7 +5148,7 @@ getinput(SW_PACKET *loc)
     else
         {
         if (info.dyaw > 0)
-            angvel = labs((-info.dyaw));
+            angvel = abs((-info.dyaw));
         else
             angvel = info.dyaw;
         }
@@ -5535,7 +5431,8 @@ getinput(SW_PACKET *loc)
                 memcpy(pp->temp_pal, palette_data, sizeof(palette_data));
                 DoPlayerDivePalette(pp);  // Check Dive again
                 DoPlayerNightVisionPalette(pp);  // Check Night Vision again
-                } else
+                }
+            else
                 {
                 PLAYERp tp = Player+screenpeek;
 
@@ -6087,19 +5984,19 @@ osdcmd_vidmode(const osdfuncparm_t *parm)
     switch (parm->numparms)
         {
         case 1:   // bpp switch
-            newbpp = Batol(parm->parms[0]);
+            newbpp = atoi(parm->parms[0]);
             break;
         case 2: // res switch
-            newx = Batol(parm->parms[0]);
-            newy = Batol(parm->parms[1]);
+            newx = atoi(parm->parms[0]);
+            newy = atoi(parm->parms[1]);
             break;
         case 3:   // res & bpp switch
         case 4:
-            newx = Batol(parm->parms[0]);
-            newy = Batol(parm->parms[1]);
-            newbpp = Batol(parm->parms[2]);
+            newx = atoi(parm->parms[0]);
+            newy = atoi(parm->parms[1]);
+            newbpp = atoi(parm->parms[2]);
             if (parm->numparms == 4)
-                newfullscreen = (Batol(parm->parms[3]) != 0);
+                newfullscreen = (atoi(parm->parms[3]) != 0);
             break;
         }
 

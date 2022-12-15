@@ -518,8 +518,6 @@ SpikeFloor(SECTOR_OBJECTp sop)
     {
     int mx, my;
     int floorz;
-    SECTORp *sectp;
-    int j;
     int x,y;
 
     // z direction

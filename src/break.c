@@ -563,7 +563,7 @@ int AutoBreakWall(WALLp wallp, int hitx, int hity, int hitz, short ang, short ty
     SPRITEp bsp;
 
     //DSPRINTF(ds,"wallnum %d, pic %d, lo %d, hi %d",wallp-wall, wallp->picnum, wallp->lotag, wallp->hitag);
-    MONO_PRINT(ds);
+    //MONO_PRINT(ds);
 
     wallp->lotag = 0;
     if (wallp->nextwall >= 0)
@@ -589,7 +589,7 @@ int AutoBreakWall(WALLp wallp, int hitx, int hity, int hitz, short ang, short ty
     if (!break_info)
         {
         //DSPRINTF(ds,"Break Info not found - wall %d", wallp - wall);
-        MONO_PRINT(ds);
+        //MONO_PRINT(ds);
 
         return(FALSE);
         }
@@ -660,7 +660,7 @@ int AutoBreakWall(WALLp wallp, int hitx, int hity, int hitz, short ang, short ty
     return(TRUE);
     }
 
-BOOL UserBreakWall(WALLp wp, short UNUSED(ang))
+BOOL UserBreakWall(WALLp wp, short ang)
     {
     short SpriteNum;
     SPRITEp sp;
@@ -669,6 +669,8 @@ BOOL UserBreakWall(WALLp wp, short UNUSED(ang))
     int type_flags = CSTAT_WALL_TRANSLUCENT|CSTAT_WALL_MASKED|CSTAT_WALL_1WAY;
     int flags = block_flags|type_flags;
     short ret = FALSE;
+
+    (void)ang;
 
     SpriteNum = FindBreakSpriteMatch(match);
 
@@ -759,7 +761,6 @@ int WallBreakPosition(short hitwall, short *sectnum, int *x, int *y, int *z, sho
     WALLp wp;
     int nx,ny;
     short wall_ang;
-    int ret=0;
 
     w = hitwall;
     wp = &wall[w];
@@ -822,7 +823,6 @@ int WallBreakPosition(short hitwall, short *sectnum, int *x, int *y, int *z, sho
 // If the tough parameter is not set, then it can't break tough walls and sprites
 BOOL HitBreakWall(WALLp wp, int hitx, int hity, int hitz, short ang, short type)
     {
-    short SpriteNum;
     short match = wp->hitag;
 
     if (match > 0)
@@ -849,7 +849,6 @@ int KillBreakSprite(short BreakSprite)
     {
     SPRITEp bp = &sprite[BreakSprite];
     USERp bu = User[BreakSprite];
-    short i;
 
     // Does not actually kill the sprite so it will be valid for the rest
     // of the loop traversal.
@@ -971,7 +970,7 @@ int AutoBreakSprite(short BreakSprite, short type)
     if (!break_info)
         {
         //DSPRINTF(ds,"Break Info not found - sprite %d", bp - sprite);
-        MONO_PRINT(ds);
+        //MONO_PRINT(ds);
         return(FALSE);
         }
 
@@ -1052,13 +1051,8 @@ BOOL NullActor(USERp u)
 
 int HitBreakSprite(short BreakSprite, short type)
     {
-    SPRITEp sp;
     SPRITEp bp = &sprite[BreakSprite];
     USERp bu = User[BreakSprite];
-    short match = bp->lotag;
-    short match_extra;
-    short SpriteNum;
-    BREAK_INFOp break_info;
 
     // ignore as a breakable if true
     //if (sp->lotag == TAG_SPRITE_HIT_MATCH)
@@ -1111,14 +1105,14 @@ void DoWallBreakMatch( short match )
     short i,sectnum;
     int x,y,z;
     WALLp wp;
-    short nw,wall_ang;
+    short wall_ang;
 
     for(i=0; i<=numwalls; i++)
         {
         if (wall[i].hitag == match)
             {
             WallBreakPosition(i, &sectnum, &x, &y, &z, &wall_ang);
-            //nw = wall[i].point2;
+            //short nw = wall[i].point2;
             //wall_ang = NORM_ANGLE(getangle(wall[nw].x - wall[i].x, wall[nw].y - wall[i].y)+512);
             wp = &wall[i];
             wp->hitag = 0; // Reset the hitag

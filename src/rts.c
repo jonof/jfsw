@@ -188,18 +188,17 @@ void RTS_Init (char *filename)
 
 void RTS_Shutdown ( void )
    {
-   int32 i;
-
    if (lumpcache)
       {
    #if 0
-   for (i=0;i<numlumps;i++)
-      {
-      if (lumpcache[i])
+      int32 i;
+      for (i=0;i<numlumps;i++)
          {
-         SafeFree(lumpcache[i]);
+         if (lumpcache[i])
+            {
+            SafeFree(lumpcache[i]);
+            }
          }
-      }
    #endif
       SafeFree(lumpcache);
 	  }

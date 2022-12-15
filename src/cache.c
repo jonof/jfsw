@@ -407,7 +407,6 @@ void PreCacheSoundList(short table[], int num)
     for (j = 0; j < num; j++)
         {
         CacheSound(table[j], CACHE_SOUND_PRECACHE);
-        AnimateCacheCursor();
         }
     }
 
@@ -634,8 +633,7 @@ void DoTheCache(void)
             cnt++;
             if (!(cnt&7))
                 {
-                AnimateCacheCursor();
-				handleevents();
+                handleevents();
                 getpackets();
                 }
             }

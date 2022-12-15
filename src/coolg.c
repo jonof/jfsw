@@ -583,12 +583,10 @@ NewCoolg(short SpriteNum)
 int
 DoCoolgBirth(short new)
 {
-    SPRITEp sp;
     USERp u;
     ANIMATOR DoActorDecide;
 
     u = User[new];
-    sp = &sprite[new];
 
     u->Health = HEALTH_COOLIE_GHOST;
     u->Attrib = &CoolgAttrib;
@@ -611,7 +609,6 @@ DoCoolgBirth(short new)
 int NullCoolg(short SpriteNum)
 {
     USERp u = User[SpriteNum];
-    SPRITEp sp = User[SpriteNum]->SpriteP;
 
     u->ShellNum -= ACTORMOVETICS;
 
@@ -745,7 +742,6 @@ int DoCoolgCircle(short SpriteNum)
 {
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    SPRITEp tsp = User[SpriteNum]->tgt_sp;
     int nx,ny,bound;
 
 
@@ -918,7 +914,6 @@ int DoCoolgMove(short SpriteNum)
 
 int DoCoolgPain(short SpriteNum)
 {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
 
     NullCoolg(SpriteNum);

@@ -374,7 +374,6 @@ DoBloodSpray(SHORT Weapon)
     {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
-    LONG dax, day, daz;
     int cz,fz;
 
     if (TEST(u->Flags, SPR_UNDERWATER))
@@ -423,15 +422,13 @@ DoBloodSpray(SHORT Weapon)
             return (TRUE);
         case HIT_SPRITE:
                 {
-                short wall_ang, dang;
+                short wall_ang;
                 short hitsprite = -2;
                 SPRITEp hsp;
-                USERp hu;
 
 
                 hitsprite = NORM_SPRITE(u->ret);
                 hsp = &sprite[hitsprite];
-                hu = User[hitsprite];
 
                 if (TEST(hsp->cstat, CSTAT_SPRITE_WALL))
                     {
@@ -456,7 +453,7 @@ DoBloodSpray(SHORT Weapon)
 
         case HIT_WALL:
                 {
-                short hitwall, nw, wall_ang, dang;
+                short hitwall, nw, wall_ang;
                 WALLp wph;
                 short wb;
 
@@ -519,8 +516,6 @@ DoBloodSpray(SHORT Weapon)
 
         case HIT_SECTOR:
                 {
-                BOOL hitwall;
-
                 // hit floor
                 if (sp->z > DIV2(u->hiz + u->loz))
                     {
@@ -612,7 +607,6 @@ DoPhosphorus(SHORT Weapon)
     {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
-    LONG dax, day, daz;
 
     if (TEST(u->Flags, SPR_UNDERWATER))
         {
@@ -644,7 +638,7 @@ DoPhosphorus(SHORT Weapon)
             return (TRUE);
         case HIT_SPRITE:
                 {
-                short wall_ang, dang;
+                short wall_ang;
                 short hitsprite = -2;
                 SPRITEp hsp;
                 USERp hu;
@@ -682,7 +676,7 @@ DoPhosphorus(SHORT Weapon)
 
         case HIT_WALL:
                 {
-                short hitwall, nw, wall_ang, dang;
+                short hitwall, nw, wall_ang;
                 WALLp wph;
 
                 hitwall = NORM_WALL(u->ret);
@@ -839,7 +833,6 @@ DoChemBomb(SHORT Weapon)
     {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
-    LONG dax, day, daz;
 
     if (TEST(u->Flags, SPR_UNDERWATER))
         {
@@ -871,7 +864,7 @@ DoChemBomb(SHORT Weapon)
             return (TRUE);
         case HIT_SPRITE:
                 {
-                short wall_ang, dang;
+                short wall_ang;
                 short hitsprite = -2;
                 SPRITEp hsp;
 
@@ -909,7 +902,7 @@ DoChemBomb(SHORT Weapon)
 
         case HIT_WALL:
                 {
-                short hitwall, nw, wall_ang, dang;
+                short hitwall, nw, wall_ang;
                 WALLp wph;
 
                 hitwall = NORM_WALL(u->ret);
@@ -1101,7 +1094,6 @@ DoCaltrops(SHORT Weapon)
     {
     SPRITEp sp = &sprite[Weapon];
     USERp u = User[Weapon];
-    LONG dax, day, daz;
 
     if (TEST(u->Flags, SPR_UNDERWATER))
         {
@@ -1130,7 +1122,7 @@ DoCaltrops(SHORT Weapon)
             return (TRUE);
         case HIT_SPRITE:
                 {
-                short wall_ang, dang;
+                short wall_ang;
                 short hitsprite = -2;
                 SPRITEp hsp;
 
@@ -1157,7 +1149,7 @@ DoCaltrops(SHORT Weapon)
 
         case HIT_WALL:
                 {
-                short hitwall, nw, wall_ang, dang;
+                short hitwall, nw, wall_ang;
                 WALLp wph;
 
                 hitwall = NORM_WALL(u->ret);
@@ -1382,9 +1374,8 @@ PlayerInitChemBomb(PLAYERp pp)
     USERp wu;
     SPRITEp wp;
     int nx, ny, nz;
-    short w, hitsprite;
+    short w;
     short oclipdist;
-    int dist;
 
 
     PlaySound(DIGI_THROW, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan | v3df_doppler);
@@ -1466,9 +1457,7 @@ InitSpriteChemBomb(SHORT SpriteNum)
     USERp wu;
     SPRITEp sp = &sprite[SpriteNum], wp;
     int nx, ny, nz;
-    short w, hitsprite;
-    short oclipdist;
-    int dist;
+    short w;
 
 
     PlaySound(DIGI_THROW, &sp->x, &sp->y, &sp->z, v3df_dontpan | v3df_doppler);
@@ -1522,9 +1511,7 @@ InitChemBomb(short SpriteNum)
     USERp wu;
     SPRITEp wp;
     int nx, ny, nz;
-    short w, hitsprite;
-    short oclipdist;
-    int dist;
+    short w;
 
 
 // Need to make it take away from inventory weapon list
@@ -1595,12 +1582,12 @@ InitChemBomb(short SpriteNum)
 int
 PlayerInitFlashBomb(PLAYERp pp)
     {
-    short pnum, i, nexti;
+    short i, nexti;
     unsigned int stat;
     int dist, tx, ty, tmin;
     short damage;
     SPRITEp sp = pp->SpriteP, hp;
-    USERp u = User[pp->PlayerSprite], hu;
+    USERp hu;
 
     PlaySound(DIGI_GASPOP, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan | v3df_doppler);
 
@@ -1665,12 +1652,12 @@ PlayerInitFlashBomb(PLAYERp pp)
 int
 InitFlashBomb(SHORT SpriteNum)
     {
-    short pnum, i, nexti;
+    short i, nexti;
     unsigned int stat;
     int dist, tx, ty, tmin;
     short damage;
     SPRITEp sp = &sprite[SpriteNum], hp;
-    USERp u = User[SpriteNum], hu;
+    USERp hu;
     PLAYERp pp = Player + screenpeek;
 
     PlaySound(DIGI_GASPOP, &sp->x, &sp->y, &sp->z, v3df_dontpan | v3df_doppler);
@@ -1826,9 +1813,8 @@ PlayerInitCaltrops(PLAYERp pp)
     USERp wu;
     SPRITEp wp;
     int nx, ny, nz;
-    short w, hitsprite;
-    short oclipdist, i;
-    int dist;
+    short w;
+    short oclipdist;
 
 
     PlaySound(DIGI_THROW, &pp->posx, &pp->posy, &pp->posz, v3df_dontpan | v3df_doppler);
@@ -1838,7 +1824,7 @@ PlayerInitCaltrops(PLAYERp pp)
     nz = pp->posz + pp->bob_z + Z(8);
 
     // Throw out several caltrops
-//  for(i=0;i<3;i++)
+//  for(int i=0;i<3;i++)
 //  {
     // Spawn a shot
     // Inserting and setting up variables
@@ -1908,9 +1894,7 @@ InitCaltrops(SHORT SpriteNum)
     USERp wu;
     SPRITEp wp;
     int nx, ny, nz;
-    short w, hitsprite;
-    short oclipdist, i;
-    int dist;
+    short w;
 
 
     PlaySound(DIGI_THROW, &sp->x, &sp->y, &sp->z, v3df_dontpan | v3df_doppler);
@@ -1961,9 +1945,8 @@ InitPhosphorus(SHORT SpriteNum)
     USERp wu;
     SPRITEp wp;
     int nx, ny, nz;
-    short w, hitsprite;
-    short oclipdist, i, daang;
-    int dist;
+    short w;
+    short daang;
 
 
     PlaySound(DIGI_FIREBALL1, &sp->x, &sp->y, &sp->z, v3df_follow);
@@ -2021,9 +2004,8 @@ InitBloodSpray(SHORT SpriteNum, BOOL dogib, short velocity)
     USERp wu;
     SPRITEp wp;
     int nx, ny, nz;
-    short w, hitsprite;
-    short oclipdist, i, cnt, ang, vel, rnd;
-    int dist;
+    short w;
+    short i, cnt, ang, vel, rnd;
 
 
     if(dogib)
@@ -2109,7 +2091,6 @@ int
 BloodSprayFall(SHORT SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
-    USERp u = User[SpriteNum];
 
     sp->z += 1500;
 
@@ -2152,9 +2133,7 @@ int
 DoFlagRangeTest(short Weapon, short range)
     {
     SPRITEp wp = &sprite[Weapon];
-    USERp wu = User[Weapon];
 
-    USERp u;
     SPRITEp sp;
     short i, nexti;
     unsigned int stat;
@@ -2166,7 +2145,6 @@ DoFlagRangeTest(short Weapon, short range)
         TRAVERSE_SPRITE_STAT(headspritestat[StatDamageList[stat]], i, nexti)
             {
             sp = &sprite[i];
-            u = User[i];
 
 
             DISTANCE(sp->x, sp->y, wp->x, wp->y, dist, tx, ty, tmin);
@@ -2205,7 +2183,6 @@ DoCarryFlag(SHORT Weapon)
 
 #define FLAG_DETONATE_STATE 99
     SPRITEp fp = &sprite[u->FlagOwner];
-    USERp fu = User[u->FlagOwner];
 
 
     // if no owner then die
@@ -2479,11 +2456,9 @@ InitShell(SHORT SpriteNum, SHORT ShellNum)
     USERp wu;
     SPRITEp sp = &sprite[SpriteNum], wp;
     int nx, ny, nz;
-    short w, hitsprite;
-    short oclipdist,id=0,velocity=0;
-    int dist;
+    short w;
+    short id=0,velocity=0;
     STATEp p=NULL;
-    int zvel;
     extern STATE s_UziShellShrap[];
     extern STATE s_ShotgunShellShrap[];
 

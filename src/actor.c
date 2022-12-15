@@ -280,7 +280,6 @@ DoActorDie(short SpriteNum, short weapon)
 VOID
 DoDebrisCurrent(SPRITEp sp)
     {
-    int xvect, yvect;
     int nx, ny;
     int ret=0;
     USERp u = User[sp - sprite];
@@ -381,9 +380,7 @@ DoActorSectorDamage(short SpriteNum)
 int
 move_debris(short SpriteNum, int xchange, int ychange, int zchange)
     {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    int nx, ny;
 
     u->ret = move_sprite(SpriteNum, xchange, ychange, zchange,
         u->ceiling_dist, u->floor_dist, 0, ACTORMOVETICS);
@@ -483,8 +480,8 @@ DoFireFly(short SpriteNum)
 int
 DoGenerateSewerDebris(short SpriteNum)
     {
-    SPRITEp sp = &sprite[SpriteNum], np;
-    USERp u = User[SpriteNum], nu;
+    SPRITEp sp = &sprite[SpriteNum];
+    USERp u = User[SpriteNum];
     short n;
 
     static STATEp Debris[] =
@@ -502,8 +499,6 @@ DoGenerateSewerDebris(short SpriteNum)
         u->Tics = u->WaitTics;
 
         n = SpawnSprite(STAT_DEAD_ACTOR, 0, Debris[RANDOM_P2(4<<8)>>8], sp->sectnum, sp->x, sp->y, sp->z, sp->ang, 200);
-        np = &sprite[n];
-        nu = User[n];
 
         SetOwner(SpriteNum, n);
         }
@@ -603,7 +598,6 @@ int
 DoActorBeginSlide(short SpriteNum, short ang, short vel, short dec)
     {
     USERp u = User[SpriteNum];
-    SPRITEp sp = User[SpriteNum]->SpriteP;
 
     SET(u->Flags, SPR_SLIDING);
 
@@ -623,7 +617,6 @@ int
 DoActorSlide(short SpriteNum)
     {
     USERp u = User[SpriteNum];
-    SPRITEp sp = User[SpriteNum]->SpriteP;
     int nx, ny;
 
     nx = u->slide_vel * (int) sintable[NORM_ANGLE(u->slide_ang + 512)] >> 14;
@@ -651,7 +644,6 @@ int
 DoActorBeginJump(short SpriteNum)
     {
     USERp u = User[SpriteNum];
-    SPRITEp sp = User[SpriteNum]->SpriteP;
 
     SET(u->Flags, SPR_JUMPING);
     RESET(u->Flags, SPR_FALLING);
@@ -694,7 +686,7 @@ DoActorJump(short SpriteNum)
     if ((u->jump_speed += jump_adj) > 0)
         {
         //DSPRINTF(ds,"Actor Jump Height %d", labs(sp->z - sector[sp->sectnum].floorz)>>8 );
-        MONO_PRINT(ds);
+        //MONO_PRINT(ds);
 
         // Start falling
         DoActorBeginFall(SpriteNum);
@@ -714,7 +706,7 @@ DoActorJump(short SpriteNum)
         u->jump_speed = -u->jump_speed;
 
         //DSPRINTF(ds,"Jump: sp_num %d, hi_num %d, hi_sect %d",SpriteNum, u->hi_sp - sprite, u->hi_sectp - sector);
-        MONO_PRINT(ds);
+        //MONO_PRINT(ds);
 
         // Change sprites state to falling
         DoActorBeginFall(SpriteNum);
@@ -791,14 +783,12 @@ DoActorStopFall(short SpriteNum)
     // don't stand on face or wall sprites - jump again
     if (u->lo_sp && !TEST(u->lo_sp->cstat, CSTAT_SPRITE_FLOOR))
         {
-        USERp tu = User[u->lo_sp - sprite];
-
         //sp->ang = NORM_ANGLE(sp->ang + (RANDOM_P2(64<<8)>>8) - 32);
         sp->ang = NORM_ANGLE(sp->ang + 1024 + (RANDOM_P2(512<<8)>>8));
         u->jump_speed = -350;
 
         //DSPRINTF(ds,"StopFall: sp_num %d, sp->picnum %d, lo_num %d, lo_sp->picnum %d",SpriteNum, sp->picnum, u->lo_sp - sprite, u->lo_sp->picnum);
-        MONO_PRINT(ds);
+        //MONO_PRINT(ds);
 
         DoActorBeginJump(SpriteNum);
         return(0);
@@ -864,7 +854,6 @@ int
 DoBeginJump(short SpriteNum)
     {
     USERp u = User[SpriteNum];
-    SPRITEp sp = User[SpriteNum]->SpriteP;
 
     SET(u->Flags, SPR_JUMPING);
     RESET(u->Flags, SPR_FALLING);

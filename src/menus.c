@@ -653,11 +653,12 @@ static int MNU_ControlAxisNum(int offset);
 // CUSTOM ROUTINES ////////////////////////////////////////////////////////////////////////////////
 
 BOOL
-MNU_DoEpisodeSelect(UserCall call, MenuItem * UNUSED(item))
+MNU_DoEpisodeSelect(UserCall call, MenuItem *item)
     {
     short w,h;
-    char TempString[80];
     char *extra_text;
+
+    (void)item;
 
     if (call != uc_touchup)
         return(TRUE);
@@ -673,13 +674,14 @@ MNU_DoEpisodeSelect(UserCall call, MenuItem * UNUSED(item))
     }
 
 BOOL
-MNU_DoParentalPassword(UserCall UNUSED(call), MenuItem_p UNUSED(item))
+MNU_DoParentalPassword(UserCall call, MenuItem_p item)
     {
     short w,h;
     static BOOL cur_show;
     char TempString[80];
     char *extra_text;
 
+    (void)call; (void)item;
 
     extra_text = "This mode should remove most of the";
     MNU_MeasureString(extra_text, &w, &h);
@@ -829,9 +831,7 @@ BOOL
 MNU_DoPlayerName(UserCall call, MenuItem_p item)
     {
     short w,h;
-    static BOOL cur_show;
-    char TempString[80];
-    char *extra_text;
+    char *TempString;
 
     (void)call;
     (void)item;
@@ -860,7 +860,7 @@ MNU_DoPlayerName(UserCall call, MenuItem_p item)
             break;
         }
 
-        sprintf(TempString,"Enter a new Player Name");
+        TempString = "Enter a new Player Name";
         MNU_MeasureString(TempString, &w, &h);
         MNU_DrawString(TEXT_XCENTER(w), MESSAGE_LINE-10, TempString,1,16);
 
@@ -1347,8 +1347,10 @@ static BOOL MNU_SetMouseAxisFunctions(MenuItem_p item)
 
 static MenuItem_p joystick_button_item = NULL;
 
-static BOOL MNU_JoystickButtonsInitialise(MenuItem_p UNUSED(mitem))
+static BOOL MNU_JoystickButtonsInitialise(MenuItem_p mitem)
 {
+    (void)mitem;
+
     JoystickButtonPage = 0;
     joybuttonssetupgroup.items = &joybuttons_i[JoystickButtonPage][0];
     joybuttonssetupgroup.cursor = 0;
@@ -1458,14 +1460,15 @@ static BOOL MNU_SetJoystickButtonFunctions(MenuItem_p item)
 
 static MenuItem_p joystick_axis_item = NULL;
 
-static BOOL MNU_JoystickAxesInitialise(MenuItem_p UNUSED(mitem))
+static BOOL MNU_JoystickAxesInitialise(MenuItem_p mitem)
 {
-    if (!CONTROL_JoyPresent) {
+    (void)mitem;
+
+    if (!CONTROL_JoyPresent)
         return TRUE;
-    }
-    if (JoystickAxisPage < 0 || JoystickAxisPage >= joynumaxes) {
+
+    if (JoystickAxisPage < 0 || JoystickAxisPage >= joynumaxes)
         JoystickAxisPage = 0;
-    }
 
     strcpy(JoystickAxisName, getjoyname(0, JoystickAxisPage));
     sprintf(JoystickAxisPageName, "Page %d / %d", JoystickAxisPage+1, joynumaxes);
@@ -1873,7 +1876,6 @@ ExitMenus(void)
 BOOL
 MNU_StartGame(void)
     {
-    PLAYERp pp = Player + screenpeek;
     int handle = 0;
     int zero = 0;
 
@@ -1910,7 +1912,7 @@ MNU_StartGame(void)
 
     if (handle >= FX_Ok)
         while(FX_SoundActive(handle))
-			handleevents();
+            handleevents();
 
     return (TRUE);
     }
@@ -1926,7 +1928,6 @@ MNU_StartNetGame(void)
     {
     extern BOOL ExitLevel, ShortGameMode, DemoInitOnce, FirstTimeIntoGame;
     extern short Level, Skill;
-    int pnum;
 
     // always assumed that a demo is playing
 
@@ -2011,7 +2012,6 @@ MNU_EpisodeCustom(void)
 BOOL
 MNU_QuitCustom(UserCall call, MenuItem_p item)
     {
-    int select;
     DialogResponse ret;
     extern BOOL DrawScreen;
 
@@ -2059,7 +2059,6 @@ MNU_QuitCustom(UserCall call, MenuItem_p item)
 BOOL
 MNU_QuickLoadCustom(UserCall call, MenuItem_p item)
     {
-    int select;
     extern BOOL ReloadPrompt;
     int bak;
     PLAYERp pp = Player + myconnectindex;
@@ -2871,13 +2870,14 @@ static char SaveGameInfo1[80];
 static char SaveGameInfo2[80];
 
 BOOL
-MNU_LoadSaveMove(UserCall UNUSED(call), MenuItem_p UNUSED(item))
+MNU_LoadSaveMove(UserCall call, MenuItem_p item)
     {
     short i;
     short game_num;
-    short tile;
-    static short SaveGameEpisode, SaveGameLevel, SaveGameSkill;
+    static short SaveGameLevel, SaveGameSkill;
     BOOL GotInput = FALSE;
+
+    (void)call; (void)item;
 
     if (!UsingMenus)
         return(TRUE);
@@ -2984,11 +2984,12 @@ MNU_LoadSaveMove(UserCall UNUSED(call), MenuItem_p UNUSED(item))
     }
 
 BOOL
-MNU_LoadSaveDraw(UserCall call, MenuItem_p UNUSED(item))
+MNU_LoadSaveDraw(UserCall call, MenuItem_p item)
     {
     short i;
     short game_num;
-    short tile;
+
+    (void)item;
 
     if (call != uc_touchup)
         return(TRUE);
@@ -3376,7 +3377,6 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
     short shade = MENU_SHADE_DEFAULT;
     extern char LevelSong[];
     char *extra_text = NULL;
-    PLAYERp pp = &Player[myconnectindex];
     int button_x,zero=0;
     int handle=0;
     extern BOOL MusicInitialized,FxInitialized;
@@ -3434,12 +3434,6 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
         case btn_mouse_aim:
             last_value = gs.MouseAimingType;
             gs.MouseAimingType = state = buttonsettings[item->button];
-            if (gs.MouseAimingType != last_value)
-                {
-                //RESET(pp->Flags, PF_MOUSE_AIMING_ON);
-                //gs.MouseAimingOn = FALSE;
-                }
-            //extra_text = gs.MouseAimingType ? "Momentary" : "Toggle";
             break;
         case btn_mouse_invert:
             gs.MouseInvert = state = buttonsettings[item->button];
@@ -3480,14 +3474,14 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
                     DemoMode = bak;
 
                     if (SW_SHAREWARE)
-					    {
+                        {
                         handle = PlaySound(DIGI_NOLIKEMUSIC,&zero,&zero,&zero,v3df_none);
 
                         if (handle >= FX_Ok)
                             while(FX_SoundActive(handle))
                                 handleevents();
                         }
-					}
+                    }
                 }
             break;
         case btn_talking:
@@ -4267,7 +4261,6 @@ VOID
 MNU_ItemPostProcess(MenuGroup * group)
     {
     MenuItem *item;
-    int zero = 0;
 
     if (!group->items)
         return;
@@ -4385,7 +4378,6 @@ MNU_DrawItemIcon(MenuItem * item)
     //void BorderRefreshClip(PLAYERp pp, short x, short y, short x2, short y2);
     int x = item->x, y = item->y;
     int scale = MZ;
-    short w,h;
 
     if (item->text)
         {
@@ -4413,9 +4405,6 @@ MNU_DrawItemIcon(MenuItem * item)
 static void
 MNU_DrawItem(MenuItem * item)
     {
-    char *ptr;
-    short px, py;
-
     MNU_ItemPostProcess(currentmenu);  // Put this in so things can be drawn on item select
 
     if (!item->pic)
@@ -4666,13 +4655,14 @@ SetupMenu(void)
 ////////////////////////////////////////////////
 #define MNU_SENSITIVITY 10              // The menu's mouse sensitivity, should be real low
 
-void MNU_DoMenu( CTLType UNUSED(type), PLAYERp UNUSED(pp) )
+void MNU_DoMenu( CTLType type, PLAYERp pp )
     {
     BOOL resetitem;
-    UCHAR key;
     int zero = 0;
     static int handle2 = 0;
     static int limitmove=0;
+
+    (void)type; (void)pp;
 
     resetitem = TRUE;
 
@@ -5294,7 +5284,7 @@ SetFadeAmt(PLAYERp pp, short damage, unsigned char startcolor)
 void
 DoPaletteFlash(PLAYERp pp)
     {
-    int i, palreg, tmpreg1 = 0, tmpreg2 = 0;
+    int palreg, tmpreg1 = 0, tmpreg2 = 0;
     unsigned char *pal_ptr = &ppalette[screenpeek][0];
 
 

@@ -129,7 +129,6 @@ void netsendpacket(int ind, BYTEp buf, int len)
 {
 	BYTE bbuf[ sizeof(packbuf) + sizeof(PACKET_PROXY) ];
 	PACKET_PROXYp prx = (PACKET_PROXYp)bbuf;
-	int i;
 
 	// send via master if in M/S mode and we are not the master, and the recipient is not the master and not ourselves
 	if (!NetBroadcastMode && myconnectindex != connecthead && ind != myconnectindex && ind != connecthead) {
@@ -291,7 +290,7 @@ int EncodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
             }
         }
 
-    return(buf - base_ptr);
+    return(int)(buf - base_ptr);
     }
 
 int DecodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
@@ -339,7 +338,7 @@ int DecodeBits(SW_PACKET *pak, SW_PACKET *old_pak, BYTEp buf)
             }
         }
 
-    return( buf - base_ptr );
+    return(int)( buf - base_ptr );
     }
 
 VOID
@@ -393,14 +392,13 @@ SendMessage(short pnum, char *text)
 
     tempbuf[0] = PACKET_TYPE_MESSAGE;
     strcpy((char *)&tempbuf[1], text);
-    netsendpacket(pnum, tempbuf, strlen(text) + 2);
+    netsendpacket(pnum, tempbuf, (int)strlen(text) + 2);
     }
 
 
 VOID
 InitNetPlayerOptions(VOID)
     {
-    short pnum;
     PLAYERp pp = Player + myconnectindex;
     PACKET_OPTIONS p;
 
@@ -432,7 +430,6 @@ InitNetPlayerOptions(VOID)
 VOID
 SendMulitNameChange(char *new_name, int new_color)
     {
-    short pnum;
     PLAYERp pp = Player + myconnectindex;
     PACKET_NAME_CHANGE p;
 
@@ -470,7 +467,6 @@ SendMulitNameChange(char *new_name, int new_color)
 VOID
 SendVersion(int version)
     {
-    short pnum;
     PLAYERp pp = Player + myconnectindex;
     PACKET_VERSION p;
 
@@ -488,7 +484,6 @@ VOID
 CheckVersion(int GameVersion)
     {
     short pnum;
-    PACKET_VERSION p;
     #define VERSION_MSG "You cannot play with different versions!"
 
     if (!CommEnabled)
@@ -527,9 +522,6 @@ CheckVersion(int GameVersion)
 VOID
 Connect(VOID)
     {
-    int players_found, i, yline;
-    short other;
-
     if (CommEnabled)
         {
         screenpeek = myconnectindex;
@@ -545,7 +537,6 @@ void
 waitforeverybody(void)
     {
     int i, size = 1;
-    short other;
 
     if (!CommEnabled)
         return;
@@ -727,7 +718,7 @@ BOOL MenuCommPlayerQuit(short quit_player)
 VOID ErrorCorrectionQuit(VOID)
     {
     int oldtotalclock;
-    short i,j;
+    short j;
 
     if (CommPlayers > 1)
         {
@@ -736,7 +727,7 @@ VOID ErrorCorrectionQuit(VOID)
             oldtotalclock = totalclock;
             while (totalclock < oldtotalclock + synctics)
                 {
-				handleevents();
+                handleevents();
                 getpackets();
                 }
 
@@ -820,10 +811,8 @@ AddSyncInfoToPacket(int *j)
 void
 faketimerhandler(void)
     {
-    short other, packbufleng;
-    int i, j, k, l;
+    int i, j, k;
     PLAYERp pp;
-    short pnum;
     void getinput(SW_PACKET *);
     extern BOOL BotMode;
 
@@ -1147,11 +1136,11 @@ VOID
 getpackets(VOID)
     {
     int otherconnectindex, packbufleng;
-    int i, j, k, l, fifoCheck, sb;
+    int i, j, sb;
     PLAYERp pp;
     SW_PACKET tempinput;
 
-	sampletimer();
+    sampletimer();
 
     if (!CommEnabled)
         return;

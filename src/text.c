@@ -99,7 +99,6 @@ DisplaySummaryString(PLAYERp pp, short xs, short ys, short color, short shade, c
 PANEL_SPRITEp
 pClearTextLineID(PLAYERp pp, short id, long y, short pri)
     {
-    PANEL_SPRITEp nsp=NULL;
     PANEL_SPRITEp psp=NULL, next;
 
     TRAVERSE(&pp->PanelSpriteList, psp, next)
@@ -123,7 +122,6 @@ pClearTextLineID(PLAYERp pp, short id, long y, short pri)
 PANEL_SPRITEp
 pMenuClearTextLineID(PLAYERp pp, short id, long y, short pri)
     {
-    PANEL_SPRITEp nsp=NULL;
     PANEL_SPRITEp psp=NULL, next;
 
     TRAVERSE(&pp->PanelSpriteList, psp, next)
@@ -172,7 +170,7 @@ PutStringTimer(PLAYERp pp, short x, short y, const char *string, short seconds)
     extern unsigned short xlatfont[];
     long kill_tics;
     short id, ac;
-    void *func;
+    PANEL_SPRITE_FUNCp func;
 
 
     offset = x;
@@ -220,7 +218,6 @@ KillString(PLAYERp pp, short y)
 PANEL_SPRITEp
 pClearSpriteXY(PLAYERp pp, short x, short y)
     {
-    PANEL_SPRITEp nsp=NULL;
     PANEL_SPRITEp psp=NULL, next;
 
     TRAVERSE(&pp->PanelSpriteList, psp, next)
@@ -235,7 +232,6 @@ pClearSpriteXY(PLAYERp pp, short x, short y)
 PANEL_SPRITEp
 pClearSpriteID(PLAYERp pp, short id)
     {
-    PANEL_SPRITEp nsp=NULL;
     PANEL_SPRITEp psp=NULL, next;
 
     TRAVERSE(&pp->PanelSpriteList, psp, next)
@@ -295,7 +291,7 @@ DisplayMiniBarNumber(PLAYERp pp, short xs, short ys, int number)
 
         pic = PANEL_FONT_G + (*ptr - '0');
 
-        rotatesprite((long)x << 16, (long)ys << 16, (1 << 16), 0,
+        rotatesprite((int)x << 16, (int)ys << 16, (1 << 16), 0,
             pic, 0, 0,
             ROTATE_SPRITE_SCREEN_CLIP | ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
 
@@ -308,7 +304,6 @@ DisplayMiniBarSmString(PLAYERp pp, short xs, short ys, short pal, const char *bu
     {
     short size=4,x;
     const char *ptr;
-    PANEL_SPRITEp nsp;
     short pic;
 
     (void)pp;
@@ -325,7 +320,7 @@ DisplayMiniBarSmString(PLAYERp pp, short xs, short ys, short pal, const char *bu
 
         pic = FRAG_FIRST_TILE + (*ptr - FRAG_FIRST_ASCII);
 
-        rotatesprite((long)x << 16, (long)ys << 16, (1 << 16), 0,
+        rotatesprite((int)x << 16, (int)ys << 16, (1 << 16), 0,
             pic, 0, pal,
             ROTATE_SPRITE_SCREEN_CLIP | ROTATE_SPRITE_CORNER, 0, 0, xdim - 1, ydim - 1);
         }
@@ -393,8 +388,7 @@ VOID
 DisplayFragNumbers(PLAYERp pp)
     {
     char buffer[32];
-    char *ptr;
-    short x, xs, ys, size;
+    short xs, ys;
     short frag_bar;
     short pnum = pp - Player;
 
@@ -434,8 +428,7 @@ DisplayFragNumbers(PLAYERp pp)
 VOID
 DisplayFragNames(PLAYERp pp)
     {
-    char *ptr;
-    short x, xs, ys, size;
+    short xs, ys;
     short frag_bar;
     short pnum = pp - Player;
 

@@ -387,12 +387,12 @@ DemoPlayBack(VOID)
     static int buf_ndx;
     PLAYERp pp;
     ControlInfo info;
-    int Xdim, Ydim, ScreenSize;
 
-    if (SW_SHAREWARE) {
-    // code here needs to be similar to RunLevel startup code
-    PlaySong(LevelSong, -1, TRUE, TRUE);
-    }
+    if (SW_SHAREWARE)
+        {
+        // code here needs to be similar to RunLevel startup code
+        PlaySong(LevelSong, -1, TRUE, TRUE);
+        }
 
 
     // Initialize Game part of network code (When ready2send != 0)
@@ -420,7 +420,7 @@ DemoPlayBack(VOID)
         // makes code run at the same rate
         while (totalclock > totalsynctics)
             {
-			handleevents();
+            handleevents();
 
             TRAVERSE_CONNECT(pnum)
                 {
@@ -584,11 +584,12 @@ ScenePlayBack(VOID)
     int buf_ndx, pnum, cnt;
     PLAYERp pp;
 
-    if (SW_SHAREWARE) {
-    // code here needs to be similar to RunLevel startup code
-    strcpy(LevelSong,"yokoha03.mid");
-    PlaySong(LevelSong, -1, TRUE, TRUE);
-    }
+    if (SW_SHAREWARE)
+        {
+        // code here needs to be similar to RunLevel startup code
+        strcpy(LevelSong,"yokoha03.mid");
+        PlaySong(LevelSong, -1, TRUE, TRUE);
+        }
 
     // IMPORTANT - MUST be right before game loop
     InitTimingVars();

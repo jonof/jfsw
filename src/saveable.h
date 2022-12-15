@@ -24,7 +24,7 @@
 #ifndef SAVEABLE_H
 #define SAVEABLE_H
 
-typedef void * saveable_code;
+typedef void (* saveable_code)(void);
 
 typedef struct {
 	void *base;
@@ -39,7 +39,7 @@ typedef struct {
 	unsigned int numdata;
 } saveable_module;
 
-#define SAVE_CODE(s) (void*)s
+#define SAVE_CODE(s) (saveable_code)s
 #define SAVE_DATA(s) { (void*)&s, sizeof(s) }
 
 #define NUM_SAVEABLE_ITEMS(x) (sizeof(x)/sizeof(x[0]))
@@ -57,10 +57,10 @@ typedef struct {
 
 void Saveable_Init(void);
 
-int Saveable_FindCodeSym(void *ptr, savedcodesym *sym);
+int Saveable_FindCodeSym(saveable_code ptr, savedcodesym *sym);
 int Saveable_FindDataSym(void *ptr, saveddatasym *sym);
 
-int Saveable_RestoreCodeSym(savedcodesym *sym, void **ptr);
+int Saveable_RestoreCodeSym(savedcodesym *sym, void (**ptr)(void));
 int Saveable_RestoreDataSym(saveddatasym *sym, void **ptr);
 
 #endif

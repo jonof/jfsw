@@ -66,10 +66,10 @@ CC?=gcc
 CXX?=g++
 NASM?=nasm
 RC?=windres
-OURCFLAGS=$(debug) -W -Wall -Wimplicit -Wno-unused \
-	-fno-strict-aliasing -DNO_GCC_BUILTINS \
+OURCFLAGS=$(debug) -W -Wall -fno-strict-aliasing \
 	-I$(INC) -I$(EINC) -I$(MACTROOT) -I$(AUDIOLIBROOT)/include
-OURCXXFLAGS=-fno-exceptions -fno-rtti
+OURCCFLAGS=-std=c99
+OURCXXFLAGS=-fno-exceptions -fno-rtti -std=c++98
 LIBS=-lm
 GAMELIBS=
 NASMFLAGS=-s #-g
@@ -260,20 +260,20 @@ $(SRC)/%.$o: $(SRC)/%.nasm
 	nasm $(NASMFLAGS) $< -o $@
 
 $(SRC)/%.$o: $(SRC)/%.c
-	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(OURCFLAGS) $(OURCCFLAGS) -c $< -o $@
 $(SRC)/%.$o: $(SRC)/%.cpp
 	$(CXX) $(CXXFLAGS) $(OURCXXFLAGS) $(OURCFLAGS) -c $< -o $@
 $(MACTROOT)/%.$o: $(MACTROOT)/%.c
-	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(OURCFLAGS) $(OURCCFLAGS) -c $< -o $@
 
 $(SRC)/%.$(res): $(SRC)/%.rc
 	$(RC) -i $< -o $@ --include-dir=$(EINC) --include-dir=$(SRC)
 
 $(SRC)/%.$o: $(SRC)/util/%.c
-	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(OURCFLAGS) $(OURCCFLAGS) -c $< -o $@
 
 $(RSRC)/%.$o: $(RSRC)/%.c
-	$(CC) $(CFLAGS) $(OURCFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(OURCFLAGS) $(OURCCFLAGS) -c $< -o $@
 
 $(RSRC)/%_gresource.c: $(RSRC)/%.gresource.xml
 	glib-compile-resources --generate --manual-register --c-name=startgtk --target=$@ --sourcedir=$(RSRC) $<

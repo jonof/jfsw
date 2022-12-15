@@ -52,7 +52,7 @@ extern int DemoRecCnt;                    // Can only record 1-player game
 
 // Demo File - reading from group
 #if DEMO_FILE_TYPE == DEMO_FILE_GROUP
-typedef long DFILE;
+typedef int DFILE;
 #define DREAD(ptr, size, num, handle) kread((handle),(ptr),(size)*(num))
 #define DOPEN_READ(name) kopen4load(name,0)
 #define DCLOSE(handle) kclose(handle)

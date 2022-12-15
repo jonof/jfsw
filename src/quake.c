@@ -294,7 +294,6 @@ int
 SetGunQuake(SHORT SpriteNum)
     {
     SPRITEp sp = &sprite[SpriteNum];
-    USERp u = User[SpriteNum];
 
     SpawnQuake(sp->sectnum, sp->x, sp->y, sp->z,  40, 8, 40000);
 

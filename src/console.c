@@ -221,7 +221,7 @@ BOOL IsCommand(char *str)
             continue;
 
         // See if it's in there
-        if (CON_CommandCmp(first, commandlist[i].command, strlen(first)))
+        if (CON_CommandCmp(first, commandlist[i].command, (int)strlen(first)))
             {
             return(TRUE);
             }
@@ -357,7 +357,7 @@ void CON_ProcessUserCommand( void )
         // Don't even try if they aren't the same length
         if(strlen(command_str) != strlen(commandlist[i].command)) continue;
         // See if it's in there
-        if(CON_CommandCmp(command_str, commandlist[i].command, strlen(command_str)))
+        if(CON_CommandCmp(command_str, commandlist[i].command, (int)strlen(command_str)))
         {
             if (commandlist[i].function)
             {
@@ -427,7 +427,6 @@ BOOL CheckValidSprite(short SpriteNum)
 void CON_GetHelp( void )
     {
     char base[80], command[80];
-    short i;
 
 
     if (sscanf(MessageInputString,"%s %s",base,command) < 2)
@@ -499,7 +498,6 @@ void CON_ModXrepeat( void )
         {
         // Do it only for one sprite
         SPRITEp sp = &sprite[op3];
-        USERp u = User[op3];
 
         if(!CheckValidSprite(op3)) return;
 
@@ -547,7 +545,6 @@ void CON_ModYrepeat( void )
         {
         // Do it only for one sprite
         SPRITEp sp = &sprite[op3];
-        USERp u = User[op3];
 
         if(!CheckValidSprite(op3)) return;
 
@@ -561,7 +558,6 @@ void CON_ModTranslucent( void )
     char base[80];
     SHORT op1=0;
     SPRITEp sp;
-    USERp u;
 
     // Format: translucent [SpriteNum]
     if (sscanf(MessageInputString,"%s %hd",base,&op1) < 2)
@@ -574,7 +570,6 @@ void CON_ModTranslucent( void )
     if(!CheckValidSprite(op1)) return;
 
     sp = &sprite[op1];
-    u = User[op1];
 
     if(TEST(sp->cstat,CSTAT_SPRITE_TRANSLUCENT))
         {
@@ -589,7 +584,6 @@ void CON_ModTranslucent( void )
 
 void CON_SoundTest( void )
     {
-    int handle;
     int zero=0;
     char base[80];
     SHORT op1=0;
@@ -608,7 +602,7 @@ void CON_SoundTest( void )
         return;
         }
 
-    handle = PlaySound(op1,&zero,&zero,&zero,v3df_none);
+    PlaySound(op1,&zero,&zero,&zero,v3df_none);
     }
 
 
@@ -817,7 +811,7 @@ void CON_Cache( void )
 #define incachesiz MAXWALLS
 #endif
     char incache[incachesiz]; // 8192 so it can index maxwalls as well
-    int i,j,tottiles,totsprites,totactors;
+    int i,tottiles,totsprites,totactors;
 
 
     memset(incache,0,sizeof(incache));
@@ -1010,7 +1004,6 @@ void CON_KillSprite( void )
     {
     char base[80];
     SHORT op1=0;
-    SPRITEp sp;
     short i;
     USERp u;
 
@@ -1046,7 +1039,6 @@ void CON_SpriteDetail( void )
     char base[80];
     SHORT op1=0;
     SPRITEp sp;
-    short i;
 
     // Format: showsprite [SpriteNum]
     if (sscanf(MessageInputString,"%s %hd",base,&op1) < 2)
@@ -1074,8 +1066,6 @@ void CON_UserDetail( void )
     {
     char base[80];
     SHORT op1=0;
-    SPRITEp sp;
-    short i;
     USERp u;
 
     // Format: showuser [SpriteNum]
@@ -1087,17 +1077,16 @@ void CON_UserDetail( void )
         }
 
     if(!CheckValidSprite(op1)) return;
-    sp = &sprite[op1];
     u = User[op1];
 
     if(!u) return;
 
-    CON_ConMessage("State = %p, Rot = %p",u->State,u->Rot);
-    CON_ConMessage("StateStart = %p, StateEnd = %p",u->StateStart,u->StateEnd);
-    CON_ConMessage("ActorActionFunc = %p",u->ActorActionFunc);
-    CON_ConMessage("ActorActionSet = %p",u->ActorActionSet);
-    CON_ConMessage("Personality = %p",u->Personality);
-    CON_ConMessage("Attrib = %p",u->Attrib);
+    CON_ConMessage("State = %p, Rot = %p",(void*)u->State,(void*)u->Rot);
+    CON_ConMessage("StateStart = %p, StateEnd = %p",(void*)u->StateStart,(void*)u->StateEnd);
+    CON_ConMessage("ActorActionFunc = %p",(void*)u->ActorActionFunc);
+    CON_ConMessage("ActorActionSet = %p",(void*)u->ActorActionSet);
+    CON_ConMessage("Personality = %p",(void*)u->Personality);
+    CON_ConMessage("Attrib = %p",(void*)u->Attrib);
     CON_ConMessage("Flags = %d, Flags2 = %d, Tics = %d",u->Flags,u->Flags2,u->Tics);
     CON_ConMessage("RotNum = %d, ID = %d",u->RotNum,u->ID);
     CON_ConMessage("Health = %d, MaxHealth = %d",u->Health,u->MaxHealth);
@@ -1196,8 +1185,6 @@ void CON_DamageData( void )
     char base[80],field[80];
     SHORT op1=0;
     unsigned int op2, i;
-    SPRITEp sp;
-    USERp u;
 
     // Format: damage [field] [item] [value]
     if (sscanf(MessageInputString,"%s %s %hd %u",base,field,&op1,&op2) < 3)

@@ -248,8 +248,7 @@ unsigned char * LoadAnm(short anim_num)
     {
     int handle;
     int length;
-    unsigned char *animbuf, *palptr;
-    int i,j,k;
+    unsigned char *animbuf;
 
     DSPRINTF(ds,"LoadAnm");
     MONO_PRINT(ds);
@@ -286,8 +285,7 @@ void
 playanm(short anim_num)
     {
     unsigned char *animbuf, *palptr;
-    int i, j, k, length = 0, numframes = 0;
-    int32 handle = -1;
+    int i, numframes = 0;
     unsigned char ANIMvesapal[4*256];
     unsigned char tempbuf[256];
     unsigned char *palook_bak = palookup[0];

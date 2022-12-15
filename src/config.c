@@ -201,8 +201,7 @@ const char * CONFIG_AnalogNumToName( int32 func )
 void CONFIG_SetDefaults( void )
    {
    // JBF 20031211
-   int32 i,f;
-   byte k1,k2;
+   int32 i;
 
    ScreenMode = 1;
    ScreenWidth = 640;
@@ -427,7 +426,7 @@ void CONFIG_ReadKeys( int32 scripthandle )
 void CONFIG_SetupMouse( void )
    {
    int32 i;
-   char str[80],*p;
+   char str[80];
    char temp[80];
    int32 function, scale;
 
@@ -496,9 +495,9 @@ void CONFIG_SetupMouse( void )
 void CONFIG_SetupJoystick( void )
    {
    int32 i;
-   char str[80],*p;
+   char str[80];
    char temp[80];
-   int32 function, scale;
+   int32 scale;
 
    if (scripthandle < 0) return;
 
@@ -571,8 +570,6 @@ void CONFIG_SetupJoystick( void )
 int32 CONFIG_ReadSetup( void )
    {
    int32 dummy;
-   char ret;
-   extern char ds[];
 
    char oggtrackname[MAXOGGTRACKLENGTH] = {0};
 

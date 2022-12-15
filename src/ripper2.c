@@ -938,7 +938,6 @@ InitRipper2Hang(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     int dist;
-    short ang2;
 
     short hitwall;
     short hitsprite = -2, hitsect = -2;
@@ -999,7 +998,6 @@ InitRipper2Hang(short SpriteNum)
 int
 DoRipper2Hang(short SpriteNum)
     {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
 
     if ((u->WaitTics -= ACTORMOVETICS) > 0)
@@ -1062,9 +1060,7 @@ DoRipper2MoveHang(short SpriteNum)
 int
 DoRipper2HangJF(short SpriteNum)
     {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
-    int nx, ny;
 
     if (TEST(u->Flags, SPR_JUMPING | SPR_FALLING))
         {
@@ -1098,8 +1094,7 @@ DoRipper2BeginJumpAttack(short SpriteNum)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     SPRITEp psp = User[SpriteNum]->tgt_sp;
-    int dist;
-    int CanSeePlayer(short SpriteNum);
+    extern int CanSeePlayer(short SpriteNum);
     short tang;
 
 #define RANDOM_NEG(x) (RANDOM_P2((x)<<1) - (x))
@@ -1141,7 +1136,6 @@ DoRipper2BeginJumpAttack(short SpriteNum)
 int
 DoRipper2MoveJump(short SpriteNum)
     {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
 
     if (TEST(u->Flags, SPR_JUMPING | SPR_FALLING))
@@ -1171,7 +1165,6 @@ DoRipper2MoveJump(short SpriteNum)
 int
 DoRipper2QuickJump(short SpriteNum)
     {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
 
     // Tests to see if ripper2 is on top of a player/enemy and then immediatly
@@ -1197,7 +1190,6 @@ DoRipper2QuickJump(short SpriteNum)
 int
 NullRipper2(short SpriteNum)
     {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
 
     if (TEST(u->Flags,SPR_SLIDING))
@@ -1211,7 +1203,6 @@ NullRipper2(short SpriteNum)
 
 int DoRipper2Pain(short SpriteNum)
 {
-    SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
 
     NullRipper2(SpriteNum);
@@ -1353,9 +1344,6 @@ DoRipper2Move(short SpriteNum)
 
 int InitRipper2Charge(short SpriteNum)
 {
-    SPRITEp sp = &sprite[SpriteNum];
-    USERp u = User[SpriteNum];
-
     DoActorSetSpeed(SpriteNum, FAST_SPEED);
 
     InitActorMoveCloser(SpriteNum);
@@ -1447,7 +1435,8 @@ static saveable_data saveable_ripper2_data[] = {
 	SAVE_DATA(sg_Ripper2DeathFall),
 
 	SAVE_DATA(Ripper2ActionSet),
-	SAVE_DATA(Ripper2BrownActionSet),};
+	SAVE_DATA(Ripper2BrownActionSet),
+};
 
 saveable_module saveable_ripper2 = {
 	// code

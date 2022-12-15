@@ -51,7 +51,7 @@ _Assert(char *expr, char *strFile, unsigned uLine)
     {
     printf(ds, "Assertion failed: %s %s, line %u\n", expr, strFile, uLine);
     //DSPRINTF(ds, "Assertion failed: %s %s, line %u", expr, strFile, uLine);
-    MONO_PRINT(ds);
+    //MONO_PRINT(ds);
     exit(0);
     }
 
@@ -283,7 +283,7 @@ SetupBuildFAF(VOID)
                     zdiff = labs(sector[vc_sp->sectnum].ceilingz - sector[vf_sp->sectnum].floorz);
 
                     //DSPRINTF(ds,"zdiff %d",zdiff);
-                    MONO_PRINT(ds);
+                    //MONO_PRINT(ds);
 
                     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], l, nextl)
                         {

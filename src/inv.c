@@ -106,9 +106,7 @@ VOID PanelInvTestSuicide(PANEL_SPRITEp psp);
 VOID UpdateMiniBar(PLAYERp pp)
     {
     USERp u = User[pp->PlayerSprite];
-    short i;
     int x,y;
-    BOOL found;
     INVENTORY_DATAp id;
     extern BOOL PanelUpdateMode;
 
@@ -229,8 +227,9 @@ KillPanelInv(PLAYERp pp, short InventoryNum)
     }
 
 VOID
-KillPlayerIcon(PLAYERp UNUSED(pp), PANEL_SPRITEp *pspp)
+KillPlayerIcon(PLAYERp pp, PANEL_SPRITEp *pspp)
     {
+    (void)pp;
     SET((*pspp)->flags, PANF_SUICIDE);
     (*pspp) = NULL;
     }
@@ -256,7 +255,6 @@ PANEL_SPRITEp
 SpawnIcon(PLAYERp pp, PANEL_STATEp state)
     {
     PANEL_SPRITEp psp;
-    short i;
 
     psp = pSpawnSprite(pp, state, PRI_FRONT, 0, 0);
 
@@ -352,8 +350,6 @@ UseInventoryMedkit(PLAYERp pp)
 VOID
 UseInventoryChemBomb(PLAYERp pp)
     {
-    USERp u = User[pp->PlayerSprite];
-    short diff;
     short inv = INVENTORY_CHEMBOMB;
 
     if (!pp->InventoryAmount[inv])
@@ -378,8 +374,6 @@ UseInventoryChemBomb(PLAYERp pp)
 VOID
 UseInventoryFlashBomb(PLAYERp pp)
     {
-    USERp u = User[pp->PlayerSprite];
-    short diff;
     short inv = INVENTORY_FLASHBOMB;
 
     if (!pp->InventoryAmount[inv])
@@ -404,8 +398,6 @@ UseInventoryFlashBomb(PLAYERp pp)
 VOID
 UseInventoryCaltrops(PLAYERp pp)
     {
-    USERp u = User[pp->PlayerSprite];
-    short diff;
     short inv = INVENTORY_CALTROPS;
 
     if (!pp->InventoryAmount[inv])
@@ -431,7 +423,6 @@ UseInventoryCaltrops(PLAYERp pp)
 VOID
 UseInventoryRepairKit(PLAYERp pp)
     {
-    SPRITEp sp = pp->SpriteP;
     short inv = INVENTORY_REPAIR_KIT;
 
     //PlaySound(DIGI_TOOLBOX, &pp->posx, &pp->posy, &pp->posz, v3df_none);
@@ -557,9 +548,9 @@ StopInventoryEnvironSuit(PLAYERp pp, short InventoryNum)
 //
 //////////////////////////////////////////////////////////////////////
 
+#if 0
 static char sectorfloorpals[MAXSECTORS], sectorceilingpals[MAXSECTORS], wallpals[MAXWALLS];
 
-#if 0
 VOID
 DoPlayerNightVisionPalette(PLAYERp pp)
     {
@@ -647,7 +638,6 @@ DoPlayerNightVisionPalette(PLAYERp pp)
 VOID
 UseInventoryNightVision(PLAYERp pp)
     {
-    SPRITEp sp = pp->SpriteP;
     #define NIGHT_INVENTORY_TIME 30
 
     if (pp->InventoryActive[pp->InventoryNum])
@@ -668,8 +658,6 @@ UseInventoryNightVision(PLAYERp pp)
 VOID
 StopInventoryNightVision(PLAYERp pp, short InventoryNum)
     {
-    SPRITEp sp = pp->SpriteP;
-
     pp->InventoryActive[InventoryNum] = FALSE;
 
     if (pp->InventoryPercent[InventoryNum] <= 0)
@@ -804,13 +792,13 @@ VOID InventoryKeys(PLAYERp pp)
 
 VOID InvBorderRefresh(PLAYERp pp)
     {
-    int x,y;
+    //int x,y;
 
     if (pp != Player + myconnectindex)
         return;
 
-    x = InventoryBarXpos[gs.BorderNum];
-    y = InventoryBarYpos[gs.BorderNum];
+    //x = InventoryBarXpos[gs.BorderNum];
+    //y = InventoryBarYpos[gs.BorderNum];
 
     SetRedrawScreen(pp);
     //BorderRefreshClip(pp, x-5, y-5, x + (MAX_INVENTORY * INVENTORY_ICON_WIDTH), y + 24);
@@ -1014,8 +1002,6 @@ VOID (*InventoryDisplayString)(PLAYERp, short, short, short, const char *);
 VOID
 PlayerUpdateInventory(PLAYERp pp, short InventoryNum)
     {
-    USERp u = User[pp->PlayerSprite];
-    short w,h;
     PANEL_SPRITEp psp;
 
     // Check for items that need to go translucent from use
@@ -1098,7 +1084,6 @@ PlayerUpdateInventory(PLAYERp pp, short InventoryNum)
 VOID
 PlayerUpdateInventoryPercent(PLAYERp pp)
     {
-    USERp u = User[pp->PlayerSprite];
     short x,y;
     INVENTORY_DATAp id = &InventoryData[pp->InventoryNum];
 
@@ -1120,7 +1105,6 @@ PlayerUpdateInventoryPercent(PLAYERp pp)
 VOID
 PlayerUpdateInventoryPic(PLAYERp pp)
     {
-    USERp u = User[pp->PlayerSprite];
     PANEL_SPRITEp psp;
     short pic;
     short x,y;
@@ -1140,7 +1124,6 @@ PlayerUpdateInventoryPic(PLAYERp pp)
 VOID
 PlayerUpdateInventoryState(PLAYERp pp)
     {
-    USERp u = User[pp->PlayerSprite];
     short x,y;
     INVENTORY_DATAp id = &InventoryData[pp->InventoryNum];
 

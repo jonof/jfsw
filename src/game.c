@@ -45,6 +45,7 @@ Things required to make savegames work:
 #include "baselayer.h"
 #include "cache1d.h"
 #include "osd.h"
+#include "osdfuncs.h"
 #ifdef RENDERTYPEWIN
 # include "winlayer.h"
 #endif
@@ -3464,6 +3465,11 @@ int app_main(int argc, char const * const argv[])
     }
 
     buildsetlogfile("sw.log");
+
+    OSD_SetFunctions(
+        NULL, NULL, NULL, NULL, NULL,
+        osdfunc_clearbackground, NULL, osdfunc_onshowosd
+    );
 
     OSD_RegisterFunction("restartvid", "restartvid: reinitialise the video mode", osdcmd_restartvid);
     OSD_RegisterFunction("vidmode", "vidmode [xdim ydim] [bpp] [fullscreen]: change the video mode", osdcmd_vidmode);

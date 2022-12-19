@@ -40,6 +40,7 @@
 		AB0FFB38172B575000400B2B /* libeditorsupp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFAD0172B54E100400B2B /* libeditorsupp.a */; };
 		AB21411C101D5B8F00E844AE /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21411B101D5B8F00E844AE /* AudioUnit.framework */; };
 		AB4909DC1748658600C7A068 /* GameListSource.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4909DB1748658600C7A068 /* GameListSource.m */; };
+		AB76E52E29509C4400B11DAF /* osdfuncs.c in Sources */ = {isa = PBXBuildFile; fileRef = AB76E52629509C4400B11DAF /* osdfuncs.c */; };
 		AB8F60750C658D3400202E11 /* grpscan.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8F60740C658D3400202E11 /* grpscan.c */; };
 		AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
 		AB8F60D80C65924000202E11 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
@@ -364,6 +365,8 @@
 		AB214394101EF14900E844AE /* weapon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = weapon.h; sourceTree = "<group>"; };
 		AB4909DA1748658600C7A068 /* GameListSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameListSource.h; sourceTree = "<group>"; };
 		AB4909DB1748658600C7A068 /* GameListSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameListSource.m; sourceTree = "<group>"; };
+		AB76E52629509C4400B11DAF /* osdfuncs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = osdfuncs.c; sourceTree = "<group>"; };
+		AB76E53B2952E3E100B11DAF /* osdfuncs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = osdfuncs.h; sourceTree = "<group>"; };
 		AB81F9242590B62800306B8E /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		AB8F60740C658D3400202E11 /* grpscan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grpscan.c; sourceTree = "<group>"; };
 		AB8F60CA0C6591F300202E11 /* Build Editor for JFShadowWarrior.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Build Editor for JFShadowWarrior.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -663,6 +666,8 @@
 				AB21437A101EF04C00E844AE /* net.h */,
 				ABB4AB930C64C4D000F28920 /* ninja.c */,
 				AB21437B101EF04D00E844AE /* ninja.h */,
+				AB76E52629509C4400B11DAF /* osdfuncs.c */,
+				AB76E53B2952E3E100B11DAF /* osdfuncs.h */,
 				AB21437C101EF04D00E844AE /* pal.h */,
 				ABB4AB940C64C4D000F28920 /* panel.c */,
 				AB21437D101EF04D00E844AE /* panel.h */,
@@ -1075,6 +1080,7 @@
 				ABB4AC290C64C6FE00F28920 /* skull.c in Sources */,
 				ABB4AC2A0C64C6FE00F28920 /* slidor.c in Sources */,
 				ABB4AC2B0C64C6FE00F28920 /* sounds.c in Sources */,
+				AB76E52E29509C4400B11DAF /* osdfuncs.c in Sources */,
 				ABB4AC2C0C64C6FE00F28920 /* spike.c in Sources */,
 				ABB4AC2D0C64C6FE00F28920 /* sprite.c in Sources */,
 				ABB4AC2E0C64C6FE00F28920 /* StartupWinController.m in Sources */,

@@ -310,8 +310,6 @@ ToggleSprites()
 void
 DoAutoSize(spritetype * tspr)
     {
-    short i;
-
     if (!bAutoSize)
         return;
 
@@ -462,7 +460,7 @@ short rotang = 0;
 void
 ExtAnalyzeSprites(void)
     {
-    int i, currsprite;
+    int i;
     spritetype *tspr;
 
 
@@ -598,60 +596,11 @@ ResetKeyRange(BYTEp kb, BYTEp ke)
         }
     }
 
-#if 0
-void
-ExtInit(void)
-    {
-    VOID InitPalette(VOID);
-    int i, fil;
-
-    initgroupfile("sw.grp");
-    if ((fil = open("setup.dat", O_BINARY | O_RDWR, S_IREAD)) != -1)
-        {
-        read(fil, &option[0], NUMOPTIONS);
-        read(fil, &keys[0], NUMKEYS);
-        memcpy((void *) buildkeys, (void *) keys, NUMKEYS);     // Trick to make build
-        // use setup.dat keys
-        close(fil);
-        }
-    if (option[4] > 0)
-        option[4] = 0;
-    initmouse();
-
-    initengine();
-    vidoption = option[0];
-    xdim = vesares[option[6] & 15][0];
-    ydim = vesares[option[6] & 15][1];
-
-#if 0
-    switch (option[0])
-        {
-    case 0:
-        initengine(0, chainxres[option[6] & 15], chainyres[option[6] >> 4]);
-        break;
-    case 1:
-        initengine(1, vesares[option[6] & 15][0], vesares[option[6] & 15][1]);
-        break;
-    default:
-        initengine(option[0], 320L, 200L);
-        }
-#endif
-
-    InitPalette();
-
-    defaultspritecstat = 0;             // use old centering mode
-    kensplayerheight = 58;
-    zmode = 0;
-
-    }
-
-#endif
-
 int
 ExtInit(void)
     {
-	int rv = 0;
-	char *swgrp = "sw.grp";
+    int rv = 0;
+    char *swgrp = "sw.grp";
 
 #ifndef BUILD_DEV_VER
     char ch;
@@ -681,7 +630,6 @@ ExtInit(void)
 
 
         VOID InitPalette(VOID);
-        int i, fil;
 
         // Store user log in time
         //LogUserTime(TRUE);              // Send true because user is logging
@@ -760,28 +708,18 @@ ExtInit(void)
             }
         }
         initgroupfile(swgrp);
-	/*
-        if ((fil = open("setup.dat", O_BINARY | O_RDWR, S_IREAD)) != -1)
-            {
-            read(fil, &option[0], NUMOPTIONS);
-            read(fil, &keys[0], NUMKEYS);
-            memcpy((void *) buildkeys, (void *) keys, NUMKEYS); // Trick to make build
-            // use setup.dat keys
-            close(fil);
-            }
-	    */
-	bpp = 8;
-	if (loadsetup("build.cfg") < 0) buildputs("Configuration file not found, using defaults.\n"), rv = 1;
-	Bmemcpy((void *)buildkeys,(void *)keys,NUMBUILDKEYS);   //Trick to make build use setup.dat keys
+
+
+        bpp = 8;
+        if (loadsetup("build.cfg") < 0) buildputs("Configuration file not found, using defaults.\n"), rv = 1;
+        Bmemcpy((void *)buildkeys,(void *)keys,NUMBUILDKEYS);   //Trick to make build use setup.dat keys
         if (option[4] > 0)
             option[4] = 0;
-	if (initengine()) {
-		wm_msgbox("Build Engine Initialisation Error",
-				"There was a problem initialising the Build engine: %s", engineerrstr);
-		return -1;
-	}
-	initinput();
-	initmouse();
+        if (initengine()) {
+            wm_msgbox("Build Engine Initialisation Error",
+                    "There was a problem initialising the Build engine: %s", engineerrstr);
+            return -1;
+        }
 
         InitPalette();
 
@@ -797,7 +735,7 @@ ExtInit(void)
         exit(0);
         }
 #endif
-	return rv;
+    return rv;
     }
 
 
@@ -805,7 +743,7 @@ void
 ExtUnInit(void)
     {
     uninitgroupfile();
-	writesetup("build.cfg");
+    writesetup("build.cfg");
     // Store user log in time
     //LogUserTime(FALSE);                 // FALSE means user is logging out
                                         // now.
@@ -1382,7 +1320,7 @@ void
 PrintStatus(char *string, int num, char x, char y, char color)
     {
     sprintf(tempbuf, "%s %d", string, num);
-    printext16(x * 8, ydim16+y * 8, color, -1, tempbuf, 0);
+    printext16(x * 8, y * 8, color, -1, tempbuf, 0);
     }
 
 VOID
@@ -2197,15 +2135,11 @@ ExtCheckKeys(void)
 void
 ExtLoadMap(const char *mapname)
     {
-    SPRITEp sp;
-    int i;
-
     wm_setwindowtitle(mapname);
 
     BuildStagTable();
 
     SetSpriteExtra();
-
 
 /*
     Old visibility New visibility
@@ -2235,7 +2169,6 @@ ExtLoadMap(const char *mapname)
 void
 ExtSaveMap(const char *mapname)
     {
-    SPRITEp sp;
     int i;
 
     wm_setwindowtitle(mapname);
@@ -2832,7 +2765,7 @@ ExtShowSectorData(short sectnum)        // F5
     x = 1;
     x2 = 14;
     y = 4;
-    printext16(x * 8, ydim16+y * 8, 11, -1, "Item Count", 0);
+    printext16(x * 8, y * 8, 11, -1, "Item Count", 0);
     PrintStatus("10%Health=", numsprite[ICON_SM_MEDKIT], x, y + 2, 11);
     PrintStatus("", multisprite[ICON_SM_MEDKIT], x2, y + 2, 1);
     PrintStatus("HealthBot=", numsprite[ICON_BOOSTER], x, y + 3, 11);
@@ -2843,7 +2776,7 @@ ExtShowSectorData(short sectnum)        // F5
     x = 17;
     x2 = 30;
     y = 4;
-    printext16(x * 8, ydim16+y * 8, 11, -1, "Inventory", 0);
+    printext16(x * 8, y * 8, 11, -1, "Inventory", 0);
     PrintStatus("Med-Kit  =", numsprite[ICON_MEDKIT], x, y + 2, 11);
     PrintStatus("", multisprite[ICON_MEDKIT], x2, y + 2, 1);
     PrintStatus("Bio_Suit =", numsprite[ICON_ENVIRON_SUIT], x, y + 3, 11);
@@ -2864,7 +2797,7 @@ ExtShowSectorData(short sectnum)        // F5
     x = 33;
     x2 = 46;
     y = 4;
-    printext16(x * 8, ydim16+y * 8, 11, -1, "Weapon Count", 0);
+    printext16(x * 8, y * 8, 11, -1, "Weapon Count", 0);
     PrintStatus("Shuriken =", numsprite[ICON_STAR], x, y + 2, 11);
     PrintStatus("", multisprite[ICON_STAR], x2, y + 2, 1);
     PrintStatus("Uzi      =", numsprite[ICON_UZI], x, y + 3, 11);
@@ -2887,7 +2820,7 @@ ExtShowSectorData(short sectnum)        // F5
     x = 49;
     x2 = 62;
     y = 4;
-    printext16(x * 8, ydim16+y * 8, 11, -1, "Ammo Count", 0);
+    printext16(x * 8, y * 8, 11, -1, "Ammo Count", 0);
     PrintStatus("Bullets  =", numsprite[ICON_LG_UZI_AMMO], x, y + 2, 11);
     PrintStatus("", multisprite[ICON_LG_UZI_AMMO], x2, y + 2, 1);
     PrintStatus("ShotShell=", numsprite[ICON_LG_SHOTSHELL], x, y + 3, 11);
@@ -2904,9 +2837,9 @@ ExtShowSectorData(short sectnum)        // F5
     FindNextTag();
     ShowNextTag();
 /*
-        printext16(65*8,ydim16+4*8,11,-1,"MISC",0);
+        printext16(65*8,4*8,11,-1,"MISC",0);
         PrintStatus("Secrets =",secrets,65,6,11);
-        printext16(65*8,ydim16+7*8,11,-1,"ACTORS",0);
+        printext16(65*8,7*8,11,-1,"ACTORS",0);
         PrintStatus("Skill 1 =",totalactors1,65,8,11);
         PrintStatus("Skill 2 =",totalactors2,65,9,11);
         PrintStatus("Skill 3 =",totalactors3,65,10,11);
@@ -2914,20 +2847,6 @@ ExtShowSectorData(short sectnum)        // F5
         PrintStatus("Respawn =",totalrespawn,65,12,11);
 */
 //  }
-
-#if 0
-    sprintf(tempbuf, "Sector %d", sectnum);
-    printext16(8, ydim16+32, 11, -1, tempbuf, 0);
-
-    printext16(8, ydim16+48, 11, -1, "8*8 font: ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789", 0);
-    printext16(8, ydim16+56, 11, -1, "3*5 font: ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789", 1);
-
-    drawline16(320, 68, 344, 80, 4);    // Draw house
-    drawline16(344, 80, 344, 116, 4);
-    drawline16(344, 116, 296, 116, 4);
-    drawline16(296, 116, 296, 80, 4);
-    drawline16(296, 80, 320, 68, 4);
-#endif
     }
 
 void
@@ -2936,10 +2855,9 @@ ExtShowWallData(short wallnum)          // F6
     if (qsetmode == 200)                // In 3D mode
         return;
 
-
     clearmidstatbar16();                // Clear middle of status bar
     sprintf(tempbuf, "Wall %d", wallnum);
-    printext16(8, ydim16+32, 11, -1, tempbuf, 0);
+    printext16(8, 32, 11, -1, tempbuf, 0);
     }
 
 void
@@ -2948,21 +2866,14 @@ ExtShowSpriteData(short spritenum)      // F6
     if (qsetmode == 200)                // In 3D mode
         return;
 
-    while (KEY_PRESSED(KEYSC_F6));
+    while (KEY_PRESSED(KEYSC_F6)) handleevents();
     ResetKeys();
     ContextHelp(spritenum);             // Get context sensitive help
-
-
-// OLD
-//    clearmidstatbar16();
-//    sprintf(tempbuf, "Sprite %d", spritenum);
-//    printext16(8, ydim16+32, 11, -1, tempbuf, 0);
     }
 
 void
 ExtEditSectorData(short sectnum)        // F7
     {
-    short key_num;
     SPRITEp sp;
 
     (void)sectnum;
@@ -2976,16 +2887,16 @@ ExtEditSectorData(short sectnum)        // F7
     clearmidstatbar16();                // Clear middle of status bar
 
     sprintf(tempbuf, "Current attributes for sprite being searched for:");
-    printext16(8, ydim16+32, 11, -1, tempbuf, 0);
+    printext16(8, 32, 11, -1, tempbuf, 0);
 
     sprintf(tempbuf, "PicNum = %d", FindPicNum);
-    printext16(8, ydim16+32 + 16, 11, -1, tempbuf, 0);
+    printext16(8, 32 + 16, 11, -1, tempbuf, 0);
 
     sprintf(tempbuf, "HiTag = %d", sp->hitag);
-    printext16(8, ydim16+32 + 24, 11, -1, tempbuf, 0);
+    printext16(8, 32 + 24, 11, -1, tempbuf, 0);
 
     sprintf(tempbuf, "LowTag = %d", sp->lotag);
-    printext16(8, ydim16+32 + 32, 11, -1, tempbuf, 0);
+    printext16(8, 32 + 32, 11, -1, tempbuf, 0);
 
     FindNextSprite(FindPicNum);
     }
@@ -2994,18 +2905,9 @@ void
 ExtEditWallData(short wallnum)          // F8
     {
     (void)wallnum;
-//    short nickdata;
 
     if (qsetmode == 200)                // In 3D mode
         return;
-
-//    sprintf(tempbuf, "Wall (%ld): ", wallnum);
-//    nickdata = 0;
-//    nickdata = getnumber16(tempbuf, nickdata, 65536L);
-
-//    printmessage16("");                 // Clear message box (top right of
-    // status bar)
-//    ExtShowWallData(wallnum);
     }
 
 void
@@ -3024,10 +2926,10 @@ ExtEditSpriteData(short spritenum)      // F8
         return;
 
     clearmidstatbar16();                // Clear middle of status bar
-    printext16(8, ydim16+32, 11, -1, "(1)  Skill Level - 0=Easy 1=Normal 2=Hard 3=Crazy", 0);
-    printext16(8, ydim16+32 + 8, 11, -1, "(2)  Multi-Player Item Toggle", 0);
-    printext16(8, ydim16+32 + 16, 11, -1, "(3)  Find Sprite", 0);
-    printext16(8, ydim16+32 + 24, 11, -1, "(4)  Dbug Toggle (* Programming use only *) ", 0);
+    printext16(8, 32, 11, -1, "(1)  Skill Level - 0=Easy 1=Normal 2=Hard 3=Crazy", 0);
+    printext16(8, 32 + 8, 11, -1, "(2)  Multi-Player Item Toggle", 0);
+    printext16(8, 32 + 16, 11, -1, "(3)  Find Sprite", 0);
+    printext16(8, 32 + 24, 11, -1, "(4)  Dbug Toggle (* Programming use only *) ", 0);
     showframe();
 
     while (KEY_PRESSED(KEYSC_F8)) handleevents();
@@ -3066,25 +2968,25 @@ ExtEditSpriteData(short spritenum)      // F8
             {
     DISPLAY:
             clearmidstatbar16();
-            printext16(8, ydim16+32, 11, -1, "Toggle Sprite Seach Criteria.  ESC quits.", 0);
+            printext16(8, 32, 11, -1, "Toggle Sprite Seach Criteria.  ESC quits.", 0);
 
-            printext16(8, ydim16+32 + 16, 11, -1, "(1) Use PicNum in search: ", 0);
+            printext16(8, 32 + 16, 11, -1, "(1) Use PicNum in search: ", 0);
             if (bFindPicNum)
-                printext16(8 + 240, ydim16+32 + 16, 11, -1, "TRUE", 0);
+                printext16(8 + 240, 32 + 16, 11, -1, "TRUE", 0);
             else
-                printext16(8 + 240, ydim16+32 + 16, 11, -1, "FALSE", 0);
+                printext16(8 + 240, 32 + 16, 11, -1, "FALSE", 0);
 
-            printext16(8, ydim16+32 + 24, 11, -1, "(2) Use HiTag in search: ", 0);
+            printext16(8, 32 + 24, 11, -1, "(2) Use HiTag in search: ", 0);
             if (bFindHiTag)
-                printext16(8 + 240, ydim16+32 + 24, 11, -1, "TRUE", 0);
+                printext16(8 + 240, 32 + 24, 11, -1, "TRUE", 0);
             else
-                printext16(8 + 240, ydim16+32 + 24, 11, -1, "FALSE", 0);
+                printext16(8 + 240, 32 + 24, 11, -1, "FALSE", 0);
 
-            printext16(8, ydim16+32 + 32, 11, -1, "(3) Use LowTag in search: ", 0);
+            printext16(8, 32 + 32, 11, -1, "(3) Use LowTag in search: ", 0);
             if (bFindLowTag)
-                printext16(8 + 240, ydim16+32 + 32, 11, -1, "TRUE", 0);
+                printext16(8 + 240, 32 + 32, 11, -1, "TRUE", 0);
             else
-                printext16(8 + 240, ydim16+32 + 32, 11, -1, "FALSE", 0);
+                printext16(8 + 240, 32 + 32, 11, -1, "FALSE", 0);
             showframe();
 
             // Disallow invalid settings
@@ -3135,23 +3037,22 @@ ExtEditSpriteData(short spritenum)      // F8
     clearmidstatbar16();                // Clear middle of status bar
 
     sprintf(tempbuf, "Current attributes for selected sprite:");
-    printext16(8, ydim16+32, 11, -1, tempbuf, 0);
+    printext16(8, 32, 11, -1, tempbuf, 0);
 
     sprintf(tempbuf, "     Skill = %d", TEST(sp->extra, SPRX_SKILL));
-    printext16(8, ydim16+32 + 16, 11, -1, tempbuf, 0);
+    printext16(8, 32 + 16, 11, -1, tempbuf, 0);
 
     sprintf(tempbuf, "     Multi Item = %d", !!TEST(sp->extra, SPRX_MULTI_ITEM));
-    printext16(8, ydim16+32 + 24, 11, -1, tempbuf, 0);
+    printext16(8, 32 + 24, 11, -1, tempbuf, 0);
 
     sprintf(tempbuf, "     Debug = %d", !!TEST(sp->extra, SPRX_BLOCK));
-    printext16(8, ydim16+32 + 32, 11, -1, tempbuf, 0);
+    printext16(8, 32 + 32, 11, -1, tempbuf, 0);
 
     }
 
 void
 PlaxSetShade(void)
     {
-    short data;
     short shade;
     int i, count = 0;
 
@@ -3178,13 +3079,12 @@ PlaxSetShade(void)
     clearmidstatbar16();                // Clear middle of status bar
 
     sprintf(tempbuf, "%d Plax Sky shades set.", count);
-    printext16(8, ydim16+32, 11, -1, tempbuf, 0);
+    printext16(8, 32, 11, -1, tempbuf, 0);
     }
 
 void
 PlaxAdjustShade(void)
     {
-    short data;
     short shade;
     int i, count = 0;
 
@@ -3216,13 +3116,12 @@ PlaxAdjustShade(void)
     clearmidstatbar16();                // Clear middle of status bar
 
     sprintf(tempbuf, "%d Plax Sky shades adjusted.", count);
-    printext16(8, ydim16+32, 11, -1, tempbuf, 0);
+    printext16(8, 32, 11, -1, tempbuf, 0);
     }
 
 void
 AdjustShade(void)
     {
-    short data;
     short shade;
     int i, count;
     short SpriteNum, NextSprite;
@@ -3338,7 +3237,6 @@ SetClipdist2D(void)
 void
 AdjustVisibility(void)
     {
-    short data;
     short vis;
     int i, count = 0;
 
@@ -3358,8 +3256,6 @@ AdjustVisibility(void)
 
     if (highlightsectorcnt > -1)
         {
-        short i, j;
-
         for (i = 0; i < highlightsectorcnt; i++)
             {
             if (sector[highlightsector[i]].visibility != 0)
@@ -3384,13 +3280,13 @@ AdjustVisibility(void)
     clearmidstatbar16();                // Clear middle of status bar
 
     sprintf(tempbuf, "%d Vis adjusted.", count);
-    printext16(8, ydim16+32, 11, -1, tempbuf, 0);
+    printext16(8, 32, 11, -1, tempbuf, 0);
     }
 
 void
 FindSprite(short picnum, short findspritenum)
     {
-    int i, count;
+    int i;
     short SpriteNum, NextSprite;
     SPRITEp sp;
 
@@ -3462,10 +3358,9 @@ FindSprite(short picnum, short findspritenum)
 void
 FindNextSprite(short picnum)
     {
-    int i, count;
+    int i;
     short SpriteNum, NextSprite;
     SPRITEp sp;
-    short animlen;
 
     BOOL bFoundPicNum, bFoundHiTag, bFoundLowTag, bFoundIt;
 
@@ -3551,7 +3446,7 @@ ShowNextTag(void)
 void
 FindNextTag(void)
     {
-    int i, count, j;
+    int i;
     short SpriteNum, NextSprite;
     SPRITEp sp;
 
@@ -3593,14 +3488,14 @@ ShadeMenu(void)                         // F8
         return;
 
     clearmidstatbar16();                // Clear middle of status bar
-    printext16(8, ydim16+32, 11, -1, "(1) Plax Set ", 0);
-    printext16(8, ydim16+32 + 8, 11, -1, "(2) Plax Adjust ", 0);
-    printext16(8, ydim16+32 + 16, 11, -1, "(3) Shade Adjust ", 0);
-    printext16(8, ydim16+32 + 24, 11, -1, "(4) Visibility ", 0);
+    printext16(8, 32, 11, -1, "(1) Plax Set ", 0);
+    printext16(8, 32 + 8, 11, -1, "(2) Plax Adjust ", 0);
+    printext16(8, 32 + 16, 11, -1, "(3) Shade Adjust ", 0);
+    printext16(8, 32 + 24, 11, -1, "(4) Visibility ", 0);
 
     ResetKeys();
 
-    while ((key = BKeyPressed()) == NULL);
+    while ((key = BKeyPressed()) == NULL) handleevents();
 
     if (key == (BYTEp)&KEY_PRESSED(KEYSC_1))
         {

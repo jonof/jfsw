@@ -588,7 +588,9 @@ int32 CONFIG_ReadSetup( void )
       if (ScreenBPP < 8) ScreenBPP = 8;
 
 #ifdef RENDERTYPEWIN
-      SCRIPT_GetNumber( scripthandle, "Screen Setup", "MaxRefreshFreq", (int32*)&maxrefreshfreq);
+      int32 tmpmaxrefreshfreq;
+      SCRIPT_GetNumber( scripthandle, "Screen Setup", "MaxRefreshFreq", &tmpmaxrefreshfreq);
+      win_setmaxrefreshfreq(tmpmaxrefreshfreq);
 #endif
 
 #if USE_POLYMOST && USE_OPENGL
@@ -663,7 +665,7 @@ void CONFIG_WriteSetup( void )
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenBPP",ScreenBPP,FALSE,FALSE);
 
 #ifdef RENDERTYPEWIN
-   SCRIPT_PutNumber( scripthandle, "Screen Setup", "MaxRefreshFreq",maxrefreshfreq,FALSE,FALSE);
+   SCRIPT_PutNumber( scripthandle, "Screen Setup", "MaxRefreshFreq",win_getmaxrefreshfreq(),FALSE,FALSE);
 #endif
 
 #if USE_POLYMOST && USE_OPENGL

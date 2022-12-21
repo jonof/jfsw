@@ -118,7 +118,6 @@ void ToggleFAF(void)
         short match;
         int tx,ty,tz;
         short tsectnum;
-        short i;
         keystatus[KEYSC_4] = FALSE;
 
         tx = posx;
@@ -179,10 +178,8 @@ VOID
 SetupBuildFAF(VOID)
     {
     short i, nexti;
-    SPRITEp sp,vc_sp,vf_sp,vl_sp;
+    SPRITEp sp;
     short SpriteNum, NextSprite;
-    short vc,nextvc,vf,nextvf,l,nextl;
-    int zdiff;
 
     // move every sprite to the correct list
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_DEFAULT], SpriteNum, NextSprite)
@@ -267,6 +264,10 @@ SetupBuildFAF(VOID)
         }
 
     #if 0
+    SPRITEp vc_sp,vf_sp,vl_sp;
+    short vc,nextvc,vf,nextvf,l,nextl;
+    int zdiff;
+
     // check ceiling and floor heights
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], vc, nextvc)
         {
@@ -373,7 +374,7 @@ PicInView(short tile_num, BOOL reset)
 void
 GetUpperLowerSector(short match, int x, int y, short *upper, short *lower)
     {
-    int i, j;
+    int i;
     short sectorlist[16];
     short sln = 0;
     short SpriteNum, Next;
@@ -457,7 +458,6 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     int yoff = 0;
     short i, nexti;
     SPRITEp sp = NULL;
-    short top_sprite = -1;
     int pix_diff;
     int newz;
 
@@ -509,7 +509,7 @@ FindCeilingView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
     if (FAF_DontMoveSectors)
         return(TRUE);
 
-    pix_diff = labs(z - sector[sp->sectnum].floorz) >> 8;
+    pix_diff = abs(z - sector[sp->sectnum].floorz) >> 8;
     newz = sector[sp->sectnum].floorz + ((pix_diff / 128) + 1) * Z(128);
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
@@ -601,7 +601,7 @@ FindFloorView(short match, LONGp x, LONGp y, LONG z, SHORTp sectnum)
         return(TRUE);
 
     // move ceiling multiple of 128 so that the wall tile will line up
-    pix_diff = labs(z - sector[sp->sectnum].ceilingz) >> 8;
+    pix_diff = abs(z - sector[sp->sectnum].ceilingz) >> 8;
     newz = sector[sp->sectnum].ceilingz - ((pix_diff / 128) + 1) * Z(128);
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
@@ -649,11 +649,10 @@ short
 ViewSectorInScene(short cursectnum, short type, short level)
     {
     int i, nexti;
-    int j, nextj;
     SPRITEp sp;
-    SPRITEp sp2;
-    int cz, fz;
     short match;
+
+    (void)type;
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_FAF], i, nexti)
         {

@@ -47,7 +47,7 @@ static char tempbuf[256];
 // Prototypes
 
 void Message(char *string, char color);
-long GetAToken(char *name, char *tc, long length);
+int GetAToken(char *name, char *tc, int length);
 BYTEp BKeyPressed(VOID);
 VOID ResetKeys(VOID);
 
@@ -58,19 +58,19 @@ void Msg(char *string, char color)
 {
     clearmidstatbar16();
 
-    printext16(1*4,ydim16+4*8,color,-1,string,1);
+    printext16(1*4,4*8,color,-1,string,1);
 
 }
 
 
 // @ symbol precedes a tag name target
 // # symbol precedes a comment in the help file
-long GetAToken(char *name, char *tc, long length)
+int GetAToken(char *name, char *tc, int length)
 {
-    int i,x=0;
+    int x=0;
     char t,*tmp,tokenfound=0;
     char token[10];
-    long count=0;
+    int count=0;
 
     do{
 
@@ -112,13 +112,13 @@ long GetAToken(char *name, char *tc, long length)
 
 void ContextHelp(short spritenum)
 {
-    int i,fp,x=0,y=4;
+    int fp,x=0,y=4;
     char t,*tc;
     char name[20];
     char *filebuffer;
     SPRITEp sp;
     short hitag=0;
-    long size=0,tokresult=0;
+    int size=0,tokresult=0;
 
 
     sp = &sprite[spritenum];
@@ -188,14 +188,15 @@ void ContextHelp(short spritenum)
         }
         tempbuf[x]=0;
         x=0;
-        printext16(x*4,ydim16+(y*6)+2,11,-1,tempbuf,1);
+        printext16(x*4,(y*6)+2,11,-1,tempbuf,1);
         y++;
 
         if(y>16)
         {
             y=18;
-            printext16(x*4,ydim16+(y*6)+2,11,-1,"Hit any key to continue or Q to quit....",1);
-            while (BKeyPressed() == NULL);
+            printext16(x*4,(y*6)+2,11,-1,"Hit any key to continue or Q to quit....",1);
+            showframe();
+            while (BKeyPressed() == NULL) handleevents();
             if (keystatus[KEYSC_Q])
             {
                 clearmidstatbar16();

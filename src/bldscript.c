@@ -86,7 +86,7 @@ BOOL    tokenready;                     // only TRUE if UnGetToken was just call
 
 BOOL LoadScriptFile (char *filename)
 {
-	int size, readsize;
+	int size;
 	int fp;
 
 
@@ -96,17 +96,15 @@ BOOL LoadScriptFile (char *filename)
 		return FALSE;
 	}
 
-    size = kfilelength(fp);
+	size = kfilelength(fp);
 
-    scriptbuffer = (char *)malloc(size);
+	scriptbuffer = (char *)malloc(size);
 
 	ASSERT(scriptbuffer != NULL);
 
-	readsize = kread(fp, scriptbuffer, size);
+	size = kread(fp, scriptbuffer, size);
 
-    kclose(fp);
-
-	ASSERT(readsize == size);
+	kclose(fp);
 
 
 	// Convert filebuffer to all upper case
@@ -301,7 +299,7 @@ void    StripFilename (char *path)
 {
 	int             length;
 
-	length = strlen(path)-1;
+	length = (int)strlen(path)-1;
 	while (length > 0 && path[length] != PATHSEPERATOR)
 		length--;
 	path[length] = 0;
@@ -375,7 +373,7 @@ int ParseNum (char *str)
 		return ParseHex (str+1);
 	if (str[0] == '0' && str[1] == 'x')
 		return ParseHex (str+2);
-	return atol (str);
+	return atoi (str);
 }
 
 
@@ -419,10 +417,10 @@ void LoadKVXFromScript( char *filename )
 		if (endofscript)
 			break;
 
-		lTile = atol(token);
+		lTile = atoi(token);
 
 		GetToken(FALSE);
-		lNumber = atol(token);
+		lNumber = atoi(token);
 
 		GetToken(FALSE);
 		strcpy(sName,token);			// Copy the whole token as a file name and path

@@ -914,6 +914,7 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 		currentkey = 0;
 		currentcol = 0;
 		currentmode = 0;
+		KB_ClearLastScanCode();
 	}
 
 	cust_callback = MNU_KeySetupCustom;
@@ -934,21 +935,22 @@ BOOL MNU_KeySetupCustom(UserCall call, MenuItem *item)
 		char *strs[] = { "Press the key to assign to", "\"%s\" %s", "or ESCAPE to cancel." };
 		char *col[2] = { "(primary)", "(secondary)" };
 		short w, h = 8;
-		int i, j, y;
+		int i, j, y, sc;
 
-		if (KEY_PRESSED(KEYSC_ESC)) {
+		sc = KB_GetLastScanCode();
+		if (sc == KEYSC_ESC) {
 			KB_ClearKeyDown(sc_Escape);
 			currentmode = 0;
-		} else if (KB_GetLastScanCode() > 0) {
-			KB_ClearKeyDown( KB_GetLastScanCode() );
+		} else if (sc > 0) {
+			KB_ClearKeyDown( sc );
 
-			KeyboardKeys[currentkey][currentcol] = KB_GetLastScanCode();
+			KeyboardKeys[currentkey][currentcol] = sc;
 			if (currentkey != gamefunc_Show_Console) {
 				CONTROL_MapKey(currentkey,
 					KeyboardKeys[currentkey][0],
 					KeyboardKeys[currentkey][1]);
 			} else {
-				OSD_CaptureKey(KB_GetLastScanCode());
+				OSD_CaptureKey(sc);
 			}
 
 			currentmode = 0;

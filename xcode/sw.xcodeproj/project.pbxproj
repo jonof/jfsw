@@ -135,7 +135,6 @@
 		ABD2DF7421AA3F8D00BDB555 /* version-auto.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD2DF7321AA3F8D00BDB555 /* version-auto.c */; };
 		ABD2DF7521AA3F8D00BDB555 /* version-auto.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD2DF7321AA3F8D00BDB555 /* version-auto.c */; };
 		ABD91FA417375E9300394607 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD91FA317375E9300394607 /* AudioToolbox.framework */; };
-		ABD9E95720720AC200F1B9B3 /* Build Editor-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ABD9E95620720AC200F1B9B3 /* Build Editor-Info.plist */; };
 		ABD9E96120720C0800F1B9B3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABD9E95A20720C0800F1B9B3 /* Images.xcassets */; };
 		ABD9E96220720C0800F1B9B3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABD9E95A20720C0800F1B9B3 /* Images.xcassets */; };
 /* End PBXBuildFile section */
@@ -966,7 +965,6 @@
 			files = (
 				ABD9E96220720C0800F1B9B3 /* Images.xcassets in Resources */,
 				AB8F60E00C65926400202E11 /* startwin.editor.nib in Resources */,
-				ABD9E95720720AC200F1B9B3 /* Build Editor-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

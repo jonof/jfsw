@@ -921,7 +921,7 @@ InitGame(VOID)
 
     InitAutoNet();
 
-    inittimer(120);
+    inittimer(120, NULL);
 
     CON_InitConsole();  // Init console command list
 

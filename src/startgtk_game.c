@@ -21,16 +21,10 @@
  */
 //-------------------------------------------------------------------------
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "compat.h"
 
 #include <gtk/gtk.h>
 
-#include "compat.h"
 #include "baselayer.h"
 #include "build.h"
 #include "startwin.h"
@@ -713,7 +707,7 @@ int startwin_idle(void *s)
 
 int startwin_run(struct startwin_settings *settings)
 {
-    if (!gtkenabled || !startwin) return 0;
+    if (!gtkenabled || !startwin) return STARTWIN_RUN;
 
     set_settings(settings);
     setup_config_mode();

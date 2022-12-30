@@ -4810,8 +4810,6 @@ void MNU_DoMenu( CTLType type, PLAYERp pp )
 void
 MNU_CheckForMenus(void)
     {
-    extern BOOL GamePaused;
-
     if (UsingMenus)
         {
         //if (MoveSkip2 == 0)

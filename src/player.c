@@ -1975,7 +1975,6 @@ DoPlayerHorizon(PLAYERp pp)
 VOID
 DoPlayerBob(PLAYERp pp)
     {
-    extern ULONG MoveThingsCount;
     int dist;
     int amt;
 
@@ -2336,7 +2335,6 @@ DoPlayerSlide(PLAYERp pp)
 VOID PlayerMoveHitDebug(short ret)
     {
     SPRITEp sp;
-    extern BOOL DebugActor;
 
     switch (TEST(ret, HIT_MASK))
         {
@@ -4328,8 +4326,6 @@ DoPlayerCrawl(PLAYERp pp)
 
     if (!TEST(pp->Flags, PF_PLAYER_MOVED))
         {
-        extern STATEp sg_NinjaCrawl[];
-
         NewStateGroup(pp->PlayerSprite, u->ActorActionSet->Crawl);
         }
 
@@ -5220,7 +5216,6 @@ DoPlayerDiveMeter(PLAYERp pp)
     {
     short color=0,metertics,meterunit;
     int y;
-    extern char buffer[];
 
 
     if (NoMeters) return;
@@ -7865,11 +7860,12 @@ VOID
 domovethings(VOID)
     {
     extern BOOL DebugAnim;
+    #if DEBUG
     extern BOOL DebugPanel;
-    extern BOOL DebugActor;
+    #endif
     extern BOOL DebugSector;
     extern BOOL DebugActorFreeze;
-    extern BOOL ResCheat;
+    // extern BOOL ResCheat;
     extern int PlayClock;
     short i, pnum;
     extern int WeaponOperate(PLAYERp pp);

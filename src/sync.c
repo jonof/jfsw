@@ -128,7 +128,6 @@ EnemySync(VOID)
     unsigned short crc = 0;
     short j, nextj;
     SPRITEp spr;
-    extern char DemoTmpName[];
 
     TRAVERSE_SPRITE_STAT(headspritestat[STAT_ENEMY], j, nextj)
         {
@@ -140,6 +139,7 @@ EnemySync(VOID)
         }
 
 #if 0
+    extern char DemoTmpName[];
     //DSPRINTF(ds, "Demo Tmp Name %s", DemoTmpName);
     //MONO_PRINT(ds);
 
@@ -310,7 +310,6 @@ getsyncstat(void)
     {
     int i;
     PLAYERp pp = Player + myconnectindex;
-    extern int syncvaltail, syncvaltottail;
 
     if (!CommEnabled)
         return;
@@ -417,7 +416,7 @@ void
 GetSyncInfoFromPacket(char *packbuf, int packbufleng, int *j, int otherconnectindex)
     {
     int sb, i;
-    extern int syncvaltail, syncvaltottail;
+    extern int syncvaltottail;
     PLAYERp ppo = &Player[otherconnectindex];
     BOOL found = FALSE;
 

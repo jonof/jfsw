@@ -809,7 +809,6 @@ BossHealthMeter(void)
     PLAYERp pp = Player + myconnectindex;
     short color=0,i=0,nexti,metertics,meterunit;
     int y;
-    extern char buffer[];
     extern BOOL NoMeters;
     short health;
     BOOL bosswasseen;

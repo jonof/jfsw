@@ -2009,7 +2009,7 @@ OperateSprite(short SpriteNum, short player_is_operating)
     case TAG_LEVEL_EXIT_SWITCH:
         {
         extern short Level;
-        extern BOOL QuitFlag, ExitLevel, FinishedLevel;
+        extern BOOL ExitLevel, FinishedLevel;
 
         AnimateSwitch(sp, -1);
 
@@ -2218,7 +2218,7 @@ OperateTripTrigger(PLAYERp pp)
     case TAG_LEVEL_EXIT_SWITCH:
         {
         extern short Level;
-        extern BOOL QuitFlag, ExitLevel, FinishedLevel;
+        extern BOOL ExitLevel, FinishedLevel;
 
         if (sectp->hitag)
             Level = sectp->hitag;

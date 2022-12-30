@@ -2297,7 +2297,6 @@ LoadingLevelScreen(char *level_name)
     {
     short w,h;
     extern BOOL DemoMode;
-    extern char *MNU_LevelName[28];
 
     (void)level_name;
 
@@ -3380,6 +3379,10 @@ void CommandLineHelp(CLI_ARG *args, int numargs)
     }
 
 
+#if defined RENDERTYPEWIN || (defined RENDERTYPESDL && (defined __APPLE__ || defined HAVE_GTK))
+# define HAVE_STARTWIN
+#endif
+
 int app_main(int argc, char const * const argv[])
     {
     int i;
@@ -3388,10 +3391,13 @@ int app_main(int argc, char const * const argv[])
     VOID gameinput(VOID);
     int cnt = 0;
     int netparam = 0, endnetparam = 0;
-    int configloaded;
+    int configloaded = 0;
     struct grpfile const *gamegrp = NULL;
     char grpfile[BMAX_PATH+1] = "sw.grp";
 
+#ifndef HAVE_STARTWIN
+    (void)configloaded;
+#endif
 #ifdef RENDERTYPEWIN
     if (win_checkinstance()) {
         if (!wm_ynbox("Shadow Warrior","Another Build game is currently running. "
@@ -3542,7 +3548,7 @@ int app_main(int argc, char const * const argv[])
         netsuccess = initmultiplayersparms(endnetparam - netparam, &argv[netparam]);
     }
 
-#if defined RENDERTYPEWIN || (defined RENDERTYPESDL && (defined __APPLE__ || defined HAVE_GTK))
+#ifdef HAVE_STARTWIN
     {
         struct startwin_settings settings;
 
@@ -4441,7 +4447,6 @@ char WangBangMacro[10][64];
 VOID
 FunctionKeys(PLAYERp pp)
     {
-    extern BOOL GamePaused;
     extern short QuickLoadNum;
     static int rts_delay = 0;
     int fn_key = 0;
@@ -4652,7 +4657,6 @@ VOID PauseKey(PLAYERp pp)
     {
     extern BOOL GamePaused,CheatInputMode;
     extern short QuickLoadNum;
-    extern BOOL enabled;
 
     if (KEY_PRESSED(sc_Pause) && !CommEnabled && !InputMode && !UsingMenus && !CheatInputMode && !ConPanel)
         {

@@ -1472,7 +1472,6 @@ InitActorAttack(short SpriteNum)
         {
         //#define SUICIDE_HEALTH_VALUE 26
         #define SUICIDE_HEALTH_VALUE 38
-        extern STATEp sg_NinjaGrabThroat[];
         //#define SUICIDE_HEALTH_VALUE 50
 
         if (u->Health < SUICIDE_HEALTH_VALUE)

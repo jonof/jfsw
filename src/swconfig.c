@@ -361,7 +361,6 @@ void WriteGameSetup( int32 scripthandle)
 
 void TermSetup(void)
 {
-extern BOOL BotMode;
 CONFIG_WriteSetup();
 RTS_Shutdown();
 }

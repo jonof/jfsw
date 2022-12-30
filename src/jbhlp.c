@@ -99,7 +99,7 @@ int GetAToken(char *name, char *tc, int length)
 
             *tmp = 0;
 
-            if(!strcmp(name,Bstrupr(token)))
+            if(!Bstrcasecmp(name,token))
                 tokenfound = 1;
         }
     } while(!tokenfound && count < length);

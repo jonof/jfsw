@@ -77,7 +77,7 @@ PANEL_SPRITEp
 pSpawnFullScreenSpriteBox(PLAYERp pp, short id, short pic, short pri, int x, int y, short x1, short y1, short x2, short y2)
     {
     PANEL_SPRITEp psp;
-    extern BOOL DrawBeforeView;
+    //extern BOOL DrawBeforeView;
 
     psp = pSpawnSprite(pp, NULL, pri, x, y);
 

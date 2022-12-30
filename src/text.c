@@ -167,7 +167,6 @@ PutStringTimer(PLAYERp pp, short x, short y, const char *string, short seconds)
     int ndx, offset;
     char c;
     PANEL_SPRITEp nsp;
-    extern unsigned short xlatfont[];
     long kill_tics;
     short id, ac;
     PANEL_SPRITE_FUNCp func;

@@ -5656,8 +5656,6 @@ PlayerDamageSlide(PLAYERp pp, short damage, short ang)
         }
     else
         {
-        extern char PlayerGravity;
-
         slide_vel = (damage * 6);
 
         pp->slide_xvect = MOVEx(slide_vel, ang)<<15;

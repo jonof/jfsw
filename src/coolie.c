@@ -409,7 +409,6 @@ VOID EnemyDefaults(short SpriteNum, ACTOR_ACTION_SETp action, PERSONALITYp perso
     short wpn_cnt;
     short depth = 0;
     extern short TotalKillable;
-    extern BOOL DebugSecret;
 
     switch(u->ID)
         {
@@ -431,6 +430,7 @@ VOID EnemyDefaults(short SpriteNum, ACTOR_ACTION_SETp action, PERSONALITYp perso
             {
             TotalKillable++;
             #if DEBUG
+            extern BOOL DebugSecret;
             if (DebugSecret)
                 {
                 sprintf(ds,"COUNTED: spnum %d, pic %d, x %d, y %d",SpriteNum,sp->picnum,sp->x,sp->y);

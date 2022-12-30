@@ -101,7 +101,6 @@ GetRotation(short tSpriteNum, int viewx, int viewy)
     static short RotTable8[] = {0, 7, 6, 5, 4, 3, 2, 1};
     static short RotTable5[] = {0, 1, 2, 3, 4, 3, 2, 1};
     short rotation;
-    extern short screenpeek;
 
     SPRITEp tsp = &tsprite[tSpriteNum];
     USERp tu = User[tsp->owner];
@@ -1702,10 +1701,10 @@ VOID ScreenCaptureKeys(VOID)
 
 VOID DrawCheckKeys(PLAYERp pp)
     {
+    /* JonoF: Who really needs this now?
     extern BOOL ResCheat;
     extern BOOL PauseKeySet;
 
-    /* JonoF: Who really needs this now?
     if (KEY_PRESSED(KEYSC_F5) && !(KEY_PRESSED(KEYSC_RSHIFT) || KEY_PRESSED(KEYSC_LSHIFT) || KEY_PRESSED(KEYSC_ALT) || KEY_PRESSED(KEYSC_RALT)) && !PauseKeySet)
         {
         KEY_PRESSED(KEYSC_F5) = 0;

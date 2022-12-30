@@ -475,6 +475,8 @@ static void chooseimport_clicked(void)
 
 static INT_PTR CALLBACK importinfo_dlgproc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    (void)lParam;
+
     switch (uMsg) {
         case WM_INITDIALOG: {
             HWND hwnd;
@@ -542,6 +544,8 @@ static void importinfo_clicked(void)
 
 static INT_PTR CALLBACK ConfigPageProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    (void)lParam;
+
     switch (uMsg) {
         case WM_INITDIALOG: {
             EnableThemeDialogTexture(hwndDlg, ETDT_ENABLETAB);
@@ -570,6 +574,8 @@ static INT_PTR CALLBACK ConfigPageProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 static INT_PTR CALLBACK GamePageProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    (void)lParam;
+
     switch (uMsg) {
         case WM_INITDIALOG: {
             LVCOLUMN lvc;
@@ -611,6 +617,8 @@ static INT_PTR CALLBACK GamePageProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 
 static INT_PTR CALLBACK MessagesPageProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    (void)wParam;
+
     switch (uMsg) {
         case WM_CTLCOLORSTATIC:
             if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_MESSAGES))
@@ -625,8 +633,7 @@ static INT_PTR CALLBACK startup_dlgproc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
     switch (uMsg) {
         case WM_INITDIALOG: {
             HWND hwnd;
-            RECT r, rdlg, chrome, rtab, rcancel, rstart;
-            int xoffset = 0, yoffset = 0;
+            RECT r;
 
             {
                 TCITEM tab;

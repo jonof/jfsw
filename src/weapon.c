@@ -11558,7 +11558,6 @@ SpawnGrenadeSecondaryExp(SHORT Weapon, short ang)
     int vel;
 
 
-    ASSERT(u);
     explosion = SpawnSprite(STAT_MISSILE, GRENADE_EXP, s_GrenadeSmallExp, sp->sectnum,
         sp->x, sp->y, sp->z, sp->ang, 1024);
     exp = &sprite[explosion];

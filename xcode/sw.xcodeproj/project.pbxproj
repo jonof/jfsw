@@ -41,6 +41,7 @@
 		AB21411C101D5B8F00E844AE /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21411B101D5B8F00E844AE /* AudioUnit.framework */; };
 		AB4909DC1748658600C7A068 /* GameListSource.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4909DB1748658600C7A068 /* GameListSource.m */; };
 		AB76E52E29509C4400B11DAF /* osdfuncs.c in Sources */ = {isa = PBXBuildFile; fileRef = AB76E52629509C4400B11DAF /* osdfuncs.c */; };
+		AB80742E2967F70800CA6B33 /* osdcmds.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8074262967F70800CA6B33 /* osdcmds.c */; };
 		AB8F60750C658D3400202E11 /* grpscan.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8F60740C658D3400202E11 /* grpscan.c */; };
 		AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
 		AB8F60D80C65924000202E11 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
@@ -367,6 +368,7 @@
 		AB4909DB1748658600C7A068 /* GameListSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameListSource.m; sourceTree = "<group>"; };
 		AB76E52629509C4400B11DAF /* osdfuncs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = osdfuncs.c; sourceTree = "<group>"; };
 		AB76E53B2952E3E100B11DAF /* osdfuncs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = osdfuncs.h; sourceTree = "<group>"; };
+		AB8074262967F70800CA6B33 /* osdcmds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = osdcmds.c; sourceTree = "<group>"; };
 		AB81F9242590B62800306B8E /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		AB8F60740C658D3400202E11 /* grpscan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grpscan.c; sourceTree = "<group>"; };
 		AB8F60CA0C6591F300202E11 /* Build Editor for JFShadowWarrior.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Build Editor for JFShadowWarrior.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -666,6 +668,7 @@
 				AB21437A101EF04C00E844AE /* net.h */,
 				ABB4AB930C64C4D000F28920 /* ninja.c */,
 				AB21437B101EF04D00E844AE /* ninja.h */,
+				AB8074262967F70800CA6B33 /* osdcmds.c */,
 				AB76E52629509C4400B11DAF /* osdfuncs.c */,
 				AB76E53B2952E3E100B11DAF /* osdfuncs.h */,
 				AB21437C101EF04D00E844AE /* pal.h */,
@@ -1058,6 +1061,7 @@
 				ABB4AC140C64C6FE00F28920 /* menus.c in Sources */,
 				ABB4AC150C64C6FE00F28920 /* miscactr.c in Sources */,
 				ABB4AC160C64C6FE00F28920 /* morph.c in Sources */,
+				AB80742E2967F70800CA6B33 /* osdcmds.c in Sources */,
 				ABB4AC170C64C6FE00F28920 /* net.c in Sources */,
 				ABB4AC180C64C6FE00F28920 /* ninja.c in Sources */,
 				ABB4AC190C64C6FE00F28920 /* panel.c in Sources */,

@@ -286,6 +286,8 @@ BYTE DebugPrintColor = 255;
 
 int krandcount;
 
+extern void SetupOSDCommands(void); // osdcmds.c
+
 /// L O C A L   P R O T O T Y P E S /////////////////////////////////////////////////////////
 void BOT_DeleteAllBots( void );
 VOID BotPlayerInsert(PLAYERp pp);
@@ -295,8 +297,6 @@ VOID MenuLevel(VOID);
 VOID StatScreen(PLAYERp mpp);
 VOID InitRunLevel(VOID);
 VOID RunLevel(VOID);
-static int osdcmd_restartvid(const osdfuncparm_t *parm);
-static int osdcmd_vidmode(const osdfuncparm_t *parm);
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static FILE *debug_fout = NULL;
@@ -2311,7 +2311,7 @@ LoadingLevelScreen(char *level_name)
     MNU_DrawString(TEXT_TEST_COL(w), 170, ds,1,16);
 
     if (UserMapName[0])
-        sprintf(ds,"%s",UserMapName);
+        snprintf(ds, sizeof(ds), "%s",UserMapName);
     else
         sprintf(ds,"%s",LevelInfo[Level].Description);
 
@@ -3476,9 +3476,7 @@ int app_main(int argc, char const * const argv[])
         NULL, NULL, NULL, NULL, NULL,
         osdfunc_clearbackground, NULL, osdfunc_onshowosd
     );
-
-    OSD_RegisterFunction("restartvid", "restartvid: reinitialise the video mode", osdcmd_restartvid);
-    OSD_RegisterFunction("vidmode", "vidmode [xdim ydim] [bpp] [fullscreen]: change the video mode", osdcmd_vidmode);
+    SetupOSDCommands();
 
     wm_setapptitle("JFShadowWarrior");
     buildprintf("\nJFShadowWarrior\n"
@@ -5513,7 +5511,7 @@ void drawoverheadmap(int cposx, int cposy, int czoom, short cang)
         }
 
     if (UserMapName[0])
-        sprintf(ds,"%s",UserMapName);
+        snprintf(ds, sizeof(ds), "%s",UserMapName);
     else
         sprintf(ds,"%s",LevelInfo[Level].Description);
 
@@ -5962,64 +5960,6 @@ NextScreenPeek(void)
             }
         }
     while (screenpeek != startpeek);
-    }
-
-static int
-osdcmd_restartvid(const osdfuncparm_t *parm)
-    {
-    extern BOOL RestartVideo;
-    extern VMODE NewVideoMode;
-
-    (void)parm;
-
-    RestartVideo = TRUE;
-    NewVideoMode.x = xdim;
-    NewVideoMode.y = ydim;
-    NewVideoMode.bpp = bpp;
-    NewVideoMode.fs = fullscreen;
-
-    return OSDCMD_OK;
-    }
-
-static int
-osdcmd_vidmode(const osdfuncparm_t *parm)
-    {
-    extern BOOL RestartVideo;
-    extern VMODE NewVideoMode;
-
-    int newx = xdim, newy = ydim, newbpp = bpp, newfullscreen = fullscreen;
-
-    if (parm->numparms < 1 || parm->numparms > 4) return OSDCMD_SHOWHELP;
-
-    switch (parm->numparms)
-        {
-        case 1:   // bpp switch
-            newbpp = atoi(parm->parms[0]);
-            break;
-        case 2: // res switch
-            newx = atoi(parm->parms[0]);
-            newy = atoi(parm->parms[1]);
-            break;
-        case 3:   // res & bpp switch
-        case 4:
-            newx = atoi(parm->parms[0]);
-            newy = atoi(parm->parms[1]);
-            newbpp = atoi(parm->parms[2]);
-            if (parm->numparms == 4)
-                newfullscreen = (atoi(parm->parms[3]) != 0);
-            break;
-        }
-
-    if (checkvideomode(&newx, &newy, newbpp, newfullscreen, 0) >= 0)
-        {
-        RestartVideo = TRUE;
-        NewVideoMode.x = newx;
-        NewVideoMode.y = newy;
-        NewVideoMode.bpp = newbpp;
-        NewVideoMode.fs = newfullscreen;
-        }
-
-    return OSDCMD_OK;
     }
 
 #include "saveable.h"

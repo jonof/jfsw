@@ -833,6 +833,7 @@ struct STATEstruct
 typedef enum {WATER_FOOT, BLOOD_FOOT} FOOT_TYPE;
 
 extern FOOT_TYPE FootMode;
+extern BOOL QuitFlag;                                // Declared in game.c
 extern BOOL InGame;                                  // Declared in game.c
 extern BOOL Global_PLock;                            // Game.c
 int QueueFloorBlood(short hitsprite);                // Weapon.c
@@ -2222,6 +2223,7 @@ extern BOOL CommEnabled;
 extern char CommPlayerName[];
 extern short Level;
 extern short Episode;
+extern char UserMapName[80];
 
 extern int LastFrameTics;
 extern char ds[];

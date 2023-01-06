@@ -114,6 +114,7 @@ GAMEOBJS= \
 	$(SRC)/morph.$o \
 	$(SRC)/net.$o \
 	$(SRC)/ninja.$o \
+	$(SRC)/osdcmds.$o \
 	$(SRC)/osdfuncs.$o \
 	$(SRC)/panel.$o \
 	$(SRC)/player.$o \

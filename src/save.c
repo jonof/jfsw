@@ -1138,7 +1138,12 @@ int LoadGame(short save_num)
     BOOL FxBak = gs.FxOn;
     short SndVolBak = gs.SoundVolume;
     short MusVolBak = gs.MusicVolume;
+    BOOL FlipStereoBak = gs.FlipStereo;
+    char OggTrackBak[MAXOGGTRACKLENGTH];
+    strcpy(OggTrackBak, gs.OggTrackName);
     MREAD(&gs,sizeof(gs),1,fil);
+    gs.FlipStereo = FlipStereoBak;
+    strcpy(gs.OggTrackName, OggTrackBak);
     gs.MusicOn = MusicBak;
     gs.FxOn = FxBak;
     gs.Ambient = AmbBak;

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -23,7 +23,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = ABD2DF6D21AA3F3000BDB555 /* Build configuration list for PBXAggregateTarget "Version stamp" */;
 			buildPhases = (
-				ABD2DF7221AA3F4800BDB555 /* Generate version-auto.c */,
+				ABD2DF7221AA3F4800BDB555 /* Generate version.c */,
 			);
 			dependencies = (
 			);
@@ -41,6 +41,8 @@
 		AB21411C101D5B8F00E844AE /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21411B101D5B8F00E844AE /* AudioUnit.framework */; };
 		AB4909DC1748658600C7A068 /* GameListSource.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4909DB1748658600C7A068 /* GameListSource.m */; };
 		AB76E52E29509C4400B11DAF /* osdfuncs.c in Sources */ = {isa = PBXBuildFile; fileRef = AB76E52629509C4400B11DAF /* osdfuncs.c */; };
+		AB7EA5F22B76591100F0EEA3 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7EA5F12B76591100F0EEA3 /* version.c */; };
+		AB7EA5F32B76591100F0EEA3 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7EA5F12B76591100F0EEA3 /* version.c */; };
 		AB80742E2967F70800CA6B33 /* osdcmds.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8074262967F70800CA6B33 /* osdcmds.c */; };
 		AB8F60750C658D3400202E11 /* grpscan.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8F60740C658D3400202E11 /* grpscan.c */; };
 		AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
@@ -134,8 +136,6 @@
 		ABB4AC3B0C64C6FE00F28920 /* zombie.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB60C64C4D000F28920 /* zombie.c */; };
 		ABB4AC3E0C64C72C00F28920 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
 		ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
-		ABD2DF7421AA3F8D00BDB555 /* version-auto.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD2DF7321AA3F8D00BDB555 /* version-auto.c */; };
-		ABD2DF7521AA3F8D00BDB555 /* version-auto.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD2DF7321AA3F8D00BDB555 /* version-auto.c */; };
 		ABD91FA417375E9300394607 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD91FA317375E9300394607 /* AudioToolbox.framework */; };
 		ABD9E96120720C0800F1B9B3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABD9E95A20720C0800F1B9B3 /* Images.xcassets */; };
 		ABD9E96220720C0800F1B9B3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABD9E95A20720C0800F1B9B3 /* Images.xcassets */; };
@@ -368,6 +368,7 @@
 		AB4909DB1748658600C7A068 /* GameListSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameListSource.m; sourceTree = "<group>"; };
 		AB76E52629509C4400B11DAF /* osdfuncs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = osdfuncs.c; sourceTree = "<group>"; };
 		AB76E53B2952E3E100B11DAF /* osdfuncs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = osdfuncs.h; sourceTree = "<group>"; };
+		AB7EA5F12B76591100F0EEA3 /* version.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = version.c; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB8074262967F70800CA6B33 /* osdcmds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = osdcmds.c; sourceTree = "<group>"; };
 		AB81F9242590B62800306B8E /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		AB8F60740C658D3400202E11 /* grpscan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grpscan.c; sourceTree = "<group>"; };
@@ -458,13 +459,12 @@
 		ABB4ABE60C64C6F100F28920 /* mouse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mouse.c; sourceTree = "<group>"; };
 		ABB4ABE70C64C6F100F28920 /* scriplib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scriplib.c; sourceTree = "<group>"; };
 		ABB4ABE80C64C6F100F28920 /* util_lib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util_lib.c; sourceTree = "<group>"; };
-		ABB4AC3D0C64C72C00F28920 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = /Users/jonof/Library/Frameworks/SDL2.framework; sourceTree = "<absolute>"; };
+		ABB4AC3D0C64C72C00F28920 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../jfbuild/xcode/frameworks/SDL2.framework; sourceTree = SOURCE_ROOT; };
 		ABB4AC3F0C64C73A00F28920 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		ABBD3FAF10205ACF00F32F37 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
 		ABCA1DAC259083DE0093F3F5 /* JFShadowWarrior.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JFShadowWarrior.entitlements; sourceTree = "<group>"; };
 		ABCA1DC1259084080093F3F5 /* Build Editor for JFShadowWarrior.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Build Editor for JFShadowWarrior.entitlements"; sourceTree = "<group>"; };
 		ABD2DF2A21A58A0600BDB555 /* gamecontrollerdb.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = gamecontrollerdb.txt; path = ../rsrc/gamecontrollerdb.txt; sourceTree = "<group>"; };
-		ABD2DF7321AA3F8D00BDB555 /* version-auto.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "version-auto.c"; sourceTree = "<group>"; };
 		ABD91FA317375E9300394607 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		ABD9E95620720AC200F1B9B3 /* Build Editor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Build Editor-Info.plist"; sourceTree = "<group>"; };
 		ABD9E95A20720C0800F1B9B3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -542,6 +542,7 @@
 				ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */,
 				ABB4AB580C64C38C00F28920 /* Editor */,
 				ABB4AB590C64C39400F28920 /* Game */,
+				AB7EA5F12B76591100F0EEA3 /* version.c */,
 				AB81F9242590B62800306B8E /* Common.xcconfig */,
 				ABB4ABCE0C64C52900F28920 /* Products */,
 				ABB4AC410C64C74600F28920 /* Linked Frameworks */,
@@ -720,7 +721,6 @@
 				AB214390101EF14900E844AE /* track.h */,
 				AB214391101EF14900E844AE /* trigger.h */,
 				ABB4ABB00C64C4D000F28920 /* vator.c */,
-				ABD2DF7321AA3F8D00BDB555 /* version-auto.c */,
 				ABB4ABB10C64C4D000F28920 /* vis.c */,
 				AB214392101EF14900E844AE /* vis.h */,
 				ABB4ABB20C64C4D000F28920 /* wallmove.c */,
@@ -988,8 +988,9 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		ABD2DF7221AA3F4800BDB555 /* Generate version-auto.c */ = {
+		ABD2DF7221AA3F4800BDB555 /* Generate version.c */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -997,15 +998,16 @@
 			);
 			inputPaths = (
 			);
-			name = "Generate version-auto.c";
+			name = "Generate version.c";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(SOURCE_ROOT)/../src/version-auto.c",
+				"$(BUILT_PRODUCTS_DIR)/version.c",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd $PROJECT_DIR/..\ngitdescribe=$(git describe --always 2>/dev/null || echo git error)\n\ncat >src/version-auto.c <<EOT\nconst char *game_version = \"$gitdescribe\";\nconst char *game_date = __DATE__;\nconst char *game_time = __TIME__;\nEOT\n";
+			shellScript = "cd $PROJECT_DIR/..\ngitdescribe=$(git describe --always 2>/dev/null || echo git error)\n\ncat >$BUILT_PRODUCTS_DIR/version.c <<EOT\nconst char *game_version = \"$gitdescribe\";\nconst char *game_date = __DATE__;\nconst char *game_time = __TIME__;\nEOT\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1018,8 +1020,8 @@
 				AB8F60DA0C65924800202E11 /* brooms.c in Sources */,
 				AB8F60DB0C65924900202E11 /* jbhlp.c in Sources */,
 				AB8F60DC0C65924900202E11 /* jnstub.c in Sources */,
+				AB7EA5F32B76591100F0EEA3 /* version.c in Sources */,
 				AB8F61B50C65932600202E11 /* keyboard.c in Sources */,
-				ABD2DF7521AA3F8D00BDB555 /* version-auto.c in Sources */,
 				AB8F61B70C65936000202E11 /* colormap.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1072,7 +1074,6 @@
 				ABB4AC1E0C64C6FE00F28920 /* ripper2.c in Sources */,
 				ABB4AC1F0C64C6FE00F28920 /* rooms.c in Sources */,
 				ABB4AC200C64C6FE00F28920 /* rotator.c in Sources */,
-				ABD2DF7421AA3F8D00BDB555 /* version-auto.c in Sources */,
 				ABB4AC210C64C6FE00F28920 /* rts.c in Sources */,
 				ABB4AC220C64C6FE00F28920 /* save.c in Sources */,
 				ABB4AC230C64C6FE00F28920 /* saveable.c in Sources */,
@@ -1101,6 +1102,7 @@
 				ABB4AC3A0C64C6FE00F28920 /* zilla.c in Sources */,
 				ABB4AC3B0C64C6FE00F28920 /* zombie.c in Sources */,
 				ABB4ABE90C64C6F100F28920 /* animlib.c in Sources */,
+				AB7EA5F22B76591100F0EEA3 /* version.c in Sources */,
 				ABB4ABEA0C64C6F100F28920 /* control.c in Sources */,
 				ABB4ABEB0C64C6F100F28920 /* file_lib.c in Sources */,
 				ABB4ABEC0C64C6F100F28920 /* keyboard.c in Sources */,
@@ -1172,7 +1174,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Build Editor-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(LD_RUNPATH_SEARCH_PATHS_$(IS_MACCATALYST)) @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = au.id.jonof.jfsw.build;
 				PRODUCT_NAME = "Build Editor for JFShadowWarrior";
@@ -1188,7 +1190,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Build Editor-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(LD_RUNPATH_SEARCH_PATHS_$(IS_MACCATALYST)) @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = au.id.jonof.jfsw.build;
 				PRODUCT_NAME = "Build Editor for JFShadowWarrior";
@@ -1206,7 +1208,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"../jfaudiolib/third-party",
-					"$(HOME)/Library/Frameworks",
+					../jfbuild/xcode/frameworks,
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
@@ -1242,7 +1244,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"../jfaudiolib/third-party",
-					"$(HOME)/Library/Frameworks",
+					../jfbuild/xcode/frameworks,
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;

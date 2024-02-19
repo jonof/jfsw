@@ -586,6 +586,7 @@ int32 CONFIG_ReadSetup( void )
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenHeight",&ScreenHeight);
       SCRIPT_GetNumber( scripthandle, "Screen Setup", "ScreenBPP", &ScreenBPP);
       if (ScreenBPP < 8) ScreenBPP = 8;
+      SCRIPT_GetNumber( scripthandle, "Screen Setup", "UseGammaBrightness", &usegammabrightness);
 
 #ifdef RENDERTYPEWIN
       int32 tmpmaxrefreshfreq;
@@ -663,6 +664,7 @@ void CONFIG_WriteSetup( void )
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenHeight",ScreenHeight,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenMode",ScreenMode,FALSE,FALSE);
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "ScreenBPP",ScreenBPP,FALSE,FALSE);
+   SCRIPT_PutNumber( scripthandle, "Screen Setup", "UseGammaBrightness",usegammabrightness,FALSE,FALSE);
 
 #ifdef RENDERTYPEWIN
    SCRIPT_PutNumber( scripthandle, "Screen Setup", "MaxRefreshFreq",win_getmaxrefreshfreq(),FALSE,FALSE);

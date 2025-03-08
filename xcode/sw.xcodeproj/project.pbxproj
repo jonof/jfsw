@@ -240,6 +240,13 @@
 			remoteGlobalIDString = AB3FE44A0C04336F00D5DBDC;
 			remoteInfo = editorsupp;
 		};
+		AB44D6B42D7BE2C10024C5E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB392FF52B9427BA002B0F5D;
+			remoteInfo = klist;
+		};
 		AB8F61C60C6593F900202E11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB4AB270C64C36100F28920 /* Project object */;
@@ -521,6 +528,7 @@
 				ABD2DF3221A58A0600BDB555 /* bin2c */,
 				AB0FFAD4172B54E100400B2B /* kextract */,
 				AB0FFAD6172B54E100400B2B /* kgroup */,
+				AB44D6B52D7BE2C10024C5E7 /* klist */,
 				ABB688471D645C2500CCC1C4 /* transpal */,
 			);
 			name = Products;
@@ -948,6 +956,13 @@
 			fileType = "compiled.mach-o.executable";
 			path = test;
 			remoteRef = AB0FFAE1172B54FE00400B2B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AB44D6B52D7BE2C10024C5E7 /* klist */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = klist;
+			remoteRef = AB44D6B42D7BE2C10024C5E7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ABB688471D645C2500CCC1C4 /* transpal */ = {

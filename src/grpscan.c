@@ -35,6 +35,8 @@ enum {
     GRPFILE_GAME_REG = 0,
     GRPFILE_GAME_SHARE = 1,
     GRPFILE_GAME_WD = 2,
+    GRPFILE_GAME_TD = 3,
+    GRPFILE_ADDON = 0x10000, // Requires a registered GRP too.
 };
 
 struct grpfile grpfiles[] = {
@@ -43,6 +45,7 @@ struct grpfile grpfiles[] = {
     { "Mac Demo Version",           0x4227F535, 26056769, GRPFILE_GAME_SHARE, "swmacshare.grp", NULL, NULL },
     { "Mac Registered Version",     0xD54A99C9, 47536148, GRPFILE_GAME_REG, "swmac.grp", NULL, NULL },
     { "Wanton Destruction (Addon)", 0xA9AAA7B7, 48698128, GRPFILE_GAME_WD, "wt.grp", NULL, NULL },
+    { "Twin Dragon (Addon, v1.2)",  0xA1A65BE8, 12499012, GRPFILE_GAME_TD | GRPFILE_ADDON, "tdragon12.grp", NULL, NULL },
     { NULL, 0, 0, 0, NULL, NULL, NULL },
 };
 static struct grpfile *foundgrps = NULL;

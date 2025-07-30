@@ -3207,17 +3207,16 @@ VOID DosScreen(VOID)
 
 VOID AlphaMessage(VOID)
     {
-    if (SW_SHAREWARE) {
+    if (SW_SHAREWARE)
         buildputs("SHADOW WARRIOR(tm) (Shareware Version)\n");
-    } else {
+    else
+    if (GameVariant == GRPFILE_GAME_WD)
+        buildputs("\"Wanton Destruction\" developed by Sunstorm Interactive (1997)\n");
+    else
+    if (GameVariant == GRPFILE_GAME_TD)
+        buildputs("\"Twin Dragon\" developed by Level Infinity and Wylde Productions (1998)\n");
+    else
         buildputs("SHADOW WARRIOR(tm)\n");
-    }
-    buildputs("Copyright (c) 1997 3D Realms Entertainment\n");
-    }
-
-VOID AlphaMessageWanton(VOID)
-    {
-    buildputs("\"Wanton Destruction\" developed by Sunstorm Interactive (1997)\n");
     buildputs("Copyright (c) 1997 3D Realms Entertainment\n");
     }
 
@@ -3608,11 +3607,29 @@ int app_main(int argc, char const * const argv[])
     }
 #endif
 
-    if (gamegrp) {
+    if (gamegrp)
+        {
+        if (gamegrp->game & GRPFILE_ADDON)
+            {
+            struct grpfile const *fg = NULL;
+            for (fg = GroupsFound(); fg; fg = fg->next)
+                if (fg->game == GRPFILE_GAME_REG)
+                    {
+                    buildprintf("GRP file: %s\n", fg->name);
+                    initgroupfile(fg->name);
+                    break;
+                    }
+            if (!fg)
+                {
+                wm_msgbox(NULL, "Registered game data was not found and is required for addons.");
+                swexit(0);
+                }
+            }
+
         Bstrcpy(grpfile, gamegrp->name);
         GameEditionName = gamegrp->ref->name;  // Points to static data, so won't be lost in FreeGroups().
-        GameVariant = gamegrp->game;
-    }
+        GameVariant = gamegrp->game & ~GRPFILE_ADDON;
+        }
 
     buildprintf("GRP file: %s\n", grpfile);
     initgroupfile(grpfile);
@@ -3625,16 +3642,16 @@ int app_main(int argc, char const * const argv[])
     }
 
     buildputs("\n");
-    if (GameVariant == GRPFILE_GAME_WD) {
+    if (GameVariant == GRPFILE_GAME_WD)
+        {
         memcpy(LevelInfo, LevelInfoWanton, sizeof(LevelInfo));
         memcpy(EpisodeNames, EpisodeNamesWanton, sizeof(EpisodeNames));
         memcpy(EpisodeSubtitles, EpisodeSubtitlesWanton, sizeof(EpisodeSubtitles));
-        AlphaMessageWanton();
-    } else {
-        if (SW_SHAREWARE)
-            GameVersion++;
-        AlphaMessage();
-    }
+        }
+    else
+    if (SW_SHAREWARE)
+        GameVersion++;
+    AlphaMessage();
     buildputs("\n");
 
     FreeGroups();

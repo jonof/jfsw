@@ -45,6 +45,8 @@ enum {
     GRPFILE_GAME_REG = 0,
     GRPFILE_GAME_SHARE = 1,
     GRPFILE_GAME_WD = 2,
+    GRPFILE_GAME_TD = 3,
+    GRPFILE_ADDON = 0x10000, // Requires a registered GRP too.
 };
 
 extern BOOL UseDarts;

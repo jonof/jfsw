@@ -3270,7 +3270,15 @@ MNU_JoystickCheck(MenuItem *item)
 static BOOL
 MNU_TryMusicInit(void)
     {
-    if (PlaySong(0, RedBookSong[Level], TRUE, FALSE))
+    extern char LevelSong[];
+    extern short SongLevelNum;
+    BOOL ret;
+
+    if (!SongLevelNum)
+        ret = PlaySong(LevelInfo[0].SongName, RedBookSong[0], TRUE, FALSE);
+    else
+        ret = PlaySong(LevelSong, RedBookSong[Level], TRUE, FALSE);
+    if (ret)
         {
         if (currentmenu->cursor == 0)
             MNU_MusicCheck(&currentmenu->items[currentmenu->cursor+1]);
@@ -3378,6 +3386,7 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
     int last_value;
     short shade = MENU_SHADE_DEFAULT;
     extern char LevelSong[];
+    extern short SongLevelNum;
     char *extra_text = NULL;
     int button_x,zero=0;
     int handle=0;
@@ -3466,12 +3475,17 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
                 if (gs.MusicOn)
                     {
                     bak = DemoMode;
-                    PlaySong(LevelSong, RedBookSong[Level], TRUE, TRUE);
+                    DemoMode = FALSE;
+                    if (!SongLevelNum)
+                        PlaySong(LevelInfo[0].SongName, RedBookSong[0], TRUE, TRUE);
+                    else
+                        PlaySong(LevelSong, RedBookSong[Level], TRUE, TRUE);
                     DemoMode = bak;
                     }
                 else
                     {
                     bak = DemoMode;
+                    DemoMode = FALSE;
                     StopSong();
                     DemoMode = bak;
 

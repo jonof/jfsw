@@ -1247,6 +1247,7 @@ InitLevel(VOID)
     if (DemoMode)
         {
         Level = 0;
+        SongLevelNum = 0;
         NewGame = TRUE;
         DemoInitOnce = FALSE;
         strcpy(DemoFileName, DemoName[DemoNumber]);
@@ -1311,6 +1312,7 @@ InitLevel(VOID)
             strcpy(LevelName, LevelInfo[Level].LevelName);
             strcpy(LevelSong, LevelInfo[Level].SongName);
             }
+            SongLevelNum = Level;
         }
 
     PlayingLevel = Level;
@@ -1420,8 +1422,6 @@ InitLevel(VOID)
     PostSetupSectorObject();
     SetupMirrorTiles();
     initlava();
-
-    SongLevelNum = Level;
 
     if (DemoMode)
         {

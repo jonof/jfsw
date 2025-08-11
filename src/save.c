@@ -69,6 +69,7 @@ extern int lastUpdate;
 extern BYTE RedBookSong[40];
 extern char UserMapName[80];
 extern char LevelSong[16];
+extern short SongLevelNum;
 extern char SaveGameDescr[10][80];
 extern int PlayClock;
 extern short TotalKillable;
@@ -1258,6 +1259,7 @@ int LoadGame(short save_num)
     PlayingLevel = Level;
 
     PlaySong(LevelSong, RedBookSong[Level], TRUE, TRUE);
+    SongLevelNum = Level;
     if (gs.Ambient)
         StartAmbientSound();
     FX_SetVolume(gs.SoundVolume);

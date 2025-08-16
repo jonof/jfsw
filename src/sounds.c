@@ -461,10 +461,12 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
                 if (LoadSong(oggtrack)) {
                     if (loop)
                         SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
-                                                  255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
+                                                  gs.MusicVolume, gs.MusicVolume, gs.MusicVolume,
+                                                  FX_MUSIC_PRIORITY, MUSIC_ID);
                     else
                         SongVoice = FX_PlayAuto(SongPtr, SongLength, 0,
-                                                  255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
+                                                  gs.MusicVolume, gs.MusicVolume, gs.MusicVolume,
+                                                  FX_MUSIC_PRIORITY, MUSIC_ID);
                     if (SongVoice >= FX_Ok) {
                         SongType = SongTypeVoc;
                         SongTrack = cdaudio_track;
@@ -568,7 +570,23 @@ PauseSong(BOOL pauseon)
 void
 SetSongVolume(int volume)
 {
-    (void)volume;
+    if (!gs.MusicOn)
+        return;
+
+    if (SongType == SongTypeVoc && SongVoice >= 0)
+        {
+        FX_SetPan(SongVoice, volume, volume, volume);
+        }
+    else
+    if (SongType == SongTypeMIDI)
+        {
+        MUSIC_SetVolume(volume);
+        }
+    else
+    if (SongType == SongTypeCDA)
+        {
+        CD_SetVolume(volume);
+        }
 }
 
 BOOL

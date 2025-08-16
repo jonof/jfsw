@@ -3740,7 +3740,7 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
 
         slidersettings[sldr_musicvolume] = offset;
         gs.MusicVolume = MUSIC_MIN + (offset * VOL_MUL);
-		SetSongVolume(gs.MusicVolume);
+        SetSongVolume(gs.MusicVolume);
         break;
 
     case sldr_scrsize:

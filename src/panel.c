@@ -2811,8 +2811,6 @@ pUziRetract(PANEL_SPRITEp psp)
                 // primarily for beginning of reload sequence where seconary
                 // is taken off of the screen.  Lets the primary know that
                 // he is alone.
-                if (psp->sibling && psp->sibling->sibling == psp)
-                    psp->sibling->sibling = NULL;
                 }
             else
                 {
@@ -2822,6 +2820,8 @@ pUziRetract(PANEL_SPRITEp psp)
                 }
             }
 
+        if (psp->sibling && psp->sibling->sibling == psp)
+            psp->sibling->sibling = NULL;
 
         pKillSprite(psp);
         }

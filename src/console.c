@@ -309,7 +309,7 @@ void CON_AddHistory(const char *commandstr)
 {
     int i;
 
-    for(i=MAX_HISTORY-1;i>=0;i--)
+    for(i=MAX_HISTORY-1;i>0;i--)
     {
         strcpy(command_history[i],command_history[i-1]);
     }

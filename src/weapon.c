@@ -2639,11 +2639,11 @@ STATE s_PaperShrapC[] =
 BOOL MissileHitMatch(short Weapon, short WeaponNum, short hitsprite)
     {
     SPRITEp hsp = &sprite[hitsprite];
-    USERp wu = User[Weapon];
 
     if (WeaponNum <= -1)
         {
         ASSERT(Weapon >= 0);
+        USERp wu = User[Weapon];
         WeaponNum = wu->WeaponNum;
 
         // can be hit by SO only
@@ -5755,10 +5755,6 @@ PlayerCheckDeath(PLAYERp pp, short Weapon)
     {
     SPRITEp sp = pp->SpriteP;
     USERp u = User[pp->PlayerSprite];
-    SPRITEp wp = &sprite[Weapon];
-    USERp   wu = User[Weapon];
-    int SpawnZombie(PLAYERp pp, short);
-
 
     // Store off what player was struck by
     pp->HitBy = Weapon;
@@ -5782,6 +5778,9 @@ PlayerCheckDeath(PLAYERp pp, short Weapon)
             DoPlayerBeginDie(pp);
             return(TRUE);
             }
+
+        SPRITEp wp = &sprite[Weapon];
+        USERp   wu = User[Weapon];
 
         if (Weapon > -1 && (wu->ID == RIPPER_RUN_R0 || wu->ID == RIPPER2_RUN_R0))
             pp->DeathType = PLAYER_DEATH_RIPPER;
@@ -10800,7 +10799,7 @@ SpawnFireballFlames(SHORT SpriteNum, SHORT enemy)
     SPRITEp sp = &sprite[SpriteNum];
     USERp u = User[SpriteNum];
     SPRITEp ep = &sprite[enemy];
-    USERp eu = User[enemy];
+    USERp eu = NULL;
     SPRITEp np;
     USERp nu;
     short new;
@@ -10810,6 +10809,8 @@ SpawnFireballFlames(SHORT SpriteNum, SHORT enemy)
 
     if (enemy >= 0)
         {
+        eu = User[enemy];
+
         // test for already burned
         if (TEST(ep->extra, SPRX_BURNABLE) && ep->shade > 40)
             return(-1);
@@ -20469,7 +20470,6 @@ void QueueReset(void)
 
 BOOL TestDontStick(short SpriteNum, short hitsect, short hitwall, int hitz)
     {
-    USERp u = User[SpriteNum];
     WALLp wp;
 
     (void)hitsect; (void)hitz;
@@ -20477,6 +20477,7 @@ BOOL TestDontStick(short SpriteNum, short hitsect, short hitwall, int hitz)
     if (hitwall < 0)
         {
         ASSERT(SpriteNum>=0);
+        USERp u = User[SpriteNum];
         hitwall = NORM_WALL(u->ret);
         }
 

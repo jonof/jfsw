@@ -2545,7 +2545,9 @@ MNU_InputSmallString(char *name, short pix_width)
 
         if (ch == ascii_backspace)
             {
-            name[strlen(name) - 1] = '\0';
+            size_t l = strlen(name);
+            if (l > 0)
+                name[l-1] = '\0';
             continue;
             }
         else

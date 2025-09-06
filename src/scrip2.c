@@ -180,15 +180,8 @@ void GetToken (BOOL crossline)
 // skip space
 //
 skipspace:
-    while (*script_p <= 32)
+    while (script_p < scriptend_p && *script_p <= 32)
     {
-        if (script_p >= scriptend_p)
-        {
-            if (!crossline)
-                Error ("Line %i is incomplete\n",scriptline);
-            endofscript = TRUE;
-            return;
-        }
         if (*script_p++ == '\n')
         {
             if (!crossline)

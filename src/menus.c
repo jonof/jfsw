@@ -90,6 +90,8 @@ BOOL MenuInputMode = FALSE;
 SHORT MenuTextShade = 0;
 BOOL passwordvalid = FALSE;
 
+#define REPEAT_DELAY 10
+
 BOOL MNU_HurtTeammateCheck(MenuItem *item);
 BOOL MNU_TeamPlayChange(void);
 
@@ -1678,7 +1680,7 @@ MNU_OrderCustom(UserCall call, MenuItem * item)
             }
         else
             {
-            if (labs(totalclock - limitmove) > 7)
+            if (labs(totalclock - limitmove) > REPEAT_DELAY)
                 {
                 order_input.button0 = order_input_buffered.button0;
                 order_input.button1 = order_input_buffered.button1;
@@ -4682,7 +4684,7 @@ void MNU_DoMenu( CTLType type, PLAYERp pp )
 
     (void)type; (void)pp;
 
-    resetitem = TRUE;
+    resetitem = FALSE;
 
     if (cust_callback != NULL)
         {
@@ -4722,8 +4724,8 @@ void MNU_DoMenu( CTLType type, PLAYERp pp )
                 {
                 select_held = TRUE;
                 }
-                else
-                if(totalclock - limitmove > 7)
+            else
+            if(totalclock - limitmove > REPEAT_DELAY)
                 {
                 mnu_input.button0 = mnu_input_buffered.button0;
                 mnu_input.button1 = mnu_input_buffered.button1;
@@ -4731,14 +4733,15 @@ void MNU_DoMenu( CTLType type, PLAYERp pp )
                 mnu_input_buffered.button0 = tst_input.button0;
                 mnu_input_buffered.button1 = tst_input.button1;
                 }
-            } else
+            }
+        else
             {
             select_held = FALSE;
             mnu_input_buffered.button0 = tst_input.button0;
             mnu_input_buffered.button1 = tst_input.button1;
             }
 
-        if(totalclock - limitmove > 7 && !select_held)
+        if(totalclock - limitmove > REPEAT_DELAY && !select_held)
             {
             mnu_input.dir = mnu_input_buffered.dir;
 
@@ -4754,13 +4757,11 @@ void MNU_DoMenu( CTLType type, PLAYERp pp )
     if (mnu_input.dir == dir_North)
         {
         MNU_PrevItem();
-        resetitem = TRUE;
         }
     else
     if (mnu_input.dir == dir_South)
         {
         MNU_NextItem();
-        resetitem = TRUE;
         }
     else
     if (mnu_input.button0)
@@ -4777,14 +4778,12 @@ void MNU_DoMenu( CTLType type, PLAYERp pp )
         && currentmenu->items[currentmenu->cursor].type == mt_slider)
         {
         MNU_DoSlider(-1, &currentmenu->items[currentmenu->cursor], FALSE);
-        resetitem = TRUE;
         }
     else
     if (mnu_input.dir == dir_East
         && currentmenu->items[currentmenu->cursor].type == mt_slider)
         {
         MNU_DoSlider(1, &currentmenu->items[currentmenu->cursor], FALSE);
-        resetitem = TRUE;
         }
     else
     if (mnu_input.button1 || BUTTON(gamefunc_Show_Menu))
@@ -4816,7 +4815,6 @@ void MNU_DoMenu( CTLType type, PLAYERp pp )
     if (resetitem)
         {
         KB_ClearKeysDown();
-        ResetKeys();
         }
     }
 

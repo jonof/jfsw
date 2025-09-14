@@ -33,6 +33,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		AB0427C92E766A3D00E2A322 /* gamecontrollerdb.txt in Resources */ = {isa = PBXBuildFile; fileRef = ABD2DF2A21A58A0600BDB555 /* gamecontrollerdb.txt */; };
+		AB0427CA2E766A4000E2A322 /* gamecontrollerdb.txt in Resources */ = {isa = PBXBuildFile; fileRef = ABD2DF2A21A58A0600BDB555 /* gamecontrollerdb.txt */; };
 		AB0FFB26172B56AD00400B2B /* libengine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFACC172B54E100400B2B /* libengine.a */; };
 		AB0FFB27172B56BD00400B2B /* libjfaudiolib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFAE0172B54FE00400B2B /* libjfaudiolib.a */; };
 		AB0FFB2E172B572700400B2B /* libengine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFACC172B54E100400B2B /* libengine.a */; };
@@ -986,6 +988,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB0427CA2E766A4000E2A322 /* gamecontrollerdb.txt in Resources */,
 				ABD9E96220720C0800F1B9B3 /* Images.xcassets in Resources */,
 				AB8F60E00C65926400202E11 /* startwin.editor.nib in Resources */,
 			);
@@ -995,6 +998,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB0427C92E766A3D00E2A322 /* gamecontrollerdb.txt in Resources */,
 				ABB4ABDB0C64C69900F28920 /* startwin.game.nib in Resources */,
 				ABD9E96120720C0800F1B9B3 /* Images.xcassets in Resources */,
 			);

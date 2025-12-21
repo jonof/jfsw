@@ -72,7 +72,6 @@ BOOL ScreenDidCapture = FALSE;
 extern int Follow_posx,Follow_posy;
 short LastCompassAngle = -1;
 BOOL RestartVideo;
-VMODE NewVideoMode;
 
 int ConnectCopySprite(SPRITEp tsp);
 void PreDrawStackedWater(void );
@@ -1541,12 +1540,12 @@ VOID SpriteSortList2D(int tx, int ty)
 
 int COVERsetgamemode(int mode, int xdim, int ydim, int bpp)
     {
-    extern int ScreenHeight, ScreenWidth, ScreenMode, ScreenBPP;
-
+    extern int32 ScreenHeight, ScreenWidth, ScreenMode, ScreenDisplay, ScreenBPP;
 
     ScreenHeight = ydim;
     ScreenWidth  = xdim;
-    ScreenMode   = mode;
+    ScreenMode   = mode&0xff;
+    ScreenDisplay = mode>>8;
     ScreenBPP    = bpp;
 
     return((int)setgamemode(mode,xdim,ydim,bpp));
@@ -1554,12 +1553,15 @@ int COVERsetgamemode(int mode, int xdim, int ydim, int bpp)
 
 void VideoRestart(void)
     {
+    extern int32 ScreenHeight, ScreenWidth, ScreenMode, ScreenDisplay, ScreenBPP;
+
     resetvideomode();
-    if (COVERsetgamemode(NewVideoMode.fs, NewVideoMode.x, NewVideoMode.y, NewVideoMode.bpp))
+    if (COVERsetgamemode(SETGAMEMODE_FULLSCREEN(ScreenDisplay, ScreenMode), ScreenWidth, ScreenHeight, ScreenBPP) < 0)
         buildputs("video restart failed\n");
 
     SetupAspectRatio();
     SetRedrawScreen(Player + myconnectindex);
+    MNU_UpdateVideoSliders();
     }
 
 #if 0

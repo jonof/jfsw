@@ -137,31 +137,6 @@ char playerbuflen = 0;                  // Current length of the string in
                                         // the buffer
 char maxtextlen;                        // max length allowed for current
 
-static VMODE validresolutions[MAXVALIDMODES];
-static int numvalidresolutions = 0, validbpps[8], numvalidbpps = 0;
-
-static void UpdateValidModes(int bpp, int fs)
-{
-	int i, j;
-
-	numvalidresolutions = numvalidbpps = 0;
-	for (i=0; i<validmodecnt; i++) {
-		if ((validmode[i].fs & 1) != fs) continue;
-
-		for (j=0; j<numvalidbpps; j++)
-			if (validbpps[j] == validmode[i].bpp) break;
-		if (j==numvalidbpps) validbpps[numvalidbpps++] = validmode[i].bpp;
-
-		if (validmode[i].bpp != bpp) continue;
-
-		validresolutions[numvalidresolutions].x = validmode[i].xdim;
-		validresolutions[numvalidresolutions].y = validmode[i].ydim;
-        validresolutions[numvalidresolutions].bpp = validmode[i].bpp;
-        validresolutions[numvalidresolutions].fs = validmode[i].fs;
-		numvalidresolutions++;
-	}
-}
-
 
 MenuItem sound_i[] =
 {
@@ -208,7 +183,8 @@ MenuItem screen_i[] =
 #if USE_POLYMOST && USE_OPENGL
     {DefButton(btn_texfilter, 0, "Filtering"), OPT_XS,           OPT_LINE(5), 1, m_defshade, 0, NULL, MNU_TexFilterCheck, NULL},
 #endif
-    {DefButton(btn_videofs, 0, "Fullscreen"), OPT_XS,            OPT_LINE(6), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefSlider(sldr_videodisplay, 0, "Display"), OPT_XS,         OPT_LINE(6), 1, m_defshade, 0, NULL, NULL, NULL},
+    {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(6), 0, m_defshade, 0, NULL, NULL, NULL},
     {DefSlider(sldr_videobpp, 0, "Colour"), OPT_XS,              OPT_LINE(7), 1, m_defshade, 0, NULL, NULL, NULL},
     {DefInert(0, NULL), OPT_XSIDE,                               OPT_LINE(7), 0, m_defshade, 0, NULL, NULL, NULL},
     {DefSlider(sldr_videores, 0, "Resolution"), OPT_XS,          OPT_LINE(8), 1, m_defshade, 0, NULL, NULL, NULL},
@@ -651,6 +627,93 @@ static int MNU_ControlAxisNum(int offset);
 
 
 // F U N C T I O N S ////////////////////////////////////////////////////////////////////////////
+
+static int curvidmode = -1, newvidmode = -1;
+static int numresolutions, numbppmodes, numfsmodes;
+
+static void
+AdjustVideoSettings(int resdir, int bppdir, int fsdir)
+    {
+    int vs, dax, day;
+
+    vs = validmode[newvidmode].validmodeset;
+    if (resdir)
+        {
+        int mode = newvidmode + resdir;
+        if (mode < validmodeset[vs].firstmode)
+            mode = validmodeset[vs].firstmode;
+        else if (mode > validmodeset[vs].lastmode)
+            mode = validmodeset[vs].lastmode;
+        newvidmode = mode;
+        }
+    else if (bppdir)
+        {
+        if (bppdir < 0)
+            vs = validmodeset[vs].prevbppmodeset;
+        else if (bppdir > 0)
+            vs = validmodeset[vs].nextbppmodeset;
+        }
+    else if (fsdir)
+        {
+        if (fsdir < 0)
+            vs = validmodeset[vs].prevfsmodeset;
+        else if (fsdir > 0)
+            vs = validmodeset[vs].nextfsmodeset;
+        }
+    if (vs < 0)
+        vs = validmode[newvidmode].validmodeset;
+
+    dax = validmode[newvidmode].xdim;
+    day = validmode[newvidmode].ydim;
+    newvidmode = checkvideomode(&dax, &day, validmodeset[vs].bpp,
+        SETGAMEMODE_FULLSCREEN(validmodeset[vs].display, validmodeset[vs].fs), 1);
+    if (newvidmode < 0) newvidmode = curvidmode;
+
+    numresolutions = validmodeset[vs].lastmode - validmodeset[vs].firstmode + 1;
+    slidersettings[sldr_videores] = newvidmode - validmodeset[vs].firstmode;
+
+    numbppmodes = 1;
+    slidersettings[sldr_videobpp] = 0;
+    vs = validmode[newvidmode].validmodeset;
+    for (vs = validmodeset[vs].prevbppmodeset; vs >= 0; vs = validmodeset[vs].prevbppmodeset)
+        {
+        numbppmodes++;
+        slidersettings[sldr_videobpp]++;
+        }
+    vs = validmode[newvidmode].validmodeset;
+    for (vs = validmodeset[vs].nextbppmodeset; vs >= 0; vs = validmodeset[vs].nextbppmodeset)
+        numbppmodes++;
+
+    numfsmodes = 1;
+    slidersettings[sldr_videodisplay] = 0;
+    vs = validmode[newvidmode].validmodeset;
+    for (vs = validmodeset[vs].prevfsmodeset; vs >= 0; vs = validmodeset[vs].prevfsmodeset)
+        {
+        numfsmodes++;
+        slidersettings[sldr_videodisplay]++;
+        }
+    vs = validmode[newvidmode].validmodeset;
+    for (vs = validmodeset[vs].nextfsmodeset; vs >= 0; vs = validmodeset[vs].nextfsmodeset)
+        numfsmodes++;
+    }
+
+void MNU_UpdateVideoSliders(void)
+    {
+    int dax, day;
+
+    dax = xdim; day = ydim;
+    curvidmode = newvidmode = checkvideomode(&dax,&day,bpp,fullscreen,1);
+    if (curvidmode < 0)
+        {
+        dax = xdim; day = ydim;
+        curvidmode = newvidmode = checkvideomode(&dax,&day,bpp,fullscreen,0);
+        }
+    if (curvidmode == VIDEOMODE_RELAXED)
+        {
+        curvidmode = newvidmode = 0;
+        }
+    AdjustVideoSettings(0, 0, 0); // Initialises the menu option sliders.
+    }
 
 // CUSTOM ROUTINES ////////////////////////////////////////////////////////////////////////////////
 
@@ -2162,25 +2225,11 @@ MNU_InitMenus(void)
     slidersettings[sldr_panelscale] = gs.PanelScale - 1;
     slidersettings[sldr_bordertile] = gs.BorderTile;
 
-    {
-	int i,newx=xdim,newy=ydim;
-
 #if USE_POLYMOST && USE_OPENGL
     buttonsettings[btn_texfilter] = (gltexfiltermode & 1);
 #endif
-	buttonsettings[btn_videofs] = fullscreen;
 
-	UpdateValidModes(bpp,fullscreen);
-	for (i=0; i<numvalidbpps; i++)
-		if (validbpps[i] == bpp)
-			slidersettings[sldr_videobpp] = i;
-
-	i = checkvideomode(&newx, &newy, bpp, fullscreen, 1);
-	if (i != 0x7fffffff && i >= 0)
-		for (i=0; i<numvalidresolutions; i++)
-			if (validresolutions[i].x == newx && validresolutions[i].y == newy)
-				slidersettings[sldr_videores] = i;
-    }
+    MNU_UpdateVideoSliders(); // Also initialises slidersettings values.
 
     buttonsettings[btn_auto_run] = gs.AutoRun;
     buttonsettings[btn_auto_aim] = gs.AutoAim;
@@ -3353,24 +3402,30 @@ BOOL
 MNU_ApplyVideoModeSettings(void)
     {
     int lastx, lasty, lastbpp, lastfs;
-    int newx, newy, newbpp, newfs;
+
+    if (newvidmode == curvidmode)
+        return FALSE;
 
     lastx = xdim; lasty = ydim; lastbpp = bpp; lastfs = fullscreen;
-    newx   = validresolutions[ slidersettings[sldr_videores] ].x;
-    newy   = validresolutions[ slidersettings[sldr_videores] ].y;
-    newbpp = validbpps[ slidersettings[sldr_videobpp] ];
-    newfs  = buttonsettings[btn_videofs];
 
-    if (lastx == newx && lasty == newy && lastbpp == newbpp && lastfs == newfs) return FALSE;
-
-    if (setgamemode(newfs, newx, newy, newbpp))
-        setgamemode(lastfs, lastx, lasty, lastbpp);
+    if (setgamemode(SETGAMEMODE_FULLSCREEN(validmode[newvidmode].display, validmode[newvidmode].fs),
+            validmode[newvidmode].xdim, validmode[newvidmode].ydim, validmode[newvidmode].bpp) < 0)
+        {
+        if (setgamemode(lastfs, lastx, lasty, lastbpp) < 0)
+            {
+            TerminateGame();
+            printf("Failed restoring old video mode.\n");
+            exit(0);
+            }
+        }
     else
         {
-        ScreenMode = newfs;
-        ScreenWidth = newx;
-        ScreenHeight = newy;
-        ScreenBPP = newbpp;
+        curvidmode = newvidmode;
+        ScreenMode = validmode[newvidmode].fs;
+        ScreenDisplay = validmode[newvidmode].display;
+        ScreenWidth = validmode[newvidmode].xdim;
+        ScreenHeight = validmode[newvidmode].ydim;
+        ScreenBPP = validmode[newvidmode].bpp;
 
         SetupAspectRatio();
         SetRedrawScreen(Player + myconnectindex);
@@ -3556,42 +3611,6 @@ MNU_DoButton(MenuItem_p item, BOOL draw)
                 gs.ParentalLock = state = buttonsettings[item->button];
                 if (!InMenuLevel)
                 JS_ToggleLockouts();
-            }
-            break;
-
-        case btn_videofs:
-            {
-            int lastx, lasty, lastbpp, newoffset, i;
-
-            state = buttonsettings[btn_videofs];
-
-            lastx   = validresolutions[ slidersettings[sldr_videores] ].x;
-            lasty   = validresolutions[ slidersettings[sldr_videores] ].y;
-            lastbpp = validbpps[ slidersettings[sldr_videobpp] ];
-            UpdateValidModes(lastbpp, buttonsettings[btn_videofs]);
-
-            // check if the last bpp is still a valid choice
-            for (i=0; i<numvalidbpps; i++)
-                if (validbpps[i] == lastbpp) break;
-            if (i == numvalidbpps)
-                {
-                // it wasn't
-                slidersettings[sldr_videobpp] = 0;
-                lastbpp = validbpps[0];
-                UpdateValidModes(lastbpp, buttonsettings[btn_videofs]);
-                }
-            else
-                slidersettings[sldr_videobpp] = i;
-
-            // find the nearest resolution to the one last selected
-            newoffset = 0;
-            for (i=0; i<numvalidresolutions; i++)
-                {
-                if (abs(lastx * lasty - validresolutions[i].x         * validresolutions[i].y) <
-                    abs(lastx * lasty - validresolutions[newoffset].x * validresolutions[newoffset].y))
-                        newoffset = i;
-                }
-            slidersettings[sldr_videores] = newoffset;
             }
             break;
 
@@ -3951,48 +3970,55 @@ MNU_DoSlider(short dir, MenuItem_p item, BOOL draw)
         break;
 
     case sldr_videores:
-	{
-		offset = max(0,min(slidersettings[sldr_videores] + dir, numvalidresolutions-1));
-		barwidth = numvalidresolutions;
+        {
+        barwidth = numresolutions;
+        offset = slidersettings[sldr_videores];
 
-		if (TEST(item->flags, mf_disabled))
-			break;
+        if (!TEST(item->flags, mf_disabled) && dir)
+            AdjustVideoSettings(dir, 0, 0);
 
-		slidersettings[sldr_videores] = offset;
-
-		sprintf(tmp_text, "%dx%d", validresolutions[offset].x, validresolutions[offset].y);
-		MNU_DrawString(OPT_XSIDE, item->y+OPT_YINC, tmp_text, 1, 16);
-	} break;
+        snprintf(tmp_text, sizeof(tmp_text), "%d x %d", validmode[newvidmode].xdim, validmode[newvidmode].ydim);
+        MNU_DrawString(OPT_XSIDE, item->y+OPT_YINC, tmp_text, 1, 16);
+        }
+        break;
 
     case sldr_videobpp:
-	{
-		offset = max(0,min(slidersettings[sldr_videobpp] + dir, numvalidbpps-1));
-		barwidth = numvalidbpps;
+        {
+        barwidth = numbppmodes;
+        offset = slidersettings[sldr_videobpp];
 
-		if (TEST(item->flags, mf_disabled))
-			break;
+        if (!TEST(item->flags, mf_disabled) && dir)
+            AdjustVideoSettings(0, dir, 0);
 
-		if (slidersettings[sldr_videobpp] != offset) {
-			int lastx, lasty, newoffset, i;
+        snprintf(tmp_text, sizeof(tmp_text), "%d-bpp", validmode[newvidmode].bpp);
+        int xside = tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(barwidth+1)*tilesizx[pic_slidebar];
+        MNU_DrawString(OPT_XSIDE+xside, item->y, tmp_text, 1, 16);
+        }
+        break;
 
-			slidersettings[sldr_videobpp] = offset;
+    case sldr_videodisplay:
+        {
+        barwidth = numfsmodes;
+        offset = slidersettings[sldr_videodisplay];
 
-			// find the nearest resolution to the one last selected
-			lastx = validresolutions[ slidersettings[sldr_videores] ].x;
-			lasty = validresolutions[ slidersettings[sldr_videores] ].y;
-			UpdateValidModes(validbpps[offset], buttonsettings[btn_videofs]);
-			newoffset = 0;
-			for (i=0; i<numvalidresolutions; i++) {
-				if (abs(lastx * lasty - validresolutions[i].x         * validresolutions[i].y) <
-				    abs(lastx * lasty - validresolutions[newoffset].x * validresolutions[newoffset].y))
-					newoffset = i;
-			}
-			slidersettings[sldr_videores] = newoffset;
-		}
+        if (!TEST(item->flags, mf_disabled) && dir)
+            AdjustVideoSettings(0, 0, dir);
 
-		sprintf(tmp_text, "%d bpp", validbpps[offset]);
-		MNU_DrawString(OPT_XSIDE+tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(barwidth+1)*tilesizx[pic_slidebar], item->y, tmp_text, 1, 16);
-	} break;
+        int xside = tilesizx[pic_slidelend]+tilesizx[pic_sliderend]+(barwidth+1)*tilesizx[pic_slidebar];
+        if (validmode[newvidmode].fs == 0)
+            MNU_DrawString(OPT_XSIDE+xside, item->y, "Windowed", 1, 16);
+        else if (displaycnt > 1)
+            {
+            int l = snprintf(tmp_text, sizeof(tmp_text), "%d: %s", validmode[newvidmode].display,
+                getdisplayname(validmode[newvidmode].display));
+            if (l > 12)
+                strcpy(&tmp_text[12-3], "...");
+            MNU_DrawString(OPT_XSIDE+xside, item->y, tmp_text, 1, 16);
+            }
+        else
+            MNU_DrawString(OPT_XSIDE+xside, item->y, "Fullscreen", 1, 16);
+        }
+        break;
 
     case sldr_mousescalex:
     case sldr_mousescaley:

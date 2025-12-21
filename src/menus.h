@@ -178,7 +178,7 @@ typedef enum
     sldr_none,
     sldr_mouse, sldr_sndfxvolume, sldr_musicvolume, sldr_scrsize, sldr_brightness,
     sldr_bordertile, sldr_gametype, sldr_netlevel, sldr_monsters, sldr_killlimit,
-    sldr_timelimit, sldr_playercolor, sldr_videores, sldr_videobpp,
+    sldr_timelimit, sldr_playercolor, sldr_videores, sldr_videobpp, sldr_videodisplay,
     sldr_mousescalex, sldr_mousescaley,
     sldr_joyaxisscale, sldr_joyaxisanalog, sldr_joyaxisdead, sldr_joyaxissatur,
     sldr_panelscale,
@@ -220,7 +220,7 @@ typedef enum
     btn_res0, btn_res1, btn_res2, btn_res3, btn_res4, btn_res5, btn_res6,
     btn_markers, btn_teamplay, btn_friendlyfire,btn_parental,btn_nuke,
     btn_voxels, btn_stats, btn_playcd,
-    btn_videofs, btn_texfilter,
+    btn_texfilter,
     btn_joyaxis_invert,
     btn_max
     } BTNType;
@@ -344,9 +344,6 @@ BOOL MNU_ApplyVideoModeSettings(void);
 #define OPT_YINC 10
 #define OPT_LINE(line) (OPT_YS + (OPT_YINC * (line)))
 
-typedef struct
-{
-int x,y,bpp,fs;
-}VMODE;
+void MNU_UpdateVideoSliders(void);
 
 #endif

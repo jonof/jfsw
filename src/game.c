@@ -812,23 +812,24 @@ void DisplayDemoText(void)
 
 void Set_GameMode(void)
     {
-    extern int ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP;
+    extern int ScreenMode, ScreenDisplay, ScreenWidth, ScreenHeight, ScreenBPP;
     int result;
 
-    //DSPRINTF(ds,"ScreenMode %d, ScreenWidth %d, ScreenHeight %d",ScreenMode, ScreenWidth, ScreenHeight);
+    //DSPRINTF(ds,"ScreenMode %d, ScreenDisplay %d, ScreenWidth %d, ScreenHeight %d",ScreenMode, ScreenDisplay, ScreenWidth, ScreenHeight);
     //MONO_PRINT(ds);
-    result = COVERsetgamemode(ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP);
+    result = COVERsetgamemode(SETGAMEMODE_FULLSCREEN(ScreenDisplay, ScreenMode), ScreenWidth, ScreenHeight, ScreenBPP);
 
     if (result < 0)
         {
-        buildprintf("Failure setting video mode %dx%dx%d %s! Attempting safer mode...",
-                ScreenWidth,ScreenHeight,ScreenBPP,ScreenMode?"fullscreen":"windowed");
+        buildprintf("Failure setting video mode %dx%dx%d %s on display %d! Attempting safer mode...",
+                ScreenWidth,ScreenHeight,ScreenBPP,ScreenMode?"fullscreen":"windowed",ScreenDisplay);
         ScreenMode = 0;
+        ScreenDisplay = 0;
         ScreenWidth = 640;
         ScreenHeight = 480;
         ScreenBPP = 8;
 
-        result = COVERsetgamemode(ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP);
+        result = COVERsetgamemode(SETGAMEMODE_FULLSCREEN(ScreenDisplay, ScreenMode), ScreenWidth, ScreenHeight, ScreenBPP);
         if (result < 0)
             {
             uninitmultiplayers();
@@ -3551,6 +3552,7 @@ int app_main(int argc, char const * const argv[])
 
         memset(&settings, 0, sizeof(settings));
         settings.fullscreen = ScreenMode;
+        settings.display = ScreenDisplay;
         settings.xdim3d = ScreenWidth;
         settings.ydim3d = ScreenHeight;
         settings.bpp3d = ScreenBPP;
@@ -3571,6 +3573,7 @@ int app_main(int argc, char const * const argv[])
         }
 
         ScreenMode = settings.fullscreen;
+        ScreenDisplay = settings.display;
         ScreenWidth = settings.xdim3d;
         ScreenHeight = settings.ydim3d;
         ScreenBPP = settings.bpp3d;

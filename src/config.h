@@ -35,7 +35,8 @@ extern "C" {
 #define SETUPNAMEPARM "SETUPFILE"
 
 // screen externs
-extern int32 ScreenMode; // Screen mode
+extern int32 ScreenMode; // Fullscreen mode
+extern int32 ScreenDisplay;
 extern int32 ScreenWidth;
 extern int32 ScreenHeight;
 extern int32 ScreenBPP;

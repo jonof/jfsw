@@ -28,15 +28,10 @@ static int
 osdcmd_restartvid(const osdfuncparm_t *parm)
     {
     extern BOOL RestartVideo;
-    extern VMODE NewVideoMode;
 
     (void)parm;
 
     RestartVideo = TRUE;
-    NewVideoMode.x = xdim;
-    NewVideoMode.y = ydim;
-    NewVideoMode.bpp = bpp;
-    NewVideoMode.fs = fullscreen;
 
     return OSDCMD_OK;
     }
@@ -45,11 +40,12 @@ static int
 osdcmd_vidmode(const osdfuncparm_t *parm)
     {
     extern BOOL RestartVideo;
-    extern VMODE NewVideoMode;
+    extern int32 ScreenMode, ScreenDisplay, ScreenWidth, ScreenHeight, ScreenBPP;
 
-    int newx = xdim, newy = ydim, newbpp = bpp, newfullscreen = fullscreen;
+    int newx = ScreenWidth, newy = ScreenHeight, newbpp = ScreenBPP;
+    int newfs = ScreenMode, newdisp = ScreenDisplay;
 
-    if (parm->numparms < 1 || parm->numparms > 4) return OSDCMD_SHOWHELP;
+    if (parm->numparms < 1 || parm->numparms > 5) return OSDCMD_SHOWHELP;
 
     switch (parm->numparms)
         {
@@ -60,23 +56,27 @@ osdcmd_vidmode(const osdfuncparm_t *parm)
             newx = atoi(parm->parms[0]);
             newy = atoi(parm->parms[1]);
             break;
-        case 3:   // res & bpp switch
+        case 3:   // res, bpp, fullscreen, display switch
         case 4:
+        case 5:
             newx = atoi(parm->parms[0]);
             newy = atoi(parm->parms[1]);
             newbpp = atoi(parm->parms[2]);
-            if (parm->numparms == 4)
-                newfullscreen = (atoi(parm->parms[3]) != 0);
+            if (parm->numparms >= 4)
+                newfs = (atoi(parm->parms[3]) != 0);
+            if (parm->numparms == 5)
+                newdisp = max(0,atoi(parm->parms[4]));
             break;
         }
 
-    if (checkvideomode(&newx, &newy, newbpp, newfullscreen, 0) >= 0)
+    if (checkvideomode(&newx, &newy, newbpp, SETGAMEMODE_FULLSCREEN(newdisp, newfs), 0) >= 0)
         {
         RestartVideo = TRUE;
-        NewVideoMode.x = newx;
-        NewVideoMode.y = newy;
-        NewVideoMode.bpp = newbpp;
-        NewVideoMode.fs = newfullscreen;
+        ScreenMode = newfs;
+        ScreenDisplay = newdisp;
+        ScreenWidth = newx;
+        ScreenHeight = newy;
+        ScreenBPP = newbpp;
         }
 
     return OSDCMD_OK;

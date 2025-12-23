@@ -54,8 +54,8 @@
 		AB8F60DB0C65924900202E11 /* jbhlp.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB870C64C4D000F28920 /* jbhlp.c */; };
 		AB8F60DC0C65924900202E11 /* jnstub.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB5C0C64C3EB00F28920 /* jnstub.c */; };
 		AB8F60E00C65926400202E11 /* startwin.editor.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4AB5F0C64C42000F28920 /* startwin.editor.nib */; };
-		AB8F610B0C65928C00202E11 /* SDL2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
-		AB8F61B00C6592A600202E11 /* SDL2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
+		AB8F610B0C65928C00202E11 /* SDL2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		AB8F61B00C6592A600202E11 /* SDL2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		AB8F61B50C65932600202E11 /* keyboard.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE40C64C6F100F28920 /* keyboard.c */; };
 		AB8F61B70C65936000202E11 /* colormap.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB770C64C4D000F28920 /* colormap.c */; };
 		ABB4ABDB0C64C69900F28920 /* startwin.game.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */; };

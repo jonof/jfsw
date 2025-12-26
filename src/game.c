@@ -46,9 +46,6 @@ Things required to make savegames work:
 #include "cache1d.h"
 #include "osd.h"
 #include "osdfuncs.h"
-#ifdef RENDERTYPEWIN
-# include "winlayer.h"
-#endif
 
 #include "keys.h"
 #include "names2.h"
@@ -2901,11 +2898,7 @@ _Assert(char *expr, char *strFile, unsigned uLine)
     sprintf(ds, "Assertion failed: %s %s, line %u", expr, strFile, uLine);
     MONO_PRINT(ds);
     TerminateGame();
-#if 1 //def RENDERTYPEWIN
-    wm_msgbox(NULL, "%s", ds);
-#else
-    printf("Assertion failed: %s\n %s, line %u\n", expr, strFile, uLine);
-#endif
+    wm_msgbox("Assertion failed", "%s", ds);
     exit(0);
     }
 
@@ -2914,28 +2907,17 @@ void
 _ErrMsg(char *strFile, unsigned uLine, char *format, ...)
     {
     va_list arglist;
+    char *buf = NULL;
 
     //DSPRINTF(ds, "Error: %s, line %u", strFile, uLine);
     //MONO_PRINT(ds);
     TerminateGame();
 
-#if 1 //def RENDERTYPEWIN
-    {
-        char msg[256], *p;
-        Bsnprintf(msg, sizeof(msg), "Error: %s, line %u\n", strFile, uLine);
-        p = &msg[strlen(msg)];
-        va_start( arglist, format );
-        Bvsnprintf(msg, sizeof(msg) - (p-msg), format, arglist);
-        va_end(arglist);
-        wm_msgbox(NULL, "%s", msg);
-    }
-#else
-    printf("Error: %s, line %u\n", strFile, uLine);
+    va_start(arglist,format);
+    (void)Bvasprintf(&buf,format,arglist);
+    va_end(arglist);
 
-    va_start( arglist, format );
-    vprintf( format, arglist );
-    va_end( arglist );
-#endif
+    wm_msgbox("Error", "Error: %s, line %u\n%s", strFile, uLine, buf);
 
     exit(0);
     }
@@ -3379,7 +3361,11 @@ void CommandLineHelp(CLI_ARG *args, int numargs)
     }
 
 
-#if defined RENDERTYPEWIN || (defined RENDERTYPESDL && (defined __APPLE__ || defined HAVE_GTK))
+#if defined(RENDERTYPEWIN)
+# define HAVE_STARTWIN
+#elif defined(RENDERTYPESDL) && defined(__APPLE__) && defined(HAVE_OSX_FRAMEWORKS)
+# define HAVE_STARTWIN
+#elif defined(RENDERTYPESDL) && defined(HAVE_GTK)
 # define HAVE_STARTWIN
 #endif
 
@@ -3397,13 +3383,6 @@ int app_main(int argc, char const * const argv[])
 
 #ifndef HAVE_STARTWIN
     (void)configloaded;
-#endif
-#ifdef RENDERTYPEWIN
-    if (win_checkinstance()) {
-        if (!wm_ynbox("Shadow Warrior","Another Build game is currently running. "
-                    "Do you wish to continue starting this copy?"))
-            return 0;
-    }
 #endif
 
 #if defined(DATADIR)

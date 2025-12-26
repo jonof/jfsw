@@ -12,6 +12,7 @@
 *.pdb
 *.dll
 /src/version-auto.c
+/rsrc/*.c
 
 /xcode/*.xcodeproj/*.mode1v3
 /xcode/*.xcodeproj/*.pbxuser

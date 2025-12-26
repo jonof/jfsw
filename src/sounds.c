@@ -51,6 +51,10 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 
 #include <math.h>
 
+#ifdef RENDERTYPEWIN
+#include "winlayer.h"
+#endif
+
 extern USERp User[MAXSPRITES];
 void DumpSounds(void);
 
@@ -1218,9 +1222,9 @@ SoundStartup(void)
         fxdevicetype = FXDevice - 1;
     }
 
-#ifdef _WIN32
+    #ifdef RENDERTYPEWIN
     initdata = (void *) win_gethwnd();
-#endif
+    #endif
 
     //gs.FxOn = TRUE;
 

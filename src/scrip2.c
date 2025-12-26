@@ -54,20 +54,8 @@ ParentalStruct aVoxelArray[MAXTILES];
 
 =============================================================================
 */
-#ifdef RENDERTYPEWIN
-void Error (char *error, ...)
-{
-    va_list argptr;
 
-    va_start (argptr,error);
-    vprintf (error,argptr);
-    va_end (argptr);
-    printf ("\n");
-    exit (1);
-}
-#else
-void Error(char *,...);
-#endif
+void Error(const char *,...);
 
 
 /*

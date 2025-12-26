@@ -181,9 +181,7 @@ ifeq ($(PLATFORM),WINDOWS)
 	EDITOROBJS+= $(SRC)/buildres.$(res)
 endif
 ifeq ($(PLATFORM),DARWIN)
-	GAMEOBJS+= $(SRC)/StartupWinController.$o \
-		$(SRC)/GameListSource.$o
-	OURLDFLAGS+= -framework AppKit
+	OURLDFLAGS+= -framework Foundation
 endif
 
 ifeq ($(RENDERTYPE),SDL)
@@ -199,8 +197,8 @@ ifeq ($(RENDERTYPE),SDL)
 		EDITOROBJS+= $(RSRC)/startgtk_build_gresource.$o
 	endif
 
-	GAMEOBJS+= $(RSRC)/sdlappicon_game.$o
-	EDITOROBJS+= $(RSRC)/sdlappicon_build.$o
+	GAMEOBJS+= $(RSRC)/game_bmp.$o
+	EDITOROBJS+= $(RSRC)/build_bmp.$o
 endif
 
 # Source-control version stamping
@@ -251,10 +249,15 @@ $(RSRC)/%.$o: $(RSRC)/%.c
 $(SRC)/%.$(res): $(SRC)/%.rc
 	$(RC) -i $< -o $@ --include-dir=$(SRC) --include-dir=$(ENGINEINC)
 
-$(RSRC)/%_gresource.c $(RSRC)/%_gresource.h: $(RSRC)/%.gresource.xml
-	glib-compile-resources --generate --manual-register --c-name=startgtk --target=$@ --sourcedir=$(RSRC) $<
-$(RSRC)/sdlappicon_%.c: $(RSRC)/%.png | $(ENGINEROOT)/generatesdlappicon$(EXESUFFIX)
-	$(ENGINEROOT)/generatesdlappicon$(EXESUFFIX) $< > $@
+$(RSRC)/%_gresource.c: $(RSRC)/%.gresource.xml
+	glib-compile-resources --generate-source --manual-register --c-name=startgtk --target=$@ --sourcedir=$(RSRC) $<
+$(RSRC)/%_gresource.h: $(RSRC)/%.gresource.xml
+	glib-compile-resources --generate-header --manual-register --c-name=startgtk --target=$@ --sourcedir=$(RSRC) $<
+
+$(RSRC)/%_bmp.c: $(RSRC)/%.bmp | $(ENGINEROOT)/bin2c$(EXESUFFIX)
+	$(ENGINEROOT)/bin2c$(EXESUFFIX) $< appicon_bmp > $@
+$(RSRC)/%.bmp: $(RSRC)/%.png
+	$(shell which magick convert true | head -1) $< $@
 
 # PHONIES
 clean::

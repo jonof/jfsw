@@ -3595,7 +3595,7 @@ int app_main(int argc, char const * const argv[])
             {
             struct grpfile const *fg = NULL;
             for (fg = GroupsFound(); fg; fg = fg->next)
-                if (fg->game == GRPFILE_GAME_REG)
+                if (fg->game == GRPFILE_GAME_REG && fg->ref)
                     {
                     buildprintf("GRP file: %s\n", fg->name);
                     initgroupfile(fg->name);

@@ -42,18 +42,24 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #include "settings.h"
 
 enum {
-    GRPFILE_GAME_REG = 0,
-    GRPFILE_GAME_SHARE = 1,
-    GRPFILE_GAME_WD = 2,
-    GRPFILE_GAME_TD = 3,
-    GRPFILE_ADDON = 0x10000, // Requires a registered GRP too.
+    GAMETYPE_UNKNOWN = 0, // == STARTWIN_DATASET_UNIDENTIFIED
+    GAMETYPE_SHAREWARE = 1,
+    GAMETYPE_REGISTERED,
+    GAMETYPE_ADDON,
+
+    GAMEID_REG = 1,
+    GAMEID_REGMAC,
+    GAMEID_SHARE,
+    GAMEID_SHAREMAC,
+    GAMEID_WANTON,
+    GAMEID_TDRAGON,
 };
 
 extern BOOL UseDarts;
-extern const char *GameEditionName;
-extern int GameVariant;
-#define SW_SHAREWARE (GameVariant == GRPFILE_GAME_SHARE)
-#define SW_REGISTERED (GameVariant != GRPFILE_GAME_SHARE)
+extern char GameEditionName[];
+extern int GameVariant, GameId;
+#define SW_SHAREWARE (GameVariant == GAMETYPE_SHAREWARE)
+#define SW_REGISTERED (GameVariant != GAMETYPE_SHAREWARE)
 
 
 

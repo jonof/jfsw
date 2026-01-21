@@ -34,7 +34,7 @@ OURCFLAGS=/nologo /MD /Zl
 OURCXXFLAGS=/nologo /MD /Zl /EHsc
 OURCPPFLAGS=/I$(SRC) /I$(ENGINEINC) /I$(MACTROOT) /I$(AUDIOLIBROOT)\include
 OURLINKFLAGS=/opt:ref /nologo
-OURRFLAGS=/nologo /i$(SRC) /i$(ENGINEINC)
+OURRFLAGS=/nologo /i$(SRC) /i$(RSRC) /i$(ENGINEINC)
 OURLIBS=msvcrt.lib ole32.lib
 
 !if $(RELEASE)
@@ -84,7 +84,6 @@ GAMEOBJS=$(SRC)\actor.$o \
 	$(SRC)\game.$o \
 	$(SRC)\girlninj.$o \
 	$(SRC)\goro.$o \
-	$(SRC)\grpscan.$o \
 	$(SRC)\hornet.$o \
 	$(SRC)\interp.$o \
 	$(SRC)\interpsh.$o \
@@ -135,8 +134,7 @@ GAMEOBJS=$(SRC)\actor.$o \
 	$(SRC)\zilla.$o \
 	$(SRC)\zombie.$o \
 	$(SRC)\saveable.$o \
-	$(SRC)\gameres.$(res) \
-	$(SRC)\startwin_game.$o
+	$(SRC)\gameres.$(res)
 
 GAMEOBJS=$(GAMEOBJS) \
 	$(MACTROOT)\util_lib.$o \

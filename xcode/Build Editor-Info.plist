@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
 	<key>LSMinimumSystemVersionByArchitecture</key>
 	<dict>
 		<key>x86_64</key>
@@ -27,5 +29,7 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>See GPL.TXT for license terms.</string>
 </dict>
 </plist>

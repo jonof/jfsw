@@ -271,9 +271,14 @@ BOOL QuitFlag = FALSE;
 BOOL InGame = FALSE;
 
 int CommandSetup = FALSE;
+static struct strllist
+    {
+    struct strllist *next;
+    char str[];
+    };
 
-const char *GameEditionName = "Unknown edition";
-int GameVariant = GRPFILE_GAME_REG;
+char GameEditionName[256] = "Shadow Warrior";
+int GameVariant = GAMETYPE_UNKNOWN, GameId = 0;
 BOOL UseDarts = FALSE;
 
 char UserMapName[80]="", buffer[80], ch;
@@ -284,6 +289,98 @@ BYTE DebugPrintColor = 255;
 int krandcount;
 
 extern void SetupOSDCommands(void); // osdcmds.c
+
+struct startwin_settings startwin_settings = {
+    .features = {
+        .video = 1,
+        .audio = 1,
+        .input = 1,
+        .network = 1,
+        .game = 1,
+    },
+    .game = {
+        .gamedatafilepatterns = (const char *[]) { "*.grp", "*.rts", NULL },
+        .gamedata = (struct startwin_dataset []) {
+            {
+                .name = "Shadow Warrior (Registered)",
+                .id = GAMEID_REG,
+                .type = GAMETYPE_REGISTERED,
+                .filespec = (struct startwin_datasetfilespec []) {
+                    { .name = "sw.grp", .size = 47536148, .crc = 0x7545319f, .presence = STARTWIN_PRESENCE_GROUP },
+                    { .name = "sw.rts", .size = 267626,   .crc = 0x85d116fd, .presence = STARTWIN_PRESENCE_OPTIONAL },
+                    { 0 }
+                }
+            },
+            {
+                .name = "Shadow Warrior (Mac Registered)",
+                .id = GAMEID_REGMAC,
+                .type = GAMETYPE_REGISTERED,
+                .filespec = (struct startwin_datasetfilespec []) {
+                    { .name = "SW Group", .size = 47536148, .crc = 0xd54a99c9, .presence = STARTWIN_PRESENCE_GROUP, .storename = "swmac.grp" },
+                    { 0 }
+                }
+            },
+            {
+                .name = "Shadow Warrior (Shareware)",
+                .id = GAMEID_SHARE,
+                .type = GAMETYPE_SHAREWARE,
+                .filespec = (struct startwin_datasetfilespec []) {
+                    { .name = "sw.grp", .size = 26056769, .crc = 0x08a7fa1f, .presence = STARTWIN_PRESENCE_GROUP, .storename = "swshare.grp" },
+                    { .name = "sw.rts", .size = 267626,   .crc = 0x85d116fd, .presence = STARTWIN_PRESENCE_OPTIONAL },
+                    { 0 }
+                }
+            },
+            {
+                .name = "Shadow Warrior (Mac Shareware)",
+                .id = GAMEID_SHAREMAC,
+                .type = GAMETYPE_SHAREWARE,
+                .filespec = (struct startwin_datasetfilespec []) {
+                    { .name = "SW Group", .size = 26056769, .crc = 0x4227f535, .presence = STARTWIN_PRESENCE_GROUP, .storename = "swmacshare.grp" },
+                    { 0 }
+                }
+            },
+            {
+                .name = "Addon: Wanton Destruction",
+                .id = GAMEID_WANTON,
+                .type = GAMETYPE_ADDON,
+                .filespec = (struct startwin_datasetfilespec []) {
+                    { .name = "wt.grp", .size = 48698128, .crc = 0xa9aaa7b7, .presence = STARTWIN_PRESENCE_GROUP },
+                    { 0 }
+                }
+            },
+            {
+                .name = "Addon: Twin Dragon (v1.2)",
+                .id = GAMEID_TDRAGON,
+                .type = GAMETYPE_ADDON,
+                .filespec = (struct startwin_datasetfilespec []) {
+                    { .name = "tdragon12.grp", .size = 12499012, .crc = 0xa1a65be8, .presence = STARTWIN_PRESENCE_GROUP },
+                    { 0 }
+                }
+            },
+            { 0 }
+        },
+        .demourl = "https://www.jonof.id.au/files/jfsw/swsw12.zip",
+        .moreinfobrief = "JFShadowWarrior can scan locations of your choosing for Shadow Warrior game data",
+        .moreinfodetail = "Click the 'Choose a location...' button, then locate a folder to scan.\n\n"
+            #ifdef _WIN32
+            # define BUL " \x95 "
+            #else
+            # define BUL " • "
+            #endif
+            "Common locations to check include:\n"
+            BUL "CD/DVD drives\n"
+            #ifdef __APPLE__
+            BUL "GOG-managed .app bundles\n"
+            #endif
+            #ifdef _WIN32
+            BUL "GOG.com installation folders\n"
+            #endif
+            BUL "Steam library folders\n\n"
+            "To play the Shareware version, download the shareware data (swsw12.zip), unzip the file, "
+            "then select the SW.GRP file with the 'Choose a location...' option.",
+            #undef BUL
+    },
+};
 
 /// L O C A L   P R O T O T Y P E S /////////////////////////////////////////////////////////
 void BOT_DeleteAllBots( void );
@@ -931,6 +1028,7 @@ InitGame(VOID)
 
     // sets numplayers, connecthead, connectpoint2, myconnectindex
     if (netsuccess) {
+        grabmouse(0);
         buildputs("Waiting for players...\n");
         while (initmultiplayerscycle()) {
             handleevents();
@@ -938,6 +1036,7 @@ InitGame(VOID)
                 return;
             }
         }
+        grabmouse(1);
     } else {
         initsingleplayers();
     }
@@ -3193,10 +3292,10 @@ VOID AlphaMessage(VOID)
     if (SW_SHAREWARE)
         buildputs("SHADOW WARRIOR(tm) (Shareware Version)\n");
     else
-    if (GameVariant == GRPFILE_GAME_WD)
+    if (GameId == GAMEID_WANTON)
         buildputs("\"Wanton Destruction\" developed by Sunstorm Interactive (1997)\n");
     else
-    if (GameVariant == GRPFILE_GAME_TD)
+    if (GameId == GAMEID_TDRAGON)
         buildputs("\"Twin Dragon\" developed by Level Infinity and Wylde Productions (1998)\n");
     else
         buildputs("SHADOW WARRIOR(tm)\n");
@@ -3291,7 +3390,7 @@ int DetectShareware(void)
     h = kopen4load(DOS_SCREEN_NAME_SW,1);
     if (h >= 0)
         {
-        GameVariant = GRPFILE_GAME_SHARE;
+        GameVariant = GAMETYPE_SHAREWARE;
         kclose(h);
         return 0;
         }
@@ -3299,7 +3398,7 @@ int DetectShareware(void)
     h = kopen4load(DOS_SCREEN_NAME_REG,1);
     if (h >= 0)
         {
-        GameVariant = GRPFILE_GAME_REG;
+        GameVariant = GAMETYPE_REGISTERED;
         kclose(h);
         return 0;
         }
@@ -3361,14 +3460,6 @@ void CommandLineHelp(CLI_ARG *args, int numargs)
     }
 
 
-#if defined(RENDERTYPEWIN)
-# define HAVE_STARTWIN
-#elif defined(RENDERTYPESDL) && defined(__APPLE__) && defined(HAVE_OSX_FRAMEWORKS)
-# define HAVE_STARTWIN
-#elif defined(RENDERTYPESDL) && defined(HAVE_GTK)
-# define HAVE_STARTWIN
-#endif
-
 int app_main(int argc, char const * const argv[])
     {
     int i;
@@ -3378,12 +3469,8 @@ int app_main(int argc, char const * const argv[])
     int cnt = 0;
     int netparam = 0, endnetparam = 0;
     int configloaded = 0;
-    struct grpfile const *gamegrp = NULL;
     char grpfile[BMAX_PATH+1] = "sw.grp";
-
-#ifndef HAVE_STARTWIN
-    (void)configloaded;
-#endif
+    struct strllist *CommandGrps = NULL, *LastCommandGrp = NULL;
 
 #if defined(DATADIR)
     {
@@ -3484,6 +3571,23 @@ int app_main(int argc, char const * const argv[])
             CommandSetup = -1;
             }
         else
+        if (!Bstrncasecmp(arg, "g", 1))
+            {
+            if (strlen(arg) > 1)
+                {
+                struct strllist *s;
+                s = (struct strllist *)calloc(1,sizeof(struct strllist) + 1 + strlen(arg+1));
+                strcpy(s->str, arg+1);
+                if (CommandGrps)
+                    {
+                    LastCommandGrp->next = s;
+                    LastCommandGrp = s;
+                    }
+                else
+                    CommandGrps = LastCommandGrp = s;
+                }
+            }
+        else
         if (!Bstrcasecmp(arg, "net"))
             {
             netparam = ++i;
@@ -3518,113 +3622,141 @@ int app_main(int argc, char const * const argv[])
         strncpy(grpfile, getenv("SWGRP"), BMAX_PATH);
     }
 
-    ScanGroups();
-    gamegrp = IdentifyGroup(grpfile);
+    if (startwin_scan_gamedata()) {
+        const struct startwin_datasetfound *df = startwin_find_filename(grpfile);
+        if (df) startwin_settings.game.gamedataid = df->dataset->id;
+    }
 
     if (netparam) { // -net parameter on command line.
         netsuccess = initmultiplayersparms(endnetparam - netparam, &argv[netparam]);
     }
 
-#ifdef HAVE_STARTWIN
-    {
-        struct startwin_settings settings;
+    startwin_settings.video.fullscreen = ScreenMode;
+    startwin_settings.video.display = ScreenDisplay;
+    startwin_settings.video.xdim = ScreenWidth;
+    startwin_settings.video.ydim = ScreenHeight;
+    startwin_settings.video.bpp = ScreenBPP;
+    startwin_settings.audio.samplerate = MixRate;
+    startwin_settings.audio.channels = NumChannels;
+    startwin_settings.audio.bitspersample = NumBits;
+    startwin_settings.input.mouse = UseMouse;
+    startwin_settings.input.controller = UseJoystick;
+    startwin_settings.network.netoverride = netparam > 0;
+    startwin_settings.alwaysshow = ForceSetup;
 
-        memset(&settings, 0, sizeof(settings));
-        settings.fullscreen = ScreenMode;
-        settings.display = ScreenDisplay;
-        settings.xdim3d = ScreenWidth;
-        settings.ydim3d = ScreenHeight;
-        settings.bpp3d = ScreenBPP;
-        settings.forcesetup = ForceSetup;
-        settings.usemouse = UseMouse;
-        settings.usejoy = UseJoystick;
-        settings.samplerate = MixRate;
-        settings.bitspersample = NumBits;
-        settings.channels = NumChannels;
-        settings.selectedgrp = gamegrp;
-        settings.netoverride = netparam > 0;
+    if (configloaded < 0 || (ForceSetup && CommandSetup == 0) || (CommandSetup > 0)) {
+        if (startwin_run() == STARTWIN_CANCEL) {
+            uninitengine();
+            exit(0);
+        } else {
+            ScreenMode = startwin_settings.video.fullscreen;
+            ScreenDisplay = startwin_settings.video.display;
+            ScreenWidth = startwin_settings.video.xdim;
+            ScreenHeight = startwin_settings.video.ydim;
+            ScreenBPP = startwin_settings.video.bpp;
+            UseMouse = startwin_settings.input.mouse;
+            UseJoystick = startwin_settings.input.controller;
+            MixRate = startwin_settings.audio.samplerate;
+            NumChannels = startwin_settings.audio.channels;
+            NumBits = startwin_settings.audio.bitspersample;
+            ForceSetup = startwin_settings.alwaysshow;
 
-        if (configloaded < 0 || (ForceSetup && CommandSetup == 0) || (CommandSetup > 0)) {
-            if (startwin_run(&settings) == STARTWIN_CANCEL) {
-                uninitengine();
-                exit(0);
-            }
-        }
-
-        ScreenMode = settings.fullscreen;
-        ScreenDisplay = settings.display;
-        ScreenWidth = settings.xdim3d;
-        ScreenHeight = settings.ydim3d;
-        ScreenBPP = settings.bpp3d;
-        ForceSetup = settings.forcesetup;
-        UseMouse = settings.usemouse;
-        UseJoystick = settings.usejoy;
-        MixRate = settings.samplerate;
-        NumBits = settings.bitspersample;
-        NumChannels = settings.channels;
-        gamegrp = settings.selectedgrp;
-
-        if (!netparam) {
-            char modeparm[8];
-            const char *parmarr[3] = { modeparm, NULL, NULL };
-            int parmc = 0;
-
-            if (settings.joinhost) {
-                strcpy(modeparm, "-nm");
-                parmarr[1] = settings.joinhost;
-                parmc = 2;
-            } else if (settings.numplayers > 1 && settings.numplayers <= MAXPLAYERS) {
-                sprintf(modeparm, "-nm:%d", settings.numplayers);
-                parmc = 1;
-            }
-
-            if (parmc > 0) {
-                netsuccess = initmultiplayersparms(parmc, parmarr);
-            }
-
-            if (settings.joinhost) {
-                free(settings.joinhost);
+            if (startwin_settings.game.gamedataid) {
+                const struct startwin_datasetfound *df;
+                const struct startwin_datasetfoundfile *dff;
+                int needregdata = 1; // Desired.
+                if ((df = startwin_find_id(startwin_settings.game.gamedataid))) {
+                    if ((dff = startwin_find_dataset_group(df))) {
+                        switch (df->dataset->type) {
+                            case GAMETYPE_REGISTERED:
+                            case GAMETYPE_SHAREWARE:
+                                strcpy(grpfile, dff->name);
+                                strcpy(GameEditionName, df->dataset->name);
+                                GameVariant = df->dataset->type;
+                                GameId = df->dataset->id;
+                                needregdata = 0; // Unneeded.
+                                break;
+                            case GAMETYPE_ADDON:
+                                strcpy(GameEditionName, df->dataset->name);
+                                GameVariant = df->dataset->type;
+                                GameId = df->dataset->id;
+                                needregdata = 2; // Required.
+                                // Fall-through to add the addon grp to the CommandGrps list.
+                            default: { // GAMETYPE_UNKNOWN.
+                                struct strllist *s = (struct strllist *)calloc(1,sizeof(struct strllist) + 1 + strlen(dff->name));
+                                strcpy(s->str, dff->name);
+                                if (CommandGrps) {
+                                    LastCommandGrp->next = s;
+                                    LastCommandGrp = s;
+                                } else {
+                                    CommandGrps = LastCommandGrp = s;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (needregdata) {
+                    const struct startwin_datasetfoundfile *rdff;
+                    rdff = startwin_find_type_group(GAMETYPE_REGISTERED);
+                    if (rdff) strcpy(grpfile, rdff->name);
+                    else if (needregdata == 2) {
+                        wm_msgbox("Registered version required",
+                            "\"%s\" requires registered Shadow Warrior game data to be present.",
+                            df->dataset->type == GAMETYPE_ADDON ?
+                                dff->name : df->dataset->name);
+                        exit(1);
+                    }
+                }
             }
         }
     }
-#endif
 
-    if (gamegrp)
-        {
-        if (gamegrp->game & GRPFILE_ADDON)
-            {
-            struct grpfile const *fg = NULL;
-            for (fg = GroupsFound(); fg; fg = fg->next)
-                if (fg->game == GRPFILE_GAME_REG && fg->ref)
-                    {
-                    buildprintf("GRP file: %s\n", fg->name);
-                    initgroupfile(fg->name);
-                    break;
-                    }
-            if (!fg)
-                {
-                wm_msgbox(NULL, "Registered game data was not found and is required for addons.");
-                swexit(0);
-                }
-            }
+    if (!netparam) {
+        char modeparm[8];
+        const char *parmarr[3] = { modeparm, NULL, NULL };
+        int parmc = 0;
 
-        Bstrcpy(grpfile, gamegrp->name);
-        GameEditionName = gamegrp->ref->name;  // Points to static data, so won't be lost in FreeGroups().
-        GameVariant = gamegrp->game & ~GRPFILE_ADDON;
+        if (startwin_settings.network.joinhost) {
+            strcpy(modeparm, "-nm");
+            parmarr[1] = startwin_settings.network.joinhost;
+            parmc = 2;
+        } else if (startwin_settings.network.numplayers > 1 && startwin_settings.network.numplayers <= MAXPLAYERS) {
+            sprintf(modeparm, "-nm:%d", startwin_settings.network.numplayers);
+            parmc = 1;
         }
+
+        if (parmc > 0) {
+            netsuccess = initmultiplayersparms(parmc, parmarr);
+        }
+
+        if (startwin_settings.network.joinhost) {
+            free(startwin_settings.network.joinhost);
+        }
+    }
+
+    startwin_free_gamedata();
 
     buildprintf("GRP file: %s\n", grpfile);
     initgroupfile(grpfile);
-    if (!gamegrp && !DetectShareware()) {
-        if (SW_SHAREWARE) {
-            buildputs("Detected shareware GRP\n");
-        } else {
-            buildputs("Detected registered GRP\n");
+    if (GameVariant == GAMETYPE_UNKNOWN)
+        DetectShareware();
+
+    while (CommandGrps)
+        {
+        struct strllist *s = CommandGrps->next;
+        int j = initgroupfile(CommandGrps->str);
+        if (j < 0)
+            buildprintf("Warning: could not find group file %s.\n", CommandGrps->str);
+        else
+            buildprintf("Using group file %s.\n", CommandGrps->str);
+        free(CommandGrps);
+        CommandGrps = s;
         }
-    }
+    LastCommandGrp = NULL;
 
     buildputs("\n");
-    if (GameVariant == GRPFILE_GAME_WD)
+    if (GameId == GAMEID_WANTON)
         {
         memcpy(LevelInfo, LevelInfoWanton, sizeof(LevelInfo));
         memcpy(EpisodeNames, EpisodeNamesWanton, sizeof(EpisodeNames));
@@ -3635,8 +3767,6 @@ int app_main(int argc, char const * const argv[])
         GameVersion++;
     AlphaMessage();
     buildputs("\n");
-
-    FreeGroups();
 
     for (i = 0; i < MAX_SW_PLAYERS; i++)
         INITLIST(&Player[i].PanelSpriteList);
@@ -4057,15 +4187,6 @@ int app_main(int argc, char const * const argv[])
                 kclose(fil);
             }
 
-        else
-        if (Bstrncasecmp(arg, "g", 1) == 0)
-            {
-            if (strlen(arg) > 1)
-                {
-                if (initgroupfile(arg+1) >= 0)
-                    buildprintf("Added %s\n", arg+1);
-                }
-            }
         else
         if (Bstrncasecmp(arg, "h", 1) == 0)
             {

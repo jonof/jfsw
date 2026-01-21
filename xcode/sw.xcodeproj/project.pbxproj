@@ -39,26 +39,24 @@
 		AB0FFB27172B56BD00400B2B /* libjfaudiolib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFAE0172B54FE00400B2B /* libjfaudiolib.a */; };
 		AB0FFB2E172B572700400B2B /* libengine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFACC172B54E100400B2B /* libengine.a */; };
 		AB0FFB33172B573C00400B2B /* libeditor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFACE172B54E100400B2B /* libeditor.a */; };
-		AB0FFB38172B575000400B2B /* libeditorsupp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0FFAD0172B54E100400B2B /* libeditorsupp.a */; };
 		AB21411C101D5B8F00E844AE /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21411B101D5B8F00E844AE /* AudioUnit.framework */; };
-		AB4909DC1748658600C7A068 /* GameListSource.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4909DB1748658600C7A068 /* GameListSource.m */; };
+		AB68B8D62F20C7BD0065C299 /* StartupWin.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB68B8D42F20C7BD0065C299 /* StartupWin.xib */; };
+		AB68B8D72F20C7BD0065C299 /* StartupWin.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB68B8D42F20C7BD0065C299 /* StartupWin.xib */; };
+		AB68B8E32F20C8720065C299 /* Editor Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB68B8E22F20C8720065C299 /* Editor Images.xcassets */; };
 		AB76E52E29509C4400B11DAF /* osdfuncs.c in Sources */ = {isa = PBXBuildFile; fileRef = AB76E52629509C4400B11DAF /* osdfuncs.c */; };
 		AB7EA5F22B76591100F0EEA3 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7EA5F12B76591100F0EEA3 /* version.c */; };
 		AB7EA5F32B76591100F0EEA3 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7EA5F12B76591100F0EEA3 /* version.c */; };
 		AB80742E2967F70800CA6B33 /* osdcmds.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8074262967F70800CA6B33 /* osdcmds.c */; };
-		AB8F60750C658D3400202E11 /* grpscan.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8F60740C658D3400202E11 /* grpscan.c */; };
 		AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
 		AB8F60D80C65924000202E11 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
 		AB8F60D90C65924800202E11 /* bldscript.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB6F0C64C4D000F28920 /* bldscript.c */; };
 		AB8F60DA0C65924800202E11 /* brooms.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB720C64C4D000F28920 /* brooms.c */; };
 		AB8F60DB0C65924900202E11 /* jbhlp.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB870C64C4D000F28920 /* jbhlp.c */; };
 		AB8F60DC0C65924900202E11 /* jnstub.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB5C0C64C3EB00F28920 /* jnstub.c */; };
-		AB8F60E00C65926400202E11 /* startwin.editor.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4AB5F0C64C42000F28920 /* startwin.editor.nib */; };
 		AB8F610B0C65928C00202E11 /* SDL2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		AB8F61B00C6592A600202E11 /* SDL2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		AB8F61B50C65932600202E11 /* keyboard.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE40C64C6F100F28920 /* keyboard.c */; };
 		AB8F61B70C65936000202E11 /* colormap.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4AB770C64C4D000F28920 /* colormap.c */; };
-		ABB4ABDB0C64C69900F28920 /* startwin.game.nib in Resources */ = {isa = PBXBuildFile; fileRef = ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */; };
 		ABB4ABE90C64C6F100F28920 /* animlib.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE10C64C6F100F28920 /* animlib.c */; };
 		ABB4ABEA0C64C6F100F28920 /* control.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE20C64C6F100F28920 /* control.c */; };
 		ABB4ABEB0C64C6F100F28920 /* file_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABE30C64C6F100F28920 /* file_lib.c */; };
@@ -123,7 +121,6 @@
 		ABB4AC2B0C64C6FE00F28920 /* sounds.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA60C64C4D000F28920 /* sounds.c */; };
 		ABB4AC2C0C64C6FE00F28920 /* spike.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA70C64C4D000F28920 /* spike.c */; };
 		ABB4AC2D0C64C6FE00F28920 /* sprite.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA80C64C4D000F28920 /* sprite.c */; };
-		ABB4AC2E0C64C6FE00F28920 /* StartupWinController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABA90C64C4D000F28920 /* StartupWinController.m */; };
 		ABB4AC2F0C64C6FE00F28920 /* sumo.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABAA0C64C4D000F28920 /* sumo.c */; };
 		ABB4AC300C64C6FE00F28920 /* swconfig.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABAB0C64C4D000F28920 /* swconfig.c */; };
 		ABB4AC310C64C6FE00F28920 /* sync.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABAC0C64C4D000F28920 /* sync.c */; };
@@ -138,9 +135,10 @@
 		ABB4AC3B0C64C6FE00F28920 /* zombie.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB4ABB60C64C4D000F28920 /* zombie.c */; };
 		ABB4AC3E0C64C72C00F28920 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3D0C64C72C00F28920 /* SDL2.framework */; };
 		ABB4AC400C64C73A00F28920 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB4AC3F0C64C73A00F28920 /* AppKit.framework */; };
+		ABC86A102F25FC8A0056D566 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = ABC86A0F2F25FC8A0056D566 /* Credits.rtf */; };
+		ABC86A112F25FC8A0056D566 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = ABC86A0F2F25FC8A0056D566 /* Credits.rtf */; };
 		ABD91FA417375E9300394607 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD91FA317375E9300394607 /* AudioToolbox.framework */; };
 		ABD9E96120720C0800F1B9B3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABD9E95A20720C0800F1B9B3 /* Images.xcassets */; };
-		ABD9E96220720C0800F1B9B3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABD9E95A20720C0800F1B9B3 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,13 +162,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = AB735FCC0A29A916003261DC;
 			remoteInfo = editor;
-		};
-		AB0FFACF172B54E100400B2B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AB3FE4550C04336F00D5DBDC;
-			remoteInfo = editorsupp;
 		};
 		AB0FFAD1172B54E100400B2B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -234,13 +225,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = AB735FCB0A29A916003261DC;
 			remoteInfo = editor;
-		};
-		AB0FFB36172B574B00400B2B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AB3FE44A0C04336F00D5DBDC;
-			remoteInfo = editorsupp;
 		};
 		AB44D6B42D7BE2C10024C5E7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -364,7 +348,6 @@
 		AB214389101EF14900E844AE /* sounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sounds.h; sourceTree = "<group>"; };
 		AB21438A101EF14900E844AE /* sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sprite.h; sourceTree = "<group>"; };
 		AB21438B101EF14900E844AE /* stag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stag.h; sourceTree = "<group>"; };
-		AB21438C101EF14900E844AE /* grpscan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grpscan.h; sourceTree = "<group>"; };
 		AB21438D101EF14900E844AE /* sw_strs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sw_strs.h; sourceTree = "<group>"; };
 		AB21438E101EF14900E844AE /* tags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tags.h; sourceTree = "<group>"; };
 		AB21438F101EF14900E844AE /* text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
@@ -373,18 +356,16 @@
 		AB214392101EF14900E844AE /* vis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vis.h; sourceTree = "<group>"; };
 		AB214393101EF14900E844AE /* warp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = warp.h; sourceTree = "<group>"; };
 		AB214394101EF14900E844AE /* weapon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = weapon.h; sourceTree = "<group>"; };
-		AB4909DA1748658600C7A068 /* GameListSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameListSource.h; sourceTree = "<group>"; };
-		AB4909DB1748658600C7A068 /* GameListSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameListSource.m; sourceTree = "<group>"; };
+		AB68B8D52F20C7BD0065C299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = ../jfbuild/rsrc/Base.lproj/StartupWin.xib; sourceTree = "<group>"; };
+		AB68B8E22F20C8720065C299 /* Editor Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Editor Images.xcassets"; sourceTree = "<group>"; };
 		AB76E52629509C4400B11DAF /* osdfuncs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = osdfuncs.c; sourceTree = "<group>"; };
 		AB76E53B2952E3E100B11DAF /* osdfuncs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = osdfuncs.h; sourceTree = "<group>"; };
 		AB7EA5F12B76591100F0EEA3 /* version.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = version.c; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB8074262967F70800CA6B33 /* osdcmds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = osdcmds.c; sourceTree = "<group>"; };
 		AB81F9242590B62800306B8E /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
-		AB8F60740C658D3400202E11 /* grpscan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grpscan.c; sourceTree = "<group>"; };
 		AB8F60CA0C6591F300202E11 /* Build Editor for JFShadowWarrior.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Build Editor for JFShadowWarrior.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABA754ED0CEFED7C009C28D7 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../jfbuild/xcode/engine.xcodeproj; sourceTree = SOURCE_ROOT; };
 		ABB4AB5C0C64C3EB00F28920 /* jnstub.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jnstub.c; sourceTree = "<group>"; };
-		ABB4AB5F0C64C42000F28920 /* startwin.editor.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = startwin.editor.nib; sourceTree = "<group>"; };
 		ABB4AB6C0C64C4D000F28920 /* actor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = actor.c; sourceTree = "<group>"; };
 		ABB4AB6D0C64C4D000F28920 /* ai.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ai.c; sourceTree = "<group>"; };
 		ABB4AB6E0C64C4D000F28920 /* anim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = anim.c; sourceTree = "<group>"; };
@@ -444,7 +425,6 @@
 		ABB4ABA60C64C4D000F28920 /* sounds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sounds.c; sourceTree = "<group>"; };
 		ABB4ABA70C64C4D000F28920 /* spike.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = spike.c; sourceTree = "<group>"; };
 		ABB4ABA80C64C4D000F28920 /* sprite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sprite.c; sourceTree = "<group>"; };
-		ABB4ABA90C64C4D000F28920 /* StartupWinController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartupWinController.m; sourceTree = "<group>"; };
 		ABB4ABAA0C64C4D000F28920 /* sumo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sumo.c; sourceTree = "<group>"; };
 		ABB4ABAB0C64C4D000F28920 /* swconfig.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = swconfig.c; sourceTree = "<group>"; };
 		ABB4ABAC0C64C4D000F28920 /* sync.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sync.c; sourceTree = "<group>"; };
@@ -458,7 +438,6 @@
 		ABB4ABB50C64C4D000F28920 /* zilla.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zilla.c; sourceTree = "<group>"; };
 		ABB4ABB60C64C4D000F28920 /* zombie.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zombie.c; sourceTree = "<group>"; };
 		ABB4ABB70C64C4EF00F28920 /* JFShadowWarrior-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JFShadowWarrior-Info.plist"; sourceTree = "<group>"; };
-		ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = startwin.game.nib; sourceTree = "<group>"; };
 		ABB4ABCD0C64C52900F28920 /* JFShadowWarrior.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JFShadowWarrior.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB4ABE10C64C6F100F28920 /* animlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = animlib.c; sourceTree = "<group>"; };
 		ABB4ABE20C64C6F100F28920 /* control.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = control.c; sourceTree = "<group>"; };
@@ -471,9 +450,10 @@
 		ABB4AC3D0C64C72C00F28920 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../jfbuild/xcode/frameworks/SDL2.framework; sourceTree = SOURCE_ROOT; };
 		ABB4AC3F0C64C73A00F28920 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		ABBD3FAF10205ACF00F32F37 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
+		ABC86A0F2F25FC8A0056D566 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		ABCA1DAC259083DE0093F3F5 /* JFShadowWarrior.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JFShadowWarrior.entitlements; sourceTree = "<group>"; };
 		ABCA1DC1259084080093F3F5 /* Build Editor for JFShadowWarrior.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Build Editor for JFShadowWarrior.entitlements"; sourceTree = "<group>"; };
-		ABD2DF2A21A58A0600BDB555 /* gamecontrollerdb.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = gamecontrollerdb.txt; path = ../rsrc/gamecontrollerdb.txt; sourceTree = "<group>"; };
+		ABD2DF2A21A58A0600BDB555 /* gamecontrollerdb.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gamecontrollerdb.txt; sourceTree = "<group>"; };
 		ABD91FA317375E9300394607 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		ABD9E95620720AC200F1B9B3 /* Build Editor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Build Editor-Info.plist"; sourceTree = "<group>"; };
 		ABD9E95A20720C0800F1B9B3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -498,7 +478,6 @@
 			files = (
 				AB0FFB2E172B572700400B2B /* libengine.a in Frameworks */,
 				AB0FFB33172B573C00400B2B /* libeditor.a in Frameworks */,
-				AB0FFB38172B575000400B2B /* libeditorsupp.a in Frameworks */,
 				AB8F60D70C65924000202E11 /* AppKit.framework in Frameworks */,
 				AB8F60D80C65924000202E11 /* SDL2.framework in Frameworks */,
 			);
@@ -525,7 +504,6 @@
 			children = (
 				AB0FFACC172B54E100400B2B /* libengine.a */,
 				AB0FFACE172B54E100400B2B /* libeditor.a */,
-				AB0FFAD0172B54E100400B2B /* libeditorsupp.a */,
 				AB0FFAD2172B54E100400B2B /* arttool */,
 				ABD2DF3221A58A0600BDB555 /* bin2c */,
 				AB0FFAD4172B54E100400B2B /* kextract */,
@@ -545,6 +523,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AB68B8E12F20C7F80065C299 /* rsrc */ = {
+			isa = PBXGroup;
+			children = (
+				ABC86A0F2F25FC8A0056D566 /* Credits.rtf */,
+				AB68B8E22F20C8720065C299 /* Editor Images.xcassets */,
+				ABD9E95A20720C0800F1B9B3 /* Images.xcassets */,
+				ABD2DF2A21A58A0600BDB555 /* gamecontrollerdb.txt */,
+			);
+			name = rsrc;
+			path = ../rsrc;
+			sourceTree = "<group>";
+		};
 		ABB4AB250C64C36100F28920 = {
 			isa = PBXGroup;
 			children = (
@@ -554,8 +544,10 @@
 				ABB4AB590C64C39400F28920 /* Game */,
 				AB7EA5F12B76591100F0EEA3 /* version.c */,
 				AB81F9242590B62800306B8E /* Common.xcconfig */,
+				AB68B8D42F20C7BD0065C299 /* StartupWin.xib */,
 				ABB4ABCE0C64C52900F28920 /* Products */,
 				ABB4AC410C64C74600F28920 /* Linked Frameworks */,
+				AB68B8E12F20C7F80065C299 /* rsrc */,
 			);
 			sourceTree = "<group>";
 		};
@@ -574,7 +566,6 @@
 				ABB4ABDE0C64C6AB00F28920 /* jfmact */,
 				ABB4AB6A0C64C44C00F28920 /* src */,
 				ABB4AB6B0C64C45500F28920 /* xcode */,
-				ABD2DF2A21A58A0600BDB555 /* gamecontrollerdb.txt */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -595,9 +586,7 @@
 			isa = PBXGroup;
 			children = (
 				ABCA1DC1259084080093F3F5 /* Build Editor for JFShadowWarrior.entitlements */,
-				ABD9E95A20720C0800F1B9B3 /* Images.xcassets */,
 				ABD9E95620720AC200F1B9B3 /* Build Editor-Info.plist */,
-				ABB4AB5F0C64C42000F28920 /* startwin.editor.nib */,
 			);
 			name = xcode;
 			sourceTree = "<group>";
@@ -642,8 +631,6 @@
 				AB214369101EEFB200E844AE /* function.h */,
 				ABB4AB800C64C4D000F28920 /* game.c */,
 				ABBD3FAF10205ACF00F32F37 /* game.h */,
-				AB4909DA1748658600C7A068 /* GameListSource.h */,
-				AB4909DB1748658600C7A068 /* GameListSource.m */,
 				AB21436B101EF04C00E844AE /* gamedefs.h */,
 				ABB4AB810C64C4D000F28920 /* girlninj.c */,
 				ABB4AB820C64C4D000F28920 /* goro.c */,
@@ -717,9 +704,6 @@
 				ABB4ABA80C64C4D000F28920 /* sprite.c */,
 				AB21438A101EF14900E844AE /* sprite.h */,
 				AB21438B101EF14900E844AE /* stag.h */,
-				AB8F60740C658D3400202E11 /* grpscan.c */,
-				AB21438C101EF14900E844AE /* grpscan.h */,
-				ABB4ABA90C64C4D000F28920 /* StartupWinController.m */,
 				ABB4ABAA0C64C4D000F28920 /* sumo.c */,
 				AB21438D101EF14900E844AE /* sw_strs.h */,
 				ABB4ABAB0C64C4D000F28920 /* swconfig.c */,
@@ -750,7 +734,6 @@
 			children = (
 				ABCA1DAC259083DE0093F3F5 /* JFShadowWarrior.entitlements */,
 				ABB4ABB70C64C4EF00F28920 /* JFShadowWarrior-Info.plist */,
-				ABB4ABB90C64C4EF00F28920 /* startwin.game.nib */,
 			);
 			name = xcode;
 			sourceTree = "<group>";
@@ -820,7 +803,6 @@
 			dependencies = (
 				AB0FFB2D172B572000400B2B /* PBXTargetDependency */,
 				AB0FFB32172B573200400B2B /* PBXTargetDependency */,
-				AB0FFB37172B574B00400B2B /* PBXTargetDependency */,
 				ABD2DF7121AA3F4200BDB555 /* PBXTargetDependency */,
 			);
 			name = "Build Editor for JFShadowWarrior";
@@ -918,13 +900,6 @@
 			remoteRef = AB0FFACD172B54E100400B2B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AB0FFAD0172B54E100400B2B /* libeditorsupp.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libeditorsupp.a;
-			remoteRef = AB0FFACF172B54E100400B2B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		AB0FFAD2172B54E100400B2B /* arttool */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -988,9 +963,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB68B8D72F20C7BD0065C299 /* StartupWin.xib in Resources */,
 				AB0427CA2E766A4000E2A322 /* gamecontrollerdb.txt in Resources */,
-				ABD9E96220720C0800F1B9B3 /* Images.xcassets in Resources */,
-				AB8F60E00C65926400202E11 /* startwin.editor.nib in Resources */,
+				AB68B8E32F20C8720065C299 /* Editor Images.xcassets in Resources */,
+				ABC86A112F25FC8A0056D566 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -998,9 +974,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB68B8D62F20C7BD0065C299 /* StartupWin.xib in Resources */,
 				AB0427C92E766A3D00E2A322 /* gamecontrollerdb.txt in Resources */,
-				ABB4ABDB0C64C69900F28920 /* startwin.game.nib in Resources */,
 				ABD9E96120720C0800F1B9B3 /* Images.xcassets in Resources */,
+				ABC86A102F25FC8A0056D566 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1107,7 +1084,6 @@
 				AB76E52E29509C4400B11DAF /* osdfuncs.c in Sources */,
 				ABB4AC2C0C64C6FE00F28920 /* spike.c in Sources */,
 				ABB4AC2D0C64C6FE00F28920 /* sprite.c in Sources */,
-				ABB4AC2E0C64C6FE00F28920 /* StartupWinController.m in Sources */,
 				ABB4AC2F0C64C6FE00F28920 /* sumo.c in Sources */,
 				ABB4AC300C64C6FE00F28920 /* swconfig.c in Sources */,
 				ABB4AC310C64C6FE00F28920 /* sync.c in Sources */,
@@ -1129,8 +1105,6 @@
 				ABB4ABEE0C64C6F100F28920 /* mouse.c in Sources */,
 				ABB4ABEF0C64C6F100F28920 /* scriplib.c in Sources */,
 				ABB4ABF00C64C6F100F28920 /* util_lib.c in Sources */,
-				AB8F60750C658D3400202E11 /* grpscan.c in Sources */,
-				AB4909DC1748658600C7A068 /* GameListSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1162,11 +1136,6 @@
 			name = editor;
 			targetProxy = AB0FFB31172B573200400B2B /* PBXContainerItemProxy */;
 		};
-		AB0FFB37172B574B00400B2B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = editorsupp;
-			targetProxy = AB0FFB36172B574B00400B2B /* PBXContainerItemProxy */;
-		};
 		AB8F61C70C6593F900202E11 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AB8F60C90C6591F300202E11 /* Build Editor for JFShadowWarrior */;
@@ -1184,11 +1153,22 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		AB68B8D42F20C7BD0065C299 /* StartupWin.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB68B8D52F20C7BD0065C299 /* Base */,
+			);
+			name = StartupWin.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		AB8F60CE0C6591F300202E11 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = EditorAppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Build Editor for JFShadowWarrior.entitlements";
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1204,7 +1184,7 @@
 		AB8F60CF0C6591F300202E11 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = EditorAppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Build Editor for JFShadowWarrior.entitlements";
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;

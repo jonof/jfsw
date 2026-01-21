@@ -27,6 +27,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

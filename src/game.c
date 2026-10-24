@@ -1231,14 +1231,16 @@ InitLevel(VOID)
     // A few IMPORTANT GLOBAL RESETS
     InitLevelGlobals();
     MONO_PRINT("InitLevelGlobals");
-    if (!DemoMode)
-        StopSong();
 
+    // keep the song LoadGame() started
     if (LoadGameOutsideMoveLoop)
         {
           MONO_PRINT("Returning from InitLevel");
           return;
         }
+
+    if (!DemoMode)
+        StopSong();
 
     InitLevelGlobals2();
     MONO_PRINT("InitLevelGlobals2");
@@ -3039,7 +3041,7 @@ VOID InitRunLevel(VOID)
         if (gs.Ambient)
             StartAmbientSound();
         SetCrosshair();
-        PlaySong(LevelSong, -1, TRUE, TRUE);
+        PlaySong(LevelSong, RedBookSong[PlayingLevel], TRUE, FALSE);
         SetRedrawScreen(Player + myconnectindex);
         // crappy little hack to prevent play clock from being overwritten
         // for load games

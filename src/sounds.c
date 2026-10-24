@@ -464,7 +464,7 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
 
                 if (LoadSong(oggtrack)) {
                     if (loop)
-                        SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
+                        SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, -1, 0,
                                                   gs.MusicVolume, gs.MusicVolume, gs.MusicVolume,
                                                   FX_MUSIC_PRIORITY, MUSIC_ID);
                     else
@@ -498,7 +498,7 @@ PlaySong(char *song_file_name, int cdaudio_track, BOOL loop, BOOL restart)
         return TRUE;
     } else {
         if (loop)
-            SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, 0, 0,
+            SongVoice = FX_PlayLoopedAuto(SongPtr, SongLength, 0, -1, 0,
                                       255, 255, 255, FX_MUSIC_PRIORITY, MUSIC_ID);
         else
             SongVoice = FX_PlayAuto(SongPtr, SongLength, 0,

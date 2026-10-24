@@ -1350,8 +1350,9 @@ void MusicStartup( void )
         gs.MusicOn = FALSE;
         }
 
-    if (MusicInitialized)
-       loadtmb();
+    // the timbre bank is only used by an OPL driver, which jfaudiolib doesn't have
+    //if (MusicInitialized)
+    //   loadtmb();
     }
 
 void COVER_SetReverb(int amt)
